@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link as LinkIcon, QrCode, BarChart3, Plus, LogOut } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import { CreateLinkDialog } from "@/components/CreateLinkDialog";
+import { useWorkspace } from "@/hooks/useWorkspace";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
 
   useEffect(() => {
     // Check authentication
@@ -35,6 +38,15 @@ const Dashboard = () => {
 
     return () => subscription.unsubscribe();
   }, [navigate]);
+
+  useEffect(() => {
+    const initWorkspace = async () => {
+      if (!workspaceLoading && !currentWorkspace && user) {
+        createWorkspace("My Workspace");
+      }
+    };
+    initWorkspace();
+  }, [workspaceLoading, currentWorkspace, user, createWorkspace]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -81,7 +93,7 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <LinkIcon className="h-8 w-8 text-primary" />
@@ -90,10 +102,14 @@ const Dashboard = () => {
               <CardDescription>Generate a branded short URL with UTM parameters</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-gradient-primary">
-                <Plus className="h-4 w-4 mr-2" />
-                New Link
-              </Button>
+              {currentWorkspace ? (
+                <CreateLinkDialog workspaceId={currentWorkspace.id} />
+              ) : (
+                <Button className="w-full bg-gradient-primary" disabled>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Loading...
+                </Button>
+              )}
             </CardContent>
           </Card>
 
