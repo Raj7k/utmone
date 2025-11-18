@@ -162,6 +162,7 @@ export type Database = {
         Row: {
           created_at: string | null
           created_by: string
+          custom_expiry_message: string | null
           description: string | null
           destination_url: string
           domain: string
@@ -173,6 +174,7 @@ export type Database = {
           last_clicked_at: string | null
           max_clicks: number | null
           path: string
+          redirect_type: string | null
           short_url: string | null
           slug: string
           status: Database["public"]["Enums"]["link_status"] | null
@@ -190,6 +192,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           created_by: string
+          custom_expiry_message?: string | null
           description?: string | null
           destination_url: string
           domain?: string
@@ -201,6 +204,7 @@ export type Database = {
           last_clicked_at?: string | null
           max_clicks?: number | null
           path?: string
+          redirect_type?: string | null
           short_url?: string | null
           slug: string
           status?: Database["public"]["Enums"]["link_status"] | null
@@ -218,6 +222,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           created_by?: string
+          custom_expiry_message?: string | null
           description?: string | null
           destination_url?: string
           domain?: string
@@ -229,6 +234,7 @@ export type Database = {
           last_clicked_at?: string | null
           max_clicks?: number | null
           path?: string
+          redirect_type?: string | null
           short_url?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["link_status"] | null
