@@ -30,6 +30,11 @@ const linkFormSchema = z.object({
   utm_campaign: z.string().min(1, "Campaign is required"),
   utm_term: z.string().optional(),
   utm_content: z.string().optional(),
+  expires_at: z.string().optional(),
+  max_clicks: z.number().min(1).optional(),
+  fallback_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  redirect_type: z.enum(["301", "302"]).default("302"),
+  custom_expiry_message: z.string().max(200).optional(),
 });
 
 type LinkFormData = z.infer<typeof linkFormSchema>;
@@ -55,6 +60,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       utm_campaign: "",
       utm_term: "",
       utm_content: "",
+      redirect_type: "302",
     },
   });
 
@@ -123,6 +129,11 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           utm_campaign: data.utm_campaign,
           utm_term: data.utm_term,
           utm_content: data.utm_content,
+          expires_at: data.expires_at || null,
+          max_clicks: data.max_clicks || null,
+          fallback_url: data.fallback_url || null,
+          redirect_type: data.redirect_type,
+          custom_expiry_message: data.custom_expiry_message || null,
         })
         .select()
         .single();
@@ -262,6 +273,83 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
       {/* UTM Builder */}
       <UTMBuilder form={form} workspaceId={workspaceId} />
+
+      {/* Expiration & Advanced Settings */}
+      <div className="space-y-4">
+        <h3 className="font-serif text-lg font-semibold text-foreground">Expiration & Advanced Settings</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="expires_at">Expire At Date/Time</Label>
+            <Input
+              id="expires_at"
+              type="datetime-local"
+              {...form.register("expires_at")}
+            />
+            <p className="text-xs text-muted-foreground">Link will expire at this date/time</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="max_clicks">Max Clicks</Label>
+            <Input
+              id="max_clicks"
+              type="number"
+              min="1"
+              placeholder="Unlimited"
+              {...form.register("max_clicks", { valueAsNumber: true })}
+            />
+            {form.formState.errors.max_clicks && (
+              <p className="text-sm text-destructive">{form.formState.errors.max_clicks.message}</p>
+            )}
+            <p className="text-xs text-muted-foreground">Link expires after this many clicks</p>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="fallback_url">Fallback URL (After Expiry)</Label>
+          <Input
+            id="fallback_url"
+            type="url"
+            placeholder="https://example.com/expired"
+            {...form.register("fallback_url")}
+          />
+          {form.formState.errors.fallback_url && (
+            <p className="text-sm text-destructive">{form.formState.errors.fallback_url.message}</p>
+          )}
+          <p className="text-xs text-muted-foreground">Redirect to this URL when link expires (optional)</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="custom_expiry_message">Custom Expiry Message</Label>
+          <Textarea
+            id="custom_expiry_message"
+            placeholder="This link has expired. Please contact us for access."
+            rows={2}
+            {...form.register("custom_expiry_message")}
+          />
+          {form.formState.errors.custom_expiry_message && (
+            <p className="text-sm text-destructive">{form.formState.errors.custom_expiry_message.message}</p>
+          )}
+          <p className="text-xs text-muted-foreground">Show this message when link expires (if no fallback URL)</p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="redirect_type">Redirect Type</Label>
+          <Select
+            value={form.watch("redirect_type")}
+            onValueChange={(value) => form.setValue("redirect_type", value as "301" | "302")}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="302">302 (Temporary)</SelectItem>
+              <SelectItem value="301">301 (Permanent)</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
+        </div>
+      </div>
 
       {/* URL Preview */}
       <Card className="p-4 space-y-3 bg-muted/50 border-border">
