@@ -2,20 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link as LinkIcon, LogOut } from "lucide-react";
-import { CreateLinkDialog } from "@/components/CreateLinkDialog";
-import { LinksTable } from "@/components/LinksTable";
-import { LinkFilters } from "@/components/LinkFilters";
+import { Link as LinkIcon, LogOut, TrendingUp } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import type { User } from "@supabase/supabase-js";
+import { AnalyticsOverview } from "@/components/analytics/AnalyticsOverview";
+import { DeviceBreakdown } from "@/components/analytics/DeviceBreakdown";
+import { GeolocationMap } from "@/components/analytics/GeolocationMap";
+import { UTMCampaignRollups } from "@/components/analytics/UTMCampaignRollups";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const Links = () => {
+const Analytics = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
 
   useEffect(() => {
@@ -76,8 +75,11 @@ const Links = () => {
                 <Button variant="ghost" onClick={() => navigate("/dashboard")}>
                   Dashboard
                 </Button>
-                <Button variant="default">Links</Button>
-                <Button variant="ghost" onClick={() => navigate("/analytics")}>
+                <Button variant="ghost" onClick={() => navigate("/links")}>
+                  Links
+                </Button>
+                <Button variant="default">
+                  <TrendingUp className="h-4 w-4 mr-2" />
                   Analytics
                 </Button>
               </nav>
@@ -96,42 +98,41 @@ const Links = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Links</h1>
-              <p className="text-muted-foreground">
-                Manage and track all your short links
-              </p>
-            </div>
-            {currentWorkspace && <CreateLinkDialog workspaceId={currentWorkspace.id} />}
-          </div>
-
-          <LinkFilters
-            onSearchChange={setSearchQuery}
-            onStatusChange={setStatusFilter}
-          />
+          <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+          <p className="text-muted-foreground">
+            Track performance, engagement, and campaign effectiveness
+          </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-serif">Your Links</CardTitle>
-            <CardDescription>
-              View and manage all links in your workspace
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {currentWorkspace ? (
-              <LinksTable workspaceId={currentWorkspace.id} />
-            ) : (
-              <p className="text-center text-muted-foreground py-8">
-                Loading workspace...
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        {currentWorkspace && (
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="devices">Devices</TabsTrigger>
+              <TabsTrigger value="geography">Geography</TabsTrigger>
+              <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview">
+              <AnalyticsOverview workspaceId={currentWorkspace.id} />
+            </TabsContent>
+
+            <TabsContent value="devices">
+              <DeviceBreakdown workspaceId={currentWorkspace.id} />
+            </TabsContent>
+
+            <TabsContent value="geography">
+              <GeolocationMap workspaceId={currentWorkspace.id} />
+            </TabsContent>
+
+            <TabsContent value="campaigns">
+              <UTMCampaignRollups workspaceId={currentWorkspace.id} />
+            </TabsContent>
+          </Tabs>
+        )}
       </main>
     </div>
   );
 };
 
-export default Links;
+export default Analytics;

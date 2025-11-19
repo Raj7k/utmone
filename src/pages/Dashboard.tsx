@@ -80,6 +80,9 @@ const Dashboard = () => {
                 <Button variant="ghost" onClick={() => navigate("/links")}>
                   Links
                 </Button>
+                <Button variant="ghost" onClick={() => navigate("/analytics")}>
+                  Analytics
+                </Button>
               </nav>
             </div>
             <div className="flex items-center gap-4">
