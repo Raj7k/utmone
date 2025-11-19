@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Copy, ExternalLink, Pause, Play, Archive, MoreVertical } from "lucide-react";
+import { Copy, ExternalLink, Pause, Play, Archive, MoreVertical, QrCode } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import type { Database } from "@/integrations/supabase/types";
+import { QRCodeDialog } from "./QRCodeDialog";
 
 type LinkStatus = Database["public"]["Enums"]["link_status"];
 
@@ -192,6 +193,16 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <QRCodeDialog 
+                      linkId={link.id} 
+                      shortUrl={link.short_url || ""}
+                      trigger={
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          <QrCode className="h-4 w-4 mr-2" />
+                          Generate QR Code
+                        </DropdownMenuItem>
+                      }
+                    />
                     {link.status === "active" ? (
                       <DropdownMenuItem
                         onClick={() =>
