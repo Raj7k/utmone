@@ -175,3 +175,107 @@ export const useOGVariantAnalytics = (linkId: string) => {
     enabled: !!linkId,
   });
 };
+
+export const useABTestStatus = (linkId: string) => {
+  return useQuery({
+    queryKey: ["ab-test-status", linkId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("links")
+        .select("ab_test_status, ab_test_winner_id, ab_test_started_at, ab_test_completed_at, ab_test_confidence_threshold, ab_test_min_clicks")
+        .eq("id", linkId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!linkId,
+  });
+};
+
+export const useStartABTest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ linkId, confidenceThreshold = 0.95, minClicks = 100 }: { 
+      linkId: string; 
+      confidenceThreshold?: number;
+      minClicks?: number;
+    }) => {
+      const { data, error } = await supabase
+        .from("links")
+        .update({
+          ab_test_status: 'running',
+          ab_test_started_at: new Date().toISOString(),
+          ab_test_completed_at: null,
+          ab_test_winner_id: null,
+          ab_test_confidence_threshold: confidenceThreshold,
+          ab_test_min_clicks: minClicks,
+        })
+        .eq("id", linkId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["ab-test-status", variables.linkId] });
+      toast.success("A/B test started successfully");
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to start test: ${error.message}`);
+    },
+  });
+};
+
+export const useStopABTest = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ linkId }: { linkId: string }) => {
+      const { data, error } = await supabase
+        .from("links")
+        .update({
+          ab_test_status: 'inactive',
+          ab_test_started_at: null,
+          ab_test_completed_at: null,
+          ab_test_winner_id: null,
+        })
+        .eq("id", linkId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["ab-test-status", variables.linkId] });
+      toast.success("A/B test stopped");
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to stop test: ${error.message}`);
+    },
+  });
+};
+
+export const useCheckABTests = () => {
+  return useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.functions.invoke('check-ab-tests', {
+        method: 'POST',
+      });
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      if (data.winners_declared > 0) {
+        toast.success(`${data.winners_declared} A/B test(s) completed with winners declared!`);
+      }
+    },
+    onError: (error: Error) => {
+      toast.error(`Failed to check tests: ${error.message}`);
+    },
+  });
+};
