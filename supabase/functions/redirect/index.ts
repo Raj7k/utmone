@@ -118,7 +118,10 @@ Deno.serve(async (req) => {
     }
     
     const [path, slug] = pathParts;
-    const domain = url.hostname;
+    let domain = url.hostname;
+    
+    // Normalize domain (remove www if present)
+    domain = domain.replace(/^www\./, '');
     
     console.log(`Redirect request: domain=${domain}, path=${path}, slug=${slug}`);
     
@@ -126,6 +129,36 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    // Verify domain is registered and verified
+    console.log(`Checking domain verification for: ${domain}`);
+    const { data: domainRecord, error: domainError } = await supabase
+      .from('domains')
+      .select('is_verified, workspace_id')
+      .eq('domain', domain)
+      .eq('is_verified', true)
+      .single();
+
+    if (domainError || !domainRecord) {
+      console.log(`Domain not verified: ${domain}`, domainError);
+      return new Response(
+        `<!DOCTYPE html>
+        <html>
+          <head><title>Domain Not Configured</title></head>
+          <body style="font-family: system-ui; text-align: center; padding: 50px;">
+            <h1>Domain Not Configured</h1>
+            <p>This domain is not set up for short links.</p>
+            <p style="color: #666; font-size: 14px;">Domain: ${domain}</p>
+          </body>
+        </html>`,
+        { 
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+        }
+      );
+    }
+    
+    console.log(`Domain verified for workspace: ${domainRecord.workspace_id}`);
     
     // Look up the link
     const { data: link, error: linkError } = await supabase

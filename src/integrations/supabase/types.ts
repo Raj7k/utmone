@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      domains: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          dns_verified_at: string | null
+          domain: string
+          id: string
+          is_primary: boolean | null
+          is_verified: boolean | null
+          ssl_status: string | null
+          updated_at: string | null
+          verification_code: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          dns_verified_at?: string | null
+          domain: string
+          id?: string
+          is_primary?: boolean | null
+          is_verified?: boolean | null
+          ssl_status?: string | null
+          updated_at?: string | null
+          verification_code?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          dns_verified_at?: string | null
+          domain?: string
+          id?: string
+          is_primary?: boolean | null
+          is_verified?: boolean | null
+          ssl_status?: string | null
+          updated_at?: string | null
+          verification_code?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "domains_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "domains_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       folders: {
         Row: {
           created_at: string | null
@@ -482,7 +539,9 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          onboarding_completed: boolean | null
           owner_id: string
+          primary_domain: string | null
           slug: string
           updated_at: string | null
         }
@@ -493,7 +552,9 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          onboarding_completed?: boolean | null
           owner_id: string
+          primary_domain?: string | null
           slug: string
           updated_at?: string | null
         }
@@ -504,7 +565,9 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          onboarding_completed?: boolean | null
           owner_id?: string
+          primary_domain?: string | null
           slug?: string
           updated_at?: string | null
         }
@@ -523,6 +586,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_verification_code: { Args: never; Returns: string }
       has_workspace_access: {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean

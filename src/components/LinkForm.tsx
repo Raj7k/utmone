@@ -6,11 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 import { UTMBuilder } from "./UTMBuilder";
-import { Card } from "@/components/ui/card";
+import { useWorkspaceDomains, usePrimaryDomain } from "@/hooks/useDomains";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { DomainBadge } from "./DomainBadge";
+import { AlertCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Link2, Copy, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -47,6 +53,12 @@ interface LinkFormProps {
 export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  
+  const { data: domains, isLoading: domainsLoading } = useWorkspaceDomains(workspaceId);
+  const { data: primaryDomain } = usePrimaryDomain(workspaceId);
+  
+  const verifiedDomains = domains?.filter(d => d.is_verified) || [];
+  const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "keka.com";
   const [shortUrl, setShortUrl] = useState("");
   const [finalUrl, setFinalUrl] = useState("");
 
