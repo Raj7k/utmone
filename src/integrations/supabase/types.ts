@@ -227,6 +227,12 @@ export type Database = {
       }
       links: {
         Row: {
+          ab_test_completed_at: string | null
+          ab_test_confidence_threshold: number | null
+          ab_test_min_clicks: number | null
+          ab_test_started_at: string | null
+          ab_test_status: string | null
+          ab_test_winner_id: string | null
           created_at: string | null
           created_by: string
           custom_expiry_message: string | null
@@ -260,6 +266,12 @@ export type Database = {
           workspace_id: string
         }
         Insert: {
+          ab_test_completed_at?: string | null
+          ab_test_confidence_threshold?: number | null
+          ab_test_min_clicks?: number | null
+          ab_test_started_at?: string | null
+          ab_test_status?: string | null
+          ab_test_winner_id?: string | null
           created_at?: string | null
           created_by: string
           custom_expiry_message?: string | null
@@ -293,6 +305,12 @@ export type Database = {
           workspace_id: string
         }
         Update: {
+          ab_test_completed_at?: string | null
+          ab_test_confidence_threshold?: number | null
+          ab_test_min_clicks?: number | null
+          ab_test_started_at?: string | null
+          ab_test_status?: string | null
+          ab_test_winner_id?: string | null
           created_at?: string | null
           created_by?: string
           custom_expiry_message?: string | null
@@ -326,6 +344,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "links_ab_test_winner_id_fkey"
+            columns: ["ab_test_winner_id"]
+            isOneToOne: false
+            referencedRelation: "og_image_variants"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "links_created_by_fkey"
             columns: ["created_by"]

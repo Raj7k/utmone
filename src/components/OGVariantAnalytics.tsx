@@ -1,6 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useOGVariantAnalytics } from "@/hooks/useOGVariants";
+import { useOGVariantAnalytics, useABTestStatus, useCheckABTests } from "@/hooks/useOGVariants";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Trophy, RefreshCw } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface OGVariantAnalyticsProps {
   linkId: string;
@@ -8,6 +12,40 @@ interface OGVariantAnalyticsProps {
 
 export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
   const { data: analytics, isLoading } = useOGVariantAnalytics(linkId);
+  const { data: testStatus } = useABTestStatus(linkId);
+  const checkTests = useCheckABTests();
+
+  // Calculate statistical significance (z-test for proportions)
+  const calculateSignificance = () => {
+    if (!analytics || analytics.length < 2) return null;
+    
+    const totalClicks = analytics.reduce((sum, v) => sum + v.clicks, 0);
+    const winner = analytics[0];
+    const runnerUp = analytics[1];
+    
+    if (totalClicks < 30) return null; // Need minimum sample size
+    
+    const p1 = winner.clicks / totalClicks;
+    const p2 = runnerUp.clicks / totalClicks;
+    const pooledP = (winner.clicks + runnerUp.clicks) / totalClicks;
+    const se = Math.sqrt(pooledP * (1 - pooledP) * (2 / totalClicks));
+    const zScore = (p1 - p2) / se;
+    
+    // Calculate p-value (approximation)
+    const absZ = Math.abs(zScore);
+    const t = 1 / (1 + 0.2316419 * absZ);
+    const d = 0.3989423 * Math.exp(-absZ * absZ / 2);
+    const pValue = 2 * d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    const confidence = 1 - pValue;
+    
+    return {
+      confidence,
+      isSignificant: confidence >= (testStatus?.ab_test_confidence_threshold || 0.95),
+      zScore,
+    };
+  };
+
+  const significance = calculateSignificance();
 
   if (isLoading) {
     return (
@@ -47,13 +85,66 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Variant Performance</CardTitle>
-        <CardDescription>
-          A/B test results showing clicks per variant
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Variant Performance</CardTitle>
+            <CardDescription>
+              A/B test results showing clicks per variant
+            </CardDescription>
+          </div>
+          <div className="flex items-center gap-2">
+            {testStatus?.ab_test_status === 'running' && (
+              <Badge variant="secondary" className="bg-primary/10 text-primary">
+                Test Running
+              </Badge>
+            )}
+            {testStatus?.ab_test_status === 'completed' && (
+              <Badge variant="secondary" className="bg-accent/10 text-accent">
+                <Trophy className="h-3 w-3 mr-1" />
+                Winner Declared
+              </Badge>
+            )}
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => checkTests.mutate()}
+              disabled={checkTests.isPending}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${checkTests.isPending ? 'animate-spin' : ''}`} />
+              Check Tests
+            </Button>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
+          {/* Test Status Alert */}
+          {testStatus?.ab_test_status === 'completed' && testStatus.ab_test_winner_id && (
+            <Alert className="border-accent bg-accent/5">
+              <Trophy className="h-4 w-4 text-accent" />
+              <AlertTitle>Winner Automatically Declared!</AlertTitle>
+              <AlertDescription>
+                The winning variant has been automatically set as the default Open Graph preview with {((significance?.confidence || 0) * 100).toFixed(2)}% confidence.
+                The link now uses this variant for all social media shares.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {testStatus?.ab_test_status === 'running' && significance && (
+            <Alert className={significance.isSignificant ? "border-accent bg-accent/5" : "border-primary bg-primary/5"}>
+              <AlertTitle>
+                {significance.isSignificant ? "Statistical Significance Reached!" : "Test In Progress"}
+              </AlertTitle>
+              <AlertDescription>
+                Current confidence: {(significance.confidence * 100).toFixed(2)}% 
+                (threshold: {((testStatus?.ab_test_confidence_threshold || 0.95) * 100).toFixed(0)}%)
+                {significance.isSignificant && (
+                  <span className="block mt-1">Winner will be declared automatically on next check.</span>
+                )}
+              </AlertDescription>
+            </Alert>
+          )}
+
           {/* Summary Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 bg-muted rounded-lg">

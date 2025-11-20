@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Trash2, ToggleLeft, ToggleRight, Edit } from "lucide-react";
+import { Plus, Trash2, ToggleLeft, ToggleRight, Edit, Play, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { useOGVariants, useAddOGVariant, useUpdateOGVariant, useDeleteOGVariant, type OGVariantInput } from "@/hooks/useOGVariants";
+import { useOGVariants, useAddOGVariant, useUpdateOGVariant, useDeleteOGVariant, useABTestStatus, useStartABTest, useStopABTest, type OGVariantInput } from "@/hooks/useOGVariants";
 
 interface OGVariantManagerProps {
   linkId: string;
@@ -15,9 +15,12 @@ interface OGVariantManagerProps {
 
 export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
   const { data: variants, isLoading } = useOGVariants(linkId);
+  const { data: testStatus } = useABTestStatus(linkId);
   const addVariant = useAddOGVariant();
   const updateVariant = useUpdateOGVariant();
   const deleteVariant = useDeleteOGVariant();
+  const startTest = useStartABTest();
+  const stopTest = useStopABTest();
 
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingVariant, setEditingVariant] = useState<string | null>(null);
@@ -83,6 +86,9 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
     return <div className="text-muted-foreground">Loading variants...</div>;
   }
 
+  const activeVariantCount = variants?.filter(v => v.is_active).length || 0;
+  const canStartTest = activeVariantCount >= 2;
+
   return (
     <Card>
       <CardHeader>
@@ -93,7 +99,30 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
               Create multiple preview variants to test which performs best
             </CardDescription>
           </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+          <div className="flex items-center gap-2">
+            {testStatus?.ab_test_status === 'inactive' && (
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => startTest.mutate({ linkId })}
+                disabled={!canStartTest || startTest.isPending}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Start A/B Test
+              </Button>
+            )}
+            {testStatus?.ab_test_status === 'running' && (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => stopTest.mutate({ linkId })}
+                disabled={stopTest.isPending}
+              >
+                <Square className="h-4 w-4 mr-2" />
+                Stop Test
+              </Button>
+            )}
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" onClick={resetForm}>
                 <Plus className="h-4 w-4 mr-2" />
@@ -180,9 +209,27 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
+        {!canStartTest && testStatus?.ab_test_status === 'inactive' && (
+          <div className="mb-4 p-4 border border-muted rounded-lg bg-muted/30">
+            <p className="text-sm text-muted-foreground">
+              ℹ️ You need at least 2 active variants to start an A/B test. Add more variants or activate existing ones.
+            </p>
+          </div>
+        )}
+        {testStatus?.ab_test_status === 'running' && (
+          <div className="mb-4 p-4 border border-primary rounded-lg bg-primary/5">
+            <p className="text-sm font-medium">A/B Test Active</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              The system is automatically tracking variant performance. When statistical significance is reached 
+              (≥{((testStatus.ab_test_confidence_threshold || 0.95) * 100).toFixed(0)}% confidence, 
+              min {testStatus.ab_test_min_clicks} clicks), the winner will be automatically declared.
+            </p>
+          </div>
+        )}
         {!variants || variants.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <p>No variants created yet.</p>
