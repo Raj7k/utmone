@@ -15,6 +15,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DomainBadge } from "./DomainBadge";
 import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { OGVariantManager } from "./OGVariantManager";
+import { OGVariantAnalytics } from "./OGVariantAnalytics";
 import { Link2, Copy, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -64,6 +66,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "keka.com";
   const [shortUrl, setShortUrl] = useState("");
   const [finalUrl, setFinalUrl] = useState("");
+  const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkFormSchema),
@@ -158,13 +161,13 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       if (error) throw error;
       return link;
     },
-    onSuccess: () => {
+    onSuccess: (link) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
+      setCreatedLinkId(link.id);
       toast({
         title: "Link created",
-        description: "Your short link has been created successfully.",
+        description: "Your short link has been created successfully. You can now add A/B test variants below.",
       });
-      form.reset();
       onSuccess?.();
     },
     onError: (error: Error) => {
@@ -189,7 +192,8 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       {/* Basic Information */}
       <div className="space-y-4">
         <h3 className="font-serif text-lg font-semibold text-foreground">Basic Information</h3>
@@ -490,5 +494,23 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         </Button>
       </div>
     </form>
+
+    {/* A/B Testing Variants - Show after link is created */}
+    {createdLinkId && (
+      <div className="mt-8 space-y-6">
+        <div className="border-t pt-6">
+          <h2 className="text-2xl font-bold mb-2">A/B Test Variants</h2>
+          <p className="text-muted-foreground mb-6">
+            Create multiple Open Graph variants to test which preview generates more clicks
+          </p>
+          <OGVariantManager linkId={createdLinkId} />
+        </div>
+        
+        <div className="border-t pt-6">
+          <OGVariantAnalytics linkId={createdLinkId} />
+        </div>
+      </div>
+    )}
+    </>
   );
 };

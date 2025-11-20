@@ -21,6 +21,14 @@ interface LinkRecord {
   og_image: string | null;
 }
 
+interface OGVariant {
+  id: string;
+  variant_name: string;
+  og_title: string | null;
+  og_description: string | null;
+  og_image: string;
+}
+
 // Parse user agent to extract device, browser, and OS info
 function parseUserAgent(userAgent: string) {
   const ua = userAgent.toLowerCase();
@@ -292,27 +300,63 @@ Deno.serve(async (req) => {
       }
     };
     
+    // Start background task for click logging with variant tracking
+    const logClickWithVariant = async () => {
+      await logClick();
+      
+      // If a variant was selected, track it
+      if (selectedVariant) {
+        const { error: variantTrackError } = await supabase
+          .from('link_clicks')
+          .update({ og_variant_id: selectedVariant.id })
+          .eq('link_id', linkRecord.id)
+          .eq('ip_address', ipAddress)
+          .eq('user_agent', userAgent)
+          .order('clicked_at', { ascending: false })
+          .limit(1);
+        
+        if (variantTrackError) {
+          console.error('Error tracking variant:', variantTrackError);
+        }
+      }
+    };
+    
     // Start background task for click logging
     // @ts-ignore - waitUntil is available in Deno Deploy
     if (typeof EdgeRuntime !== 'undefined' && EdgeRuntime.waitUntil) {
       // @ts-ignore
-      EdgeRuntime.waitUntil(logClick());
+      EdgeRuntime.waitUntil(logClickWithVariant());
     } else {
       // Fallback for local development
-      logClick().catch(console.error);
+      logClickWithVariant().catch(console.error);
     }
     
     // Check if this is a social media crawler (serve OG tags) or a regular user (redirect)
     const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
     
-    if (isCrawler && (linkRecord.og_title || linkRecord.og_description || linkRecord.og_image)) {
-      // Serve HTML with Open Graph tags for social media crawlers
-      const ogTitle = linkRecord.og_title || linkRecord.title;
-      const ogDescription = linkRecord.og_description || 'Click to visit this link';
-      const ogImage = linkRecord.og_image || '';
+    let selectedVariant: OGVariant | null = null;
+    
+    if (isCrawler) {
+      // Fetch active OG variants for A/B testing
+      const { data: variants, error: variantsError } = await supabase
+        .from('og_image_variants')
+        .select('id, variant_name, og_title, og_description, og_image')
+        .eq('link_id', linkRecord.id)
+        .eq('is_active', true);
+      
+      if (!variantsError && variants && variants.length > 0) {
+        // Randomly select a variant for A/B testing
+        selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
+      }
+      
+      // Determine OG tags (variant or default)
+      const ogTitle = selectedVariant?.og_title || linkRecord.og_title || linkRecord.title;
+      const ogDescription = selectedVariant?.og_description || linkRecord.og_description || 'Click to visit this link';
+      const ogImage = selectedVariant?.og_image || linkRecord.og_image || '';
       const shortUrl = `https://${domain}/${path}/${slug}`;
       
-      const html = `<!DOCTYPE html>
+      if (ogTitle || ogDescription || ogImage) {
+        const html = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
@@ -335,15 +379,16 @@ Deno.serve(async (req) => {
     <script>window.location.href = "${linkRecord.final_url}";</script>
   </body>
 </html>`;
-      
-      return new Response(html, {
-        status: 200,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'text/html; charset=utf-8',
-          'Cache-Control': 'public, max-age=300'
-        }
-      });
+        
+        return new Response(html, {
+          status: 200,
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'public, max-age=300'
+          }
+        });
+      }
     }
     
     // Perform redirect for regular users
