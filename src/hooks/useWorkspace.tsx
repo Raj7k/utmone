@@ -59,11 +59,35 @@ export const useWorkspace = () => {
   });
 
   const currentWorkspace = workspaces?.[0];
+  const needsOnboarding = currentWorkspace && !currentWorkspace.onboarding_completed;
+
+  const completeOnboardingMutation = useMutation({
+    mutationFn: async (workspaceId: string) => {
+      const { error } = await supabase
+        .from("workspaces")
+        .update({ onboarding_completed: true })
+        .eq("id", workspaceId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   return {
     workspaces,
     currentWorkspace,
+    needsOnboarding,
     isLoading,
     createWorkspace: createWorkspaceMutation.mutate,
+    completeOnboarding: completeOnboardingMutation.mutate,
   };
 };
