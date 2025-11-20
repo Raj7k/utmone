@@ -134,6 +134,7 @@ export type Database = {
           ip_address: string | null
           is_unique: boolean | null
           link_id: string
+          og_variant_id: string | null
           os: string | null
           qr_code_id: string | null
           referrer: string | null
@@ -149,6 +150,7 @@ export type Database = {
           ip_address?: string | null
           is_unique?: boolean | null
           link_id: string
+          og_variant_id?: string | null
           os?: string | null
           qr_code_id?: string | null
           referrer?: string | null
@@ -164,6 +166,7 @@ export type Database = {
           ip_address?: string | null
           is_unique?: boolean | null
           link_id?: string
+          og_variant_id?: string | null
           os?: string | null
           qr_code_id?: string | null
           referrer?: string | null
@@ -175,6 +178,13 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_clicks_og_variant_id_fkey"
+            columns: ["og_variant_id"]
+            isOneToOne: false
+            referencedRelation: "og_image_variants"
             referencedColumns: ["id"]
           },
           {
@@ -335,6 +345,57 @@ export type Database = {
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      og_image_variants: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          is_active: boolean | null
+          link_id: string
+          og_description: string | null
+          og_image: string
+          og_title: string | null
+          variant_name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          is_active?: boolean | null
+          link_id: string
+          og_description?: string | null
+          og_image: string
+          og_title?: string | null
+          variant_name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_active?: boolean | null
+          link_id?: string
+          og_description?: string | null
+          og_image?: string
+          og_title?: string | null
+          variant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "og_image_variants_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "og_image_variants_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
             referencedColumns: ["id"]
           },
         ]
