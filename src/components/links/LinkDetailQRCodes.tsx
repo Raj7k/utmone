@@ -26,6 +26,29 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
     },
   });
 
+  // Fetch click counts per QR variant
+  const { data: qrClickStats } = useQuery({
+    queryKey: ["qr-click-stats", linkId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("link_clicks")
+        .select("qr_code_id")
+        .eq("link_id", linkId)
+        .not("qr_code_id", "is", null);
+
+      if (error) throw error;
+
+      // Count clicks per QR code
+      const clickCounts = data.reduce((acc, click) => {
+        const qrId = click.qr_code_id!;
+        acc[qrId] = (acc[qrId] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      return clickCounts;
+    },
+  });
+
   if (isLoading) {
     return <div className="p-8 text-center text-muted-foreground">Loading QR codes...</div>;
   }
@@ -76,6 +99,11 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
                 )}
                 <div className="text-muted-foreground">
                   Created: {format(new Date(qr.created_at || ""), "PPP")}
+                </div>
+                <div className="flex items-center gap-2 text-sm font-medium mt-2">
+                  <span className="text-primary">
+                    {qrClickStats?.[qr.id] || 0} clicks
+                  </span>
                 </div>
               </div>
 
