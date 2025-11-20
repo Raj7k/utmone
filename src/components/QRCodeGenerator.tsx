@@ -58,11 +58,24 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         setIsGenerating(true);
         console.log("🚀 [QR Generation] Starting QR code generation...");
         console.log("📋 [QR Generation] Form data:", data);
-        console.log("🔗 [QR Generation] Short URL:", shortUrl);
+        console.log("🔗 [QR Generation] Original Short URL:", shortUrl);
         console.log("🆔 [QR Generation] Link ID:", linkId);
 
+        // Normalize URL to Supabase edge function format
+        const normalizeUrl = (url: string) => {
+          const match = url.match(/\/([^\/]+)\/([^\/]+)$/);
+          if (match) {
+            const [, path, slug] = match;
+            return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+          }
+          return url;
+        };
+
+        const normalizedShortUrl = normalizeUrl(shortUrl);
+        console.log("🔄 [QR Generation] Normalized URL:", normalizedShortUrl);
+
         // Generate PNG using qrcode library
-        const pngDataUrl = await QRCodeLib.toDataURL(shortUrl, {
+        const pngDataUrl = await QRCodeLib.toDataURL(normalizedShortUrl, {
           width: 1024,
           margin: 2,
           color: {
@@ -79,7 +92,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         console.log("✅ [QR Generation] PNG blob created, size:", pngBlob.size, "bytes");
 
         // Generate SVG
-        const svgString = await QRCodeLib.toString(shortUrl, {
+        const svgString = await QRCodeLib.toString(normalizedShortUrl, {
           type: "svg",
           width: 1024,
           margin: 2,
@@ -200,11 +213,22 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
   const downloadQR = async (format: "png" | "svg") => {
     try {
+      // Normalize URL to Supabase edge function format
+      const normalizeUrl = (url: string) => {
+        const match = url.match(/\/([^\/]+)\/([^\/]+)$/);
+        if (match) {
+          const [, path, slug] = match;
+          return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+        }
+        return url;
+      };
+
+      const normalizedShortUrl = normalizeUrl(shortUrl);
       let dataUrl: string;
       let filename: string;
 
       if (format === "png") {
-        dataUrl = await QRCodeLib.toDataURL(shortUrl, {
+        dataUrl = await QRCodeLib.toDataURL(normalizedShortUrl, {
           width: 1024,
           margin: 2,
           color: {
@@ -214,7 +238,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         });
         filename = `qr-${formValues.name.replace(/\s+/g, "-")}.png`;
       } else {
-        const svgString = await QRCodeLib.toString(shortUrl, {
+        const svgString = await QRCodeLib.toString(normalizedShortUrl, {
           type: "svg",
           width: 1024,
           margin: 2,
@@ -339,7 +363,14 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           <Card className="p-6 flex flex-col items-center gap-4">
             <div className="bg-white p-4 rounded-lg">
               <QRCode
-                value={shortUrl}
+                value={(() => {
+                  const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
+                  if (match) {
+                    const [, path, slug] = match;
+                    return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+                  }
+                  return shortUrl;
+                })()}
                 size={256}
                 fgColor={formValues.primaryColor}
                 bgColor="#FFFFFF"
@@ -371,16 +402,33 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         </TabsContent>
       </Tabs>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex flex-col gap-2">
+        {form.formState.errors.name && (
+          <p className="text-sm text-destructive">Name is required</p>
+        )}
         <Button
-          onClick={(e) => {
-            e.preventDefault();
-            const formData = form.getValues();
-            console.log("🖱️ [QR Generation] Button clicked");
-            console.log("📋 [QR Generation] Form values:", formData);
-            onSubmit();
-          }}
+          type="button"
+          className="w-full"
           disabled={isGenerating}
+          onClick={async () => {
+            console.log("🖱️ [QR Generation] Button clicked");
+            const formData = form.getValues();
+            console.log("📋 [QR Generation] Form values:", formData);
+            
+            const isValid = await form.trigger();
+            console.log("✅ [QR Generation] Form validation result:", isValid);
+            
+            if (isValid) {
+              generateQRMutation.mutate(formData);
+            } else {
+              console.error("❌ [QR Generation] Form validation failed", form.formState.errors);
+              toast({
+                title: "Validation Failed",
+                description: "Please fill in all required fields",
+                variant: "destructive",
+              });
+            }
+          }}
         >
           {isGenerating ? (
             <>
