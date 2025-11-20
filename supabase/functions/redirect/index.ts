@@ -15,6 +15,10 @@ interface LinkRecord {
   fallback_url: string | null;
   custom_expiry_message: string | null;
   redirect_type: string;
+  title: string;
+  og_title: string | null;
+  og_description: string | null;
+  og_image: string | null;
 }
 
 // Parse user agent to extract device, browser, and OS info
@@ -163,7 +167,7 @@ Deno.serve(async (req) => {
     // Look up the link
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type')
+      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image')
       .eq('domain', domain)
       .eq('path', path)
       .eq('slug', slug)
@@ -298,7 +302,51 @@ Deno.serve(async (req) => {
       logClick().catch(console.error);
     }
     
-    // Perform redirect
+    // Check if this is a social media crawler (serve OG tags) or a regular user (redirect)
+    const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
+    
+    if (isCrawler && (linkRecord.og_title || linkRecord.og_description || linkRecord.og_image)) {
+      // Serve HTML with Open Graph tags for social media crawlers
+      const ogTitle = linkRecord.og_title || linkRecord.title;
+      const ogDescription = linkRecord.og_description || 'Click to visit this link';
+      const ogImage = linkRecord.og_image || '';
+      const shortUrl = `https://${domain}/${path}/${slug}`;
+      
+      const html = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="${ogTitle.replace(/"/g, '&quot;')}" />
+    <meta property="og:description" content="${ogDescription.replace(/"/g, '&quot;')}" />
+    ${ogImage ? `<meta property="og:image" content="${ogImage}" />` : ''}
+    <meta property="og:url" content="${shortUrl}" />
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${ogTitle.replace(/"/g, '&quot;')}" />
+    <meta name="twitter:description" content="${ogDescription.replace(/"/g, '&quot;')}" />
+    ${ogImage ? `<meta name="twitter:image" content="${ogImage}" />` : ''}
+    
+    <meta http-equiv="refresh" content="0;url=${linkRecord.final_url}" />
+    <title>${ogTitle}</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href="${linkRecord.final_url}">${linkRecord.final_url}</a>...</p>
+    <script>window.location.href = "${linkRecord.final_url}";</script>
+  </body>
+</html>`;
+      
+      return new Response(html, {
+        status: 200,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'public, max-age=300'
+        }
+      });
+    }
+    
+    // Perform redirect for regular users
     const redirectStatus = linkRecord.redirect_type === '301' ? 301 : 302;
     console.log(`Redirecting to: ${linkRecord.final_url} with status ${redirectStatus}`);
     

@@ -41,6 +41,9 @@ const linkFormSchema = z.object({
   fallback_url: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   redirect_type: z.enum(["301", "302"]).default("302"),
   custom_expiry_message: z.string().max(200).optional(),
+  og_title: z.string().max(60).optional(),
+  og_description: z.string().max(160).optional(),
+  og_image: z.string().url("Must be a valid URL").optional().or(z.literal("")),
 });
 
 type LinkFormData = z.infer<typeof linkFormSchema>;
@@ -134,7 +137,6 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           domain: data.domain,
           path: data.path,
           slug,
-          short_url: shortUrlFinal,
           final_url: finalUrlFinal,
           utm_source: data.utm_source,
           utm_medium: data.utm_medium,
@@ -146,6 +148,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           fallback_url: data.fallback_url || null,
           redirect_type: data.redirect_type,
           custom_expiry_message: data.custom_expiry_message || null,
+          og_title: data.og_title || null,
+          og_description: data.og_description || null,
+          og_image: data.og_image || null,
         })
         .select()
         .single();
@@ -285,6 +290,69 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
       {/* UTM Builder */}
       <UTMBuilder form={form} workspaceId={workspaceId} />
+
+      {/* Social Media Preview */}
+      <div className="space-y-4">
+        <h3 className="font-serif text-lg font-semibold text-foreground">Social Media Preview</h3>
+        <p className="text-sm text-muted-foreground">Customize how your link appears when shared on social media platforms</p>
+        
+        <div className="space-y-2">
+          <Label htmlFor="og_title">Social Media Title (Optional)</Label>
+          <Input
+            id="og_title"
+            placeholder="Custom title for social media preview (max 60 chars)"
+            {...form.register("og_title")}
+            maxLength={60}
+          />
+          <p className="text-xs text-muted-foreground">
+            {form.watch("og_title") ? `${form.watch("og_title").length}/60 characters` : "Leave empty to use link title"}
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="og_description">Social Media Description (Optional)</Label>
+          <Textarea
+            id="og_description"
+            placeholder="Custom description for social media preview (max 160 chars)"
+            {...form.register("og_description")}
+            maxLength={160}
+            rows={3}
+          />
+          <p className="text-xs text-muted-foreground">
+            {form.watch("og_description") ? `${form.watch("og_description").length}/160 characters` : "Describe what users will find when they click this link"}
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="og_image">Social Media Image URL (Optional)</Label>
+          <Input
+            id="og_image"
+            type="url"
+            placeholder="https://example.com/image.jpg"
+            {...form.register("og_image")}
+          />
+          <p className="text-xs text-muted-foreground">
+            Recommended: 1200×630px for optimal display on Facebook, Twitter, LinkedIn
+          </p>
+          {form.formState.errors.og_image && (
+            <p className="text-sm text-destructive">{form.formState.errors.og_image.message}</p>
+          )}
+        </div>
+
+        {form.watch("og_image") && (
+          <Card className="p-4 space-y-2">
+            <p className="text-sm font-medium">Image Preview</p>
+            <img 
+              src={form.watch("og_image")} 
+              alt="Social media preview" 
+              className="w-full max-w-2xl rounded border"
+              onError={(e) => {
+                e.currentTarget.src = "https://via.placeholder.com/1200x630?text=Invalid+Image+URL";
+              }}
+            />
+          </Card>
+        )}
+      </div>
 
       {/* Expiration & Advanced Settings */}
       <div className="space-y-4">

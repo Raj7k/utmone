@@ -230,6 +230,9 @@ export type Database = {
           id: string
           last_clicked_at: string | null
           max_clicks: number | null
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
           path: string
           redirect_type: string | null
           short_url: string | null
@@ -260,6 +263,9 @@ export type Database = {
           id?: string
           last_clicked_at?: string | null
           max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           path?: string
           redirect_type?: string | null
           short_url?: string | null
@@ -290,6 +296,9 @@ export type Database = {
           id?: string
           last_clicked_at?: string | null
           max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           path?: string
           redirect_type?: string | null
           short_url?: string | null
