@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Table,
@@ -22,6 +23,7 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
+  Eye,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -56,6 +58,7 @@ export const EnhancedLinksTable = ({
 }: EnhancedLinksTableProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
@@ -231,8 +234,13 @@ export const EnhancedLinksTable = ({
           </TableHeader>
           <TableBody>
             {data.links.map((link) => (
-              <TableRow key={link.id}>
-                <TableCell className="font-medium">{link.title}</TableCell>
+              <TableRow key={link.id} className="cursor-pointer hover:bg-muted/50">
+                <TableCell 
+                  className="font-medium cursor-pointer hover:underline"
+                  onClick={() => navigate(`/links/${link.id}`)}
+                >
+                  {link.title}
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-muted-foreground">
@@ -322,6 +330,10 @@ export const EnhancedLinksTable = ({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => navigate(`/links/${link.id}`)}>
+                        <Eye className="mr-2 h-4 w-4" />
+                        View Details
+                      </DropdownMenuItem>
                       <QRCodeDialog 
                         linkId={link.id} 
                         shortUrl={link.short_url || ""}
