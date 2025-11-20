@@ -54,67 +54,91 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
   const generateQRMutation = useMutation({
     mutationFn: async (data: QRFormData) => {
-      setIsGenerating(true);
+      try {
+        setIsGenerating(true);
+        console.log("🚀 [QR Generation] Starting QR code generation...");
+        console.log("📋 [QR Generation] Form data:", data);
+        console.log("🔗 [QR Generation] Short URL:", shortUrl);
+        console.log("🆔 [QR Generation] Link ID:", linkId);
 
-      // Generate PNG using qrcode library
-      const pngDataUrl = await QRCodeLib.toDataURL(shortUrl, {
-        width: 1024,
-        margin: 2,
-        color: {
-          dark: data.primaryColor,
-          light: "#FFFFFF",
-        },
-      });
+        // Generate PNG using qrcode library
+        const pngDataUrl = await QRCodeLib.toDataURL(shortUrl, {
+          width: 1024,
+          margin: 2,
+          color: {
+            dark: data.primaryColor,
+            light: "#FFFFFF",
+          },
+        });
 
-      // Convert data URL to blob
-      const pngBlob = await fetch(pngDataUrl).then((r) => r.blob());
+        console.log("✅ [QR Generation] PNG generated successfully");
+        console.log("📊 [QR Generation] PNG data URL length:", pngDataUrl.length);
 
-      // Generate SVG
-      const svgString = await QRCodeLib.toString(shortUrl, {
-        type: "svg",
-        width: 1024,
-        margin: 2,
-        color: {
-          dark: data.primaryColor,
-          light: "#FFFFFF",
-        },
-      });
-      const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+        // Convert data URL to blob
+        const pngBlob = await fetch(pngDataUrl).then((r) => r.blob());
+        console.log("✅ [QR Generation] PNG blob created, size:", pngBlob.size, "bytes");
 
-      // Upload to storage
-      const timestamp = Date.now();
-      const pngPath = `${linkId}/${timestamp}-${data.name.replace(/\s+/g, "-")}.png`;
-      const svgPath = `${linkId}/${timestamp}-${data.name.replace(/\s+/g, "-")}.svg`;
+        // Generate SVG
+        const svgString = await QRCodeLib.toString(shortUrl, {
+          type: "svg",
+          width: 1024,
+          margin: 2,
+          color: {
+            dark: data.primaryColor,
+            light: "#FFFFFF",
+          },
+        });
+        const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+        console.log("✅ [QR Generation] SVG generated successfully");
+        console.log("📊 [QR Generation] SVG blob size:", svgBlob.size, "bytes");
 
-      const { error: pngError } = await supabase.storage
-        .from("qr-codes")
-        .upload(pngPath, pngBlob);
+        // Upload to storage
+        const timestamp = Date.now();
+        const pngPath = `${linkId}/${timestamp}-${data.name.replace(/\s+/g, "-")}.png`;
+        const svgPath = `${linkId}/${timestamp}-${data.name.replace(/\s+/g, "-")}.svg`;
 
-      if (pngError) throw pngError;
+        console.log("⬆️ [QR Generation] Uploading PNG to storage:", pngPath);
+        const { error: pngError } = await supabase.storage
+          .from("qr-codes")
+          .upload(pngPath, pngBlob);
 
-      const { error: svgError } = await supabase.storage
-        .from("qr-codes")
-        .upload(svgPath, svgBlob);
+        if (pngError) {
+          console.error("❌ [QR Generation] PNG upload failed:", pngError);
+          throw pngError;
+        }
+        console.log("✅ [QR Generation] PNG uploaded successfully");
 
-      if (svgError) throw svgError;
+        console.log("⬆️ [QR Generation] Uploading SVG to storage:", svgPath);
+        const { error: svgError } = await supabase.storage
+          .from("qr-codes")
+          .upload(svgPath, svgBlob);
 
-      // Get public URLs
-      const { data: pngUrlData } = supabase.storage
-        .from("qr-codes")
-        .getPublicUrl(pngPath);
+        if (svgError) {
+          console.error("❌ [QR Generation] SVG upload failed:", svgError);
+          throw svgError;
+        }
+        console.log("✅ [QR Generation] SVG uploaded successfully");
 
-      const { data: svgUrlData } = supabase.storage
-        .from("qr-codes")
-        .getPublicUrl(svgPath);
+        // Get public URLs
+        const { data: pngUrlData } = supabase.storage
+          .from("qr-codes")
+          .getPublicUrl(pngPath);
 
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
+        const { data: svgUrlData } = supabase.storage
+          .from("qr-codes")
+          .getPublicUrl(svgPath);
 
-      // Save to database
-      const { data: qrCode, error: dbError } = await supabase
-        .from("qr_codes")
-        .insert({
+        console.log("🔗 [QR Generation] Public URLs:");
+        console.log("   PNG:", pngUrlData.publicUrl);
+        console.log("   SVG:", svgUrlData.publicUrl);
+
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error("User not authenticated");
+        console.log("👤 [QR Generation] User authenticated:", user.id);
+
+        // Save to database
+        const insertData = {
           link_id: linkId,
           created_by: user.id,
           name: data.name,
@@ -126,13 +150,28 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           has_logo: data.hasLogo,
           png_url: pngUrlData.publicUrl,
           svg_url: svgUrlData.publicUrl,
-        })
-        .select()
-        .single();
+        };
+        console.log("💾 [QR Generation] Inserting into database:", insertData);
 
-      if (dbError) throw dbError;
+        const { data: qrCode, error: dbError } = await supabase
+          .from("qr_codes")
+          .insert(insertData)
+          .select()
+          .single();
 
-      return qrCode;
+        if (dbError) {
+          console.error("❌ [QR Generation] Database insert failed:", dbError);
+          console.error("📋 [QR Generation] Full error details:", JSON.stringify(dbError, null, 2));
+          throw dbError;
+        }
+        console.log("✅ [QR Generation] QR code saved to database:", qrCode);
+
+        return qrCode;
+      } catch (error) {
+        console.error("💥 [QR Generation] Unexpected error:", error);
+        console.error("📋 [QR Generation] Error stack:", error instanceof Error ? error.stack : "No stack trace");
+        throw error;
+      }
     },
     onSuccess: () => {
       toast({
@@ -144,9 +183,15 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
       onSuccess?.();
     },
     onError: (error: Error) => {
+      console.error("❌ [QR Generation] Mutation error:", error);
+      console.error("📋 [QR Generation] Error details:", {
+        message: error.message,
+        name: error.name,
+        stack: error.stack,
+      });
       toast({
         title: "Generation Failed",
-        description: error.message,
+        description: error.message || "An unexpected error occurred. Check console for details.",
         variant: "destructive",
       });
       setIsGenerating(false);
@@ -328,11 +373,23 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
       <div className="flex justify-end gap-2">
         <Button
-          onClick={onSubmit}
+          onClick={(e) => {
+            e.preventDefault();
+            const formData = form.getValues();
+            console.log("🖱️ [QR Generation] Button clicked");
+            console.log("📋 [QR Generation] Form values:", formData);
+            onSubmit();
+          }}
           disabled={isGenerating}
         >
-          {isGenerating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-          Generate & Save QR Code
+          {isGenerating ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Generating QR Code...
+            </>
+          ) : (
+            "Generate & Save QR Code"
+          )}
         </Button>
       </div>
     </div>
