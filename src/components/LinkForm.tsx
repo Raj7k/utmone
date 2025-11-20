@@ -85,12 +85,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const values = form.watch();
 
   useEffect(() => {
-    // Generate preview URLs
+    // Generate preview URLs using Supabase edge function URL
     const slug = values.slug || "your-slug";
     const domain = values.domain || "keka.com";
     const path = values.path || "go";
     
-    setShortUrl(`https://${domain}/${path}/${slug}`);
+    // Use Supabase edge function URL for actual redirects
+    const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
+    setShortUrl(`https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${path}/${slug}`);
 
     if (values.destination_url) {
       try {

@@ -107,11 +107,16 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         .from("qr-codes")
         .getPublicUrl(svgPath);
 
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
       // Save to database
       const { data: qrCode, error: dbError } = await supabase
         .from("qr_codes")
         .insert({
           link_id: linkId,
+          created_by: user.id,
           name: data.name,
           variant_name: data.variantName,
           primary_color: data.primaryColor,
@@ -121,7 +126,6 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           has_logo: data.hasLogo,
           png_url: pngUrlData.publicUrl,
           svg_url: svgUrlData.publicUrl,
-          created_by: (await supabase.auth.getUser()).data.user?.id!,
         })
         .select()
         .single();
