@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link as LinkIcon, LogOut } from "lucide-react";
 import { CreateLinkDialog } from "@/components/CreateLinkDialog";
-import { LinksTable } from "@/components/LinksTable";
+import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { LinkFilters } from "@/components/LinkFilters";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import type { User } from "@supabase/supabase-js";
@@ -121,7 +121,11 @@ const Links = () => {
           </CardHeader>
           <CardContent>
             {currentWorkspace ? (
-              <LinksTable workspaceId={currentWorkspace.id} />
+              <EnhancedLinksTable 
+                workspaceId={currentWorkspace.id}
+                searchQuery={searchQuery}
+                statusFilter={statusFilter}
+              />
             ) : (
               <p className="text-center text-muted-foreground py-8">
                 Loading workspace...
