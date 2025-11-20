@@ -8,6 +8,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { LinkDetailOverview } from "@/components/links/LinkDetailOverview";
 import { LinkDetailAnalytics } from "@/components/links/LinkDetailAnalytics";
 import { LinkDetailQRCodes } from "@/components/links/LinkDetailQRCodes";
+import { QRPerformanceComparison } from "@/components/links/QRPerformanceComparison";
 import { DuplicateLinkDialog } from "@/components/links/DuplicateLinkDialog";
 import { DeleteLinkDialog } from "@/components/links/DeleteLinkDialog";
 import { ArrowLeft, Copy, Archive, Trash2 } from "lucide-react";
@@ -113,10 +114,11 @@ const LinkDetail = () => {
 
       <div className="max-w-6xl mx-auto p-6">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="qr-codes">QR Codes ({link.qr_code_count})</TabsTrigger>
+            <TabsTrigger value="qr-performance">QR Performance</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -129,6 +131,10 @@ const LinkDetail = () => {
 
           <TabsContent value="qr-codes">
             <LinkDetailQRCodes linkId={link.id} shortUrl={link.short_url || ""} />
+          </TabsContent>
+
+          <TabsContent value="qr-performance">
+            <QRPerformanceComparison linkId={link.id} />
           </TabsContent>
         </Tabs>
       </div>

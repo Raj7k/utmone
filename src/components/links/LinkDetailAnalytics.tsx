@@ -12,18 +12,40 @@ interface LinkDetailAnalyticsProps {
 
 export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
   const [dateRange, setDateRange] = useState("30");
+  const [selectedQRCode, setSelectedQRCode] = useState<string>("all");
+
+  // Fetch QR codes for filtering
+  const { data: qrCodes } = useQuery({
+    queryKey: ["qr-codes-filter", linkId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("qr_codes")
+        .select("id, name, variant_name")
+        .eq("link_id", linkId)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+  });
 
   const { data: analyticsData, isLoading } = useQuery({
-    queryKey: ["link-analytics", linkId, dateRange],
+    queryKey: ["link-analytics", linkId, dateRange, selectedQRCode],
     queryFn: async () => {
       const startDate = subDays(new Date(), parseInt(dateRange)).toISOString();
 
-      // Fetch clicks
-      const { data: clicks, error } = await supabase
+      let query = supabase
         .from("link_clicks")
         .select("*")
         .eq("link_id", linkId)
         .gte("clicked_at", startDate);
+
+      // Filter by QR code if selected
+      if (selectedQRCode !== "all") {
+        query = query.eq("qr_code_id", selectedQRCode);
+      }
+
+      const { data: clicks, error } = await query;
 
       if (error) throw error;
 
@@ -94,19 +116,36 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
   return (
     <div className="space-y-6">
       {/* Date Range Selector */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap gap-4">
         <h3 className="text-lg font-semibold">Analytics Overview</h3>
-        <Select value={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
-            <SelectItem value="365">Last year</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2">
+          {qrCodes && qrCodes.length > 0 && (
+            <Select value={selectedQRCode} onValueChange={setSelectedQRCode}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="All QR codes" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All QR codes</SelectItem>
+                {qrCodes.map((qr) => (
+                  <SelectItem key={qr.id} value={qr.id}>
+                    {qr.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          <Select value={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7">Last 7 days</SelectItem>
+              <SelectItem value="30">Last 30 days</SelectItem>
+              <SelectItem value="90">Last 90 days</SelectItem>
+              <SelectItem value="365">Last year</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Stats Cards */}
