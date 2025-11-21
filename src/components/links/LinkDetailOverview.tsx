@@ -317,7 +317,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
       {/* Action Buttons */}
       <div className="flex gap-2 justify-end">
         <Button type="submit" disabled={!isDirty || updateLink.isPending}>
-          {updateLink.isPending ? "Saving..." : "Save Changes"}
+          {updateLink.isPending ? "saving…" : "save"}
         </Button>
       </div>
     </form>

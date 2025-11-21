@@ -54,7 +54,7 @@ const Analytics = () => {
   if (isLoading || workspaceLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">Loading...</div>
+        <div className="animate-pulse">loading analytics…</div>
       </div>
     );
   }

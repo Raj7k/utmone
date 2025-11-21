@@ -93,11 +93,9 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
   };
 
   if (isLoading) {
-    return (
       <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">Loading links...</p>
+        <p className="text-muted-foreground">loading links…</p>
       </div>
-    );
   }
 
   if (!links || links.length === 0) {

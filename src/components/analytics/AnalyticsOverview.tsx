@@ -66,9 +66,7 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
     },
   });
 
-  if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading overview...</div>;
-  }
+    return <div className="text-center py-8 text-muted-foreground">loading analytics…</div>;
 
   return (
     <div className="space-y-6">

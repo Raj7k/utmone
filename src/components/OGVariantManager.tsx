@@ -82,9 +82,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
     }
   };
 
-  if (isLoading) {
-    return <div className="text-muted-foreground">Loading variants...</div>;
-  }
+    return <div className="text-muted-foreground">loading variants…</div>;
 
   const activeVariantCount = variants?.filter(v => v.is_active).length || 0;
   const canStartTest = activeVariantCount >= 2;

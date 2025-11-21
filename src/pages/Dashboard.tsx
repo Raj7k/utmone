@@ -59,7 +59,7 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">Loading...</div>
+        <div className="animate-pulse">loading…</div>
       </div>
     );
   }

@@ -25,17 +25,15 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
   });
 
   if (isLoading) {
-    return (
       <Card>
         <CardHeader>
           <Skeleton className="h-6 w-48" />
           <Skeleton className="h-4 w-64 mt-2" />
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-64 w-full" />
+          <div className="text-center text-muted-foreground">loading chart data…</div>
         </CardContent>
       </Card>
-    );
   }
 
   const velocityLabel = granularity === "daily" ? "per day" : granularity === "weekly" ? "per week" : "per month";

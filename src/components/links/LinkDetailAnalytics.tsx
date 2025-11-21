@@ -69,9 +69,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
     },
   });
 
-  if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Loading analytics...</div>;
-  }
+    return <div className="p-8 text-center text-muted-foreground">loading analytics…</div>;
 
   if (!analyticsData || analyticsData.length === 0) {
     return (
