@@ -11,6 +11,7 @@ import LinkDetail from "./pages/LinkDetail";
 import Analytics from "./pages/Analytics";
 import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
+import LandingAnalytics from "./pages/LandingAnalytics";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/links" element={<Links />} />
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

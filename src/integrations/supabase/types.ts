@@ -123,6 +123,71 @@ export type Database = {
           },
         ]
       }
+      landing_page_events: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          hero_variant: number
+          id: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          hero_variant: number
+          id?: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          hero_variant?: number
+          id?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_session"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "landing_page_sessions"
+            referencedColumns: ["session_id"]
+          },
+        ]
+      }
+      landing_page_sessions: {
+        Row: {
+          created_at: string | null
+          hero_variant: number
+          id: string
+          ip_address: string | null
+          referrer: string | null
+          session_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          hero_variant: number
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          session_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          hero_variant?: number
+          id?: string
+          ip_address?: string | null
+          referrer?: string | null
+          session_id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       link_clicks: {
         Row: {
           browser: string | null

@@ -15,8 +15,20 @@ import {
   ArrowRight,
   Check
 } from "lucide-react";
+import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
+import { 
+  useTrackPageView, 
+  useTrackCTAClick, 
+  useTrackScrollDepth, 
+  useTrackTimeOnPage 
+} from "@/hooks/useLandingPageAnalytics";
 
 const Index = () => {
+  useTrackPageView();
+  useTrackScrollDepth();
+  useTrackTimeOnPage();
+  const trackCTAClick = useTrackCTAClick();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -46,39 +58,49 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 md:py-32 bg-gradient-to-br from-background via-background to-muted/30">
-        <div className="container relative mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <Badge variant="secondary" className="mb-4">
-              <Sparkles className="h-3 w-3 mr-1" />
-              Stop fighting with 7 tools. Start with one.
-            </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
-              Enterprise URL Shortener with{" "}
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
-                Built-in Analytics
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              Create branded short links, enforce UTM consistency, generate QR codes, and track campaign performance—all in one centralized platform built for marketing teams.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Link to="/auth">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 h-12">
-                  Request Early Access
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Button size="lg" variant="outline" className="text-lg px-8 h-12">
-                Watch Demo
-              </Button>
+      <HeroVariantManager>
+        {(variant) => (
+          <section className="relative overflow-hidden py-24 md:py-32 bg-gradient-to-br from-background via-background to-muted/30">
+            <div className="container relative mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center space-y-8">
+                <Badge variant="secondary" className="mb-4">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Stop fighting with 7 tools. Start with one.
+                </Badge>
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+                  {variant.headline}
+                </h1>
+                <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+                  {variant.subheadline}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                  <Link to="/auth">
+                    <Button 
+                      size="lg" 
+                      className="bg-primary hover:bg-primary/90 text-lg px-8 h-12"
+                      onClick={() => trackCTAClick('hero-primary')}
+                    >
+                      {variant.cta}
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="text-lg px-8 h-12"
+                    onClick={() => trackCTAClick('hero-secondary')}
+                  >
+                    Watch Demo
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {variant.microcopy}
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Launching Q1 2025 · Join 500+ teams on the waitlist
-            </p>
-          </div>
-        </div>
-      </section>
+          </section>
+        )}
+      </HeroVariantManager>
 
       {/* The Problem Section */}
       <section className="py-20 bg-destructive/5 border-y border-destructive/20">
@@ -558,12 +580,22 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Link to="/auth">
-                <Button size="lg" variant="secondary" className="text-lg px-8 h-12">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  className="text-lg px-8 h-12"
+                  onClick={() => trackCTAClick('final-cta-primary')}
+                >
                   Request Early Access
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="text-lg px-8 h-12 bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 h-12 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                onClick={() => trackCTAClick('final-cta-secondary')}
+              >
                 Watch Demo
               </Button>
             </div>
