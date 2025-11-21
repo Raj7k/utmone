@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { UTMBuilder } from "./UTMBuilder";
 import { useWorkspaceDomains, usePrimaryDomain } from "@/hooks/useDomains";
@@ -17,7 +19,7 @@ import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
-import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle } from "lucide-react";
+import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
@@ -243,103 +245,113 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   return (
     <>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      {/* Basic Information */}
-      <div className="space-y-4">
-        <h3 className="font-serif text-lg font-semibold text-foreground">Basic Information</h3>
-        
-        <div className="space-y-2">
-          <Label htmlFor="title" className="text-sm font-medium">Link Title *</Label>
-          <Input
-            id="title"
-            placeholder="e.g., Summer Campaign Landing Page"
-            className="placeholder:text-muted-foreground"
-            {...form.register("title")}
-          />
-          {form.formState.errors.title && (
-            <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="description" className="text-sm font-medium">Description</Label>
-          <Textarea
-            id="description"
-            placeholder="Internal notes about this link"
-            className="placeholder:text-muted-foreground"
-            rows={2}
-            {...form.register("description")}
-          />
-          {form.formState.errors.description && (
-            <p className="text-sm text-destructive">{form.formState.errors.description.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="destination_url" className="text-sm font-medium">Destination URL *</Label>
-          <Input
-            id="destination_url"
-            type="url"
-            placeholder="https://example.com/landing-page"
-            className="placeholder:text-muted-foreground"
-            {...form.register("destination_url")}
-          />
-          {form.formState.errors.destination_url && (
-            <p className="text-sm text-destructive">{form.formState.errors.destination_url.message}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Short URL Configuration */}
-      <div className="space-y-4">
-        <h3 className="font-serif text-lg font-semibold text-foreground">Short URL Configuration</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="domain">Domain *</Label>
-            <Select
-              value={form.watch("domain")}
-              onValueChange={(value) => form.setValue("domain", value)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="keka.com">keka.com</SelectItem>
-                <SelectItem value="go.keka.com">go.keka.com</SelectItem>
-                <SelectItem value="events.keka.com">events.keka.com</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="path">Path *</Label>
-            <Select
-              value={form.watch("path")}
-              onValueChange={(value) => form.setValue("path", value)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="go">go</SelectItem>
-                <SelectItem value="u">u</SelectItem>
-                <SelectItem value="l">l</SelectItem>
-                <SelectItem value="hr">hr</SelectItem>
-                <SelectItem value="psa">psa</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="slug" className="text-sm font-medium">Custom Slug</Label>
-            <div className="flex gap-2">
-              <div className="flex-1 space-y-2">
+        <Accordion type="multiple" defaultValue={["basic-info"]} className="space-y-4">
+          
+          {/* Section 1: Basic Information */}
+          <AccordionItem value="basic-info" className="border rounded-lg px-4">
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                <Link2 className="h-5 w-5 text-primary" />
+                <span className="font-serif text-lg font-semibold">Basic Information</span>
+                <Badge variant="destructive" className="text-xs">Required</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label htmlFor="title" className="text-sm font-medium">Link Title *</Label>
                 <Input
-                  id="slug"
-                  placeholder="auto-generated"
+                  id="title"
+                  placeholder="e.g., Summer Campaign Landing Page"
                   className="placeholder:text-muted-foreground"
-                  {...form.register("slug")}
+                  {...form.register("title")}
                 />
+                {form.formState.errors.title && (
+                  <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-sm font-medium">Description</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Internal notes about this link"
+                  className="placeholder:text-muted-foreground"
+                  rows={2}
+                  {...form.register("description")}
+                />
+                {form.formState.errors.description && (
+                  <p className="text-sm text-destructive">{form.formState.errors.description.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="destination_url" className="text-sm font-medium">Destination URL *</Label>
+                <Input
+                  id="destination_url"
+                  type="url"
+                  placeholder="https://example.com/landing-page"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("destination_url")}
+                />
+                {form.formState.errors.destination_url && (
+                  <p className="text-sm text-destructive">{form.formState.errors.destination_url.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Short URL *</Label>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Select
+                    value={form.watch("domain")}
+                    onValueChange={(value) => form.setValue("domain", value)}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="keka.com">keka.com</SelectItem>
+                      <SelectItem value="go.keka.com">go.keka.com</SelectItem>
+                      <SelectItem value="events.keka.com">events.keka.com</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  <span className="text-muted-foreground">/</span>
+                  
+                  <Select
+                    value={form.watch("path")}
+                    onValueChange={(value) => form.setValue("path", value)}
+                  >
+                    <SelectTrigger className="w-[100px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="go">go</SelectItem>
+                      <SelectItem value="u">u</SelectItem>
+                      <SelectItem value="l">l</SelectItem>
+                      <SelectItem value="hr">hr</SelectItem>
+                      <SelectItem value="psa">psa</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  <span className="text-muted-foreground">/</span>
+                  
+                  <Input
+                    id="slug"
+                    placeholder="your-slug"
+                    className="flex-1 min-w-[150px] placeholder:text-muted-foreground"
+                    {...form.register("slug")}
+                  />
+                  
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={generateRandomSlug}
+                    title="Generate random slug"
+                  >
+                    <Shuffle className="h-4 w-4" />
+                  </Button>
+                </div>
                 {form.formState.errors.slug && (
                   <p className="text-sm text-destructive">{form.formState.errors.slug.message}</p>
                 )}
@@ -347,7 +359,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <p className="text-xs text-muted-foreground">Checking availability...</p>
                 )}
                 {slugAvailable && !slugAvailable.available && values.slug && (
-                  <Alert variant="destructive" className="py-2">
+                  <Alert variant="destructive" className="py-2 mt-2">
                     <AlertCircleIcon className="h-4 w-4" />
                     <AlertDescription className="text-xs">
                       This slug is already used by "{slugAvailable.existingLink.title}".
@@ -357,166 +369,190 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   </Alert>
                 )}
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={generateRandomSlug}
-                title="Generate random slug"
-              >
-                <Shuffle className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+            </AccordionContent>
+          </AccordionItem>
 
-      {/* UTM Builder */}
-      <UTMBuilder form={form} workspaceId={workspaceId} />
+          {/* Section 2: UTM Parameters */}
+          <AccordionItem value="utm-params" className="border rounded-lg px-4">
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                <BarChart3 className="h-5 w-5 text-amber-600" />
+                <span className="font-serif text-lg font-semibold">UTM Parameters</span>
+                <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">Recommended</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="pt-4">
+              <UTMBuilder form={form} workspaceId={workspaceId} />
+            </AccordionContent>
+          </AccordionItem>
 
-      {/* Social Media Preview */}
-      <div className="space-y-4">
-        <h3 className="font-serif text-lg font-semibold text-foreground">Social Media Preview</h3>
-        <p className="text-sm text-muted-foreground">Customize how your link appears when shared on social media platforms</p>
-        
-        <div className="space-y-2">
-          <Label htmlFor="og_title">Social Media Title (Optional)</Label>
-          <Input
-            id="og_title"
-            placeholder="Custom title for social media preview (max 60 chars)"
-            {...form.register("og_title")}
-            maxLength={60}
-          />
-          <p className="text-xs text-muted-foreground">
-            {form.watch("og_title") ? `${form.watch("og_title").length}/60 characters` : "Leave empty to use link title"}
-          </p>
-        </div>
+          {/* Section 3: Social Media Preview */}
+          <AccordionItem value="social-preview" className="border rounded-lg px-4">
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                <Eye className="h-5 w-5 text-blue-600" />
+                <span className="font-serif text-lg font-semibold">Social Media Preview</span>
+                <Badge variant="secondary" className="text-xs">Optional</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4 pt-4">
+              <p className="text-sm text-muted-foreground">Customize how your link appears when shared on social media platforms</p>
+              
+              <div className="space-y-2">
+                <Label htmlFor="og_title" className="text-sm font-medium">Social Media Title</Label>
+                <Input
+                  id="og_title"
+                  placeholder="Custom title for social media preview (max 60 chars)"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("og_title")}
+                  maxLength={60}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {form.watch("og_title") ? `${form.watch("og_title").length}/60 characters` : "Leave empty to use link title"}
+                </p>
+              </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="og_description">Social Media Description (Optional)</Label>
-          <Textarea
-            id="og_description"
-            placeholder="Custom description for social media preview (max 160 chars)"
-            {...form.register("og_description")}
-            maxLength={160}
-            rows={3}
-          />
-          <p className="text-xs text-muted-foreground">
-            {form.watch("og_description") ? `${form.watch("og_description").length}/160 characters` : "Describe what users will find when they click this link"}
-          </p>
-        </div>
+              <div className="space-y-2">
+                <Label htmlFor="og_description" className="text-sm font-medium">Social Media Description</Label>
+                <Textarea
+                  id="og_description"
+                  placeholder="Custom description for social media preview (max 160 chars)"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("og_description")}
+                  maxLength={160}
+                  rows={3}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {form.watch("og_description") ? `${form.watch("og_description").length}/160 characters` : "Describe what users will find when they click this link"}
+                </p>
+              </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="og_image">Social Media Image URL (Optional)</Label>
-          <Input
-            id="og_image"
-            type="url"
-            placeholder="https://example.com/image.jpg"
-            {...form.register("og_image")}
-          />
-          <p className="text-xs text-muted-foreground">
-            Recommended: 1200×630px for optimal display on Facebook, Twitter, LinkedIn
-          </p>
-          {form.formState.errors.og_image && (
-            <p className="text-sm text-destructive">{form.formState.errors.og_image.message}</p>
-          )}
-        </div>
+              <div className="space-y-2">
+                <Label htmlFor="og_image" className="text-sm font-medium">Social Media Image URL</Label>
+                <Input
+                  id="og_image"
+                  type="url"
+                  placeholder="https://example.com/image.jpg"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("og_image")}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Recommended: 1200×630px for optimal display on Facebook, Twitter, LinkedIn
+                </p>
+                {form.formState.errors.og_image && (
+                  <p className="text-sm text-destructive">{form.formState.errors.og_image.message}</p>
+                )}
+              </div>
 
-        {form.watch("og_image") && (
-          <Card className="p-4 space-y-2">
-            <p className="text-sm font-medium">Image Preview</p>
-            <img 
-              src={form.watch("og_image")} 
-              alt="Social media preview" 
-              className="w-full max-w-2xl rounded border"
-              onError={(e) => {
-                e.currentTarget.src = "https://via.placeholder.com/1200x630?text=Invalid+Image+URL";
-              }}
-            />
-          </Card>
-        )}
-      </div>
+              {form.watch("og_image") && (
+                <Card className="p-4 space-y-2">
+                  <p className="text-sm font-medium">Image Preview</p>
+                  <img 
+                    src={form.watch("og_image")} 
+                    alt="Social media preview" 
+                    className="w-full max-w-2xl rounded border"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://via.placeholder.com/1200x630?text=Invalid+Image+URL";
+                    }}
+                  />
+                </Card>
+              )}
+            </AccordionContent>
+          </AccordionItem>
 
-      {/* Expiration & Advanced Settings */}
-      <div className="space-y-4">
-        <h3 className="font-serif text-lg font-semibold text-foreground">Expiration & Advanced Settings</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="expires_at">Expire At Date/Time</Label>
-            <Input
-              id="expires_at"
-              type="datetime-local"
-              {...form.register("expires_at")}
-            />
-            <p className="text-xs text-muted-foreground">Link will expire at this date/time</p>
-          </div>
+          {/* Section 4: Advanced Settings */}
+          <AccordionItem value="advanced" className="border rounded-lg px-4">
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                <Settings className="h-5 w-5 text-gray-600" />
+                <span className="font-serif text-lg font-semibold">Advanced Settings</span>
+                <Badge variant="secondary" className="text-xs">Optional</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="expires_at" className="text-sm font-medium">Expire At Date/Time</Label>
+                  <Input
+                    id="expires_at"
+                    type="datetime-local"
+                    className="placeholder:text-muted-foreground"
+                    {...form.register("expires_at")}
+                  />
+                  <p className="text-xs text-muted-foreground">Link will expire at this date/time</p>
+                </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="max_clicks">Max Clicks</Label>
-            <Input
-              id="max_clicks"
-              type="number"
-              min="1"
-              placeholder="Unlimited"
-              {...form.register("max_clicks", { valueAsNumber: true })}
-            />
-            {form.formState.errors.max_clicks && (
-              <p className="text-sm text-destructive">{form.formState.errors.max_clicks.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground">Link expires after this many clicks</p>
-          </div>
-        </div>
+                <div className="space-y-2">
+                  <Label htmlFor="max_clicks" className="text-sm font-medium">Max Clicks</Label>
+                  <Input
+                    id="max_clicks"
+                    type="number"
+                    min="1"
+                    placeholder="Unlimited"
+                    className="placeholder:text-muted-foreground"
+                    {...form.register("max_clicks", { valueAsNumber: true })}
+                  />
+                  {form.formState.errors.max_clicks && (
+                    <p className="text-sm text-destructive">{form.formState.errors.max_clicks.message}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground">Link expires after this many clicks</p>
+                </div>
+              </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="fallback_url">Fallback URL (After Expiry)</Label>
-          <Input
-            id="fallback_url"
-            type="url"
-            placeholder="https://example.com/expired"
-            {...form.register("fallback_url")}
-          />
-          {form.formState.errors.fallback_url && (
-            <p className="text-sm text-destructive">{form.formState.errors.fallback_url.message}</p>
-          )}
-          <p className="text-xs text-muted-foreground">Redirect to this URL when link expires (optional)</p>
-        </div>
+              <div className="space-y-2">
+                <Label htmlFor="fallback_url" className="text-sm font-medium">Fallback URL (After Expiry)</Label>
+                <Input
+                  id="fallback_url"
+                  type="url"
+                  placeholder="https://example.com/expired"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("fallback_url")}
+                />
+                {form.formState.errors.fallback_url && (
+                  <p className="text-sm text-destructive">{form.formState.errors.fallback_url.message}</p>
+                )}
+                <p className="text-xs text-muted-foreground">Redirect to this URL when link expires (optional)</p>
+              </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="custom_expiry_message">Custom Expiry Message</Label>
-          <Textarea
-            id="custom_expiry_message"
-            placeholder="This link has expired. Please contact us for access."
-            rows={2}
-            {...form.register("custom_expiry_message")}
-          />
-          {form.formState.errors.custom_expiry_message && (
-            <p className="text-sm text-destructive">{form.formState.errors.custom_expiry_message.message}</p>
-          )}
-          <p className="text-xs text-muted-foreground">Show this message when link expires (if no fallback URL)</p>
-        </div>
+              <div className="space-y-2">
+                <Label htmlFor="custom_expiry_message" className="text-sm font-medium">Custom Expiry Message</Label>
+                <Textarea
+                  id="custom_expiry_message"
+                  placeholder="This link has expired. Please contact us for access."
+                  className="placeholder:text-muted-foreground"
+                  rows={2}
+                  {...form.register("custom_expiry_message")}
+                />
+                {form.formState.errors.custom_expiry_message && (
+                  <p className="text-sm text-destructive">{form.formState.errors.custom_expiry_message.message}</p>
+                )}
+                <p className="text-xs text-muted-foreground">Show this message when link expires (if no fallback URL)</p>
+              </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="redirect_type">Redirect Type</Label>
-          <Select
-            value={form.watch("redirect_type")}
-            onValueChange={(value) => form.setValue("redirect_type", value as "301" | "302")}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="302">302 (Temporary)</SelectItem>
-              <SelectItem value="301">301 (Permanent)</SelectItem>
-            </SelectContent>
-          </Select>
-          <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
-        </div>
-      </div>
+              <div className="space-y-2">
+                <Label htmlFor="redirect_type" className="text-sm font-medium">Redirect Type</Label>
+                <Select
+                  value={form.watch("redirect_type")}
+                  onValueChange={(value) => form.setValue("redirect_type", value as "301" | "302")}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="302">302 (Temporary)</SelectItem>
+                    <SelectItem value="301">301 (Permanent)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          
+        </Accordion>
 
-      {/* URL Preview */}
-      <Card className="p-4 space-y-3 bg-muted/50 border-border">
-        <h3 className="font-serif text-lg font-semibold text-foreground">Preview</h3>
+        {/* URL Preview - Always Visible */}
+        <Card className="p-4 space-y-3 bg-muted/50 border-border">
+          <h3 className="font-serif text-lg font-semibold text-foreground">Preview</h3>
         
         <div className="space-y-2">
           <Label className="text-sm text-muted-foreground">Short URL</Label>
@@ -537,7 +573,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
         {finalUrl && (
           <div className="space-y-2">
-            <Label className="text-sm text-muted-foreground">Final URL (with UTM)</Label>
+            <Label className="text-muted-foreground">Final URL (with UTM)</Label>
             <div className="flex items-center gap-2">
               <div className="flex-1 px-3 py-2 bg-background rounded-md border border-border font-mono text-xs text-foreground truncate">
                 {finalUrl}
@@ -553,26 +589,26 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             </div>
           </div>
         )}
-      </Card>
+        </Card>
 
-      {/* Submit Button */}
-      <div className="flex justify-end gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => form.reset()}
-        >
-          Reset
-        </Button>
-        <Button
-          type="submit"
-          disabled={createLinkMutation.isPending}
-        >
-          <Link2 className="h-4 w-4 mr-2" />
-          {createLinkMutation.isPending ? "Creating..." : "Create Link"}
-        </Button>
-      </div>
-    </form>
+        {/* Submit Buttons - Always Visible */}
+        <div className="flex justify-end gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => form.reset()}
+          >
+            Reset
+          </Button>
+          <Button
+            type="submit"
+            disabled={createLinkMutation.isPending}
+          >
+            <Link2 className="h-4 w-4 mr-2" />
+            {createLinkMutation.isPending ? "Creating..." : "Create Link"}
+          </Button>
+        </div>
+      </form>
 
     {/* A/B Testing Variants - Show after link is created */}
     {createdLinkId && (
