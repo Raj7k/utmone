@@ -5,6 +5,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { FlowConnector } from "@/components/landing/FlowConnector";
+import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 
 const Marketers = () => {
   return (
@@ -16,7 +17,7 @@ const Marketers = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
-              Campaigns Work Better When Links Do.
+              Campaigns work better when links do.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one brings clarity, consistency, and precision to every link you create.
@@ -37,9 +38,11 @@ const Marketers = () => {
       <section className="py-32 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
-              When UTMs Break, Attribution Breaks.
-            </h2>
+            <AnimatedHeadline>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+                When UTMs break, attribution breaks.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>when links drift, data drifts.</p>
               <p>and when data drifts, decisions suffer.</p>
@@ -53,7 +56,7 @@ const Marketers = () => {
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
           <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
-            Why Marketers Choose utm.one
+            Why marketers choose utm.one
           </h2>
           
           <div className="space-y-8 max-w-[800px] mx-auto">
@@ -91,15 +94,15 @@ const Marketers = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            A Workflow Designed For Speed
+          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+            A workflow designed for speed
           </h2>
           
           {/* Linear Flow */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-6 mb-12">
             <WorkflowStep
               icon={LinkIcon}
-              title="Paste Your Link"
+              title="Paste your link"
               description="Drop any destination URL"
               bgColor="bg-blue-50"
               iconColor="text-blue-600"
@@ -110,7 +113,7 @@ const Marketers = () => {
             
             <WorkflowStep
               icon={Sparkles}
-              title="Choose Template"
+              title="Choose template"
               description="UTMs auto-populated from template"
               bgColor="bg-purple-50"
               iconColor="text-purple-600"
@@ -142,9 +145,11 @@ const Marketers = () => {
       <section className="py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              Clean Links Lead To Better Campaigns.
-            </h2>
+            <AnimatedHeadline delay={100}>
+              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+                Clean links lead to better campaigns.
+              </h2>
+            </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
                 <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">

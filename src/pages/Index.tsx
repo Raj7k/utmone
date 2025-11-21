@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
+import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -60,9 +61,11 @@ const Index = () => {
       <section className="py-32 bg-muted/20">
         <div className="max-w-[1100px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
-              Marketing Breaks When Links Break.
-            </h2>
+            <AnimatedHeadline>
+              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
+                Marketing breaks when links break.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-relaxed space-y-6">
               <p>bad utms. scattered tools. random short links.</p>
               <p>none of this should be normal.</p>
@@ -73,11 +76,11 @@ const Index = () => {
       </section>
 
       {/* Core Features */}
-      <section className="py-24 bg-white" id="features">
+      <section className="py-32 bg-white" id="features">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center mb-20">
-            <h2 className="text-h2 text-foreground font-bold tracking-tight">
-              The Foundation Of Accurate Marketing.
+            <h2 className="text-4xl md:text-5xl text-foreground font-bold tracking-tight">
+              The foundation of accurate marketing.
             </h2>
           </div>
 
@@ -158,7 +161,7 @@ const Index = () => {
         <div className="max-w-[640px] mx-auto px-8">
           <div className="text-center space-y-6">
             <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight">
-              One System For Every Campaign.
+              One system for every campaign.
             </h2>
             <p className="text-lg text-muted-foreground">
               from link creation to tracking, utm.one keeps your entire marketing workflow clean, consistent, and accurate.
@@ -171,39 +174,17 @@ const Index = () => {
       <section className="py-40 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
-              Simple Control For Complex Teams.
-            </h2>
+            <AnimatedHeadline delay={100}>
+              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
+                Simple control for complex teams.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-8">
-              <p>define domains. set rules. assign roles.</p>
+              <p className="text-foreground font-medium">define domains. set rules. assign roles.</p>
+              
               <p>super admin, workspace admin, editor, viewer.</p>
-              <p className="text-foreground font-medium">everyone sees exactly what they need.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-32 bg-white">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              Start With A Cleaner Link.
-            </h2>
-            <p className="text-body text-muted-foreground max-w-[480px] mx-auto">
-              clarity creates confidence.
-            </p>
-            <div className="pt-4">
-              <Link to="/auth">
-                <Button 
-                  size="lg" 
-                  className="bg-foreground hover:bg-foreground/90 text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]"
-                  onClick={() => trackCTAClick('footer-cta')}
-                >
-                      get early access
-                      <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                    </Button>
-              </Link>
+              
+              <p>everyone sees exactly what they need.</p>
             </div>
           </div>
         </div>

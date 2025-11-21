@@ -5,6 +5,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { FlowConnector } from "@/components/landing/FlowConnector";
+import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 
 const MarketingOps = () => {
   return (
@@ -16,7 +17,7 @@ const MarketingOps = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
-              Governance, Without The Friction.
+              Governance, without the friction.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one gives ops full control over domains, templates, rules, and roles.
@@ -37,11 +38,13 @@ const MarketingOps = () => {
       <section className="py-32 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
-              Marketing Systems Fail When Rules Don&apos;t Exist.
-              <br />
-              Or When They Exist But No One Follows Them.
-            </h2>
+            <AnimatedHeadline>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+                Marketing systems fail when rules don&apos;t exist.
+                <br />
+                Or when they exist but no one follows them.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p className="text-foreground font-medium">utm.one enforces standards automatically.</p>
               <p>no chaos. no bureaucracy. just clean governance.</p>
@@ -54,7 +57,7 @@ const MarketingOps = () => {
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
           <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
-            Why Ops Teams Choose utm.one
+            Why ops teams choose utm.one
           </h2>
           
           <div className="space-y-8 max-w-[800px] mx-auto">
@@ -92,8 +95,8 @@ const MarketingOps = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            Enterprise Calm
+          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+            Enterprise calm
           </h2>
           
           {/* Governance Pyramid */}
@@ -101,7 +104,7 @@ const MarketingOps = () => {
             {/* Top Level - Governance */}
             <WorkflowStep
               icon={Shield}
-              title="One Control Plane"
+              title="One control plane"
               description="Single governance layer for all operations"
               bgColor="bg-purple-50"
               iconColor="text-purple-600"
@@ -114,7 +117,7 @@ const MarketingOps = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full max-w-[900px]">
               <WorkflowStep
                 icon={Globe}
-                title="Multiple Countries"
+                title="Multiple countries"
                 description="Consistent rules across regions"
                 bgColor="bg-blue-50"
                 iconColor="text-blue-600"
@@ -123,7 +126,7 @@ const MarketingOps = () => {
               
               <WorkflowStep
                 icon={Users}
-                title="Multiple Teams"
+                title="Multiple teams"
                 description="Aligned workflows for all"
                 bgColor="bg-green-50"
                 iconColor="text-green-600"
@@ -132,7 +135,7 @@ const MarketingOps = () => {
               
               <WorkflowStep
                 icon={Link2}
-                title="Multiple Domains"
+                title="Multiple domains"
                 description="Centralized domain management"
                 bgColor="bg-orange-50"
                 iconColor="text-orange-600"
@@ -152,9 +155,11 @@ const MarketingOps = () => {
       <section className="py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              Clarity Needs Structure. utm.one Gives You Both.
-            </h2>
+            <AnimatedHeadline delay={100}>
+              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+                Clarity needs structure. utm.one gives you both.
+              </h2>
+            </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
                 <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
