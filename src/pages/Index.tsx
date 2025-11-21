@@ -51,7 +51,7 @@ const Index = () => {
           <section className="py-32 bg-white">
             <div className="max-w-[980px] mx-auto px-8">
               <div className="text-center space-y-6">
-                <h1 className="text-hero text-foreground font-extrabold tracking-tight text-balance">
+                <h1 className="text-4xl md:text-hero text-foreground font-extrabold tracking-tight text-balance">
                   {variant.headline}
                 </h1>
                 <p className="text-body text-muted-foreground max-w-[640px] mx-auto text-balance">
@@ -79,7 +79,7 @@ const Index = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h2 className="text-h2 text-foreground font-bold tracking-tight">
-              marketing breaks when links break.
+              Marketing Breaks When Links Break.
             </h2>
             <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
               bad utms. scattered tools. random short links. missing data.
@@ -97,7 +97,7 @@ const Index = () => {
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center mb-20">
             <h2 className="text-h2 text-foreground font-bold tracking-tight">
-              the foundation of accurate marketing.
+              The Foundation Of Accurate Marketing.
             </h2>
           </div>
 
@@ -178,7 +178,7 @@ const Index = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h2 className="text-h2 text-foreground font-bold tracking-tight">
-              one system for every campaign.
+              One System For Every Campaign.
             </h2>
             <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
               from link creation to tracking, utm.one keeps your entire marketing workflow clean, consistent, and accurate.
@@ -194,7 +194,7 @@ const Index = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h2 className="text-h2 text-foreground font-bold tracking-tight">
-              simple control for complex teams.
+              Simple Control For Complex Teams.
             </h2>
             <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
               define domains. set rules. assign roles.
@@ -231,7 +231,7 @@ const Index = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              start with a cleaner link.
+              Start With A Cleaner Link.
             </h2>
             <p className="text-body text-muted-foreground max-w-[480px] mx-auto">
               clarity creates confidence.
