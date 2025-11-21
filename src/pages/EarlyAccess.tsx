@@ -102,6 +102,25 @@ export default function EarlyAccess() {
       // Don't fail the submission if email fails
     }
 
+    // Send confirmation email to applicant
+    try {
+      const { error: confirmationError } = await supabase.functions.invoke('send-applicant-confirmation', {
+        body: {
+          name: data.name,
+          email: data.email,
+          team_size: data.team_size
+        }
+      });
+
+      if (confirmationError) {
+        console.error('Confirmation email error:', confirmationError);
+        // Don't fail the submission if email fails
+      }
+    } catch (confirmationError) {
+      console.error('Confirmation email error:', confirmationError);
+      // Don't fail the submission if email fails
+    }
+
     setIsSubmitted(true);
     toast.success("request submitted successfully!");
     setIsSubmitting(false);
