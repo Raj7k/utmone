@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.notify-admin-new-request]
 verify_jwt = false
+
+[functions.send-applicant-confirmation]
+verify_jwt = false
