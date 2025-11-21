@@ -695,14 +695,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Preferred Domain</Label>
                 <Select
-                  value={preferences?.preferred_domain || ""}
-                  onValueChange={(value) => updatePreferences({ preferred_domain: value || undefined })}
+                  value={preferences?.preferred_domain || "__none__"}
+                  onValueChange={(value) => updatePreferences({ preferred_domain: value === "__none__" ? undefined : value })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Use last used domain" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Use last used domain</SelectItem>
+                    <SelectItem value="__none__">Use last used domain</SelectItem>
                     {verifiedDomains.map((domain) => (
                       <SelectItem key={domain.id} value={domain.domain}>
                         {domain.domain}
@@ -718,14 +718,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Preferred Path</Label>
                 <Select
-                  value={preferences?.preferred_path || ""}
-                  onValueChange={(value) => updatePreferences({ preferred_path: value || undefined })}
+                  value={preferences?.preferred_path || "__none__"}
+                  onValueChange={(value) => updatePreferences({ preferred_path: value === "__none__" ? undefined : value })}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Use last used path" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Use last used path</SelectItem>
+                    <SelectItem value="__none__">Use last used path</SelectItem>
                     <SelectItem value="go">go</SelectItem>
                     <SelectItem value="u">u</SelectItem>
                     <SelectItem value="l">l</SelectItem>
