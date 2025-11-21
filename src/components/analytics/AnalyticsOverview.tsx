@@ -1,14 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart3, MousePointerClick, Users, Link2 } from "lucide-react";
+import { Link2, MousePointerClick, Users, TrendingUp } from "lucide-react";
 import { ExportButton } from "./ExportButton";
+import { ClicksOverTime } from "./ClicksOverTime";
+import { useComparisonMetrics } from "@/hooks/useComparisonMetrics";
+import { ComparisonCard } from "./ComparisonCard";
 
 interface AnalyticsOverviewProps {
   workspaceId: string;
 }
 
 export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
+  const { data: comparisonData } = useComparisonMetrics({ workspaceId });
+  
   const { data: stats, isLoading } = useQuery({
     queryKey: ["analytics-overview", workspaceId],
     queryFn: async () => {
@@ -71,51 +76,34 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
         <ExportButton workspaceId={workspaceId} />
       </div>
 
+      <ClicksOverTime workspaceId={workspaceId} />
+
       <div className="grid md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Links</CardTitle>
-            <Link2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalLinks}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
-            <MousePointerClick className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalClicks}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats?.uniqueClicks}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Click Rate</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {stats?.totalLinks && stats.totalLinks > 0
-                ? Math.round((stats.totalClicks / stats.totalLinks) * 10) / 10
-                : 0}
-            </div>
-            <p className="text-xs text-muted-foreground">clicks per link</p>
-          </CardContent>
-        </Card>
+        <ComparisonCard
+          title="Total Links"
+          current={comparisonData?.links.current || stats?.totalLinks || 0}
+          change={comparisonData?.links.change || 0}
+          icon={<Link2 className="h-4 w-4 text-muted-foreground" />}
+        />
+        <ComparisonCard
+          title="Total Clicks"
+          current={comparisonData?.clicks.current || stats?.totalClicks || 0}
+          change={comparisonData?.clicks.change || 0}
+          icon={<MousePointerClick className="h-4 w-4 text-muted-foreground" />}
+        />
+        <ComparisonCard
+          title="Unique Visitors"
+          current={comparisonData?.uniqueClicks.current || stats?.uniqueClicks || 0}
+          change={comparisonData?.uniqueClicks.change || 0}
+          icon={<Users className="h-4 w-4 text-muted-foreground" />}
+        />
+        <ComparisonCard
+          title="Click Rate"
+          current={comparisonData?.clickRate.current || (stats?.totalLinks && stats.totalLinks > 0 ? stats.totalClicks / stats.totalLinks : 0)}
+          change={comparisonData?.clickRate.change || 0}
+          format="decimal"
+          icon={<TrendingUp className="h-4 w-4 text-muted-foreground" />}
+        />
       </div>
 
       <Card>
