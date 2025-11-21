@@ -57,19 +57,17 @@ const Index = () => {
       </HeroVariantManager>
 
       {/* Problem Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-h2 text-foreground font-bold tracking-tight">
+      <section className="py-32 bg-muted/20">
+        <div className="max-w-[1100px] mx-auto px-8">
+          <div className="text-center space-y-12">
+            <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
               Marketing Breaks When Links Break.
             </h2>
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
-              bad utms. scattered tools. random short links. missing data.
-              <br /><br />
-              none of this should be normal.
-              <br /><br />
-              utm.one replaces the chaos with a single, clean workflow.
-            </p>
+            <div className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-relaxed space-y-6">
+              <p>bad utms. scattered tools. random short links.</p>
+              <p>none of this should be normal.</p>
+              <p className="text-foreground font-medium">utm.one replaces the chaos with a single, clean workflow.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -156,53 +154,30 @@ const Index = () => {
       </section>
 
       {/* Single Benefit Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-h2 text-foreground font-bold tracking-tight">
+      <section className="py-20 bg-white">
+        <div className="max-w-[640px] mx-auto px-8">
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight">
               One System For Every Campaign.
             </h2>
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
+            <p className="text-lg text-muted-foreground">
               from link creation to tracking, utm.one keeps your entire marketing workflow clean, consistent, and accurate.
-              <br /><br />
-              no hacks. no spreadsheets. nothing to fix later.
             </p>
           </div>
         </div>
       </section>
 
       {/* Governance Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-h2 text-foreground font-bold tracking-tight">
+      <section className="py-40 bg-muted/20">
+        <div className="max-w-[900px] mx-auto px-8">
+          <div className="text-center space-y-12">
+            <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
               Simple Control For Complex Teams.
             </h2>
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto">
-              define domains. set rules. assign roles.
-              <br /><br />
-              super admin, workspace admin, editor, viewer.
-              <br /><br />
-              everyone sees exactly what they need.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Enterprise Control */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="bg-white border border-border rounded-3xl p-16 text-center shadow-apple">
-            <div className="max-w-[640px] mx-auto space-y-6">
-              <div className="w-16 h-16 bg-foreground/5 rounded-3xl flex items-center justify-center mx-auto">
-                <Shield className="h-8 w-8 text-foreground" strokeWidth={2} />
-              </div>
-              <h3 className="text-h3 text-foreground font-semibold">
-                enterprise control
-              </h3>
-              <p className="text-body text-muted-foreground">
-                roles, sso, audit — everything in place.
-              </p>
+            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-8">
+              <p>define domains. set rules. assign roles.</p>
+              <p>super admin, workspace admin, editor, viewer.</p>
+              <p className="text-foreground font-medium">everyone sees exactly what they need.</p>
             </div>
           </div>
         </div>

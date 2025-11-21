@@ -34,15 +34,18 @@ const MarketingOps = () => {
       </section>
 
       {/* The Ops Truth */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
-              marketing systems fail when rules don&apos;t exist —<br />
-              or when they exist but no one follows them.
-              <br /><br />
-              utm.one enforces standards automatically.
-            </p>
+      <section className="py-32 bg-muted/20">
+        <div className="max-w-[900px] mx-auto px-8">
+          <div className="text-center space-y-12">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+              Marketing Systems Fail When Rules Don&apos;t Exist.
+              <br />
+              Or When They Exist But No One Follows Them.
+            </h2>
+            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
+              <p className="text-foreground font-medium">utm.one enforces standards automatically.</p>
+              <p>no chaos. no bureaucracy. just clean governance.</p>
+            </div>
           </div>
         </div>
       </section>
