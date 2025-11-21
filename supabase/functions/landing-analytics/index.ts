@@ -37,32 +37,26 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Check if session exists, if not create it
-    const { data: existingSession } = await supabaseClient
+    // Upsert session (insert or ignore if exists) to handle race conditions
+    const { error: sessionError } = await supabaseClient
       .from('landing_page_sessions')
-      .select('session_id')
-      .eq('session_id', session_id)
-      .maybeSingle();
+      .upsert({
+        session_id,
+        hero_variant,
+        user_agent: user_agent || req.headers.get('user-agent'),
+        ip_address: ip_address || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip'),
+        referrer: referrer || req.headers.get('referer'),
+      }, {
+        onConflict: 'session_id',
+        ignoreDuplicates: true
+      });
 
-    if (!existingSession) {
-      // Create new session
-      const { error: sessionError } = await supabaseClient
-        .from('landing_page_sessions')
-        .insert({
-          session_id,
-          hero_variant,
-          user_agent: user_agent || req.headers.get('user-agent'),
-          ip_address: ip_address || req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip'),
-          referrer: referrer || req.headers.get('referer'),
-        });
-
-      if (sessionError) {
-        console.error('Error creating session:', sessionError);
-        return new Response(
-          JSON.stringify({ error: 'Failed to create session' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
+    if (sessionError) {
+      console.error('Error upserting session:', sessionError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to create session' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     // Insert event
