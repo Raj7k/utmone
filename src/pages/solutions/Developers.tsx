@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
+import { FeatureCard } from "@/components/landing/FeatureCard";
 
 const Developers = () => {
   return (
@@ -9,15 +10,23 @@ const Developers = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="py-32 bg-white">
+      <section className="py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-6">
-            <h1 className="text-4xl md:text-hero text-foreground font-extrabold tracking-tight text-balance">
+          <div className="text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
               A Clean API For A Cleaner Stack.
             </h1>
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto text-balance">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one integrates your links, analytics, and events into any system you already use.
             </p>
+            <div className="pt-4">
+              <Link to="/pricing">
+                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                  get early access
+                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -39,56 +48,40 @@ const Developers = () => {
       </section>
 
       {/* Why Developers Choose utm.one */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
             Why Developers Choose utm.one
           </h2>
           
-          <div className="space-y-16">
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                consistent restful api
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                create, update, track links programmatically.<br />
-                fully documented.<br />
-                versioned.<br />
-                fast.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                webhooks that actually work
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                real-time click events.<br />
-                easy to subscribe.<br />
-                easy to pipe into warehouses.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                export-ready data
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                bigquery, snowflake, databricks, redshift —<br />
-                all supported through clean exports.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                predictable performance
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                100ms redirects.<br />
-                safe, governed structure.<br />
-                no surprises.
-              </p>
-            </div>
+          <div className="space-y-8 max-w-[800px] mx-auto">
+            <FeatureCard
+              number="01"
+              title="consistent restful api"
+              description="create, update, track links programmatically. fully documented. versioned. fast."
+              delay={0}
+            />
+            
+            <FeatureCard
+              number="02"
+              title="webhooks that actually work"
+              description="real-time click events. easy to subscribe. easy to pipe into warehouses."
+              delay={100}
+            />
+            
+            <FeatureCard
+              number="03"
+              title="export-ready data"
+              description="bigquery, snowflake, databricks, redshift — all supported through clean exports."
+              delay={200}
+            />
+            
+            <FeatureCard
+              number="04"
+              title="predictable performance"
+              description="100ms redirects. safe, governed structure. no surprises."
+              delay={300}
+            />
           </div>
         </div>
       </section>

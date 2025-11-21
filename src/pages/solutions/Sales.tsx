@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
+import { FeatureCard } from "@/components/landing/FeatureCard";
 
 const Sales = () => {
   return (
@@ -9,15 +10,23 @@ const Sales = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="py-32 bg-white">
+      <section className="py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-6">
-            <h1 className="text-4xl md:text-hero text-foreground font-extrabold tracking-tight text-balance">
+          <div className="text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
               Share Faster. Share Cleaner.
             </h1>
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto text-balance">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one gives sales simple, branded short links without the complexity of utms.
             </p>
+            <div className="pt-4">
+              <Link to="/pricing">
+                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                  get early access
+                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -38,50 +47,40 @@ const Sales = () => {
       </section>
 
       {/* Why Sales Teams Choose utm.one */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
             Why Sales Teams Choose utm.one
           </h2>
           
-          <div className="space-y-16">
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                one-click short links
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                professional, on-brand urls for:<br />
-                demos, proposals, decks, follow-ups.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                qr codes ready for booths
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                clean, beautiful, instantly usable on screens, slides, and stands.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                templates that think for you
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                utms are pre-set by <Link to="/solutions/marketers" className="text-foreground underline">marketing</Link>.<br />
-                sales just clicks &quot;generate.&quot;
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                simple insights
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                know which links are working — without touching analytics.
-              </p>
-            </div>
+          <div className="space-y-8 max-w-[800px] mx-auto">
+            <FeatureCard
+              number="01"
+              title="one-click short links"
+              description="professional, on-brand urls for: demos, proposals, decks, follow-ups."
+              delay={0}
+            />
+            
+            <FeatureCard
+              number="02"
+              title="qr codes ready for booths"
+              description="clean, beautiful, instantly usable on screens, slides, and stands."
+              delay={100}
+            />
+            
+            <FeatureCard
+              number="03"
+              title="templates that think for you"
+              description="utms are pre-set by marketing. sales just clicks 'generate.'"
+              delay={200}
+            />
+            
+            <FeatureCard
+              number="04"
+              title="simple insights"
+              description="know which links are working — without touching analytics."
+              delay={300}
+            />
           </div>
         </div>
       </section>

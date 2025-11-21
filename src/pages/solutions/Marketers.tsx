@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
+import { FeatureCard } from "@/components/landing/FeatureCard";
 
 const Marketers = () => {
   return (
@@ -9,15 +10,23 @@ const Marketers = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="py-32 bg-white">
+      <section className="py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-6">
-            <h1 className="text-4xl md:text-hero text-foreground font-extrabold tracking-tight text-balance">
+          <div className="text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
               Campaigns Work Better When Links Do.
             </h1>
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto text-balance">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one brings clarity, consistency, and precision to every link you create.
             </p>
+            <div className="pt-4">
+              <Link to="/pricing">
+                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                  get early access
+                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -40,54 +49,40 @@ const Marketers = () => {
       </section>
 
       {/* Why Marketers Choose utm.one */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
             Why Marketers Choose utm.one
           </h2>
           
-          <div className="space-y-16">
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                perfect utms, every time
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                five fields.<br />
-                validated. normalized. consistent by default.<br />
-                no more fixing campaigns after launch.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                branded short links
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                your domain.<br />
-                your identity.<br />
-                your trust — in every channel.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                on-brand qr codes
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                clean, beautiful, and ready for events, webinars, and paid campaigns.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-h3 text-foreground font-semibold">
-                clear analytics
-              </h3>
-              <p className="text-body text-muted-foreground max-w-[640px]">
-                see what matters:<br />
-                campaigns, clicks, devices, regions.<br />
-                no clutter. no noise.
-              </p>
-            </div>
+          <div className="space-y-8 max-w-[800px] mx-auto">
+            <FeatureCard
+              number="01"
+              title="perfect utms, every time"
+              description="five fields. validated. normalized. consistent by default. no more fixing campaigns after launch."
+              delay={0}
+            />
+            
+            <FeatureCard
+              number="02"
+              title="branded short links"
+              description="your domain. your identity. your trust — in every channel."
+              delay={100}
+            />
+            
+            <FeatureCard
+              number="03"
+              title="on-brand qr codes"
+              description="clean, beautiful, and ready for events, webinars, and paid campaigns."
+              delay={200}
+            />
+            
+            <FeatureCard
+              number="04"
+              title="clear analytics"
+              description="see what matters: campaigns, clicks, devices, regions. no clutter. no noise."
+              delay={300}
+            />
           </div>
         </div>
       </section>
