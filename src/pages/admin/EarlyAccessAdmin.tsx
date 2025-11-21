@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { format } from "date-fns";
-import { Search, CheckCircle2, XCircle, Clock, ArrowLeft } from "lucide-react";
+import { format, formatDistanceToNow } from "date-fns";
+import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Calendar, History } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 type EarlyAccessRequest = {
@@ -27,6 +29,7 @@ export default function EarlyAccessAdmin() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [teamSizeFilter, setTeamSizeFilter] = useState<string>("all");
+  const [selectedRequest, setSelectedRequest] = useState<EarlyAccessRequest | null>(null);
 
   // Check if user is admin
   const { data: userRoles } = useQuery({
@@ -92,7 +95,31 @@ export default function EarlyAccessAdmin() {
     }
 
     toast.success(`Request ${status}`);
+    setSelectedRequest(null);
     refetch();
+  };
+
+  const getActionHistory = (request: EarlyAccessRequest) => {
+    const history = [];
+    
+    history.push({
+      action: 'submitted',
+      timestamp: request.created_at,
+      description: 'early access request submitted'
+    });
+
+    const createdTime = new Date(request.created_at).getTime();
+    const updatedTime = new Date(request.updated_at).getTime();
+
+    if (updatedTime > createdTime + 1000) {
+      history.push({
+        action: request.status,
+        timestamp: request.updated_at,
+        description: `request ${request.status}`
+      });
+    }
+
+    return history;
   };
 
   // Redirect if not admin
@@ -234,33 +261,38 @@ export default function EarlyAccessAdmin() {
                       {format(new Date(request.created_at), 'MMM d, yyyy')}
                     </TableCell>
                     <TableCell className="text-right">
-                      {request.status === 'pending' && (
-                        <div className="flex items-center justify-end gap-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateStatus(request.id, 'approved')}
-                            className="text-green-600 hover:text-green-700 hover:bg-green-50"
-                          >
-                            <CheckCircle2 className="w-4 h-4 mr-1" />
-                            approve
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => updateStatus(request.id, 'rejected')}
-                            className="text-destructive hover:bg-destructive/10"
-                          >
-                            <XCircle className="w-4 h-4 mr-1" />
-                            reject
-                          </Button>
-                        </div>
-                      )}
-                      {request.status !== 'pending' && (
-                        <span className="text-sm text-muted-foreground">
-                          {format(new Date(request.updated_at), 'MMM d, yyyy')}
-                        </span>
-                      )}
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setSelectedRequest(request)}
+                        >
+                          <Eye className="w-4 h-4 mr-1" />
+                          view
+                        </Button>
+                        {request.status === 'pending' && (
+                          <>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => updateStatus(request.id, 'approved')}
+                              className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                            >
+                              <CheckCircle2 className="w-4 h-4 mr-1" />
+                              approve
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => updateStatus(request.id, 'rejected')}
+                              className="text-destructive hover:bg-destructive/10"
+                            >
+                              <XCircle className="w-4 h-4 mr-1" />
+                              reject
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -312,6 +344,181 @@ export default function EarlyAccessAdmin() {
           </div>
         )}
       </div>
+
+      {/* Detail View Modal */}
+      <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          {selectedRequest && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <DialogTitle className="text-2xl font-bold">
+                      request details
+                    </DialogTitle>
+                    <DialogDescription>
+                      complete information and action history
+                    </DialogDescription>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(selectedRequest.status)}
+                    {getStatusBadge(selectedRequest.status)}
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-6 py-4">
+                {/* Applicant Information */}
+                <div>
+                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4">
+                    applicant information
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Users className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">name</p>
+                        <p className="text-lg font-semibold">{selectedRequest.name}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Mail className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">email</p>
+                        <p className="text-lg font-medium">{selectedRequest.email}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Users className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">team size</p>
+                        <Badge variant="outline" className="mt-1">
+                          {selectedRequest.team_size}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Building2 className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">company domain</p>
+                        <p className="text-lg font-medium">
+                          {selectedRequest.company_domain || '—'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Timestamps */}
+                <div>
+                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4">
+                    timestamps
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Calendar className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">submitted</p>
+                        <p className="text-lg font-medium">
+                          {format(new Date(selectedRequest.created_at), 'PPpp')}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDistanceToNow(new Date(selectedRequest.created_at), { addSuffix: true })}
+                        </p>
+                      </div>
+                    </div>
+
+                    {new Date(selectedRequest.updated_at).getTime() > 
+                     new Date(selectedRequest.created_at).getTime() + 1000 && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                          <Calendar className="w-5 h-5 text-muted-foreground" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-muted-foreground">last updated</p>
+                          <p className="text-lg font-medium">
+                            {format(new Date(selectedRequest.updated_at), 'PPpp')}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {formatDistanceToNow(new Date(selectedRequest.updated_at), { addSuffix: true })}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Action History */}
+                <div>
+                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4 flex items-center gap-2">
+                    <History className="w-4 h-4" />
+                    action history
+                  </h3>
+                  <div className="space-y-3">
+                    {getActionHistory(selectedRequest).map((item, index) => (
+                      <div key={index} className="flex gap-3 items-start">
+                        <div className="relative">
+                          <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                          {index < getActionHistory(selectedRequest).length - 1 && (
+                            <div className="absolute left-1/2 top-4 w-px h-8 bg-border -translate-x-1/2" />
+                          )}
+                        </div>
+                        <div className="flex-1 pb-4">
+                          <p className="font-medium capitalize">{item.description}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {format(new Date(item.timestamp), 'PPpp')}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                {selectedRequest.status === 'pending' && (
+                  <>
+                    <Separator />
+                    <div className="flex gap-3">
+                      <Button
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                        onClick={() => updateStatus(selectedRequest.id, 'approved')}
+                      >
+                        <CheckCircle2 className="w-4 h-4 mr-2" />
+                        approve request
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        className="flex-1"
+                        onClick={() => updateStatus(selectedRequest.id, 'rejected')}
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        reject request
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
