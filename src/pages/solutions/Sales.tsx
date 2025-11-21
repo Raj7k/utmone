@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, QrCode, Monitor, MessageSquare } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { WorkflowStep } from "@/components/landing/WorkflowStep";
 
 const Sales = () => {
   return (
@@ -87,19 +88,45 @@ const Sales = () => {
 
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
+        <div className="max-w-[1100px] mx-auto px-8">
           <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
             Designed For Moments That Matter
           </h2>
-          <div className="text-center space-y-6">
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto">
-              handing out a qr at a booth.<br />
-              sharing a link in a demo.<br />
-              dropping a follow-up in chat.
-              <br /><br />
-              utm.one makes every touchpoint clean and reliable.
-            </p>
+          
+          {/* Use Case Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
+            <WorkflowStep
+              icon={QrCode}
+              title="At The Booth"
+              description="QR codes on screens, slides, and stands"
+              bgColor="bg-orange-50"
+              iconColor="text-orange-600"
+              delay={0}
+            />
+            
+            <WorkflowStep
+              icon={Monitor}
+              title="During Demo"
+              description="Share branded link in real-time"
+              bgColor="bg-blue-50"
+              iconColor="text-blue-600"
+              delay={100}
+            />
+            
+            <WorkflowStep
+              icon={MessageSquare}
+              title="Follow-Up"
+              description="Drop clean link in chat or email"
+              bgColor="bg-green-50"
+              iconColor="text-green-600"
+              delay={200}
+            />
           </div>
+          
+          {/* Supporting Text */}
+          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+            utm.one makes every touchpoint clean and reliable.
+          </p>
         </div>
       </section>
 
