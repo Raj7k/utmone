@@ -19,6 +19,7 @@ import Sales from "./pages/solutions/Sales";
 import MarketingOps from "./pages/solutions/MarketingOps";
 import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
+import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
+          <Route path="/admin/early-access" element={<EarlyAccessAdmin />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />

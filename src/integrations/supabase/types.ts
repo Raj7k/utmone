@@ -684,6 +684,27 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       utm_templates: {
         Row: {
           created_at: string | null
@@ -842,6 +863,13 @@ export type Database = {
     }
     Functions: {
       generate_verification_code: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       has_workspace_access: {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
@@ -856,6 +884,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "user"
       link_status: "active" | "paused" | "archived"
       user_role: "super_admin" | "workspace_admin" | "editor" | "viewer"
     }
@@ -985,6 +1014,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "user"],
       link_status: ["active", "paused", "archived"],
       user_role: ["super_admin", "workspace_admin", "editor", "viewer"],
     },
