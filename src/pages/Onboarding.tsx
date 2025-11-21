@@ -140,9 +140,9 @@ export default function Onboarding() {
         {step === "welcome" && (
           <Card>
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">Welcome to LinkHub! 🎉</CardTitle>
+              <CardTitle className="text-3xl">welcome to utm.one</CardTitle>
               <CardDescription className="text-lg mt-4">
-                Let's get you set up with your custom domain for branded short links
+                add your domain
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -159,9 +159,9 @@ export default function Onboarding() {
                   className="w-full h-auto py-6 flex-col items-start"
                   onClick={() => setStep("domain")}
                 >
-                  <div className="text-lg font-semibold mb-1">Use My Custom Domain</div>
+                  <div className="text-lg font-semibold mb-1">use my custom domain</div>
                   <div className="text-sm font-normal opacity-90">
-                    I have a domain and want to use it for short links
+                    i have a domain and want to use it for short links
                   </div>
                 </Button>
 
@@ -170,9 +170,9 @@ export default function Onboarding() {
                   className="w-full h-auto py-6 flex-col items-start"
                   onClick={handleSkip}
                 >
-                  <div className="text-lg font-semibold mb-1">Skip for Now</div>
+                  <div className="text-lg font-semibold mb-1">skip for now</div>
                   <div className="text-sm font-normal opacity-70">
-                    Use default domain, I'll add my domain later
+                    i'll add my domain later
                   </div>
                 </Button>
               </div>
@@ -183,14 +183,14 @@ export default function Onboarding() {
         {step === "domain" && (
           <Card>
             <CardHeader>
-              <CardTitle>Add Your Custom Domain</CardTitle>
+              <CardTitle>add your custom domain</CardTitle>
               <CardDescription>
-                Enter the domain you want to use for your short links
+                add a branded domain to make your links yours.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="domain">Domain Name</Label>
+                <Label htmlFor="domain">domain name</Label>
                 <Input
                   id="domain"
                   placeholder="yourdomain.com"
@@ -199,7 +199,7 @@ export default function Onboarding() {
                   onKeyDown={(e) => e.key === "Enter" && handleAddDomain()}
                 />
                 <p className="text-sm text-muted-foreground">
-                  Don't include "http://" or "www" - just the domain name
+                  your domain increases trust and click-through rates.
                 </p>
               </div>
 
@@ -212,11 +212,11 @@ export default function Onboarding() {
                   {addDomainMutation.isPending && (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   )}
-                  Continue
+                  continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button variant="outline" onClick={() => setStep("welcome")}>
-                  Back
+                  back
                 </Button>
               </div>
             </CardContent>
@@ -226,9 +226,9 @@ export default function Onboarding() {
         {step === "verify" && addedDomain && (
           <Card>
             <CardHeader>
-              <CardTitle>Verify Your Domain</CardTitle>
+              <CardTitle>verify your domain</CardTitle>
               <CardDescription>
-                Add these DNS records to verify ownership of {addedDomain.domain}
+                this domain isn't verified yet.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -244,10 +244,10 @@ export default function Onboarding() {
                   className="flex-1"
                 >
                   {isVerifying && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  Verify Domain
+                  verify domain
                 </Button>
                 <Button variant="outline" onClick={handleSkip}>
-                  Skip & Complete Later
+                  skip for now
                 </Button>
               </div>
             </CardContent>
@@ -260,14 +260,14 @@ export default function Onboarding() {
               <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
-              <CardTitle className="text-2xl">Domain Verified! 🎉</CardTitle>
+              <CardTitle className="text-2xl">domain added successfully.</CardTitle>
               <CardDescription className="text-lg">
-                Your domain is ready for creating short links
+                your domain is ready
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button onClick={handleComplete} className="w-full" size="lg">
-                Go to Dashboard
+                continue
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </CardContent>

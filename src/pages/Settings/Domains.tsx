@@ -148,19 +148,19 @@ export default function Domains({ workspaceId }: DomainsProps) {
               <DialogTrigger asChild>
                 <Button>
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Domain
+                  add domain
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Add Custom Domain</DialogTitle>
+                  <DialogTitle>add custom domain</DialogTitle>
                   <DialogDescription>
-                    Enter the domain you want to use for short links
+                    add a branded domain to make your links yours.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="domain">Domain Name</Label>
+                    <Label htmlFor="domain">domain name</Label>
                     <Input
                       id="domain"
                       placeholder="yourdomain.com"
@@ -169,7 +169,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                       onKeyDown={(e) => e.key === "Enter" && handleAddDomain()}
                     />
                     <p className="text-sm text-muted-foreground">
-                      Don't include "http://" or "www"
+                      your domain increases trust and click-through rates.
                     </p>
                   </div>
                 </div>
@@ -181,7 +181,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                     {addDomainMutation.isPending && (
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     )}
-                    Add Domain
+                    add domain
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -285,7 +285,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
           ) : (
             <Alert>
               <AlertDescription>
-                No domains added yet. Add your first custom domain to get started.
+                add a branded domain to make your links yours.
               </AlertDescription>
             </Alert>
           )}
@@ -295,9 +295,9 @@ export default function Domains({ workspaceId }: DomainsProps) {
       <Dialog open={isDNSDialogOpen} onOpenChange={setIsDNSDialogOpen}>
         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>DNS Configuration</DialogTitle>
+            <DialogTitle>dns configuration</DialogTitle>
             <DialogDescription>
-              Configure these DNS records to verify your domain
+              configure these dns records to verify your domain
             </DialogDescription>
           </DialogHeader>
           {selectedDomain && (
@@ -314,7 +314,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
               {verifyMutation.isPending && (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               )}
-              Verify Domain
+              verify domain
             </Button>
           </DialogFooter>
         </DialogContent>

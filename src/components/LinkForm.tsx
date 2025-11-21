@@ -354,10 +354,10 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             </AccordionTrigger>
             <AccordionContent className="space-y-4 pt-4">
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-sm font-medium">Link Title *</Label>
+                <Label htmlFor="title" className="text-sm font-medium">title *</Label>
                 <Input
                   id="title"
-                  placeholder="e.g., Summer Campaign Landing Page"
+                  placeholder="name your campaign"
                   className="placeholder:text-muted-foreground"
                   {...form.register("title")}
                 />
@@ -367,10 +367,10 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-sm font-medium">Description</Label>
+                <Label htmlFor="description" className="text-sm font-medium">description</Label>
                 <Textarea
                   id="description"
-                  placeholder="Internal notes about this link"
+                  placeholder="optional notes"
                   className="placeholder:text-muted-foreground"
                   rows={2}
                   {...form.register("description")}
@@ -381,14 +381,15 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="destination_url" className="text-sm font-medium">Destination URL *</Label>
+                <Label htmlFor="destination_url" className="text-sm font-medium">destination url *</Label>
                 <Input
                   id="destination_url"
                   type="url"
-                  placeholder="https://example.com/landing-page"
+                  placeholder="https://example.com/page"
                   className="placeholder:text-muted-foreground"
                   {...form.register("destination_url")}
                 />
+                <p className="text-xs text-muted-foreground">add the url you want to track</p>
                 {form.formState.errors.destination_url && (
                   <p className="text-sm text-destructive">{form.formState.errors.destination_url.message}</p>
                 )}

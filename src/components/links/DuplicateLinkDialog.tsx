@@ -28,9 +28,9 @@ export const DuplicateLinkDialog = ({ linkId, linkTitle, open, onOpenChange }: D
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Duplicate Link</DialogTitle>
+          <DialogTitle>duplicate link</DialogTitle>
           <DialogDescription>
-            Create a copy of "{linkTitle}". All settings and UTM parameters will be preserved.
+            all settings and utm parameters will be preserved.
           </DialogDescription>
         </DialogHeader>
 
@@ -55,11 +55,11 @@ export const DuplicateLinkDialog = ({ linkId, linkTitle, open, onOpenChange }: D
 
         <div className="flex justify-end gap-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            cancel
           </Button>
           <Button onClick={handleDuplicate} disabled={duplicateLink.isPending}>
             <Copy className="h-4 w-4 mr-2" />
-            {duplicateLink.isPending ? "Duplicating..." : "Create Duplicate"}
+            {duplicateLink.isPending ? "duplicating…" : "create duplicate"}
           </Button>
         </div>
       </DialogContent>
