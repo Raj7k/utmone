@@ -34,17 +34,21 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
         campaign: string;
         source: string;
         medium: string;
+        term: string;
+        content: string;
         links: number;
         clicks: number;
       }> = {};
 
       links.forEach(link => {
-        const key = `${link.utm_campaign}-${link.utm_source}-${link.utm_medium}`;
+        const key = `${link.utm_campaign}-${link.utm_source}-${link.utm_medium}-${link.utm_term}-${link.utm_content}`;
         if (!campaignStats[key]) {
           campaignStats[key] = {
             campaign: link.utm_campaign || "",
             source: link.utm_source || "",
             medium: link.utm_medium || "",
+            term: link.utm_term || "",
+            content: link.utm_content || "",
             links: 0,
             clicks: 0,
           };
@@ -119,6 +123,8 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
                   <TableHead>Campaign</TableHead>
                   <TableHead>Source</TableHead>
                   <TableHead>Medium</TableHead>
+                  <TableHead>Term</TableHead>
+                  <TableHead>Content</TableHead>
                   <TableHead className="text-center">Links</TableHead>
                   <TableHead className="text-right">Total Clicks</TableHead>
                 </TableRow>
@@ -130,10 +136,16 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
                       {campaign.campaign}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{campaign.source}</Badge>
+                      <Badge variant="outline">{campaign.source || "-"}</Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{campaign.medium}</Badge>
+                      <Badge variant="secondary">{campaign.medium || "-"}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{campaign.term || "-"}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{campaign.content || "-"}</Badge>
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">
                       {campaign.links}
