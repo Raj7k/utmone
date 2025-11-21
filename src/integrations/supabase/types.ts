@@ -524,6 +524,68 @@ export type Database = {
           },
         ]
       }
+      user_preferences: {
+        Row: {
+          auto_generate_slug: boolean | null
+          auto_populate_utm: boolean | null
+          created_at: string | null
+          default_redirect_type: string | null
+          id: string
+          last_domain: string | null
+          last_path: string | null
+          last_utm_campaign: string | null
+          last_utm_medium: string | null
+          last_utm_source: string | null
+          preferred_domain: string | null
+          preferred_path: string | null
+          updated_at: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          auto_generate_slug?: boolean | null
+          auto_populate_utm?: boolean | null
+          created_at?: string | null
+          default_redirect_type?: string | null
+          id?: string
+          last_domain?: string | null
+          last_path?: string | null
+          last_utm_campaign?: string | null
+          last_utm_medium?: string | null
+          last_utm_source?: string | null
+          preferred_domain?: string | null
+          preferred_path?: string | null
+          updated_at?: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          auto_generate_slug?: boolean | null
+          auto_populate_utm?: boolean | null
+          created_at?: string | null
+          default_redirect_type?: string | null
+          id?: string
+          last_domain?: string | null
+          last_path?: string | null
+          last_utm_campaign?: string | null
+          last_utm_medium?: string | null
+          last_utm_source?: string | null
+          preferred_domain?: string | null
+          preferred_path?: string | null
+          updated_at?: string | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_preferences_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       utm_templates: {
         Row: {
           created_at: string | null
