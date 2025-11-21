@@ -62,20 +62,44 @@ export default function EarlyAccess() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    const { error } = await supabase
+    // Insert the request into database
+    const { data: insertedData, error } = await supabase
       .from('early_access_requests')
       .insert({
         name: data.name,
         email: data.email,
         team_size: data.team_size,
         company_domain: data.company_domain || null
-      });
+      })
+      .select()
+      .single();
 
     if (error) {
       console.error('Early access request error:', error);
       toast.error("something went wrong. please try again.");
       setIsSubmitting(false);
       return;
+    }
+
+    // Send admin notification email
+    try {
+      const { error: emailError } = await supabase.functions.invoke('notify-admin-new-request', {
+        body: {
+          request_id: insertedData.id,
+          name: data.name,
+          email: data.email,
+          team_size: data.team_size,
+          company_domain: data.company_domain || null
+        }
+      });
+
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't fail the submission if email fails
+      }
+    } catch (emailError) {
+      console.error('Email notification error:', emailError);
+      // Don't fail the submission if email fails
     }
 
     setIsSubmitted(true);
