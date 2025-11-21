@@ -2,3 +2,6 @@ project_id = "whgnsmjdubnvbmarnjfx"
 
 [functions.redirect]
 verify_jwt = false
+
+[functions.notify-admin-new-request]
+verify_jwt = false
