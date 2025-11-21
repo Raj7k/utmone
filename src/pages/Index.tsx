@@ -13,15 +13,27 @@ import {
   Users,
   Code,
   ArrowRight,
-  Check
+  Check,
+  Edit,
+  Eye
 } from "lucide-react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
+import { CleanLinkShowcase } from "@/components/landing/CleanLinkShowcase";
+import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ProductCardShowcase } from "@/components/landing/ProductCardShowcase";
+import { FloatingCards } from "@/components/landing/FloatingCards";
+import { RoleHierarchy } from "@/components/landing/RoleHierarchy";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
   useTrackScrollDepth, 
   useTrackTimeOnPage 
 } from "@/hooks/useLandingPageAnalytics";
+
+import messyUtmsSpreadsheet from "@/assets/screenshots/messy-utms-spreadsheet.png";
+import cleanUtmBuilder from "@/assets/screenshots/clean-utm-builder.png";
+import brandedQr3d from "@/assets/screenshots/branded-qr-3d.png";
+import floatingCardsPreview from "@/assets/screenshots/floating-cards-preview.png";
 
 const Index = () => {
   useTrackPageView();
@@ -93,6 +105,12 @@ const Index = () => {
                     Watch Demo
                   </Button>
                 </div>
+
+                <CleanLinkShowcase 
+                  linkUrl="utm.one/go/hrkatalyst"
+                  caption="clean links change everything."
+                />
+
                 <p className="text-sm text-muted-foreground">
                   {variant.microcopy}
                 </p>
@@ -105,11 +123,20 @@ const Index = () => {
       {/* The Problem Section */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 lowercase">
+          <div className="max-w-5xl mx-auto space-y-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-center lowercase">
               marketing breaks when links break.
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+            
+            <BeforeAfterComparison
+              beforeImage={messyUtmsSpreadsheet}
+              afterImage={cleanUtmBuilder}
+              caption="order, out of chaos."
+              beforeLabel="the mess you deal with"
+              afterLabel="utm.one interface"
+            />
+            
+            <p className="text-xl md:text-2xl text-muted-foreground text-center leading-relaxed">
               bad utms. scattered tools. random short links. missing data.
               <br />
               <br />
@@ -173,6 +200,15 @@ const Index = () => {
                   </p>
                 </div>
               </div>
+              <div className="mt-6">
+                <ProductCardShowcase
+                  imageUrl={brandedQr3d}
+                  title="Branded QR Code"
+                  caption="qr codes deserve design too."
+                  animationType="float"
+                  aspectRatio="1/1"
+                />
+              </div>
             </div>
 
             {/* Analytics Dashboard */}
@@ -187,6 +223,15 @@ const Index = () => {
                     see what matters. ignore the noise.
                   </p>
                 </div>
+              </div>
+              <div className="mt-6">
+                <ProductCardShowcase
+                  imageUrl={floatingCardsPreview}
+                  title="Analytics Dashboard"
+                  caption="clarity you can feel."
+                  animationType="fade"
+                  aspectRatio="16/9"
+                />
               </div>
             </div>
 
@@ -211,7 +256,7 @@ const Index = () => {
       {/* Single Benefit Section */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-6 mb-12">
             <h2 className="text-4xl md:text-5xl font-bold lowercase">
               one system for every campaign.
             </h2>
@@ -222,6 +267,27 @@ const Index = () => {
               no hacks. no spreadsheets. nothing to fix later.
             </p>
           </div>
+
+          <FloatingCards
+            cards={[
+              { 
+                type: "link", 
+                title: "Short Links", 
+                preview: floatingCardsPreview
+              },
+              { 
+                type: "utm", 
+                title: "UTM Templates", 
+                preview: floatingCardsPreview
+              },
+              { 
+                type: "qr", 
+                title: "QR Generator", 
+                preview: floatingCardsPreview
+              }
+            ]}
+            caption="one platform. one workflow."
+          />
         </div>
       </section>
 
@@ -279,19 +345,32 @@ const Index = () => {
       {/* Governance Section */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-4xl md:text-5xl font-bold lowercase">
-              simple control for complex teams.
-            </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed lowercase">
-              define domains. set rules. assign roles.
-              <br />
-              <br />
-              super admin, workspace admin, editor, viewer.
-              <br />
-              <br />
-              everyone sees exactly what they need.
-            </p>
+          <div className="max-w-5xl mx-auto space-y-12">
+            <div className="text-center space-y-6">
+              <h2 className="text-4xl md:text-5xl font-bold lowercase">
+                simple control for complex teams.
+              </h2>
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed lowercase">
+                define domains. set rules. assign roles.
+                <br />
+                <br />
+                super admin, workspace admin, editor, viewer.
+                <br />
+                <br />
+                everyone sees exactly what they need.
+              </p>
+            </div>
+            
+            <div className="flex justify-center">
+              <RoleHierarchy
+                roles={[
+                  { name: "Super Admin", icon: Shield, color: "primary", opacity: 100 },
+                  { name: "Workspace Admin", icon: Users, color: "accent", opacity: 80 },
+                  { name: "Editor", icon: Edit, color: "secondary", opacity: 60 },
+                  { name: "Viewer", icon: Eye, color: "muted", opacity: 40 }
+                ]}
+              />
+            </div>
           </div>
         </div>
       </section>
