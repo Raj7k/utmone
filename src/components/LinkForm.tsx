@@ -72,7 +72,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const { preferences, updatePreferences, isLoading: preferencesLoading } = useUserPreferences(workspaceId);
   
   const verifiedDomains = domains?.filter(d => d.is_verified) || [];
-  const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "keka.com";
+  const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "utm.one";
   const [shortUrl, setShortUrl] = useState("");
   const [finalUrl, setFinalUrl] = useState("");
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
