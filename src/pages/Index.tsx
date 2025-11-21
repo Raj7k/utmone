@@ -103,61 +103,21 @@ const Index = () => {
       </HeroVariantManager>
 
       {/* The Problem Section */}
-      <section className="py-20 bg-destructive/5 border-y border-destructive/20">
+      <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">The Link Management Nightmare</h2>
-            <p className="text-xl text-muted-foreground">Sound familiar? You're not alone.</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">Scattered UTMs Across 7 Tools</h3>
-              <p className="text-muted-foreground">
-                Bitly for links, spreadsheets for tracking, Canva for QR codes, GA4 for analytics. Nothing talks to each other.
-              </p>
-            </div>
-
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">Broken Links & Inconsistent Tracking</h3>
-              <p className="text-muted-foreground">
-                Typos in campaign names, missing UTM parameters, broken redirects. Your data is a mess.
-              </p>
-            </div>
-
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">QR Code Chaos</h3>
-              <p className="text-muted-foreground">
-                No brand control, no tracking, no idea which QR drove which clicks. Print materials are a black hole.
-              </p>
-            </div>
-
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">Reporting Nightmare</h3>
-              <p className="text-muted-foreground">
-                No campaign view, no UTM rollups, no way to see which channels are actually working. Manual spreadsheet hell.
-              </p>
-            </div>
-
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">Zero Governance</h3>
-              <p className="text-muted-foreground">
-                Anyone can create any link with any UTM structure. No approvals, no audit trail, no control.
-              </p>
-            </div>
-
-            <div className="bg-card p-6 rounded-lg border border-destructive/30 hover:border-destructive/60 transition-colors">
-              <XCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">Expensive & Fragmented</h3>
-              <p className="text-muted-foreground">
-                Paying for 7 different tools, none of which solve the full problem. Budget drain with poor ROI.
-              </p>
-            </div>
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 lowercase">
+              marketing breaks when links break.
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+              bad utms. scattered tools. random short links. missing data.
+              <br />
+              <br />
+              none of this should be normal.
+              <br />
+              <br />
+              utm.one replaces the chaos with a single, clean workflow.
+            </p>
           </div>
         </div>
       </section>
@@ -166,8 +126,7 @@ const Index = () => {
       <section className="py-24 bg-background" id="features">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">One Platform. Complete Control.</h2>
-            <p className="text-xl text-muted-foreground">Everything you need to manage enterprise links and campaigns</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 lowercase">the foundation of accurate marketing.</h2>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
@@ -178,28 +137,10 @@ const Index = () => {
                   <LinkIcon className="h-8 w-8 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-2">Branded Short Links</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Create short URLs on your own custom domains with flexible path structures.
+                  <h3 className="text-2xl font-bold mb-3 lowercase">branded short links</h3>
+                  <p className="text-lg text-muted-foreground lowercase">
+                    your domain. your trust.
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Multiple custom domains per workspace (utm.one, go.company.com)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Flexible path structure (/go/, /hr/, /events/)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Custom slug control with auto-suggest</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Bulk import from CSV/spreadsheets</span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -211,28 +152,10 @@ const Index = () => {
                   <Zap className="h-8 w-8 text-accent" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-2">5-UTM Builder</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Enforce UTM consistency across all campaigns with templates and validation.
+                  <h3 className="text-2xl font-bold mb-3 lowercase">airtight utms</h3>
+                  <p className="text-lg text-muted-foreground lowercase">
+                    consistent by default.
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-accent mt-0.5" />
-                      <span>All 5 UTM parameters (campaign, source, medium, term, content)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-accent mt-0.5" />
-                      <span>Pre-built templates for every marketing channel</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-accent mt-0.5" />
-                      <span>Naming convention enforcement & validation</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-accent mt-0.5" />
-                      <span>Auto-normalization (lowercase, space handling)</span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -244,28 +167,10 @@ const Index = () => {
                   <QrCode className="h-8 w-8 text-secondary" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-2">Branded QR Codes</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Generate beautiful, trackable QR codes with your brand identity.
+                  <h3 className="text-2xl font-bold mb-3 lowercase">simple qr codes</h3>
+                  <p className="text-lg text-muted-foreground lowercase">
+                    beautiful. on brand. ready to use.
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-secondary mt-0.5" />
-                      <span>Custom brand colors (primary/secondary)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-secondary mt-0.5" />
-                      <span>Logo overlay with customizable positioning</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-secondary mt-0.5" />
-                      <span>Multiple variants for A/B testing (booth vs standee)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-secondary mt-0.5" />
-                      <span>Export as PNG, SVG, PDF (print & digital)</span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -277,28 +182,10 @@ const Index = () => {
                   <BarChart3 className="h-8 w-8 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-2">Analytics Dashboard</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Track clicks, devices, locations, and campaign performance in real-time.
+                  <h3 className="text-2xl font-bold mb-3 lowercase">clear analytics</h3>
+                  <p className="text-lg text-muted-foreground lowercase">
+                    see what matters. ignore the noise.
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>UTM campaign rollups (all 5 parameters)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Device breakdown (desktop/mobile/tablet, browser, OS)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Geographic data (country, region, city)</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Check className="h-5 w-5 text-primary mt-0.5" />
-                      <span>Export to CSV/XLSX for deeper analysis</span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -310,40 +197,10 @@ const Index = () => {
                   <Shield className="h-8 w-8 text-accent" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-2">Enterprise Governance</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Role-based access control, audit logs, and centralized management for teams.
+                  <h3 className="text-2xl font-bold mb-3 lowercase">enterprise control</h3>
+                  <p className="text-lg text-muted-foreground lowercase">
+                    roles, sso, audit — everything in place.
                   </p>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <ul className="space-y-2">
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>Multi-workspace support (marketing, sales, HR, events)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>Role-based access (admin, editor, viewer)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>Domain verification & ownership</span>
-                      </li>
-                    </ul>
-                    <ul className="space-y-2">
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>Audit logs (who created/edited/deleted what)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>SSO integration (Google, Microsoft, Okta)</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Check className="h-5 w-5 text-accent mt-0.5" />
-                        <span>GDPR-compliant data retention policies</span>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>
@@ -351,12 +208,28 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Single Benefit Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold lowercase">
+              one system for every campaign.
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed lowercase">
+              from link creation to tracking, utm.one keeps your entire marketing workflow clean, consistent, and accurate.
+              <br />
+              <br />
+              no hacks. no spreadsheets. nothing to fix later.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Role-Based Teaser Section */}
-      <section className="py-20 bg-muted/30" id="solutions">
+      <section className="py-20 bg-background" id="solutions">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for Every Team</h2>
-            <p className="text-xl text-muted-foreground">Tailored solutions for your role</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 lowercase">built for every team.</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
@@ -364,53 +237,61 @@ const Index = () => {
               <div className="p-3 bg-primary/10 rounded-lg w-fit mb-4 group-hover:bg-primary/20 transition-colors">
                 <BarChart3 className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Marketing Managers</h3>
-              <p className="text-muted-foreground mb-4">
-                Launch campaigns with confidence. UTM consistency, QR codes, and analytics in one place.
+              <h3 className="text-xl font-bold mb-2 lowercase">marketing</h3>
+              <p className="text-muted-foreground lowercase">
+                create campaigns with perfect utms.
               </p>
-              <a href="/for-marketers" className="text-primary hover:underline flex items-center gap-1 font-medium">
-                Learn more <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
 
             <div className="bg-card p-6 rounded-lg border border-border hover:shadow-lg transition-all hover:border-accent/50 cursor-pointer group">
               <div className="p-3 bg-accent/10 rounded-lg w-fit mb-4 group-hover:bg-accent/20 transition-colors">
                 <Users className="h-8 w-8 text-accent" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Sales Teams</h3>
-              <p className="text-muted-foreground mb-4">
-                1-click links for deals, QR codes for trade shows, and trackable collateral for every prospect.
+              <h3 className="text-xl font-bold mb-2 lowercase">sales</h3>
+              <p className="text-muted-foreground lowercase">
+                share clean links without the setup.
               </p>
-              <a href="/for-sales" className="text-accent hover:underline flex items-center gap-1 font-medium">
-                Learn more <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
 
             <div className="bg-card p-6 rounded-lg border border-border hover:shadow-lg transition-all hover:border-secondary/50 cursor-pointer group">
               <div className="p-3 bg-secondary/10 rounded-lg w-fit mb-4 group-hover:bg-secondary/20 transition-colors">
                 <Shield className="h-8 w-8 text-secondary" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ops & Admins</h3>
-              <p className="text-muted-foreground mb-4">
-                Govern UTMs, enforce naming rules, audit trails, and prevent link chaos across teams.
+              <h3 className="text-xl font-bold mb-2 lowercase">ops</h3>
+              <p className="text-muted-foreground lowercase">
+                govern domains, rules, and templates.
               </p>
-              <a href="/for-ops" className="text-secondary hover:underline flex items-center gap-1 font-medium">
-                Learn more <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
 
             <div className="bg-card p-6 rounded-lg border border-border hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer group">
               <div className="p-3 bg-primary/10 rounded-lg w-fit mb-4 group-hover:bg-primary/20 transition-colors">
                 <Code className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Developers</h3>
-              <p className="text-muted-foreground mb-4">
-                API-first platform with webhooks, real-time click data, and seamless CRM integrations.
+              <h3 className="text-xl font-bold mb-2 lowercase">developers</h3>
+              <p className="text-muted-foreground lowercase">
+                integrate links and analytics with a clean api.
               </p>
-              <a href="/for-developers" className="text-primary hover:underline flex items-center gap-1 font-medium">
-                Learn more <ArrowRight className="h-4 w-4" />
-              </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Governance Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold lowercase">
+              simple control for complex teams.
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed lowercase">
+              define domains. set rules. assign roles.
+              <br />
+              <br />
+              super admin, workspace admin, editor, viewer.
+              <br />
+              <br />
+              everyone sees exactly what they need.
+            </p>
           </div>
         </div>
       </section>
@@ -418,9 +299,16 @@ const Index = () => {
       {/* Integrations Section */}
       <section className="py-20 bg-background" id="integrations">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Integrates with Your Stack</h2>
-            <p className="text-xl text-muted-foreground">Connect utm.one with the tools you already use</p>
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 lowercase">
+              works with what you already use.
+            </h2>
+            <p className="text-xl md:text-2xl text-muted-foreground lowercase">
+              ga4, hubspot, salesforce, slack, sso, webhooks.
+              <br />
+              <br />
+              everything connects. nothing breaks.
+            </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 max-w-5xl mx-auto items-center">
@@ -572,31 +460,31 @@ const Index = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
         <div className="container relative mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
-              Stop Fighting with 7 Tools. Start with One.
+            <h2 className="text-4xl md:text-5xl font-bold text-white lowercase">
+              start with a cleaner link.
             </h2>
-            <p className="text-xl text-white/90">
-              Join the waitlist for utm.one early access. Launch Q1 2025.
+            <p className="text-xl md:text-2xl text-white/90 lowercase">
+              and watch your entire marketing stack fall into place.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Link to="/auth">
                 <Button 
                   size="lg" 
                   variant="secondary" 
-                  className="text-lg px-8 h-12"
+                  className="text-lg px-8 h-12 lowercase"
                   onClick={() => trackCTAClick('final-cta-primary')}
                 >
-                  Request Early Access
+                  get early access
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="text-lg px-8 h-12 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                className="text-lg px-8 h-12 bg-white/10 border-white/20 text-white hover:bg-white/20 lowercase"
                 onClick={() => trackCTAClick('final-cta-secondary')}
               >
-                Watch Demo
+                watch demo
               </Button>
             </div>
             <p className="text-white/80 text-sm">
