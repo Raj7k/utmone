@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CampaignSparkline } from "./CampaignSparkline";
 import {
   Table,
   TableBody,
@@ -125,6 +126,7 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
                   <TableHead>Medium</TableHead>
                   <TableHead>Term</TableHead>
                   <TableHead>Content</TableHead>
+                  <TableHead>Trend (14d)</TableHead>
                   <TableHead className="text-center">Links</TableHead>
                   <TableHead className="text-right">Total Clicks</TableHead>
                 </TableRow>
@@ -146,6 +148,16 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary">{campaign.content || "-"}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <CampaignSparkline
+                        workspaceId={workspaceId}
+                        campaign={campaign.campaign}
+                        source={campaign.source}
+                        medium={campaign.medium}
+                        term={campaign.term}
+                        content={campaign.content}
+                      />
                     </TableCell>
                     <TableCell className="text-center text-muted-foreground">
                       {campaign.links}
