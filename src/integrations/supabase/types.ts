@@ -71,6 +71,39 @@ export type Database = {
           },
         ]
       }
+      early_access_requests: {
+        Row: {
+          company_domain: string | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          status: string | null
+          team_size: string
+          updated_at: string | null
+        }
+        Insert: {
+          company_domain?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          status?: string | null
+          team_size: string
+          updated_at?: string | null
+        }
+        Update: {
+          company_domain?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          status?: string | null
+          team_size?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       folders: {
         Row: {
           created_at: string | null

@@ -86,7 +86,7 @@ export const Navigation = () => {
                 Sign in
               </Button>
             </Link>
-            <Link to="/auth">
+            <Link to="/early-access">
               <Button 
                 size="default"
                 className="bg-foreground hover:bg-foreground/90 text-background text-[14px] font-medium px-6 h-10 rounded-full transition-apple hover:scale-[1.02] hidden sm:flex"
