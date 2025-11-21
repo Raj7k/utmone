@@ -4,6 +4,7 @@ import { ArrowRight, QrCode, Monitor, MessageSquare } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
+import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 
 const Sales = () => {
   return (
@@ -15,7 +16,7 @@ const Sales = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
-              Share Faster. Share Cleaner.
+              Share faster. Share cleaner.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one gives sales simple, branded short links without the complexity of utms.
@@ -36,11 +37,13 @@ const Sales = () => {
       <section className="py-32 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
-              Sales Shouldn&apos;t Worry About Tracking.
-              <br />
-              They Should Focus On Conversations.
-            </h2>
+            <AnimatedHeadline>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+                Sales shouldn&apos;t worry about tracking.
+                <br />
+                They should focus on conversations.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>every touchpoint—booth, demo, follow-up—should just work.</p>
               <p className="text-foreground font-medium">utm.one removes the friction.</p>
@@ -53,7 +56,7 @@ const Sales = () => {
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
           <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
-            Why Sales Teams Choose utm.one
+            Why sales teams choose utm.one
           </h2>
           
           <div className="space-y-8 max-w-[800px] mx-auto">
@@ -91,15 +94,15 @@ const Sales = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            Designed For Moments That Matter
+          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+            Designed for moments that matter
           </h2>
           
           {/* Use Case Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
             <WorkflowStep
               icon={QrCode}
-              title="At The Booth"
+              title="At the booth"
               description="QR codes on screens, slides, and stands"
               bgColor="bg-orange-50"
               iconColor="text-orange-600"
@@ -108,7 +111,7 @@ const Sales = () => {
             
             <WorkflowStep
               icon={Monitor}
-              title="During Demo"
+              title="During demo"
               description="Share branded link in real-time"
               bgColor="bg-blue-50"
               iconColor="text-blue-600"
@@ -117,7 +120,7 @@ const Sales = () => {
             
             <WorkflowStep
               icon={MessageSquare}
-              title="Follow-Up"
+              title="Follow-up"
               description="Drop clean link in chat or email"
               bgColor="bg-green-50"
               iconColor="text-green-600"
@@ -136,9 +139,11 @@ const Sales = () => {
       <section className="py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              Sales Moves Faster With Simple, Consistent Links.
-            </h2>
+            <AnimatedHeadline delay={100}>
+              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+                Sales moves faster with simple, consistent links.
+              </h2>
+            </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
                 <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">

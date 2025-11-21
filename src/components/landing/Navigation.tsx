@@ -91,7 +91,7 @@ export const Navigation = () => {
                 size="default"
                 className="bg-foreground hover:bg-foreground/90 text-background text-[14px] font-medium px-6 h-10 rounded-full transition-apple hover:scale-[1.02] hidden sm:flex"
               >
-                Get Started
+                get early access
               </Button>
             </Link>
           </div>

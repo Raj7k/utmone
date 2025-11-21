@@ -4,6 +4,7 @@ import { ArrowRight, Box, BarChart3, MessageCircle, Workflow, Database } from "l
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
+import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 
 const Developers = () => {
   return (
@@ -15,7 +16,7 @@ const Developers = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
-              A Clean API For A Cleaner Stack.
+              A clean API for a cleaner stack.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one integrates your links, analytics, and events into any system you already use.
@@ -36,9 +37,11 @@ const Developers = () => {
       <section className="py-32 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
-              Complex Link Systems Break Silently.
-            </h2>
+            <AnimatedHeadline>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+                Complex link systems break silently.
+              </h2>
+            </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>APIs differ. Redirects slow. Analytics drift.</p>
               <p className="text-foreground font-medium">utm.one gives you a single, reliable foundation.</p>
@@ -51,7 +54,7 @@ const Developers = () => {
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
           <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
-            Why Developers Choose utm.one
+            Why developers choose utm.one
           </h2>
           
           <div className="space-y-8 max-w-[800px] mx-auto">
@@ -89,8 +92,8 @@ const Developers = () => {
       {/* Integration Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            Built For Integration
+          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+            Built for integration
           </h2>
           
           {/* Hub and Spoke Layout */}
@@ -155,9 +158,11 @@ const Developers = () => {
       <section className="py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <h2 className="text-h1 text-foreground font-bold tracking-tight">
-              utm.one Gives Teams A Single, Reliable Foundation For Link Data.
-            </h2>
+            <AnimatedHeadline delay={100}>
+              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+                utm.one gives teams a single, reliable foundation for link data.
+              </h2>
+            </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
                 <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
