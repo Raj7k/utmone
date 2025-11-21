@@ -11,12 +11,17 @@ import {
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { ProductCardShowcase } from "@/components/landing/ProductCardShowcase";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
   useTrackScrollDepth, 
   useTrackTimeOnPage 
 } from "@/hooks/useLandingPageAnalytics";
+
+import messyUtmsImage from "@/assets/screenshots/messy-utms-spreadsheet.png";
+import cleanUtmBuilderImage from "@/assets/screenshots/clean-utm-builder.png";
+import brandedQrImage from "@/assets/screenshots/branded-qr-3d.png";
 
 const Index = () => {
   useTrackPageView();
@@ -58,7 +63,7 @@ const Index = () => {
       </HeroVariantManager>
 
       {/* Problem Section */}
-      <section className="py-32 bg-muted/20">
+      <section className="py-40 bg-muted/20">
         <div className="max-w-[1100px] mx-auto px-8">
           <div className="text-center space-y-12">
             <AnimatedHeadline>
@@ -75,6 +80,24 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Problem Proof - Visual Evidence */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[980px] mx-auto px-8">
+          <ProductCardShowcase
+            imageUrl={messyUtmsImage}
+            title="The Problem"
+            caption="scattered tools. inconsistent data. broken attribution."
+            animationType="fade"
+            aspectRatio="16/9"
+          />
+        </div>
+      </section>
+
+      {/* Visual Separator */}
+      <div className="flex justify-center py-12 bg-white">
+        <div className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+      </div>
+
       {/* Core Features */}
       <section className="py-32 bg-white" id="features">
         <div className="max-w-[1280px] mx-auto px-8">
@@ -84,12 +107,12 @@ const Index = () => {
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-4 max-w-[980px] mx-auto">
+          <div className="grid lg:grid-cols-2 gap-6 max-w-[980px] mx-auto">
             {/* Branded Short Links */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-apple-lg transition-apple">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
               <div className="space-y-4">
-                <div className="w-12 h-12 bg-foreground/5 rounded-2xl flex items-center justify-center">
-                  <LinkIcon className="h-6 w-6 text-foreground" strokeWidth={2} />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <LinkIcon className="h-7 w-7 text-primary" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -103,10 +126,10 @@ const Index = () => {
             </div>
 
             {/* 5-UTM Builder */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-apple-lg transition-apple">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
               <div className="space-y-4">
-                <div className="w-12 h-12 bg-foreground/5 rounded-2xl flex items-center justify-center">
-                  <Zap className="h-6 w-6 text-foreground" strokeWidth={2} />
+                <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
+                  <Zap className="h-7 w-7 text-secondary" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -120,10 +143,10 @@ const Index = () => {
             </div>
 
             {/* Branded QR Generator */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-apple-lg transition-apple">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
               <div className="space-y-4">
-                <div className="w-12 h-12 bg-foreground/5 rounded-2xl flex items-center justify-center">
-                  <QrCode className="h-6 w-6 text-foreground" strokeWidth={2} />
+                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                  <QrCode className="h-7 w-7 text-accent" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -137,10 +160,10 @@ const Index = () => {
             </div>
 
             {/* Analytics Dashboard */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-apple-lg transition-apple">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
               <div className="space-y-4">
-                <div className="w-12 h-12 bg-foreground/5 rounded-2xl flex items-center justify-center">
-                  <BarChart3 className="h-6 w-6 text-foreground" strokeWidth={2} />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <BarChart3 className="h-7 w-7 text-primary" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -156,6 +179,22 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Solution Proof - Visual Evidence */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-[980px] mx-auto px-8">
+          <ProductCardShowcase
+            imageUrl={cleanUtmBuilderImage}
+            title="The Solution"
+            caption="one workflow. perfect utms. every time."
+            animationType="scale"
+            aspectRatio="16/9"
+          />
+        </div>
+      </section>
+
+      {/* Visual Separator */}
+      <div className="h-24 bg-gradient-to-b from-muted/20 to-white" />
+
       {/* Single Benefit Section */}
       <section className="py-20 bg-white">
         <div className="max-w-[640px] mx-auto px-8">
@@ -169,6 +208,11 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Visual Separator */}
+      <div className="flex items-center justify-center py-16 bg-white">
+        <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-border to-transparent" />
+      </div>
 
       {/* Governance Section */}
       <section className="py-40 bg-muted/20">
@@ -189,6 +233,24 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Governance Proof - Visual Evidence */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[980px] mx-auto px-8">
+          <ProductCardShowcase
+            imageUrl={brandedQrImage}
+            title="Brand Control"
+            caption="one system. your brand. everywhere."
+            animationType="float"
+            aspectRatio="16/9"
+          />
+        </div>
+      </section>
+
+      {/* Visual Separator */}
+      <div className="flex justify-center py-12 bg-white">
+        <div className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+      </div>
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 bg-white">
