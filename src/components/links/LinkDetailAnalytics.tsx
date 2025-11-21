@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { subDays } from "date-fns";
+import { ClicksOverTime } from "@/components/analytics/ClicksOverTime";
 
 interface LinkDetailAnalyticsProps {
   linkId: string;
@@ -13,6 +14,21 @@ interface LinkDetailAnalyticsProps {
 export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
   const [dateRange, setDateRange] = useState("30");
   const [selectedQRCode, setSelectedQRCode] = useState<string>("all");
+
+  // Fetch link data to get workspace_id
+  const { data: linkData } = useQuery({
+    queryKey: ["link-data", linkId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("links")
+        .select("workspace_id")
+        .eq("id", linkId)
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+  });
 
   // Fetch QR codes for filtering
   const { data: qrCodes } = useQuery({
@@ -115,6 +131,8 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
 
   return (
     <div className="space-y-6">
+      {linkData && <ClicksOverTime workspaceId={linkData.workspace_id} linkId={linkId} />}
+      
       {/* Date Range Selector */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <h3 className="text-lg font-semibold">Analytics Overview</h3>
