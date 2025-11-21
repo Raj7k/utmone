@@ -10,20 +10,25 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { UTMBuilder } from "./UTMBuilder";
 import { useWorkspaceDomains, usePrimaryDomain } from "@/hooks/useDomains";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DomainBadge } from "./DomainBadge";
 import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
-import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings } from "lucide-react";
+import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
+import { generateSlugFromTitle } from "@/lib/slugify";
+import { suggestUTMSource, suggestUTMMedium, generateUTMCampaignFromTitle } from "@/lib/utmHelpers";
 
 const linkFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
@@ -64,6 +69,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   
   const { data: domains, isLoading: domainsLoading } = useWorkspaceDomains(workspaceId);
   const { data: primaryDomain } = usePrimaryDomain(workspaceId);
+  const { preferences, updatePreferences, isLoading: preferencesLoading } = useUserPreferences(workspaceId);
   
   const verifiedDomains = domains?.filter(d => d.is_verified) || [];
   const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "keka.com";
@@ -72,20 +78,37 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
   const [slugCheckValue, setSlugCheckValue] = useState("");
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
+  const [slugSource, setSlugSource] = useState<"auto" | "manual">("auto");
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkFormSchema),
     defaultValues: {
-      domain: "keka.com",
-      path: "go",
-      utm_source: "",
-      utm_medium: "",
-      utm_campaign: "",
+      domain: preferences?.preferred_domain || preferences?.last_domain || defaultDomain,
+      path: preferences?.preferred_path || preferences?.last_path || "go",
+      utm_source: preferences?.last_utm_source || "",
+      utm_medium: preferences?.last_utm_medium || "",
+      utm_campaign: preferences?.last_utm_campaign || "",
       utm_term: "",
       utm_content: "",
-      redirect_type: "302",
+      redirect_type: (preferences?.default_redirect_type as "301" | "302") || "302",
     },
   });
+
+  // Update form defaults when preferences load
+  useEffect(() => {
+    if (preferences && !form.formState.isDirty) {
+      form.reset({
+        domain: preferences.preferred_domain || preferences.last_domain || defaultDomain,
+        path: preferences.preferred_path || preferences.last_path || "go",
+        utm_source: preferences.last_utm_source || "",
+        utm_medium: preferences.last_utm_medium || "",
+        utm_campaign: preferences.last_utm_campaign || "",
+        utm_term: "",
+        utm_content: "",
+        redirect_type: (preferences.default_redirect_type as "301" | "302") || "302",
+      });
+    }
+  }, [preferences, defaultDomain]);
 
   const values = form.watch();
 
@@ -129,10 +152,74 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     }
   }, [values.slug, values.domain, values.path, debouncedSlugCheck]);
 
+  // Auto-generate slug from title
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "title" && value.title && preferences?.auto_generate_slug !== false) {
+        const currentSlug = form.getValues("slug");
+        // Only auto-generate if slug is empty or was previously auto-generated
+        if (!currentSlug || slugSource === "auto") {
+          const generatedSlug = generateSlugFromTitle(value.title);
+          form.setValue("slug", generatedSlug);
+          setSlugSource("auto");
+        }
+      }
+      
+      // Detect manual slug edit
+      if (name === "slug" && slugSource === "auto") {
+        setSlugSource("manual");
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form, preferences, slugSource]);
+
+  // Smart UTM suggestions based on title
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "title" && value.title && preferences?.auto_populate_utm !== false) {
+        const currentSource = form.getValues("utm_source");
+        const currentMedium = form.getValues("utm_medium");
+        const currentCampaign = form.getValues("utm_campaign");
+        
+        // Only suggest if fields are empty
+        if (!currentSource) {
+          const suggested = suggestUTMSource(value.title);
+          if (suggested) {
+            form.setValue("utm_source", suggested);
+          } else if (preferences?.last_utm_source) {
+            form.setValue("utm_source", preferences.last_utm_source);
+          }
+        }
+        
+        if (!currentMedium) {
+          const suggested = suggestUTMMedium(value.title, form.getValues("utm_source") || "");
+          if (suggested) {
+            form.setValue("utm_medium", suggested);
+          } else if (preferences?.last_utm_medium) {
+            form.setValue("utm_medium", preferences.last_utm_medium);
+          }
+        }
+        
+        if (!currentCampaign) {
+          const suggested = generateUTMCampaignFromTitle(value.title);
+          if (suggested) {
+            form.setValue("utm_campaign", suggested);
+          } else if (preferences?.last_utm_campaign) {
+            form.setValue("utm_campaign", preferences.last_utm_campaign);
+          }
+        }
+      }
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [form, preferences]);
+
   // Generate random slug
   const generateRandomSlug = () => {
     const randomSlug = Math.random().toString(36).substring(2, 10);
     form.setValue("slug", randomSlug);
+    setSlugSource("manual");
   };
 
   useEffect(() => {
@@ -232,6 +319,15 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
   const onSubmit = (data: LinkFormData) => {
     createLinkMutation.mutate(data);
+    
+    // Save preferences on successful submission
+    updatePreferences({
+      last_domain: data.domain,
+      last_path: data.path,
+      last_utm_source: data.utm_source,
+      last_utm_medium: data.utm_medium,
+      last_utm_campaign: data.utm_campaign,
+    });
   };
 
   const copyToClipboard = (text: string) => {
@@ -352,6 +448,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     <Shuffle className="h-4 w-4" />
                   </Button>
                 </div>
+                
+                {slugSource === "auto" && values.slug && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Sparkles className="h-3 w-3" />
+                    <span>Auto-generated from title. Edit to customize.</span>
+                  </div>
+                )}
+                
                 {form.formState.errors.slug && (
                   <p className="text-sm text-destructive">{form.formState.errors.slug.message}</p>
                 )}
@@ -544,6 +648,94 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Section 5: Smart Defaults & Preferences */}
+          <AccordionItem value="preferences" className="border rounded-lg px-4">
+            <AccordionTrigger className="hover:no-underline">
+              <div className="flex items-center gap-3">
+                <Sparkles className="h-5 w-5 text-purple-600" />
+                <span className="font-serif text-lg font-semibold">Smart Defaults</span>
+                <Badge variant="secondary" className="text-xs">Preferences</Badge>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="space-y-4 pt-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="text-sm font-medium">Auto-generate slug from title</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Automatically create URL-friendly slugs from link titles
+                  </p>
+                </div>
+                <Switch
+                  checked={preferences?.auto_generate_slug !== false}
+                  onCheckedChange={(checked) => updatePreferences({ auto_generate_slug: checked })}
+                />
+              </div>
+              
+              <Separator />
+              
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="text-sm font-medium">Auto-populate UTM parameters</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Suggest UTM values based on link title and previous patterns
+                  </p>
+                </div>
+                <Switch
+                  checked={preferences?.auto_populate_utm !== false}
+                  onCheckedChange={(checked) => updatePreferences({ auto_populate_utm: checked })}
+                />
+              </div>
+              
+              <Separator />
+              
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Preferred Domain</Label>
+                <Select
+                  value={preferences?.preferred_domain || ""}
+                  onValueChange={(value) => updatePreferences({ preferred_domain: value || undefined })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Use last used domain" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Use last used domain</SelectItem>
+                    {verifiedDomains.map((domain) => (
+                      <SelectItem key={domain.id} value={domain.domain}>
+                        {domain.domain}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  This domain will be pre-selected when creating new links
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Preferred Path</Label>
+                <Select
+                  value={preferences?.preferred_path || ""}
+                  onValueChange={(value) => updatePreferences({ preferred_path: value || undefined })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Use last used path" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Use last used path</SelectItem>
+                    <SelectItem value="go">go</SelectItem>
+                    <SelectItem value="u">u</SelectItem>
+                    <SelectItem value="l">l</SelectItem>
+                    <SelectItem value="hr">hr</SelectItem>
+                    <SelectItem value="psa">psa</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  This path will be pre-selected when creating new links
+                </p>
               </div>
             </AccordionContent>
           </AccordionItem>
