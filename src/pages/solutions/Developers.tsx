@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Box, BarChart3, MessageCircle, Workflow, Database } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { WorkflowStep } from "@/components/landing/WorkflowStep";
 
 const Developers = () => {
   return (
@@ -86,23 +87,68 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Workflow Section */}
+      {/* Integration Section */}
       <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
+        <div className="max-w-[1100px] mx-auto px-8">
           <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            Built For Integration, Not Isolation
+            Built For Integration
           </h2>
-          <div className="text-center space-y-6">
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto">
-              internal dashboards<br />
-              custom attribution models<br />
-              slack alerts<br />
-              hubspot workflows<br />
-              custom flows for campaigns
-              <br /><br />
-              everything works because the data is clean from the start.
-            </p>
+          
+          {/* Hub and Spoke Layout */}
+          <div className="flex flex-col items-center gap-12 mb-12">
+            {/* Center Hub */}
+            <div className="flex flex-col items-center">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-foreground/5 flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-105">
+                <Box className="w-10 h-10 md:w-12 md:h-12 text-foreground" strokeWidth={2} />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">utm.one API</h3>
+              <p className="text-sm text-muted-foreground">Clean API foundation</p>
+            </div>
+            
+            {/* Connected Systems */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 w-full max-w-[1000px]">
+              <WorkflowStep
+                icon={BarChart3}
+                title="Dashboards"
+                description="Pull clean analytics data"
+                bgColor="bg-blue-50"
+                iconColor="text-blue-600"
+                delay={0}
+              />
+              
+              <WorkflowStep
+                icon={MessageCircle}
+                title="Slack Alerts"
+                description="Reliable notifications"
+                bgColor="bg-purple-50"
+                iconColor="text-purple-600"
+                delay={100}
+              />
+              
+              <WorkflowStep
+                icon={Workflow}
+                title="HubSpot"
+                description="Perfect workflow sync"
+                bgColor="bg-orange-50"
+                iconColor="text-orange-600"
+                delay={200}
+              />
+              
+              <WorkflowStep
+                icon={Database}
+                title="Warehouses"
+                description="Export-ready data"
+                bgColor="bg-green-50"
+                iconColor="text-green-600"
+                delay={300}
+              />
+            </div>
           </div>
+          
+          {/* Supporting Text */}
+          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+            everything works because the data is clean from the start.
+          </p>
         </div>
       </section>
 

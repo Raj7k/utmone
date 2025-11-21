@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Shield, Globe, Users, Link2 } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { WorkflowStep } from "@/components/landing/WorkflowStep";
+import { FlowConnector } from "@/components/landing/FlowConnector";
 
 const MarketingOps = () => {
   return (
@@ -86,19 +88,60 @@ const MarketingOps = () => {
 
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
+        <div className="max-w-[1100px] mx-auto px-8">
           <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
-            Designed For Enterprise Calm
+            Enterprise Calm
           </h2>
-          <div className="text-center space-y-6">
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto">
-              multiple countries.<br />
-              multiple teams.<br />
-              multiple domains.
-              <br /><br />
-              all operating under one clean governance layer.
-            </p>
+          
+          {/* Governance Pyramid */}
+          <div className="flex flex-col items-center gap-8 mb-12">
+            {/* Top Level - Governance */}
+            <WorkflowStep
+              icon={Shield}
+              title="One Control Plane"
+              description="Single governance layer for all operations"
+              bgColor="bg-purple-50"
+              iconColor="text-purple-600"
+              delay={0}
+            />
+            
+            <FlowConnector direction="vertical" />
+            
+            {/* Managed Entities */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full max-w-[900px]">
+              <WorkflowStep
+                icon={Globe}
+                title="Multiple Countries"
+                description="Consistent rules across regions"
+                bgColor="bg-blue-50"
+                iconColor="text-blue-600"
+                delay={100}
+              />
+              
+              <WorkflowStep
+                icon={Users}
+                title="Multiple Teams"
+                description="Aligned workflows for all"
+                bgColor="bg-green-50"
+                iconColor="text-green-600"
+                delay={200}
+              />
+              
+              <WorkflowStep
+                icon={Link2}
+                title="Multiple Domains"
+                description="Centralized domain management"
+                bgColor="bg-orange-50"
+                iconColor="text-orange-600"
+                delay={300}
+              />
+            </div>
           </div>
+          
+          {/* Supporting Text */}
+          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+            all operating under one clean governance layer.
+          </p>
         </div>
       </section>
 

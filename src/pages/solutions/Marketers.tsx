@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, Sparkles, Zap } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { WorkflowStep } from "@/components/landing/WorkflowStep";
+import { FlowConnector } from "@/components/landing/FlowConnector";
 
 const Marketers = () => {
   return (
@@ -89,19 +91,51 @@ const Marketers = () => {
 
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
+        <div className="max-w-[1100px] mx-auto px-8">
           <h2 className="text-h2 text-foreground font-bold tracking-tight text-center mb-16">
             A Workflow Designed For Speed
           </h2>
-          <div className="text-center space-y-6">
-            <p className="text-body text-muted-foreground max-w-[640px] mx-auto">
-              paste your link → choose template → short link + utms + qr generated
-              <br /><br />
-              all in under 30 seconds.<br />
-              no switching tools.<br />
-              no broken tracking.
-            </p>
+          
+          {/* Linear Flow */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-6 mb-12">
+            <WorkflowStep
+              icon={LinkIcon}
+              title="Paste Your Link"
+              description="Drop any destination URL"
+              bgColor="bg-blue-50"
+              iconColor="text-blue-600"
+              delay={0}
+            />
+            
+            <FlowConnector direction="horizontal" />
+            
+            <WorkflowStep
+              icon={Sparkles}
+              title="Choose Template"
+              description="UTMs auto-populated from template"
+              bgColor="bg-purple-50"
+              iconColor="text-purple-600"
+              delay={100}
+            />
+            
+            <FlowConnector direction="horizontal" />
+            
+            <WorkflowStep
+              icon={Zap}
+              title="Generated"
+              description="Short link + UTMs + QR code ready"
+              bgColor="bg-green-50"
+              iconColor="text-green-600"
+              delay={200}
+            />
           </div>
+          
+          {/* Supporting Text */}
+          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+            all in under 30 seconds.<br />
+            no switching tools.<br />
+            no broken tracking.
+          </p>
         </div>
       </section>
 
