@@ -11,17 +11,12 @@ import {
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
-import { ProductCardShowcase } from "@/components/landing/ProductCardShowcase";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
   useTrackScrollDepth, 
   useTrackTimeOnPage 
 } from "@/hooks/useLandingPageAnalytics";
-
-import messyUtmsImage from "@/assets/screenshots/messy-utms-spreadsheet.png";
-import cleanUtmBuilderImage from "@/assets/screenshots/clean-utm-builder.png";
-import brandedQrImage from "@/assets/screenshots/branded-qr-3d.png";
 
 const Index = () => {
   useTrackPageView();
@@ -79,24 +74,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Problem Proof - Visual Evidence */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[980px] mx-auto px-8">
-          <ProductCardShowcase
-            imageUrl={messyUtmsImage}
-            title="The Problem"
-            caption="scattered tools. inconsistent data. broken attribution."
-            animationType="fade"
-            aspectRatio="16/9"
-          />
-        </div>
-      </section>
-
-      {/* Visual Separator */}
-      <div className="flex justify-center py-12 bg-white">
-        <div className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-      </div>
 
       {/* Core Features */}
       <section className="py-32 bg-white" id="features">
@@ -179,22 +156,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Solution Proof - Visual Evidence */}
-      <section className="py-24 bg-muted/20">
-        <div className="max-w-[980px] mx-auto px-8">
-          <ProductCardShowcase
-            imageUrl={cleanUtmBuilderImage}
-            title="The Solution"
-            caption="one workflow. perfect utms. every time."
-            animationType="scale"
-            aspectRatio="16/9"
-          />
-        </div>
-      </section>
-
-      {/* Visual Separator */}
-      <div className="h-24 bg-gradient-to-b from-muted/20 to-white" />
-
       {/* Single Benefit Section */}
       <section className="py-20 bg-white">
         <div className="max-w-[640px] mx-auto px-8">
@@ -208,11 +169,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Visual Separator */}
-      <div className="flex items-center justify-center py-16 bg-white">
-        <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
 
       {/* Governance Section */}
       <section className="py-40 bg-muted/20">
@@ -233,24 +189,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Governance Proof - Visual Evidence */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[980px] mx-auto px-8">
-          <ProductCardShowcase
-            imageUrl={brandedQrImage}
-            title="Brand Control"
-            caption="one system. your brand. everywhere."
-            animationType="float"
-            aspectRatio="16/9"
-          />
-        </div>
-      </section>
-
-      {/* Visual Separator */}
-      <div className="flex justify-center py-12 bg-white">
-        <div className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-      </div>
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-12 bg-white">
