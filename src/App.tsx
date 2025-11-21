@@ -13,6 +13,11 @@ import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
 import LandingAnalytics from "./pages/LandingAnalytics";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
+import Marketers from "./pages/solutions/Marketers";
+import Sales from "./pages/solutions/Sales";
+import MarketingOps from "./pages/solutions/MarketingOps";
+import Developers from "./pages/solutions/Developers";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +38,11 @@ const App = () => (
           <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/solutions/marketers" element={<Marketers />} />
+          <Route path="/solutions/sales" element={<Sales />} />
+          <Route path="/solutions/marketing-ops" element={<MarketingOps />} />
+          <Route path="/solutions/developers" element={<Developers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
