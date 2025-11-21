@@ -18,6 +18,7 @@ import Marketers from "./pages/solutions/Marketers";
 import Sales from "./pages/solutions/Sales";
 import MarketingOps from "./pages/solutions/MarketingOps";
 import Developers from "./pages/solutions/Developers";
+import EarlyAccess from "./pages/EarlyAccess";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/solutions/sales" element={<Sales />} />
           <Route path="/solutions/marketing-ops" element={<MarketingOps />} />
           <Route path="/solutions/developers" element={<Developers />} />
+          <Route path="/early-access" element={<EarlyAccess />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
