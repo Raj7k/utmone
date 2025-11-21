@@ -49,6 +49,7 @@ import { DomainBadge } from "@/components/DomainBadge";
 import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
 import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface DomainsProps {
   workspaceId: string;
@@ -160,7 +161,21 @@ export default function Domains({ workspaceId }: DomainsProps) {
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="domain">domain name</Label>
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="domain">domain name</Label>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                              <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-popover border border-border">
+                            <p className="text-sm">your domain increases trust and click-through rates.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                     <Input
                       id="domain"
                       placeholder="yourdomain.com"
@@ -168,9 +183,6 @@ export default function Domains({ workspaceId }: DomainsProps) {
                       onChange={(e) => setNewDomain(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleAddDomain()}
                     />
-                    <p className="text-sm text-muted-foreground">
-                      your domain increases trust and click-through rates.
-                    </p>
                   </div>
                 </div>
                 <DialogFooter>
@@ -217,35 +229,62 @@ export default function Domains({ workspaceId }: DomainsProps) {
                       <div className="flex items-center justify-end gap-2">
                         {!domain.is_verified && (
                           <>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                setSelectedDomain(domain);
-                                setIsDNSDialogOpen(true);
-                              }}
-                            >
-                              <FileText className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleVerify(domain.id)}
-                              disabled={verifyMutation.isPending}
-                            >
-                              <CheckCircle2 className="w-4 h-4" />
-                            </Button>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      setSelectedDomain(domain);
+                                      setIsDNSDialogOpen(true);
+                                    }}
+                                  >
+                                    <FileText className="w-4 h-4" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-popover border border-border">
+                                  <p className="text-sm">view dns instructions</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleVerify(domain.id)}
+                                    disabled={verifyMutation.isPending}
+                                  >
+                                    <CheckCircle2 className="w-4 h-4" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-popover border border-border">
+                                  <p className="text-sm">verify domain</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           </>
                         )}
                         {domain.is_verified && !domain.is_primary && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleSetPrimary(domain.id)}
-                            disabled={setPrimaryMutation.isPending}
-                          >
-                            <Star className="w-4 h-4" />
-                          </Button>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleSetPrimary(domain.id)}
+                                  disabled={setPrimaryMutation.isPending}
+                                >
+                                  <Star className="w-4 h-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-popover border border-border">
+                                <p className="text-sm">set as primary domain</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
                         )}
                         <AlertDialog>
                           <AlertDialogTrigger asChild>

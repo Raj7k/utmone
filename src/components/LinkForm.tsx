@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
 import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
@@ -381,7 +382,21 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="destination_url" className="text-sm font-medium">destination url *</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="destination_url" className="text-sm font-medium">destination url *</Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                          <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs bg-popover border border-border">
+                        <p className="text-sm">add the url you want to track</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <Input
                   id="destination_url"
                   type="url"
@@ -389,14 +404,27 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   className="placeholder:text-muted-foreground"
                   {...form.register("destination_url")}
                 />
-                <p className="text-xs text-muted-foreground">add the url you want to track</p>
                 {form.formState.errors.destination_url && (
                   <p className="text-sm text-destructive">{form.formState.errors.destination_url.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Short URL *</Label>
+                <div className="flex items-center gap-2">
+                  <Label className="text-sm font-medium">domain *</Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                          <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs bg-popover border border-border">
+                        <p className="text-sm">your domain increases trust and click-through rates.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <Select
                     value={form.watch("domain")}
@@ -405,7 +433,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     <SelectTrigger className="w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-popover border border-border z-50">
                       <SelectItem value="keka.com">keka.com</SelectItem>
                       <SelectItem value="go.keka.com">go.keka.com</SelectItem>
                       <SelectItem value="events.keka.com">events.keka.com</SelectItem>
@@ -439,15 +467,23 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     {...form.register("slug")}
                   />
                   
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={generateRandomSlug}
-                    title="Generate random slug"
-                  >
-                    <Shuffle className="h-4 w-4" />
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={generateRandomSlug}
+                        >
+                          <Shuffle className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-popover border border-border">
+                        <p className="text-sm">generate random slug</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
                 
                 {slugSource === "auto" && values.slug && (

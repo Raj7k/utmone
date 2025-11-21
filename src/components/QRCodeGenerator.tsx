@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Download, Loader2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const qrFormSchema = z.object({
@@ -279,7 +280,21 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         <TabsContent value="customize" className="space-y-4 mt-4">
           <div className="grid gap-4">
             <div className="space-y-2">
-              <Label htmlFor="name">QR Code Name *</Label>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="name">QR Code Name *</Label>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                        <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs bg-popover border border-border">
+                      <p className="text-sm">name your qr code for tracking</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <Input
                 id="name"
                 placeholder="e.g., Product Launch Campaign"
@@ -298,7 +313,21 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="primaryColor">primary color</Label>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="primaryColor">primary color</Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                          <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs bg-popover border border-border">
+                        <p className="text-sm">try a different qr style for print or digital.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <div className="flex gap-2">
                   <Input
                     id="primaryColor"
