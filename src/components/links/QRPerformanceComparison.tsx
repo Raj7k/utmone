@@ -68,9 +68,7 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
     },
   });
 
-  if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Loading performance data...</div>;
-  }
+    return <div className="p-8 text-center text-muted-foreground">loading qr performance…</div>;
 
   if (!qrPerformance || qrPerformance.length === 0) {
     return (

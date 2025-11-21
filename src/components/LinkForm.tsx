@@ -834,7 +834,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             disabled={createLinkMutation.isPending}
           >
             <Link2 className="h-4 w-4 mr-2" />
-            {createLinkMutation.isPending ? "Creating..." : "Create Link"}
+            {createLinkMutation.isPending ? "creating your link…" : "create link"}
           </Button>
         </div>
       </form>

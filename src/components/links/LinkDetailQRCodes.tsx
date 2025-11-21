@@ -49,9 +49,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
     },
   });
 
-  if (isLoading) {
-    return <div className="p-8 text-center text-muted-foreground">Loading QR codes...</div>;
-  }
+    return <div className="p-8 text-center text-muted-foreground">loading qr codes…</div>;
 
   if (!qrCodes || qrCodes.length === 0) {
     return (

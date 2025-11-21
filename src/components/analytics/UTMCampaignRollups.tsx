@@ -70,9 +70,7 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
     },
   });
 
-  if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading campaign data...</div>;
-  }
+    return <div className="text-center py-8 text-muted-foreground">loading campaign data…</div>;
 
   if (!campaignData || campaignData.campaigns.length === 0) {
     return (

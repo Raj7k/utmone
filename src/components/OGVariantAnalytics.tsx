@@ -54,7 +54,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           <CardTitle>Variant Performance</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-muted-foreground">Loading analytics...</div>
+          <div className="text-muted-foreground">loading analytics…</div>
         </CardContent>
       </Card>
     );

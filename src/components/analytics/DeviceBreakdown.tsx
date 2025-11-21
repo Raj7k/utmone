@@ -65,9 +65,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
     },
   });
 
-  if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading device data...</div>;
-  }
+    return <div className="text-center py-8 text-muted-foreground">loading device data…</div>;
 
   if (!deviceData) {
     return <div className="text-center py-8 text-muted-foreground">No device data available</div>;

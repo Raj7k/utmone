@@ -56,9 +56,7 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
     },
   });
 
-  if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">Loading geolocation data...</div>;
-  }
+    return <div className="text-center py-8 text-muted-foreground">loading location data…</div>;
 
   if (!geoData) {
     return <div className="text-center py-8 text-muted-foreground">No geolocation data available</div>;

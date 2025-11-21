@@ -148,7 +148,7 @@ const Auth = () => {
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full bg-gradient-primary" disabled={isLoading}>
-                    {isLoading ? "Signing in..." : "Sign In"}
+                    {isLoading ? "signing in…" : "sign in"}
                   </Button>
                 </CardFooter>
               </form>
@@ -199,7 +199,7 @@ const Auth = () => {
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full bg-gradient-primary" disabled={isLoading}>
-                    {isLoading ? "Creating account..." : "Sign Up"}
+                    {isLoading ? "creating account…" : "sign up"}
                   </Button>
                 </CardFooter>
               </form>
