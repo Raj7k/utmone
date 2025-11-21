@@ -34,18 +34,17 @@ const Marketers = () => {
       </section>
 
       {/* The Marketing Truth */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
-              when utms break, attribution breaks.
-              <br />
-              when links drift, data drifts.
-              <br />
-              and when data drifts, decisions suffer.
-              <br /><br />
-              utm.one fixes this at the source.
-            </p>
+      <section className="py-32 bg-muted/20">
+        <div className="max-w-[900px] mx-auto px-8">
+          <div className="text-center space-y-12">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+              When UTMs Break, Attribution Breaks.
+            </h2>
+            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
+              <p>when links drift, data drifts.</p>
+              <p>and when data drifts, decisions suffer.</p>
+              <p className="text-foreground font-medium">utm.one fixes this at the source.</p>
+            </div>
           </div>
         </div>
       </section>

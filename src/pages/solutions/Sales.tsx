@@ -33,16 +33,18 @@ const Sales = () => {
       </section>
 
       {/* The Sales Truth */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <p className="text-body text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
-              sales teams shouldn&apos;t worry about tracking.
+      <section className="py-32 bg-muted/20">
+        <div className="max-w-[900px] mx-auto px-8">
+          <div className="text-center space-y-12">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+              Sales Shouldn&apos;t Worry About Tracking.
               <br />
-              they should focus on conversations, not parameters.
-              <br /><br />
-              utm.one removes the friction.
-            </p>
+              They Should Focus On Conversations.
+            </h2>
+            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
+              <p>every touchpoint—booth, demo, follow-up—should just work.</p>
+              <p className="text-foreground font-medium">utm.one removes the friction.</p>
+            </div>
           </div>
         </div>
       </section>
