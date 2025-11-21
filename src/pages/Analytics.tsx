@@ -98,9 +98,9 @@ const Analytics = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Analytics Dashboard</h1>
+          <h1 className="text-3xl font-bold mb-2">analytics</h1>
           <p className="text-muted-foreground">
-            Track performance, engagement, and campaign effectiveness
+            analytics appear once your links get clicks.
           </p>
         </div>
 

@@ -225,9 +225,9 @@ const Index = () => {
                   className="bg-foreground hover:bg-foreground/90 text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]"
                   onClick={() => trackCTAClick('footer-cta')}
                 >
-                  get early access
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                </Button>
+                      get early access
+                      <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
+                    </Button>
               </Link>
             </div>
           </div>

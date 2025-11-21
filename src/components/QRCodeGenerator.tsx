@@ -298,7 +298,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="primaryColor">Primary Color</Label>
+                <Label htmlFor="primaryColor">primary color</Label>
                 <div className="flex gap-2">
                   <Input
                     id="primaryColor"

@@ -149,7 +149,7 @@ export const EnhancedLinksTable = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">Loading links...</p>
+        <p className="text-muted-foreground">loading analytics…</p>
       </div>
     );
   }
@@ -158,12 +158,12 @@ export const EnhancedLinksTable = ({
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center">
         <p className="text-xl font-semibold text-foreground mb-2">
-          No links found
+          you don't have any links yet.
         </p>
         <p className="text-muted-foreground">
           {searchQuery || statusFilter !== "all"
-            ? "Try adjusting your filters"
-            : "Create your first short link to get started"}
+            ? "try adjusting your filters"
+            : "start by creating your first one."}
         </p>
       </div>
     );
@@ -332,7 +332,7 @@ export const EnhancedLinksTable = ({
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => navigate(`/links/${link.id}`)}>
                         <Eye className="mr-2 h-4 w-4" />
-                        View Details
+                        view analytics
                       </DropdownMenuItem>
                       <QRCodeDialog 
                         linkId={link.id} 
@@ -340,7 +340,7 @@ export const EnhancedLinksTable = ({
                         trigger={
                           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <QrCode className="mr-2 h-4 w-4" />
-                            Generate QR Code
+                            generate qr
                           </DropdownMenuItem>
                         }
                       />
@@ -354,7 +354,7 @@ export const EnhancedLinksTable = ({
                           }
                         >
                           <Pause className="mr-2 h-4 w-4" />
-                          Pause Link
+                          pause link
                         </DropdownMenuItem>
                       )}
                       {link.status === "paused" && (
@@ -367,7 +367,7 @@ export const EnhancedLinksTable = ({
                           }
                         >
                           <Play className="mr-2 h-4 w-4" />
-                          Resume Link
+                          resume link
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem
@@ -379,7 +379,7 @@ export const EnhancedLinksTable = ({
                         }
                       >
                         <Archive className="mr-2 h-4 w-4" />
-                        Archive Link
+                        archive link
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -404,10 +404,10 @@ export const EnhancedLinksTable = ({
             onClick={() => setPage(page - 1)}
             disabled={page === 1}
           >
-            Previous
+            previous
           </Button>
           <span className="text-sm text-muted-foreground">
-            Page {page} of {data.totalPages}
+            page {page} of {data.totalPages}
           </span>
           <Button
             variant="outline"
@@ -415,7 +415,7 @@ export const EnhancedLinksTable = ({
             onClick={() => setPage(page + 1)}
             disabled={page >= data.totalPages}
           >
-            Next
+            next
           </Button>
         </div>
       </div>

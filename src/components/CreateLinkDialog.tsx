@@ -59,16 +59,16 @@ export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
       <DialogTrigger asChild>
         <Button size="lg" className="gap-2">
           <Plus className="h-5 w-5" />
-          Create Link
+          create link
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         {!showSuccess ? (
           <>
             <DialogHeader>
-              <DialogTitle className="font-serif text-2xl">Create New Short Link</DialogTitle>
+              <DialogTitle className="font-serif text-2xl">create new link</DialogTitle>
               <DialogDescription>
-                Create a branded short link with UTM tracking for your campaigns
+                add the url you want to track
               </DialogDescription>
             </DialogHeader>
             <LinkForm workspaceId={workspaceId} onSuccess={handleSuccess} />
@@ -80,8 +80,8 @@ export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
                 <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
               <div>
-                <DialogTitle className="font-serif text-2xl">Link Created Successfully!</DialogTitle>
-                <DialogDescription>Your short link is ready to use</DialogDescription>
+                <DialogTitle className="font-serif text-2xl">link created.</DialogTitle>
+                <DialogDescription>your link is ready</DialogDescription>
               </div>
             </div>
 
@@ -113,8 +113,8 @@ export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
                   trigger={
                     <Button variant="default" className="w-full gap-2 h-auto py-4 flex-col">
                       <QrCode className="h-5 w-5" />
-                      <span className="font-medium">Generate QR Code</span>
-                      <span className="text-xs opacity-80">Create branded QR codes</span>
+                      <span className="font-medium">generate qr</span>
+                      <span className="text-xs opacity-80">create a branded qr code</span>
                     </Button>
                   }
                 />
@@ -124,8 +124,8 @@ export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
                   onClick={handleViewAnalytics}
                 >
                   <BarChart3 className="h-5 w-5" />
-                  <span className="font-medium">View Analytics</span>
-                  <span className="text-xs opacity-80">Track performance</span>
+                  <span className="font-medium">view analytics</span>
+                  <span className="text-xs opacity-80">see what matters</span>
                 </Button>
               </div>
             </div>
@@ -137,14 +137,14 @@ export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
                 onClick={handleCreateAnother}
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Create Another Link
+                create another
               </Button>
               <Button
                 variant="default"
                 className="flex-1"
                 onClick={handleClose}
               >
-                Done
+                continue
               </Button>
             </div>
           </div>

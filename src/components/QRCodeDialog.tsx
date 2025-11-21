@@ -19,15 +19,15 @@ export const QRCodeDialog = ({ linkId, shortUrl, trigger }: QRCodeDialogProps) =
         {trigger || (
           <Button variant="outline" size="sm" className="gap-2">
             <QrCode className="h-4 w-4" />
-            Generate QR
+            generate qr
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-serif text-2xl">Generate Branded QR Code</DialogTitle>
+          <DialogTitle className="font-serif text-2xl">generate branded qr code</DialogTitle>
           <DialogDescription>
-            Create a customized QR code for {shortUrl}
+            create a branded qr code
           </DialogDescription>
         </DialogHeader>
         <QRCodeGenerator linkId={linkId} shortUrl={shortUrl} onSuccess={() => setOpen(false)} />

@@ -46,9 +46,9 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
       <Dialog open={open} onOpenChange={resetAndClose}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Archive Link?</DialogTitle>
+            <DialogTitle>archive link?</DialogTitle>
             <DialogDescription>
-              This link will be hidden from your dashboard but can be restored later.
+              this link will be hidden but can be restored later.
             </DialogDescription>
           </DialogHeader>
 
@@ -64,14 +64,14 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
 
           <DialogFooter className="flex gap-2">
             <Button variant="outline" onClick={resetAndClose}>
-              Cancel
+              cancel
             </Button>
             <Button variant="secondary" onClick={handleArchive} disabled={deleteLink.isPending}>
               <Archive className="h-4 w-4 mr-2" />
-              Archive Link
+              archive
             </Button>
             <Button variant="ghost" className="text-destructive" onClick={() => setStage("delete")}>
-              Permanently Delete Instead
+              delete permanently
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -85,10 +85,10 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
         <DialogHeader>
           <DialogTitle className="text-destructive flex items-center gap-2">
             <AlertTriangle className="h-5 w-5" />
-            Permanent Deletion
+            permanent deletion
           </DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete the link.
+            this action cannot be undone.
           </DialogDescription>
         </DialogHeader>
 
@@ -105,7 +105,7 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
           </Alert>
 
           <div className="space-y-2">
-            <Label>Type <code className="bg-muted px-1 py-0.5 rounded">{linkSlug}</code> to confirm</Label>
+            <Label>type <code className="bg-muted px-1 py-0.5 rounded">{linkSlug}</code> to confirm</Label>
             <Input
               value={confirmText}
               onChange={(e) => setConfirmText(e.target.value)}
@@ -116,7 +116,7 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
 
         <DialogFooter className="flex gap-2">
           <Button variant="outline" onClick={() => setStage("archive")}>
-            No, Just Archive
+            just archive
           </Button>
           <Button
             variant="destructive"
@@ -124,7 +124,7 @@ export const DeleteLinkDialog = ({ linkId, linkSlug, totalClicks, open, onOpenCh
             disabled={confirmText !== linkSlug || deleteLink.isPending}
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            {deleteLink.isPending ? "Deleting..." : "Yes, Delete Permanently"}
+            {deleteLink.isPending ? "deleting…" : "delete permanently"}
           </Button>
         </DialogFooter>
       </DialogContent>
