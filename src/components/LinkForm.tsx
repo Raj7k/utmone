@@ -17,10 +17,11 @@ import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
-import { Link2, Copy, ExternalLink } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { debounce } from "lodash";
 
 const linkFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
@@ -52,7 +53,7 @@ type LinkFormData = z.infer<typeof linkFormSchema>;
 
 interface LinkFormProps {
   workspaceId: string;
-  onSuccess?: () => void;
+  onSuccess?: (linkId: string, shortUrl: string) => void;
 }
 
 export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
@@ -67,6 +68,8 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const [shortUrl, setShortUrl] = useState("");
   const [finalUrl, setFinalUrl] = useState("");
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
+  const [slugCheckValue, setSlugCheckValue] = useState("");
+  const [isCheckingSlug, setIsCheckingSlug] = useState(false);
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkFormSchema),
@@ -83,6 +86,52 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   });
 
   const values = form.watch();
+
+  // Check if slug is available
+  const { data: slugAvailable, refetch: checkSlugAvailability } = useQuery({
+    queryKey: ["slug-check", values.domain, values.path, slugCheckValue],
+    queryFn: async () => {
+      if (!slugCheckValue || slugCheckValue.length < 3) return null;
+      
+      const { data, error } = await supabase
+        .from("links")
+        .select("id, title")
+        .eq("domain", values.domain)
+        .eq("path", values.path)
+        .eq("slug", slugCheckValue)
+        .maybeSingle();
+      
+      if (error) throw error;
+      return data ? { available: false, existingLink: data } : { available: true };
+    },
+    enabled: false,
+  });
+
+  // Debounced slug check
+  const debouncedSlugCheck = useCallback(
+    debounce((slug: string, domain: string, path: string) => {
+      if (slug && slug.length >= 3) {
+        setSlugCheckValue(slug);
+        setIsCheckingSlug(true);
+        checkSlugAvailability().finally(() => setIsCheckingSlug(false));
+      }
+    }, 500),
+    [checkSlugAvailability]
+  );
+
+  // Watch slug changes for validation
+  useEffect(() => {
+    const slug = values.slug;
+    if (slug && slug.length >= 3) {
+      debouncedSlugCheck(slug, values.domain, values.path);
+    }
+  }, [values.slug, values.domain, values.path, debouncedSlugCheck]);
+
+  // Generate random slug
+  const generateRandomSlug = () => {
+    const randomSlug = Math.random().toString(36).substring(2, 10);
+    form.setValue("slug", randomSlug);
+  };
 
   useEffect(() => {
     // Generate preview URLs using Supabase edge function URL
@@ -166,11 +215,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     onSuccess: (link) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       setCreatedLinkId(link.id);
-      toast({
-        title: "Link created",
-        description: "Your short link has been created successfully. You can now add A/B test variants below.",
-      });
-      onSuccess?.();
+      const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
+      const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.path}/${link.slug}`;
+      onSuccess?.(link.id, generatedShortUrl);
     },
     onError: (error: Error) => {
       toast({
@@ -201,10 +248,11 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         <h3 className="font-serif text-lg font-semibold text-foreground">Basic Information</h3>
         
         <div className="space-y-2">
-          <Label htmlFor="title">Link Title *</Label>
+          <Label htmlFor="title" className="text-sm font-medium">Link Title *</Label>
           <Input
             id="title"
             placeholder="e.g., Summer Campaign Landing Page"
+            className="placeholder:text-muted-foreground"
             {...form.register("title")}
           />
           {form.formState.errors.title && (
@@ -213,10 +261,11 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description" className="text-sm font-medium">Description</Label>
           <Textarea
             id="description"
             placeholder="Internal notes about this link"
+            className="placeholder:text-muted-foreground"
             rows={2}
             {...form.register("description")}
           />
@@ -226,11 +275,12 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="destination_url">Destination URL *</Label>
+          <Label htmlFor="destination_url" className="text-sm font-medium">Destination URL *</Label>
           <Input
             id="destination_url"
             type="url"
             placeholder="https://example.com/landing-page"
+            className="placeholder:text-muted-foreground"
             {...form.register("destination_url")}
           />
           {form.formState.errors.destination_url && (
@@ -281,15 +331,42 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="slug">Custom Slug</Label>
-            <Input
-              id="slug"
-              placeholder="auto-generated"
-              {...form.register("slug")}
-            />
-            {form.formState.errors.slug && (
-              <p className="text-sm text-destructive">{form.formState.errors.slug.message}</p>
-            )}
+            <Label htmlFor="slug" className="text-sm font-medium">Custom Slug</Label>
+            <div className="flex gap-2">
+              <div className="flex-1 space-y-2">
+                <Input
+                  id="slug"
+                  placeholder="auto-generated"
+                  className="placeholder:text-muted-foreground"
+                  {...form.register("slug")}
+                />
+                {form.formState.errors.slug && (
+                  <p className="text-sm text-destructive">{form.formState.errors.slug.message}</p>
+                )}
+                {isCheckingSlug && (
+                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                )}
+                {slugAvailable && !slugAvailable.available && values.slug && (
+                  <Alert variant="destructive" className="py-2">
+                    <AlertCircleIcon className="h-4 w-4" />
+                    <AlertDescription className="text-xs">
+                      This slug is already used by "{slugAvailable.existingLink.title}".
+                      <br />
+                      Try: {values.slug}-2, {values.slug}-v2, or click the shuffle button
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={generateRandomSlug}
+                title="Generate random slug"
+              >
+                <Shuffle className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
