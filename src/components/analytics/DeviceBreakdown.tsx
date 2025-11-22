@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useCachedDeviceAnalytics } from "@/hooks/useAnalyticsCache";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
@@ -17,57 +16,42 @@ const COLORS = [
 ];
 
 export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
-  const { data: deviceData, isLoading } = useQuery({
-    queryKey: ["device-breakdown", workspaceId],
-    queryFn: async () => {
-      const { data: links } = await supabase
-        .from("links")
-        .select("id")
-        .eq("workspace_id", workspaceId);
+  const { data: deviceData, isLoading } = useCachedDeviceAnalytics(workspaceId);
 
-      if (!links || links.length === 0) return null;
+  // Process data for display
+  const data = deviceData ? (() => {
+    const deviceMap = new Map<string, number>();
+    const browserMap = new Map<string, number>();
+    const osMap = new Map<string, number>();
 
-      const linkIds = links.map(l => l.id);
+    deviceData.forEach((item) => {
+      const device = item.device_type || 'Unknown';
+      const browser = item.browser || 'Unknown';
+      const os = item.os || 'Unknown';
+      
+      deviceMap.set(device, (deviceMap.get(device) || 0) + item.click_count);
+      browserMap.set(browser, (browserMap.get(browser) || 0) + item.click_count);
+      osMap.set(os, (osMap.get(os) || 0) + item.click_count);
+    });
 
-      const { data: clicks } = await supabase
-        .from("link_clicks")
-        .select("device_type, browser, os")
-        .in("link_id", linkIds);
+    return {
+      devices: Array.from(deviceMap.entries()).map(([name, value]) => ({ name, value })),
+      browsers: Array.from(browserMap.entries())
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5),
+      os: Array.from(osMap.entries())
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5),
+    };
+  })() : { devices: [], browsers: [], os: [] };
 
-      if (!clicks) return null;
-
-      // Aggregate by device type
-      const deviceCounts: Record<string, number> = {};
-      const browserCounts: Record<string, number> = {};
-      const osCounts: Record<string, number> = {};
-
-      clicks.forEach(click => {
-        const device = click.device_type || "Unknown";
-        const browser = click.browser || "Unknown";
-        const os = click.os || "Unknown";
-
-        deviceCounts[device] = (deviceCounts[device] || 0) + 1;
-        browserCounts[browser] = (browserCounts[browser] || 0) + 1;
-        osCounts[os] = (osCounts[os] || 0) + 1;
-      });
-
-      return {
-        devices: Object.entries(deviceCounts).map(([name, value]) => ({ name, value })),
-        browsers: Object.entries(browserCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([name, value]) => ({ name, value })),
-        os: Object.entries(osCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 5)
-          .map(([name, value]) => ({ name, value })),
-      };
-    },
-  });
-
+  if (isLoading) {
     return <div className="text-center py-8 text-muted-foreground">loading device data…</div>;
+  }
 
-  if (!deviceData) {
+  if (!data || (data.devices.length === 0 && data.browsers.length === 0 && data.os.length === 0)) {
     return <div className="text-center py-8 text-muted-foreground">No device data available</div>;
   }
 
@@ -91,7 +75,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={deviceData.devices}
+                    data={data.devices}
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
@@ -99,7 +83,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
                     outerRadius={80}
                     label
                   >
-                    {deviceData.devices.map((_, index) => (
+                    {data.devices.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -118,7 +102,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={deviceData.browsers}>
+                <BarChart data={data.browsers}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
                   <YAxis stroke="hsl(var(--muted-foreground))" />
@@ -138,7 +122,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={deviceData.os}>
+                <BarChart data={data.os}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
                   <YAxis stroke="hsl(var(--muted-foreground))" />
