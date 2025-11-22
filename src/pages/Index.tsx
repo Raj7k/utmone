@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
@@ -34,6 +35,16 @@ const Index = () => {
   useTrackScrollDepth();
   useTrackTimeOnPage();
   const trackCTAClick = useTrackCTAClick();
+
+  // Track referral code from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refCode = urlParams.get('ref');
+    if (refCode) {
+      localStorage.setItem('utm_referral_code', refCode);
+      console.log('Referral code stored:', refCode);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -308,6 +319,12 @@ const Index = () => {
               <span className="text-[14px] font-medium text-muted-foreground">utm.one</span>
             </div>
             <div className="flex items-center gap-6">
+              <Link to="/partners/apply" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
+                Become a Partner
+              </Link>
+              <Link to="/docs/api" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
+                API Docs
+              </Link>
               <span className="text-[13px] text-muted-foreground">
                 © 2024 utm.one. clarity creates confidence.
               </span>

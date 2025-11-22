@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings as SettingsIcon, Globe, ArrowLeft } from "lucide-react";
+import { Settings as SettingsIcon, Globe, ArrowLeft, Key, Webhook, Shield } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
+import APIKeysSettings from "./Settings/APIKeys";
 import { NavLink } from "@/components/NavLink";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -100,10 +101,38 @@ export default function Settings() {
                 <Globe className="w-4 h-4" />
                 Domains
               </TabsTrigger>
+              <TabsTrigger value="api" className="gap-2">
+                <Key className="w-4 h-4" />
+                API Keys
+              </TabsTrigger>
+              <TabsTrigger value="integrations" className="gap-2">
+                <Webhook className="w-4 h-4" />
+                Integrations
+              </TabsTrigger>
+              <TabsTrigger value="security" className="gap-2">
+                <Shield className="w-4 h-4" />
+                Security
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="domains" className="space-y-6">
               {currentWorkspace && <Domains workspaceId={currentWorkspace.id} />}
+            </TabsContent>
+
+            <TabsContent value="api" className="space-y-6">
+              {currentWorkspace && <APIKeysSettings />}
+            </TabsContent>
+
+            <TabsContent value="integrations" className="space-y-6">
+              <div className="text-center py-12 text-muted-foreground">
+                Webhook integrations coming soon
+              </div>
+            </TabsContent>
+
+            <TabsContent value="security" className="space-y-6">
+              <div className="text-center py-12 text-muted-foreground">
+                Security settings coming soon
+              </div>
             </TabsContent>
           </Tabs>
         </div>

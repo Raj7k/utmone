@@ -30,6 +30,68 @@ interface OGVariant {
 }
 
 // Parse user agent to extract device, browser, and OS info
+// Evaluate targeting rules for geo/device-based redirects
+async function evaluateTargetingRules(
+  supabase: any,
+  linkId: string,
+  country: string,
+  deviceType: string,
+  os: string,
+  browser: string
+): Promise<string | null> {
+  const { data: rules, error } = await supabase
+    .from('targeting_rules')
+    .select('*')
+    .eq('link_id', linkId)
+    .eq('is_active', true)
+    .order('priority', { ascending: false });
+
+  if (error || !rules || rules.length === 0) {
+    return null;
+  }
+
+  for (const rule of rules) {
+    let matches = false;
+    const value = rule.value;
+
+    switch (rule.rule_type) {
+      case 'country':
+        matches = evaluateCondition(country, rule.condition, value);
+        break;
+      case 'device':
+        matches = evaluateCondition(deviceType, rule.condition, value);
+        break;
+      case 'os':
+        matches = evaluateCondition(os, rule.condition, value);
+        break;
+      case 'browser':
+        matches = evaluateCondition(browser, rule.condition, value);
+        break;
+    }
+
+    if (matches) {
+      console.log(`Targeting rule matched: ${rule.rule_name}, redirecting to: ${rule.redirect_url}`);
+      return rule.redirect_url;
+    }
+  }
+
+  return null;
+}
+
+function evaluateCondition(actual: string, condition: string, expected: string[]): boolean {
+  switch (condition) {
+    case 'equals':
+    case 'in':
+      return expected.includes(actual);
+    case 'not_in':
+      return !expected.includes(actual);
+    case 'contains':
+      return expected.some(val => actual.toLowerCase().includes(val.toLowerCase()));
+    default:
+      return false;
+  }
+}
+
 function parseUserAgent(userAgent: string) {
   const ua = userAgent.toLowerCase();
   
@@ -348,12 +410,33 @@ Deno.serve(async (req) => {
     // Parse user agent
     const { deviceType, browser, os } = parseUserAgent(userAgent);
     
+    // Get geolocation for targeting rules
+    let country = 'unknown';
+    try {
+      const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`);
+      if (geoResponse.ok) {
+        const geoData = await geoResponse.json();
+        country = geoData.country_code || 'unknown';
+      }
+    } catch (err) {
+      console.error('Geolocation error:', err);
+    }
+
+    // Evaluate targeting rules BEFORE redirect
+    const targetedUrl = await evaluateTargetingRules(
+      supabase, 
+      linkRecord.id, 
+      country, 
+      deviceType, 
+      os, 
+      browser
+    );
+    
+    const finalRedirectUrl = targetedUrl || linkRecord.final_url;
+    
     // Check if unique click (only if not from cache, to avoid redundant DB query)
     let isUnique = true;
     if (!fromCache) {
-      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
       isUnique = await isUniqueClick(supabase, linkRecord.id, ipAddress, userAgent);
     }
     
@@ -388,10 +471,6 @@ Deno.serve(async (req) => {
         // Skip batch processing if disabled
         if (flags['enable_batch_processing'] === false) {
           // Direct insert
-          const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-          const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-          const supabase = createClient(supabaseUrl, supabaseKey);
-          
           await supabase.from('link_clicks').insert({
             ...clickData,
             country: null,
@@ -407,10 +486,6 @@ Deno.serve(async (req) => {
       } catch (error) {
         console.error('Error queuing click:', error);
         // Fallback: direct insert if queue fails
-        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-        const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        
         await supabase.from('link_clicks').insert({
           ...clickData,
           country: null,
@@ -439,9 +514,6 @@ Deno.serve(async (req) => {
     
     if (isCrawler && flags['enable_og_preview'] !== false) {
       // For crawlers, we need to fetch variants from DB (can't use cached link record for this)
-      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
       
       // Check if A/B testing is enabled before fetching variants
       let selectedVariant: OGVariant | null = null;
@@ -502,9 +574,9 @@ Deno.serve(async (req) => {
     // Perform redirect for regular users
     const redirectStatus = linkRecord.redirect_type === '301' ? 301 : 302;
     const endTime = performance.now();
-    console.log(`Redirecting to: ${linkRecord.final_url} (${redirectStatus}) - Total time: ${(endTime - startTime).toFixed(2)}ms (cache: ${fromCache})`);
+    console.log(`Redirecting to: ${finalRedirectUrl} (${redirectStatus}) - Total time: ${(endTime - startTime).toFixed(2)}ms (cache: ${fromCache})`);
     
-    return Response.redirect(linkRecord.final_url, redirectStatus);
+    return Response.redirect(finalRedirectUrl, redirectStatus);
     
   } catch (error) {
     console.error('Redirect error:', error);

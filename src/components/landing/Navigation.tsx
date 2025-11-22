@@ -279,6 +279,17 @@ export const Navigation = () => {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link to="/partners/apply">
+                    <NavigationMenuLink className={cn(
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      location.pathname.startsWith("/partners") && "text-foreground"
+                    )}>
+                      Partners
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
