@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAuditLog } from "@/hooks/useAuditLog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,6 +35,7 @@ type EarlyAccessRequest = {
 export default function WaitlistManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedRequest, setSelectedRequest] = useState<EarlyAccessRequest | null>(null);
@@ -96,6 +98,15 @@ export default function WaitlistManagement() {
           access_level: accessLevel,
           invite_token: invite.invite_token,
         },
+      });
+      
+      // Log audit action
+      await logAction({
+        action: 'approve',
+        resourceType: 'waitlist_user',
+        resourceId: request.id,
+        oldValues: { status: request.status, access_level: request.access_level },
+        newValues: { status: 'approved', access_level: accessLevel },
       });
     },
     onSuccess: () => {

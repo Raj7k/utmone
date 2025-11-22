@@ -9,7 +9,8 @@ import {
   Megaphone, 
   BarChart3,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Activity
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -21,6 +22,7 @@ const navItems = [
   { path: "/admin/waitlist", label: "waitlist", icon: Users },
   { path: "/admin/landing", label: "landing page", icon: Megaphone },
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
+  { path: "/admin/system", label: "system monitoring", icon: Activity },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {
