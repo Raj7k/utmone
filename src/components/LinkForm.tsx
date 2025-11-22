@@ -23,7 +23,8 @@ import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
 import { TargetingRulesManager } from "./links/TargetingRulesManager";
-import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles, Target } from "lucide-react";
+import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles, Target, Lock } from "lucide-react";
+import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -56,6 +57,8 @@ const linkFormSchema = z.object({
   og_title: z.string().max(60).optional(),
   og_description: z.string().max(160).optional(),
   og_image: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  password: z.string().min(6).optional().or(z.literal("")),
+  password_hint: z.string().max(100).optional(),
 });
 
 type LinkFormData = z.infer<typeof linkFormSchema>;
@@ -68,10 +71,12 @@ interface LinkFormProps {
 export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { triggerWebhook } = useLinkWebhooks(workspaceId);
   
   const { data: domains, isLoading: domainsLoading } = useWorkspaceDomains(workspaceId);
   const { data: primaryDomain } = usePrimaryDomain(workspaceId);
   const { preferences, updatePreferences, isLoading: preferencesLoading } = useUserPreferences(workspaceId);
+  const [isScanning, setIsScanning] = useState(false);
   
   const verifiedDomains = domains?.filter(d => d.is_verified) || [];
   const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "utm.one";
@@ -255,6 +260,29 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
   const createLinkMutation = useMutation({
     mutationFn: async (data: LinkFormData) => {
+      // URL Scanning
+      if (data.destination_url) {
+        setIsScanning(true);
+        try {
+          const { data: scanResult, error: scanError } = await supabase.functions.invoke("scan-url", {
+            body: { url: data.destination_url },
+          });
+
+          if (scanError) throw scanError;
+
+          if (!scanResult.safe && scanResult.threats && scanResult.threats.length > 0) {
+            const proceed = window.confirm(
+              `⚠️ Security Warning: This URL was flagged by ${scanResult.threats.length} security vendors. Do you want to proceed?`
+            );
+            if (!proceed) {
+              throw new Error("URL scanning failed security check");
+            }
+          }
+        } finally {
+          setIsScanning(false);
+        }
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
@@ -270,6 +298,17 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       if (data.utm_content) params.set("utm_content", data.utm_content);
 
       const finalUrlFinal = `${url.origin}${url.pathname}${url.search ? url.search + "&" : "?"}${params.toString()}`;
+
+      // Hash password if provided
+      let passwordHash = null;
+      if (data.password && data.password.length > 0) {
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(data.password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+        passwordHash = Array.from(new Uint8Array(hashBuffer))
+          .map(b => b.toString(16).padStart(2, '0'))
+          .join('');
+      }
 
       const { data: link, error } = await supabase
         .from("links")
@@ -296,6 +335,8 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           og_title: data.og_title || null,
           og_description: data.og_description || null,
           og_image: data.og_image || null,
+          password_hash: passwordHash,
+          password_hint: data.password_hint || null,
         })
         .select()
         .single();
@@ -303,11 +344,21 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       if (error) throw error;
       return link;
     },
-    onSuccess: (link) => {
+    onSuccess: async (link) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       setCreatedLinkId(link.id);
       const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
       const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.path}/${link.slug}`;
+      
+      // Trigger webhook
+      await triggerWebhook("link.created", {
+        link_id: link.id,
+        title: link.title,
+        short_url: generatedShortUrl,
+        destination_url: link.destination_url,
+        created_at: link.created_at,
+      });
+      
       onSuccess?.(link.id, generatedShortUrl);
     },
     onError: (error: Error) => {
@@ -686,6 +737,41 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Lock className="h-4 w-4 text-muted-foreground" />
+                  <Label className="text-sm font-medium">Password Protection</Label>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="leave empty for no password"
+                    className="placeholder:text-muted-foreground"
+                    {...form.register("password")}
+                  />
+                  {form.formState.errors.password && (
+                    <p className="text-sm text-destructive">{form.formState.errors.password.message}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground">require password before redirect (minimum 6 characters)</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password_hint" className="text-sm font-medium">Password Hint (optional)</Label>
+                  <Input
+                    id="password_hint"
+                    placeholder="hint for users who forgot password"
+                    className="placeholder:text-muted-foreground"
+                    {...form.register("password_hint")}
+                  />
+                  <p className="text-xs text-muted-foreground">shown on password entry page</p>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>

@@ -19,6 +19,12 @@ interface LinkRecord {
   og_title: string | null;
   og_description: string | null;
   og_image: string | null;
+  password_hash: string | null;
+  password_hint: string | null;
+  domain: string;
+  path: string;
+  slug: string;
+  workspace_id: string;
 }
 
 interface OGVariant {
@@ -326,7 +332,7 @@ Deno.serve(async (req) => {
       // Look up the link (now using optimized index)
       const { data: link, error: linkError } = await supabase
         .from('links')
-        .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image')
+        .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id')
         .eq('domain', domain)
         .eq('path', path)
         .eq('slug', slug)
@@ -347,6 +353,13 @@ Deno.serve(async (req) => {
       if (flags['enable_cache'] !== false) {
         await kv.set(cacheKey, linkRecord, { expireIn: 300000 });
       }
+    }
+    
+    // Check if link has password protection
+    if (linkRecord.password_hash) {
+      console.log('Link is password protected - redirecting to password page');
+      const passwordPageUrl = `${Deno.env.get('SUPABASE_URL')}/password-protected?link=${linkRecord.id}&hint=${encodeURIComponent(linkRecord.password_hint || '')}`;
+      return Response.redirect(passwordPageUrl, 302);
     }
     
     // Check if link is paused
@@ -497,6 +510,19 @@ Deno.serve(async (req) => {
     // Start background task for click logging
     const logClickWithVariant = async () => {
       await logClick();
+      
+      // Trigger click webhook (async, don't block redirect)
+      supabase.functions.invoke('trigger-click-webhook', {
+        body: {
+          linkId: linkRecord.id,
+          clickData: {
+            clicked_at: new Date().toISOString(),
+            device_type: deviceType,
+            country: country,
+            referrer: referrer,
+          },
+        },
+      }).catch(err => console.error('Webhook trigger failed:', err));
     };
     
     // Start background task for click logging
