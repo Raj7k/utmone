@@ -7,6 +7,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
 import { WebhookManager } from "@/components/WebhookManager";
+import { IntegrationsManager } from "@/components/IntegrationsManager";
 import { NavLink } from "@/components/NavLink";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -125,7 +126,12 @@ export default function Settings() {
             </TabsContent>
 
             <TabsContent value="integrations" className="space-y-6">
-              {currentWorkspace && <WebhookManager workspaceId={currentWorkspace.id} />}
+              {currentWorkspace && (
+                <>
+                  <WebhookManager workspaceId={currentWorkspace.id} />
+                  <IntegrationsManager />
+                </>
+              )}
             </TabsContent>
 
             <TabsContent value="security" className="space-y-6">
