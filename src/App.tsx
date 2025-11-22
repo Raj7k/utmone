@@ -29,9 +29,12 @@ import ProductAnalytics from "./pages/admin/ProductAnalytics";
 import SystemMonitoring from "./pages/admin/SystemMonitoring";
 import FeatureFlags from "./pages/admin/FeatureFlags";
 import FlagDetails from "./pages/admin/FlagDetails";
-import APIKeysSettings from "./pages/Settings/APIKeys";
+import PartnersManagement from "./pages/admin/PartnersManagement";
+import { AdminLayout } from "@/components/admin/AdminLayout";
 import PartnerApply from "./pages/Partners/Apply";
 import PartnerDashboard from "./pages/Partners/Dashboard";
+import PasswordProtected from "./pages/PasswordProtected";
+import APIDocumentation from "./pages/Docs/API";
 
 const queryClient = new QueryClient();
 
@@ -49,18 +52,24 @@ const App = () => (
           <Route path="/links" element={<Links />} />
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/waitlist" element={<WaitlistManagement />} />
-              <Route path="/admin/landing" element={<LandingManagement />} />
-              <Route path="/admin/product" element={<ProductAnalytics />} />
-              <Route path="/admin/system" element={<SystemMonitoring />} />
-              <Route path="/admin/feature-flags" element={<FeatureFlags />} />
-              <Route path="/admin/flags/:flagKey" element={<FlagDetails />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout><AdminDashboard /></AdminLayout>} />
+          <Route path="/admin/waitlist" element={<AdminLayout><WaitlistManagement /></AdminLayout>} />
+          <Route path="/admin/landing" element={<AdminLayout><LandingManagement /></AdminLayout>} />
+          <Route path="/admin/product" element={<AdminLayout><ProductAnalytics /></AdminLayout>} />
+          <Route path="/admin/system" element={<AdminLayout><SystemMonitoring /></AdminLayout>} />
+          <Route path="/admin/feature-flags" element={<AdminLayout><FeatureFlags /></AdminLayout>} />
+          <Route path="/admin/flags/:flagKey" element={<AdminLayout><FlagDetails /></AdminLayout>} />
+          <Route path="/admin/partners" element={<AdminLayout><PartnersManagement /></AdminLayout>} />
+          
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
+          <Route path="/password-protected" element={<PasswordProtected />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/docs/api" element={<APIDocumentation />} />
           <Route path="/solutions/marketers" element={<Marketers />} />
           <Route path="/solutions/sales" element={<Sales />} />
           <Route path="/solutions/marketing-ops" element={<MarketingOps />} />
@@ -68,6 +77,8 @@ const App = () => (
           <Route path="/early-access" element={<EarlyAccess />} />
           <Route path="/invite/:code" element={<Invite />} />
           <Route path="/claim-access" element={<ClaimAccess />} />
+          <Route path="/partners/apply" element={<PartnerApply />} />
+          <Route path="/partners/dashboard" element={<PartnerDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

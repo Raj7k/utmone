@@ -68,6 +68,9 @@ verify_jwt = false
 [functions.scan-url]
 verify_jwt = false
 
+[functions.verify-link-password]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]

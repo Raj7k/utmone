@@ -58,6 +58,39 @@ const Auth = () => {
           variant: "destructive",
         });
       } else {
+        // Check for referral code and create partner_referral record
+        const refCode = localStorage.getItem('utm_referral_code');
+        if (refCode) {
+          try {
+            // Get the new user's ID
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+              // Find partner by code
+              const { data: partner } = await supabase
+                .from('partners')
+                .select('id')
+                .eq('partner_code', refCode)
+                .eq('status', 'approved')
+                .single();
+
+              if (partner) {
+                // Create referral record
+                await supabase.from('partner_referrals').insert({
+                  partner_id: partner.id,
+                  referred_user_id: user.id,
+                  referral_code: refCode,
+                  signup_date: new Date().toISOString(),
+                  status: 'pending'
+                });
+                console.log('Partner referral tracked');
+              }
+            }
+            localStorage.removeItem('utm_referral_code');
+          } catch (err) {
+            console.error('Error tracking referral:', err);
+          }
+        }
+
         toast({
           title: "Success!",
           description: "Account created successfully. You can now sign in.",

@@ -22,7 +22,8 @@ import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
-import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles } from "lucide-react";
+import { TargetingRulesManager } from "./links/TargetingRulesManager";
+import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles, Target } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -689,7 +690,26 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             </AccordionContent>
           </AccordionItem>
 
-          {/* Section 5: Smart Defaults & Preferences */}
+          {/* Section 5: Geo & Device Targeting */}
+          {createdLinkId && (
+            <AccordionItem value="targeting" className="border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline">
+                <div className="flex items-center gap-3">
+                  <Target className="h-5 w-5 text-indigo-600" />
+                  <span className="font-serif text-lg font-semibold">Geo & Device Targeting</span>
+                  <Badge variant="secondary" className="text-xs">Optional</Badge>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Redirect users to different URLs based on their location or device
+                </p>
+                <TargetingRulesManager linkId={createdLinkId} />
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {/* Section 6: Smart Defaults & Preferences */}
           <AccordionItem value="preferences" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
