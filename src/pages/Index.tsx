@@ -38,11 +38,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <AnnouncementBar 
-        message="🎉 Early access now open! Limited spots available for design partners."
-        ctaText="Join the waitlist"
-        ctaLink="/early-access"
         dismissible={true}
-        storageKey="early-access-announcement-v1"
       />
       <Navigation />
       <FloatingActionButton />

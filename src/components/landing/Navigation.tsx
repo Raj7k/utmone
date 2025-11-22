@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { announcements } from "@/lib/announcementConfig";
+import { AnnouncementScheduler } from "@/lib/announcementScheduler";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,16 +22,24 @@ export const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    // Check if announcement bar is dismissed
-    const checkDismissal = () => {
-      const isDismissed = localStorage.getItem("early-access-announcement-v1");
-      setAnnouncementVisible(!isDismissed);
+    // Check if any announcement is currently visible
+    const checkAnnouncementVisibility = () => {
+      const announcementsToUse = announcements;
+      const selected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, false);
+      
+      if (selected) {
+        const dismissKey = `announcement-dismissed-${selected.id}`;
+        const isDismissed = localStorage.getItem(dismissKey);
+        setAnnouncementVisible(!isDismissed);
+      } else {
+        setAnnouncementVisible(false);
+      }
     };
     
-    checkDismissal();
+    checkAnnouncementVisibility();
     
-    // Poll for changes (simple approach)
-    const interval = setInterval(checkDismissal, 100);
+    // Poll for changes
+    const interval = setInterval(checkAnnouncementVisibility, 100);
     
     return () => clearInterval(interval);
   }, []);
