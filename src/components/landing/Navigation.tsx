@@ -1,14 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
+  const location = useLocation();
   
   // Transform scroll progress to width percentage
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -78,61 +91,291 @@ export const Navigation = () => {
             </motion.span>
           </Link>
 
-          {/* Center Navigation Links */}
-          <div className="hidden md:flex items-center gap-6">
-            <motion.button
-              onClick={() => scrollToSection("features")}
-              className="text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors relative group"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              features
-              <motion.span
-                className="absolute -bottom-1 left-0 h-[2px] bg-accent-teal"
-                initial={{ width: 0 }}
-                whileHover={{ width: "100%" }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center">
+            <NavigationMenu>
+              <NavigationMenuList className="gap-2">
+                {/* Product Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent">
+                    Product
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/short-links"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Short Links</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              branded, memorable links that work
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/utm-builder"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">UTM Builder</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              consistent parameters, every time
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/qr-generator"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">QR Generator</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              on-brand codes that convert
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/analytics"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Analytics</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              clear data, better decisions
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/governance"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Enterprise Control</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              governance without the friction
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            <motion.button
-              onClick={() => scrollToSection("governance")}
-              className="text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors relative group"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              governance
-              <motion.span
-                className="absolute -bottom-1 left-0 h-[2px] bg-accent-yellow-green"
-                initial={{ width: 0 }}
-                whileHover={{ width: "100%" }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.button>
+                {/* Solutions Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent">
+                    Solutions
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/solutions/marketers"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                              location.pathname === "/solutions/marketers" && "bg-accent"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">For Marketing Teams</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              campaigns work better when links do
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/solutions/sales"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                              location.pathname === "/solutions/sales" && "bg-accent"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">For Sales Teams</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              share faster, share cleaner
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/solutions/marketing-ops"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                              location.pathname === "/solutions/marketing-ops" && "bg-accent"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">For Marketing Ops</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              governance, without the friction
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/solutions/developers"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                              location.pathname === "/solutions/developers" && "bg-accent"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">For Developers</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              a clean api for a cleaner stack
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Direct Links */}
+                <NavigationMenuItem>
+                  <Link to="/docs">
+                    <NavigationMenuLink className={cn(
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      location.pathname === "/docs" && "text-foreground"
+                    )}>
+                      Docs
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link to="/pricing">
+                    <NavigationMenuLink className={cn(
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      location.pathname === "/pricing" && "text-foreground"
+                    )}>
+                      Pricing
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link to="/about">
+                    <NavigationMenuLink className={cn(
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      location.pathname === "/about" && "text-foreground"
+                    )}>
+                      About
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
-          {/* Right: Status + CTA */}
-          <div className="flex items-center gap-4">
-            <motion.div 
-              className="hidden sm:flex items-center gap-2 text-[13px] text-muted-foreground"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <motion.span 
-                className="w-2 h-2 bg-accent-yellow-green rounded-full"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [1, 0.7, 1]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <span>open for early access</span>
-            </motion.div>
+          {/* Mobile Menu */}
+          <div className="lg:hidden">
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col gap-4 mt-8">
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
+                    <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Short Links</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/utm-builder" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>UTM Builder</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/qr-generator" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>QR Generator</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/analytics" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Analytics</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/governance" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Enterprise Control</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Solutions</p>
+                    <Link to="/solutions/marketers" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>For Marketing Teams</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/solutions/sales" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>For Sales Teams</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/solutions/marketing-ops" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>For Marketing Ops</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/solutions/developers" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>For Developers</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="border-t pt-4 space-y-1">
+                    <Link to="/docs" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Docs</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Pricing</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>About</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="outline" className="w-full mb-2">
+                        Sign In
+                      </Button>
+                    </Link>
+                    <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
+                      <Button className="w-full rounded-full">
+                        Get Early Access
+                      </Button>
+                    </Link>
+                  </div>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* Right: Sign In + CTA */}
+          <div className="flex items-center gap-3">
+            <Link to="/auth" className="hidden lg:inline-flex">
+              <Button variant="ghost" size="sm" className="text-[14px] font-medium text-foreground/70 hover:text-foreground">
+                Sign In
+              </Button>
+            </Link>
             <Link to="/early-access">
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
