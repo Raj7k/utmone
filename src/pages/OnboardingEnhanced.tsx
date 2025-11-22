@@ -242,34 +242,24 @@ export default function OnboardingEnhanced() {
             <CardHeader className="text-center">
               <CardTitle className="text-3xl">welcome to utm.one</CardTitle>
               <CardDescription className="text-lg mt-4">
-                let's get you set up in 5 minutes
+                let's set up your workspace. it takes under 2 minutes.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert>
-                <CheckCircle2 className="h-4 w-4" />
-                <AlertDescription>
-                  we'll help you: add your domain, create your first link, generate a QR code, and invite your team
-                </AlertDescription>
-              </Alert>
-
               <div className="space-y-4">
                 <Button
-                  className="w-full h-auto py-6 flex-col items-start"
+                  className="w-full h-auto py-4"
                   onClick={() => setStep("domain")}
                 >
-                  <div className="text-lg font-semibold mb-1">let's start</div>
-                  <div className="text-sm font-normal opacity-90">
-                    complete guided onboarding
-                  </div>
+                  continue
                 </Button>
 
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   className="w-full"
                   onClick={handleSkip}
                 >
-                  skip and explore on my own
+                  i'll do this later
                 </Button>
               </div>
             </CardContent>
@@ -279,12 +269,9 @@ export default function OnboardingEnhanced() {
         {step === "domain" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Link2 className="w-5 h-5" />
-                add your custom domain
-              </CardTitle>
+              <CardTitle>add your branded domain</CardTitle>
               <CardDescription>
-                your branded domain makes links more trustworthy
+                use your own domain for short links. example: yourcompany.com/go/
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -323,7 +310,7 @@ export default function OnboardingEnhanced() {
           <Card>
             <CardHeader>
               <CardTitle>verify your domain</CardTitle>
-              <CardDescription>add this DNS record to verify ownership</CardDescription>
+              <CardDescription>add this DNS record to verify ownership.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <DomainDNSInstructions
@@ -351,11 +338,8 @@ export default function OnboardingEnhanced() {
         {step === "first-link" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Link2 className="w-5 h-5" />
-                create your first link
-              </CardTitle>
-              <CardDescription>shorten a url to get started</CardDescription>
+              <CardTitle>your first short link</CardTitle>
+              <CardDescription>paste any url to get started.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
@@ -396,11 +380,8 @@ export default function OnboardingEnhanced() {
         {step === "first-qr" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <QrCode className="w-5 h-5" />
-                generate your first QR code
-              </CardTitle>
-              <CardDescription>create a branded QR code for your link</CardDescription>
+              <CardTitle>your qr code, designed beautifully</CardTitle>
+              <CardDescription>choose a color and add your logo.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <Alert>
@@ -429,11 +410,8 @@ export default function OnboardingEnhanced() {
         {step === "analytics" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" />
-                view your analytics
-              </CardTitle>
-              <CardDescription>track link performance and insights</CardDescription>
+              <CardTitle>see your analytics</CardTitle>
+              <CardDescription>see how your links are performing.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <Alert>
@@ -459,11 +437,8 @@ export default function OnboardingEnhanced() {
         {step === "team" && (
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                invite your team (optional)
-              </CardTitle>
-              <CardDescription>collaborate with team members</CardDescription>
+              <CardTitle>add your team</CardTitle>
+              <CardDescription>share access with teammates so everyone follows the same rules.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -493,9 +468,9 @@ export default function OnboardingEnhanced() {
               <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
-              <CardTitle className="text-2xl">you're all set!</CardTitle>
+              <CardTitle className="text-2xl">you're ready.</CardTitle>
               <CardDescription className="text-lg">
-                welcome to utm.one
+                your workspace is set. your links are clean. your data will be too.
               </CardDescription>
             </CardHeader>
             <CardContent>
