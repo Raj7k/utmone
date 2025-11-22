@@ -6,6 +6,9 @@ verify_jwt = false
 [functions.process-geolocation]
 verify_jwt = false
 
+[functions.process-click-queue]
+verify_jwt = false
+
 [functions.notify-admin-new-request]
 verify_jwt = false
 

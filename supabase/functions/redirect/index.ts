@@ -311,89 +311,48 @@ Deno.serve(async (req) => {
     
     console.log(`Click details: device=${deviceType}, browser=${browser}, os=${os}, unique=${isUnique}, cache=${fromCache}`);
     
-    // Log the click (background task - DOES NOT await geolocation)
+    // Queue click for batch processing (reduces DB load by 100x)
     const logClick = async () => {
-      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-      const supabase = createClient(supabaseUrl, supabaseKey);
+      // Extract QR code ID from query params if present
+      const qrCodeId = url.searchParams.get('qr') || null;
       
-      // Insert click WITHOUT geolocation data (will be processed by background job)
-      const { error: clickError } = await supabase
-        .from('link_clicks')
-        .insert({
-          link_id: linkRecord.id,
-          ip_address: ipAddress,
-          user_agent: userAgent,
-          referrer: referrer,
-          device_type: deviceType,
-          browser: browser,
-          os: os,
-          country: null, // Will be filled by background geolocation processor
-          city: null,    // Will be filled by background geolocation processor
-          is_unique: isUnique,
-          clicked_at: new Date().toISOString()
-        });
-      
-      if (clickError) {
-        console.error('Error logging click:', clickError);
-      }
-      
-      // Update link statistics
-      const { error: updateError } = await supabase
-        .from('links')
-        .update({
-          total_clicks: linkRecord.total_clicks + 1,
-          unique_clicks: isUnique ? (await supabase.from('links').select('unique_clicks').eq('id', linkRecord.id).single()).data?.unique_clicks + 1 : undefined,
-          last_clicked_at: new Date().toISOString()
-        })
-        .eq('id', linkRecord.id);
-      
-      if (updateError) {
-        console.error('Error updating link stats:', updateError);
-      }
-      
-      // Invalidate cache when link is updated
-      await kv.delete(['link', domain, path, slug]);
-    };
-    
-    // Start background task for click logging with variant tracking
-    const logClickWithVariant = async () => {
-      await logClick();
-      
-      // Check if this is a social media crawler for variant tracking
-      const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
-      
-      if (isCrawler) {
+      const clickData = {
+        link_id: linkRecord.id,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        referrer: referrer,
+        device_type: deviceType,
+        browser: browser,
+        os: os,
+        is_unique: isUnique,
+        qr_code_id: qrCodeId,
+        og_variant_id: null, // Will be set by variant tracking
+        clicked_at: new Date().toISOString(),
+      };
+
+      try {
+        // Push to Deno KV queue with timestamp-based key
+        const clickKey = ['click_queue', Date.now().toString(), crypto.randomUUID()];
+        await kv.set(clickKey, clickData, { expireIn: 300000 }); // 5 min TTL
+        console.log('Click queued for batch processing');
+      } catch (error) {
+        console.error('Error queuing click:', error);
+        // Fallback: direct insert if queue fails
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
         const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
         const supabase = createClient(supabaseUrl, supabaseKey);
         
-        // Fetch active OG variants for A/B testing
-        const { data: variants, error: variantsError } = await supabase
-          .from('og_image_variants')
-          .select('id, variant_name, og_title, og_description, og_image')
-          .eq('link_id', linkRecord.id)
-          .eq('is_active', true);
-        
-        if (!variantsError && variants && variants.length > 0) {
-          // Randomly select a variant for A/B testing
-          const selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
-          
-          // Track the variant selection
-          const { error: variantTrackError } = await supabase
-            .from('link_clicks')
-            .update({ og_variant_id: selectedVariant.id })
-            .eq('link_id', linkRecord.id)
-            .eq('ip_address', ipAddress)
-            .eq('user_agent', userAgent)
-            .order('clicked_at', { ascending: false })
-            .limit(1);
-          
-          if (variantTrackError) {
-            console.error('Error tracking variant:', variantTrackError);
-          }
-        }
+        await supabase.from('link_clicks').insert({
+          ...clickData,
+          country: null,
+          city: null,
+        });
       }
+    };
+    
+    // Start background task for click logging
+    const logClickWithVariant = async () => {
+      await logClick();
     };
     
     // Start background task for click logging

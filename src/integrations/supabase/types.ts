@@ -1396,6 +1396,14 @@ export type Database = {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
       }
+      increment_link_clicks: {
+        Args: {
+          p_link_id: string
+          p_total_increment: number
+          p_unique_increment: number
+        }
+        Returns: undefined
+      }
       is_workspace_member: {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
