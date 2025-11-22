@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.send-applicant-confirmation]
 verify_jwt = false
+
+[functions.track-waitlist-engagement]
+verify_jwt = false
+
+[functions.landing-analytics]
+verify_jwt = false
