@@ -1,0 +1,104 @@
+import { supabase } from "@/integrations/supabase/client";
+import { PlanTier, PLAN_CONFIG } from "./planConfig";
+
+export interface PlanLimits {
+  canCreateLink: boolean;
+  canAddDomain: boolean;
+  reason?: string;
+  currentUsage: {
+    linksThisMonth: number;
+    clicksThisMonth: number;
+    customDomains: number;
+  };
+  limits: {
+    monthlyLinks: number | 'unlimited';
+    monthlyClicks: number | 'unlimited';
+    customDomains: number | 'unlimited';
+  };
+}
+
+export async function checkPlanLimits(workspaceId: string): Promise<PlanLimits> {
+  // Fetch workspace plan
+  const { data: workspace, error: workspaceError } = await supabase
+    .from('workspaces')
+    .select('plan_tier, monthly_link_count, custom_domain_limit')
+    .eq('id', workspaceId)
+    .single();
+
+  if (workspaceError || !workspace) {
+    throw new Error('Failed to fetch workspace plan');
+  }
+
+  const planTier = (workspace.plan_tier || 'free') as PlanTier;
+  const planConfig = PLAN_CONFIG[planTier];
+
+  // Count links created this month
+  const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
+  
+  const { count: linksCount } = await supabase
+    .from('links')
+    .select('*', { count: 'exact', head: true })
+    .eq('workspace_id', workspaceId)
+    .gte('created_at', startOfMonth);
+
+  // Count custom domains
+  const { count: domainsCount } = await supabase
+    .from('domains')
+    .select('*', { count: 'exact', head: true })
+    .eq('workspace_id', workspaceId);
+
+  // Get link IDs for this workspace
+  const { data: workspaceLinks } = await supabase
+    .from('links')
+    .select('id')
+    .eq('workspace_id', workspaceId);
+
+  const linkIds = workspaceLinks?.map(link => link.id) || [];
+
+  // Count clicks this month for workspace links
+  const { count: clicksCount } = linkIds.length > 0 
+    ? await supabase
+        .from('link_clicks')
+        .select('id', { count: 'exact', head: true })
+        .in('link_id', linkIds)
+        .gte('clicked_at', startOfMonth)
+    : { count: 0 };
+
+  const linksThisMonth = linksCount || 0;
+  const customDomains = domainsCount || 0;
+  const clicksThisMonth = clicksCount || 0;
+
+  const monthlyLinksLimit = planConfig.features.monthlyLinks;
+  const customDomainsLimit = planConfig.features.customDomains;
+  const monthlyClicksLimit = planConfig.features.monthlyClicks;
+
+  const canCreateLink = 
+    monthlyLinksLimit === 'unlimited' || linksThisMonth < monthlyLinksLimit;
+
+  const canAddDomain = 
+    customDomainsLimit === 'unlimited' || customDomains < customDomainsLimit;
+
+  let reason: string | undefined;
+  if (!canCreateLink) {
+    reason = `you've reached your monthly limit of ${monthlyLinksLimit} links. upgrade to create more.`;
+  }
+  if (!canAddDomain) {
+    reason = `you've reached your limit of ${customDomainsLimit} custom domains. upgrade to add more.`;
+  }
+
+  return {
+    canCreateLink,
+    canAddDomain,
+    reason,
+    currentUsage: {
+      linksThisMonth,
+      clicksThisMonth,
+      customDomains,
+    },
+    limits: {
+      monthlyLinks: monthlyLinksLimit,
+      monthlyClicks: monthlyClicksLimit,
+      customDomains: customDomainsLimit,
+    },
+  };
+}

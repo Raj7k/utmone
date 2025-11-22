@@ -8,6 +8,7 @@ import { Link as LinkIcon, QrCode, BarChart3, Plus, LogOut } from "lucide-react"
 import type { User } from "@supabase/supabase-js";
 import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { UsageLimitBanner } from "@/components/UsageLimitBanner";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -97,6 +98,8 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-8 py-group">
+        <UsageLimitBanner />
+        
         <div className="mb-content">
           <h1 className="text-heading-3 font-bold mb-2">welcome back</h1>
           <p className="text-body-text text-muted-foreground">here's what's happening with your links today.</p>
