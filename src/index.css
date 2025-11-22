@@ -48,6 +48,18 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 97%) 0%, hsl(0, 0%, 100%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 97%) 100%);
     
+    /* Nature-inspired accent gradients */
+    --gradient-nature-1: linear-gradient(135deg, hsl(60, 99%, 94%) 0%, hsl(66, 82%, 55%) 100%);
+    --gradient-nature-2: linear-gradient(135deg, hsl(84, 86%, 90%) 0%, hsl(66, 82%, 55%) 50%, hsl(172, 91%, 25%) 100%);
+    --gradient-nature-3: linear-gradient(135deg, hsl(66, 82%, 55%) 0%, hsl(172, 91%, 25%) 50%, hsl(169, 75%, 10%) 100%);
+    --gradient-nature-4: linear-gradient(135deg, hsl(172, 91%, 25%) 0%, hsl(169, 75%, 10%) 50%, hsl(169, 68%, 6%) 100%);
+    
+    /* Accent color tokens */
+    --accent-teal: 172 91% 25%;
+    --accent-yellow-green: 66 82% 55%;
+    --accent-mint: 84 86% 90%;
+    --accent-forest: 169 68% 6%;
+    
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
     --shadow: 0 2px 16px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.04);
     --shadow-lg: 0 4px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -62,11 +74,11 @@ All colors MUST be HSL.
     --sidebar-border: 0 0% 92%;
     --sidebar-ring: 0 0% 4%;
     
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 172 91% 25%;
+    --chart-2: 66 82% 55%;
+    --chart-3: 84 86% 90%;
+    --chart-4: 169 75% 10%;
+    --chart-5: 169 68% 6%;
   }
 
   .dark {
@@ -107,6 +119,12 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 14.9%) 0%, hsl(0, 0%, 7%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0, 0%, 4%) 0%, hsl(0, 0%, 14.9%) 100%);
     
+    /* Nature-inspired accent gradients - dark mode */
+    --gradient-nature-1: linear-gradient(135deg, hsl(60, 99%, 94%) 0%, hsl(66, 82%, 55%) 100%);
+    --gradient-nature-2: linear-gradient(135deg, hsl(84, 86%, 90%) 0%, hsl(66, 82%, 55%) 50%, hsl(172, 91%, 25%) 100%);
+    --gradient-nature-3: linear-gradient(135deg, hsl(66, 82%, 55%) 0%, hsl(172, 91%, 25%) 50%, hsl(169, 75%, 10%) 100%);
+    --gradient-nature-4: linear-gradient(135deg, hsl(172, 91%, 25%) 0%, hsl(169, 75%, 10%) 50%, hsl(169, 68%, 6%) 100%);
+    
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
     --shadow: 0 2px 16px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.5);
     --shadow-lg: 0 4px 32px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.6);
@@ -121,11 +139,11 @@ All colors MUST be HSL.
     --sidebar-border: 0 0% 14.9%;
     --sidebar-ring: 0 0% 98%;
     
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 172 91% 25%;
+    --chart-2: 66 82% 55%;
+    --chart-3: 84 86% 90%;
+    --chart-4: 169 75% 10%;
+    --chart-5: 169 68% 6%;
   }
 }
 

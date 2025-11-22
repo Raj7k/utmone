@@ -55,6 +55,10 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          teal: "hsl(var(--accent-teal))",
+          "yellow-green": "hsl(var(--accent-yellow-green))",
+          mint: "hsl(var(--accent-mint))",
+          forest: "hsl(var(--accent-forest))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -79,6 +83,10 @@ export default {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-secondary": "var(--gradient-secondary)",
         "gradient-hero": "var(--gradient-hero)",
+        "gradient-nature-1": "var(--gradient-nature-1)",
+        "gradient-nature-2": "var(--gradient-nature-2)",
+        "gradient-nature-3": "var(--gradient-nature-3)",
+        "gradient-nature-4": "var(--gradient-nature-4)",
       },
       boxShadow: {
         "sm": "var(--shadow-sm)",

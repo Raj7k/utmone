@@ -44,7 +44,8 @@ const Index = () => {
                   <Link to="/auth">
                     <Button 
                       size="lg" 
-                      className="bg-foreground hover:bg-foreground/90 text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]"
+                      variant="gradient"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full hover:scale-[1.02]"
                       onClick={() => trackCTAClick('hero-primary')}
                     >
                       {variant.cta}
@@ -86,10 +87,10 @@ const Index = () => {
 
           <div className="grid lg:grid-cols-2 gap-6 max-w-[980px] mx-auto">
             {/* Branded Short Links */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-teal/30">
               <div className="space-y-4">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <LinkIcon className="h-7 w-7 text-primary" strokeWidth={2} />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-1 transition-all">
+                  <LinkIcon className="h-7 w-7 text-primary group-hover:text-accent-forest" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -103,10 +104,10 @@ const Index = () => {
             </div>
 
             {/* 5-UTM Builder */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-yellow-green/30">
               <div className="space-y-4">
-                <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover:bg-secondary/20 transition-colors">
-                  <Zap className="h-7 w-7 text-secondary" strokeWidth={2} />
+                <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-2 transition-all">
+                  <Zap className="h-7 w-7 text-secondary group-hover:text-accent-forest" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -120,10 +121,10 @@ const Index = () => {
             </div>
 
             {/* Branded QR Generator */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-teal/30">
               <div className="space-y-4">
-                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <QrCode className="h-7 w-7 text-accent" strokeWidth={2} />
+                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-3 transition-all">
+                  <QrCode className="h-7 w-7 text-accent group-hover:text-white" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">
@@ -137,10 +138,10 @@ const Index = () => {
             </div>
 
             {/* Analytics Dashboard */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group">
+            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-mint/30">
               <div className="space-y-4">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                  <BarChart3 className="h-7 w-7 text-primary" strokeWidth={2} />
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-1 transition-all">
+                  <BarChart3 className="h-7 w-7 text-primary group-hover:text-accent-forest" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-h3 text-foreground font-semibold">

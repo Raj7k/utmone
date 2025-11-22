@@ -381,7 +381,12 @@ export default function OnboardingEnhanced() {
         {/* Progress bar */}
         {step !== "workspace-create" && (
           <div className="mb-8">
-            <Progress value={progress} className="h-2" />
+            <div className="w-full bg-muted/20 h-2 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-nature-1 transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
             <p className="text-sm text-muted-foreground mt-2 text-center">
               step {currentStepIndex + 1} of {steps.length}
             </p>
@@ -660,8 +665,8 @@ export default function OnboardingEnhanced() {
         {step === "complete" && (
           <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-gradient-nature-1 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-8 h-8 text-accent-forest" />
               </div>
               <CardTitle className="text-2xl">you're ready.</CardTitle>
               <CardDescription className="text-lg">
