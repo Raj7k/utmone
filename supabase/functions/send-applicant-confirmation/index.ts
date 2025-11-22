@@ -13,6 +13,7 @@ interface ConfirmationRequest {
   email: string;
   team_size: string;
   referral_code: string;
+  request_id: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -21,9 +22,23 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, team_size, referral_code }: ConfirmationRequest = await req.json();
+    const { name, email, team_size, referral_code, request_id }: ConfirmationRequest = await req.json();
     
     console.log("Sending confirmation email to:", email);
+
+    // Trigger fit score calculation
+    try {
+      await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/calculate-fit-score`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Deno.env.get("SUPABASE_ANON_KEY")}`,
+        },
+        body: JSON.stringify({ requestId: request_id }),
+      });
+    } catch (error) {
+      console.error("Error calculating fit score:", error);
+    }
 
     const referralUrl = `https://utm.one/invite/${referral_code}`;
 
