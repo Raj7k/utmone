@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [announcementVisible, setAnnouncementVisible] = useState(true);
   const { scrollYProgress } = useScroll();
   
   // Transform scroll progress to width percentage
@@ -18,6 +19,21 @@ export const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Check if announcement bar is dismissed
+    const checkDismissal = () => {
+      const isDismissed = localStorage.getItem("early-access-announcement-v1");
+      setAnnouncementVisible(!isDismissed);
+    };
+    
+    checkDismissal();
+    
+    // Poll for changes (simple approach)
+    const interval = setInterval(checkDismissal, 100);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -27,7 +43,9 @@ export const Navigation = () => {
 
   return (
     <header 
-      className={`border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50 transition-all duration-300 ${
+      className={`border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-all duration-300 ${
+        announcementVisible ? "top-[48px]" : "top-0"
+      } ${
         isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
       }`}
     >
@@ -112,7 +130,7 @@ export const Navigation = () => {
                 transition={{ duration: 0.2 }}
               >
                 <Button 
-                  variant="glow-pink"
+                  variant="default"
                   size="sm"
                   className="font-medium rounded-full"
                 >
