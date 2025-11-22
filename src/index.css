@@ -18,39 +18,49 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Apple-inspired color system */
-    --background: 0 0% 100%;
-    --foreground: 265 4% 12.9%;
+    /* Apple Design System - Exact color tokens */
+    --background: 39 5% 98%;           /* #FAFAF9 */
+    --foreground: 240 5% 9.6%;         /* #18181B */
 
     --card: 0 0% 100%;
-    --card-foreground: 265 4% 12.9%;
+    --card-foreground: 240 5% 9.6%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 265 4% 12.9%;
+    --popover-foreground: 240 5% 9.6%;
 
-    --primary: 266 4% 20.8%;
-    --primary-foreground: 248 0.3% 98.4%;
-    --primary-hover: 0 0% 10%;
+    /* Primary - Indigo accent */
+    --primary: 239 84% 67%;             /* #6366F1 */
+    --primary-foreground: 210 40% 98%;
+    --primary-hover: 243 75% 59%;       /* #4F46E5 */
 
-    --secondary: 248 0.7% 96.8%;
-    --secondary-foreground: 266 4% 20.8%;
-    --secondary-hover: 0 0% 30%;
+    /* Secondary - Supporting color */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-hover: 210 40% 90%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 98%;
+    /* Success state */
+    --success: 142 71% 45%;             /* #10B981 */
+    --success-foreground: 355.7 100% 97.3%;
 
-    --muted: 248 0.7% 96.8%;
-    --muted-foreground: 257 4.6% 55.4%;
+    /* Muted elements */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 240 5% 44.5%;   /* Matches text-secondary #71717A */
 
-    --accent: 248 0.7% 96.8%;
-    --accent-foreground: 266 4% 20.8%;
+    /* Accent color - Indigo light */
+    --accent: 238 84% 74%;              /* #818CF8 */
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 27 24.5% 57.7%;
-    --destructive-foreground: 0 0% 100%;
+    /* Destructive actions */
+    --destructive: 0 72% 51%;           /* #EF4444 */
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 256 1.3% 92.9%;
-    --input: 256 1.3% 92.9%;
-    --ring: 257 4% 70.4%;
+    /* Warning state */
+    --warning: 38 92% 50%;              /* #F59E0B */
+
+    /* Borders and inputs - Apple style */
+    --border: 0 0% 0% / 0.08;           /* rgba(0,0,0,0.08) */
+    --input: 0 0% 0% / 0.08;
+    --ring: 238 84% 74%;                /* Indigo light */
 
     --radius: 0.375rem;
 
@@ -70,10 +80,12 @@ All colors MUST be HSL.
     --accent-mint: 84 86% 90%;
     --accent-forest: 169 68% 6%;
     
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    /* Shadows - Apple style: soft and minimal */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.06);
+    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.08);
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.08);
     
     --sidebar-background: 0 0% 97%;
     --sidebar-foreground: 265 4% 12.9%;

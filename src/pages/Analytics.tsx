@@ -64,45 +64,45 @@ const Analytics = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
+      <header className="h-[72px] border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-50">
+        <div className="container mx-auto px-8 h-full">
+          <div className="flex items-center justify-between h-full">
+            <div className="flex items-center gap-8">
               <div className="flex items-center gap-2">
-                <LinkIcon className="h-8 w-8 text-primary" />
-                <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                  LinkHub
+                <LinkIcon className="h-7 w-7 text-primary" />
+                <span className="text-xl font-bold text-foreground">
+                  utm.one
                 </span>
               </div>
-              <nav className="hidden md:flex items-center gap-4">
-                <Button variant="ghost" onClick={() => navigate("/dashboard")}>
-                  Dashboard
+              <nav className="hidden md:flex items-center gap-2">
+                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/dashboard")}>
+                  dashboard
                 </Button>
-                <Button variant="ghost" onClick={() => navigate("/links")}>
-                  Links
+                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/links")}>
+                  links
                 </Button>
-                <Button variant="default">
+                <Button variant="default" size="sm" className="h-9">
                   <TrendingUp className="h-4 w-4 mr-2" />
-                  Analytics
+                  analytics
                 </Button>
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground hidden md:block">
+              <span className="text-small-text text-muted-foreground hidden md:block">
                 {user?.email}
               </span>
-              <Button variant="ghost" size="icon" onClick={handleSignOut}>
-                <LogOut className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">analytics</h1>
-          <p className="text-muted-foreground">
+      <main className="container mx-auto px-8 py-group">
+        <div className="mb-content">
+          <h1 className="text-heading-3 font-bold mb-2">analytics</h1>
+          <p className="text-body-text text-muted-foreground">
             analytics appear once your links get clicks.
           </p>
         </div>
