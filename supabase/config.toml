@@ -56,6 +56,18 @@ verify_jwt = false
 [functions.track-conversion]
 verify_jwt = false
 
+[functions.check-ab-tests]
+verify_jwt = false
+
+[functions.api]
+verify_jwt = false
+
+[functions.send-webhook]
+verify_jwt = false
+
+[functions.scan-url]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]

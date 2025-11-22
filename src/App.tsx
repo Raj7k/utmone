@@ -29,6 +29,9 @@ import ProductAnalytics from "./pages/admin/ProductAnalytics";
 import SystemMonitoring from "./pages/admin/SystemMonitoring";
 import FeatureFlags from "./pages/admin/FeatureFlags";
 import FlagDetails from "./pages/admin/FlagDetails";
+import APIKeysSettings from "./pages/Settings/APIKeys";
+import PartnerApply from "./pages/Partners/Apply";
+import PartnerDashboard from "./pages/Partners/Dashboard";
 
 const queryClient = new QueryClient();
 
