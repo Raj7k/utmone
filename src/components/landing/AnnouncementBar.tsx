@@ -4,6 +4,7 @@ import { X, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { announcements, AnnouncementConfig } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
+import { useAnnouncementTracking } from "@/hooks/useAnnouncementTracking";
 
 interface AnnouncementBarProps {
   // Optional: pass custom announcements, otherwise use default config
@@ -19,6 +20,7 @@ export const AnnouncementBar = ({
 }: AnnouncementBarProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState<AnnouncementConfig | null>(null);
+  const { trackImpression, trackClick, trackDismissal } = useAnnouncementTracking();
 
   useEffect(() => {
     // Track visit for user segment targeting
@@ -36,6 +38,9 @@ export const AnnouncementBar = ({
       if (!isDismissed) {
         setCurrentAnnouncement(selected);
         setIsVisible(true);
+        
+        // Track impression
+        trackImpression(selected.id, selected.userSegment || 'all');
       }
     }
 
@@ -61,6 +66,15 @@ export const AnnouncementBar = ({
       setIsVisible(false);
       const dismissKey = `announcement-dismissed-${currentAnnouncement.id}`;
       localStorage.setItem(dismissKey, "true");
+      
+      // Track dismissal
+      trackDismissal(currentAnnouncement.id);
+    }
+  };
+
+  const handleCTAClick = () => {
+    if (currentAnnouncement && currentAnnouncement.ctaLink) {
+      trackClick(currentAnnouncement.id, currentAnnouncement.ctaLink);
     }
   };
 
@@ -102,7 +116,7 @@ export const AnnouncementBar = ({
 
               {/* CTA Link */}
               {currentAnnouncement.ctaText && currentAnnouncement.ctaLink && (
-                <Link to={currentAnnouncement.ctaLink}>
+                <Link to={currentAnnouncement.ctaLink} onClick={handleCTAClick}>
                   <motion.div
                     className="flex items-center gap-1 text-sm font-semibold text-white hover:text-white/90 transition-colors"
                     whileHover={{ x: 3 }}

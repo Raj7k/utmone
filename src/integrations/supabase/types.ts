@@ -14,6 +14,159 @@ export type Database = {
   }
   public: {
     Tables: {
+      announcement_clicks: {
+        Row: {
+          announcement_id: string
+          created_at: string | null
+          cta_link: string | null
+          id: string
+          referrer: string | null
+          session_id: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string | null
+          cta_link?: string | null
+          id?: string
+          referrer?: string | null
+          session_id: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string | null
+          cta_link?: string | null
+          id?: string
+          referrer?: string | null
+          session_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      announcement_configs: {
+        Row: {
+          config_id: string
+          created_at: string | null
+          created_by: string | null
+          cta_link: string | null
+          cta_text: string | null
+          days_of_week: number[] | null
+          end_date: string | null
+          id: string
+          is_active: boolean | null
+          message: string
+          priority: number
+          rotation_group: string | null
+          rotation_interval_minutes: number | null
+          start_date: string | null
+          time_range_end: string | null
+          time_range_start: string | null
+          updated_at: string | null
+          user_segment: string | null
+        }
+        Insert: {
+          config_id: string
+          created_at?: string | null
+          created_by?: string | null
+          cta_link?: string | null
+          cta_text?: string | null
+          days_of_week?: number[] | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          message: string
+          priority?: number
+          rotation_group?: string | null
+          rotation_interval_minutes?: number | null
+          start_date?: string | null
+          time_range_end?: string | null
+          time_range_start?: string | null
+          updated_at?: string | null
+          user_segment?: string | null
+        }
+        Update: {
+          config_id?: string
+          created_at?: string | null
+          created_by?: string | null
+          cta_link?: string | null
+          cta_text?: string | null
+          days_of_week?: number[] | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          message?: string
+          priority?: number
+          rotation_group?: string | null
+          rotation_interval_minutes?: number | null
+          start_date?: string | null
+          time_range_end?: string | null
+          time_range_start?: string | null
+          updated_at?: string | null
+          user_segment?: string | null
+        }
+        Relationships: []
+      }
+      announcement_dismissals: {
+        Row: {
+          announcement_id: string
+          created_at: string | null
+          id: string
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string | null
+          id?: string
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string | null
+          id?: string
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      announcement_impressions: {
+        Row: {
+          announcement_id: string
+          created_at: string | null
+          id: string
+          referrer: string | null
+          session_id: string
+          user_agent: string | null
+          user_id: string | null
+          user_segment: string | null
+        }
+        Insert: {
+          announcement_id: string
+          created_at?: string | null
+          id?: string
+          referrer?: string | null
+          session_id: string
+          user_agent?: string | null
+          user_id?: string | null
+          user_segment?: string | null
+        }
+        Update: {
+          announcement_id?: string
+          created_at?: string | null
+          id?: string
+          referrer?: string | null
+          session_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+          user_segment?: string | null
+        }
+        Relationships: []
+      }
       domains: {
         Row: {
           created_at: string | null

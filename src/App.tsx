@@ -21,6 +21,7 @@ import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
 import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
 import WaitlistAnalytics from "./pages/admin/WaitlistAnalytics";
+import AnnouncementAdmin from "./pages/admin/AnnouncementAdmin";
 import Invite from "./pages/Invite";
 import ClaimAccess from "./pages/ClaimAccess";
 
@@ -43,6 +44,7 @@ const App = () => (
           <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
           <Route path="/admin/early-access" element={<EarlyAccessAdmin />} />
           <Route path="/admin/waitlist-analytics" element={<WaitlistAnalytics />} />
+          <Route path="/admin/announcements" element={<AnnouncementAdmin />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
