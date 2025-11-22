@@ -8,17 +8,31 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { format, formatDistanceToNow } from "date-fns";
-import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Calendar, History } from "lucide-react";
+import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Calendar, History, Trophy } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 
 type EarlyAccessRequest = {
   id: string;
   name: string;
   email: string;
   team_size: string;
+  role: string | null;
+  reason_for_joining: string | null;
+  reason_details: string | null;
+  how_heard: string | null;
+  desired_domain: string | null;
   company_domain: string | null;
+  engagement_score: number;
+  referral_score: number;
+  fit_score: number;
+  total_access_score: number;
+  access_level: number;
+  referral_code: string;
+  referred_by: string | null;
   status: 'pending' | 'approved' | 'rejected';
   created_at: string;
   updated_at: string;
@@ -163,9 +177,9 @@ export default function EarlyAccessAdmin() {
                 </Button>
               </Link>
               <div>
-                <h1 className="text-3xl font-bold">early access requests</h1>
+                <h1 className="text-3xl font-bold">early access admin</h1>
                 <p className="text-muted-foreground mt-1">
-                  manage and review early access applications
+                  manage applications and track referrals
                 </p>
               </div>
             </div>
@@ -176,10 +190,24 @@ export default function EarlyAccessAdmin() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Main Content with Tabs */}
       <div className="max-w-[1600px] mx-auto px-6 py-6">
-        <div className="bg-white rounded-xl border p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Tabs defaultValue="requests" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="requests" className="gap-2">
+              <Users className="h-4 w-4" />
+              requests
+            </TabsTrigger>
+            <TabsTrigger value="leaderboard" className="gap-2">
+              <Trophy className="h-4 w-4" />
+              referral leaderboard
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="requests" className="space-y-6">
+            {/* Filters */}
+            <div className="bg-white rounded-xl border p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -343,7 +371,13 @@ export default function EarlyAccessAdmin() {
             </div>
           </div>
         )}
-      </div>
+      </TabsContent>
+
+      <TabsContent value="leaderboard">
+        <ReferralLeaderboard />
+      </TabsContent>
+    </Tabs>
+  </div>
 
       {/* Detail View Modal */}
       <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
@@ -415,6 +449,38 @@ export default function EarlyAccessAdmin() {
                         <p className="text-lg font-medium">
                           {selectedRequest.company_domain || '—'}
                         </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Users className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">role</p>
+                        <p className="text-lg font-medium capitalize">
+                          {selectedRequest.role || '—'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                        <Trophy className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground">scores</p>
+                        <div className="flex gap-2 mt-1">
+                          <Badge variant="secondary">
+                            engagement: {selectedRequest.engagement_score}
+                          </Badge>
+                          <Badge variant="secondary">
+                            referral: {selectedRequest.referral_score}
+                          </Badge>
+                          <Badge variant="default">
+                            total: {selectedRequest.total_access_score}
+                          </Badge>
+                        </div>
                       </div>
                     </div>
                   </div>

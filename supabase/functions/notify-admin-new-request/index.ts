@@ -17,6 +17,9 @@ interface NotificationRequest {
   name: string;
   email: string;
   team_size: string;
+  role: string;
+  reason: string;
+  how_heard: string;
   company_domain: string | null;
 }
 
@@ -27,7 +30,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { request_id, name, email, team_size, company_domain }: NotificationRequest = await req.json();
+    const { request_id, name, email, team_size, role, reason, how_heard, company_domain }: NotificationRequest = await req.json();
 
     console.log('Processing notification for request:', request_id);
 
@@ -200,8 +203,20 @@ const handler = async (req: Request): Promise<Response> => {
                     <span class="detail-value">${email}</span>
                   </div>
                   <div class="detail-row">
+                    <span class="detail-label">role</span>
+                    <span class="detail-value"><span class="team-badge">${role}</span></span>
+                  </div>
+                  <div class="detail-row">
                     <span class="detail-label">team size</span>
                     <span class="detail-value"><span class="team-badge">${team_size}</span></span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">reason</span>
+                    <span class="detail-value">${reason}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">how they heard</span>
+                    <span class="detail-value">${how_heard}</span>
                   </div>
                   <div class="detail-row">
                     <span class="detail-label">company domain</span>
