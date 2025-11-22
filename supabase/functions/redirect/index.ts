@@ -129,6 +129,55 @@ Deno.serve(async (req) => {
   const startTime = performance.now();
 
   try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const kv = await Deno.openKv();
+
+    // Load feature flags (cached for 1 minute)
+    let flags: Record<string, boolean> = {};
+    const flagsCache = await kv.get(['feature_flags_cache']);
+    
+    if (flagsCache.value && (Date.now() - (flagsCache.value as any).timestamp < 60000)) {
+      flags = (flagsCache.value as any).flags;
+    } else {
+      const { data: flagsData } = await supabase.from('feature_flags').select('flag_key, is_enabled');
+      if (flagsData) {
+        flags = Object.fromEntries(flagsData.map(f => [f.flag_key, f.is_enabled]));
+        await kv.set(['feature_flags_cache'], { flags, timestamp: Date.now() }, { expireIn: 60000 });
+      }
+    }
+
+    // Check maintenance mode FIRST
+    if (flags['maintenance_mode']) {
+      return new Response(
+        `<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Maintenance - utm.one</title>
+          <meta charset="UTF-8">
+          <style>
+            body { font-family: system-ui; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f9fafb; }
+            .container { text-align: center; padding: 2rem; }
+            h1 { font-size: 2rem; margin-bottom: 1rem; color: #1f2937; }
+            p { color: #6b7280; margin: 0.5rem 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <h1>🚧 scheduled maintenance</h1>
+            <p>utm.one is currently undergoing scheduled maintenance.</p>
+            <p>we'll be back shortly. thank you for your patience.</p>
+          </div>
+        </body>
+        </html>`,
+        { 
+          status: 503,
+          headers: { ...corsHeaders, 'Content-Type': 'text/html', 'Retry-After': '300' }
+        }
+      );
+    }
+
     const url = new URL(req.url);
     const pathParts = url.pathname.split('/').filter(Boolean);
     
@@ -151,26 +200,23 @@ Deno.serve(async (req) => {
                       req.headers.get('x-real-ip') || 
                       '127.0.0.1';
     
-    // Rate limiting check using Deno KV
-    const kv = await Deno.openKv();
-    const rateLimitOk = await checkRateLimit(kv, ipAddress);
-    
-    if (!rateLimitOk) {
-      return new Response('Too many requests. Please try again later.', {
-        status: 429,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'text/plain',
-          'Retry-After': '60'
-        }
-      });
+    // Rate limiting check using Deno KV (if enabled)
+    if (flags['enable_rate_limiting'] !== false) {
+      const rateLimitOk = await checkRateLimit(kv, ipAddress);
+      
+      if (!rateLimitOk) {
+        return new Response('Too many requests. Please try again later.', {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'text/plain', 'Retry-After': '60' }
+        });
+      }
     }
     
     console.log(`Redirect request: domain=${domain}, path=${path}, slug=${slug}, ip=${ipAddress}`);
     
-    // Try cache first using Deno KV
+    // Try cache first using Deno KV (if caching enabled)
     const cacheKey = ['link', domain, path, slug];
-    const cached = await kv.get<LinkRecord>(cacheKey);
+    const cached = flags['enable_cache'] !== false ? await kv.get<LinkRecord>(cacheKey) : { value: null };
     
     let linkRecord: LinkRecord;
     let fromCache = false;
@@ -235,8 +281,10 @@ Deno.serve(async (req) => {
       
       linkRecord = link as LinkRecord;
       
-      // Cache the link for 5 minutes
-      await kv.set(cacheKey, linkRecord, { expireIn: 300000 }); // 5 minutes in ms
+      // Cache the link for 5 minutes (if caching enabled)
+      if (flags['enable_cache'] !== false) {
+        await kv.set(cacheKey, linkRecord, { expireIn: 300000 });
+      }
     }
     
     // Check if link is paused
@@ -311,8 +359,14 @@ Deno.serve(async (req) => {
     
     console.log(`Click details: device=${deviceType}, browser=${browser}, os=${os}, unique=${isUnique}, cache=${fromCache}`);
     
-    // Queue click for batch processing (reduces DB load by 100x)
+    // Queue click for batch processing (if tracking enabled)
     const logClick = async () => {
+      // Skip if click tracking is disabled
+      if (flags['enable_click_tracking'] === false) {
+        console.log('Click tracking disabled by feature flag');
+        return;
+      }
+
       // Extract QR code ID from query params if present
       const qrCodeId = url.searchParams.get('qr') || null;
       
@@ -331,10 +385,25 @@ Deno.serve(async (req) => {
       };
 
       try {
-        // Push to Deno KV queue with timestamp-based key
-        const clickKey = ['click_queue', Date.now().toString(), crypto.randomUUID()];
-        await kv.set(clickKey, clickData, { expireIn: 300000 }); // 5 min TTL
-        console.log('Click queued for batch processing');
+        // Skip batch processing if disabled
+        if (flags['enable_batch_processing'] === false) {
+          // Direct insert
+          const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+          const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          
+          await supabase.from('link_clicks').insert({
+            ...clickData,
+            country: null,
+            city: null,
+          });
+          console.log('Click logged directly (batch processing disabled)');
+        } else {
+          // Push to Deno KV queue with timestamp-based key
+          const clickKey = ['click_queue', Date.now().toString(), crypto.randomUUID()];
+          await kv.set(clickKey, clickData, { expireIn: 300000 }); // 5 min TTL
+          console.log('Click queued for batch processing');
+        }
       } catch (error) {
         console.error('Error queuing click:', error);
         // Fallback: direct insert if queue fails
@@ -368,21 +437,24 @@ Deno.serve(async (req) => {
     // Check if this is a social media crawler (serve OG tags) or a regular user (redirect)
     const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
     
-    if (isCrawler) {
+    if (isCrawler && flags['enable_og_preview'] !== false) {
       // For crawlers, we need to fetch variants from DB (can't use cached link record for this)
       const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
       const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
       const supabase = createClient(supabaseUrl, supabaseKey);
       
-      const { data: variants, error: variantsError } = await supabase
-        .from('og_image_variants')
-        .select('id, variant_name, og_title, og_description, og_image')
-        .eq('link_id', linkRecord.id)
-        .eq('is_active', true);
-      
+      // Check if A/B testing is enabled before fetching variants
       let selectedVariant: OGVariant | null = null;
-      if (!variantsError && variants && variants.length > 0) {
-        selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
+      if (flags['enable_ab_testing'] !== false) {
+        const { data: variants, error: variantsError } = await supabase
+          .from('og_image_variants')
+          .select('id, variant_name, og_title, og_description, og_image')
+          .eq('link_id', linkRecord.id)
+          .eq('is_active', true);
+        
+        if (!variantsError && variants && variants.length > 0) {
+          selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
+        }
       }
       
       // Determine OG tags (variant or default)
