@@ -21,6 +21,7 @@ import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { ParallaxSection } from "@/components/landing/ParallaxSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { FloatingActionButton } from "@/components/landing/FloatingActionButton";
+import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -36,6 +37,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <AnnouncementBar 
+        message="🎉 Early access now open! Limited spots available for design partners."
+        ctaText="Join the waitlist"
+        ctaLink="/early-access"
+        dismissible={true}
+        storageKey="early-access-announcement-v1"
+      />
       <Navigation />
       <FloatingActionButton />
 
