@@ -26,3 +26,12 @@ verify_jwt = false
 
 [functions.update-all-scores]
 verify_jwt = false
+
+[functions.send-queue-notification]
+verify_jwt = false
+
+[functions.detect-fraud-patterns]
+verify_jwt = false
+
+[functions.process-email-queue]
+verify_jwt = false
