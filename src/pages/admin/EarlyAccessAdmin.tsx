@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
-import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Trophy, UserCheck } from "lucide-react";
+import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Trophy, UserCheck, RefreshCw, TrendingUp } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 
@@ -69,6 +69,27 @@ export default function EarlyAccessAdmin() {
     },
   });
 
+  const updateScoresMutation = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase.functions.invoke("update-all-scores");
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({
+        title: "scores updated",
+        description: "all scores have been recalculated successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   // Fetch early access requests
   const { data: requests, isLoading } = useQuery({
     queryKey: ['early-access-requests', statusFilter, teamSizeFilter],
@@ -76,6 +97,7 @@ export default function EarlyAccessAdmin() {
       let query = supabase
         .from('early_access_requests')
         .select('*')
+        .order('total_access_score', { ascending: false })
         .order('created_at', { ascending: false });
 
       if (statusFilter !== 'all') {
@@ -260,16 +282,28 @@ export default function EarlyAccessAdmin() {
       {/* Main Content with Tabs */}
       <div className="max-w-[1600px] mx-auto px-6 py-6">
         <Tabs defaultValue="requests" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="requests" className="gap-2">
-              <Users className="h-4 w-4" />
-              requests
-            </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="gap-2">
-              <Trophy className="h-4 w-4" />
-              referral leaderboard
-            </TabsTrigger>
-          </TabsList>
+          <div className="flex items-center justify-between mb-4">
+            <TabsList>
+              <TabsTrigger value="requests" className="gap-2">
+                <Users className="h-4 w-4" />
+                requests
+              </TabsTrigger>
+              <TabsTrigger value="leaderboard" className="gap-2">
+                <Trophy className="h-4 w-4" />
+                referral leaderboard
+              </TabsTrigger>
+            </TabsList>
+            
+            <Button
+              onClick={() => updateScoresMutation.mutate()}
+              disabled={updateScoresMutation.isPending}
+              variant="outline"
+              size="sm"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${updateScoresMutation.isPending ? 'animate-spin' : ''}`} />
+              recalculate all scores
+            </Button>
+          </div>
 
           <TabsContent value="requests" className="space-y-6">
             {/* Filters */}
@@ -320,21 +354,30 @@ export default function EarlyAccessAdmin() {
                   loading requests...
                 </div>
               ) : filteredRequests && filteredRequests.length > 0 ? (
-                <Table>
-                  <TableHeader>
+                  <Table>
+                   <TableHeader>
                     <TableRow>
+                      <TableHead>queue</TableHead>
                       <TableHead>status</TableHead>
                       <TableHead>name</TableHead>
                       <TableHead>email</TableHead>
-                      <TableHead>team size</TableHead>
-                      <TableHead>company</TableHead>
+                      <TableHead>scores</TableHead>
+                      <TableHead>role</TableHead>
                       <TableHead>submitted</TableHead>
                       <TableHead className="text-right">actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredRequests.map((request) => (
+                    {filteredRequests.map((request, index) => (
                       <TableRow key={request.id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-sm text-muted-foreground">#{index + 1}</span>
+                            {index < 10 && (
+                              <TrendingUp className="h-3 w-3 text-primary" />
+                            )}
+                          </div>
+                        </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
                             {getStatusIcon(request.status)}
@@ -344,10 +387,29 @@ export default function EarlyAccessAdmin() {
                         <TableCell className="font-medium">{request.name}</TableCell>
                         <TableCell className="text-muted-foreground">{request.email}</TableCell>
                         <TableCell>
-                          <Badge variant="outline">{request.team_size}</Badge>
+                          <div className="space-y-1 text-xs">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-muted-foreground">total:</span>
+                              <span className="font-semibold">{request.total_access_score || 0}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-muted-foreground">fit:</span>
+                              <span>{request.fit_score || 0}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-muted-foreground">eng:</span>
+                              <span>{request.engagement_score || 0}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-muted-foreground">ref:</span>
+                              <span>{request.referral_score || 0}</span>
+                            </div>
+                          </div>
                         </TableCell>
-                        <TableCell className="text-muted-foreground">
-                          {request.company_domain || '—'}
+                        <TableCell>
+                          <Badge variant="outline">
+                            {request.role?.replace('_', ' ') || 'n/a'}
+                          </Badge>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">
                           {format(new Date(request.created_at), 'MMM d, yyyy')}
@@ -469,13 +531,55 @@ export default function EarlyAccessAdmin() {
                     <p className="font-medium">{selectedRequest.company_domain || '—'}</p>
                   </div>
                   <div className="col-span-2">
-                    <Label className="text-muted-foreground">scores</Label>
-                    <div className="flex gap-4 mt-1">
-                      <Badge variant="outline">engagement: {selectedRequest.engagement_score}</Badge>
-                      <Badge variant="outline">referral: {selectedRequest.referral_score}</Badge>
-                      <Badge variant="outline">total: {selectedRequest.total_access_score}</Badge>
+                    <Label className="text-muted-foreground mb-3">scoring breakdown</Label>
+                    <div className="space-y-2 mt-2">
+                      <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg">
+                        <span className="font-medium">total access score</span>
+                        <span className="text-2xl font-bold">{selectedRequest.total_access_score || 0}</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <div className="p-2 bg-muted rounded text-center">
+                          <p className="text-xs text-muted-foreground">fit score</p>
+                          <p className="text-lg font-semibold">{selectedRequest.fit_score || 0}</p>
+                        </div>
+                        <div className="p-2 bg-muted rounded text-center">
+                          <p className="text-xs text-muted-foreground">engagement</p>
+                          <p className="text-lg font-semibold">{selectedRequest.engagement_score || 0}</p>
+                        </div>
+                        <div className="p-2 bg-muted rounded text-center">
+                          <p className="text-xs text-muted-foreground">referral</p>
+                          <p className="text-lg font-semibold">{selectedRequest.referral_score || 0}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  {selectedRequest.desired_domain && (
+                    <div className="col-span-2">
+                      <Label className="text-muted-foreground">desired domain</Label>
+                      <p className="font-medium">{selectedRequest.desired_domain}</p>
+                    </div>
+                  )}
+                  {selectedRequest.reason_for_joining && (
+                    <div className="col-span-2">
+                      <Label className="text-muted-foreground">reason for joining</Label>
+                      <p className="font-medium">{selectedRequest.reason_for_joining}</p>
+                      {selectedRequest.reason_details && (
+                        <p className="text-sm text-muted-foreground mt-2">{selectedRequest.reason_details}</p>
+                      )}
+                    </div>
+                  )}
+                  {selectedRequest.how_heard && (
+                    <div className="col-span-2">
+                      <Label className="text-muted-foreground">how they heard</Label>
+                      <p className="font-medium">{selectedRequest.how_heard}</p>
+                    </div>
+                  )}
+                  {selectedRequest.referral_code && (
+                    <div className="col-span-2">
+                      <Label className="text-muted-foreground">referral code</Label>
+                      <code className="text-sm bg-muted px-2 py-1 rounded block mt-1">{selectedRequest.referral_code}</code>
+                    </div>
+                  )}
                 </div>
 
                 <Separator />

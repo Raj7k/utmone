@@ -20,3 +20,9 @@ verify_jwt = false
 
 [functions.calculate-referral-scores]
 verify_jwt = false
+
+[functions.calculate-fit-score]
+verify_jwt = false
+
+[functions.update-all-scores]
+verify_jwt = false

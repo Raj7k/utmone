@@ -171,6 +171,7 @@ export default function EarlyAccess() {
           email: data.email,
           team_size: data.team_size,
           referral_code: insertedData.referral_code,
+          request_id: insertedData.id,
         }
       });
 
