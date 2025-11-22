@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import { format, formatDistanceToNow } from "date-fns";
-import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Calendar, History, Trophy } from "lucide-react";
+import { format } from "date-fns";
+import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Trophy, UserCheck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 
@@ -40,10 +41,15 @@ type EarlyAccessRequest = {
 
 export default function EarlyAccessAdmin() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [teamSizeFilter, setTeamSizeFilter] = useState<string>("all");
   const [selectedRequest, setSelectedRequest] = useState<EarlyAccessRequest | null>(null);
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [approveDialogOpen, setApproveDialogOpen] = useState(false);
+  const [selectedAccessLevel, setSelectedAccessLevel] = useState<number>(2);
 
   // Check if user is admin
   const { data: userRoles } = useQuery({
@@ -64,7 +70,7 @@ export default function EarlyAccessAdmin() {
   });
 
   // Fetch early access requests
-  const { data: requests, isLoading, refetch } = useQuery({
+  const { data: requests, isLoading } = useQuery({
     queryKey: ['early-access-requests', statusFilter, teamSizeFilter],
     queryFn: async () => {
       let query = supabase
@@ -87,6 +93,106 @@ export default function EarlyAccessAdmin() {
     enabled: userRoles?.role === 'admin',
   });
 
+  const approveMutation = useMutation({
+    mutationFn: async ({ request, accessLevel }: { request: EarlyAccessRequest; accessLevel: number }) => {
+      // Create invite (trigger will generate invite_token)
+      const { data: invite, error: inviteError } = await supabase
+        .from("early_access_invites")
+        .insert({
+          email: request.email,
+          access_level: accessLevel,
+          invite_token: '', // Temporary placeholder, will be replaced by trigger
+        })
+        .select()
+        .single();
+
+      if (inviteError) throw inviteError;
+      if (!invite) throw new Error("Failed to create invite");
+
+      // Update request status and access level
+      const { error: updateError } = await supabase
+        .from("early_access_requests")
+        .update({ 
+          status: "approved",
+          access_level: accessLevel,
+        })
+        .eq("id", request.id);
+
+      if (updateError) throw updateError;
+
+      // Send approval email
+      const { error: emailError } = await supabase.functions.invoke("send-approval-email", {
+        body: {
+          email: request.email,
+          name: request.name,
+          access_level: accessLevel,
+          invite_token: invite.invite_token,
+        },
+      });
+
+      if (emailError) throw emailError;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
+      setApproveDialogOpen(false);
+      setDetailDialogOpen(false);
+      toast({
+        title: "user approved",
+        description: "invite email has been sent successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+      const { error } = await supabase
+        .from("early_access_requests")
+        .update({ status })
+        .eq("id", id);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
+      setDetailDialogOpen(false);
+      toast({
+        title: "status updated",
+        description: "request status has been updated successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleApprove = (request: EarlyAccessRequest) => {
+    setSelectedRequest(request);
+    setSelectedAccessLevel(request.access_level || 2);
+    setApproveDialogOpen(true);
+  };
+
+  const confirmApprove = () => {
+    if (selectedRequest) {
+      approveMutation.mutate({ request: selectedRequest, accessLevel: selectedAccessLevel });
+    }
+  };
+
+  const handleViewDetails = (request: EarlyAccessRequest) => {
+    setSelectedRequest(request);
+    setDetailDialogOpen(true);
+  };
+
   // Filter by search query
   const filteredRequests = requests?.filter(request => {
     const searchLower = searchQuery.toLowerCase();
@@ -96,45 +202,6 @@ export default function EarlyAccessAdmin() {
       request.company_domain?.toLowerCase().includes(searchLower)
     );
   });
-
-  const updateStatus = async (id: string, status: 'approved' | 'rejected') => {
-    const { error } = await supabase
-      .from('early_access_requests')
-      .update({ status, updated_at: new Date().toISOString() })
-      .eq('id', id);
-
-    if (error) {
-      toast.error("Failed to update status");
-      return;
-    }
-
-    toast.success(`Request ${status}`);
-    setSelectedRequest(null);
-    refetch();
-  };
-
-  const getActionHistory = (request: EarlyAccessRequest) => {
-    const history = [];
-    
-    history.push({
-      action: 'submitted',
-      timestamp: request.created_at,
-      description: 'early access request submitted'
-    });
-
-    const createdTime = new Date(request.created_at).getTime();
-    const updatedTime = new Date(request.updated_at).getTime();
-
-    if (updatedTime > createdTime + 1000) {
-      history.push({
-        action: request.status,
-        timestamp: request.updated_at,
-        description: `request ${request.status}`
-      });
-    }
-
-    return history;
-  };
 
   // Redirect if not admin
   if (userRoles && userRoles.role !== 'admin') {
@@ -208,381 +275,293 @@ export default function EarlyAccessAdmin() {
             {/* Filters */}
             <div className="bg-white rounded-xl border p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="search by name, email, or domain..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="search by name, email, or domain..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">all statuses</SelectItem>
+                    <SelectItem value="pending">pending</SelectItem>
+                    <SelectItem value="approved">approved</SelectItem>
+                    <SelectItem value="rejected">rejected</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={teamSizeFilter} onValueChange={setTeamSizeFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="filter by team size" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">all team sizes</SelectItem>
+                    <SelectItem value="1-10">1-10</SelectItem>
+                    <SelectItem value="11-50">11-50</SelectItem>
+                    <SelectItem value="51-200">51-200</SelectItem>
+                    <SelectItem value="201-1000">201-1000</SelectItem>
+                    <SelectItem value="1000+">1000+</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
-            {/* Status Filter */}
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
-                <SelectValue placeholder="filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">all statuses</SelectItem>
-                <SelectItem value="pending">pending</SelectItem>
-                <SelectItem value="approved">approved</SelectItem>
-                <SelectItem value="rejected">rejected</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Team Size Filter */}
-            <Select value={teamSizeFilter} onValueChange={setTeamSizeFilter}>
-              <SelectTrigger>
-                <SelectValue placeholder="filter by team size" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">all team sizes</SelectItem>
-                <SelectItem value="1-10">1-10</SelectItem>
-                <SelectItem value="11-50">11-50</SelectItem>
-                <SelectItem value="51-200">51-200</SelectItem>
-                <SelectItem value="201-1000">201-1000</SelectItem>
-                <SelectItem value="1000+">1000+</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="bg-white rounded-xl border overflow-hidden">
-          {isLoading ? (
-            <div className="p-12 text-center text-muted-foreground">
-              loading requests...
-            </div>
-          ) : filteredRequests && filteredRequests.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>status</TableHead>
-                  <TableHead>name</TableHead>
-                  <TableHead>email</TableHead>
-                  <TableHead>team size</TableHead>
-                  <TableHead>company</TableHead>
-                  <TableHead>submitted</TableHead>
-                  <TableHead className="text-right">actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredRequests.map((request) => (
-                  <TableRow key={request.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {getStatusIcon(request.status)}
-                        {getStatusBadge(request.status)}
-                      </div>
-                    </TableCell>
-                    <TableCell className="font-medium">{request.name}</TableCell>
-                    <TableCell className="text-muted-foreground">{request.email}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{request.team_size}</Badge>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {request.company_domain || '—'}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {format(new Date(request.created_at), 'MMM d, yyyy')}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => setSelectedRequest(request)}
-                        >
-                          <Eye className="w-4 h-4 mr-1" />
-                          view
-                        </Button>
-                        {request.status === 'pending' && (
-                          <>
+            {/* Table */}
+            <div className="bg-white rounded-xl border overflow-hidden">
+              {isLoading ? (
+                <div className="p-12 text-center text-muted-foreground">
+                  loading requests...
+                </div>
+              ) : filteredRequests && filteredRequests.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>status</TableHead>
+                      <TableHead>name</TableHead>
+                      <TableHead>email</TableHead>
+                      <TableHead>team size</TableHead>
+                      <TableHead>company</TableHead>
+                      <TableHead>submitted</TableHead>
+                      <TableHead className="text-right">actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredRequests.map((request) => (
+                      <TableRow key={request.id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            {getStatusIcon(request.status)}
+                            {getStatusBadge(request.status)}
+                          </div>
+                        </TableCell>
+                        <TableCell className="font-medium">{request.name}</TableCell>
+                        <TableCell className="text-muted-foreground">{request.email}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{request.team_size}</Badge>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {request.company_domain || '—'}
+                        </TableCell>
+                        <TableCell className="text-sm text-muted-foreground">
+                          {format(new Date(request.created_at), 'MMM d, yyyy')}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-2">
                             <Button
                               size="sm"
-                              variant="outline"
-                              onClick={() => updateStatus(request.id, 'approved')}
-                              className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                              variant="ghost"
+                              onClick={() => handleViewDetails(request)}
                             >
-                              <CheckCircle2 className="w-4 h-4 mr-1" />
-                              approve
+                              <Eye className="w-4 h-4 mr-1" />
+                              view
                             </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => updateStatus(request.id, 'rejected')}
-                              className="text-destructive hover:bg-destructive/10"
-                            >
-                              <XCircle className="w-4 h-4 mr-1" />
-                              reject
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <div className="p-12 text-center text-muted-foreground">
-              no requests found
+                            {request.status === 'pending' && (
+                              <Button
+                                size="sm"
+                                variant="default"
+                                onClick={() => handleApprove(request)}
+                              >
+                                <UserCheck className="h-4 w-4 mr-1" />
+                                approve
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="p-12 text-center text-muted-foreground">
+                  no requests found
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Stats Summary */}
-        {filteredRequests && filteredRequests.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-white rounded-xl border p-6">
-              <div className="flex items-center gap-3">
-                <Clock className="w-8 h-8 text-yellow-500" />
-                <div>
-                  <p className="text-2xl font-bold">
-                    {requests?.filter(r => r.status === 'pending').length || 0}
-                  </p>
-                  <p className="text-sm text-muted-foreground">pending</p>
+            {/* Stats Summary */}
+            {filteredRequests && filteredRequests.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div className="bg-white rounded-xl border p-6">
+                  <div className="flex items-center gap-3">
+                    <Clock className="w-8 h-8 text-yellow-500" />
+                    <div>
+                      <p className="text-2xl font-bold">
+                        {requests?.filter(r => r.status === 'pending').length || 0}
+                      </p>
+                      <p className="text-sm text-muted-foreground">pending</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl border p-6">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="w-8 h-8 text-green-500" />
+                    <div>
+                      <p className="text-2xl font-bold">
+                        {requests?.filter(r => r.status === 'approved').length || 0}
+                      </p>
+                      <p className="text-sm text-muted-foreground">approved</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white rounded-xl border p-6">
+                  <div className="flex items-center gap-3">
+                    <XCircle className="w-8 h-8 text-destructive" />
+                    <div>
+                      <p className="text-2xl font-bold">
+                        {requests?.filter(r => r.status === 'rejected').length || 0}
+                      </p>
+                      <p className="text-sm text-muted-foreground">rejected</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-white rounded-xl border p-6">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
-                <div>
-                  <p className="text-2xl font-bold">
-                    {requests?.filter(r => r.status === 'approved').length || 0}
-                  </p>
-                  <p className="text-sm text-muted-foreground">approved</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-xl border p-6">
-              <div className="flex items-center gap-3">
-                <XCircle className="w-8 h-8 text-destructive" />
-                <div>
-                  <p className="text-2xl font-bold">
-                    {requests?.filter(r => r.status === 'rejected').length || 0}
-                  </p>
-                  <p className="text-sm text-muted-foreground">rejected</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </TabsContent>
+            )}
+          </TabsContent>
 
-      <TabsContent value="leaderboard">
-        <ReferralLeaderboard />
-      </TabsContent>
-    </Tabs>
-  </div>
+          <TabsContent value="leaderboard">
+            <ReferralLeaderboard />
+          </TabsContent>
+        </Tabs>
+      </div>
 
-      {/* Detail View Modal */}
-      <Dialog open={!!selectedRequest} onOpenChange={() => setSelectedRequest(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      {/* Detail View Dialog */}
+      <Dialog open={detailDialogOpen} onOpenChange={setDetailDialogOpen}>
+        <DialogContent className="max-w-2xl">
           {selectedRequest && (
             <>
               <DialogHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <DialogTitle className="text-2xl font-bold">
-                      request details
-                    </DialogTitle>
-                    <DialogDescription>
-                      complete information and action history
-                    </DialogDescription>
+                    <DialogTitle>request details</DialogTitle>
+                    <DialogDescription>complete information</DialogDescription>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {getStatusIcon(selectedRequest.status)}
-                    {getStatusBadge(selectedRequest.status)}
-                  </div>
+                  {getStatusBadge(selectedRequest.status)}
                 </div>
               </DialogHeader>
 
-              <div className="space-y-6 py-4">
-                {/* Applicant Information */}
-                <div>
-                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4">
-                    applicant information
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Users className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">name</p>
-                        <p className="text-lg font-semibold">{selectedRequest.name}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Mail className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">email</p>
-                        <p className="text-lg font-medium">{selectedRequest.email}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Users className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">team size</p>
-                        <Badge variant="outline" className="mt-1">
-                          {selectedRequest.team_size}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Building2 className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">company domain</p>
-                        <p className="text-lg font-medium">
-                          {selectedRequest.company_domain || '—'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Users className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">role</p>
-                        <p className="text-lg font-medium capitalize">
-                          {selectedRequest.role || '—'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Trophy className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">scores</p>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="secondary">
-                            engagement: {selectedRequest.engagement_score}
-                          </Badge>
-                          <Badge variant="secondary">
-                            referral: {selectedRequest.referral_score}
-                          </Badge>
-                          <Badge variant="default">
-                            total: {selectedRequest.total_access_score}
-                          </Badge>
-                        </div>
-                      </div>
+              <div className="space-y-4 py-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-muted-foreground">name</Label>
+                    <p className="font-medium">{selectedRequest.name}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">email</Label>
+                    <p className="font-medium">{selectedRequest.email}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">team size</Label>
+                    <p className="font-medium">{selectedRequest.team_size}</p>
+                  </div>
+                  <div>
+                    <Label className="text-muted-foreground">role</Label>
+                    <p className="font-medium">{selectedRequest.role || '—'}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <Label className="text-muted-foreground">company domain</Label>
+                    <p className="font-medium">{selectedRequest.company_domain || '—'}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <Label className="text-muted-foreground">scores</Label>
+                    <div className="flex gap-4 mt-1">
+                      <Badge variant="outline">engagement: {selectedRequest.engagement_score}</Badge>
+                      <Badge variant="outline">referral: {selectedRequest.referral_score}</Badge>
+                      <Badge variant="outline">total: {selectedRequest.total_access_score}</Badge>
                     </div>
                   </div>
                 </div>
 
                 <Separator />
 
-                {/* Timestamps */}
-                <div>
-                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4">
-                    timestamps
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                        <Calendar className="w-5 h-5 text-muted-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">submitted</p>
-                        <p className="text-lg font-medium">
-                          {format(new Date(selectedRequest.created_at), 'PPpp')}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatDistanceToNow(new Date(selectedRequest.created_at), { addSuffix: true })}
-                        </p>
-                      </div>
-                    </div>
-
-                    {new Date(selectedRequest.updated_at).getTime() > 
-                     new Date(selectedRequest.created_at).getTime() + 1000 && (
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-                          <Calendar className="w-5 h-5 text-muted-foreground" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-muted-foreground">last updated</p>
-                          <p className="text-lg font-medium">
-                            {format(new Date(selectedRequest.updated_at), 'PPpp')}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {formatDistanceToNow(new Date(selectedRequest.updated_at), { addSuffix: true })}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <Separator />
-
-                {/* Action History */}
-                <div>
-                  <h3 className="text-sm font-semibold uppercase text-muted-foreground mb-4 flex items-center gap-2">
-                    <History className="w-4 h-4" />
-                    action history
-                  </h3>
-                  <div className="space-y-3">
-                    {getActionHistory(selectedRequest).map((item, index) => (
-                      <div key={index} className="flex gap-3 items-start">
-                        <div className="relative">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2" />
-                          {index < getActionHistory(selectedRequest).length - 1 && (
-                            <div className="absolute left-1/2 top-4 w-px h-8 bg-border -translate-x-1/2" />
-                          )}
-                        </div>
-                        <div className="flex-1 pb-4">
-                          <p className="font-medium capitalize">{item.description}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(item.timestamp), 'PPpp')}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Actions */}
                 {selectedRequest.status === 'pending' && (
-                  <>
-                    <Separator />
-                    <div className="flex gap-3">
-                      <Button
-                        className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                        onClick={() => updateStatus(selectedRequest.id, 'approved')}
-                      >
-                        <CheckCircle2 className="w-4 h-4 mr-2" />
-                        approve request
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        className="flex-1"
-                        onClick={() => updateStatus(selectedRequest.id, 'rejected')}
-                      >
-                        <XCircle className="w-4 h-4 mr-2" />
-                        reject request
-                      </Button>
-                    </div>
-                  </>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => updateStatusMutation.mutate({ id: selectedRequest.id, status: 'rejected' })}
+                    >
+                      <XCircle className="h-4 w-4 mr-2" />
+                      reject
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      onClick={() => handleApprove(selectedRequest)}
+                    >
+                      <UserCheck className="h-4 w-4 mr-2" />
+                      approve & send invite
+                    </Button>
+                  </div>
                 )}
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Approve Dialog */}
+      <Dialog open={approveDialogOpen} onOpenChange={setApproveDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>approve early access</DialogTitle>
+            <DialogDescription>
+              select access level and send invite to {selectedRequest?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>access level</Label>
+              <Select
+                value={selectedAccessLevel.toString()}
+                onValueChange={(value) => setSelectedAccessLevel(parseInt(value))}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">level 1 - read-only preview</SelectItem>
+                  <SelectItem value="2">level 2 - limited beta (default)</SelectItem>
+                  <SelectItem value="3">level 3 - full access</SelectItem>
+                  <SelectItem value="4">level 4 - power user</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="text-sm text-muted-foreground space-y-2">
+              <p><strong>selected level features:</strong></p>
+              <ul className="list-disc list-inside space-y-1">
+                {selectedAccessLevel >= 2 && <li>create short links (10/day limit)</li>}
+                {selectedAccessLevel >= 2 && <li>generate qr codes (5/day limit)</li>}
+                {selectedAccessLevel >= 3 && <li>unlimited links & qr codes</li>}
+                {selectedAccessLevel >= 3 && <li>full utm builder & analytics</li>}
+                {selectedAccessLevel >= 4 && <li>api access & webhooks</li>}
+                {selectedAccessLevel >= 4 && <li>experimental features</li>}
+              </ul>
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setApproveDialogOpen(false)}
+              >
+                cancel
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={confirmApprove}
+                disabled={approveMutation.isPending}
+              >
+                {approveMutation.isPending ? "sending invite..." : "approve & send invite"}
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
