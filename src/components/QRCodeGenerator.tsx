@@ -311,6 +311,37 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
               />
             </div>
 
+            {/* Color Presets */}
+            <div className="space-y-2">
+              <Label>gradient presets</Label>
+              <div className="grid grid-cols-4 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setValue("primaryColor", "#E3EF26")}
+                  className="h-10 rounded-md bg-gradient-nature-1 hover:scale-105 transition-transform"
+                  title="Fresh"
+                />
+                <button
+                  type="button"
+                  onClick={() => setValue("primaryColor", "#076653")}
+                  className="h-10 rounded-md bg-gradient-nature-2 hover:scale-105 transition-transform"
+                  title="Balanced"
+                />
+                <button
+                  type="button"
+                  onClick={() => setValue("primaryColor", "#076653")}
+                  className="h-10 rounded-md bg-gradient-nature-3 hover:scale-105 transition-transform"
+                  title="Professional"
+                />
+                <button
+                  type="button"
+                  onClick={() => setValue("primaryColor", "#0C342C")}
+                  className="h-10 rounded-md bg-gradient-nature-4 hover:scale-105 transition-transform"
+                  title="Bold"
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
