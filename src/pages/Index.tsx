@@ -4,13 +4,18 @@ import {
   Link as LinkIcon, 
   QrCode, 
   BarChart3, 
-  Zap, 
+  TrendingUp,
   Shield, 
+  Users,
   ArrowRight,
 } from "lucide-react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { GlowingFeatureCard } from "@/components/landing/GlowingFeatureCard";
+import { DataFlowVisualization } from "@/components/landing/DataFlowVisualization";
+import { NumberedPrinciple } from "@/components/landing/NumberedPrinciple";
+import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -41,14 +46,15 @@ const Index = () => {
                   {variant.subheadline}
                 </p>
                 <div className="flex items-center justify-center gap-4 pt-4">
-                  <Link to="/auth">
+                  <Link to="/early-access">
                     <Button 
                       size="lg" 
-                      variant="gradient"
-                      className="text-[17px] font-medium px-8 h-12 rounded-full hover:scale-[1.02]"
-                      onClick={() => trackCTAClick('hero-primary')}
+                      variant="glow-pink"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full hover:scale-[1.02] transition-transform"
+                      onClick={() => trackCTAClick('hero')}
                     >
-                      {variant.cta}
+                      get early access
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
@@ -59,101 +65,93 @@ const Index = () => {
       </HeroVariantManager>
 
       {/* Problem Section */}
-      <section className="py-40 bg-muted/20">
-        <div className="max-w-[1100px] mx-auto px-8">
-          <div className="text-center space-y-12">
+      <section className="py-40 bg-white">
+        <div className="max-w-[900px] mx-auto px-8">
+          <NumberedPrinciple number="1" title="clear strategy">
             <AnimatedHeadline>
-              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
-                Marketing breaks when links break.
+              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold text-center">
+                marketing breaks when links break.
               </h2>
             </AnimatedHeadline>
-            <div className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-relaxed space-y-6">
-              <p>bad utms. scattered tools. random short links.</p>
-              <p>none of this should be normal.</p>
-              <p className="text-foreground font-medium">utm.one replaces the chaos with a single, clean workflow.</p>
+          </NumberedPrinciple>
+        </div>
+      </section>
+
+      {/* Before/After Comparison Section */}
+      <section className="py-32 bg-white">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <NumberedPrinciple number="10" title="easy to scan">
+            <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center mb-4">
+              people skim. the value needs to land in 3 seconds.
+            </h2>
+            <div className="mt-12">
+              <BeforeAfterComparison
+                beforeImage="/src/assets/screenshots/messy-utms-spreadsheet.png"
+                afterImage="/src/assets/screenshots/clean-utm-builder.png"
+                caption="from chaos to clarity in one platform"
+                beforeLabel="before"
+                afterLabel="after"
+              />
             </div>
+          </NumberedPrinciple>
+        </div>
+      </section>
+
+      {/* Core Features Section - Glowing Cards */}
+      <section className="py-32 bg-white">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="text-center space-y-4 mb-20">
+            <h2 className="text-3xl md:text-4xl text-foreground font-bold">
+              why utm.one?
+            </h2>
+          </div>
+
+          {/* Glowing Feature Grid */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-[1100px] mx-auto">
+            <GlowingFeatureCard
+              icon={<LinkIcon className="h-7 w-7 text-white" />}
+              title="branded short links"
+              description="utm.one/summer not bit.ly/x7k2p4"
+              glowColor="teal"
+              delay={0}
+            />
+            <GlowingFeatureCard
+              icon={<TrendingUp className="h-7 w-7 text-white" />}
+              title="perfect UTMs"
+              description="every link tracked. every campaign measured."
+              glowColor="yellow-green"
+              delay={100}
+            />
+            <GlowingFeatureCard
+              icon={<QrCode className="h-7 w-7 text-white" />}
+              title="on-brand QR codes"
+              description="your colors. your logo. your campaign."
+              glowColor="mint"
+              delay={200}
+            />
+            <GlowingFeatureCard
+              icon={<BarChart3 className="h-7 w-7 text-white" />}
+              title="clear analytics"
+              description="see what's working. optimize what's not."
+              glowColor="teal"
+              delay={300}
+            />
           </div>
         </div>
       </section>
 
-      {/* Core Features */}
-      <section className="py-32 bg-white" id="features">
+      {/* Data Visualization Section */}
+      <section className="py-32 bg-white">
         <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl text-foreground font-bold tracking-tight">
-              The foundation of accurate marketing.
+          <NumberedPrinciple number="2" title="custom visuals">
+            <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center mb-4">
+              see your link performance at a glance.
             </h2>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-6 max-w-[980px] mx-auto">
-            {/* Branded Short Links */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-teal/30">
-              <div className="space-y-4">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-1 transition-all">
-                  <LinkIcon className="h-7 w-7 text-primary group-hover:text-accent-forest" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="text-h3 text-foreground font-semibold">
-                    branded short links
-                  </h3>
-                  <p className="text-body text-muted-foreground mt-2">
-                    your domain. your trust.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 5-UTM Builder */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-yellow-green/30">
-              <div className="space-y-4">
-                <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-2 transition-all">
-                  <Zap className="h-7 w-7 text-secondary group-hover:text-accent-forest" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="text-h3 text-foreground font-semibold">
-                    airtight utms
-                  </h3>
-                  <p className="text-body text-muted-foreground mt-2">
-                    consistent by default.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Branded QR Generator */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-teal/30">
-              <div className="space-y-4">
-                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-3 transition-all">
-                  <QrCode className="h-7 w-7 text-accent group-hover:text-white" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="text-h3 text-foreground font-semibold">
-                    simple qr codes
-                  </h3>
-                  <p className="text-body text-muted-foreground mt-2">
-                    beautiful. on brand. ready to use.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Analytics Dashboard */}
-            <div className="bg-white border border-border rounded-2xl p-12 hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group hover:border-accent-mint/30">
-              <div className="space-y-4">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-nature-1 transition-all">
-                  <BarChart3 className="h-7 w-7 text-primary group-hover:text-accent-forest" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="text-h3 text-foreground font-semibold">
-                    clear analytics
-                  </h3>
-                  <p className="text-body text-muted-foreground mt-2">
-                    see what matters. ignore the noise.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            <p className="text-xl text-muted-foreground text-center max-w-[640px] mx-auto mb-12">
+              $300 sections use stock images. $3k ones feel designed.
+            </p>
+            <DataFlowVisualization />
+          </NumberedPrinciple>
         </div>
       </section>
 
@@ -171,23 +169,53 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Governance Section */}
+      {/* Governance Section - Glowing Cards */}
       <section className="py-40 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
-          <div className="text-center space-y-12">
-            <AnimatedHeadline delay={100}>
-              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold tracking-tight leading-[1.05]">
-                Simple control for complex teams.
+          <NumberedPrinciple number="7" title="emotional clarity">
+            <AnimatedHeadline>
+              <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold text-center mb-16">
+                simple control for complex teams.
               </h2>
             </AnimatedHeadline>
-            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-8">
-              <p className="text-foreground font-medium">define domains. set rules. assign roles.</p>
-              
-              <p>super admin, workspace admin, editor, viewer.</p>
-              
-              <p>everyone sees exactly what they need.</p>
+            
+            <div className="grid md:grid-cols-2 gap-6 mt-16">
+              <GlowingFeatureCard
+                icon={<Shield className="h-7 w-7 text-white" />}
+                title="data vault"
+                description="your links. your rules. your security."
+                glowColor="teal"
+                delay={0}
+              />
+              <GlowingFeatureCard
+                icon={<Users className="h-7 w-7 text-white" />}
+                title="team access"
+                description="super admin, workspace admin, editor, viewer."
+                glowColor="yellow-green"
+                delay={200}
+              />
             </div>
-          </div>
+          </NumberedPrinciple>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-32 bg-white">
+        <div className="max-w-[640px] mx-auto px-8 text-center space-y-8">
+          <h2 className="text-3xl md:text-4xl text-foreground font-bold">
+            start with a cleaner link.
+          </h2>
+          <Link to="/early-access">
+            <Button 
+              variant="glow-pink"
+              size="lg"
+              className="text-[17px] font-medium px-8 h-12 rounded-full hover:scale-[1.02] transition-transform"
+              onClick={() => trackCTAClick('bottom')}
+            >
+              get early access
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </section>
 
