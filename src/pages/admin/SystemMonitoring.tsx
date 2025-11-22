@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useFeatureFlags } from "@/hooks/useFeatureFlags";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { FeatureFlagsPanel } from "@/components/admin/FeatureFlagsPanel";
 
 export default function SystemMonitoring() {
   const navigate = useNavigate();
@@ -156,6 +157,10 @@ export default function SystemMonitoring() {
           <TabsTrigger value="database" className="gap-2">
             <Database className="w-4 h-4" />
             Database
+          </TabsTrigger>
+          <TabsTrigger value="feature-flags" className="gap-2">
+            <Flag className="w-4 h-4" />
+            Feature Flags
           </TabsTrigger>
           <TabsTrigger value="audit" className="gap-2">
             <Activity className="w-4 h-4" />
@@ -454,6 +459,10 @@ export default function SystemMonitoring() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="feature-flags" className="space-y-6">
+          <FeatureFlagsPanel />
         </TabsContent>
 
         <TabsContent value="database" className="space-y-6">

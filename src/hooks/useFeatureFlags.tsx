@@ -47,6 +47,9 @@ export const useFeatureFlags = () => {
         .eq('flag_key', flagKey);
 
       if (error) throw error;
+      
+      // Invalidate edge function cache immediately
+      await supabase.functions.invoke('invalidate-flag-cache');
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['feature-flags'] });
