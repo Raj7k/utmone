@@ -260,6 +260,87 @@ export type Database = {
         }
         Relationships: []
       }
+      conversion_events: {
+        Row: {
+          attributed_at: string
+          click_id: string | null
+          created_at: string
+          currency: string | null
+          event_name: string | null
+          event_type: string
+          event_value: number | null
+          id: string
+          link_id: string
+          metadata: Json | null
+          user_identifier: string | null
+          workspace_id: string
+        }
+        Insert: {
+          attributed_at?: string
+          click_id?: string | null
+          created_at?: string
+          currency?: string | null
+          event_name?: string | null
+          event_type: string
+          event_value?: number | null
+          id?: string
+          link_id: string
+          metadata?: Json | null
+          user_identifier?: string | null
+          workspace_id: string
+        }
+        Update: {
+          attributed_at?: string
+          click_id?: string | null
+          created_at?: string
+          currency?: string | null
+          event_name?: string | null
+          event_type?: string
+          event_value?: number | null
+          id?: string
+          link_id?: string
+          metadata?: Json | null
+          user_identifier?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversion_events_click_id_fkey"
+            columns: ["click_id"]
+            isOneToOne: false
+            referencedRelation: "link_clicks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversion_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversion_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "conversion_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "conversion_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       domains: {
         Row: {
           created_at: string | null
@@ -897,6 +978,7 @@ export type Database = {
           ab_test_started_at: string | null
           ab_test_status: string | null
           ab_test_winner_id: string | null
+          conversion_rate: number | null
           created_at: string | null
           created_by: string
           custom_expiry_message: string | null
@@ -920,6 +1002,8 @@ export type Database = {
           status: Database["public"]["Enums"]["link_status"] | null
           title: string
           total_clicks: number | null
+          total_conversions: number | null
+          total_revenue: number | null
           unique_clicks: number | null
           updated_at: string | null
           utm_campaign: string | null
@@ -936,6 +1020,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           created_by: string
           custom_expiry_message?: string | null
@@ -959,6 +1044,8 @@ export type Database = {
           status?: Database["public"]["Enums"]["link_status"] | null
           title: string
           total_clicks?: number | null
+          total_conversions?: number | null
+          total_revenue?: number | null
           unique_clicks?: number | null
           updated_at?: string | null
           utm_campaign?: string | null
@@ -975,6 +1062,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           created_by?: string
           custom_expiry_message?: string | null
@@ -998,6 +1086,8 @@ export type Database = {
           status?: Database["public"]["Enums"]["link_status"] | null
           title?: string
           total_clicks?: number | null
+          total_conversions?: number | null
+          total_revenue?: number | null
           unique_clicks?: number | null
           updated_at?: string | null
           utm_campaign?: string | null
