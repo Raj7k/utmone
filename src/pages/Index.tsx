@@ -129,7 +129,7 @@ const Index = () => {
 
       {/* Core Features Section - Glowing Cards */}
       <AnimatedSection direction="up">
-        <section className="py-32 bg-white">
+        <section id="features" className="py-32 bg-white scroll-mt-20">
           <div className="max-w-[1280px] mx-auto px-8">
             <motion.div 
               className="text-center space-y-4 mb-20"
@@ -225,7 +225,7 @@ const Index = () => {
 
       {/* Governance Section - Glowing Cards */}
       <AnimatedSection direction="up">
-        <section className="py-40 bg-muted/20">
+        <section id="governance" className="py-40 bg-muted/20 scroll-mt-20">
           <div className="max-w-[900px] mx-auto px-8">
             <NumberedPrinciple number="7" title="emotional clarity">
               <AnimatedHeadline>
