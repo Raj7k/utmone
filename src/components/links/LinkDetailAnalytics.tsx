@@ -6,6 +6,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { subDays } from "date-fns";
 import { ClicksOverTime } from "@/components/analytics/ClicksOverTime";
+import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
+import { useConversionMetrics } from "@/hooks/useConversionMetrics";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface LinkDetailAnalyticsProps {
   linkId: string;
@@ -14,6 +17,7 @@ interface LinkDetailAnalyticsProps {
 export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
   const [dateRange, setDateRange] = useState("30");
   const [selectedQRCode, setSelectedQRCode] = useState<string>("all");
+  const conversionMetrics = useConversionMetrics(linkId);
 
   // Fetch link data to get workspace_id
   const { data: linkData } = useQuery({
@@ -131,6 +135,13 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
     <div className="space-y-6">
       {linkData && <ClicksOverTime workspaceId={linkData.workspace_id} linkId={linkId} />}
       
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="conversions">Conversions</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6">
       {/* Date Range Selector */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <h3 className="text-lg font-semibold">Analytics Overview</h3>
@@ -256,6 +267,20 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
           </ResponsiveContainer>
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="conversions" className="space-y-6">
+          {conversionMetrics.data && (
+            <ConversionFunnel
+              clicks={conversionMetrics.data.totalClicks}
+              leads={conversionMetrics.data.leads}
+              signups={conversionMetrics.data.signups}
+              purchases={conversionMetrics.data.purchases}
+              revenue={conversionMetrics.data.totalRevenue}
+            />
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

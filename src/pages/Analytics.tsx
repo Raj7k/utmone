@@ -10,12 +10,15 @@ import { DeviceBreakdown } from "@/components/analytics/DeviceBreakdown";
 import { GeolocationMap } from "@/components/analytics/GeolocationMap";
 import { UTMCampaignRollups } from "@/components/analytics/UTMCampaignRollups";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
+import { useConversionMetrics } from "@/hooks/useConversionMetrics";
 
 const Analytics = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
+  const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -106,15 +109,28 @@ const Analytics = () => {
 
         {currentWorkspace && (
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="devices">Devices</TabsTrigger>
-              <TabsTrigger value="geography">Geography</TabsTrigger>
-              <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
-            </TabsList>
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="conversions">Conversions</TabsTrigger>
+          <TabsTrigger value="devices">Devices</TabsTrigger>
+          <TabsTrigger value="geography">Geography</TabsTrigger>
+          <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+        </TabsList>
 
             <TabsContent value="overview">
               <AnalyticsOverview workspaceId={currentWorkspace.id} />
+            </TabsContent>
+
+            <TabsContent value="conversions" className="space-y-6">
+              {conversionMetrics.data && (
+                <ConversionFunnel
+                  clicks={conversionMetrics.data.totalClicks}
+                  leads={conversionMetrics.data.leads}
+                  signups={conversionMetrics.data.signups}
+                  purchases={conversionMetrics.data.purchases}
+                  revenue={conversionMetrics.data.totalRevenue}
+                />
+              )}
             </TabsContent>
 
             <TabsContent value="devices">
