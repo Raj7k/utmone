@@ -352,6 +352,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       const supabaseProjectId = "whgnsmjdubnvbmarnjfx";
       const generatedShortUrl = `https://${supabaseProjectId}.supabase.co/functions/v1/redirect/${link.path}/${link.slug}`;
       
+      // Reset CAPTCHA for next link creation
+      setCaptchaToken(null);
+      
       // Trigger webhook
       await triggerWebhook("link.created", {
         link_id: link.id,
@@ -786,24 +789,6 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 </div>
               </div>
 
-              <Separator />
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <AlertCircleIcon className="h-4 w-4 text-muted-foreground" />
-                  <Label className="text-sm font-medium">Security Verification</Label>
-                </div>
-                
-                <div className="flex justify-center">
-                  <Turnstile
-                    siteKey="0x4AAAAAAAzJqCI7CySY6Tdb"
-                    onSuccess={(token) => setCaptchaToken(token)}
-                    onError={() => setCaptchaToken(null)}
-                    onExpire={() => setCaptchaToken(null)}
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground text-center">complete verification to create link</p>
-              </div>
             </AccordionContent>
           </AccordionItem>
 
@@ -955,6 +940,24 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             </div>
           </div>
         )}
+        </Card>
+
+        {/* Security Verification - Always Visible */}
+        <Card className="p-4 space-y-3 bg-muted/50 border-border">
+          <div className="flex items-center gap-2">
+            <AlertCircleIcon className="h-4 w-4 text-muted-foreground" />
+            <h3 className="font-serif text-lg font-semibold text-foreground">Security Verification</h3>
+          </div>
+          
+          <div className="flex justify-center py-2">
+            <Turnstile
+              siteKey="0x4AAAAAAAzJqCI7CySY6Tdb"
+              onSuccess={(token) => setCaptchaToken(token)}
+              onError={() => setCaptchaToken(null)}
+              onExpire={() => setCaptchaToken(null)}
+            />
+          </div>
+          <p className="text-xs text-muted-foreground text-center">complete verification to create link</p>
         </Card>
 
         {/* Submit Buttons - Always Visible */}
