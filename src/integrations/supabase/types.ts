@@ -73,36 +73,80 @@ export type Database = {
       }
       early_access_requests: {
         Row: {
+          access_level: number | null
           company_domain: string | null
           created_at: string | null
+          desired_domain: string | null
           email: string
+          engagement_score: number | null
+          fit_score: number | null
+          how_heard: string | null
           id: string
           name: string
+          reason_details: string | null
+          reason_for_joining: string | null
+          referral_code: string | null
+          referral_score: number | null
+          referred_by: string | null
+          role: string | null
           status: string | null
           team_size: string
+          total_access_score: number | null
           updated_at: string | null
         }
         Insert: {
+          access_level?: number | null
           company_domain?: string | null
           created_at?: string | null
+          desired_domain?: string | null
           email: string
+          engagement_score?: number | null
+          fit_score?: number | null
+          how_heard?: string | null
           id?: string
           name: string
+          reason_details?: string | null
+          reason_for_joining?: string | null
+          referral_code?: string | null
+          referral_score?: number | null
+          referred_by?: string | null
+          role?: string | null
           status?: string | null
           team_size: string
+          total_access_score?: number | null
           updated_at?: string | null
         }
         Update: {
+          access_level?: number | null
           company_domain?: string | null
           created_at?: string | null
+          desired_domain?: string | null
           email?: string
+          engagement_score?: number | null
+          fit_score?: number | null
+          how_heard?: string | null
           id?: string
           name?: string
+          reason_details?: string | null
+          reason_for_joining?: string | null
+          referral_code?: string | null
+          referral_score?: number | null
+          referred_by?: string | null
+          role?: string | null
           status?: string | null
           team_size?: string
+          total_access_score?: number | null
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "early_access_requests_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       folders: {
         Row: {
@@ -768,6 +812,53 @@ export type Database = {
           },
         ]
       }
+      waitlist_engagement_events: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: string | null
+          page_path: string | null
+          referrer: string | null
+          session_id: string
+          user_agent: string | null
+          waitlist_user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: string | null
+          page_path?: string | null
+          referrer?: string | null
+          session_id: string
+          user_agent?: string | null
+          waitlist_user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: string | null
+          page_path?: string | null
+          referrer?: string | null
+          session_id?: string
+          user_agent?: string | null
+          waitlist_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waitlist_engagement_events_waitlist_user_id_fkey"
+            columns: ["waitlist_user_id"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workspace_members: {
         Row: {
           created_at: string | null
@@ -862,6 +953,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
       has_role: {
         Args: {

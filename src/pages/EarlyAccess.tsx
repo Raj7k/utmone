@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
+import { useTrackPageView, useTrackFormStart, useTrackFormSubmit, useTrackScrollDepth, useTrackTimeOnPage } from "@/hooks/useWaitlistEngagement";
 
 const formSchema = z.object({
   name: z.string()
@@ -22,6 +24,20 @@ const formSchema = z.object({
     .max(255, "email must be less than 255 characters"),
   team_size: z.string()
     .min(1, "please select your team size"),
+  role: z.string()
+    .min(1, "please select your role"),
+  reason_for_joining: z.string()
+    .min(1, "please select a reason"),
+  reason_details: z.string()
+    .max(500, "details must be less than 500 characters")
+    .optional(),
+  how_heard: z.string()
+    .min(1, "please tell us how you heard about utm.one"),
+  desired_domain: z.string()
+    .optional()
+    .refine((val) => !val || /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/.test(val), {
+      message: "please enter a valid domain (e.g., company.com)"
+    }),
   company_domain: z.string()
     .optional()
     .refine((val) => !val || /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/.test(val), {
@@ -49,18 +65,52 @@ export default function EarlyAccess() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Engagement tracking
+  useTrackPageView('/early-access');
+  useTrackScrollDepth();
+  useTrackTimeOnPage();
+  const trackFormStart = useTrackFormStart();
+  const trackFormSubmit = useTrackFormSubmit();
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       email: "",
       team_size: "",
+      role: "",
+      reason_for_joining: "",
+      reason_details: "",
+      how_heard: "",
+      desired_domain: "",
       company_domain: "",
     },
   });
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
+
+    // Track form submission
+    trackFormSubmit({
+      role: data.role,
+      reason: data.reason_for_joining,
+      how_heard: data.how_heard,
+    });
+
+    // Get referral code from URL if present
+    const params = new URLSearchParams(window.location.search);
+    const referralCode = params.get('ref');
+    let referredBy: string | null = null;
+
+    if (referralCode) {
+      const { data: referrer } = await supabase
+        .from('early_access_requests')
+        .select('id')
+        .eq('referral_code', referralCode)
+        .single();
+      
+      referredBy = referrer?.id || null;
+    }
 
     // Insert the request into database
     const { data: insertedData, error } = await supabase
@@ -69,7 +119,13 @@ export default function EarlyAccess() {
         name: data.name,
         email: data.email,
         team_size: data.team_size,
-        company_domain: data.company_domain || null
+        role: data.role,
+        reason_for_joining: data.reason_for_joining,
+        reason_details: data.reason_details || null,
+        how_heard: data.how_heard,
+        desired_domain: data.desired_domain || null,
+        company_domain: data.company_domain || null,
+        referred_by: referredBy,
       })
       .select()
       .single();
@@ -89,6 +145,9 @@ export default function EarlyAccess() {
           name: data.name,
           email: data.email,
           team_size: data.team_size,
+          role: data.role,
+          reason: data.reason_for_joining,
+          how_heard: data.how_heard,
           company_domain: data.company_domain || null
         }
       });
@@ -108,7 +167,8 @@ export default function EarlyAccess() {
         body: {
           name: data.name,
           email: data.email,
-          team_size: data.team_size
+          team_size: data.team_size,
+          referral_code: insertedData.referral_code,
         }
       });
 
@@ -279,7 +339,9 @@ export default function EarlyAccess() {
               </AnimatedHeadline>
               <AnimatedHeadline delay={200}>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" onFocus={() => {
+                    trackFormStart();
+                  }}>
                     <FormField
                       control={form.control}
                       name="name"
@@ -319,6 +381,31 @@ export default function EarlyAccess() {
 
                     <FormField
                       control={form.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium lowercase">your role</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="select your role" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="marketing">marketing</SelectItem>
+                              <SelectItem value="sales">sales</SelectItem>
+                              <SelectItem value="ops">marketing ops / admin</SelectItem>
+                              <SelectItem value="developer">developer / data engineer</SelectItem>
+                              <SelectItem value="other">other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="team_size"
                       render={({ field }) => (
                         <FormItem>
@@ -344,10 +431,115 @@ export default function EarlyAccess() {
 
                     <FormField
                       control={form.control}
+                      name="reason_for_joining"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium lowercase">why utm.one?</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="select primary reason" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="utm_consistency">need consistent UTM structure</SelectItem>
+                              <SelectItem value="branded_qr">need branded QR codes</SelectItem>
+                              <SelectItem value="governance">need link governance</SelectItem>
+                              <SelectItem value="analytics">need better campaign analytics</SelectItem>
+                              <SelectItem value="custom_domains">need custom branded domains</SelectItem>
+                              <SelectItem value="team_collaboration">need team collaboration</SelectItem>
+                              <SelectItem value="api_integration">need API/webhook integration</SelectItem>
+                              <SelectItem value="other">other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="reason_details"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium lowercase">
+                            tell us more (optional)
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="what challenges are you facing with link management today?"
+                              className="min-h-[100px] rounded-lg resize-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-xs">
+                            max 500 characters
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="how_heard"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium lowercase">
+                            how did you hear about utm.one?
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="select source" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="referral">referral / invite</SelectItem>
+                              <SelectItem value="search">search engine</SelectItem>
+                              <SelectItem value="social">social media</SelectItem>
+                              <SelectItem value="community">slack / discord community</SelectItem>
+                              <SelectItem value="blog">blog / article</SelectItem>
+                              <SelectItem value="newsletter">newsletter</SelectItem>
+                              <SelectItem value="other">other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="desired_domain"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium lowercase">
+                            domain you want to shorten with (optional)
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="go.company.com or company.com"
+                              className="h-12 rounded-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription className="text-xs">
+                            the custom domain you'll use for short links
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="company_domain"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">company domain (optional)</FormLabel>
+                          <FormLabel className="text-sm font-medium lowercase">
+                            company domain (optional)
+                          </FormLabel>
                           <FormControl>
                             <Input
                               placeholder="company.com"
@@ -355,6 +547,9 @@ export default function EarlyAccess() {
                               {...field}
                             />
                           </FormControl>
+                          <FormDescription className="text-xs">
+                            your company's main website domain
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
