@@ -62,8 +62,18 @@ verify_jwt = false
 [functions.api]
 verify_jwt = false
 
-[functions.send-webhook]
+[functions.slack-integration]
 verify_jwt = false
+
+[functions.process-payment-conversion]
+verify_jwt = false
+
+[functions.process-partner-payout]
+verify_jwt = false
+
+[functions.trigger-click-webhook]
+verify_jwt = false
+
 
 [functions.scan-url]
 verify_jwt = false
