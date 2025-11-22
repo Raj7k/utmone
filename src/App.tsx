@@ -13,7 +13,6 @@ import LinkDetail from "./pages/LinkDetail";
 import Analytics from "./pages/Analytics";
 import OnboardingEnhanced from "./pages/OnboardingEnhanced";
 import Settings from "./pages/Settings";
-import LandingAnalytics from "./pages/LandingAnalytics";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import Marketers from "./pages/solutions/Marketers";
@@ -21,9 +20,10 @@ import Sales from "./pages/solutions/Sales";
 import MarketingOps from "./pages/solutions/MarketingOps";
 import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
-import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
-import WaitlistAnalytics from "./pages/admin/WaitlistAnalytics";
-import AnnouncementAdmin from "./pages/admin/AnnouncementAdmin";
+import AdminDashboard from "./pages/admin/Dashboard";
+import WaitlistManagement from "./pages/admin/WaitlistManagement";
+import LandingManagement from "./pages/admin/LandingManagement";
+import ProductAnalytics from "./pages/admin/ProductAnalytics";
 import Invite from "./pages/Invite";
 import ClaimAccess from "./pages/ClaimAccess";
 
@@ -43,10 +43,10 @@ const App = () => (
           <Route path="/links" element={<Links />} />
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
-          <Route path="/admin/early-access" element={<EarlyAccessAdmin />} />
-          <Route path="/admin/waitlist-analytics" element={<WaitlistAnalytics />} />
-          <Route path="/admin/announcements" element={<AnnouncementAdmin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/waitlist" element={<WaitlistManagement />} />
+          <Route path="/admin/landing" element={<LandingManagement />} />
+          <Route path="/admin/product" element={<ProductAnalytics />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
