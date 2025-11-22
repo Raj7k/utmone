@@ -116,6 +116,44 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Conversion tracked: ${event.event_type} for link ${event.link_id}`);
 
+    // Trigger conversion.tracked webhook
+    try {
+      const { data: webhooks } = await supabase
+        .from('webhook_subscriptions')
+        .select('*')
+        .eq('workspace_id', link.workspace_id)
+        .eq('is_active', true);
+
+      if (webhooks && webhooks.length > 0) {
+        const matchingWebhooks = webhooks.filter(w => 
+          w.event_type.split(',').includes('conversion.tracked')
+        );
+
+        for (const webhook of matchingWebhooks) {
+          await supabase.functions.invoke('trigger-click-webhook', {
+            body: {
+              event: 'conversion.tracked',
+              data: {
+                conversion_id: conversion.id,
+                link_id: conversion.link_id,
+                event_type: conversion.event_type,
+                event_name: conversion.event_name,
+                event_value: conversion.event_value,
+                currency: conversion.currency,
+                tracked_at: conversion.created_at,
+                user_identifier: conversion.user_identifier,
+              },
+              webhookUrl: webhook.webhook_url,
+              secret: webhook.secret,
+            },
+          });
+        }
+      }
+    } catch (webhookError) {
+      console.error('Failed to trigger webhook:', webhookError);
+      // Don't fail the conversion if webhook fails
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true,

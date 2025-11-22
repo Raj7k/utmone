@@ -32,6 +32,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { suggestUTMSource, suggestUTMMedium, generateUTMCampaignFromTitle } from "@/lib/utmHelpers";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const linkFormSchema = z.object({
   title: z.string().min(1, "Title is required").max(100, "Title must be less than 100 characters"),
@@ -86,6 +87,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const [slugCheckValue, setSlugCheckValue] = useState("");
   const [isCheckingSlug, setIsCheckingSlug] = useState(false);
   const [slugSource, setSlugSource] = useState<"auto" | "manual">("auto");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkFormSchema),
@@ -371,6 +373,16 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   });
 
   const onSubmit = (data: LinkFormData) => {
+    // Verify CAPTCHA before submission
+    if (!captchaToken) {
+      toast({
+        title: "verification required",
+        description: "please complete the security verification",
+        variant: "destructive",
+      });
+      return;
+    }
+
     createLinkMutation.mutate(data);
     
     // Save preferences on successful submission
@@ -772,6 +784,25 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   />
                   <p className="text-xs text-muted-foreground">shown on password entry page</p>
                 </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <AlertCircleIcon className="h-4 w-4 text-muted-foreground" />
+                  <Label className="text-sm font-medium">Security Verification</Label>
+                </div>
+                
+                <div className="flex justify-center">
+                  <Turnstile
+                    siteKey="0x4AAAAAAAzJqCI7CySY6Tdb"
+                    onSuccess={(token) => setCaptchaToken(token)}
+                    onError={() => setCaptchaToken(null)}
+                    onExpire={() => setCaptchaToken(null)}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground text-center">complete verification to create link</p>
               </div>
             </AccordionContent>
           </AccordionItem>
