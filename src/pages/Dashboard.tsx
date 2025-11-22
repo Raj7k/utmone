@@ -67,28 +67,28 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
+      <header className="h-[72px] border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-50">
+        <div className="container mx-auto px-8 h-full">
+          <div className="flex items-center justify-between h-full">
+            <div className="flex items-center gap-8">
               <div className="flex items-center gap-2">
-                <LinkIcon className="h-8 w-8 text-primary" />
-                <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">LinkHub</span>
+                <LinkIcon className="h-7 w-7 text-primary" />
+                <span className="text-xl font-bold text-foreground">utm.one</span>
               </div>
-              <nav className="hidden md:flex items-center gap-4">
-                <Button variant="default">Dashboard</Button>
-                <Button variant="ghost" onClick={() => navigate("/links")}>
-                  Links
+              <nav className="hidden md:flex items-center gap-2">
+                <Button variant="default" size="sm" className="h-9">dashboard</Button>
+                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/links")}>
+                  links
                 </Button>
-                <Button variant="ghost" onClick={() => navigate("/analytics")}>
-                  Analytics
+                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/analytics")}>
+                  analytics
                 </Button>
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground hidden md:block">{user?.email}</span>
-              <Button variant="ghost" size="icon" onClick={handleSignOut}>
-                <LogOut className="h-5 w-5" />
+              <span className="text-small-text text-muted-foreground hidden md:block">{user?.email}</span>
+              <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -96,15 +96,15 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome to LinkHub</h1>
-          <p className="text-muted-foreground">Create and manage your branded short links and QR codes</p>
+      <main className="container mx-auto px-8 py-group">
+        <div className="mb-content">
+          <h1 className="text-heading-3 font-bold mb-2">welcome back</h1>
+          <p className="text-body-text text-muted-foreground">here's what's happening with your links today.</p>
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Card className="hover:shadow-lg transition-shadow">
+        <div className="grid md:grid-cols-3 gap-card mb-content">
+          <Card className="hover:shadow-lg transition-apple">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <LinkIcon className="h-8 w-8 text-primary" />
@@ -124,7 +124,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-apple cursor-pointer">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <QrCode className="h-8 w-8 text-secondary" />
@@ -140,7 +140,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-apple cursor-pointer">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-8 w-8 text-success" />
@@ -157,7 +157,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Overview */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
+        <div className="grid md:grid-cols-4 gap-4 mb-content">
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Total Links</CardDescription>

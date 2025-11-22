@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, ChevronRight } from "lucide-react";
+import { Menu, ChevronRight, Link as LinkIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Navigation = () => {
@@ -66,7 +66,7 @@ export const Navigation = () => {
 
   return (
     <header 
-      className={`border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-all duration-300 ${
+      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-apple ${
         announcementVisible ? "top-[48px]" : "top-0"
       } ${
         isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
@@ -78,17 +78,14 @@ export const Navigation = () => {
         style={{ width: progressWidth }}
       />
 
-      <div className="max-w-[1280px] mx-auto px-8 py-4">
-        <nav className="flex items-center justify-between">
+      <div className="max-w-[1280px] mx-auto px-8 h-full">
+        <nav className="flex items-center justify-between h-full">
           {/* Logo with hover effect */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <motion.span 
-              className="text-[17px] font-semibold tracking-tight text-foreground"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
+          <Link to="/" className="flex items-center gap-2 group transition-apple hover:opacity-70">
+            <LinkIcon className="h-7 w-7 text-primary" />
+            <span className="text-xl font-bold text-foreground">
               utm.one
-            </motion.span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -97,8 +94,8 @@ export const Navigation = () => {
               <NavigationMenuList className="gap-2">
                 {/* Product Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="h-9 px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent">
-                    Product
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    product
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
@@ -173,8 +170,8 @@ export const Navigation = () => {
 
                 {/* Solutions Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="h-9 px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent">
-                    Solutions
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    solutions
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
@@ -250,10 +247,10 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <Link to="/docs">
                     <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/docs" && "text-foreground"
                     )}>
-                      Docs
+                      docs
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -261,10 +258,10 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <Link to="/pricing">
                     <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/pricing" && "text-foreground"
                     )}>
-                      Pricing
+                      pricing
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -272,10 +269,10 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <Link to="/about">
                     <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/about" && "text-foreground"
                     )}>
-                      About
+                      about
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -283,10 +280,10 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <Link to="/partners/apply">
                     <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname.startsWith("/partners") && "text-foreground"
                     )}>
-                      Partners
+                      partners
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -294,10 +291,10 @@ export const Navigation = () => {
                 <NavigationMenuItem>
                   <Link to="/docs/api">
                     <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-[14px] font-medium text-foreground/70 hover:text-foreground transition-colors",
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/docs/api" && "text-foreground"
                     )}>
-                      API
+                      api
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
