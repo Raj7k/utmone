@@ -2169,42 +2169,107 @@ export type Database = {
           },
         ]
       }
+      workspace_usage: {
+        Row: {
+          api_requests: number | null
+          created_at: string | null
+          id: string
+          links_created: number | null
+          period_end: string
+          period_start: string
+          total_clicks: number | null
+          workspace_id: string | null
+        }
+        Insert: {
+          api_requests?: number | null
+          created_at?: string | null
+          id?: string
+          links_created?: number | null
+          period_end: string
+          period_start: string
+          total_clicks?: number | null
+          workspace_id?: string | null
+        }
+        Update: {
+          api_requests?: number | null
+          created_at?: string | null
+          id?: string
+          links_created?: number | null
+          period_end?: string
+          period_start?: string
+          total_clicks?: number | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_usage_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workspaces: {
         Row: {
+          analytics_retention_days: number | null
           created_at: string | null
+          custom_domain_limit: number | null
           default_domain: string | null
           default_path: string | null
           description: string | null
           id: string
+          monthly_clicks_limit: number | null
+          monthly_link_count: number | null
+          monthly_link_limit: number | null
           name: string
           onboarding_completed: boolean | null
           owner_id: string
+          plan_expires_at: string | null
+          plan_started_at: string | null
+          plan_tier: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain: string | null
           slug: string
           updated_at: string | null
         }
         Insert: {
+          analytics_retention_days?: number | null
           created_at?: string | null
+          custom_domain_limit?: number | null
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
           id?: string
+          monthly_clicks_limit?: number | null
+          monthly_link_count?: number | null
+          monthly_link_limit?: number | null
           name: string
           onboarding_completed?: boolean | null
           owner_id: string
+          plan_expires_at?: string | null
+          plan_started_at?: string | null
+          plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain?: string | null
           slug: string
           updated_at?: string | null
         }
         Update: {
+          analytics_retention_days?: number | null
           created_at?: string | null
+          custom_domain_limit?: number | null
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
           id?: string
+          monthly_clicks_limit?: number | null
+          monthly_link_count?: number | null
+          monthly_link_limit?: number | null
           name?: string
           onboarding_completed?: boolean | null
           owner_id?: string
+          plan_expires_at?: string | null
+          plan_started_at?: string | null
+          plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain?: string | null
           slug?: string
           updated_at?: string | null
@@ -2461,6 +2526,7 @@ export type Database = {
     Enums: {
       app_role: "admin" | "user"
       link_status: "active" | "paused" | "archived"
+      plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
       user_role: "super_admin" | "workspace_admin" | "editor" | "viewer"
     }
     CompositeTypes: {
@@ -2591,6 +2657,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "user"],
       link_status: ["active", "paused", "archived"],
+      plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
       user_role: ["super_admin", "workspace_admin", "editor", "viewer"],
     },
   },

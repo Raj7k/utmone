@@ -15,6 +15,7 @@ import OnboardingEnhanced from "./pages/OnboardingEnhanced";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
+import LifetimeDeal from "./pages/LifetimeDeal";
 import Marketers from "./pages/solutions/Marketers";
 import Sales from "./pages/solutions/Sales";
 import MarketingOps from "./pages/solutions/MarketingOps";
@@ -67,6 +68,7 @@ const App = () => (
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/password-protected" element={<PasswordProtected />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/lifetime-deal" element={<LifetimeDeal />} />
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/docs/api" element={<APIDocumentation />} />
