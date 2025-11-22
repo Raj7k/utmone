@@ -10,17 +10,31 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { useAddDomain, useVerifyDomain } from "@/hooks/useDomains";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
-import { CheckCircle2, Loader2, ArrowRight, Link2, QrCode, BarChart3, Users } from "lucide-react";
+import { QRCodeGenerator } from "@/components/QRCodeGenerator";
+import { CheckCircle2, Loader2, ArrowRight, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-type OnboardingStep = "welcome" | "domain" | "verify" | "first-link" | "first-qr" | "analytics" | "team" | "complete";
+type OnboardingStep = 
+  | "workspace-create" 
+  | "welcome" 
+  | "domain" 
+  | "verify" 
+  | "first-link" 
+  | "first-qr" 
+  | "analytics" 
+  | "team" 
+  | "complete";
+
+const ONBOARDING_STORAGE_KEY = "utm-one-onboarding-progress";
 
 export default function OnboardingEnhanced() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { currentWorkspace } = useWorkspace();
-  const [step, setStep] = useState<OnboardingStep>("welcome");
+  const { currentWorkspace, createWorkspace, isLoading: workspaceLoading } = useWorkspace();
+  
+  const [step, setStep] = useState<OnboardingStep>("workspace-create");
+  const [workspaceName, setWorkspaceName] = useState("");
   const [domainInput, setDomainInput] = useState("");
   const [addedDomain, setAddedDomain] = useState<any>(null);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -33,23 +47,91 @@ export default function OnboardingEnhanced() {
   const verifyDomainMutation = useVerifyDomain();
   const { trackFirstLink, trackFirstQR, trackFirstAnalyticsView, incrementTeamInvites } = useActivationTracking();
 
-  const steps: OnboardingStep[] = ["welcome", "domain", "verify", "first-link", "first-qr", "analytics", "team", "complete"];
+  const steps: OnboardingStep[] = [
+    "workspace-create",
+    "welcome",
+    "domain",
+    "verify",
+    "first-link",
+    "first-qr",
+    "analytics",
+    "team",
+    "complete",
+  ];
   const currentStepIndex = steps.indexOf(step);
   const progress = ((currentStepIndex + 1) / steps.length) * 100;
 
+  // Load saved progress
   useEffect(() => {
-    if (!currentWorkspace) return;
+    const savedProgress = localStorage.getItem(ONBOARDING_STORAGE_KEY);
+    if (savedProgress) {
+      try {
+        const { step: savedStep, data } = JSON.parse(savedProgress);
+        setStep(savedStep);
+        if (data.linkTitle) setLinkTitle(data.linkTitle);
+        if (data.linkDestination) setLinkDestination(data.linkDestination);
+        if (data.domainInput) setDomainInput(data.domainInput);
+      } catch (e) {
+        console.error("Failed to load progress:", e);
+      }
+    }
+  }, []);
+
+  // Save progress
+  useEffect(() => {
+    const data = { linkTitle, linkDestination, domainInput };
+    localStorage.setItem(
+      ONBOARDING_STORAGE_KEY,
+      JSON.stringify({ step, data })
+    );
+  }, [step, linkTitle, linkDestination, domainInput]);
+
+  // Check if already completed
+  useEffect(() => {
+    if (!currentWorkspace) {
+      setStep("workspace-create");
+      return;
+    }
+    
     if (currentWorkspace.onboarding_completed) {
       navigate("/dashboard");
+      return;
+    }
+    
+    // If workspace exists but onboarding not complete, start from welcome
+    if (step === "workspace-create") {
+      setStep("welcome");
     }
   }, [currentWorkspace, navigate]);
+
+  const handleCreateWorkspace = async () => {
+    if (!workspaceName.trim()) {
+      toast({
+        title: "workspace name required",
+        description: "please enter a name for your workspace.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await createWorkspace(workspaceName);
+      setStep("welcome");
+    } catch (error: any) {
+      toast({
+        title: "error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleAddDomain = async () => {
     if (!currentWorkspace) return;
     if (!domainInput.trim()) {
       toast({
-        title: "Domain required",
-        description: "Please enter a domain name.",
+        title: "domain required",
+        description: "please enter a domain name.",
         variant: "destructive",
       });
       return;
@@ -66,11 +148,19 @@ export default function OnboardingEnhanced() {
       setStep("verify");
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "error",
         description: error.message,
         variant: "destructive",
       });
     }
+  };
+
+  const handleSkipVerification = () => {
+    toast({
+      title: "verification pending",
+      description: "we'll email you when your domain is verified.",
+    });
+    setStep("first-link");
   };
 
   const handleVerifyDomain = async () => {
@@ -79,13 +169,19 @@ export default function OnboardingEnhanced() {
     setIsVerifying(true);
     try {
       await verifyDomainMutation.mutateAsync(addedDomain.id);
+      toast({
+        title: "domain verified",
+        description: "your domain is now ready to use.",
+      });
       setStep("first-link");
     } catch (error: any) {
       toast({
-        title: "Verification failed",
-        description: "Please check your DNS settings and try again in a few minutes.",
-        variant: "destructive",
+        title: "verification pending",
+        description: "dns propagation can take up to 72 hours. you can continue and we'll verify in the background.",
+        variant: "default",
       });
+      // Allow continue anyway
+      setStep("first-link");
     } finally {
       setIsVerifying(false);
     }
@@ -94,8 +190,8 @@ export default function OnboardingEnhanced() {
   const handleCreateFirstLink = async () => {
     if (!currentWorkspace || !linkTitle || !linkDestination) {
       toast({
-        title: "Required fields",
-        description: "Please fill in all fields.",
+        title: "required fields",
+        description: "please fill in all fields.",
         variant: "destructive",
       });
       return;
@@ -103,7 +199,7 @@ export default function OnboardingEnhanced() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) throw new Error("not authenticated");
 
       const slug = linkTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
@@ -129,27 +225,25 @@ export default function OnboardingEnhanced() {
       setStep("first-qr");
 
       toast({
-        title: "Link created!",
-        description: "Your first short link is ready.",
+        title: "link created",
+        description: "your first short link is ready.",
       });
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "error",
         description: error.message,
         variant: "destructive",
       });
     }
   };
 
-  const handleGenerateQR = () => {
-    if (createdLink) {
-      trackFirstQR();
-      toast({
-        title: "QR code ready",
-        description: "Your first QR code has been generated.",
-      });
-      setStep("analytics");
-    }
+  const handleQRGenerated = () => {
+    trackFirstQR();
+    toast({
+      title: "qr code ready",
+      description: "your branded qr code has been generated.",
+    });
+    setStep("analytics");
   };
 
   const handleViewAnalytics = () => {
@@ -163,13 +257,45 @@ export default function OnboardingEnhanced() {
       return;
     }
 
-    // Here you would implement actual team invite logic
-    incrementTeamInvites();
-    toast({
-      title: "Team invite sent",
-      description: `Invitation sent to ${teamEmail}`,
-    });
-    setStep("complete");
+    if (!currentWorkspace) return;
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("not authenticated");
+
+      // Check if user exists
+      const { data: existingUser } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", teamEmail)
+        .single();
+
+      if (existingUser) {
+        // Add as workspace member
+        const { error } = await supabase
+          .from("workspace_members")
+          .insert({
+            workspace_id: currentWorkspace.id,
+            user_id: existingUser.id,
+            role: "editor",
+          });
+
+        if (error) throw error;
+      }
+
+      incrementTeamInvites();
+      toast({
+        title: "team invite sent",
+        description: `invitation sent to ${teamEmail}`,
+      });
+      setStep("complete");
+    } catch (error: any) {
+      toast({
+        title: "error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   const handleComplete = async () => {
@@ -183,23 +309,29 @@ export default function OnboardingEnhanced() {
 
       if (error) throw error;
 
+      // Clear saved progress
+      localStorage.removeItem(ONBOARDING_STORAGE_KEY);
+
       toast({
-        title: "Welcome to utm.one",
-        description: "Your onboarding is complete!",
+        title: "welcome to utm.one",
+        description: "your onboarding is complete.",
       });
 
       navigate("/dashboard");
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "error",
         description: error.message,
         variant: "destructive",
       });
     }
   };
 
-  const handleSkip = async () => {
-    if (!currentWorkspace) return;
+  const handleExitOnboarding = async () => {
+    if (!currentWorkspace) {
+      navigate("/");
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -209,17 +341,18 @@ export default function OnboardingEnhanced() {
 
       if (error) throw error;
 
+      localStorage.removeItem(ONBOARDING_STORAGE_KEY);
       navigate("/dashboard");
     } catch (error: any) {
       toast({
-        title: "Error",
+        title: "error",
         description: error.message,
         variant: "destructive",
       });
     }
   };
 
-  if (!currentWorkspace) {
+  if (workspaceLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin" />
@@ -230,15 +363,63 @@ export default function OnboardingEnhanced() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
       <div className="w-full max-w-3xl">
-        <div className="mb-8">
-          <Progress value={progress} className="h-2" />
-          <p className="text-sm text-muted-foreground mt-2 text-center">
-            step {currentStepIndex + 1} of {steps.length}
-          </p>
-        </div>
+        {/* Exit button */}
+        {step !== "workspace-create" && (
+          <div className="mb-4 flex justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleExitOnboarding}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <X className="w-4 h-4 mr-2" />
+              exit onboarding
+            </Button>
+          </div>
+        )}
 
+        {/* Progress bar */}
+        {step !== "workspace-create" && (
+          <div className="mb-8">
+            <Progress value={progress} className="h-2" />
+            <p className="text-sm text-muted-foreground mt-2 text-center">
+              step {currentStepIndex + 1} of {steps.length}
+            </p>
+          </div>
+        )}
+
+        {/* Workspace Creation */}
+        {step === "workspace-create" && (
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl">create your workspace</CardTitle>
+              <CardDescription className="text-lg mt-4">
+                let's start with a name for your team.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="workspace-name">workspace name</Label>
+                <Input
+                  id="workspace-name"
+                  placeholder="acme marketing"
+                  value={workspaceName}
+                  onChange={(e) => setWorkspaceName(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleCreateWorkspace()}
+                />
+              </div>
+
+              <Button onClick={handleCreateWorkspace} className="w-full" size="lg">
+                create workspace
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Welcome */}
         {step === "welcome" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
               <CardTitle className="text-3xl">welcome to utm.one</CardTitle>
               <CardDescription className="text-lg mt-4">
@@ -246,28 +427,16 @@ export default function OnboardingEnhanced() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <Button
-                  className="w-full h-auto py-4"
-                  onClick={() => setStep("domain")}
-                >
-                  continue
-                </Button>
-
-                <Button
-                  variant="ghost"
-                  className="w-full"
-                  onClick={handleSkip}
-                >
-                  i'll do this later
-                </Button>
-              </div>
+              <Button onClick={() => setStep("domain")} className="w-full" size="lg">
+                continue
+              </Button>
             </CardContent>
           </Card>
         )}
 
+        {/* Domain Setup */}
         {step === "domain" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>add your branded domain</CardTitle>
               <CardDescription>
@@ -276,7 +445,7 @@ export default function OnboardingEnhanced() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="domain">domain name</Label>
+                <Label htmlFor="domain">your domain</Label>
                 <Input
                   id="domain"
                   placeholder="yourdomain.com"
@@ -298,7 +467,7 @@ export default function OnboardingEnhanced() {
                   continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="outline" onClick={handleSkip}>
+                <Button variant="outline" onClick={() => setStep("first-link")}>
                   skip
                 </Button>
               </div>
@@ -306,8 +475,9 @@ export default function OnboardingEnhanced() {
           </Card>
         )}
 
+        {/* Domain Verification */}
         {step === "verify" && addedDomain && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>verify your domain</CardTitle>
               <CardDescription>add this DNS record to verify ownership.</CardDescription>
@@ -318,25 +488,34 @@ export default function OnboardingEnhanced() {
                 verificationCode={addedDomain.verification_code}
               />
 
+              <Alert>
+                <AlertDescription>
+                  dns verification can take up to 72 hours. you can continue now and we'll verify in the background.
+                </AlertDescription>
+              </Alert>
+
               <div className="flex gap-3">
                 <Button
                   onClick={handleVerifyDomain}
                   disabled={isVerifying}
+                  variant="outline"
                   className="flex-1"
                 >
                   {isVerifying && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  verify domain
+                  verify now
                 </Button>
-                <Button variant="outline" onClick={() => setStep("first-link")}>
-                  skip for now
+                <Button onClick={handleSkipVerification} className="flex-1">
+                  continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
             </CardContent>
           </Card>
         )}
 
+        {/* First Link */}
         {step === "first-link" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>your first short link</CardTitle>
               <CardDescription>paste any url to get started.</CardDescription>
@@ -347,7 +526,7 @@ export default function OnboardingEnhanced() {
                   <Label htmlFor="link-title">link title</Label>
                   <Input
                     id="link-title"
-                    placeholder="Welcome Offer"
+                    placeholder="welcome offer"
                     value={linkTitle}
                     onChange={(e) => setLinkTitle(e.target.value)}
                   />
@@ -377,68 +556,85 @@ export default function OnboardingEnhanced() {
           </Card>
         )}
 
+        {/* QR Code Generation */}
         {step === "first-qr" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>your qr code, designed beautifully</CardTitle>
               <CardDescription>choose a color and add your logo.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert>
-                <CheckCircle2 className="h-4 w-4" />
-                <AlertDescription>
-                  {createdLink 
-                    ? `QR code will be created for: ${createdLink.short_url || createdLink.final_url}`
-                    : "create a link first to generate a QR code"
-                  }
-                </AlertDescription>
-              </Alert>
+              {createdLink ? (
+                <QRCodeGenerator
+                  linkId={createdLink.id}
+                  shortUrl={createdLink.final_url || createdLink.short_url}
+                  onSuccess={handleQRGenerated}
+                />
+              ) : (
+                <Alert>
+                  <AlertDescription>
+                    create a link first to generate a qr code
+                  </AlertDescription>
+                </Alert>
+              )}
 
-              <div className="flex gap-3">
-                <Button onClick={handleGenerateQR} className="flex-1" disabled={!createdLink}>
-                  generate QR code
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button variant="outline" onClick={() => setStep("analytics")}>
-                  skip
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                onClick={() => setStep("analytics")}
+                className="w-full"
+              >
+                skip for now
+              </Button>
             </CardContent>
           </Card>
         )}
 
+        {/* Analytics Preview */}
         {step === "analytics" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>see your analytics</CardTitle>
               <CardDescription>see how your links are performing.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-3xl font-bold">0</div>
+                  <div className="text-sm text-muted-foreground mt-1">total clicks</div>
+                </div>
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-3xl font-bold">0</div>
+                  <div className="text-sm text-muted-foreground mt-1">unique visitors</div>
+                </div>
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <div className="text-3xl font-bold">0%</div>
+                  <div className="text-sm text-muted-foreground mt-1">click rate</div>
+                </div>
+              </div>
+
               <Alert>
                 <CheckCircle2 className="h-4 w-4" />
                 <AlertDescription>
-                  analytics dashboard tracks clicks, devices, locations, and more
+                  your analytics will update automatically as people click your links
                 </AlertDescription>
               </Alert>
 
-              <div className="flex gap-3">
-                <Button onClick={handleViewAnalytics} className="flex-1">
-                  explore analytics
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button variant="outline" onClick={() => setStep("team")}>
-                  skip
-                </Button>
-              </div>
+              <Button onClick={handleViewAnalytics} className="w-full">
+                continue
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </CardContent>
           </Card>
         )}
 
+        {/* Team Invitation */}
         {step === "team" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader>
               <CardTitle>add your team</CardTitle>
-              <CardDescription>share access with teammates so everyone follows the same rules.</CardDescription>
+              <CardDescription>
+                share access with teammates so everyone follows the same rules.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -452,18 +648,17 @@ export default function OnboardingEnhanced() {
                 />
               </div>
 
-              <div className="flex gap-3">
-                <Button onClick={handleInviteTeamMember} className="flex-1">
-                  {teamEmail ? "send invite" : "skip"}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
+              <Button onClick={handleInviteTeamMember} className="w-full">
+                {teamEmail ? "send invite" : "skip"}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </CardContent>
           </Card>
         )}
 
+        {/* Completion */}
         {step === "complete" && (
-          <Card>
+          <Card className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
               <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
@@ -473,7 +668,7 @@ export default function OnboardingEnhanced() {
                 your workspace is set. your links are clean. your data will be too.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
               <Button onClick={handleComplete} className="w-full" size="lg">
                 go to dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
