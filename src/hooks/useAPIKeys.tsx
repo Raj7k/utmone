@@ -43,24 +43,19 @@ export const useAPIKeys = () => {
   const createAPIKey = useMutation({
     mutationFn: async (keyData: {
       key_name: string;
-      key_hash: string;
-      key_prefix: string;
       scopes: string[];
-      rate_limit: number;
       expires_at?: string;
     }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!currentWorkspace?.id) throw new Error('No workspace selected');
 
-      const { data, error } = await supabase
-        .from('api_keys')
-        .insert({
-          ...keyData,
-          workspace_id: currentWorkspace!.id,
-          created_by: user.id,
-        })
-        .select()
-        .single();
+      const { data, error } = await supabase.functions.invoke('generate-api-key', {
+        body: {
+          key_name: keyData.key_name,
+          workspace_id: currentWorkspace.id,
+          scopes: keyData.scopes,
+          expires_at: keyData.expires_at,
+        },
+      });
 
       if (error) throw error;
       return data;
