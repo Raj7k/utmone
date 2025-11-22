@@ -28,6 +28,7 @@ import LandingManagement from "./pages/admin/LandingManagement";
 import ProductAnalytics from "./pages/admin/ProductAnalytics";
 import SystemMonitoring from "./pages/admin/SystemMonitoring";
 import FeatureFlags from "./pages/admin/FeatureFlags";
+import FlagDetails from "./pages/admin/FlagDetails";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/admin/product" element={<ProductAnalytics />} />
               <Route path="/admin/system" element={<SystemMonitoring />} />
               <Route path="/admin/feature-flags" element={<FeatureFlags />} />
+              <Route path="/admin/flags/:flagKey" element={<FlagDetails />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />

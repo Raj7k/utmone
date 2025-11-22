@@ -53,6 +53,60 @@ export type Database = {
         }
         Relationships: []
       }
+      alert_configurations: {
+        Row: {
+          alert_name: string
+          comparison_operator: string
+          created_at: string
+          created_by: string | null
+          email_enabled: boolean | null
+          email_recipients: string[] | null
+          id: string
+          is_enabled: boolean | null
+          metric_type: string
+          slack_enabled: boolean | null
+          slack_webhook_url: string | null
+          threshold_value: number
+          updated_at: string
+          webhook_enabled: boolean | null
+          webhook_url: string | null
+        }
+        Insert: {
+          alert_name: string
+          comparison_operator: string
+          created_at?: string
+          created_by?: string | null
+          email_enabled?: boolean | null
+          email_recipients?: string[] | null
+          id?: string
+          is_enabled?: boolean | null
+          metric_type: string
+          slack_enabled?: boolean | null
+          slack_webhook_url?: string | null
+          threshold_value: number
+          updated_at?: string
+          webhook_enabled?: boolean | null
+          webhook_url?: string | null
+        }
+        Update: {
+          alert_name?: string
+          comparison_operator?: string
+          created_at?: string
+          created_by?: string | null
+          email_enabled?: boolean | null
+          email_recipients?: string[] | null
+          id?: string
+          is_enabled?: boolean | null
+          metric_type?: string
+          slack_enabled?: boolean | null
+          slack_webhook_url?: string | null
+          threshold_value?: number
+          updated_at?: string
+          webhook_enabled?: boolean | null
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       announcement_clicks: {
         Row: {
           announcement_id: string
@@ -502,6 +556,57 @@ export type Database = {
         }
         Relationships: []
       }
+      flag_recommendations: {
+        Row: {
+          applied_at: string | null
+          applied_by: string | null
+          confidence_score: number
+          created_at: string
+          current_system_load: string | null
+          current_traffic_pattern: string | null
+          expected_impact: Json | null
+          expires_at: string
+          flag_key: string
+          historical_data_points: number | null
+          id: string
+          reason: string
+          recommendation_type: string
+          status: string | null
+        }
+        Insert: {
+          applied_at?: string | null
+          applied_by?: string | null
+          confidence_score: number
+          created_at?: string
+          current_system_load?: string | null
+          current_traffic_pattern?: string | null
+          expected_impact?: Json | null
+          expires_at?: string
+          flag_key: string
+          historical_data_points?: number | null
+          id?: string
+          reason: string
+          recommendation_type: string
+          status?: string | null
+        }
+        Update: {
+          applied_at?: string | null
+          applied_by?: string | null
+          confidence_score?: number
+          created_at?: string
+          current_system_load?: string | null
+          current_traffic_pattern?: string | null
+          expected_impact?: Json | null
+          expires_at?: string
+          flag_key?: string
+          historical_data_points?: number | null
+          id?: string
+          reason?: string
+          recommendation_type?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       folders: {
         Row: {
           created_at: string | null
@@ -932,6 +1037,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      metrics_snapshots: {
+        Row: {
+          cache_hit_rate_after: number | null
+          cache_hit_rate_before: number | null
+          cache_hit_rate_impact: number | null
+          changed_by: string | null
+          created_at: string
+          error_rate_after: number | null
+          error_rate_before: number | null
+          error_rate_impact: number | null
+          flag_enabled: boolean
+          flag_key: string
+          id: string
+          latency_impact: number | null
+          latency_p95_after: number | null
+          latency_p95_before: number | null
+          metadata: Json | null
+          system_load: string | null
+          timestamp: string
+          traffic_pattern: string | null
+        }
+        Insert: {
+          cache_hit_rate_after?: number | null
+          cache_hit_rate_before?: number | null
+          cache_hit_rate_impact?: number | null
+          changed_by?: string | null
+          created_at?: string
+          error_rate_after?: number | null
+          error_rate_before?: number | null
+          error_rate_impact?: number | null
+          flag_enabled: boolean
+          flag_key: string
+          id?: string
+          latency_impact?: number | null
+          latency_p95_after?: number | null
+          latency_p95_before?: number | null
+          metadata?: Json | null
+          system_load?: string | null
+          timestamp?: string
+          traffic_pattern?: string | null
+        }
+        Update: {
+          cache_hit_rate_after?: number | null
+          cache_hit_rate_before?: number | null
+          cache_hit_rate_impact?: number | null
+          changed_by?: string | null
+          created_at?: string
+          error_rate_after?: number | null
+          error_rate_before?: number | null
+          error_rate_impact?: number | null
+          flag_enabled?: boolean
+          flag_key?: string
+          id?: string
+          latency_impact?: number | null
+          latency_p95_after?: number | null
+          latency_p95_before?: number | null
+          metadata?: Json | null
+          system_load?: string | null
+          timestamp?: string
+          traffic_pattern?: string | null
+        }
+        Relationships: []
       }
       og_image_variants: {
         Row: {

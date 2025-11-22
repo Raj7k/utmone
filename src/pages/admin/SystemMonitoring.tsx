@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { FeatureFlagsPanel } from "@/components/admin/FeatureFlagsPanel";
 import { FlagImpactMonitoring } from "@/components/admin/FlagImpactMonitoring";
+import { FlagRecommendations } from "@/components/admin/FlagRecommendations";
+import { AlertConfigurations } from "@/components/admin/AlertConfigurations";
 
 export default function SystemMonitoring() {
   const navigate = useNavigate();
@@ -464,6 +466,8 @@ export default function SystemMonitoring() {
 
         <TabsContent value="feature-flags" className="space-y-6">
           <FlagImpactMonitoring />
+          <FlagRecommendations />
+          <AlertConfigurations />
           <FeatureFlagsPanel />
         </TabsContent>
 
