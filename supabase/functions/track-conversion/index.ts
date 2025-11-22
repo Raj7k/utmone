@@ -130,7 +130,7 @@ Deno.serve(async (req) => {
         );
 
         for (const webhook of matchingWebhooks) {
-          await supabase.functions.invoke('trigger-click-webhook', {
+          await supabase.functions.invoke('send-webhook', {
             body: {
               event: 'conversion.tracked',
               data: {
