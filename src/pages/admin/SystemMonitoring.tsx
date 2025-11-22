@@ -161,6 +161,10 @@ export default function SystemMonitoring() {
             <Activity className="w-4 h-4" />
             Audit Logs
           </TabsTrigger>
+          <TabsTrigger value="load-testing" className="gap-2">
+            <TrendingUp className="w-4 h-4" />
+            Load Testing
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="performance" className="space-y-6">
@@ -588,6 +592,114 @@ export default function SystemMonitoring() {
                   no audit logs yet
                 </p>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="load-testing" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                load testing suite
+              </CardTitle>
+              <CardDescription>
+                comprehensive k6 tests to validate performance claims
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Test Suites */}
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="border rounded-lg p-4 space-y-3">
+                  <h4 className="font-medium">redirect performance test</h4>
+                  <p className="text-sm text-muted-foreground">
+                    validates sub-100ms p95 latency and 85%+ cache hit rate
+                  </p>
+                  <div className="text-sm space-y-1 text-muted-foreground">
+                    <div>• duration: ~30 minutes</div>
+                    <div>• peak VUs: 20,000</div>
+                    <div>• expected requests: 100k+</div>
+                  </div>
+                  <code className="text-xs block mt-2 p-2 bg-muted rounded">
+                    k6 run load-tests/redirect-performance.js
+                  </code>
+                </div>
+
+                <div className="border rounded-lg p-4 space-y-3">
+                  <h4 className="font-medium">batch processing test</h4>
+                  <p className="text-sm text-muted-foreground">
+                    validates 100x write reduction via queue system
+                  </p>
+                  <div className="text-sm space-y-1 text-muted-foreground">
+                    <div>• duration: ~9 minutes</div>
+                    <div>• peak rate: 5,000 clicks/sec</div>
+                    <div>• expected clicks: 200k+</div>
+                  </div>
+                  <code className="text-xs block mt-2 p-2 bg-muted rounded">
+                    k6 run load-tests/batch-processing.js
+                  </code>
+                </div>
+              </div>
+
+              {/* Success Criteria */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <h4 className="font-medium">success criteria</h4>
+                <div className="grid gap-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span>p95 redirect latency</span>
+                    <Badge variant="outline">&lt; 100ms</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>cache hit rate</span>
+                    <Badge variant="outline">&gt; 85%</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>error rate</span>
+                    <Badge variant="outline">&lt; 0.1%</Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>write reduction</span>
+                    <Badge variant="outline">&gt; 100x</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Start */}
+              <div className="border rounded-lg p-4 space-y-3">
+                <h4 className="font-medium">quick start</h4>
+                <div className="text-sm space-y-3">
+                  <div>
+                    <strong>1. install k6:</strong>
+                    <code className="text-xs block mt-1 p-2 bg-muted rounded">
+                      brew install k6  # macOS
+                    </code>
+                  </div>
+                  <div>
+                    <strong>2. setup test data:</strong>
+                    <code className="text-xs block mt-1 p-2 bg-muted rounded">
+                      psql -f load-tests/setup-test-data.sql
+                    </code>
+                  </div>
+                  <div>
+                    <strong>3. run tests:</strong>
+                    <code className="text-xs block mt-1 p-2 bg-muted rounded">
+                      k6 run load-tests/redirect-performance.js
+                    </code>
+                  </div>
+                  <div>
+                    <strong>4. analyze results:</strong>
+                    <code className="text-xs block mt-1 p-2 bg-muted rounded">
+                      node load-tests/analyze-results.js summary.json
+                    </code>
+                  </div>
+                </div>
+              </div>
+
+              {/* Documentation Link */}
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <CheckCircle2 className="w-4 h-4 text-green-600" />
+                <span>full documentation available in load-tests/README.md</span>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
