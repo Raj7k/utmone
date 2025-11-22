@@ -113,8 +113,10 @@ export type Database = {
           email: string
           engagement_score: number | null
           fit_score: number | null
+          fraud_risk_score: number | null
           how_heard: string | null
           id: string
+          is_flagged: boolean | null
           name: string
           reason_details: string | null
           reason_for_joining: string | null
@@ -135,8 +137,10 @@ export type Database = {
           email: string
           engagement_score?: number | null
           fit_score?: number | null
+          fraud_risk_score?: number | null
           how_heard?: string | null
           id?: string
+          is_flagged?: boolean | null
           name: string
           reason_details?: string | null
           reason_for_joining?: string | null
@@ -157,8 +161,10 @@ export type Database = {
           email?: string
           engagement_score?: number | null
           fit_score?: number | null
+          fraud_risk_score?: number | null
           how_heard?: string | null
           id?: string
+          is_flagged?: boolean | null
           name?: string
           reason_details?: string | null
           reason_for_joining?: string | null
@@ -175,6 +181,93 @@ export type Database = {
           {
             foreignKeyName: "early_access_requests_referred_by_fkey"
             columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_campaigns: {
+        Row: {
+          campaign_type: string
+          created_at: string | null
+          html_content: string
+          id: string
+          is_active: boolean | null
+          send_delay_days: number | null
+          subject: string
+          template_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          campaign_type: string
+          created_at?: string | null
+          html_content: string
+          id?: string
+          is_active?: boolean | null
+          send_delay_days?: number | null
+          subject: string
+          template_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          campaign_type?: string
+          created_at?: string | null
+          html_content?: string
+          id?: string
+          is_active?: boolean | null
+          send_delay_days?: number | null
+          subject?: string
+          template_name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      email_queue: {
+        Row: {
+          campaign_id: string | null
+          clicked_at: string | null
+          created_at: string | null
+          id: string
+          opened_at: string | null
+          scheduled_at: string
+          sent_at: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          created_at?: string | null
+          id?: string
+          opened_at?: string | null
+          scheduled_at: string
+          sent_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          created_at?: string | null
+          id?: string
+          opened_at?: string | null
+          scheduled_at?: string
+          sent_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_queue_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "email_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_queue_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "early_access_requests"
             referencedColumns: ["id"]
@@ -229,6 +322,41 @@ export type Database = {
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fraud_detection_logs: {
+        Row: {
+          details: Json | null
+          detection_type: string
+          flagged_at: string | null
+          id: string
+          risk_score: number
+          user_id: string | null
+        }
+        Insert: {
+          details?: Json | null
+          detection_type: string
+          flagged_at?: string | null
+          id?: string
+          risk_score: number
+          user_id?: string | null
+        }
+        Update: {
+          details?: Json | null
+          detection_type?: string
+          flagged_at?: string | null
+          id?: string
+          risk_score?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fraud_detection_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -603,35 +731,50 @@ export type Database = {
       profiles: {
         Row: {
           access_level: number | null
+          activation_score: number | null
           avatar_url: string | null
           created_at: string | null
           email: string
+          first_analytics_viewed_at: string | null
+          first_link_created_at: string | null
+          first_qr_generated_at: string | null
           full_name: string | null
           id: string
           is_super_admin: boolean | null
           onboarding_completed: boolean | null
+          team_members_invited_count: number | null
           updated_at: string | null
         }
         Insert: {
           access_level?: number | null
+          activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email: string
+          first_analytics_viewed_at?: string | null
+          first_link_created_at?: string | null
+          first_qr_generated_at?: string | null
           full_name?: string | null
           id: string
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
+          team_members_invited_count?: number | null
           updated_at?: string | null
         }
         Update: {
           access_level?: number | null
+          activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email?: string
+          first_analytics_viewed_at?: string | null
+          first_link_created_at?: string | null
+          first_qr_generated_at?: string | null
           full_name?: string | null
           id?: string
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
+          team_members_invited_count?: number | null
           updated_at?: string | null
         }
         Relationships: []
@@ -701,6 +844,47 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_notifications: {
+        Row: {
+          created_at: string | null
+          id: string
+          link: string | null
+          message: string
+          notification_type: string
+          read_at: string | null
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          link?: string | null
+          message: string
+          notification_type: string
+          read_at?: string | null
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          link?: string | null
+          message?: string
+          notification_type?: string
+          read_at?: string | null
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -989,7 +1173,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      waitlist_analytics: {
+        Row: {
+          avg_engagement_score: number | null
+          avg_fit_score: number | null
+          avg_total_score: number | null
+          flagged_users: number | null
+          referral_based_signups: number | null
+          signups_last_30_days: number | null
+          signups_last_7_days: number | null
+          total_approved: number | null
+          total_waitlist: number | null
+          unique_companies: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       generate_invite_token: { Args: never; Returns: string }
@@ -1014,6 +1212,7 @@ export type Database = {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
       }
+      refresh_waitlist_analytics: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"

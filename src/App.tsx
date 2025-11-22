@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Links from "./pages/Links";
 import LinkDetail from "./pages/LinkDetail";
 import Analytics from "./pages/Analytics";
-import Onboarding from "./pages/Onboarding";
+import OnboardingEnhanced from "./pages/OnboardingEnhanced";
 import Settings from "./pages/Settings";
 import LandingAnalytics from "./pages/LandingAnalytics";
 import NotFound from "./pages/NotFound";
@@ -20,6 +20,7 @@ import MarketingOps from "./pages/solutions/MarketingOps";
 import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
 import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
+import WaitlistAnalytics from "./pages/admin/WaitlistAnalytics";
 import Invite from "./pages/Invite";
 import ClaimAccess from "./pages/ClaimAccess";
 
@@ -34,13 +35,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/onboarding" element={<OnboardingEnhanced />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/links" element={<Links />} />
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/admin/landing-analytics" element={<LandingAnalytics />} />
           <Route path="/admin/early-access" element={<EarlyAccessAdmin />} />
+          <Route path="/admin/waitlist-analytics" element={<WaitlistAnalytics />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
