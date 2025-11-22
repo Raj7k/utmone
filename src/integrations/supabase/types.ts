@@ -676,6 +676,20 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "link_clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+          {
             foreignKeyName: "link_clicks_og_variant_id_fkey"
             columns: ["og_variant_id"]
             isOneToOne: false
@@ -717,6 +731,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_tags_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_tags_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
           },
         ]
       }
@@ -918,6 +946,20 @@ export type Database = {
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "og_image_variants_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "og_image_variants_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
         ]
       }
       profiles: {
@@ -1037,6 +1079,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_codes_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "qr_codes_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
           },
         ]
       }
@@ -1365,6 +1421,116 @@ export type Database = {
       }
     }
     Views: {
+      mv_click_time_series: {
+        Row: {
+          click_date: string | null
+          link_id: string | null
+          total_clicks: number | null
+          unique_clicks: number | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_device_analytics: {
+        Row: {
+          browser: string | null
+          click_count: number | null
+          device_type: string | null
+          os: string | null
+          unique_clicks: number | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_geolocation_analytics: {
+        Row: {
+          city: string | null
+          click_count: number | null
+          country: string | null
+          unique_clicks: number | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_link_analytics: {
+        Row: {
+          clicks_last_30_days: number | null
+          clicks_last_7_days: number | null
+          created_at: string | null
+          created_by: string | null
+          destination_url: string | null
+          last_clicked_at: string | null
+          link_id: string | null
+          short_url: string | null
+          title: string | null
+          total_clicks: number | null
+          unique_clicks: number | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_utm_campaign_analytics: {
+        Row: {
+          last_clicked_at: string | null
+          total_clicks: number | null
+          total_links: number | null
+          unique_clicks: number | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       waitlist_analytics: {
         Row: {
           avg_engagement_score: number | null
@@ -1385,6 +1551,69 @@ export type Database = {
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
+      get_device_analytics: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          browser: string
+          click_count: number
+          device_type: string
+          os: string
+          unique_clicks: number
+          workspace_id: string
+        }[]
+      }
+      get_geolocation_analytics: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          city: string
+          click_count: number
+          country: string
+          unique_clicks: number
+          workspace_id: string
+        }[]
+      }
+      get_link_analytics: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          clicks_last_30_days: number
+          clicks_last_7_days: number
+          created_at: string
+          created_by: string
+          destination_url: string
+          last_clicked_at: string
+          link_id: string
+          short_url: string
+          title: string
+          total_clicks: number
+          unique_clicks: number
+          workspace_id: string
+        }[]
+      }
+      get_time_series_analytics: {
+        Args: { p_days?: number; p_link_id?: string; p_workspace_id: string }
+        Returns: {
+          click_date: string
+          link_id: string
+          total_clicks: number
+          unique_clicks: number
+          workspace_id: string
+        }[]
+      }
+      get_utm_analytics: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          last_clicked_at: string
+          total_clicks: number
+          total_links: number
+          unique_clicks: number
+          utm_campaign: string
+          utm_content: string
+          utm_medium: string
+          utm_source: string
+          utm_term: string
+          workspace_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1425,6 +1654,7 @@ export type Database = {
         }
         Returns: string
       }
+      refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
     }
     Enums: {

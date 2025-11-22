@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useCachedGeolocationAnalytics } from "@/hooks/useAnalyticsCache";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
@@ -10,55 +9,44 @@ interface GeolocationMapProps {
 }
 
 export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
-  const { data: geoData, isLoading } = useQuery({
-    queryKey: ["geolocation", workspaceId],
-    queryFn: async () => {
-      const { data: links } = await supabase
-        .from("links")
-        .select("id")
-        .eq("workspace_id", workspaceId);
+  const { data: geoData, isLoading } = useCachedGeolocationAnalytics(workspaceId);
 
-      if (!links || links.length === 0) return null;
+  // Process data for display
+  const data = geoData ? (() => {
+    // Aggregate by country
+    const countryMap = new Map<string, number>();
+    const cityMap = new Map<string, number>();
 
-      const linkIds = links.map(l => l.id);
+    geoData.forEach((item) => {
+      const country = item.country || 'Unknown';
+      const city = item.city || 'Unknown';
+      
+      countryMap.set(country, (countryMap.get(country) || 0) + item.click_count);
+      
+      if (city !== 'Unknown') {
+        const cityKey = `${city}, ${country}`;
+        cityMap.set(cityKey, (cityMap.get(cityKey) || 0) + item.click_count);
+      }
+    });
 
-      const { data: clicks } = await supabase
-        .from("link_clicks")
-        .select("country, city")
-        .in("link_id", linkIds);
+    const countries = Array.from(countryMap.entries())
+      .map(([name, clicks]) => ({ name, value: clicks }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10);
 
-      if (!clicks) return null;
+    const cities = Array.from(cityMap.entries())
+      .map(([name, clicks]) => ({ name, value: clicks }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10);
 
-      // Aggregate by country and city
-      const countryCounts: Record<string, number> = {};
-      const cityCounts: Record<string, number> = {};
+    return { countries, cities };
+  })() : { countries: [], cities: [] };
 
-      clicks.forEach(click => {
-        const country = click.country || "Unknown";
-        const city = click.city || "Unknown";
-
-        countryCounts[country] = (countryCounts[country] || 0) + 1;
-        if (click.city) {
-          cityCounts[city] = (cityCounts[city] || 0) + 1;
-        }
-      });
-
-      return {
-        countries: Object.entries(countryCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 10)
-          .map(([name, value]) => ({ name, value })),
-        cities: Object.entries(cityCounts)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 10)
-          .map(([name, value]) => ({ name, value })),
-      };
-    },
-  });
-
+  if (isLoading) {
     return <div className="text-center py-8 text-muted-foreground">loading location data…</div>;
+  }
 
-  if (!geoData) {
+  if (!data || (data.countries.length === 0 && data.cities.length === 0)) {
     return <div className="text-center py-8 text-muted-foreground">No geolocation data available</div>;
   }
 
@@ -82,7 +70,7 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={geoData.countries} layout="vertical">
+              <BarChart data={data.countries} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
                 <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--muted-foreground))" />
@@ -102,7 +90,7 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={geoData.cities} layout="vertical">
+              <BarChart data={data.cities} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
                 <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--muted-foreground))" />
