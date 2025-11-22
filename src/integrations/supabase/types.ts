@@ -71,6 +71,39 @@ export type Database = {
           },
         ]
       }
+      early_access_invites: {
+        Row: {
+          access_level: number
+          claimed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          email: string
+          expires_at: string
+          id: string
+          invite_token: string
+        }
+        Insert: {
+          access_level?: number
+          claimed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email: string
+          expires_at?: string
+          id?: string
+          invite_token: string
+        }
+        Update: {
+          access_level?: number
+          claimed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email?: string
+          expires_at?: string
+          id?: string
+          invite_token?: string
+        }
+        Relationships: []
+      }
       early_access_requests: {
         Row: {
           access_level: number | null
@@ -569,30 +602,36 @@ export type Database = {
       }
       profiles: {
         Row: {
+          access_level: number | null
           avatar_url: string | null
           created_at: string | null
           email: string
           full_name: string | null
           id: string
           is_super_admin: boolean | null
+          onboarding_completed: boolean | null
           updated_at: string | null
         }
         Insert: {
+          access_level?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email: string
           full_name?: string | null
           id: string
           is_super_admin?: boolean | null
+          onboarding_completed?: boolean | null
           updated_at?: string | null
         }
         Update: {
+          access_level?: number | null
           avatar_url?: string | null
           created_at?: string | null
           email?: string
           full_name?: string | null
           id?: string
           is_super_admin?: boolean | null
+          onboarding_completed?: boolean | null
           updated_at?: string | null
         }
         Relationships: []
@@ -953,6 +992,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
       has_role: {

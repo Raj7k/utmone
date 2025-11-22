@@ -21,6 +21,7 @@ import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
 import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
 import Invite from "./pages/Invite";
+import ClaimAccess from "./pages/ClaimAccess";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/solutions/developers" element={<Developers />} />
           <Route path="/early-access" element={<EarlyAccess />} />
           <Route path="/invite/:code" element={<Invite />} />
+          <Route path="/claim-access" element={<ClaimAccess />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
