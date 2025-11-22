@@ -61,34 +61,6 @@ function parseUserAgent(userAgent: string) {
   return { deviceType, browser, os };
 }
 
-// Get geolocation from IP using ipapi.co (free tier: 1000 requests/day)
-async function getGeolocation(ip: string) {
-  try {
-    // Skip geolocation for localhost/private IPs
-    if (ip === '127.0.0.1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip === '::1') {
-      return { country: null, city: null };
-    }
-    
-    const response = await fetch(`https://ipapi.co/${ip}/json/`, {
-      headers: { 'User-Agent': 'Keka URL Shortener' }
-    });
-    
-    if (!response.ok) {
-      console.warn(`Geolocation API error for IP ${ip}: ${response.status}`);
-      return { country: null, city: null };
-    }
-    
-    const data = await response.json();
-    return {
-      country: data.country_name || null,
-      city: data.city || null
-    };
-  } catch (error) {
-    console.error('Geolocation error:', error);
-    return { country: null, city: null };
-  }
-}
-
 // Check if click is unique (IP + user agent in last 24 hours)
 async function isUniqueClick(supabase: any, linkId: string, ipAddress: string, userAgent: string): Promise<boolean> {
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
@@ -110,18 +82,57 @@ async function isUniqueClick(supabase: any, linkId: string, ipAddress: string, u
   return data.length === 0;
 }
 
+// Rate limiting using Deno KV
+async function checkRateLimit(kv: Deno.Kv, ip: string): Promise<boolean> {
+  const key = ['ratelimit', ip];
+  const now = Date.now();
+  const windowMs = 60000; // 1 minute window
+  const maxRequests = 100;
+  
+  // Get current count
+  const result = await kv.get<{ count: number; resetAt: number }>(key);
+  
+  if (!result.value) {
+    // First request in window
+    await kv.set(key, { count: 1, resetAt: now + windowMs }, { expireIn: windowMs });
+    return true;
+  }
+  
+  // Check if window expired
+  if (now > result.value.resetAt) {
+    // Reset window
+    await kv.set(key, { count: 1, resetAt: now + windowMs }, { expireIn: windowMs });
+    return true;
+  }
+  
+  // Check if over limit
+  if (result.value.count >= maxRequests) {
+    console.warn(`Rate limit exceeded for IP: ${ip}`);
+    return false;
+  }
+  
+  // Increment count
+  await kv.set(key, { 
+    count: result.value.count + 1, 
+    resetAt: result.value.resetAt 
+  }, { expireIn: Math.max(0, result.value.resetAt - now) });
+  
+  return true;
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const startTime = performance.now();
+
   try {
     const url = new URL(req.url);
     const pathParts = url.pathname.split('/').filter(Boolean);
     
     // Extract path and slug from URL
-    // Expected format: /:path/:slug (e.g., /go/abc123)
     if (pathParts.length !== 2) {
       return new Response('Invalid URL format', { 
         status: 404,
@@ -135,61 +146,98 @@ Deno.serve(async (req) => {
     // Normalize domain (remove www if present)
     domain = domain.replace(/^www\./, '');
     
-    console.log(`Redirect request: domain=${domain}, path=${path}, slug=${slug}`);
+    // Extract IP address for rate limiting
+    const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
+                      req.headers.get('x-real-ip') || 
+                      '127.0.0.1';
     
-    // Initialize Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Rate limiting check using Deno KV
+    const kv = await Deno.openKv();
+    const rateLimitOk = await checkRateLimit(kv, ipAddress);
     
-    // Verify domain is registered and verified
-    console.log(`Checking domain verification for: ${domain}`);
-    const { data: domainRecord, error: domainError } = await supabase
-      .from('domains')
-      .select('is_verified, workspace_id')
-      .eq('domain', domain)
-      .eq('is_verified', true)
-      .single();
-
-    if (domainError || !domainRecord) {
-      console.log(`Domain not verified: ${domain}`, domainError);
-      return new Response(
-        `<!DOCTYPE html>
-        <html>
-          <head><title>Domain Not Configured</title></head>
-          <body style="font-family: system-ui; text-align: center; padding: 50px;">
-            <h1>Domain Not Configured</h1>
-            <p>This domain is not set up for short links.</p>
-            <p style="color: #666; font-size: 14px;">Domain: ${domain}</p>
-          </body>
-        </html>`,
-        { 
-          status: 404,
-          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+    if (!rateLimitOk) {
+      return new Response('Too many requests. Please try again later.', {
+        status: 429,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'text/plain',
+          'Retry-After': '60'
         }
-      );
-    }
-    
-    console.log(`Domain verified for workspace: ${domainRecord.workspace_id}`);
-    
-    // Look up the link
-    const { data: link, error: linkError } = await supabase
-      .from('links')
-      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image')
-      .eq('domain', domain)
-      .eq('path', path)
-      .eq('slug', slug)
-      .single();
-    
-    if (linkError || !link) {
-      console.error('Link not found:', linkError);
-      return new Response('Link not found', { 
-        status: 404,
-        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
       });
     }
     
-    const linkRecord = link as LinkRecord;
+    console.log(`Redirect request: domain=${domain}, path=${path}, slug=${slug}, ip=${ipAddress}`);
+    
+    // Try cache first using Deno KV
+    const cacheKey = ['link', domain, path, slug];
+    const cached = await kv.get<LinkRecord>(cacheKey);
+    
+    let linkRecord: LinkRecord;
+    let fromCache = false;
+    
+    if (cached.value) {
+      linkRecord = cached.value;
+      fromCache = true;
+      console.log(`Cache hit for ${domain}/${path}/${slug}`);
+    } else {
+      // Cache miss - fetch from database
+      console.log(`Cache miss for ${domain}/${path}/${slug} - querying database`);
+      
+      // Initialize Supabase client
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      
+      // Verify domain is registered and verified
+      const { data: domainRecord, error: domainError } = await supabase
+        .from('domains')
+        .select('is_verified, workspace_id')
+        .eq('domain', domain)
+        .eq('is_verified', true)
+        .single();
+
+      if (domainError || !domainRecord) {
+        console.log(`Domain not verified: ${domain}`, domainError);
+        return new Response(
+          `<!DOCTYPE html>
+          <html>
+            <head><title>Domain Not Configured</title></head>
+            <body style="font-family: system-ui; text-align: center; padding: 50px;">
+              <h1>Domain Not Configured</h1>
+              <p>This domain is not set up for short links.</p>
+              <p style="color: #666; font-size: 14px;">Domain: ${domain}</p>
+            </body>
+          </html>`,
+          { 
+            status: 404,
+            headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+          }
+        );
+      }
+      
+      // Look up the link (now using optimized index)
+      const { data: link, error: linkError } = await supabase
+        .from('links')
+        .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image')
+        .eq('domain', domain)
+        .eq('path', path)
+        .eq('slug', slug)
+        .eq('status', 'active') // Filter by status to use partial index
+        .single();
+      
+      if (linkError || !link) {
+        console.error('Link not found:', linkError);
+        return new Response('Link not found', { 
+          status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+        });
+      }
+      
+      linkRecord = link as LinkRecord;
+      
+      // Cache the link for 5 minutes
+      await kv.set(cacheKey, linkRecord, { expireIn: 300000 }); // 5 minutes in ms
+    }
     
     // Check if link is paused
     if (linkRecord.status === 'paused') {
@@ -246,25 +294,30 @@ Deno.serve(async (req) => {
     }
     
     // Extract request metadata
-    const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
-                      req.headers.get('x-real-ip') || 
-                      '127.0.0.1';
     const userAgent = req.headers.get('user-agent') || 'unknown';
     const referrer = req.headers.get('referer') || req.headers.get('referrer') || null;
     
     // Parse user agent
     const { deviceType, browser, os } = parseUserAgent(userAgent);
     
-    // Get geolocation (async, but we'll await it)
-    const { country, city } = await getGeolocation(ipAddress);
+    // Check if unique click (only if not from cache, to avoid redundant DB query)
+    let isUnique = true;
+    if (!fromCache) {
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      isUnique = await isUniqueClick(supabase, linkRecord.id, ipAddress, userAgent);
+    }
     
-    // Check if unique click
-    const isUnique = await isUniqueClick(supabase, linkRecord.id, ipAddress, userAgent);
+    console.log(`Click details: device=${deviceType}, browser=${browser}, os=${os}, unique=${isUnique}, cache=${fromCache}`);
     
-    console.log(`Click details: device=${deviceType}, browser=${browser}, os=${os}, country=${country}, unique=${isUnique}`);
-    
-    // Log the click (fire and forget using waitUntil for performance)
+    // Log the click (background task - DOES NOT await geolocation)
     const logClick = async () => {
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      
+      // Insert click WITHOUT geolocation data (will be processed by background job)
       const { error: clickError } = await supabase
         .from('link_clicks')
         .insert({
@@ -275,8 +328,8 @@ Deno.serve(async (req) => {
           device_type: deviceType,
           browser: browser,
           os: os,
-          country: country,
-          city: city,
+          country: null, // Will be filled by background geolocation processor
+          city: null,    // Will be filled by background geolocation processor
           is_unique: isUnique,
           clicked_at: new Date().toISOString()
         });
@@ -298,25 +351,47 @@ Deno.serve(async (req) => {
       if (updateError) {
         console.error('Error updating link stats:', updateError);
       }
+      
+      // Invalidate cache when link is updated
+      await kv.delete(['link', domain, path, slug]);
     };
     
     // Start background task for click logging with variant tracking
     const logClickWithVariant = async () => {
       await logClick();
       
-      // If a variant was selected, track it
-      if (selectedVariant) {
-        const { error: variantTrackError } = await supabase
-          .from('link_clicks')
-          .update({ og_variant_id: selectedVariant.id })
-          .eq('link_id', linkRecord.id)
-          .eq('ip_address', ipAddress)
-          .eq('user_agent', userAgent)
-          .order('clicked_at', { ascending: false })
-          .limit(1);
+      // Check if this is a social media crawler for variant tracking
+      const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
+      
+      if (isCrawler) {
+        const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+        const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+        const supabase = createClient(supabaseUrl, supabaseKey);
         
-        if (variantTrackError) {
-          console.error('Error tracking variant:', variantTrackError);
+        // Fetch active OG variants for A/B testing
+        const { data: variants, error: variantsError } = await supabase
+          .from('og_image_variants')
+          .select('id, variant_name, og_title, og_description, og_image')
+          .eq('link_id', linkRecord.id)
+          .eq('is_active', true);
+        
+        if (!variantsError && variants && variants.length > 0) {
+          // Randomly select a variant for A/B testing
+          const selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
+          
+          // Track the variant selection
+          const { error: variantTrackError } = await supabase
+            .from('link_clicks')
+            .update({ og_variant_id: selectedVariant.id })
+            .eq('link_id', linkRecord.id)
+            .eq('ip_address', ipAddress)
+            .eq('user_agent', userAgent)
+            .order('clicked_at', { ascending: false })
+            .limit(1);
+          
+          if (variantTrackError) {
+            console.error('Error tracking variant:', variantTrackError);
+          }
         }
       }
     };
@@ -334,18 +409,20 @@ Deno.serve(async (req) => {
     // Check if this is a social media crawler (serve OG tags) or a regular user (redirect)
     const isCrawler = /bot|crawler|spider|facebook|twitter|linkedin|whatsapp|slack|telegram/i.test(userAgent);
     
-    let selectedVariant: OGVariant | null = null;
-    
     if (isCrawler) {
-      // Fetch active OG variants for A/B testing
+      // For crawlers, we need to fetch variants from DB (can't use cached link record for this)
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      
       const { data: variants, error: variantsError } = await supabase
         .from('og_image_variants')
         .select('id, variant_name, og_title, og_description, og_image')
         .eq('link_id', linkRecord.id)
         .eq('is_active', true);
       
+      let selectedVariant: OGVariant | null = null;
       if (!variantsError && variants && variants.length > 0) {
-        // Randomly select a variant for A/B testing
         selectedVariant = variants[Math.floor(Math.random() * variants.length)] as OGVariant;
       }
       
@@ -393,7 +470,8 @@ Deno.serve(async (req) => {
     
     // Perform redirect for regular users
     const redirectStatus = linkRecord.redirect_type === '301' ? 301 : 302;
-    console.log(`Redirecting to: ${linkRecord.final_url} with status ${redirectStatus}`);
+    const endTime = performance.now();
+    console.log(`Redirecting to: ${linkRecord.final_url} (${redirectStatus}) - Total time: ${(endTime - startTime).toFixed(2)}ms (cache: ${fromCache})`);
     
     return Response.redirect(linkRecord.final_url, redirectStatus);
     
