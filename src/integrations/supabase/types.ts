@@ -466,6 +466,42 @@ export type Database = {
           },
         ]
       }
+      feature_flags: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string
+          flag_key: string
+          id: string
+          is_enabled: boolean
+          last_modified_at: string | null
+          last_modified_by: string | null
+          metadata: Json | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string | null
+          description: string
+          flag_key: string
+          id?: string
+          is_enabled?: boolean
+          last_modified_at?: string | null
+          last_modified_by?: string | null
+          metadata?: Json | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string
+          flag_key?: string
+          id?: string
+          is_enabled?: boolean
+          last_modified_at?: string | null
+          last_modified_by?: string | null
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
       folders: {
         Row: {
           created_at: string | null
@@ -1562,6 +1598,7 @@ export type Database = {
           workspace_id: string
         }[]
       }
+      get_feature_flag: { Args: { flag_name: string }; Returns: boolean }
       get_geolocation_analytics: {
         Args: { p_workspace_id: string }
         Returns: {

@@ -10,7 +10,8 @@ import {
   BarChart3,
   LogOut,
   ChevronRight,
-  Activity
+  Activity,
+  Flag
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -23,6 +24,7 @@ const navItems = [
   { path: "/admin/landing", label: "landing page", icon: Megaphone },
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
   { path: "/admin/system", label: "system monitoring", icon: Activity },
+  { path: "/admin/feature-flags", label: "feature flags", icon: Flag },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {

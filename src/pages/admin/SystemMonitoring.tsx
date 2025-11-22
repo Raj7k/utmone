@@ -2,11 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Activity, Database, Zap, AlertTriangle, Clock, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Activity, Database, Zap, AlertTriangle, Clock, TrendingUp, CheckCircle2, Flag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFeatureFlags } from "@/hooks/useFeatureFlags";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export default function SystemMonitoring() {
+  const navigate = useNavigate();
+  const { flags: featureFlags } = useFeatureFlags();
+  
   // Fetch edge function logs for performance metrics
   const { data: edgeFunctionMetrics, isLoading: loadingEdgeMetrics } = useQuery({
     queryKey: ["edge-function-metrics"],
@@ -124,11 +130,21 @@ export default function SystemMonitoring() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold mb-2">system monitoring</h1>
-        <p className="text-muted-foreground">
-          real-time performance metrics and system health
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">system monitoring</h1>
+          <p className="text-muted-foreground">
+            real-time performance metrics and system health
+          </p>
+        </div>
+        <Button 
+          variant="outline" 
+          className="gap-2"
+          onClick={() => navigate('/admin/feature-flags')}
+        >
+          <Flag className="w-4 h-4" />
+          feature flags
+        </Button>
       </div>
 
       <Tabs defaultValue="performance" className="space-y-6">
@@ -286,6 +302,43 @@ export default function SystemMonitoring() {
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
                   <span>batch processing reduces database write load by 100x for high-traffic scenarios</span>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Feature Flags Status */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Flag className="h-5 w-5" />
+                feature flags status
+              </CardTitle>
+              <CardDescription>
+                runtime controls for performance optimization
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {featureFlags?.slice(0, 6).map(flag => (
+                  <div key={flag.id} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <code className="text-xs font-mono bg-muted px-2 py-0.5 rounded">
+                        {flag.flag_key}
+                      </code>
+                    </div>
+                    <Badge variant={flag.is_enabled ? "default" : "secondary"}>
+                      {flag.is_enabled ? "enabled" : "disabled"}
+                    </Badge>
+                  </div>
+                ))}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full mt-2"
+                  onClick={() => navigate('/admin/feature-flags')}
+                >
+                  view all flags →
+                </Button>
               </div>
             </CardContent>
           </Card>
