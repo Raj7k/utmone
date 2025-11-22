@@ -2,36 +2,71 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { X, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { announcements, AnnouncementConfig } from "@/lib/announcementConfig";
+import { AnnouncementScheduler } from "@/lib/announcementScheduler";
 
 interface AnnouncementBarProps {
-  message: string;
-  ctaText?: string;
-  ctaLink?: string;
+  // Optional: pass custom announcements, otherwise use default config
+  customAnnouncements?: AnnouncementConfig[];
   dismissible?: boolean;
-  storageKey?: string;
+  isAuthenticated?: boolean;
 }
 
 export const AnnouncementBar = ({ 
-  message, 
-  ctaText, 
-  ctaLink,
+  customAnnouncements,
   dismissible = true,
-  storageKey = "announcement-dismissed"
+  isAuthenticated = false,
 }: AnnouncementBarProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentAnnouncement, setCurrentAnnouncement] = useState<AnnouncementConfig | null>(null);
 
   useEffect(() => {
-    // Check if user has dismissed this announcement
-    const isDismissed = localStorage.getItem(storageKey);
-    if (!isDismissed) {
-      setIsVisible(true);
+    // Track visit for user segment targeting
+    AnnouncementScheduler.trackVisit();
+
+    // Select the appropriate announcement
+    const announcementsToUse = customAnnouncements || announcements;
+    const selected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, isAuthenticated);
+    
+    if (selected) {
+      // Check if user has dismissed this specific announcement
+      const dismissKey = `announcement-dismissed-${selected.id}`;
+      const isDismissed = localStorage.getItem(dismissKey);
+      
+      if (!isDismissed) {
+        setCurrentAnnouncement(selected);
+        setIsVisible(true);
+      }
     }
-  }, [storageKey]);
+
+    // Re-evaluate every minute in case time-based rules change
+    const interval = setInterval(() => {
+      const newSelected = AnnouncementScheduler.selectAnnouncement(announcementsToUse, isAuthenticated);
+      if (newSelected && newSelected.id !== currentAnnouncement?.id) {
+        const dismissKey = `announcement-dismissed-${newSelected.id}`;
+        const isDismissed = localStorage.getItem(dismissKey);
+        
+        if (!isDismissed) {
+          setCurrentAnnouncement(newSelected);
+          setIsVisible(true);
+        }
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [customAnnouncements, isAuthenticated]);
 
   const handleDismiss = () => {
-    setIsVisible(false);
-    localStorage.setItem(storageKey, "true");
+    if (currentAnnouncement) {
+      setIsVisible(false);
+      const dismissKey = `announcement-dismissed-${currentAnnouncement.id}`;
+      localStorage.setItem(dismissKey, "true");
+    }
   };
+
+  if (!currentAnnouncement) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
@@ -62,18 +97,18 @@ export const AnnouncementBar = ({
 
               {/* Message */}
               <p className="text-sm md:text-base font-medium text-white">
-                {message}
+                {currentAnnouncement.message}
               </p>
 
               {/* CTA Link */}
-              {ctaText && ctaLink && (
-                <Link to={ctaLink}>
+              {currentAnnouncement.ctaText && currentAnnouncement.ctaLink && (
+                <Link to={currentAnnouncement.ctaLink}>
                   <motion.div
                     className="flex items-center gap-1 text-sm font-semibold text-white hover:text-white/90 transition-colors"
                     whileHover={{ x: 3 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <span className="hidden sm:inline">{ctaText}</span>
+                    <span className="hidden sm:inline">{currentAnnouncement.ctaText}</span>
                     <ArrowRight className="h-4 w-4" />
                   </motion.div>
                 </Link>
