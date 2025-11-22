@@ -24,32 +24,31 @@ export default function APIKeysSettings() {
   });
 
   const handleCreateKey = async () => {
-    // Generate key on client side
-    const key = `utm_${Array.from(crypto.getRandomValues(new Uint8Array(32)))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('')}`;
-    
-    const encoder = new TextEncoder();
-    const data = encoder.encode(key);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    const prefix = key.substring(0, 12);
+    try {
+      const result = await new Promise((resolve, reject) => {
+        createAPIKey({
+          key_name: formData.key_name,
+          scopes: formData.scopes,
+        }, {
+          onSuccess: (data) => resolve(data),
+          onError: (error) => reject(error),
+        });
+      });
 
-    createAPIKey({
-      key_name: formData.key_name,
-      key_hash: hash,
-      key_prefix: prefix,
-      scopes: formData.scopes,
-      rate_limit: formData.rate_limit,
-    });
-
-    setNewKeyData(key);
-    setFormData({
-      key_name: '',
-      scopes: ['links:read'],
-      rate_limit: 600,
-    });
+      // Edge function returns { ...apiKeyData, full_key: "utm_..." }
+      setNewKeyData((result as any).full_key);
+      setFormData({
+        key_name: '',
+        scopes: ['links:read'],
+        rate_limit: 600,
+      });
+    } catch (error) {
+      toast({
+        title: 'failed to create api key',
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleCopyKey = () => {
