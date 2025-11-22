@@ -2,10 +2,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { AnnouncementConfig } from "@/lib/announcementConfig";
 import { useToast } from "@/hooks/use-toast";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 export const useAnnouncementAdmin = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { logAction } = useAuditLog();
 
   // Fetch all announcement configs
   const { data: announcements, isLoading } = useQuery({
@@ -142,12 +144,29 @@ export const useAnnouncementAdmin = () => {
   // Delete announcement
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
+      // Fetch announcement before deleting for audit log
+      const { data: announcement } = await supabase
+        .from("announcement_configs")
+        .select("*")
+        .eq("id", id)
+        .single();
+
       const { error } = await supabase
         .from("announcement_configs")
         .delete()
         .eq("id", id);
 
       if (error) throw error;
+      
+      // Log audit action
+      if (announcement) {
+        await logAction({
+          action: 'delete',
+          resourceType: 'announcement',
+          resourceId: id,
+          oldValues: announcement,
+        });
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcement-configs"] });
@@ -171,6 +190,14 @@ export const useAnnouncementAdmin = () => {
         .eq("id", id);
 
       if (error) throw error;
+      
+      // Log audit action
+      await logAction({
+        action: isActive ? 'activate' : 'pause',
+        resourceType: 'announcement',
+        resourceId: id,
+        newValues: { is_active: isActive },
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["announcement-configs"] });

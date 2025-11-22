@@ -24,6 +24,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import WaitlistManagement from "./pages/admin/WaitlistManagement";
 import LandingManagement from "./pages/admin/LandingManagement";
 import ProductAnalytics from "./pages/admin/ProductAnalytics";
+import SystemMonitoring from "./pages/admin/SystemMonitoring";
 import Invite from "./pages/Invite";
 import ClaimAccess from "./pages/ClaimAccess";
 
@@ -43,10 +44,11 @@ const App = () => (
           <Route path="/links" element={<Links />} />
           <Route path="/links/:linkId" element={<LinkDetail />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/waitlist" element={<WaitlistManagement />} />
-          <Route path="/admin/landing" element={<LandingManagement />} />
-          <Route path="/admin/product" element={<ProductAnalytics />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/waitlist" element={<WaitlistManagement />} />
+              <Route path="/admin/landing" element={<LandingManagement />} />
+              <Route path="/admin/product" element={<ProductAnalytics />} />
+              <Route path="/admin/system" element={<SystemMonitoring />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/pricing" element={<Pricing />} />
