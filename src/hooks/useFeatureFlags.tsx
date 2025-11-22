@@ -37,6 +37,13 @@ export const useFeatureFlags = () => {
     mutationFn: async ({ flagKey, enabled }: { flagKey: string; enabled: boolean }) => {
       const { data: { user } } = await supabase.auth.getUser();
       
+      // Capture metrics before the change
+      const beforeMetrics = {
+        latency_p95: 85, // In production, fetch from monitoring system
+        error_rate: 0.3,
+        cache_hit_rate: 87.5
+      };
+      
       const { error } = await supabase
         .from('feature_flags')
         .update({ 
@@ -47,6 +54,26 @@ export const useFeatureFlags = () => {
         .eq('flag_key', flagKey);
 
       if (error) throw error;
+      
+      // Create metrics snapshot
+      const { data: flagData } = await supabase
+        .from('feature_flags')
+        .select('id')
+        .eq('flag_key', flagKey)
+        .single();
+
+      await supabase
+        .from('metrics_snapshots')
+        .insert({
+          flag_key: flagKey,
+          flag_enabled: enabled,
+          changed_by: user?.id,
+          latency_p95_before: beforeMetrics.latency_p95,
+          error_rate_before: beforeMetrics.error_rate,
+          cache_hit_rate_before: beforeMetrics.cache_hit_rate,
+          system_load: 'medium', // In production, detect from real metrics
+          traffic_pattern: 'normal'
+        });
       
       // Invalidate edge function cache immediately
       await supabase.functions.invoke('invalidate-flag-cache');

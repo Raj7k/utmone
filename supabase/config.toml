@@ -43,3 +43,23 @@ verify_jwt = false
 
 [functions.process-email-queue]
 verify_jwt = false
+
+[functions.invalidate-flag-cache]
+verify_jwt = false
+
+[functions.generate-flag-recommendations]
+verify_jwt = false
+
+[functions.check-metric-alerts]
+verify_jwt = false
+
+# Cron schedules for automated tasks
+# Generate recommendations every 6 hours
+[[edge_runtime.scheduler]]
+function = "generate-flag-recommendations"
+schedule = "0 */6 * * *"
+
+# Check metric alerts every 5 minutes
+[[edge_runtime.scheduler]]
+function = "check-metric-alerts"
+schedule = "*/5 * * * *"

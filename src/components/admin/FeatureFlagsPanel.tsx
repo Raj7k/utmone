@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -187,6 +188,7 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
   const latencyReduction = (flag.metadata as any)?.latency_reduction_ms;
   const writeReduction = (flag.metadata as any)?.write_reduction;
   const isDangerous = flag.category === 'maintenance';
+  const navigate = useNavigate();
   
   const getImpactVariant = (impact: string) => {
     if (impact === 'critical') return 'destructive';
@@ -202,9 +204,12 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-2 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <code className="text-sm font-mono bg-muted px-2 py-0.5 rounded">
+            <button
+              onClick={() => navigate(`/admin/flags/${flag.flag_key}`)}
+              className="text-sm font-mono bg-muted px-2 py-0.5 rounded hover:bg-muted/80 transition-colors cursor-pointer"
+            >
               {flag.flag_key}
-            </code>
+            </button>
             <Badge variant={getImpactVariant(impact)}>
               {impact.toUpperCase()}
             </Badge>
