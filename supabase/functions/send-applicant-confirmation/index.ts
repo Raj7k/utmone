@@ -12,6 +12,7 @@ interface ConfirmationRequest {
   name: string;
   email: string;
   team_size: string;
+  referral_code: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -20,9 +21,11 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, team_size }: ConfirmationRequest = await req.json();
+    const { name, email, team_size, referral_code }: ConfirmationRequest = await req.json();
     
     console.log("Sending confirmation email to:", email);
+
+    const referralUrl = `https://utm.one/invite/${referral_code}`;
 
     const emailResponse = await resend.emails.send({
       from: "utm.one <onboarding@resend.dev>",
@@ -62,22 +65,30 @@ const handler = async (req: Request): Promise<Response> => {
               .section {
                 margin: 32px 0;
               }
+              .referral-box {
+                background: #F8F9FA;
+                border: 1px solid #E5E5E5;
+                border-radius: 12px;
+                padding: 24px;
+                margin: 24px 0;
+                text-align: center;
+              }
+              .referral-link {
+                display: inline-block;
+                background: #1A1A1A;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                text-decoration: none;
+                margin-top: 12px;
+                font-weight: 500;
+              }
               .footer {
                 margin-top: 48px;
                 padding-top: 24px;
                 border-top: 1px solid #E5E5E5;
                 font-size: 14px;
                 color: #898989;
-              }
-              .cta {
-                display: inline-block;
-                background: #1A1A1A;
-                color: white;
-                padding: 14px 28px;
-                border-radius: 24px;
-                text-decoration: none;
-                margin-top: 24px;
-                font-weight: 500;
               }
             </style>
           </head>
@@ -96,13 +107,19 @@ const handler = async (req: Request): Promise<Response> => {
                 3. we'll reach out directly when a spot opens
               </p>
             </div>
+
+            <div class="referral-box">
+              <p><strong>jump the queue</strong></p>
+              <p style="margin-top: 8px; margin-bottom: 16px;">invite others and move up in line. every successful referral boosts your priority.</p>
+              <a href="${referralUrl}" class="referral-link">share your invite link</a>
+            </div>
             
             <div class="section">
               <p><strong>in the meantime:</strong></p>
               <p>
                 • check your inbox for updates (we'll email you)<br>
                 • explore <a href="https://utm.one" style="color: #5DABDB;">utm.one</a> to see what's possible<br>
-                • no need to resubmit — we have your request
+                • share your invite link to boost your priority
               </p>
             </div>
             

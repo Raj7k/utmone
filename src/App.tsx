@@ -20,6 +20,7 @@ import MarketingOps from "./pages/solutions/MarketingOps";
 import Developers from "./pages/solutions/Developers";
 import EarlyAccess from "./pages/EarlyAccess";
 import EarlyAccessAdmin from "./pages/admin/EarlyAccessAdmin";
+import Invite from "./pages/Invite";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/solutions/marketing-ops" element={<MarketingOps />} />
           <Route path="/solutions/developers" element={<Developers />} />
           <Route path="/early-access" element={<EarlyAccess />} />
+          <Route path="/invite/:code" element={<Invite />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

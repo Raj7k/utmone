@@ -12,8 +12,8 @@ import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
-import { CheckCircle2 } from "lucide-react";
-import { useTrackPageView, useTrackFormStart, useTrackFormSubmit, useTrackScrollDepth, useTrackTimeOnPage } from "@/hooks/useWaitlistEngagement";
+import { CheckCircle2, Copy, Share2, Twitter, Linkedin, Mail } from "lucide-react";
+import { useTrackPageView, useTrackFormStart, useTrackFormSubmit, useTrackScrollDepth, useTrackTimeOnPage, useTrackClick } from "@/hooks/useWaitlistEngagement";
 
 const formSchema = z.object({
   name: z.string()
@@ -64,6 +64,7 @@ const BenefitCard = ({ number, title, description, delay = 0 }: { number: string
 export default function EarlyAccess() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [referralCode, setReferralCode] = useState<string>("");
 
   // Engagement tracking
   useTrackPageView('/early-access');
@@ -71,6 +72,7 @@ export default function EarlyAccess() {
   useTrackTimeOnPage();
   const trackFormStart = useTrackFormStart();
   const trackFormSubmit = useTrackFormSubmit();
+  const trackClick = useTrackClick();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -181,6 +183,8 @@ export default function EarlyAccess() {
       // Don't fail the submission if email fails
     }
 
+    // Store referral code for display
+    setReferralCode(insertedData.referral_code);
     setIsSubmitted(true);
     toast.success("request submitted successfully!");
     setIsSubmitting(false);
@@ -576,6 +580,88 @@ export default function EarlyAccess() {
                 <p className="text-xl text-muted-foreground leading-relaxed">
                   we'll reach out when a spot opens. check your inbox for updates.
                 </p>
+
+                {/* Referral Section */}
+                {referralCode && (
+                  <div className="mt-12 p-8 bg-muted/20 rounded-2xl">
+                    <h3 className="text-2xl font-semibold mb-4">
+                      jump the queue
+                    </h3>
+                    <p className="text-muted-foreground mb-6">
+                      invite others to utm.one and move up in line. every successful referral boosts your priority.
+                    </p>
+                    
+                    <div className="space-y-4">
+                      {/* Referral Link */}
+                      <div className="flex items-center gap-2 p-4 bg-white rounded-lg border">
+                        <Input
+                          value={`${window.location.origin}/invite/${referralCode}`}
+                          readOnly
+                          className="flex-1 border-0 bg-transparent focus-visible:ring-0"
+                        />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            navigator.clipboard.writeText(`${window.location.origin}/invite/${referralCode}`);
+                            toast.success("link copied!");
+                            trackClick('copy_referral_link');
+                          }}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+
+                      {/* Social Share Buttons */}
+                      <div className="flex items-center justify-center gap-3 pt-4">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-2"
+                          onClick={() => {
+                            const url = `${window.location.origin}/invite/${referralCode}`;
+                            const text = "I just joined the utm.one early access waitlist. Join me and get cleaner links, better UTMs, and branded QR codes!";
+                            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+                            trackClick('share_twitter');
+                          }}
+                        >
+                          <Twitter className="h-4 w-4" />
+                          twitter
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-2"
+                          onClick={() => {
+                            const url = `${window.location.origin}/invite/${referralCode}`;
+                            const text = "I just joined the utm.one early access waitlist. Join me and get cleaner links, better UTMs, and branded QR codes!";
+                            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+                            trackClick('share_linkedin');
+                          }}
+                        >
+                          <Linkedin className="h-4 w-4" />
+                          linkedin
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-2"
+                          onClick={() => {
+                            const url = `${window.location.origin}/invite/${referralCode}`;
+                            const subject = "Join utm.one early access";
+                            const body = `I just joined the utm.one early access waitlist.\n\nIt's an enterprise URL shortener with branded QR codes, enforced UTM structure, and clean analytics.\n\nJoin me: ${url}`;
+                            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                            trackClick('share_email');
+                          }}
+                        >
+                          <Mail className="h-4 w-4" />
+                          email
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <Link to="/">
                   <Button
                     variant="outline"
