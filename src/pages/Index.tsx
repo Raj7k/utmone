@@ -20,6 +20,7 @@ import { BeforeAfterComparison } from "@/components/landing/BeforeAfterCompariso
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { ParallaxSection } from "@/components/landing/ParallaxSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { FloatingActionButton } from "@/components/landing/FloatingActionButton";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -36,6 +37,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <FloatingActionButton />
 
       {/* Hero Section */}
       <HeroVariantManager>
