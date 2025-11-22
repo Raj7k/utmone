@@ -82,15 +82,15 @@ const Index = () => {
                 >
                   <Link to="/early-access">
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                      <Button 
-                        size="lg" 
-                        variant="glow-pink"
-                        className="text-[17px] font-medium px-8 h-12 rounded-full"
-                        onClick={() => trackCTAClick('hero')}
-                      >
-                        get early access
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
+              <Button 
+                size="lg" 
+                variant="default"
+                className="text-[17px] font-medium px-8 h-12 rounded-full"
+                onClick={() => trackCTAClick('hero')}
+              >
+                get early access
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
                     </motion.div>
                   </Link>
                 </motion.div>
@@ -288,15 +288,15 @@ const Index = () => {
             >
               <Link to="/early-access">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button 
-                    variant="glow-pink"
-                    size="lg"
-                    className="text-[17px] font-medium px-8 h-12 rounded-full"
-                    onClick={() => trackCTAClick('bottom')}
-                  >
-                    get early access
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+            <Button 
+              variant="default"
+              size="lg"
+              className="text-[17px] font-medium px-8 h-12 rounded-full"
+              onClick={() => trackCTAClick('bottom')}
+            >
+              get early access
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
                 </motion.div>
               </Link>
             </motion.div>
