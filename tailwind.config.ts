@@ -16,36 +16,129 @@ export default {
   		fontFamily: {
   			sans: [
   				'Inter',
-  				'-apple-system',
-  				'BlinkMacSystemFont',
-  				'sans-serif'
+  				'ui-sans-serif',
+  				'system-ui',
+  				'sans-serif',
+  				'Apple Color Emoji',
+  				'Segoe UI Emoji',
+  				'Segoe UI Symbol',
+  				'Noto Color Emoji'
+  			],
+  			serif: [
+  				'ui-serif',
+  				'Georgia',
+  				'Cambria',
+  				'Times New Roman',
+  				'Times',
+  				'serif'
+  			],
+  			mono: [
+  				'ui-monospace',
+  				'SFMono-Regular',
+  				'Menlo',
+  				'Monaco',
+  				'Consolas',
+  				'Liberation Mono',
+  				'Courier New',
+  				'monospace'
   			]
   		},
   		fontSize: {
-  			// Apple Design System - Exact typography scale
-  			'heading-1': ['72px', { lineHeight: '1.05', fontWeight: '700' }],
-  			'heading-2': ['40px', { lineHeight: '1.15', fontWeight: '700' }],
-  			'heading-3': ['28px', { lineHeight: '1.2', fontWeight: '600' }],
-  			'body-text': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
-  			'small-text': ['14px', { lineHeight: '1.4', fontWeight: '500' }],
-  			'micro-text': ['12px', { lineHeight: '1.4', fontWeight: '400' }],
-  			
-  			// Legacy sizes for compatibility
-  			hero: ['6rem', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '800' }],
-  			h1: ['5rem', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '700' }],
-  			h2: ['3rem', { lineHeight: '1.15', letterSpacing: '-0.01em', fontWeight: '700' }],
-  			h3: ['1.75rem', { lineHeight: '1.2', fontWeight: '600' }],
-  			body: ['1.25rem', { lineHeight: '1.6', fontWeight: '400' }],
-  			label: ['0.875rem', { lineHeight: '1.5', fontWeight: '500' }]
+  			'heading-1': [
+  				'72px',
+  				{
+  					lineHeight: '1.05',
+  					fontWeight: '700'
+  				}
+  			],
+  			'heading-2': [
+  				'40px',
+  				{
+  					lineHeight: '1.15',
+  					fontWeight: '700'
+  				}
+  			],
+  			'heading-3': [
+  				'28px',
+  				{
+  					lineHeight: '1.2',
+  					fontWeight: '600'
+  				}
+  			],
+  			'body-text': [
+  				'18px',
+  				{
+  					lineHeight: '1.6',
+  					fontWeight: '400'
+  				}
+  			],
+  			'small-text': [
+  				'14px',
+  				{
+  					lineHeight: '1.4',
+  					fontWeight: '500'
+  				}
+  			],
+  			'micro-text': [
+  				'12px',
+  				{
+  					lineHeight: '1.4',
+  					fontWeight: '400'
+  				}
+  			],
+  			hero: [
+  				'6rem',
+  				{
+  					lineHeight: '1.05',
+  					letterSpacing: '-0.02em',
+  					fontWeight: '800'
+  				}
+  			],
+  			h1: [
+  				'5rem',
+  				{
+  					lineHeight: '1.05',
+  					letterSpacing: '-0.02em',
+  					fontWeight: '700'
+  				}
+  			],
+  			h2: [
+  				'3rem',
+  				{
+  					lineHeight: '1.15',
+  					letterSpacing: '-0.01em',
+  					fontWeight: '700'
+  				}
+  			],
+  			h3: [
+  				'1.75rem',
+  				{
+  					lineHeight: '1.2',
+  					fontWeight: '600'
+  				}
+  			],
+  			body: [
+  				'1.25rem',
+  				{
+  					lineHeight: '1.6',
+  					fontWeight: '400'
+  				}
+  			],
+  			label: [
+  				'0.875rem',
+  				{
+  					lineHeight: '1.5',
+  					fontWeight: '500'
+  				}
+  			]
   		},
   		spacing: {
-  			// Apple spacing system
-  			'section': '128px',    // Section padding
-  			'group': '96px',       // Between large groups
-  			'card': '64px',        // Between cards
-  			'content': '32px',     // Between content blocks
-  			'inner': '16px',       // Inner padding
-  			'tight': '8px',        // Tight elements
+  			section: '128px',
+  			group: '96px',
+  			card: '64px',
+  			content: '32px',
+  			inner: '16px',
+  			tight: '8px'
   		},
   		colors: {
   			border: 'hsl(var(--border))',
@@ -112,10 +205,10 @@ export default {
   			'gradient-nature-4': 'var(--gradient-nature-4)'
   		},
   		boxShadow: {
-  			'sm': 'var(--shadow-sm)',
-  			'DEFAULT': 'var(--shadow)',
-  			'lg': 'var(--shadow-lg)',
-  			'xl': 'var(--shadow-xl)'
+  			sm: 'var(--shadow-sm)',
+  			DEFAULT: 'var(--shadow)',
+  			lg: 'var(--shadow-lg)',
+  			xl: 'var(--shadow-xl)'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -145,11 +238,11 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
   		transitionDuration: {
-  			'apple': '200ms',
-  			'apple-slow': '240ms',
+  			apple: '200ms',
+  			'apple-slow': '240ms'
   		},
   		transitionTimingFunction: {
-  			'apple': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  			apple: 'cubic-bezier(0.4, 0, 0.2, 1)'
   		}
   	}
   },
