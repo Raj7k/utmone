@@ -4,14 +4,12 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 interface BrandQuoteProps {
   text: string;
   position?: 'left' | 'center' | 'right';
-  opacity?: number;
   className?: string;
 }
 
 export const BrandQuote = ({ 
   text, 
   position = 'center',
-  opacity = 0.08,
   className = ''
 }: BrandQuoteProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,9 +19,8 @@ export const BrandQuote = ({
   });
 
   // Parallax effect - moves slower than scroll
-  const y = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-  const fadeOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, opacity, opacity, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1, 0.98]);
 
   const getPositionClass = () => {
     switch (position) {
@@ -38,11 +35,11 @@ export const BrandQuote = ({
   };
 
   return (
-    <div ref={ref} className={`relative pointer-events-none select-none overflow-hidden py-16 ${className}`}>
+    <div ref={ref} className={`relative select-none overflow-hidden py-8 ${className}`}>
       <div className="hero-glow">
         <motion.h2
-          style={{ y, scale, opacity: fadeOpacity }}
-          className={`hero-gradient text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-extrabold uppercase tracking-tight leading-none ${getPositionClass()}`}
+          style={{ y, scale }}
+          className={`text-foreground text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-extrabold uppercase tracking-tight leading-none ${getPositionClass()}`}
         >
           {text}
         </motion.h2>
