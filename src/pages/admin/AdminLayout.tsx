@@ -32,6 +32,11 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       {/* Sidebar */}
       <aside className="w-64 border-r bg-card p-6 fixed h-screen overflow-y-auto">
         <div className="mb-8">
+          <img 
+            src="/src/assets/utm-one-logo.svg" 
+            alt="utm.one" 
+            className="h-6 w-auto mb-4"
+          />
           <h2 className="text-xl font-bold text-foreground">Admin Panel</h2>
           <p className="text-sm text-muted-foreground">System Management</p>
         </div>

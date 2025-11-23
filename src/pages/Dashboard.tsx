@@ -87,8 +87,11 @@ const Dashboard = () => {
           <div className="flex items-center justify-between h-full">
             <div className="flex items-center gap-8">
               <div className="flex items-center gap-2">
-                <LinkIcon className="h-7 w-7 text-primary" />
-                <span className="text-xl font-bold text-foreground">utm.one</span>
+                <img 
+                  src="/src/assets/utm-one-logo.svg" 
+                  alt="utm.one" 
+                  className="h-7 w-auto"
+                />
               </div>
               <nav className="hidden md:flex items-center gap-2">
                 <Button variant="default" size="sm" className="h-9">dashboard</Button>

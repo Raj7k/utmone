@@ -316,7 +316,11 @@ const Index = () => {
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-[14px] font-medium text-muted-foreground">utm.one</span>
+              <img 
+                src="/src/assets/utm-one-logo.svg" 
+                alt="utm.one" 
+                className="h-6 w-auto"
+              />
             </div>
             <div className="flex items-center gap-6">
               <Link to="/partners/apply" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
