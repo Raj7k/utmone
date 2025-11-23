@@ -129,7 +129,7 @@ export const RevOpsMarkOpsTables = () => {
                   </div>
                   <div className="p-4 bg-background rounded-lg border">
                     <p className="text-sm font-semibold mb-2">CRO Pipeline</p>
-                    <p className="text-xs text-muted-foreground">One of the fastest-growing C-suite pipelines after PMM. Companies with ARR <$10M rarely hire VPs; sweet spot is Series B → Series E.</p>
+                    <p className="text-xs text-muted-foreground">One of the fastest-growing C-suite pipelines after PMM. Companies with ARR {'<'}$10M rarely hire VPs; sweet spot is Series B → Series E.</p>
                   </div>
                 </div>
               </CardContent>

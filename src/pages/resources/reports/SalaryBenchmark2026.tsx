@@ -22,6 +22,9 @@ import { StateDeepDive } from "@/components/reports/StateDeepDive";
 import { RemoteWorkAnalyzer } from "@/components/reports/RemoteWorkAnalyzer";
 import { CostOfLivingAdjuster } from "@/components/reports/CostOfLivingAdjuster";
 import { EquityCalculator } from "@/components/reports/EquityCalculator";
+import { MegaTrendsSection } from "@/components/reports/MegaTrendsSection";
+import { RegionalDeepDives } from "@/components/reports/RegionalDeepDives";
+import { EnhancedSalaryCalculator } from "@/components/reports/EnhancedSalaryCalculator";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -203,6 +206,27 @@ const SalaryBenchmark2026 = () => {
       {/* Geolocation Detection */}
       <section className="max-w-[1280px] mx-auto px-8 py-8">
         <GeolocationDetector onLocationSelect={setDetectedLocation} />
+      </section>
+
+      {/* 10 Mega-Trends Section */}
+      <MegaTrendsSection />
+
+      {/* Regional Deep Dives Section */}
+      <RegionalDeepDives />
+
+      {/* Enhanced Salary Calculator with Section 8 Formula */}
+      <section className="py-20 bg-background">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+              Calculate Your Global Salary
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
+              Based on the comprehensive Section 8 formula with region, experience, company size, industry, and skill multipliers
+            </p>
+          </div>
+          <EnhancedSalaryCalculator />
+        </div>
       </section>
 
       {/* Data Sources & Methodology */}
