@@ -16,9 +16,11 @@ const MarketingOps = () => {
       <section className="py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl text-foreground font-extrabold tracking-tight text-balance">
-              Governance, without the friction.
-            </h1>
+            <div className="hero-glow">
+              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+                Governance, without the friction.
+              </h1>
+            </div>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
               utm.one gives ops full control over domains, templates, rules, and roles.
             </p>

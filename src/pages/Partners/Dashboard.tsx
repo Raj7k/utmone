@@ -80,7 +80,7 @@ export default function PartnerDashboard() {
     <div className="container max-w-6xl py-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">partner dashboard</h1>
+          <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">partner dashboard</h1>
           <p className="text-muted-foreground mt-2">
             track your referrals and earnings
           </p>

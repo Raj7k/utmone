@@ -140,7 +140,7 @@ const Dashboard = () => {
         )}
         
         <div className="mb-content">
-          <h1 className="text-heading-3 font-bold mb-2">welcome back</h1>
+          <h1 className="text-heading-3 font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">welcome back</h1>
           <p className="text-body-text text-muted-foreground">here's what's happening with your links today.</p>
         </div>
 

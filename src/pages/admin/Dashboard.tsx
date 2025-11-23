@@ -62,7 +62,7 @@ export default function AdminDashboard() {
     <AdminLayout>
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">admin dashboard</h1>
+          <h1 className="text-3xl font-display font-bold">admin dashboard</h1>
           <p className="text-muted-foreground mt-2">
             system overview and quick stats
           </p>

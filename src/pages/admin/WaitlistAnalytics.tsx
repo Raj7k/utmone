@@ -8,7 +8,7 @@ export default function WaitlistAnalytics() {
   return (
     <div className="container mx-auto py-8 space-y-8">
       <div>
-        <h1 className="text-4xl font-bold mb-2">waitlist analytics</h1>
+        <h1 className="text-4xl font-display font-bold mb-2">waitlist analytics</h1>
         <p className="text-muted-foreground">comprehensive analytics and fraud detection</p>
       </div>
 

@@ -197,9 +197,11 @@ export default function EarlyAccess() {
       <section className="bg-white py-32 px-6">
         <div className="max-w-[900px] mx-auto text-center">
           <AnimatedHeadline>
-            <h1 className="text-5xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
-              welcome to the early circle.
-            </h1>
+            <div className="hero-glow">
+              <h1 className="hero-gradient text-5xl md:text-6xl lg:text-8xl font-display font-bold mb-8 leading-tight">
+                welcome to the early circle.
+              </h1>
+            </div>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">

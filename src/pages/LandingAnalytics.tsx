@@ -77,7 +77,7 @@ const LandingAnalytics = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center max-w-md px-4">
           <ShieldAlert className="h-16 w-16 text-destructive mx-auto mb-4" />
-          <h1 className="text-2xl font-semibold mb-2">access denied</h1>
+          <h1 className="text-2xl font-display font-semibold mb-2">access denied</h1>
           <p className="text-muted-foreground mb-6">
             this page is restricted to super admins only.
           </p>

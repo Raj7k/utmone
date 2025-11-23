@@ -136,7 +136,7 @@ export default function SystemMonitoring() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-2">system monitoring</h1>
+          <h1 className="text-3xl font-display font-bold mb-2">system monitoring</h1>
           <p className="text-muted-foreground">
             real-time performance metrics and system health
           </p>

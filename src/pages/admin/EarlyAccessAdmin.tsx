@@ -266,7 +266,7 @@ export default function EarlyAccessAdmin() {
                 </Button>
               </Link>
               <div>
-                <h1 className="text-3xl font-bold">early access admin</h1>
+                <h1 className="text-3xl font-display font-bold">early access admin</h1>
                 <p className="text-muted-foreground mt-1">
                   manage applications and track referrals
                 </p>

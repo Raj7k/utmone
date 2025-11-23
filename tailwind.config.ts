@@ -14,6 +14,13 @@ export default {
   	},
   	extend: {
   		fontFamily: {
+  			display: [
+  				'Space Grotesk',
+  				'Inter',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'sans-serif',
+  			],
   			sans: [
   				'Inter',
   				'ui-sans-serif',

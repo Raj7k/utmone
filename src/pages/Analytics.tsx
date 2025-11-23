@@ -115,7 +115,7 @@ const Analytics = () => {
 
       <main className="container mx-auto px-8 py-group">
         <div className="mb-content">
-          <h1 className="text-heading-3 font-bold mb-2">analytics</h1>
+          <h1 className="text-heading-3 font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">analytics</h1>
           <p className="text-body-text text-muted-foreground">
             analytics appear once your links get clicks.
           </p>

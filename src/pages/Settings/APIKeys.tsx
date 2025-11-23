@@ -78,7 +78,7 @@ export default function APIKeysSettings() {
   return (
     <div className="container max-w-4xl py-8 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">api keys</h1>
+        <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">api keys</h1>
         <p className="text-muted-foreground mt-2">
           manage api keys for programmatic access to your workspace
         </p>

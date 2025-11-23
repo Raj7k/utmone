@@ -46,7 +46,7 @@ export default function PartnerApply() {
   return (
     <div className="container max-w-2xl py-16">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">join the utm.one partner program</h1>
+        <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">join the utm.one partner program</h1>
         <p className="text-xl text-muted-foreground">
           earn 10% recurring commission on every referral
         </p>

@@ -25,7 +25,7 @@ export default function FlagDetails() {
       </div>
 
       <div>
-        <h1 className="text-3xl font-bold mb-2">
+        <h1 className="text-3xl font-display font-bold mb-2">
           <code className="font-mono">{flagKey}</code>
         </h1>
         <p className="text-muted-foreground">

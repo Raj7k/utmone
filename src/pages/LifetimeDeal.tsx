@@ -20,9 +20,11 @@ const LifetimeDeal = () => {
             <div className="inline-block px-4 py-1 bg-primary/20 text-primary text-small-text font-semibold rounded-full">
               🔥 limited to first 500 customers
             </div>
-            <h1 className="text-heading-1 text-foreground font-extrabold tracking-tight">
-              pay once.<br />use forever.
-            </h1>
+            <div className="hero-glow">
+              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+                pay once.<br />use forever.
+              </h1>
+            </div>
             <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
               get lifetime access to pro features for a one-time payment of $299. no recurring fees. no limits on time.
             </p>
