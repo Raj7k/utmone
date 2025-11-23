@@ -276,6 +276,21 @@ export const SalesSalarySection = () => {
           </div>
         </div>
       </div>
+
+      {/* CTA after Sales section: Benchmark Your OTE Structure */}
+      <div className="max-w-[1280px] mx-auto px-8 py-8">
+        <Card className="bg-gradient-to-br from-blazeOrange/10 to-deepSea/10 border-2 border-blazeOrange/30 p-8 text-center">
+          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">
+            Benchmark Your OTE Structure
+          </h3>
+          <p className="text-base text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            Compare your base vs. variable comp split against industry benchmarks and optimize your compensation plan for quota attainment.
+          </p>
+          <button className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-base px-6 py-3 rounded-lg font-semibold transition-apple hover:scale-105">
+            Compare My OTE Structure
+          </button>
+        </Card>
+      </div>
     </section>
   );
 };

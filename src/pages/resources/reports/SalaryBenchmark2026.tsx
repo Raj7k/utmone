@@ -29,6 +29,9 @@ import { LinkedInPostCard7 } from "@/components/reports/linkedin-cards/LinkedInP
 import { WalkAwayCalculator } from "@/components/reports/tools/WalkAwayCalculator";
 import { CounterOfferAnalyzer } from "@/components/reports/tools/CounterOfferAnalyzer";
 import { SkillsROICalculator } from "@/components/reports/tools/SkillsROICalculator";
+import { InteractiveWorldMap } from "@/components/reports/visualizations/InteractiveWorldMap";
+import { USStateMap } from "@/components/reports/visualizations/USStateMap";
+import { IndiaStateMap } from "@/components/reports/visualizations/IndiaStateMap";
 import { Footer } from "@/components/landing/Footer";
 import { WhyThisReportSection } from "@/components/reports/WhyThisReportSection";
 import { MethodologySection } from "@/components/reports/MethodologySection";
@@ -212,9 +215,6 @@ const SalaryBenchmark2026 = () => {
 
       {/* Methodology Section (3rd Fold) */}
       <MethodologySection />
-
-      {/* PDF Download Section (4th Fold - Email Gated) */}
-      <PDFDownloadSection />
 
       {/* Executive Summary */}
       <section id="executive-summary" className="py-20 bg-white">
@@ -432,110 +432,6 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
-      {/* Data Sources & Methodology */}
-      <section id="data-sources" className="py-20 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Data Sources & Methodology
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              This report combines primary research, industry databases, and job market analysis across 15+ countries
-            </p>
-          </div>
-
-          <DataSourcesBadges />
-
-          <div className="mt-12 p-8 bg-white rounded-2xl border-2 border-blazeOrange/20">
-            <h3 className="text-2xl font-bold text-blazeOrange mb-6">Why This Report is Different</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="space-y-4">
-                <h4 className="font-semibold text-deepSea flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Primary Research
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>20,000+ direct survey responses from marketing and sales operations professionals globally</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Company size distribution: 15% startup, 35% growth stage, 30% mid-market, 20% enterprise</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Geographic coverage: 15 countries, 100+ cities, state-level data for USA and India</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Demographics: Gender, experience level (0-20+ years), industry, and work arrangement tracked</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="font-semibold text-deepSea flex items-center gap-2">
-                  <Database className="h-5 w-5" />
-                  Secondary Research
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>SHRM Salary Database: 500K+ verified compensation records across all industries</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Glassdoor, Payscale, Levels.fyi: 2M+ salary data points with validation</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>India: Naukri.com, 6figr.com, AmbitionBox: 100K+ India-specific records</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Europe/APAC: Regional salary surveys and government labor statistics</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="font-semibold text-deepSea flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  Job Market Analysis
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>50,000+ job postings scraped from LinkedIn, Indeed, Naukri, and company career pages</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Real-time market demand analysis by role, location, and industry</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Skills gap analysis: Which skills command highest premiums in 2026</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blazeOrange mt-1">•</span>
-                    <span>Remote work trends: Availability and compensation differences by arrangement</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 p-6 bg-mirage/5 rounded-lg">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong className="text-foreground">Methodology Note:</strong> All salary figures represent base compensation unless otherwise specified. 
-              Total compensation includes estimated equity value over 4-year vesting periods. Data was collected between September 2025 and January 2026 
-              across 15 countries (USA, Canada, UK, Germany, France, Netherlands, India, Singapore, Australia, UAE, and others). 
-              Sample size: 20,247 primary survey responses + 2.5M secondary data points + 50,000 job postings analyzed.
-              Statistical significance: 95% confidence level, ±2.1% margin of error for primary research.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* CTA #11: Final Push */}
       <div className="max-w-[1280px] mx-auto px-8 py-16">
         <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/10 to-[hsl(184,92%,18%)]/10 border-2 border-[hsl(18,100%,51%)]/30 p-12 text-center">
@@ -553,6 +449,9 @@ const SalaryBenchmark2026 = () => {
           </p>
         </Card>
       </div>
+
+      {/* PDF Download Section (Moved to Bottom) */}
+      <PDFDownloadSection />
 
       {/* CTA #12: Sticky Side Button - Always Visible */}
       <div className="fixed bottom-8 right-8 z-50">

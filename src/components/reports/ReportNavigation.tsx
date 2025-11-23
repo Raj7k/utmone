@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,6 +18,10 @@ interface ReportNavigationProps {
 export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  
+  // Transform scroll progress to width percentage
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,14 +38,20 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg" : "bg-white"
-      }`}
+      className={`sticky top-0 z-50 transition-apple ${
+        isScrolled ? "bg-white/60 backdrop-blur-xl shadow-sm" : "bg-white/80"
+      } supports-[backdrop-filter]:bg-white/60`}
     >
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blazeOrange via-deepSea to-mirage origin-left"
+        style={{ width: progressWidth }}
+      />
+      
       <div className="max-w-[1280px] mx-auto px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center transition-apple hover:opacity-70 hover:scale-105">
             <span className="text-xl font-bold text-blazeOrange">utm.one</span>
           </Link>
 
@@ -48,10 +59,10 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
           <div className="hidden lg:flex items-center gap-6">
             {/* Insights Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-colors">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
                 Insights <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
                 <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
                   Global Salary Benchmarks
                 </DropdownMenuItem>
@@ -66,10 +77,10 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
             {/* Roles Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-colors">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
                 Roles <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
                 <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
                   Marketing
                 </DropdownMenuItem>
@@ -87,10 +98,10 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
             {/* Regions Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-colors">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
                 Regions <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
                 <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
                   United States
                 </DropdownMenuItem>
@@ -111,10 +122,10 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
             {/* Data Library Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-colors">
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
                 Data Library <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
                 <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
                   Salary Tables
                 </DropdownMenuItem>
@@ -132,7 +143,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
             <button
               onClick={() => scrollTo("data-sources")}
-              className="text-sm font-medium hover:text-blazeOrange transition-colors"
+              className="text-sm font-medium hover:text-blazeOrange transition-apple"
             >
               Open-Source
             </button>
@@ -142,7 +153,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
           <div className="hidden lg:block">
             <Button
               onClick={() => scrollTo("calculator-section")}
-              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white"
+              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white transition-apple hover:scale-105"
             >
               Run Salary Analysis
             </Button>

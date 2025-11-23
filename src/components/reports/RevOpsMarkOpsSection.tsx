@@ -404,6 +404,21 @@ export const RevOpsMarkOpsSection = () => {
           </div>
         </div>
       </div>
+
+      {/* CTA after RevOps section: Calculate Your Operations Premium */}
+      <div className="max-w-[1280px] mx-auto px-8 py-8">
+        <Card className="bg-gradient-to-br from-deepSea/10 to-blazeOrange/10 border-2 border-deepSea/30 p-8 text-center">
+          <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">
+            Calculate Your Operations Premium
+          </h3>
+          <p className="text-base text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            See how your RevOps/MarkOps salary compares to the market. Identify skill gaps and certifications that command the highest premiums.
+          </p>
+          <button className="bg-deepSea hover:bg-deepSea/90 text-white text-base px-6 py-3 rounded-lg font-semibold transition-apple hover:scale-105">
+            Calculate My Ops Premium
+          </button>
+        </Card>
+      </div>
     </section>
   );
 };

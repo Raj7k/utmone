@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Globe, TrendingUp, MapPin, DollarSign } from "lucide-react";
 import { GeographicMultiplierMap } from "./visualizations/GeographicMultiplierMap";
 import { GeographicArbitrageCalculator } from "./tools/GeographicArbitrageCalculator";
+import { InteractiveWorldMap } from "./visualizations/InteractiveWorldMap";
+import { USStateMap } from "./visualizations/USStateMap";
+import { IndiaStateMap } from "./visualizations/IndiaStateMap";
 
 interface RegionalData {
   region: string;
@@ -358,6 +361,39 @@ export const RegionalDeepDives = () => {
             </TabsContent>
           ))}
         </Tabs>
+
+        {/* Interactive Global Salary Map */}
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8 text-center">
+            Interactive Global Salary Map
+          </h3>
+          <p className="text-lg text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            Click any country to see detailed salary data, cost of living, and top cities. Explore how compensation varies across 15+ countries.
+          </p>
+          <InteractiveWorldMap />
+        </div>
+
+        {/* US State Salary Breakdown */}
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8 text-center">
+            United States: State-Level Breakdown
+          </h3>
+          <p className="text-lg text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            Cost-of-living adjusted salaries across all 50 states. Click any state to see city-level comparisons.
+          </p>
+          <USStateMap />
+        </div>
+
+        {/* India Tech Hub Breakdown */}
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8 text-center">
+            India: Tech Hub Salary Analysis
+          </h3>
+          <p className="text-lg text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            Compare salaries across India's top 15 tech hubs. Click any state to see city-level breakdowns in INR and USD.
+          </p>
+          <IndiaStateMap />
+        </div>
 
         <div className="mt-12 p-6 bg-background rounded-2xl border border-border">
           <p className="text-center text-sm text-muted-foreground">
