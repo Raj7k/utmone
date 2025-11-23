@@ -28,6 +28,9 @@ import NamingTaxonomyTemplate from "./pages/resources/templates/NamingTaxonomyTe
 import CleanTrackModel from "./pages/resources/frameworks/CleanTrackModel";
 import MinimalAnalyticsStack from "./pages/resources/frameworks/MinimalAnalyticsStack";
 import AttributionClarityModel from "./pages/resources/frameworks/AttributionClarityModel";
+import UTMExamples from "./pages/resources/examples/UTMExamples";
+import NamingExamples from "./pages/resources/examples/NamingExamples";
+import DashboardExamples from "./pages/resources/examples/DashboardExamples";
 import Checklists from "./pages/resources/Checklists";
 import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
@@ -120,9 +123,12 @@ const App = () => (
           <Route path="/resources/templates/audit-checklist-template" element={<AuditChecklistTemplate />} />
           <Route path="/resources/templates/campaign-brief-template" element={<CampaignBriefTemplate />} />
           <Route path="/resources/templates/naming-taxonomy-template" element={<NamingTaxonomyTemplate />} />
-          <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
-          <Route path="/resources/frameworks/minimal-analytics-stack" element={<MinimalAnalyticsStack />} />
-          <Route path="/resources/frameworks/attribution-clarity-model" element={<AttributionClarityModel />} />
+            <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
+            <Route path="/resources/frameworks/minimal-analytics-stack" element={<MinimalAnalyticsStack />} />
+            <Route path="/resources/frameworks/attribution-clarity-model" element={<AttributionClarityModel />} />
+            <Route path="/resources/examples/utm-examples" element={<UTMExamples />} />
+            <Route path="/resources/examples/naming-examples" element={<NamingExamples />} />
+            <Route path="/resources/examples/dashboard-examples" element={<DashboardExamples />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
           <Route path="/resources/frameworks" element={<Frameworks />} />
