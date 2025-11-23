@@ -161,6 +161,15 @@ import PasswordProtected from "./pages/PasswordProtected";
 import APIDocumentation from "./pages/Docs/API";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+// Feature Pages
+import ShortLinks from "./pages/features/ShortLinks";
+import UTMBuilder from "./pages/features/UTMBuilder";
+import QRGenerator from "./pages/features/QRGenerator";
+import AnalyticsFeature from "./pages/features/Analytics";
+import EnterpriseControl from "./pages/features/EnterpriseControl";
+import CleanTrack from "./pages/features/CleanTrack";
+import PartnerProgram from "./pages/features/PartnerProgram";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -197,6 +206,15 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/docs/api" element={<APIDocumentation />} />
+          
+          {/* Feature Pages */}
+          <Route path="/features/short-links" element={<ShortLinks />} />
+          <Route path="/features/utm-builder" element={<UTMBuilder />} />
+          <Route path="/features/qr-generator" element={<QRGenerator />} />
+          <Route path="/features/analytics" element={<AnalyticsFeature />} />
+          <Route path="/features/governance" element={<EnterpriseControl />} />
+          <Route path="/features/clean-track" element={<CleanTrack />} />
+          <Route path="/features/partner-program" element={<PartnerProgram />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/guides" element={<Guides />} />
           <Route path="/resources/guides/utm-guide" element={<UTMGuide />} />
