@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DetectedLocation {
   country: string;
@@ -36,17 +37,35 @@ export const GeolocationDetector = ({ onLocationSelect }: GeolocationDetectorPro
       return;
     }
 
-    // Detect location (simplified - in production would call edge function)
-    // For now, we'll simulate detection
-    setTimeout(() => {
-      const detected: DetectedLocation = {
-        country: 'United States',
-        state: 'California',
-        city: 'San Francisco'
-      };
-      setLocation(detected);
-      setLoading(false);
-    }, 1000);
+    // Detect location using edge function
+    const detectLocation = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('detect-location');
+        
+        if (error) throw error;
+        
+        const detected: DetectedLocation = {
+          country: data.country,
+          state: data.state,
+          city: data.city
+        };
+        
+        setLocation(detected);
+        setLoading(false);
+      } catch (error) {
+        console.error('Geolocation detection failed:', error);
+        // Fallback to default location
+        const fallback: DetectedLocation = {
+          country: 'United States',
+          state: 'California',
+          city: 'San Francisco'
+        };
+        setLocation(fallback);
+        setLoading(false);
+      }
+    };
+
+    detectLocation();
   }, []);
 
   const handleAccept = () => {

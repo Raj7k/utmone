@@ -54,7 +54,7 @@ export const ToolLayout = ({
               <Icon className="h-8 w-8" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-4 lowercase">
+          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-4">
             {title}
           </h1>
           <p className="text-xl text-muted-foreground max-w-[640px]">

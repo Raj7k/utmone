@@ -355,7 +355,7 @@ export default function EarlyAccess() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">name</FormLabel>
+                          <FormLabel className="text-sm font-medium">Name</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="your full name"
@@ -373,7 +373,7 @@ export default function EarlyAccess() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">email</FormLabel>
+                          <FormLabel className="text-sm font-medium">Email</FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -392,7 +392,7 @@ export default function EarlyAccess() {
                       name="role"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">your role</FormLabel>
+                          <FormLabel className="text-sm font-medium">Your Role</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-12 rounded-lg">
@@ -417,7 +417,7 @@ export default function EarlyAccess() {
                       name="team_size"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">team size</FormLabel>
+                          <FormLabel className="text-sm font-medium">Team Size</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-12 rounded-lg">
@@ -442,7 +442,7 @@ export default function EarlyAccess() {
                       name="reason_for_joining"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">why utm.one?</FormLabel>
+                          <FormLabel className="text-sm font-medium">Why utm.one?</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-12 rounded-lg">
@@ -470,8 +470,8 @@ export default function EarlyAccess() {
                       name="reason_details"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">
-                            tell us more (optional)
+                          <FormLabel className="text-sm font-medium">
+                            Tell Us More (Optional)
                           </FormLabel>
                           <FormControl>
                             <Textarea
@@ -493,8 +493,8 @@ export default function EarlyAccess() {
                       name="how_heard"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">
-                            how did you hear about utm.one?
+                          <FormLabel className="text-sm font-medium">
+                            How Did You Hear About utm.one?
                           </FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -522,8 +522,8 @@ export default function EarlyAccess() {
                       name="desired_domain"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">
-                            domain you want to shorten with (optional)
+                          <FormLabel className="text-sm font-medium">
+                            Domain You Want to Shorten With (Optional)
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -545,8 +545,8 @@ export default function EarlyAccess() {
                       name="company_domain"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium lowercase">
-                            company domain (optional)
+                          <FormLabel className="text-sm font-medium">
+                            Company Domain (Optional)
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -566,9 +566,9 @@ export default function EarlyAccess() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-12 rounded-full bg-foreground text-background hover:scale-[1.02] transition-transform duration-200 text-sm font-medium lowercase"
+                      className="w-full h-12 rounded-full bg-foreground text-background hover:scale-[1.02] transition-transform duration-200 text-sm font-medium"
                     >
-                      {isSubmitting ? "submitting..." : "request early access"}
+                      {isSubmitting ? "Submitting..." : "Request Early Access"}
                     </Button>
                   </form>
                 </Form>

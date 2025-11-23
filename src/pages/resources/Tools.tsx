@@ -90,12 +90,12 @@ const Tools = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-6">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance lowercase">
-                tools
+              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance">
+                Tools
               </h1>
             </div>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
-              interactive calculators for salary negotiation, career planning, and team budgeting. backed by real market data.
+              Interactive calculators for salary negotiation, career planning, and team budgeting. Backed by real market data.
             </p>
           </div>
         </div>
@@ -121,14 +121,14 @@ const Tools = () => {
                       <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-xl font-display font-semibold text-foreground lowercase">
+                      <h3 className="text-xl font-display font-semibold text-foreground">
                         {tool.title}
                       </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {tool.description}
                       </p>
                       <p className="text-xs text-primary/60 italic pt-2">
-                        viral hook: {tool.viralHook}
+                        Viral hook: {tool.viralHook}
                       </p>
                     </div>
                   </div>
@@ -143,9 +143,9 @@ const Tools = () => {
       <section className="py-12 bg-muted/20 border-y border-border/50">
         <div className="max-w-[980px] mx-auto px-8 text-center">
           <p className="text-sm text-muted-foreground">
-            all salary data sourced from 2025 global marketing & sales operations benchmark report
+            All salary data sourced from 2026 Global Marketing & Sales Operations Benchmark Report
             <br />
-            <span className="text-xs">updated quarterly • covering 2,000+ roles across 50+ markets</span>
+            <span className="text-xs">Updated quarterly • Covering 2,000+ roles across 50+ markets</span>
           </p>
         </div>
       </section>

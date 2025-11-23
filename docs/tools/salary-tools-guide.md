@@ -2,7 +2,7 @@
 
 ## Overview
 
-utm.one's salary tools provide comprehensive, AI-powered compensation intelligence for marketing and sales operations professionals. All tools use real market data from our 2025 Global Salary Benchmark Report.
+utm.one's salary tools provide comprehensive, AI-powered compensation intelligence for marketing and sales operations professionals. All tools use real market data from our **2026 Global Salary Benchmark Report**.
 
 ## Available Tools
 
@@ -113,13 +113,38 @@ utm.one's salary tools provide comprehensive, AI-powered compensation intelligen
 
 ---
 
-## Data Sources
+## 2026 Salary Benchmark Report
+
+### Interactive Sections
+
+1. **Geolocation Detection** - Automatically detects user's location using IP-based geolocation (ipapi.co) via edge function
+2. **Interactive Salary Calculator** - Real-time percentile ranking with personalized insights
+3. **Role Comparison Matrix** - Compare salaries across 30+ roles with filters
+4. **Geographic Heatmap** - Visual salary data for 100+ cities globally
+5. **Gender Pay Gap Dashboard** - Comprehensive pay equity analysis
+6. **Industry Comparison** - Salary variations across 8 industries
+7. **Experience Level Progression** - Career timeline with salary milestones
+8. **State Deep Dive** - State-level exploration for USA and India
+9. **Cost of Living Adjuster** - Purchasing power comparisons
+10. **Remote Work Analyzer** - Remote vs on-site salary differentials
+11. **Equity Calculator** - Stock options and equity valuation
+
+### Data Sources
 
 All salary data is sourced from:
-- **2025 Global Marketing & Sales Operations Salary Benchmark Report**
-- 1,000+ companies across 50+ markets
-- 20+ distinct roles from Junior Coordinator to VP/C-Level
-- Updated quarterly to reflect market changes
+- **2026 Global Marketing & Sales Operations Salary Benchmark Report**
+- 20,000+ survey respondents
+- 500K+ data points from SHRM
+- 2M+ records from Glassdoor, Payscale, Levels.fyi
+- 50K+ job postings analyzed
+- 15+ countries covered (USA, Canada, UK, Germany, France, Netherlands, India, Singapore, Australia, UAE, and others)
+- State-level data for USA (all 50 states) and India (15+ major cities)
+
+### Geographic Coverage
+
+**United States**: State-level breakdown for all 50 states plus 100+ cities
+**India**: 15+ major cities including Bangalore, Mumbai, Delhi NCR, Hyderabad, Pune, Chennai, Kolkata, Ahmedabad
+**International**: UK, Germany, France, Netherlands, Singapore, Australia, Canada, UAE
 
 ## Methodology
 
@@ -130,14 +155,31 @@ All salary data is sourced from:
 - P90 (90th percentile): Top performers
 
 **Location Adjustments**:
-- Cost of living indices for 50+ US cities
+- Cost of living indices for 100+ cities globally
 - Remote vs. on-site differentials
 - International market multipliers
+- State-level granularity for USA and India
 
 **AI-Powered Features**:
 - All AI tools use Lovable AI (gemini-2.5-flash)
 - Prompts engineered for marketing/sales context
 - Responses personalized to user inputs
+
+## Technical Implementation
+
+### Geolocation Detection
+- **Edge Function**: `detect-location` uses ipapi.co API for IP-based geolocation
+- **Fallback**: Defaults to San Francisco, CA if detection fails
+- **Storage**: Location stored in localStorage to prevent repeated prompts
+- **Privacy**: No PII stored, only country/state/city detection
+
+### Interactive Components
+All interactive sections are React components with:
+- Real-time calculations
+- LocalStorage persistence
+- Mobile-responsive design
+- Framer Motion animations
+- Export functionality (CSV, PNG)
 
 ## Privacy & Security
 
@@ -145,6 +187,7 @@ All salary data is sourced from:
 - **Anonymous usage**: Tools work without authentication
 - **Secure AI processing**: All AI requests use encrypted connections
 - **No PII required**: Tools never ask for personally identifiable information
+- **Geolocation**: IP-based detection only, no GPS or user-entered data
 
 ## Mobile Optimization
 
@@ -173,5 +216,5 @@ Questions or issues with salary tools?
 
 ---
 
-**Last Updated**: January 2025  
-**Version**: 1.0.0
+**Last Updated**: January 2026  
+**Version**: 2.0.0

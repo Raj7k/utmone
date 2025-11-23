@@ -108,7 +108,7 @@ export const GlossaryTermLayout = ({
           <div className="space-y-4">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-4 flex-1">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
                   {term}
                 </h1>
                 <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">

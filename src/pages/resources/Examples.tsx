@@ -36,14 +36,14 @@ const Examples = () => {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            back to resources
+            Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
-              examples
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+              Examples
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-              real-world utm examples, before/after tracking, and dashboard visualizations.
+              Real-world UTM examples, before/after tracking, and dashboard visualizations.
             </p>
           </div>
         </div>

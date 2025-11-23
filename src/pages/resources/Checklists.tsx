@@ -42,14 +42,14 @@ const Checklists = () => {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            back to resources
+            Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
-              checklists
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+              Checklists
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-              actionable checklists for utm audits, campaign launches, and analytics health.
+              Actionable checklists for UTM audits, campaign launches, and analytics health.
             </p>
           </div>
         </div>
