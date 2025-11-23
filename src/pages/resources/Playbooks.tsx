@@ -3,6 +3,8 @@ import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const Playbooks = () => {
   const playbooks = [
@@ -46,7 +48,30 @@ const Playbooks = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO 
+        title="Playbooks - utm.one"
+        description="Tactical step-by-step implementation workflows for UTM governance, startup analytics, event-led growth, and sales-marketing alignment."
+        canonical="https://utm.one/resources/playbooks"
+        keywords={["utm playbook", "marketing playbook", "analytics playbook", "implementation guide"]}
+      />
+      <ItemListSchema 
+        name="utm.one Playbooks"
+        description="Step-by-step implementation playbooks for marketing and analytics."
+        items={playbooks.map(p => ({
+          name: p.title,
+          url: `https://utm.one/resources/playbooks/${p.slug}`,
+          description: p.description
+        }))}
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one/' },
+          { name: 'Resources', url: 'https://utm.one/resources' },
+          { name: 'Playbooks', url: 'https://utm.one/resources/playbooks' }
+        ]}
+      />
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       <section className="py-20 bg-background border-b border-border/50">
@@ -102,6 +127,7 @@ const Playbooks = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

@@ -251,45 +251,110 @@ export const Navigation = () => {
                     resources
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-2 p-4">
+                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/guides"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Guides</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              long-form educational content
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/playbooks"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Playbooks</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              step-by-step implementation
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/templates"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Templates</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              ready-to-use resources
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/frameworks"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Frameworks</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              mental models & methodologies
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/examples"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Examples</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              real-world use cases
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/glossary"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Glossary</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              70+ defined terms
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/resources/reports/salary-benchmark-2026"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium leading-none">2026 Salary Report</span>
+                              <span className="px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full animate-pulse">NEW</span>
+                            </div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              comprehensive salary benchmarks
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
                       <li>
                         <NavigationMenuLink asChild>
                           <Link
                             to="/resources/tools"
                             className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                           >
-                            <div className="text-sm font-medium leading-none">Salary Tools</div>
+                            <div className="text-sm font-medium leading-none">Tools</div>
                             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              interactive calculators for salary insights
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/reports/salary-benchmark-2025"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium leading-none">2025 Salary Report</span>
-                              <span className="px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full">NEW</span>
-                            </div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              comprehensive salary data and benchmarks
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">All Resources</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              guides, playbooks, templates & more
+                              interactive calculators
                             </p>
                           </Link>
                         </NavigationMenuLink>

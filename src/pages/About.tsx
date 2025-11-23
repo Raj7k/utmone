@@ -3,10 +3,26 @@ import { Footer } from "@/components/landing/Footer";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema } from "@/components/seo/SchemaMarkup";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <SEO 
+        title="About utm.one"
+        description="utm.one is the simplest way to make your links smarter. Built for an LLM-first world where machines decide what gets recommended, ranked, or ignored."
+        canonical="https://utm.one/about"
+        ogType="article"
+        keywords={["utm.one", "about", "link management", "llm-first", "campaign tracking"]}
+      />
+      <ArticleSchema 
+        headline="About utm.one"
+        description="utm.one is the simplest way to make your links smarter. Built for an LLM-first world."
+        datePublished="2025-01-23"
+        url="https://utm.one/about"
+      />
+      <div className="min-h-screen bg-white">
       <Navigation />
 
       {/* Hero Section */}
@@ -285,6 +301,7 @@ const About = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

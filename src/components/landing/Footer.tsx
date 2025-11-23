@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <footer className="border-t border-border/50 bg-white">
       <div className="max-w-[1280px] mx-auto px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
           
           {/* Brand Column (spans 2 on desktop) */}
           <div className="lg:col-span-2 space-y-6">
@@ -18,42 +18,71 @@ export const Footer = () => {
           {/* Product Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              product
+              Product
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  how it works
+                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  features
+                <Link to="/features/short-links" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Short Links
                 </Link>
               </li>
               <li>
-                <Link to="/#governance" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  link governance
+                <Link to="/features/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  UTM Builder
                 </Link>
               </li>
               <li>
-                <Link to="/resources/guides/utm-guide" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  naming system
+                <Link to="/features/qr-generator" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  QR Generator
                 </Link>
               </li>
               <li>
-                <Link to="/resources/frameworks/clean-track-model" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  LLM metadata
+                <Link to="/features/analytics" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Analytics
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/governance" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Enterprise Control
                 </Link>
               </li>
               <li>
                 <Link to="/#integrations" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  integrations
+                  Integrations
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solutions Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
+              Solutions
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/solutions/marketers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  For Marketers
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  pricing
+                <Link to="/solutions/sales" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  For Sales
+                </Link>
+              </li>
+              <li>
+                <Link to="/solutions/marketing-ops" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  For Marketing Ops
+                </Link>
+              </li>
+              <li>
+                <Link to="/solutions/developers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  For Developers
                 </Link>
               </li>
             </ul>
@@ -62,47 +91,52 @@ export const Footer = () => {
           {/* Resources Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              resources
+              Resources
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  docs
+                <Link to="/resources/guides" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Guides
                 </Link>
               </li>
               <li>
-                <Link to="/resources/academy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  tutorials
+                <Link to="/resources/playbooks" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Playbooks
                 </Link>
               </li>
               <li>
                 <Link to="/resources/templates" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  templates
+                  Templates
                 </Link>
               </li>
               <li>
-                <Link to="/resources/guides/tracking-architecture" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  taxonomy guide
+                <Link to="/resources/frameworks" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Frameworks
                 </Link>
               </li>
               <li>
-                <Link to="/resources/playbooks/naming-convention-playbook" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  campaign naming framework
+                <Link to="/resources/glossary" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Glossary
                 </Link>
               </li>
               <li>
-                <Link to="/resources/guides/llm-seo" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  LLM ranking playbook
+                <Link to="/resources/reports/salary-benchmark-2026" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  2026 Salary Report
                 </Link>
               </li>
               <li>
-                <Link to="/resources/playbooks/ai-marketing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  AI playbook
+                <Link to="/resources/tools" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Tools
+                </Link>
+              </li>
+              <li>
+                <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Docs
                 </Link>
               </li>
               <li>
                 <Link to="/changelog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  changelog
+                  Changelog
                 </Link>
               </li>
             </ul>
@@ -111,42 +145,31 @@ export const Footer = () => {
           {/* Company Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              company
+              Company
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  about
+                  About
                 </Link>
               </li>
               <li>
-                <Link to="/about#philosophy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  brand philosophy
+                <Link to="/partners" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Partners
                 </Link>
               </li>
               <li>
-                <Link to="/about#design" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  design system
+                <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Privacy
                 </Link>
               </li>
               <li>
-                <Link to="/about#roadmap" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  roadmap
-                </Link>
-              </li>
-              <li>
-                <Link to="/careers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  careers
+                <Link to="/legal/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Terms
                 </Link>
               </li>
             </ul>
           </div>
-
-          {/* Legal Column - moved to its own row on mobile/tablet */}
-          <div className="space-y-4 md:col-start-1 lg:col-start-auto">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              legal
-            </h3>
             <ul className="space-y-3">
               <li>
                 <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

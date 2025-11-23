@@ -6,6 +6,8 @@ import { PLAN_CONFIG } from "@/lib/planConfig";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema } from "@/components/seo/SchemaMarkup";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -28,7 +30,19 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO 
+        title="Pricing - utm.one"
+        description="Simple pricing with generous limits. No per-seat charges, no hidden fees. Free forever plan with 100 links/month, Pro at $15/month, Business at $49/month."
+        canonical="https://utm.one/pricing"
+        keywords={["utm.one pricing", "url shortener pricing", "link management pricing", "flat pricing", "no per-seat charges"]}
+      />
+      <WebPageSchema 
+        name="utm.one Pricing"
+        description="Simple pricing with generous limits and no per-seat charges for link management and UTM tracking."
+        url="https://utm.one/pricing"
+      />
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero Section */}
@@ -139,6 +153,7 @@ const Pricing = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

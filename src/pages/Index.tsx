@@ -31,6 +31,8 @@ import {
   useTrackScrollDepth, 
   useTrackTimeOnPage 
 } from "@/hooks/useLandingPageAnalytics";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema } from "@/components/seo/SchemaMarkup";
 
 const Index = () => {
   useTrackPageView();
@@ -49,7 +51,19 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <SEO 
+        title="utm.one - Clean Links Change Everything"
+        description="Enterprise URL shortener with branded QR codes, UTM tracking, and analytics. Built for marketing, sales, and ops teams who need clean, consistent campaign links."
+        canonical="https://utm.one/"
+        keywords={["url shortener", "utm tracking", "qr code generator", "link management", "campaign tracking", "marketing analytics"]}
+      />
+      <WebPageSchema 
+        name="utm.one - Clean Links Change Everything"
+        description="Enterprise URL shortener with branded QR codes, UTM tracking, and analytics for marketing, sales, and ops teams."
+        url="https://utm.one/"
+      />
+      <div className="min-h-screen bg-white">
       <AnnouncementBar 
         dismissible={true}
       />
@@ -392,6 +406,7 @@ const Index = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

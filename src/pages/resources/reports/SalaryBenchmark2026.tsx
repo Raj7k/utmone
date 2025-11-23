@@ -28,6 +28,8 @@ import { LinkedInPostCard6 } from "@/components/reports/linkedin-cards/LinkedInP
 import { LinkedInPostCard7 } from "@/components/reports/linkedin-cards/LinkedInPostCard7";
 import { WalkAwayCalculator } from "@/components/reports/tools/WalkAwayCalculator";
 import { CounterOfferAnalyzer } from "@/components/reports/tools/CounterOfferAnalyzer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { SkillsROICalculator } from "@/components/reports/tools/SkillsROICalculator";
 import { InteractiveWorldMap } from "@/components/reports/visualizations/InteractiveWorldMap";
 import { USStateMap } from "@/components/reports/visualizations/USStateMap";
