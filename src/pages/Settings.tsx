@@ -10,6 +10,7 @@ import { WebhookManager } from "@/components/WebhookManager";
 import { IntegrationsManager } from "@/components/IntegrationsManager";
 import { NavLink } from "@/components/NavLink";
 import { supabase } from "@/integrations/supabase/client";
+import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 
 export default function Settings() {
   const navigate = useNavigate();
