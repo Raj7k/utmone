@@ -17,8 +17,9 @@ export const ModeToggle = () => {
     });
   }, [mode, isEmployeeMode, isEmployerMode]);
 
-  const handleModeChange = (newMode: 'employee' | 'employer') => {
-    console.log(`👆 Clicked ${newMode} button`);
+  const toggleMode = () => {
+    const newMode = isEmployeeMode ? 'employer' : 'employee';
+    console.log(`👆 Toggling to ${newMode}`);
     setMode(newMode);
     console.log(`✅ Set mode to ${newMode}`);
     
@@ -32,60 +33,37 @@ export const ModeToggle = () => {
   return (
     <div className="fixed top-20 right-6 z-30 hidden lg:block">
       <motion.div 
-        className="bg-white/95 backdrop-blur-md rounded-full shadow-xl border-2 border-mirage/10 p-1.5 min-w-[280px]"
+        className="flex items-center gap-3 bg-white/95 backdrop-blur-md rounded-full shadow-xl border-2 border-mirage/10 px-4 py-3"
         initial={{ opacity: 0, scale: 0.95, y: -20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       >
-        <div className="relative flex">
-          {/* Animated background pill */}
+        {/* Label for Employee */}
+        <span className={`text-sm font-medium transition-colors ${isEmployeeMode ? 'text-blazeOrange' : 'text-mirage/40'}`}>
+          <User className="w-4 h-4 inline mr-1" />
+          Employee
+        </span>
+        
+        {/* iOS Toggle Switch */}
+        <button 
+          onClick={toggleMode}
+          className={`relative w-12 h-6 rounded-full transition-all ${
+            isEmployeeMode ? 'bg-blazeOrange' : 'bg-deepSea'
+          }`}
+          aria-label={`Switch to ${isEmployeeMode ? 'employer' : 'employee'} view`}
+        >
           <motion.div
-            className={`absolute inset-y-0 rounded-full transition-all duration-300 ${
-              isEmployeeMode 
-                ? 'bg-gradient-to-r from-blazeOrange to-blazeOrange/80' 
-                : 'bg-gradient-to-r from-deepSea to-deepSea/80'
-            }`}
-            animate={{
-              x: isEmployeeMode ? '2px' : 'calc(50% - 2px)',
-              width: 'calc(50% - 2px)',
-            }}
+            className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-md"
+            animate={{ x: isEmployeeMode ? 2 : 26 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
           />
-          
-          {/* Employee button */}
-          <button
-            onClick={() => handleModeChange('employee')}
-            className={`relative z-10 flex-1 px-5 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
-              isEmployeeMode
-                ? 'text-white scale-105'
-                : 'text-mirage/60 hover:text-mirage'
-            }`}
-          >
-            <User className="w-4 h-4" />
-            Employee
-          </button>
-          
-          {/* Employer button */}
-          <button
-            onClick={() => handleModeChange('employer')}
-            className={`relative z-10 flex-1 px-5 py-2.5 rounded-full text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
-              !isEmployeeMode
-                ? 'text-white scale-105'
-                : 'text-mirage/60 hover:text-mirage'
-            }`}
-          >
-            <Building2 className="w-4 h-4" />
-            Employer
-          </button>
-        </div>
-      </motion.div>
-      
-      {/* Mode indicator badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center mt-2 text-xs text-mirage/70 font-medium"
-      >
-        Viewing as {isEmployeeMode ? 'Individual' : 'Organization'}
+        </button>
+        
+        {/* Label for Employer */}
+        <span className={`text-sm font-medium transition-colors ${isEmployerMode ? 'text-deepSea' : 'text-mirage/40'}`}>
+          <Building2 className="w-4 h-4 inline mr-1" />
+          Employer
+        </span>
       </motion.div>
     </div>
   );

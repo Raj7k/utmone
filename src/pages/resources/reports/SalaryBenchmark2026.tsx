@@ -206,11 +206,15 @@ const SalaryBenchmark2026Content = () => {
             transition={{ duration: 0.6 }}
           >
             <Badge variant="default" className="animate-pulse bg-blazeOrange">FEATURED REPORT • 2026 EDITION</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
-              2026 Global Marketing & Sales Operations Salary Benchmark Report
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              The most comprehensive salary analysis across 30+ roles, 15+ countries, 100+ cities, and 8 industries
+            
+            <div className="hero-glow">
+              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight">
+                The World's First Open-Source GTM Salary Report
+              </h1>
+            </div>
+            
+            <p className="text-xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed">
+              Global salary benchmarks, skill trends, and hiring patterns without gates, paywalls, or guesswork. Just clear, transparent data for every GTM professional.
             </p>
             
             {/* Credibility Badges */}
