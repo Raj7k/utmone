@@ -23,10 +23,11 @@ export const AnimatedCounter = ({
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(from);
   const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 100
+    damping: 80,
+    stiffness: 120,
+    restDelta: 0.001
   });
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -200px 0px" });
   const [displayValue, setDisplayValue] = useState(from);
 
   useEffect(() => {
