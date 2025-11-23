@@ -2,6 +2,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download, FileText, Table, CheckSquare } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
 import { LeadScoringCalculator } from "@/components/resources/LeadScoringCalculator";
 import { MetricsDashboard } from "@/components/resources/MetricsDashboard";
@@ -141,28 +142,37 @@ const SalesMarketingAlignmentPlaybook = () => {
 
       {/* Hero Section */}
       <section className="py-20 bg-background border-b border-border/50">
-        <div className="max-w-[980px] mx-auto px-8">
-          <Link
-            to="/resources/playbooks"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            back to playbooks
-          </Link>
-          <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-4">
-                sales & marketing alignment playbook
-              </h1>
-              <p className="text-2xl text-primary font-semibold mb-4">the simple version</p>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-                90-day implementation plan to align sales and marketing with zero confusion. includes interactive calculators, checklists, and templates.
-              </p>
-            </motion.div>
+        <div className="max-w-[1200px] mx-auto px-8">
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+            <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+            <span>/</span>
+            <Link to="/resources/playbooks" className="hover:text-foreground transition-colors">Playbooks</Link>
+            <span>/</span>
+            <span className="text-foreground">Sales & Marketing Alignment</span>
+          </nav>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <Badge variant="secondary">22-page playbook</Badge>
+            <Badge variant="outline">Interactive tools</Badge>
+            <Badge variant="outline">90-day plan</Badge>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-6">
+            sales & marketing alignment playbook
+          </h1>
+          
+          {/* Subtitle */}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-[800px] mb-8">
+            90-day implementation plan to align sales and marketing with zero confusion. includes interactive calculators, checklists, and templates.
+          </p>
+
+          {/* Meta Info */}
+          <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+            <span>30 min read</span>
+            <span>Updated January 2025</span>
           </div>
         </div>
       </section>
