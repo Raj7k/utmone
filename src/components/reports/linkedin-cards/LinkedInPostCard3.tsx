@@ -1,11 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, AlertCircle } from "lucide-react";
+import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 export const LinkedInPostCard3 = () => {
+  const handleShare = () => {
+    shareOnLinkedIn("Enterprise AEs can earn $240-400K OTE. But 71% miss quota. The comp ceiling is high, but so is the risk. — via utm.one Salary Report 2026");
+  };
+
+  const handleDownload = () => {
+    downloadCardAsImage("linkedin-card-3", "sales-ote-volatility.png");
+  };
+
   return (
     <div className="max-w-[1280px] mx-auto px-8 py-8">
-      <Card className="bg-gradient-to-br from-mirage/5 to-blazeOrange/5 border-2 border-mirage/20 hover:shadow-xl transition-shadow">
+      <Card id="linkedin-card-3" className="bg-gradient-to-br from-mirage/5 to-blazeOrange/5 border-2 border-mirage/20 hover:shadow-xl transition-shadow">
         <CardContent className="p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             {/* Visual - Stats Card */}
@@ -44,13 +53,19 @@ export const LinkedInPostCard3 = () => {
               </p>
               <div className="flex items-center gap-4">
                 <Button
+                  onClick={handleShare}
                   variant="outline"
                   className="border-mirage text-mirage hover:bg-mirage/10"
                 >
                   <Share2 className="mr-2 h-4 w-4" />
                   Share This Reality Check
                 </Button>
-                <Button variant="ghost" size="sm" className="text-deepSea hover:text-deepSea/80">
+                <Button 
+                  onClick={handleDownload}
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-deepSea hover:text-deepSea/80"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Download as Image
                 </Button>
