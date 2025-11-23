@@ -169,6 +169,7 @@ import AnalyticsFeature from "./pages/features/Analytics";
 import EnterpriseControl from "./pages/features/EnterpriseControl";
 import CleanTrack from "./pages/features/CleanTrack";
 import PartnerProgram from "./pages/features/PartnerProgram";
+import Features from "./pages/Features";
 
 const queryClient = new QueryClient();
 
@@ -208,6 +209,7 @@ const App = () => (
           <Route path="/docs/api" element={<APIDocumentation />} />
           
           {/* Feature Pages */}
+          <Route path="/features" element={<Features />} />
           <Route path="/features/short-links" element={<ShortLinks />} />
           <Route path="/features/utm-builder" element={<UTMBuilder />} />
           <Route path="/features/qr-generator" element={<QRGenerator />} />
