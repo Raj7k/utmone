@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { Footer } from "@/components/landing/Footer";
 
 const Docs = () => {
   return (
@@ -20,15 +21,7 @@ const Docs = () => {
         </div>
       </section>
 
-      <footer className="border-t border-border/50 py-12 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-[13px] text-muted-foreground">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

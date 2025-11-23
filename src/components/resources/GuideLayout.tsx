@@ -1,5 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Navigation } from "@/components/landing/Navigation";
+import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Share2, Twitter, Linkedin, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -172,16 +173,7 @@ export const GuideLayout = ({
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/50 py-12 bg-background">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-[13px] text-muted-foreground">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
