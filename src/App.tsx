@@ -10,6 +10,11 @@ import Docs from "./pages/Docs";
 import Resources from "./pages/Resources";
 import Guides from "./pages/resources/Guides";
 import UTMGuide from "./pages/resources/guides/UTMGuide";
+import CleanTrackFramework from "./pages/resources/guides/CleanTrackFramework";
+import TrackingArchitecture from "./pages/resources/guides/TrackingArchitecture";
+import SimpleAnalytics from "./pages/resources/guides/SimpleAnalytics";
+import GrowthAnalytics from "./pages/resources/guides/GrowthAnalytics";
+import LLMSeo from "./pages/resources/guides/LLMSeo";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
 import Checklists from "./pages/resources/Checklists";
@@ -86,6 +91,11 @@ const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/guides" element={<Guides />} />
           <Route path="/resources/guides/utm-guide" element={<UTMGuide />} />
+          <Route path="/resources/guides/clean-track-framework" element={<CleanTrackFramework />} />
+          <Route path="/resources/guides/tracking-architecture" element={<TrackingArchitecture />} />
+          <Route path="/resources/guides/simple-analytics" element={<SimpleAnalytics />} />
+          <Route path="/resources/guides/growth-analytics" element={<GrowthAnalytics />} />
+          <Route path="/resources/guides/llm-seo" element={<LLMSeo />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
