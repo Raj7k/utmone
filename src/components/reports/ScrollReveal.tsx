@@ -46,31 +46,20 @@ export const ScrollReveal = ({
   const getInitialState = () => {
     switch (direction) {
       case "up":
-        return { opacity: 0, y: 40 };
+        return { opacity: 0, y: 60, scale: 0.95 };
       case "down":
-        return { opacity: 0, y: -40 };
+        return { opacity: 0, y: -60, scale: 0.95 };
       case "left":
-        return { opacity: 0, x: 40 };
+        return { opacity: 0, x: 60, scale: 0.95 };
       case "right":
-        return { opacity: 0, x: -40 };
+        return { opacity: 0, x: -60, scale: 0.95 };
       default:
-        return { opacity: 0, y: 40 };
+        return { opacity: 0, y: 60, scale: 0.95 };
     }
   };
 
   const getAnimateState = () => {
-    switch (direction) {
-      case "up":
-        return { opacity: 1, y: 0 };
-      case "down":
-        return { opacity: 1, y: 0 };
-      case "left":
-        return { opacity: 1, x: 0 };
-      case "right":
-        return { opacity: 1, x: 0 };
-      default:
-        return { opacity: 1, y: 0 };
-    }
+    return { opacity: 1, y: 0, x: 0, scale: 1 };
   };
 
   return (
@@ -79,10 +68,11 @@ export const ScrollReveal = ({
       initial={getInitialState()}
       animate={isVisible ? getAnimateState() : getInitialState()}
       transition={{ 
-        duration: 0.6, 
+        duration: 0.8, 
         delay,
         ease: [0.4, 0, 0.2, 1] // Apple-style easing
       }}
+      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
       className={className}
     >
       {children}

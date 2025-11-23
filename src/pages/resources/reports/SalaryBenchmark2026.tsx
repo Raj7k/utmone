@@ -45,6 +45,8 @@ import { TeamBudgetOptimizer } from "@/components/reports/tools/TeamBudgetOptimi
 import { HiringCompetitivenessDashboard } from "@/components/reports/tools/HiringCompetitivenessDashboard";
 import { RetentionRiskCalculator } from "@/components/reports/tools/RetentionRiskCalculator";
 import { TeamSkillsGapAnalyzer } from "@/components/reports/tools/TeamSkillsGapAnalyzer";
+import { BrandQuote } from "@/components/reports/BrandQuote";
+import { PDFDownloadCTA } from "@/components/reports/PDFDownloadCTA";
 
 const SalaryBenchmark2026Content = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -143,6 +145,9 @@ const SalaryBenchmark2026Content = () => {
       {/* Mode Toggle */}
       <ModeToggle />
       
+      {/* PDF Download Floating CTA */}
+      <PDFDownloadCTA />
+      
       {/* Table of Contents (Desktop Only) - Fixed with proper margin */}
       <ReportTableOfContents onScrollToSection={scrollToSection} />
       
@@ -151,7 +156,7 @@ const SalaryBenchmark2026Content = () => {
 
       {/* Breadcrumb */}
       <div className="border-b border-border/50">
-        <div className="max-w-[1280px] mx-auto px-8 py-4">
+        <div className="max-w-[1280px] mx-auto px-8 py-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link to="/resources" className="hover:text-foreground transition-apple">
               Resources
@@ -167,7 +172,7 @@ const SalaryBenchmark2026Content = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-wildSand/30 to-white">
+      <section className="py-16 bg-gradient-to-br from-wildSand/30 to-white">
         <div className="max-w-[1280px] mx-auto px-8">
           <motion.div
             className="text-center space-y-6 max-w-[1000px] mx-auto"
@@ -285,6 +290,9 @@ const SalaryBenchmark2026Content = () => {
       {/* LinkedIn Post Card #1 */}
       <LinkedInPostCard1 />
 
+      {/* BRAND QUOTE #1 */}
+      <BrandQuote text="clarity creates confidence" position="center" />
+
       {/* SECTION 1: MegaTrendsSection */}
       <div id="mega-trends">
         <MegaTrendsSection />
@@ -317,6 +325,9 @@ const SalaryBenchmark2026Content = () => {
       {/* LinkedIn Post Card #2 */}
       <LinkedInPostCard2 />
 
+      {/* BRAND QUOTE #2 */}
+      <BrandQuote text="know your worth" position="center" />
+
       {/* CTA #6: After Marketing */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
         <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-white border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
@@ -343,6 +354,9 @@ const SalaryBenchmark2026Content = () => {
 
       {/* LinkedIn Post Card #3 */}
       <LinkedInPostCard3 />
+
+      {/* BRAND QUOTE #3 */}
+      <BrandQuote text="clean data. clear decisions." position="center" />
 
       {/* SECTION 4: RevOps & MarkOps Benchmarks */}
       <div id="revops-section">
@@ -379,6 +393,9 @@ const SalaryBenchmark2026Content = () => {
       {/* LinkedIn Post Card #5 */}
       <LinkedInPostCard5 />
 
+      {/* BRAND QUOTE #4 */}
+      <BrandQuote text="location is leverage" position="center" />
+
       {/* SECTION 6: Skill Demand Analysis */}
       <div id="skill-section">
         <SkillDemandAnalysis />
@@ -393,6 +410,9 @@ const SalaryBenchmark2026Content = () => {
 
       {/* LinkedIn Post Card #6 */}
       <LinkedInPostCard6 />
+
+      {/* BRAND QUOTE #5 */}
+      <BrandQuote text="skills compound" position="center" />
 
       {/* CTA #7: After Skill Demand */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -469,6 +489,9 @@ const SalaryBenchmark2026Content = () => {
 
       {/* LinkedIn Post Card #7 - Always visible */}
       {isEmployeeMode && <LinkedInPostCard7 />}
+
+      {/* BRAND QUOTE #6 */}
+      <BrandQuote text="data-driven careers" position="center" />
 
       {/* SECTION 8: Enhanced Salary Calculator */}
       <section id="calculator-section" className="py-32 bg-background">
