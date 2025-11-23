@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Menu, X, ChevronDown } from "lucide-react";
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
 interface ReportNavigationProps {
   onScrollToSection: (sectionId: string) => void;
@@ -38,9 +41,9 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-apple ${
-        isScrolled ? "bg-white/60 backdrop-blur-xl shadow-sm" : "bg-white/80"
-      } supports-[backdrop-filter]:bg-white/60`}
+      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50 transition-apple ${
+        isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
+      }`}
     >
       {/* Scroll Progress Bar - Matching Homepage Colors */}
       <motion.div
@@ -48,171 +51,267 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
         style={{ width: progressWidth }}
       />
       
-      <div className="max-w-[1280px] mx-auto px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-[1280px] mx-auto px-8 h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo */}
-          <Link to="/" className="flex items-center transition-apple hover:opacity-70 hover:scale-105">
+          <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
             <span className="text-xl font-bold text-blazeOrange">utm.one</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
-            {/* Insights Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
-                Insights <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
-                <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
-                  Global Salary Benchmarks
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-muted-foreground cursor-not-allowed">
-                  Quarterly Talent Report (Coming Soon)
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-muted-foreground cursor-not-allowed">
-                  GTM Hiring Index (Coming Soon)
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex items-center justify-center flex-1">
+            <NavigationMenu>
+              <NavigationMenuList className="gap-2">
+                {/* Insights Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    Insights
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <button
+                          onClick={() => scrollTo("marketing-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Global Salary Benchmarks</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            comprehensive salary data across roles
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <div className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none opacity-50 cursor-not-allowed">
+                          <div className="text-sm font-medium leading-none">Quarterly Talent Report</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Coming Soon
+                          </p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none opacity-50 cursor-not-allowed">
+                          <div className="text-sm font-medium leading-none">GTM Hiring Index</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Coming Soon
+                          </p>
+                        </div>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            {/* Roles Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
-                Roles <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
-                <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
-                  Marketing
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("sales-section")}>
-                  Sales
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("revops-section")}>
-                  RevOps
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("revops-section")}>
-                  Marketing Ops
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                {/* Roles Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    Roles
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <button
+                          onClick={() => scrollTo("marketing-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Marketing</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            roles, salaries, and benchmarks
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("sales-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Sales</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            OTE, quotas, and comp structures
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("revops-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">RevOps & Marketing Ops</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            ops roles with high demand
+                          </p>
+                        </button>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            {/* Regions Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
-                Regions <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
-                <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
-                  United States
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
-                  India
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
-                  Europe
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
-                  APAC
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("regional-section")}>
-                  MENA
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                {/* Regions Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    Regions
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <button
+                          onClick={() => scrollTo("regional-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">United States</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            state-by-state salary breakdown
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("regional-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">India</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            city-level insights and trends
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("regional-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Europe & APAC</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            international markets
+                          </p>
+                        </button>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            {/* Data Library Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-blazeOrange transition-apple">
-                Data Library <ChevronDown className="h-4 w-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-xl">
-                <DropdownMenuItem onClick={() => scrollTo("marketing-section")}>
-                  Salary Tables
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("skill-section")}>
-                  Skill Taxonomy
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("calculator-section")}>
-                  Multipliers
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => scrollTo("data-sources")}>
-                  Industry Benchmarks
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                {/* Data Library Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    Data Library
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <button
+                          onClick={() => scrollTo("marketing-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Salary Tables</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            role-specific compensation data
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("skill-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Skill Taxonomy</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            in-demand skills and premiums
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("calculator-section")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Interactive Tools</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            calculators and benchmarking
+                          </p>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => scrollTo("data-sources")}
+                          className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Methodology</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            data sources and methodology
+                          </p>
+                        </button>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            <button
-              onClick={() => scrollTo("data-sources")}
-              className="text-sm font-medium hover:text-blazeOrange transition-apple"
-            >
-              Open-Source
-            </button>
+                <NavigationMenuItem>
+                  <button
+                    onClick={() => scrollTo("data-sources")}
+                    className="inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:text-foreground transition-apple"
+                  >
+                    Open-Source
+                  </button>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
-
-          {/* CTA Button - Removed to reduce clutter */}
 
           {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t">
-            <div className="flex flex-col gap-4">
-              <button
-                onClick={() => scrollTo("marketing-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Global Salary Benchmarks
-              </button>
-              <button
-                onClick={() => scrollTo("marketing-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Marketing Roles
-              </button>
-              <button
-                onClick={() => scrollTo("sales-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Sales Roles
-              </button>
-              <button
-                onClick={() => scrollTo("revops-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                RevOps & Marketing Ops
-              </button>
-              <button
-                onClick={() => scrollTo("regional-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Regional Deep Dives
-              </button>
-              <button
-                onClick={() => scrollTo("skill-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Skills Analysis
-              </button>
-              <button
-                onClick={() => scrollTo("calculator-section")}
-                className="text-left text-sm font-medium hover:text-blazeOrange"
-              >
-                Salary Calculator
-              </button>
-            </div>
+          <div className="lg:hidden">
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <div className="flex flex-col gap-4 mt-8">
+                  <button
+                    onClick={() => scrollTo("marketing-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Global Salary Benchmarks
+                  </button>
+                  <button
+                    onClick={() => scrollTo("marketing-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Marketing Roles
+                  </button>
+                  <button
+                    onClick={() => scrollTo("sales-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Sales Roles
+                  </button>
+                  <button
+                    onClick={() => scrollTo("revops-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    RevOps & Marketing Ops
+                  </button>
+                  <button
+                    onClick={() => scrollTo("regional-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Regional Deep Dives
+                  </button>
+                  <button
+                    onClick={() => scrollTo("skill-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Skills Analysis
+                  </button>
+                  <button
+                    onClick={() => scrollTo("calculator-section")}
+                    className="text-left text-sm font-medium hover:text-blazeOrange transition-apple"
+                  >
+                    Salary Calculator
+                  </button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
