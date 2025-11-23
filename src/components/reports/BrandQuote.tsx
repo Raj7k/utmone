@@ -39,12 +39,14 @@ export const BrandQuote = ({
 
   return (
     <div ref={ref} className={`relative pointer-events-none select-none overflow-hidden py-16 ${className}`}>
-      <motion.h2
-        style={{ y, scale, opacity: fadeOpacity }}
-        className={`text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-mirage uppercase tracking-tight leading-none ${getPositionClass()}`}
-      >
-        {text}
-      </motion.h2>
+      <div className="hero-glow">
+        <motion.h2
+          style={{ y, scale, opacity: fadeOpacity }}
+          className={`hero-gradient text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-extrabold uppercase tracking-tight leading-none ${getPositionClass()}`}
+        >
+          {text}
+        </motion.h2>
+      </div>
     </div>
   );
 };
