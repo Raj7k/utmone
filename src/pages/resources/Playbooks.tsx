@@ -1,9 +1,17 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Playbooks = () => {
   const playbooks = [
+    {
+      slug: "ai-marketing",
+      title: "AI Marketing Playbook — Content Creation in the AI Era",
+      description: "Master AI-driven content marketing with 8-step workflow, 30+ tools, interactive examples, and proven strategies for thought leadership.",
+      readTime: "22 min read",
+      badge: "NEW"
+    },
     {
       slug: "utm-governance-playbook",
       title: "UTM Governance Playbook — Team Enforcement",
@@ -67,8 +75,13 @@ const Playbooks = () => {
               <Link
                 key={playbook.slug}
                 to={`/resources/playbooks/${playbook.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
               >
+                {playbook.badge && (
+                  <Badge className="absolute top-4 right-4 bg-primary text-white">
+                    {playbook.badge}
+                  </Badge>
+                )}
                 <div className="space-y-3">
                   <h2 className="text-2xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
                     {playbook.title}
