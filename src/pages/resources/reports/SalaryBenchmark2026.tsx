@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ReportNavigation } from "@/components/reports/ReportNavigation";
 import { ReportTableOfContents } from "@/components/reports/ReportTableOfContents";
+import { ProgressIndicator } from "@/components/reports/ProgressIndicator";
 import { DataSourcesBadges } from "@/components/reports/DataSourcesBadges";
 import { GeolocationDetector } from "@/components/reports/GeolocationDetector";
 import { MegaTrendsSection } from "@/components/reports/MegaTrendsSection";
@@ -549,6 +550,9 @@ const SalaryBenchmark2026 = () => {
       </div>
 
       <Footer />
+      
+      {/* Scroll Progress Bar */}
+      <ProgressIndicator />
     </div>
   );
 };

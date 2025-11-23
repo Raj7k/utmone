@@ -78,13 +78,17 @@ const markopsSkills = [
 
 export const SkillDemandAnalysis = () => {
   return (
-    <section className="py-20 bg-background">
+    <section id="section-6" className="py-32 bg-muted/20">
       <div className="max-w-[1400px] mx-auto px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-deepSea text-white text-base px-4 py-2">Section 06</Badge>
+            <Badge variant="outline" className="text-sm">11 min read</Badge>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Global Skill-Demand Analysis & Salary Premium Drivers
           </h2>
-          <p className="text-xl text-muted-foreground max-w-[900px] mx-auto">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-[1.7]">
             What really moves your salary: the most in-demand skills across Marketing, Sales, RevOps, and MarkOps, how they influence compensation, and which ones create the biggest long-term career leverage.
           </p>
         </div>

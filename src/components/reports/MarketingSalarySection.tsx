@@ -7,13 +7,21 @@ import { B2BvsB2CComparison } from "./visualizations/B2BvsB2CComparison";
 
 export const MarketingSalarySection = () => {
   return (
-    <section className="py-20 bg-background">
+    <section id="section-2" className="py-32 bg-muted/20">
       <div className="max-w-[1400px] mx-auto px-8">
-        {/* Opening Narrative */}
-        <div className="prose prose-lg max-w-none mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-deepSea text-white text-base px-4 py-2">Section 02</Badge>
+            <Badge variant="outline" className="text-sm">12 min read</Badge>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Global Marketing Salary Benchmarks
           </h2>
+        </div>
+
+        {/* Opening Narrative */}
+        <div className="prose prose-lg max-w-[750px] mx-auto mb-16">
           
           <div className="text-lg text-muted-foreground space-y-4 mb-12">
             <p className="lead text-xl">

@@ -74,13 +74,17 @@ const regionalDifferences = [
 
 export const NegotiationBlueprint = () => {
   return (
-    <section className="py-20 bg-muted/20">
+    <section id="section-7" className="py-32 bg-background">
       <div className="max-w-[1400px] mx-auto px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-blazeOrange text-white text-base px-4 py-2">Section 07</Badge>
+            <Badge variant="outline" className="text-sm">14 min read</Badge>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Salary Negotiation Blueprint + Scripts
           </h2>
-          <p className="text-xl text-muted-foreground max-w-[900px] mx-auto">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-[1.7]">
             Everything you need to negotiate a higher salary — regardless of role, region, or seniority. Copy-paste scripts, proven frameworks, regional differences, and equity negotiation tactics.
           </p>
         </div>

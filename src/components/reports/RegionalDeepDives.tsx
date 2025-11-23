@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Globe, TrendingUp, MapPin, DollarSign } from "lucide-react";
 import { GeographicMultiplierMap } from "./visualizations/GeographicMultiplierMap";
+import { GeographicArbitrageCalculator } from "./tools/GeographicArbitrageCalculator";
 
 interface RegionalData {
   region: string;
@@ -232,20 +233,29 @@ export const RegionalDeepDives = () => {
   const currentData = regionalData.find(r => r.region === selectedRegion) || regionalData[0];
 
   return (
-    <section className="py-20 bg-muted/20">
+    <section id="section-5" className="py-32 bg-background">
       <div className="max-w-[1280px] mx-auto px-8">
         <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-blazeOrange text-white text-base px-4 py-2">Section 05</Badge>
+            <Badge variant="outline" className="text-sm">15 min read</Badge>
+          </div>
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 rounded-xl bg-deepSea/10">
               <Globe className="h-8 w-8 text-deepSea" />
             </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Regional Compensation Deep Dives
           </h2>
-          <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-[1.7]">
             Detailed salary breakdowns, trends, and insights across 6 global regions
           </p>
+        </div>
+
+        {/* Geographic Arbitrage Calculator Tool */}
+        <div className="mb-16">
+          <GeographicArbitrageCalculator />
         </div>
 
         {/* Geographic Multiplier Visualization */}
