@@ -83,7 +83,7 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
   return (
     <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">QR Code Performance Comparison</h3>
+        <h3 className="text-lg font-display font-semibold">QR Code Performance Comparison</h3>
         <Badge variant="secondary">{qrPerformance.length} variants</Badge>
       </div>
 

@@ -131,7 +131,7 @@ const Analytics = () => {
             {/* Anomalies */}
             {anomalies && anomalies.length > 0 && (
               <div className="space-y-4 mb-content">
-                <h2 className="text-xl font-semibold">anomalies detected</h2>
+                <h2 className="text-xl font-display font-semibold">anomalies detected</h2>
                 {anomalies.slice(0, 3).map((anomaly) => (
                   <AnomalyAlert 
                     key={anomaly.id} 

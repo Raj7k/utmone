@@ -41,7 +41,7 @@ const Marketers = () => {
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
             <AnimatedHeadline>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
                 When UTMs break, attribution breaks.
               </h2>
             </AnimatedHeadline>
@@ -57,7 +57,7 @@ const Marketers = () => {
       {/* Why Marketers Choose utm.one */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             Why marketers choose utm.one
           </h2>
           
@@ -96,7 +96,7 @@ const Marketers = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             A workflow designed for speed
           </h2>
           
@@ -148,7 +148,7 @@ const Marketers = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <AnimatedHeadline delay={100}>
-              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+              <h2 className="text-h1 font-display text-foreground font-bold tracking-tight">
                 Clean links lead to better campaigns.
               </h2>
             </AnimatedHeadline>

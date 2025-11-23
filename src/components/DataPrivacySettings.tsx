@@ -101,7 +101,7 @@ export function DataPrivacySettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">data & privacy</h2>
+        <h2 className="text-2xl font-display font-bold mb-2">data & privacy</h2>
         <p className="text-muted-foreground">
           control how your data is collected, stored, and used
         </p>

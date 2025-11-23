@@ -115,7 +115,7 @@ const Index = () => {
           <div className="max-w-[900px] mx-auto px-8">
             <NumberedPrinciple number="1" title="clear strategy">
               <AnimatedHeadline>
-                <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold text-center">
+                <h2 className="text-5xl md:text-6xl lg:text-8xl font-display text-foreground font-extrabold text-center">
                   marketing breaks when links break.
                 </h2>
               </AnimatedHeadline>
@@ -129,7 +129,7 @@ const Index = () => {
         <section className="py-32 bg-white">
           <div className="max-w-[1280px] mx-auto px-8">
             <NumberedPrinciple number="10" title="easy to scan">
-              <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center mb-4">
+              <h2 className="text-4xl md:text-5xl font-display text-foreground font-bold text-center mb-4">
                 people skim. the value needs to land in 3 seconds.
               </h2>
               <div className="mt-12">
@@ -157,7 +157,7 @@ const Index = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-3xl md:text-4xl text-foreground font-bold">
+              <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold">
                 why utm.one?
               </h2>
             </motion.div>
@@ -207,7 +207,7 @@ const Index = () => {
           <section className="py-32 bg-white">
             <div className="max-w-[1280px] mx-auto px-8">
               <NumberedPrinciple number="2" title="custom visuals">
-                <h2 className="text-4xl md:text-5xl text-foreground font-bold text-center mb-4">
+                <h2 className="text-4xl md:text-5xl font-display text-foreground font-bold text-center mb-4">
                   see your link performance at a glance.
                 </h2>
                 <p className="text-xl text-muted-foreground text-center max-w-[640px] mx-auto mb-12">
@@ -231,7 +231,7 @@ const Index = () => {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.7 }}
             >
-              <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight">
                 One system for every campaign.
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -248,7 +248,7 @@ const Index = () => {
           <div className="max-w-[900px] mx-auto px-8">
             <NumberedPrinciple number="7" title="emotional clarity">
               <AnimatedHeadline>
-                <h2 className="text-5xl md:text-6xl lg:text-8xl text-foreground font-extrabold text-center mb-16">
+                <h2 className="text-5xl md:text-6xl lg:text-8xl font-display text-foreground font-extrabold text-center mb-16">
                   simple control for complex teams.
                 </h2>
               </AnimatedHeadline>
@@ -281,7 +281,7 @@ const Index = () => {
         <section className="py-32 bg-white">
           <div className="max-w-[640px] mx-auto px-8 text-center space-y-8">
             <motion.h2 
-              className="text-3xl md:text-4xl text-foreground font-bold"
+              className="text-3xl md:text-4xl font-display text-foreground font-bold"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

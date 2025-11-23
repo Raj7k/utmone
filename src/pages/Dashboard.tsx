@@ -126,7 +126,7 @@ const Dashboard = () => {
             
             {anomalies && anomalies.length > 0 && (
               <div className="space-y-4 mb-content">
-                <h2 className="text-xl font-semibold">anomalies detected</h2>
+                <h2 className="text-xl font-display font-semibold">anomalies detected</h2>
                 {anomalies.slice(0, 3).map((anomaly) => (
                   <AnomalyAlert 
                     key={anomaly.id} 
@@ -249,7 +249,7 @@ const Dashboard = () => {
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-16">
             <LinkIcon className="h-16 w-16 text-muted-foreground mb-4" />
-            <h3 className="text-xl font-semibold mb-2">you don't have any links yet.</h3>
+            <h3 className="text-xl font-display font-semibold mb-2">you don't have any links yet.</h3>
             <p className="text-muted-foreground mb-6 text-center max-w-md">
               start by creating your first one.
             </p>

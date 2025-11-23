@@ -67,7 +67,7 @@ const Pricing = () => {
                 <div className="inline-block px-4 py-1 bg-primary/20 text-primary text-small-text font-semibold rounded-full">
                   🔥 limited time offer
                 </div>
-                <h3 className="text-heading-2 font-bold">
+                <h3 className="text-heading-2 font-display font-bold">
                   lifetime deal: $299 once
                 </h3>
                 <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
@@ -95,12 +95,12 @@ const Pricing = () => {
       <section className="py-group bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
-            <h2 className="text-heading-2 text-center font-bold mb-12">
+            <h2 className="text-heading-2 font-display text-center font-bold mb-12">
               frequently asked questions
             </h2>
             <div className="space-y-8">
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-semibold">
+                <h3 className="text-heading-3 font-display font-semibold">
                   what happens if i exceed my plan limits?
                 </h3>
                 <p className="text-body-text text-muted-foreground">
@@ -108,7 +108,7 @@ const Pricing = () => {
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-semibold">
+                <h3 className="text-heading-3 font-display font-semibold">
                   do you really offer unlimited team members on all plans?
                 </h3>
                 <p className="text-body-text text-muted-foreground">
@@ -116,7 +116,7 @@ const Pricing = () => {
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-semibold">
+                <h3 className="text-heading-3 font-display font-semibold">
                   can i cancel anytime?
                 </h3>
                 <p className="text-body-text text-muted-foreground">
@@ -124,7 +124,7 @@ const Pricing = () => {
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-semibold">
+                <h3 className="text-heading-3 font-display font-semibold">
                   is the lifetime deal really lifetime?
                 </h3>
                 <p className="text-body-text text-muted-foreground">

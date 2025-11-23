@@ -64,7 +64,7 @@ export function AnomalyAlert({ anomaly, onDismiss }: AnomalyAlertProps) {
       <div className="flex items-start gap-3">
         <div className="mt-0.5">{getIcon()}</div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-sm mb-1">{anomaly.title}</h3>
+          <h3 className="font-display font-semibold text-sm mb-1">{anomaly.title}</h3>
           <p className="text-sm opacity-90 mb-3">{anomaly.description}</p>
           
           {anomaly.change_percent && (

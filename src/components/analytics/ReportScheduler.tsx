@@ -149,7 +149,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">scheduled reports</h2>
+          <h2 className="text-2xl font-display font-bold">scheduled reports</h2>
           <p className="text-muted-foreground">automate your analytics delivery</p>
         </div>
         
@@ -256,7 +256,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
       ) : !reports || reports.length === 0 ? (
         <Card className="p-12 text-center">
           <Mail className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <h3 className="font-semibold mb-2">no scheduled reports yet</h3>
+          <h3 className="font-display font-semibold mb-2">no scheduled reports yet</h3>
           <p className="text-sm text-muted-foreground mb-4">
             create your first automated report to start receiving analytics via email
           </p>
@@ -268,7 +268,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-semibold">{getTemplateName(report.template_name)}</h3>
+                    <h3 className="font-display font-semibold">{getTemplateName(report.template_name)}</h3>
                     <span className="text-xs px-2 py-1 rounded-full bg-muted">
                       {report.frequency}
                     </span>

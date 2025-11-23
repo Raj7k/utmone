@@ -47,7 +47,7 @@ export const FeatureCard = ({ number, title, description, delay = 0 }: FeatureCa
       {/* Content */}
       <div className="relative z-10">
         <div className="text-sm font-medium text-muted-foreground mb-3">{number}</div>
-        <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-4 lowercase">
+        <h3 className="text-2xl md:text-3xl font-display font-semibold text-foreground mb-4 lowercase">
           {title}
         </h3>
         <div className="text-base md:text-lg text-muted-foreground leading-relaxed lowercase">
