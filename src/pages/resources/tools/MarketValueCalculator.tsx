@@ -37,7 +37,20 @@ const MarketValueCalculator = () => {
   }, [filters, currentSalary]);
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Market Value Calculator",
+          "applicationCategory": "FinanceApplication",
+          "description": "Calculate your exact market percentile and project future earnings with career trajectory analysis",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="Market Value Calculator"
       description="discover your market worth with real-time percentile rankings"
       icon={Calculator}
@@ -109,7 +122,8 @@ const MarketValueCalculator = () => {
           </div>
         </div>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

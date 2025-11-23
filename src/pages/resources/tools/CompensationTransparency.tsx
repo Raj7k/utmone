@@ -14,7 +14,20 @@ const CompensationTransparency = () => {
   const salaryData = getSalaryForRole(selectedRole);
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Compensation Transparency Generator",
+          "applicationCategory": "BusinessApplication",
+          "description": "Create compliant salary bands and transparency materials with pay equity analysis",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="Compensation Transparency Generator"
       description="create fair, competitive salary bands and job posting ranges"
       icon={Shield}
@@ -113,7 +126,8 @@ const CompensationTransparency = () => {
           </Card>
         </div>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 
