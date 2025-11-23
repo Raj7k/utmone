@@ -111,6 +111,12 @@ verify_jwt = false
 [functions.analyze-job-offer]
 verify_jwt = false
 
+[functions.optimize-team-budget]
+verify_jwt = false
+
+[functions.analyze-job-posting]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]

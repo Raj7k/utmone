@@ -16,7 +16,20 @@ const CareerPathOptimizer = () => {
   ).slice(0, 3);
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Career Path Optimizer",
+          "applicationCategory": "BusinessApplication",
+          "description": "Plan your next career move with salary impact analysis and role progression recommendations",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="Career Path Optimizer"
       description="discover your optimal next move and salary progression timeline"
       icon={TrendingUp}
@@ -105,7 +118,8 @@ const CareerPathOptimizer = () => {
           })}
         </div>
       </div>
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

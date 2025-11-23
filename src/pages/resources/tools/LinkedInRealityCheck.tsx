@@ -54,7 +54,20 @@ const LinkedInRealityCheck = () => {
   };
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "LinkedIn Reality Check",
+          "applicationCategory": "BusinessApplication",
+          "description": "Analyze job postings for red flags and reasonableness with AI-powered reality scoring",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="LinkedIn Reality Check"
       description="analyze job postings for realistic requirements and fair compensation"
       icon={AlertCircle}
@@ -154,7 +167,8 @@ const LinkedInRealityCheck = () => {
           </Card>
         </div>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

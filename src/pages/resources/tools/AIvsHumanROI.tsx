@@ -25,7 +25,20 @@ const AIvsHumanROI = () => {
   ];
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "AI vs. Human ROI Calculator",
+          "applicationCategory": "BusinessApplication",
+          "description": "Assess automation risk and calculate AI tool ROI with future-proofing recommendations",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="AI vs. Human ROI Calculator"
       description="understand role automation risk and AI skills premiums"
       icon={Sparkles}
@@ -93,7 +106,8 @@ const AIvsHumanROI = () => {
           </div>
         </CardContent>
       </Card>
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

@@ -71,7 +71,20 @@ const SalaryNegotiationCoach = () => {
   };
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "AI Salary Negotiation Coach",
+          "applicationCategory": "FinanceApplication",
+          "description": "AI-powered salary negotiation script generator with personalized strategies based on real market data",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="AI Salary Negotiation Coach"
       description="generate personalized negotiation scripts based on real market data"
       icon={MessageSquare}
@@ -178,7 +191,8 @@ const SalaryNegotiationCoach = () => {
           </Card>
         </div>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

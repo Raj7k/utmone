@@ -57,7 +57,20 @@ const TeamBudgetOptimizer = () => {
   };
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Team Budget Optimizer",
+          "applicationCategory": "BusinessApplication",
+          "description": "Optimize team composition within budget constraints with AI-powered recommendations",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="Team Budget Optimizer"
       description="build the optimal marketing team within your budget"
       icon={Users}
@@ -158,7 +171,8 @@ const TeamBudgetOptimizer = () => {
           </Card>
         </div>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 

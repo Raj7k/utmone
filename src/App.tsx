@@ -116,6 +116,20 @@ import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
 import Glossary from "./pages/resources/Glossary";
 import Academy from "./pages/resources/Academy";
+
+// Reports
+import Reports from "./pages/resources/Reports";
+import SalaryBenchmark2025 from "./pages/resources/reports/SalaryBenchmark2025";
+
+// Salary Tools
+import SalaryNegotiationCoach from "./pages/resources/tools/SalaryNegotiationCoach";
+import MarketValueCalculator from "./pages/resources/tools/MarketValueCalculator";
+import CareerPathOptimizer from "./pages/resources/tools/CareerPathOptimizer";
+import JobOfferAnalyzer from "./pages/resources/tools/JobOfferAnalyzer";
+import TeamBudgetOptimizer from "./pages/resources/tools/TeamBudgetOptimizer";
+import AIvsHumanROI from "./pages/resources/tools/AIvsHumanROI";
+import CompensationTransparency from "./pages/resources/tools/CompensationTransparency";
+import LinkedInRealityCheck from "./pages/resources/tools/LinkedInRealityCheck";
 import Dashboard from "./pages/Dashboard";
 import Links from "./pages/Links";
 import LinkDetail from "./pages/LinkDetail";
@@ -210,6 +224,18 @@ const App = () => (
           
           {/* Tools Routes */}
           <Route path="/resources/tools" element={<Tools />} />
+          <Route path="/resources/tools/salary-negotiation-coach" element={<SalaryNegotiationCoach />} />
+          <Route path="/resources/tools/market-value-calculator" element={<MarketValueCalculator />} />
+          <Route path="/resources/tools/career-path-optimizer" element={<CareerPathOptimizer />} />
+          <Route path="/resources/tools/job-offer-analyzer" element={<JobOfferAnalyzer />} />
+          <Route path="/resources/tools/team-budget-optimizer" element={<TeamBudgetOptimizer />} />
+          <Route path="/resources/tools/ai-vs-human-roi" element={<AIvsHumanROI />} />
+          <Route path="/resources/tools/compensation-transparency" element={<CompensationTransparency />} />
+          <Route path="/resources/tools/linkedin-reality-check" element={<LinkedInRealityCheck />} />
+          
+          {/* Reports Routes */}
+          <Route path="/resources/reports" element={<Reports />} />
+          <Route path="/resources/reports/salary-benchmark-2025" element={<SalaryBenchmark2025 />} />
           
           {/* Framework Routes */}
             <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />

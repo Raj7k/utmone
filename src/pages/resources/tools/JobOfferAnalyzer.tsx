@@ -78,7 +78,20 @@ const JobOfferAnalyzer = () => {
     : 0;
 
   return (
-    <ToolLayout
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Job Offer Analyzer",
+          "applicationCategory": "FinanceApplication",
+          "description": "Comprehensively evaluate job offers with AI-powered analysis and market benchmark comparison",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "operatingSystem": "Web Browser",
+          "author": { "@type": "Organization", "name": "utm.one" }
+        })}
+      </script>
+      <ToolLayout
       title="Job Offer Analyzer"
       description="evaluate job offers against market benchmarks with AI insights"
       icon={TrendingUp}
@@ -163,7 +176,8 @@ const JobOfferAnalyzer = () => {
           </CardContent>
         </Card>
       )}
-    </ToolLayout>
+      </ToolLayout>
+    </>
   );
 };
 
