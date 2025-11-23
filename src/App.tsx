@@ -21,6 +21,10 @@ import EventLedGrowthPlaybook from "./pages/resources/playbooks/EventLedGrowthPl
 import NamingConventionPlaybook from "./pages/resources/playbooks/NamingConventionPlaybook";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
+import UTMTemplate from "./pages/resources/templates/UTMTemplate";
+import AuditChecklistTemplate from "./pages/resources/templates/AuditChecklistTemplate";
+import CampaignBriefTemplate from "./pages/resources/templates/CampaignBriefTemplate";
+import NamingTaxonomyTemplate from "./pages/resources/templates/NamingTaxonomyTemplate";
 import Checklists from "./pages/resources/Checklists";
 import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
@@ -107,6 +111,12 @@ const App = () => (
           <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
           <Route path="/resources/playbooks/naming-convention-playbook" element={<NamingConventionPlaybook />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
+          
+          {/* Template Routes */}
+          <Route path="/resources/templates/utm-template" element={<UTMTemplate />} />
+          <Route path="/resources/templates/audit-checklist-template" element={<AuditChecklistTemplate />} />
+          <Route path="/resources/templates/campaign-brief-template" element={<CampaignBriefTemplate />} />
+          <Route path="/resources/templates/naming-taxonomy-template" element={<NamingTaxonomyTemplate />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
           <Route path="/resources/frameworks" element={<Frameworks />} />
