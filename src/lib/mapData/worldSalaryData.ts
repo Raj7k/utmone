@@ -146,6 +146,69 @@ export const worldSalaryData: CountrySalaryData[] = [
     coordinates: [-3.7492, 40.4637],
     salaryRange: [32000, 85000],
     topCities: ["Madrid", "Barcelona", "Valencia"]
+  },
+  {
+    country: "Ireland",
+    countryCode: "IE",
+    medianSalary: 72000,
+    region: "Europe",
+    coordinates: [-8.2439, 53.4129],
+    salaryRange: [50000, 125000],
+    topCities: ["Dublin", "Cork", "Galway"]
+  },
+  {
+    country: "Italy",
+    countryCode: "IT",
+    medianSalary: 52000,
+    region: "Europe",
+    coordinates: [12.5674, 41.8719],
+    salaryRange: [35000, 90000],
+    topCities: ["Milan", "Rome", "Turin"]
+  },
+  {
+    country: "Sweden",
+    countryCode: "SE",
+    medianSalary: 65000,
+    region: "Europe",
+    coordinates: [18.6435, 60.1282],
+    salaryRange: [45000, 110000],
+    topCities: ["Stockholm", "Gothenburg", "Malmö"]
+  },
+  {
+    country: "South Korea",
+    countryCode: "KR",
+    medianSalary: 58000,
+    region: "Asia Pacific",
+    coordinates: [127.7669, 35.9078],
+    salaryRange: [40000, 100000],
+    topCities: ["Seoul", "Busan", "Incheon"]
+  },
+  {
+    country: "Israel",
+    countryCode: "IL",
+    medianSalary: 68000,
+    region: "Middle East",
+    coordinates: [34.8516, 31.0461],
+    salaryRange: [48000, 120000],
+    topCities: ["Tel Aviv", "Jerusalem", "Haifa"]
+  },
+  {
+    country: "Argentina",
+    countryCode: "AR",
+    medianSalary: 25000,
+    region: "Latin America",
+    coordinates: [-63.6167, -38.4161],
+    salaryRange: [15000, 50000],
+    topCities: ["Buenos Aires", "Córdoba", "Rosario"]
+  },
+  {
+    country: "Chile",
+    countryCode: "CL",
+    medianSalary: 28000,
+    region: "Latin America",
+    coordinates: [-71.543, -35.6751],
+    salaryRange: [18000, 55000],
+    topCities: ["Santiago", "Valparaíso", "Concepción"]
   }
 ];
 
