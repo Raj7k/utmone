@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Target, DollarSign, TrendingUp, Shield, MessageSquare } from "lucide-react";
+import { Target, DollarSign, TrendingUp, Shield, MessageSquare, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const negotiationScripts = [
@@ -352,6 +352,452 @@ export const NegotiationBlueprint = () => {
               <div className="p-3 bg-background rounded-lg text-sm">✓ Back every point with data</div>
               <div className="p-3 bg-background rounded-lg text-sm">✓ Be willing to walk away</div>
               <div className="p-3 bg-background rounded-lg text-sm">✓ Close fast when you get the number</div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Counter-Offer Strategy */}
+        <Card className="mt-12">
+          <CardHeader>
+            <CardTitle className="text-2xl">Counter-Offer Strategy: Do's and Don'ts</CardTitle>
+            <CardDescription>
+              When and how to counter-offer effectively without burning bridges
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <Alert className="bg-[hsl(184,92%,18%)]/10 border-[hsl(184,92%,18%)]/20">
+                <Target className="h-5 w-5 text-[hsl(184,92%,18%)]" />
+                <AlertDescription className="text-foreground">
+                  <strong>Golden Rule:</strong> Always counter-offer unless the initial offer exceeds your target by 10%+. Companies expect it.
+                </AlertDescription>
+              </Alert>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-[hsl(184,92%,18%)] mb-4 flex items-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" />
+                    DO These Things
+                  </h4>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-start gap-2 p-3 bg-[hsl(180,25%,93%)]/50 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)] mt-0.5">✓</span>
+                      <span><strong>Counter within 24-48 hours</strong> — Shows you're decisive and serious</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-[hsl(180,25%,93%)]/50 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)] mt-0.5">✓</span>
+                      <span><strong>Bundle requests</strong> — Ask for base + equity + signing bonus simultaneously</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-[hsl(180,25%,93%)]/50 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)] mt-0.5">✓</span>
+                      <span><strong>Express enthusiasm first</strong> — "I'm excited about this opportunity AND..."</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-[hsl(180,25%,93%)]/50 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)] mt-0.5">✓</span>
+                      <span><strong>Use data, not emotion</strong> — Reference market benchmarks, not personal needs</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-[hsl(180,25%,93%)]/50 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)] mt-0.5">✓</span>
+                      <span><strong>Give them an out</strong> — "If you can meet me at X, I'm ready to sign immediately"</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-destructive mb-4">DON'T Do These Things</h4>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-start gap-2 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                      <span className="text-destructive mt-0.5">×</span>
+                      <span><strong>Don't apologize for negotiating</strong> — It signals weakness</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                      <span className="text-destructive mt-0.5">×</span>
+                      <span><strong>Don't give ultimatums unless willing to walk</strong> — Bluffing backfires</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                      <span className="text-destructive mt-0.5">×</span>
+                      <span><strong>Don't negotiate via text/Slack</strong> — Phone or video only for serious asks</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                      <span className="text-destructive mt-0.5">×</span>
+                      <span><strong>Don't counter more than twice</strong> — Beyond that, you're wasting goodwill</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-destructive/5 rounded-lg border border-destructive/20">
+                      <span className="text-destructive mt-0.5">×</span>
+                      <span><strong>Don't accept first offer without exploring</strong> — Leaves money on table</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="p-6 bg-[hsl(18,100%,51%)]/10 rounded-lg border-2 border-[hsl(18,100%,51%)]/20">
+                <h4 className="font-semibold text-[hsl(18,100%,51%)] mb-3">How to Structure Your Counter-Offer</h4>
+                <p className="text-sm text-muted-foreground mb-4">Use this 3-part structure every time:</p>
+                <ol className="space-y-3 text-sm">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[hsl(18,100%,51%)] text-white flex items-center justify-center text-xs font-bold">1</span>
+                    <span><strong>Anchor + Justification:</strong> "Based on market data for [skills] + [geography], a competitive range is [X]"</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[hsl(18,100%,51%)] text-white flex items-center justify-center text-xs font-bold">2</span>
+                    <span><strong>Speed Incentive:</strong> "If you can meet me at [X], I'm ready to sign this week"</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[hsl(18,100%,51%)] text-white flex items-center justify-center text-xs font-bold">3</span>
+                    <span><strong>Pause & Listen:</strong> Stop talking. Let them respond. Silence is leverage.</span>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Equity Negotiation Deep Dive */}
+        <Card className="mt-12">
+          <CardHeader>
+            <CardTitle className="text-2xl">Equity Negotiation Deep Dive</CardTitle>
+            <CardDescription>
+              Understanding equity structures, asking the right questions, and negotiating effectively
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {/* Understanding Equity Structures */}
+              <div>
+                <h4 className="font-semibold text-lg mb-4">Understanding Equity Structures</h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="p-4 bg-muted/30 rounded-lg border">
+                    <p className="font-semibold text-sm mb-2">ISOs (Incentive Stock Options)</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Tax-advantaged if held 2+ years. Only for employees. Subject to AMT (Alternative Minimum Tax) on exercise.
+                    </p>
+                    <p className="text-xs text-[hsl(184,92%,18%)]">Best for: Long-term employees at startups pre-IPO</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg border">
+                    <p className="font-semibold text-sm mb-2">NSOs (Non-Qualified Stock Options)</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Taxed as ordinary income on exercise. Can be granted to contractors. More flexible but higher tax burden.
+                    </p>
+                    <p className="text-xs text-[hsl(18,100%,51%)]">Best for: Contractors, advisors, or those exercising soon</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg border">
+                    <p className="font-semibold text-sm mb-2">RSUs (Restricted Stock Units)</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Taxed as ordinary income on vesting. No exercise required. Common at public companies and late-stage startups.
+                    </p>
+                    <p className="text-xs text-[hsl(184,92%,18%)]">Best for: Public company offers or Series D+ startups</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg border">
+                    <p className="font-semibold text-sm mb-2">Vesting Schedules</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Standard: 4-year vest with 1-year cliff (25% after year 1, then monthly). Accelerated vesting possible on exit.
+                    </p>
+                    <p className="text-xs text-[hsl(18,100%,51%)]">Negotiate: Shorter cliff, accelerated on acquisition</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Questions to Ask */}
+              <div className="p-6 bg-[hsl(180,25%,93%)]/50 rounded-lg border-2 border-[hsl(184,92%,18%)]/20">
+                <h4 className="font-semibold text-[hsl(184,92%,18%)] mb-4">Questions You MUST Ask Before Accepting Equity</h4>
+                <ul className="space-y-3 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What percentage of the company does this equity grant represent?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Number of shares is meaningless without knowing total outstanding shares</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What's the current valuation and latest funding round?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Helps calculate actual dollar value of equity grant</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What's the dilution schedule for the next 2-3 rounds?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Your 0.5% could become 0.2% after Series B and C</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What happens to unvested equity if I'm terminated?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Standard: forfeited. Negotiate: partial acceleration on termination without cause</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What's the strike price vs current FMV (Fair Market Value)?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Determines tax liability on exercise. Lower strike = better</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)] mt-1">•</span>
+                    <div>
+                      <strong>"What's the post-termination exercise window?"</strong>
+                      <p className="text-xs text-muted-foreground mt-1">Standard: 90 days. Negotiate: 10 years (extended exercise window)</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Negotiation Tactics */}
+              <div>
+                <h4 className="font-semibold text-lg mb-4">Equity Negotiation Tactics by Company Stage</h4>
+                <div className="space-y-4">
+                  <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                    <p className="font-semibold text-sm mb-2">Early-Stage (Seed to Series A): Push for More Equity %</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Equity is cheap for company at this stage. 0.05-0.5% can be meaningful. Higher risk = higher equity ask is justified.
+                    </p>
+                    <p className="text-xs italic">"Given the stage and market risk, I'd need at least 0.3% to make this work for me financially"</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                    <p className="font-semibold text-sm mb-2">Late-Stage (Series C+): Push for RSUs or Cash Equivalent</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Options at high valuations have less upside. RSUs provide guaranteed value. Or negotiate higher base instead.
+                    </p>
+                    <p className="text-xs italic">"Can we convert some equity to RSUs or increase base compensation to reflect the reduced upside?"</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                    <p className="font-semibold text-sm mb-2">Equity Refresh Negotiation (For Retention)</p>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      After 2-3 years, original equity may be underwater or fully vested. Negotiate refresh grants annually.
+                    </p>
+                    <p className="text-xs italic">"My equity is 80% vested. Can we discuss a refresh grant to reflect my continued impact?"</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* When Equity is Worth It */}
+              <Alert>
+                <Shield className="h-5 w-5" />
+                <AlertDescription>
+                  <strong>When to prioritize equity vs cash:</strong> Equity is valuable at Series A-B startups with strong product-market fit, experienced founders, and clear path to profitability or exit within 5 years. Avoid equity-heavy compensation at idea-stage startups (too risky) or mature pre-IPO companies (limited upside).
+                </AlertDescription>
+              </Alert>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Remote Work Negotiation */}
+        <Card className="mt-12">
+          <CardHeader>
+            <CardTitle className="text-2xl">Remote Work Negotiation Specifics</CardTitle>
+            <CardDescription>
+              Leveraging cost savings, geographic arbitrage, and remote-first benefits
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="p-6 bg-[hsl(18,100%,51%)]/10 rounded-lg border-2 border-[hsl(18,100%,51%)]/20">
+                <h4 className="font-semibold text-[hsl(18,100%,51%)] mb-3">The Cost Savings Argument</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Remote work saves companies $15K-$20K annually per employee (real estate, utilities, equipment, food). Use this as leverage.
+                </p>
+                <div className="p-4 bg-background rounded-lg italic text-sm border-l-4 border-[hsl(18,100%,51%)]">
+                  "Remote work allows me to operate at peak productivity while saving the company $15K-$20K annually on real estate and overhead. Can we structure compensation to reflect market-aligned numbers for this role, regardless of my location?"
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold mb-3">Geographic Arbitrage Strategy</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Living in low cost-of-living area while earning high-salary market rates = massive purchasing power advantage.
+                  </p>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)]">•</span>
+                      <span>Live in Austin, earn SF salary = 40% purchasing power increase</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)]">•</span>
+                      <span>Live in Bangalore, earn US remote salary = 3-4x local purchasing power</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(184,92%,18%)]">•</span>
+                      <span>Negotiate location-agnostic salary bands upfront</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-3">Remote-Specific Benefits to Negotiate</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(18,100%,51%)]">$</span>
+                      <span><strong>Home office stipend:</strong> $1K-$5K one-time for desk, chair, monitor</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(18,100%,51%)]">$</span>
+                      <span><strong>Internet/phone reimbursement:</strong> $50-$150/month ongoing</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(18,100%,51%)]">$</span>
+                      <span><strong>Co-working space allowance:</strong> $200-$400/month if needed</span>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                      <span className="text-[hsl(18,100%,51%)]">$</span>
+                      <span><strong>Travel budget:</strong> Quarterly offsites, annual all-hands travel covered</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Handling Multiple Offers */}
+        <Card className="mt-12">
+          <CardHeader>
+            <CardTitle className="text-2xl">Handling Multiple Offers Simultaneously</CardTitle>
+            <CardDescription>
+              How to leverage competing offers ethically without burning bridges
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <Alert className="bg-[hsl(184,92%,18%)]/10 border-[hsl(184,92%,18%)]/20">
+                <MessageSquare className="h-5 w-5 text-[hsl(184,92%,18%)]" />
+                <AlertDescription>
+                  <strong>Core Principle:</strong> Always be honest about your timeline. Never lie about having offers you don't have. Transparency builds trust.
+                </AlertDescription>
+              </Alert>
+
+              <div className="space-y-4">
+                <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                  <h4 className="font-semibold text-sm mb-2">Step 1: Sync Offer Deadlines</h4>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    When you receive offer #1, immediately contact other companies: "I have an offer with a 7-day deadline. Can you expedite your process?"
+                  </p>
+                  <p className="text-xs italic">"I'm excited about your opportunity, but I have an offer that expires Friday. Can we accelerate to a decision this week?"</p>
+                </div>
+
+                <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                  <h4 className="font-semibold text-sm mb-2">Step 2: Leverage Without Revealing Details</h4>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Mention you have alternatives without sharing specific numbers. This creates urgency without being manipulative.
+                  </p>
+                  <p className="text-xs italic">"I'm fortunate to have interest from multiple companies. [Company] is my first choice. Can we discuss aligning the offer?"</p>
+                </div>
+
+                <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                  <h4 className="font-semibold text-sm mb-2">Step 3: When to Reveal Other Offers</h4>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Only reveal if: (1) You're asked directly, (2) You need to justify your ask, (3) You're in final negotiation and need maximum leverage
+                  </p>
+                  <p className="text-xs italic">"Company X offered [base + equity]. I'd prefer to work here — can we match or exceed that package?"</p>
+                </div>
+
+                <div className="p-4 bg-muted/30 rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                  <h4 className="font-semibold text-sm mb-2">Step 4: Walking Away from Good for Great</h4>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Don't settle for "good enough" when you have better options. Politely decline: "Thank you for the offer. After careful consideration, I'm moving forward with another opportunity that better aligns with my career goals."
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-6 bg-[hsl(18,100%,51%)]/10 rounded-lg border-2 border-[hsl(18,100%,51%)]/20">
+                <h4 className="font-semibold text-[hsl(18,100%,51%)] mb-3">Script Variations for Multiple Offers</h4>
+                <div className="space-y-3 text-sm">
+                  <div className="p-3 bg-background rounded-lg">
+                    <p className="font-semibold mb-1">Scenario A: You prefer Company A but Company B offered more</p>
+                    <p className="text-xs italic">"Company A is my first choice, but Company B offered [X]. If you can match that, I'm ready to accept immediately."</p>
+                  </div>
+                  <div className="p-3 bg-background rounded-lg">
+                    <p className="font-semibold mb-1">Scenario B: You're waiting on dream company but have backup offer</p>
+                    <p className="text-xs italic">"I have an offer expiring Friday. I'm still very interested in [Dream Company]. Can we expedite to a decision this week?"</p>
+                  </div>
+                  <div className="p-3 bg-background rounded-lg">
+                    <p className="font-semibold mb-1">Scenario C: All offers roughly equal, choosing based on culture/role</p>
+                    <p className="text-xs italic">"I have offers from [Company B] and [Company C] in similar ranges. The role and team here feel like the best fit. Is there flexibility to move compensation slightly higher to make this an easy yes?"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* When to Negotiate AI Into Your Role */}
+        <Card className="mt-12 bg-[hsl(18,100%,51%)]/10 border-[hsl(18,100%,51%)]/20">
+          <CardHeader>
+            <CardTitle className="text-2xl text-[hsl(18,100%,51%)]">When to Negotiate AI Into Your Role (2025+ Reality)</CardTitle>
+            <CardDescription>
+              AI proficiency is becoming a standard expectation — negotiate budget, time, and comp for it
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <p className="text-sm text-muted-foreground">
+                In 2025-2026, AI skills are transitioning from "nice-to-have" to "expected." But most companies haven't formalized AI tool budgets or experimentation time. This is leverage.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold mb-3">What to Negotiate</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2 p-3 bg-background rounded-lg border">
+                      <span className="text-[hsl(18,100%,51%)]">$</span>
+                      <div>
+                        <strong>AI Tools Budget:</strong> $2K-$10K annually
+                        <p className="text-xs text-muted-foreground mt-1">ChatGPT Plus, Claude Pro, Perplexity, Midjourney, custom GPTs, API credits</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-background rounded-lg border">
+                      <span className="text-[hsl(18,100%,51%)]">⏱</span>
+                      <div>
+                        <strong>Experimentation Time:</strong> 10-20% of work week
+                        <p className="text-xs text-muted-foreground mt-1">Formalize AI optimization projects in job scope</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-background rounded-lg border">
+                      <span className="text-[hsl(18,100%,51%)]">💰</span>
+                      <div>
+                        <strong>Higher Comp for AI Proficiency:</strong> +15-25% premium
+                        <p className="text-xs text-muted-foreground mt-1">If you bring demonstrable AI skills, anchor higher</p>
+                      </div>
+                    </li>
+                    <li className="flex items-start gap-2 p-3 bg-background rounded-lg border">
+                      <span className="text-[hsl(18,100%,51%)]">🎓</span>
+                      <div>
+                        <strong>Learning Budget:</strong> $1K-$3K for AI courses
+                        <p className="text-xs text-muted-foreground mt-1">Prompt engineering, LLM fine-tuning, AI agent design</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold mb-3">Example Asks</h4>
+                  <div className="space-y-3">
+                    <div className="p-4 bg-background rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                      <p className="text-xs font-semibold mb-2">Request 1: AI Tools Budget</p>
+                      <p className="text-xs italic">"Can we include a $5K annual AI tools budget in my package? I'll be using ChatGPT, Perplexity, and custom API integrations to 3-5x my output."</p>
+                    </div>
+                    <div className="p-4 bg-background rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                      <p className="text-xs font-semibold mb-2">Request 2: Formalize AI Work in Scope</p>
+                      <p className="text-xs italic">"I'd like to formalize 20% of my time for AI-driven optimization projects. Can we add that to my role definition?"</p>
+                    </div>
+                    <div className="p-4 bg-background rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                      <p className="text-xs font-semibold mb-2">Request 3: Premium for AI Expertise</p>
+                      <p className="text-xs italic">"I bring advanced AI orchestration skills that will accelerate GTM execution. Based on market premiums for AI-native professionals, I'd expect compensation in the [X] range."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Alert>
+                <Target className="h-5 w-5" />
+                <AlertDescription>
+                  <strong>Future-proofing your role:</strong> Negotiate job descriptions that explicitly include "AI-assisted" or "AI-augmented" responsibilities. This protects you from being replaced by AI while positioning you as an AI conductor, not operator.
+                </AlertDescription>
+              </Alert>
             </div>
           </CardContent>
         </Card>
