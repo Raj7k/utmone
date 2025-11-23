@@ -7,20 +7,20 @@ const Frameworks = () => {
     {
       slug: "clean-track-model",
       title: "Clean Track Model — Data Architecture Framework",
-      description: "Proprietary framework for designing tracking systems that scale without breaking under complexity.",
+      description: "Four-layer framework for building tracking systems that scale without breaking under complexity.",
       type: "Mental Model"
     },
     {
       slug: "minimal-analytics-stack",
       title: "Minimal Analytics Stack — Clarity Framework",
-      description: "Framework for building analytics infrastructure that provides clarity without overwhelming teams.",
+      description: "Four-layer framework for building analytics infrastructure that provides clarity without overwhelming teams.",
       type: "System Design"
     },
     {
-      slug: "utm-governance-model",
-      title: "UTM Governance Model — Enforcement Framework",
-      description: "Framework for implementing and maintaining UTM standards across distributed marketing teams.",
-      type: "Process Framework"
+      slug: "attribution-clarity-model",
+      title: "Attribution Clarity Model — Decision Framework",
+      description: "Four-layer framework for aligning teams on marketing attribution without political fights over credit.",
+      type: "Decision Framework"
     }
   ];
 
