@@ -29,6 +29,8 @@ import NamingTaxonomyTemplate from "./pages/resources/templates/NamingTaxonomyTe
 import CleanTrackModel from "./pages/resources/frameworks/CleanTrackModel";
 import MinimalAnalyticsStack from "./pages/resources/frameworks/MinimalAnalyticsStack";
 import AttributionClarityModel from "./pages/resources/frameworks/AttributionClarityModel";
+import B2BAttributionFramework from "./pages/resources/frameworks/B2BAttributionFramework";
+import AIMarketingPlaybook from "./pages/resources/playbooks/AIMarketingPlaybook";
 import UTMExamples from "./pages/resources/examples/UTMExamples";
 import NamingExamples from "./pages/resources/examples/NamingExamples";
 import DashboardExamples from "./pages/resources/examples/DashboardExamples";
