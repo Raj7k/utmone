@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,8 @@ import { Download, TrendingUp, Globe, Users, CheckCircle2, Database, Building2 }
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { ReportNavigation } from "@/components/reports/ReportNavigation";
+import { ReportTableOfContents } from "@/components/reports/ReportTableOfContents";
 import { DataSourcesBadges } from "@/components/reports/DataSourcesBadges";
 import { GeolocationDetector } from "@/components/reports/GeolocationDetector";
 import { MegaTrendsSection } from "@/components/reports/MegaTrendsSection";
@@ -16,9 +18,27 @@ import { RegionalDeepDives } from "@/components/reports/RegionalDeepDives";
 import { SkillDemandAnalysis } from "@/components/reports/SkillDemandAnalysis";
 import { NegotiationBlueprint } from "@/components/reports/NegotiationBlueprint";
 import { EnhancedSalaryCalculator } from "@/components/reports/EnhancedSalaryCalculator";
+import { Section8Narrative } from "@/components/reports/Section8Narrative";
+import { LinkedInPostCard1 } from "@/components/reports/linkedin-cards/LinkedInPostCard1";
+import { LinkedInPostCard2 } from "@/components/reports/linkedin-cards/LinkedInPostCard2";
+import { LinkedInPostCard3 } from "@/components/reports/linkedin-cards/LinkedInPostCard3";
+import { LinkedInPostCard4 } from "@/components/reports/linkedin-cards/LinkedInPostCard4";
+import { LinkedInPostCard5 } from "@/components/reports/linkedin-cards/LinkedInPostCard5";
+import { LinkedInPostCard6 } from "@/components/reports/linkedin-cards/LinkedInPostCard6";
+import { LinkedInPostCard7 } from "@/components/reports/linkedin-cards/LinkedInPostCard7";
+import { WalkAwayCalculator } from "@/components/reports/tools/WalkAwayCalculator";
+import { CounterOfferAnalyzer } from "@/components/reports/tools/CounterOfferAnalyzer";
+import { SkillsROICalculator } from "@/components/reports/tools/SkillsROICalculator";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
   
   const executiveSummary = [
     { 
@@ -99,6 +119,12 @@ const SalaryBenchmark2026 = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Sticky Navigation */}
+      <ReportNavigation onScrollToSection={scrollToSection} />
+      
+      {/* Table of Contents (Desktop Only) */}
+      <ReportTableOfContents onScrollToSection={scrollToSection} />
+
       {/* Breadcrumb */}
       <div className="border-b border-border/50">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
@@ -177,7 +203,7 @@ const SalaryBenchmark2026 = () => {
       </section>
 
       {/* Executive Summary */}
-      <section className="py-16 bg-white">
+      <section id="executive-summary" className="py-20 bg-white">
         <div className="max-w-[1280px] mx-auto px-8">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-12">
             Executive Summary: Key Findings 2026
@@ -226,8 +252,13 @@ const SalaryBenchmark2026 = () => {
         </Card>
       </div>
 
+      {/* LinkedIn Post Card #1 */}
+      <LinkedInPostCard1 />
+
       {/* SECTION 1: MegaTrendsSection */}
-      <MegaTrendsSection />
+      <div id="mega-trends">
+        <MegaTrendsSection />
+      </div>
 
       {/* CTA #3: After Mega-Trends */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -245,10 +276,12 @@ const SalaryBenchmark2026 = () => {
       </div>
 
       {/* SECTION 2: Marketing Salary Benchmarks */}
-      <MarketingSalarySection />
+      <div id="marketing-section">
+        <MarketingSalarySection />
+      </div>
 
       {/* LinkedIn Post Card #2 */}
-      <LinkedInPostCard postNumber={2} />
+      <LinkedInPostCard2 />
 
       {/* CTA #6: After Marketing */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -266,19 +299,25 @@ const SalaryBenchmark2026 = () => {
       </div>
 
       {/* SECTION 3: Sales Salary Benchmarks */}
-      <SalesSalarySection />
+      <div id="sales-section">
+        <SalesSalarySection />
+      </div>
 
       {/* LinkedIn Post Card #3 */}
-      <LinkedInPostCard postNumber={3} />
+      <LinkedInPostCard3 />
 
       {/* SECTION 4: RevOps & MarkOps Benchmarks */}
-      <RevOpsMarkOpsSection />
+      <div id="revops-section">
+        <RevOpsMarkOpsSection />
+      </div>
 
       {/* LinkedIn Post Card #4 */}
-      <LinkedInPostCard postNumber={4} />
+      <LinkedInPostCard4 />
 
       {/* SECTION 5: Regional Deep Dives */}
-      <RegionalDeepDives />
+      <div id="regional-section">
+        <RegionalDeepDives />
+      </div>
 
       {/* CTA #4: After Regional Deep Dives */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -296,10 +335,22 @@ const SalaryBenchmark2026 = () => {
       </div>
 
       {/* LinkedIn Post Card #5 */}
-      <LinkedInPostCard postNumber={5} />
+      <LinkedInPostCard5 />
 
       {/* SECTION 6: Skill Demand Analysis */}
-      <SkillDemandAnalysis />
+      <div id="skill-section">
+        <SkillDemandAnalysis />
+      </div>
+
+      {/* Skills ROI Calculator Tool */}
+      <div className="py-16 bg-wildSand/30">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <SkillsROICalculator />
+        </div>
+      </div>
+
+      {/* LinkedIn Post Card #6 */}
+      <LinkedInPostCard6 />
 
       {/* CTA #7: After Skill Demand */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -316,23 +367,43 @@ const SalaryBenchmark2026 = () => {
         </Card>
       </div>
 
-      {/* LinkedIn Post Card #6 */}
-      <LinkedInPostCard postNumber={6} />
-
       {/* SECTION 7: Negotiation Blueprint */}
       <NegotiationBlueprint />
 
-      {/* SECTION 8: Enhanced Salary Calculator */}
-      <section className="py-20 bg-background">
+      {/* Walk-Away Calculator Tool */}
+      <div className="py-16 bg-white">
         <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+          <WalkAwayCalculator />
+        </div>
+      </div>
+
+      {/* Counter-Offer Analyzer Tool */}
+      <div className="py-16 bg-wildSand/30">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <CounterOfferAnalyzer />
+        </div>
+      </div>
+
+      {/* LinkedIn Post Card #7 */}
+      <LinkedInPostCard7 />
+
+      {/* SECTION 8: Enhanced Salary Calculator */}
+      <section id="calculator-section" className="py-32 bg-background">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-deepSea text-white">Section 08</Badge>
+            <h2 className="text-5xl md:text-6xl font-display font-bold mb-6">
               Calculate Your Global Salary
             </h2>
             <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
-              Based on the comprehensive Section 8 formula with region, experience, company size, industry, and skill multipliers
+              Based on the comprehensive formula with region, experience, company size, industry, and skill multipliers
             </p>
           </div>
+          
+          {/* Section 8 Narrative Content */}
+          <Section8Narrative />
+          
+          {/* Enhanced Salary Calculator */}
           <EnhancedSalaryCalculator />
           
           {/* CTA #5: Calculator Save Results */}
@@ -348,7 +419,7 @@ const SalaryBenchmark2026 = () => {
       </section>
 
       {/* Data Sources & Methodology */}
-      <section className="py-16 bg-wildSand/30">
+      <section id="data-sources" className="py-20 bg-wildSand/30">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="max-w-[900px] mx-auto text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
