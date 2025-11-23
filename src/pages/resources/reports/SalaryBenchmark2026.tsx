@@ -46,6 +46,8 @@ import { HiringCompetitivenessDashboard } from "@/components/reports/tools/Hirin
 import { RetentionRiskCalculator } from "@/components/reports/tools/RetentionRiskCalculator";
 import { TeamSkillsGapAnalyzer } from "@/components/reports/tools/TeamSkillsGapAnalyzer";
 import { BrandQuote } from "@/components/reports/BrandQuote";
+import { BackToTopButton } from "@/components/reports/BackToTopButton";
+import { ReportAnchorLink } from "@/components/reports/ReportAnchorLink";
 
 const SalaryBenchmark2026Content = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -338,6 +340,16 @@ const SalaryBenchmark2026Content = () => {
         <MegaTrendsSection />
       </div>
 
+      {/* Anchor Link: Quarterly Talent Report */}
+      <div className="max-w-[900px] mx-auto px-8 py-8">
+        <ReportAnchorLink
+          title="Quarterly Talent Report"
+          description="See the full Quarterly Talent Report for the latest GTM turnover, hiring shifts, and talent mobility."
+          url="/resources/reports/quarterly-talent"
+          comingSoon={true}
+        />
+      </div>
+
       {/* CTA #3: After Mega-Trends - Mode-Specific */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
         <Card className="bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-[hsl(18,100%,51%)]/5 border-2 border-[hsl(184,92%,18%)]/20 p-8 text-center">
@@ -412,6 +424,16 @@ const SalaryBenchmark2026Content = () => {
       {/* SECTION 5: Regional Deep Dives */}
       <div id="regional-section">
         <RegionalDeepDives />
+      </div>
+
+      {/* Anchor Link: GTM Hiring Index */}
+      <div className="max-w-[900px] mx-auto px-8 py-8">
+        <ReportAnchorLink
+          title="GTM Hiring Index"
+          description="Visit the GTM Hiring Index to explore live hiring velocity by region, function, and job title."
+          url="/resources/reports/gtm-hiring-index"
+          comingSoon={true}
+        />
       </div>
 
       {/* CTA #4: After Regional Deep Dives */}
@@ -592,37 +614,13 @@ const SalaryBenchmark2026Content = () => {
       {/* PDF Download Section (Moved to Bottom) */}
       <PDFDownloadSection />
 
-      {/* Inline PDF Download Section */}
-      <section className="py-20 bg-gradient-to-br from-mirage/5 to-deepSea/5 border-t-2 border-mirage/10">
-        <div className="max-w-[900px] mx-auto px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl font-display font-bold mb-4 text-mirage">
-              Want This Report as PDF?
-            </h2>
-            <p className="text-lg text-mirage/70 mb-8 max-w-[600px] mx-auto">
-              Download the complete 2026 Salary Benchmark with all data tables, charts, and analysis.
-            </p>
-            <Button
-              size="lg"
-              onClick={() => setShowPDFModal(true)}
-              className="bg-mirage text-white hover:bg-mirage/90 px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-105"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              Download Full PDF Report
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-
       <Footer />
       </div> {/* Close main content wrapper */}
+
+      {/* Back to Top Button */}
+      <BackToTopButton />
       
-      <PersonalizedReportModal 
+      <PersonalizedReportModal
         open={showPersonalizedModal} 
         onOpenChange={setShowPersonalizedModal} 
       />
