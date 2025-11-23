@@ -7,6 +7,15 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import About from "./pages/About";
 import Docs from "./pages/Docs";
+import Resources from "./pages/Resources";
+import Guides from "./pages/resources/Guides";
+import Playbooks from "./pages/resources/Playbooks";
+import Templates from "./pages/resources/Templates";
+import Checklists from "./pages/resources/Checklists";
+import Frameworks from "./pages/resources/Frameworks";
+import Examples from "./pages/resources/Examples";
+import Glossary from "./pages/resources/Glossary";
+import Academy from "./pages/resources/Academy";
 import Dashboard from "./pages/Dashboard";
 import Links from "./pages/Links";
 import LinkDetail from "./pages/LinkDetail";
@@ -73,6 +82,15 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/docs/api" element={<APIDocumentation />} />
+          <Route path="/resources" element={<Resources />} />
+          <Route path="/resources/guides" element={<Guides />} />
+          <Route path="/resources/playbooks" element={<Playbooks />} />
+          <Route path="/resources/templates" element={<Templates />} />
+          <Route path="/resources/checklists" element={<Checklists />} />
+          <Route path="/resources/frameworks" element={<Frameworks />} />
+          <Route path="/resources/examples" element={<Examples />} />
+          <Route path="/resources/glossary" element={<Glossary />} />
+          <Route path="/resources/academy" element={<Academy />} />
           <Route path="/solutions/marketers" element={<Marketers />} />
           <Route path="/solutions/sales" element={<Sales />} />
           <Route path="/solutions/marketing-ops" element={<MarketingOps />} />

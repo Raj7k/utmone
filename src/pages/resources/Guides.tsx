@@ -1,0 +1,110 @@
+import { Navigation } from "@/components/landing/Navigation";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
+const Guides = () => {
+  const guides = [
+    {
+      slug: "utm-guide",
+      title: "UTM Naming Convention — The Standard Guide",
+      description: "A structured guide to building a consistent, scalable UTM naming convention used by modern teams.",
+      readTime: "12 min read"
+    },
+    {
+      slug: "clean-track-framework",
+      title: "Clean Track Framework — Data Architecture Guide",
+      description: "How to design a tracking architecture that scales without breaking down under campaign complexity.",
+      readTime: "15 min read"
+    },
+    {
+      slug: "tracking-architecture",
+      title: "Tracking Architecture — Building for Scale",
+      description: "Foundational principles for building tracking systems that serve marketing, sales, and product teams.",
+      readTime: "18 min read"
+    },
+    {
+      slug: "simple-analytics",
+      title: "Simple Analytics — Clarity Over Complexity",
+      description: "How to build an analytics stack that provides clarity without overwhelming teams with metrics.",
+      readTime: "10 min read"
+    },
+    {
+      slug: "growth-analytics",
+      title: "Growth Analytics — Measuring What Matters",
+      description: "A framework for tracking growth metrics that drive decisions instead of just reporting numbers.",
+      readTime: "14 min read"
+    },
+    {
+      slug: "llm-seo",
+      title: "LLM-First SEO — Writing for AI Retrieval",
+      description: "How to structure content so LLMs like ChatGPT, Perplexity, and Claude surface your brand.",
+      readTime: "16 min read"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+
+      {/* Header */}
+      <section className="py-20 bg-background border-b border-border/50">
+        <div className="max-w-[980px] mx-auto px-8">
+          <Link
+            to="/resources"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            back to resources
+          </Link>
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
+              guides
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
+              long-form, canonical content on utm architecture, tracking, and analytics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Guides List */}
+      <section className="py-20 bg-background">
+        <div className="max-w-[980px] mx-auto px-8">
+          <div className="space-y-6">
+            {guides.map((guide) => (
+              <Link
+                key={guide.slug}
+                to={`/resources/guides/${guide.slug}`}
+                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="space-y-3">
+                  <h2 className="text-2xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                    {guide.title}
+                  </h2>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {guide.description}
+                  </p>
+                  <div className="text-xs text-muted-foreground font-medium">
+                    {guide.readTime}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-border/50 py-12 bg-background">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="text-center">
+            <span className="text-[13px] text-muted-foreground">
+              © 2024 utm.one. clarity creates confidence.
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Guides;
