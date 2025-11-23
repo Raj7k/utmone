@@ -23,6 +23,7 @@ import { ParallaxSection } from "@/components/landing/ParallaxSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { FloatingActionButton } from "@/components/landing/FloatingActionButton";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
+import { Footer } from "@/components/landing/Footer";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -313,31 +314,7 @@ const Index = () => {
         </section>
       </AnimatedSection>
 
-      {/* Footer */}
-      <footer className="border-t border-border/50 py-12 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <img 
-                src="/src/assets/utm-one-logo.svg" 
-                alt="utm.one" 
-                className="h-6 w-auto"
-              />
-            </div>
-            <div className="flex items-center gap-6">
-              <Link to="/partners/apply" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
-                Become a Partner
-              </Link>
-              <Link to="/docs/api" className="text-[13px] text-muted-foreground hover:text-foreground transition-colors">
-                API Docs
-              </Link>
-              <span className="text-[13px] text-muted-foreground">
-                © 2024 utm.one. clarity creates confidence.
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

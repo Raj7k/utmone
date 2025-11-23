@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, QrCode, Monitor, MessageSquare } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FeatureCard } from "@/components/landing/FeatureCard";
+import { Footer } from "@/components/landing/Footer";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 
@@ -172,15 +173,7 @@ const Sales = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 py-12 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-[13px] text-muted-foreground">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
