@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Globe, TrendingUp, MapPin, DollarSign } from "lucide-react";
+import { GeographicMultiplierMap } from "./visualizations/GeographicMultiplierMap";
 
 interface RegionalData {
   region: string;
@@ -245,6 +246,11 @@ export const RegionalDeepDives = () => {
           <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
             Detailed salary breakdowns, trends, and insights across 6 global regions
           </p>
+        </div>
+
+        {/* Geographic Multiplier Visualization */}
+        <div className="mb-12">
+          <GeographicMultiplierMap />
         </div>
 
         <Tabs defaultValue="United States" className="space-y-8" onValueChange={setSelectedRegion}>

@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bot, TrendingUp, TrendingDown, Target, Database, Sparkles, Award } from "lucide-react";
+import { SkillsPremiumChart } from "./visualizations/SkillsPremiumChart";
+import { AIPremiumComparison } from "./visualizations/AIPremiumComparison";
 
 const highValueSkills = [
   { skill: "AI & Automation Orchestration", premium: "20-45%", category: "Strategic", icon: Bot },
@@ -202,6 +204,11 @@ export const SkillDemandAnalysis = () => {
           </div>
         </div>
 
+        {/* Skills Premium Visualization */}
+        <div className="mb-12">
+          <SkillsPremiumChart />
+        </div>
+
         {/* High-Value Skills Overview */}
         <Card className="mb-12 bg-[hsl(184,92%,18%)]/10 border-[hsl(184,92%,18%)]/20">
           <CardHeader>
@@ -254,6 +261,11 @@ export const SkillDemandAnalysis = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* AI Premium Comparison Visualization */}
+        <div className="mb-12">
+          <AIPremiumComparison />
+        </div>
 
         {/* Function-Specific Skills */}
         <Tabs defaultValue="marketing" className="space-y-8">

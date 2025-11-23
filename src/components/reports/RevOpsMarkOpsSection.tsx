@@ -2,6 +2,7 @@ import { RevOpsMarkOpsTables } from "./RevOpsMarkOpsTables";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Rocket, TrendingUp, ArrowRight } from "lucide-react";
+import { RevOpsGrowthChart } from "./visualizations/RevOpsGrowthChart";
 
 export const RevOpsMarkOpsSection = () => {
   return (
@@ -58,6 +59,11 @@ export const RevOpsMarkOpsSection = () => {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* RevOps Growth Visualization */}
+          <div className="my-12">
+            <RevOpsGrowthChart />
           </div>
 
           {/* Why RevOps & MarkOps Earn More */}
