@@ -8,6 +8,8 @@ import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { LinkFilters } from "@/components/LinkFilters";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import type { User } from "@supabase/supabase-js";
 
 const Links = () => {
@@ -16,7 +18,19 @@ const Links = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onCreateLink: () => setCreateLinkDialogOpen(true),
+    onSearch: () => {
+      const searchInput = document.querySelector<HTMLInputElement>('input[type="search"]');
+      searchInput?.focus();
+    },
+    onShowHelp: () => setShowShortcutsHelp(true),
+  });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -103,7 +117,13 @@ const Links = () => {
                 manage and track all your short links
               </p>
             </div>
-            {currentWorkspace && <CreateLinkDialog workspaceId={currentWorkspace.id} />}
+            {currentWorkspace && (
+              <CreateLinkDialog 
+                workspaceId={currentWorkspace.id}
+                open={createLinkDialogOpen}
+                onOpenChange={setCreateLinkDialogOpen}
+              />
+            )}
           </div>
 
           <LinkFilters
@@ -133,6 +153,12 @@ const Links = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Keyboard Shortcuts Help */}
+        <KeyboardShortcutsHelp 
+          open={showShortcutsHelp}
+          onOpenChange={setShowShortcutsHelp}
+        />
       </main>
     </div>
   );

@@ -435,6 +435,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
                 fgColor={formValues.primaryColor}
                 bgColor="#FFFFFF"
                 level="H"
+                aria-label={`QR code for ${formValues.name}. Scan to visit ${shortUrl}`}
               />
             </div>
             {formValues.frameText && (
