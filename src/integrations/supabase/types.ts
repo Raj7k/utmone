@@ -2018,6 +2018,39 @@ export type Database = {
           },
         ]
       }
+      report_downloads: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          download_url: string | null
+          email: string
+          full_name: string
+          id: string
+          job_title: string
+          sent_at: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          download_url?: string | null
+          email: string
+          full_name: string
+          id?: string
+          job_title: string
+          sent_at?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          download_url?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          job_title?: string
+          sent_at?: string | null
+        }
+        Relationships: []
+      }
       scheduled_reports: {
         Row: {
           created_at: string | null
