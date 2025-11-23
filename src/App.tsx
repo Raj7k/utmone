@@ -19,6 +19,7 @@ import UTMGovernancePlaybook from "./pages/resources/playbooks/UTMGovernancePlay
 import StartupAnalyticsPlaybook from "./pages/resources/playbooks/StartupAnalyticsPlaybook";
 import EventLedGrowthPlaybook from "./pages/resources/playbooks/EventLedGrowthPlaybook";
 import NamingConventionPlaybook from "./pages/resources/playbooks/NamingConventionPlaybook";
+import SalesMarketingAlignmentPlaybook from "./pages/resources/playbooks/SalesMarketingAlignmentPlaybook";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
 import UTMTemplate from "./pages/resources/templates/UTMTemplate";
