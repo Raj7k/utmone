@@ -246,17 +246,6 @@ export const Navigation = () => {
 
                 {/* Direct Links */}
                 <NavigationMenuItem>
-                  <Link to="/docs">
-                    <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
-                      location.pathname === "/docs" && "text-foreground"
-                    )}>
-                      docs
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
                   <Link to="/resources">
                     <NavigationMenuLink className={cn(
                       "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
@@ -296,17 +285,6 @@ export const Navigation = () => {
                       location.pathname.startsWith("/partners") && "text-foreground"
                     )}>
                       partners
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <Link to="/docs/api">
-                    <NavigationMenuLink className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
-                      location.pathname === "/docs/api" && "text-foreground"
-                    )}>
-                      api
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -378,14 +356,6 @@ export const Navigation = () => {
                   </div>
 
                   <div className="border-t pt-4 space-y-1">
-                    <Link to="/docs" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <span>Docs</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
-                    <Link to="/docs/api" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <span>API</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
                     <Link to="/partners/apply" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>Partners</span>
                       <ChevronRight className="h-4 w-4" />

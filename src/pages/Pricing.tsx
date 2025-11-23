@@ -5,6 +5,7 @@ import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { PLAN_CONFIG } from "@/lib/planConfig";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/landing/Footer";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -136,16 +137,7 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-12 bg-background">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-micro-text text-muted-foreground">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
