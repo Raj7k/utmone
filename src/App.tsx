@@ -31,6 +31,9 @@ import AttributionClarityModel from "./pages/resources/frameworks/AttributionCla
 import UTMExamples from "./pages/resources/examples/UTMExamples";
 import NamingExamples from "./pages/resources/examples/NamingExamples";
 import DashboardExamples from "./pages/resources/examples/DashboardExamples";
+import UTMAudit from "./pages/resources/checklists/UTMAudit";
+import AnalyticsHealth from "./pages/resources/checklists/AnalyticsHealth";
+import CampaignLaunch from "./pages/resources/checklists/CampaignLaunch";
 import Checklists from "./pages/resources/Checklists";
 import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
@@ -129,6 +132,9 @@ const App = () => (
             <Route path="/resources/examples/utm-examples" element={<UTMExamples />} />
             <Route path="/resources/examples/naming-examples" element={<NamingExamples />} />
             <Route path="/resources/examples/dashboard-examples" element={<DashboardExamples />} />
+            <Route path="/resources/checklists/utm-audit" element={<UTMAudit />} />
+            <Route path="/resources/checklists/analytics-health" element={<AnalyticsHealth />} />
+            <Route path="/resources/checklists/campaign-launch" element={<CampaignLaunch />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
           <Route path="/resources/frameworks" element={<Frameworks />} />

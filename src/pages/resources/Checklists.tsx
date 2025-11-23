@@ -8,25 +8,25 @@ const Checklists = () => {
       slug: "utm-audit",
       title: "UTM Audit — Link Health Check",
       description: "Comprehensive checklist for auditing existing links, identifying inconsistencies, and fixing broken tracking.",
-      items: "24 items"
-    },
-    {
-      slug: "tracking-implementation",
-      title: "Tracking Implementation — Setup Checklist",
-      description: "Step-by-step checklist for implementing clean tracking from scratch across all marketing channels.",
-      items: "18 items"
+      items: "23 items",
+      time: "~45 minutes",
+      frequency: "Monthly"
     },
     {
       slug: "analytics-health",
       title: "Analytics Health — System Check",
       description: "Monthly checklist for ensuring your analytics stack is accurate, complete, and actionable.",
-      items: "16 items"
+      items: "21 items",
+      time: "~60 minutes",
+      frequency: "Monthly"
     },
     {
       slug: "campaign-launch",
       title: "Campaign Launch — Pre-Flight Checklist",
       description: "Everything to verify before launching a campaign to ensure tracking works perfectly.",
-      items: "12 items"
+      items: "20 items",
+      time: "~90 minutes",
+      frequency: "Per-campaign"
     }
   ];
 
@@ -70,8 +70,16 @@ const Checklists = () => {
                   <p className="text-base text-muted-foreground leading-relaxed">
                     {checklist.description}
                   </p>
-                  <div className="text-xs text-muted-foreground font-medium">
-                    {checklist.items}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs px-3 py-1.5 rounded-full bg-muted text-muted-foreground font-medium">
+                      {checklist.items}
+                    </span>
+                    <span className="text-xs px-3 py-1.5 rounded-full bg-muted text-muted-foreground font-medium">
+                      {checklist.time}
+                    </span>
+                    <span className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">
+                      {checklist.frequency}
+                    </span>
                   </div>
                 </div>
               </Link>
