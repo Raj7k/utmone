@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Bot, TrendingUp, TrendingDown, Target, Database, Sparkles } from "lucide-react";
+import { Bot, TrendingUp, TrendingDown, Target, Database, Sparkles, Award } from "lucide-react";
 
 const highValueSkills = [
   { skill: "AI & Automation Orchestration", premium: "20-45%", category: "Strategic", icon: Bot },
@@ -85,6 +85,121 @@ export const SkillDemandAnalysis = () => {
           <p className="text-xl text-muted-foreground max-w-[900px] mx-auto">
             What really moves your salary: the most in-demand skills across Marketing, Sales, RevOps, and MarkOps, how they influence compensation, and which ones create the biggest long-term career leverage.
           </p>
+        </div>
+
+        {/* Opening Narrative */}
+        <div className="prose prose-lg max-w-[900px] mx-auto mb-16">
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            <strong className="text-foreground">The shift is already here:</strong> Companies no longer pay primarily for job titles. They pay for skills that drive measurable business outcomes. In 2026, a "Marketing Manager" with AI orchestration, SQL fluency, and attribution modeling skills earns 40-60% more than a "Marketing Manager" with only traditional campaign execution experience.
+          </p>
+          <p className="text-lg text-muted-foreground leading-relaxed mt-4">
+            This section breaks down exactly which skills command the highest premiums, which are declining in value due to AI commoditization or oversupply, and which will become most valuable by 2026-2028. Understanding this landscape is critical for career planning, salary negotiation, and professional development prioritization.
+          </p>
+        </div>
+
+        {/* Skill Category Framework */}
+        <div className="mb-16">
+          <h3 className="text-2xl font-display font-bold text-center mb-8">
+            Understanding Skill Categories & Their Salary Impact
+          </h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-[hsl(184,92%,18%)]/10 border-[hsl(184,92%,18%)]/30">
+              <CardHeader>
+                <CardTitle className="text-xl text-[hsl(184,92%,18%)] flex items-center gap-2">
+                  <Award className="w-6 h-6" />
+                  Category A: Strategic/High-Value
+                </CardTitle>
+                <CardDescription>25-60% salary premiums</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Skills that directly impact revenue, require deep expertise, and are rare in the market.
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)]">•</span>
+                    <span>AI orchestration & automation</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)]">•</span>
+                    <span>Attribution modeling (MTA/AI-based)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)]">•</span>
+                    <span>GTM strategy (PMM/Growth)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(184,92%,18%)]">•</span>
+                    <span>Revenue forecasting & capacity planning</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-[hsl(18,100%,51%)]/10 border-[hsl(18,100%,51%)]/30">
+              <CardHeader>
+                <CardTitle className="text-xl text-[hsl(18,100%,51%)]">
+                  Category B: Execution/Technical
+                </CardTitle>
+                <CardDescription>10-25% salary premiums</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Essential technical skills needed for execution. Valuable but not scarce.
+                </p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(18,100%,51%)]">•</span>
+                    <span>SQL & BI tool proficiency</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(18,100%,51%)]">•</span>
+                    <span>CRM platform expertise (SFDC/HubSpot)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(18,100%,51%)]">•</span>
+                    <span>Marketing automation (Marketo/Braze)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-[hsl(18,100%,51%)]">•</span>
+                    <span>Lifecycle workflow design</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-muted/50 border-border/50">
+              <CardHeader>
+                <CardTitle className="text-xl text-muted-foreground">
+                  Category C: Commodity
+                </CardTitle>
+                <CardDescription>0% or negative premium</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Oversupplied or AI-replaceable skills with declining market value.
+                </p>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span>×</span>
+                    <span>Basic content writing</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span>×</span>
+                    <span>Basic graphic design (Canva-level)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span>×</span>
+                    <span>Pure social media management</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span>×</span>
+                    <span>Manual reporting & data entry</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* High-Value Skills Overview */}
@@ -245,6 +360,143 @@ export const SkillDemandAnalysis = () => {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* How to Identify Your Priority Skills */}
+        <Card className="mb-12">
+          <CardHeader>
+            <CardTitle className="text-2xl">How to Identify Your Priority Skills</CardTitle>
+            <CardDescription>
+              Not all skills matter equally for your specific career path. Use this framework to prioritize.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="p-6 bg-[hsl(180,25%,93%)]/50 rounded-lg border">
+                <h4 className="font-semibold mb-3 text-[hsl(184,92%,18%)]">Step 1: Match Skills to Your Current Role</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Review the function-specific top 10 skills above. Which ones are already mentioned in your job description? Which ones are your peers/managers using daily?
+                </p>
+              </div>
+              <div className="p-6 bg-[hsl(180,25%,93%)]/50 rounded-lg border">
+                <h4 className="font-semibold mb-3 text-[hsl(184,92%,18%)]">Step 2: Identify Gaps Between Current & Target Role</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  If you want to move from Marketing Coordinator → Demand Gen Manager, which skills separate those roles? Use this report's role tables to identify exact gaps.
+                </p>
+              </div>
+              <div className="p-6 bg-[hsl(180,25%,93%)]/50 rounded-lg border">
+                <h4 className="font-semibold mb-3 text-[hsl(184,92%,18%)]">Step 3: Apply Impact × Rarity × Transferability Framework</h4>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Impact:</strong> Does this skill directly affect revenue/pipeline/efficiency?<br/>
+                  <strong>Rarity:</strong> How many people in your market have this skill?<br/>
+                  <strong>Transferability:</strong> Can you use this skill across industries/companies?<br/>
+                  <span className="text-foreground mt-2 inline-block">Prioritize skills that score high on all three dimensions.</span>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Skill Stacking Strategies */}
+        <Card className="mb-12 bg-[hsl(18,100%,51%)]/10 border-[hsl(18,100%,51%)]/20">
+          <CardHeader>
+            <CardTitle className="text-2xl text-[hsl(18,100%,51%)]">Skill Stacking: Combine Skills for Exponential Value</CardTitle>
+            <CardDescription>
+              Individual skills have linear value. Combined skills create exponential leverage.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="p-6 bg-background rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                <h4 className="font-semibold mb-2">Example 1: Product Marketing Manager Stack</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  <strong className="text-foreground">PMM baseline:</strong> $95K<br/>
+                  <strong className="text-foreground">+ SQL proficiency:</strong> +$15K (18%)<br/>
+                  <strong className="text-foreground">+ AI content automation:</strong> +$18K (22%)<br/>
+                  <strong className="text-foreground">+ Attribution modeling:</strong> +$12K (14%)<br/>
+                  <strong className="text-[hsl(18,100%,51%)]">= Total: $140K+ (47% premium over baseline)</strong>
+                </p>
+              </div>
+              <div className="p-6 bg-background rounded-lg border-l-4 border-[hsl(184,92%,18%)]">
+                <h4 className="font-semibold mb-2">Example 2: RevOps Manager Stack</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  <strong className="text-foreground">RevOps baseline:</strong> $110K<br/>
+                  <strong className="text-foreground">+ Salesforce Architecture:</strong> +$25K (23%)<br/>
+                  <strong className="text-foreground">+ Forecasting models:</strong> +$18K (16%)<br/>
+                  <strong className="text-foreground">+ Data warehousing (Snowflake):</strong> +$22K (20%)<br/>
+                  <strong className="text-[hsl(184,92%,18%)]">= Total: $175K+ (59% premium over baseline)</strong>
+                </p>
+              </div>
+              <div className="p-6 bg-background rounded-lg border-l-4 border-[hsl(18,100%,51%)]">
+                <h4 className="font-semibold mb-2">Example 3: Marketing Ops Stack</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  <strong className="text-foreground">MarkOps baseline:</strong> $85K<br/>
+                  <strong className="text-foreground">+ HubSpot/Marketo mastery:</strong> +$12K (14%)<br/>
+                  <strong className="text-foreground">+ Attribution setup:</strong> +$15K (18%)<br/>
+                  <strong className="text-foreground">+ CRM sync expertise:</strong> +$10K (12%)<br/>
+                  <strong className="text-[hsl(18,100%,51%)]">= Total: $122K+ (44% premium over baseline)</strong>
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 p-4 bg-background rounded-lg">
+              <p className="text-sm text-muted-foreground">
+                <strong className="text-foreground">T-shaped vs I-shaped profiles:</strong> T-shaped professionals (deep expertise in one area + broad skills across multiple) earn 30-50% more than I-shaped specialists with only vertical depth.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Skills to Actively Avoid */}
+        <Card className="mb-12 bg-destructive/5 border-destructive/20">
+          <CardHeader>
+            <CardTitle className="text-2xl text-destructive flex items-center gap-2">
+              <TrendingDown className="w-6 h-6" />
+              Skills to Actively Avoid (or Pivot From)
+            </CardTitle>
+            <CardDescription>
+              Not because they're unimportant, but because their market value is declining fast
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="p-4 bg-background rounded-lg border">
+                <p className="font-semibold text-sm mb-2 text-destructive">Over-saturated: Basic Content Writing</p>
+                <p className="text-xs text-muted-foreground mb-2">
+                  AI writes 80% of blog drafts. Freelancer supply exploded globally. Unless you specialize in technical writing, thought leadership, or storytelling, this skill has negative ROI.
+                </p>
+                <p className="text-xs text-foreground">
+                  <strong>Pivot to:</strong> Content strategy, AI prompt engineering for content, editorial leadership
+                </p>
+              </div>
+              <div className="p-4 bg-background rounded-lg border">
+                <p className="font-semibold text-sm mb-2 text-destructive">AI-Vulnerable: Manual Reporting & Data Entry</p>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Dashboards auto-generate reports. AI assistants pull data on command. Manual reporting roles declining 40% YoY in demand.
+                </p>
+                <p className="text-xs text-foreground">
+                  <strong>Pivot to:</strong> Dashboard design, business intelligence, data storytelling, automated reporting infrastructure
+                </p>
+              </div>
+              <div className="p-4 bg-background rounded-lg border">
+                <p className="font-semibold text-sm mb-2 text-destructive">Commoditized: Basic Social Media Management</p>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Posting ≠ marketing. Scheduling tools + AI content = skill floor collapsed. Only strategy survives.
+                </p>
+                <p className="text-xs text-foreground">
+                  <strong>Pivot to:</strong> Social media strategy, community building, influencer partnerships, paid social optimization
+                </p>
+              </div>
+              <div className="p-4 bg-background rounded-lg border">
+                <p className="font-semibold text-sm mb-2 text-destructive">Over-reliance: Single-Platform Expertise (Non-transferable)</p>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Being "the HubSpot person" is valuable only within HubSpot ecosystems. Platform-agnostic skills (data modeling, workflow logic, integration architecture) transfer everywhere.
+                </p>
+                <p className="text-xs text-foreground">
+                  <strong>Upgrade to:</strong> Multi-platform proficiency (HubSpot + Marketo + Salesforce), systems thinking, integration architecture
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Future Skills */}
         <Card className="mt-12 bg-[hsl(18,100%,51%)]/10 border-[hsl(18,100%,51%)]/20">

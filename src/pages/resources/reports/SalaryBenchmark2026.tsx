@@ -2,28 +2,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, Globe, Users, CheckCircle2, Award, Database, Building2 } from "lucide-react";
+import { Download, TrendingUp, Globe, Users, CheckCircle2, Database, Building2 } from "lucide-react";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
-import { formatCurrency } from "@/lib/salaryData";
 import { motion } from "framer-motion";
 import { DataSourcesBadges } from "@/components/reports/DataSourcesBadges";
-import { RoleComparisonMatrix } from "@/components/reports/RoleComparisonMatrix";
-import { GeographicHeatmap } from "@/components/reports/GeographicHeatmap";
-import { CareerLadder } from "@/components/reports/CareerLadder";
-import { SkillsPremium } from "@/components/reports/SkillsPremium";
-import { CompanySizeChart } from "@/components/reports/CompanySizeChart";
-import { InteractiveSalaryCalculator } from "@/components/reports/InteractiveSalaryCalculator";
-import { GenderPayGapDashboard } from "@/components/reports/GenderPayGapDashboard";
 import { GeolocationDetector } from "@/components/reports/GeolocationDetector";
-import { IndustryComparison } from "@/components/reports/IndustryComparison";
-import { ExperienceLevelProgression } from "@/components/reports/ExperienceLevelProgression";
-import { StateDeepDive } from "@/components/reports/StateDeepDive";
-import { RemoteWorkAnalyzer } from "@/components/reports/RemoteWorkAnalyzer";
-import { CostOfLivingAdjuster } from "@/components/reports/CostOfLivingAdjuster";
-import { EquityCalculator } from "@/components/reports/EquityCalculator";
 import { MegaTrendsSection } from "@/components/reports/MegaTrendsSection";
+import { MarketingSalarySection } from "@/components/reports/MarketingSalarySection";
+import { SalesSalarySection } from "@/components/reports/SalesSalarySection";
+import { RevOpsMarkOpsSection } from "@/components/reports/RevOpsMarkOpsSection";
 import { RegionalDeepDives } from "@/components/reports/RegionalDeepDives";
+import { SkillDemandAnalysis } from "@/components/reports/SkillDemandAnalysis";
+import { NegotiationBlueprint } from "@/components/reports/NegotiationBlueprint";
 import { EnhancedSalaryCalculator } from "@/components/reports/EnhancedSalaryCalculator";
 
 const SalaryBenchmark2026 = () => {
@@ -88,6 +79,23 @@ const SalaryBenchmark2026 = () => {
     { icon: Globe, label: "15+ Countries Covered", verified: true, color: "deepSea" },
     { icon: Building2, label: "100+ Cities Analyzed", verified: true, color: "mirage" }
   ];
+
+  // LinkedIn Post Card Placeholder Component
+  const LinkedInPostCard = ({ postNumber }: { postNumber: number }) => (
+    <div className="max-w-[1280px] mx-auto px-8 py-8">
+      <Card className="bg-[hsl(184,92%,18%)]/5 border-[hsl(184,92%,18%)]/20 p-6 text-center">
+        <p className="text-sm text-muted-foreground mb-3">
+          💬 Share this insight on LinkedIn
+        </p>
+        <p className="text-lg font-semibold text-foreground mb-4">
+          LinkedIn Post Card #{postNumber}
+        </p>
+        <Button variant="outline" size="sm" className="border-[hsl(184,92%,18%)] text-[hsl(184,92%,18%)]">
+          Share on LinkedIn
+        </Button>
+      </Card>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -203,7 +211,7 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
-      {/* CTA Placement #2: After Executive Summary */}
+      {/* CTA #2: After Executive Summary */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
         <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-[hsl(184,92%,18%)]/5 border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
           <h3 className="text-2xl font-display font-bold mb-4">
@@ -218,18 +226,103 @@ const SalaryBenchmark2026 = () => {
         </Card>
       </div>
 
-      {/* Geolocation Detection */}
-      <section className="max-w-[1280px] mx-auto px-8 py-8">
-        <GeolocationDetector onLocationSelect={setDetectedLocation} />
-      </section>
-
-      {/* 10 Mega-Trends Section */}
+      {/* SECTION 1: MegaTrendsSection */}
       <MegaTrendsSection />
 
-      {/* Regional Deep Dives Section */}
+      {/* CTA #3: After Mega-Trends */}
+      <div className="max-w-[1280px] mx-auto px-8 py-12">
+        <Card className="bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-[hsl(18,100%,51%)]/5 border-2 border-[hsl(184,92%,18%)]/20 p-8 text-center">
+          <h3 className="text-2xl font-display font-bold mb-4">
+            Ready to Check Your True Market Value?
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            Use our advanced salary calculator to see exactly where you stand based on role, skills, location, and company size.
+          </p>
+          <Button size="lg" className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white">
+            Check Your True Market Value
+          </Button>
+        </Card>
+      </div>
+
+      {/* SECTION 2: Marketing Salary Benchmarks */}
+      <MarketingSalarySection />
+
+      {/* LinkedIn Post Card #2 */}
+      <LinkedInPostCard postNumber={2} />
+
+      {/* CTA #6: After Marketing */}
+      <div className="max-w-[1280px] mx-auto px-8 py-12">
+        <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-white border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
+          <h3 className="text-2xl font-display font-bold mb-4">
+            See How Your Role Stacks Up
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            Compare your current compensation against global benchmarks and discover your skill gaps.
+          </p>
+          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+            Get My Personalized Report
+          </Button>
+        </Card>
+      </div>
+
+      {/* SECTION 3: Sales Salary Benchmarks */}
+      <SalesSalarySection />
+
+      {/* LinkedIn Post Card #3 */}
+      <LinkedInPostCard postNumber={3} />
+
+      {/* SECTION 4: RevOps & MarkOps Benchmarks */}
+      <RevOpsMarkOpsSection />
+
+      {/* LinkedIn Post Card #4 */}
+      <LinkedInPostCard postNumber={4} />
+
+      {/* SECTION 5: Regional Deep Dives */}
       <RegionalDeepDives />
 
-      {/* Enhanced Salary Calculator with Section 8 Formula */}
+      {/* CTA #4: After Regional Deep Dives */}
+      <div className="max-w-[1280px] mx-auto px-8 py-12">
+        <Card className="bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-white border-2 border-[hsl(184,92%,18%)]/20 p-8 text-center">
+          <h3 className="text-2xl font-display font-bold mb-4">
+            Compare Your Salary Globally
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            See how your compensation compares across 15+ countries and 100+ cities with our interactive calculator.
+          </p>
+          <Button size="lg" className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white">
+            Compare My Salary Globally
+          </Button>
+        </Card>
+      </div>
+
+      {/* LinkedIn Post Card #5 */}
+      <LinkedInPostCard postNumber={5} />
+
+      {/* SECTION 6: Skill Demand Analysis */}
+      <SkillDemandAnalysis />
+
+      {/* CTA #7: After Skill Demand */}
+      <div className="max-w-[1280px] mx-auto px-8 py-12">
+        <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-white border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
+          <h3 className="text-2xl font-display font-bold mb-4">
+            Highlight Your Missing Skills
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            Get a personalized skill gap analysis showing which high-value skills you should learn next.
+          </p>
+          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+            Show Me My Skill Gaps
+          </Button>
+        </Card>
+      </div>
+
+      {/* LinkedIn Post Card #6 */}
+      <LinkedInPostCard postNumber={6} />
+
+      {/* SECTION 7: Negotiation Blueprint */}
+      <NegotiationBlueprint />
+
+      {/* SECTION 8: Enhanced Salary Calculator */}
       <section className="py-20 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center mb-12">
@@ -242,7 +335,7 @@ const SalaryBenchmark2026 = () => {
           </div>
           <EnhancedSalaryCalculator />
           
-          {/* CTA Placement #5: Calculator Save Results */}
+          {/* CTA #5: Calculator Save Results */}
           <div className="mt-8 p-6 bg-[hsl(180,25%,93%)]/50 rounded-xl border-2 border-[hsl(184,92%,18%)]/20 text-center">
             <p className="text-sm text-muted-foreground mb-4">
               💾 Want to save your salary profile and get quarterly updates as data changes?
@@ -358,251 +451,31 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
-      {/* Interactive Salary Calculator */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Interactive Salary Calculator
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Get personalized salary estimates based on your role, location, experience, and industry
-            </p>
-          </div>
-          <InteractiveSalaryCalculator />
-        </div>
-      </section>
-
-      {/* Role Comparison Matrix */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Role-by-Role Comparison
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Compare salaries, growth rates, and requirements across all marketing and sales ops roles
-            </p>
-          </div>
-          <RoleComparisonMatrix />
-        </div>
-      </section>
-
-      {/* Industry Comparison */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Industry Salary Comparison
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Same role, different industry: How compensation varies across sectors
-            </p>
-          </div>
-          <IndustryComparison />
-        </div>
-      </section>
-
-      {/* Experience Level Progression */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <ExperienceLevelProgression />
-        </div>
-      </section>
-
-      {/* Geographic Analysis */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Geographic Salary Heatmap
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Top cities ranked by salary and cost of living across USA, India, and globally
-            </p>
-          </div>
-          <GeographicHeatmap />
-        </div>
-      </section>
-
-      {/* State Deep Dive */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <StateDeepDive />
-        </div>
-      </section>
-
-      {/* Cost of Living Adjuster */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <CostOfLivingAdjuster />
-        </div>
-      </section>
-
-      {/* Remote Work Analysis */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <RemoteWorkAnalyzer />
-        </div>
-      </section>
-
-      {/* Gender Pay Gap */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Gender Pay Gap Analysis
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Comprehensive analysis of pay equity across roles, industries, and geographies
-            </p>
-          </div>
-          <GenderPayGapDashboard />
-        </div>
-      </section>
-
-      {/* Equity & Stock Options Calculator */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Equity & Stock Options Calculator
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Understand the real value of your equity compensation with our comprehensive calculator
-            </p>
-          </div>
-          <EquityCalculator />
-        </div>
-      </section>
-
-      {/* Career Progression Ladder */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Career Progression Ladder
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Typical career path from coordinator to director with salary expectations at each level
-            </p>
-          </div>
-          <CareerLadder />
-        </div>
-      </section>
-
-      {/* Skills Premium Analysis */}
-      <section className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <SkillsPremium />
-        </div>
-      </section>
-
-      {/* Company Size Impact */}
-      <section className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="max-w-[900px] mx-auto text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Company Size Impact
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              How total compensation varies by company size: startup equity vs enterprise stability
-            </p>
-          </div>
-          <CompanySizeChart />
-        </div>
-      </section>
-
-      {/* CTA Placement #11: Final Push Before Takeaways */}
-      <section className="py-20 bg-gradient-to-br from-[hsl(18,100%,51%)]/10 via-[hsl(184,92%,18%)]/10 to-[hsl(180,25%,93%)]/20">
-        <div className="max-w-[1000px] mx-auto px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Badge variant="default" className="mb-6 bg-[hsl(18,100%,51%)] animate-pulse">
-              FREE • NO CREDIT CARD • INSTANT ACCESS
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Ready to See Your Complete Picture?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-[700px] mx-auto">
-              Get your personalized GTM career report with salary ranges, skill gaps, career paths, and negotiation strategies.
-            </p>
-            
-            {/* Value Props Grid */}
-            <div className="grid md:grid-cols-3 gap-4 mb-8 text-left">
-              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
-                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
-                <h4 className="font-semibold text-sm mb-1">Your Salary Range</h4>
-                <p className="text-xs text-muted-foreground">Base, OTE, equity across 15+ countries</p>
-              </Card>
-              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
-                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
-                <h4 className="font-semibold text-sm mb-1">Skill Gap Analysis</h4>
-                <p className="text-xs text-muted-foreground">Top 10 skills you need + salary impact</p>
-              </Card>
-              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
-                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
-                <h4 className="font-semibold text-sm mb-1">Career Roadmap</h4>
-                <p className="text-xs text-muted-foreground">Next roles, timeline, earnings forecast</p>
-              </Card>
-            </div>
-
-            <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white text-lg px-8 py-6 h-auto">
-              <TrendingUp className="mr-2 h-6 w-6" />
-              Get Your Personal GTM Career Report
-            </Button>
-            
-            <p className="text-xs text-muted-foreground mt-4">
-              ✨ Takes 2 minutes. No spam. No sales calls. Just data.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA to Tools */}
-      <section className="py-20 bg-gradient-to-br from-deepSea/10 to-blazeOrange/10">
-        <div className="max-w-[640px] mx-auto px-8 text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Take Action With Our Salary Tools
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Use our interactive tools for personalized salary negotiation, career planning, and team budgeting
+      {/* CTA #11: Final Push */}
+      <div className="max-w-[1280px] mx-auto px-8 py-16">
+        <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/10 to-[hsl(184,92%,18%)]/10 border-2 border-[hsl(18,100%,51%)]/30 p-12 text-center">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-6">
+            Get Your Personal GTM Career Report
+          </h3>
+          <p className="text-lg text-muted-foreground mb-8 max-w-[700px] mx-auto">
+            Everything in this report, personalized for your exact role, location, experience, and career goals. Plus quarterly updates as new data becomes available.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center pt-4">
-            <Link to="/resources/tools/ai-negotiation-coach">
-              <Button size="lg" variant="default" className="bg-blazeOrange hover:bg-blazeOrange/90">
-                AI Negotiation Coach
-              </Button>
-            </Link>
-            <Link to="/resources/tools/market-value-calculator">
-              <Button size="lg" variant="outline" className="border-deepSea text-deepSea hover:bg-deepSea/10">
-                Market Value Calculator
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white text-lg px-8 py-6">
+            Get My Personal Report
+          </Button>
+          <p className="text-sm text-muted-foreground mt-4">
+            Used by 10,000+ GTM professionals to negotiate higher salaries
+          </p>
+        </Card>
+      </div>
 
-      {/* CTA Placement #12: Sticky Side Button */}
-      <motion.div
-        className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden lg:block"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4, delay: 2 }}
-      >
-        <Button
-          size="lg"
-          className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl hover:shadow-[hsl(18,100%,51%)]/20 transition-all hover:scale-105 flex-col h-auto py-4 px-3 gap-2"
-          style={{ writingMode: 'vertical-rl' }}
-        >
-          <TrendingUp className="h-5 w-5 rotate-90" />
-          <span className="text-sm font-bold">Get My Salary</span>
+      {/* CTA #12: Sticky Side Button - Always Visible */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl">
+          <Download className="mr-2 h-5 w-5" />
+          Download Report
         </Button>
-      </motion.div>
+      </div>
 
       <Footer />
     </div>
