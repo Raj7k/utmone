@@ -41,9 +41,10 @@ const SEOTerm = () => {
         { slug: "medium", term: "utm_medium", category: "Core Tracking" }
       ]}
       relatedResources={[
-        { title: "LLM-First SEO Guide", url: "/resources/guides/llm-seo", type: "guide" },
-        { title: "Naming Examples", url: "/resources/examples/naming", type: "examples" },
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" }
+        { title: "LLM-SEO Guide", url: "/resources/guides/llm-seo", type: "guide" },
+        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" }
       ]}
     />
   );

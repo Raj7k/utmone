@@ -41,9 +41,11 @@ const MultiTouchTerm = () => {
         { slug: "utm", term: "UTM", category: "Core Tracking" }
       ]}
       relatedResources={[
-        { title: "Attribution Clarity Framework", url: "/resources/frameworks/attribution-clarity", type: "framework" },
+        { title: "Attribution Clarity Model", url: "/resources/frameworks/attribution-clarity-model", type: "framework" },
         { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" }
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" },
+        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics", type: "playbook" },
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" }
       ]}
     />
   );

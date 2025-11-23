@@ -41,9 +41,11 @@ const PaidSearchTerm = () => {
         { slug: "conversion-rate", term: "Conversion Rate", category: "Sales & RevOps" }
       ]}
       relatedResources={[
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "UTM Template", url: "/resources/templates/utm", type: "template" },
-        { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" }
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief-template", type: "template" },
+        { title: "Campaign Launch Checklist", url: "/resources/checklists/campaign-launch", type: "checklist" },
+        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" }
       ]}
     />
   );

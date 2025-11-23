@@ -41,9 +41,10 @@ const TrackingArchitectureTerm = () => {
       ]}
       relatedResources={[
         { title: "Tracking Architecture Guide", url: "/resources/guides/tracking-architecture", type: "guide" },
-        { title: "Minimal Analytics Stack Framework", url: "/resources/frameworks/minimal-analytics", type: "framework" },
-        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics", type: "playbook" },
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" }
+        { title: "UTM Governance Playbook", url: "/resources/playbooks/utm-governance", type: "playbook" },
+        { title: "Clean-Track Framework", url: "/resources/guides/clean-track-framework", type: "guide" },
+        { title: "Analytics Health Checklist", url: "/resources/checklists/analytics-health", type: "checklist" },
+        { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" }
       ]}
     />
   );

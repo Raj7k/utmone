@@ -41,9 +41,10 @@ const OrganicSocialTerm = () => {
         { slug: "source", term: "utm_source", category: "Core Tracking" }
       ]}
       relatedResources={[
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "UTM Template", url: "/resources/templates/utm", type: "template" },
-        { title: "Naming Examples", url: "/resources/examples/naming", type: "examples" }
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
+        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief-template", type: "template" }
       ]}
     />
   );

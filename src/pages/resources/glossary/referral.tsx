@@ -41,9 +41,10 @@ const ReferralTerm = () => {
         { slug: "medium", term: "utm_medium", category: "Core Tracking" }
       ]}
       relatedResources={[
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "UTM Template", url: "/resources/templates/utm", type: "template" },
-        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" }
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
+        { title: "Attribution Clarity Model", url: "/resources/frameworks/attribution-clarity-model", type: "framework" }
       ]}
     />
   );
