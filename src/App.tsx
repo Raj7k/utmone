@@ -23,6 +23,7 @@ import NamingConventionPlaybook from "./pages/resources/playbooks/NamingConventi
 import SalesMarketingAlignmentPlaybook from "./pages/resources/playbooks/SalesMarketingAlignmentPlaybook";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
+import Tools from "./pages/resources/Tools";
 import UTMTemplate from "./pages/resources/templates/UTMTemplate";
 import AuditChecklistTemplate from "./pages/resources/templates/AuditChecklistTemplate";
 import CampaignBriefTemplate from "./pages/resources/templates/CampaignBriefTemplate";
@@ -201,10 +202,16 @@ const App = () => (
           <Route path="/resources/playbooks" element={<Playbooks />} />
           
           {/* Template Routes */}
+          <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/templates/utm-template" element={<UTMTemplate />} />
           <Route path="/resources/templates/audit-checklist-template" element={<AuditChecklistTemplate />} />
           <Route path="/resources/templates/campaign-brief-template" element={<CampaignBriefTemplate />} />
           <Route path="/resources/templates/naming-taxonomy-template" element={<NamingTaxonomyTemplate />} />
+          
+          {/* Tools Routes */}
+          <Route path="/resources/tools" element={<Tools />} />
+          
+          {/* Framework Routes */}
             <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
             <Route path="/resources/frameworks/minimal-analytics-stack" element={<MinimalAnalyticsStack />} />
             <Route path="/resources/frameworks/attribution-clarity-model" element={<AttributionClarityModel />} />

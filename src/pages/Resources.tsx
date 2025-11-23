@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
-import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap } from "lucide-react";
+import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap, Calculator } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getResourceCount, getNewResources } from "@/lib/resourceRegistry";
 
@@ -64,6 +64,14 @@ const Resources = () => {
       icon: BookMarked,
       path: "/resources/glossary",
       count: getResourceCount("glossary")
+    },
+    {
+      name: "tools",
+      title: "Tools",
+      description: "interactive calculators for salary negotiation, career planning, and team budgeting",
+      icon: Calculator,
+      path: "/resources/tools",
+      count: getResourceCount("tools")
     },
     {
       name: "academy",
