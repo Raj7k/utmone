@@ -75,7 +75,7 @@ export const PercentileGauge = ({ percentile, size = 'md' }: PercentileGaugeProp
 
       {/* Label */}
       <div className="text-center">
-        <p className="text-sm font-medium text-foreground lowercase">
+        <p className="text-sm font-medium text-foreground">
           {getLabel()}
         </p>
       </div>

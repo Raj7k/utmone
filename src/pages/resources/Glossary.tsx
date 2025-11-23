@@ -516,8 +516,8 @@ const Glossary = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
-                  glossary
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+                  Glossary
                 </h1>
                 <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
                   {terms.length} terms

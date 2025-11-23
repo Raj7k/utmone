@@ -101,12 +101,12 @@ const Resources = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-6">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance lowercase">
-                resources
+              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance">
+                Resources
               </h1>
             </div>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
-              a knowledge system for clean tracking, utm governance, and analytics clarity.
+              A knowledge system for clean tracking, UTM governance, and analytics clarity.
             </p>
           </div>
         </div>
@@ -139,9 +139,9 @@ const Resources = () => {
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-4">
                     <div className="flex-1 space-y-2">
-                      <h3 className="text-xl font-display font-semibold text-foreground lowercase">
-                        {category.title}
-                      </h3>
+                    <h3 className="text-xl font-display font-semibold text-foreground">
+                      {category.title}
+                    </h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {category.description}
                       </p>

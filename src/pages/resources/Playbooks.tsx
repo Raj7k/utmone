@@ -56,14 +56,14 @@ const Playbooks = () => {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            back to resources
+            Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
-              playbooks
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+              Playbooks
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-              tactical, step-by-step workflows for utm governance, analytics, and campaign execution.
+              Tactical, step-by-step workflows for UTM governance, analytics, and campaign execution.
             </p>
           </div>
         </div>

@@ -111,7 +111,7 @@ export const ResourceLayout = ({
           )}
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground mb-6">
             {title}
           </h1>
           
@@ -173,7 +173,7 @@ export const ResourceLayout = ({
             {relatedResources && relatedResources.length > 0 && (
               <aside className="lg:col-span-4">
                 <div className="sticky top-24 space-y-6">
-                  <h3 className="text-lg font-display font-semibold text-foreground lowercase">
+                  <h3 className="text-lg font-display font-semibold text-foreground">
                     Related Resources
                   </h3>
                   <div className="space-y-4">
@@ -183,7 +183,7 @@ export const ResourceLayout = ({
                         to={resource.href}
                         className="block p-4 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-md transition-all duration-300"
                       >
-                        <h4 className="font-semibold text-foreground mb-2 lowercase">
+                        <h4 className="font-semibold text-foreground mb-2">
                           {resource.title}
                         </h4>
                         <p className="text-sm text-muted-foreground">

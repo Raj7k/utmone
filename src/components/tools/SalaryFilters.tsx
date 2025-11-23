@@ -63,8 +63,8 @@ export const SalaryFilters = ({ onFilterChange }: SalaryFiltersProps) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-card rounded-2xl border border-border/50">
       {/* Role */}
       <div className="space-y-2">
-        <Label htmlFor="role" className="text-sm font-medium lowercase">
-          role
+        <Label htmlFor="role" className="text-sm font-medium">
+          Role
         </Label>
         <Select value={filters.role} onValueChange={(value) => updateFilter('role', value)}>
           <SelectTrigger id="role">
@@ -82,8 +82,8 @@ export const SalaryFilters = ({ onFilterChange }: SalaryFiltersProps) => {
 
       {/* Location */}
       <div className="space-y-2">
-        <Label htmlFor="location" className="text-sm font-medium lowercase">
-          location
+        <Label htmlFor="location" className="text-sm font-medium">
+          Location
         </Label>
         <Select value={filters.location} onValueChange={(value) => updateFilter('location', value)}>
           <SelectTrigger id="location">
@@ -101,8 +101,8 @@ export const SalaryFilters = ({ onFilterChange }: SalaryFiltersProps) => {
 
       {/* Company Size */}
       <div className="space-y-2">
-        <Label htmlFor="companySize" className="text-sm font-medium lowercase">
-          company size
+        <Label htmlFor="companySize" className="text-sm font-medium">
+          Company Size
         </Label>
         <Select value={filters.companySize} onValueChange={(value) => updateFilter('companySize', value)}>
           <SelectTrigger id="companySize">
@@ -123,8 +123,8 @@ export const SalaryFilters = ({ onFilterChange }: SalaryFiltersProps) => {
 
       {/* Experience */}
       <div className="space-y-2">
-        <Label htmlFor="experience" className="text-sm font-medium lowercase">
-          experience
+        <Label htmlFor="experience" className="text-sm font-medium">
+          Experience
         </Label>
         <Select value={filters.experienceYears} onValueChange={(value) => updateFilter('experienceYears', value)}>
           <SelectTrigger id="experience">

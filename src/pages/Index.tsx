@@ -288,11 +288,11 @@ const Index = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <Badge variant="default" className="animate-pulse">NEW REPORT</Badge>
-                <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground lowercase">
-                  2025 salary benchmark report
+                <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground">
+                  2026 Salary Benchmark Report
                 </h2>
                 <p className="text-xl text-muted-foreground">
-                  comprehensive data across 20+ marketing and sales operations roles. 
+                  Comprehensive data across 20+ marketing and sales operations roles.
                   know your worth. negotiate with confidence. plan your career.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-4">

@@ -45,14 +45,14 @@ const Academy = () => {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            back to resources
+            Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
-              academy
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+              Academy
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-              micro lessons on utm, analytics, frameworks, and naming conventions.
+              Micro lessons on UTM, analytics, frameworks, and naming conventions.
             </p>
           </div>
         </div>
