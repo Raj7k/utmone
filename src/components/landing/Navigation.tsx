@@ -257,6 +257,17 @@ export const Navigation = () => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
+                  <Link to="/resources">
+                    <NavigationMenuLink className={cn(
+                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
+                      location.pathname.startsWith("/resources") && "text-foreground"
+                    )}>
+                      resources
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
                   <Link to="/pricing">
                     <NavigationMenuLink className={cn(
                       "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",

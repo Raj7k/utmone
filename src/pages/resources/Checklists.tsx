@@ -1,0 +1,96 @@
+import { Navigation } from "@/components/landing/Navigation";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+
+const Checklists = () => {
+  const checklists = [
+    {
+      slug: "utm-audit",
+      title: "UTM Audit — Link Health Check",
+      description: "Comprehensive checklist for auditing existing links, identifying inconsistencies, and fixing broken tracking.",
+      items: "24 items"
+    },
+    {
+      slug: "tracking-implementation",
+      title: "Tracking Implementation — Setup Checklist",
+      description: "Step-by-step checklist for implementing clean tracking from scratch across all marketing channels.",
+      items: "18 items"
+    },
+    {
+      slug: "analytics-health",
+      title: "Analytics Health — System Check",
+      description: "Monthly checklist for ensuring your analytics stack is accurate, complete, and actionable.",
+      items: "16 items"
+    },
+    {
+      slug: "campaign-launch",
+      title: "Campaign Launch — Pre-Flight Checklist",
+      description: "Everything to verify before launching a campaign to ensure tracking works perfectly.",
+      items: "12 items"
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+
+      <section className="py-20 bg-background border-b border-border/50">
+        <div className="max-w-[980px] mx-auto px-8">
+          <Link
+            to="/resources"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            back to resources
+          </Link>
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
+              checklists
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
+              actionable checklists for utm audits, campaign launches, and analytics health.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-background">
+        <div className="max-w-[980px] mx-auto px-8">
+          <div className="space-y-6">
+            {checklists.map((checklist) => (
+              <Link
+                key={checklist.slug}
+                to={`/resources/checklists/${checklist.slug}`}
+                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="space-y-3">
+                  <h2 className="text-2xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                    {checklist.title}
+                  </h2>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {checklist.description}
+                  </p>
+                  <div className="text-xs text-muted-foreground font-medium">
+                    {checklist.items}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-border/50 py-12 bg-background">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="text-center">
+            <span className="text-[13px] text-muted-foreground">
+              © 2024 utm.one. clarity creates confidence.
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Checklists;
