@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
+  const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
+  const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
@@ -113,9 +115,24 @@ const Dashboard = () => {
         
         {/* AI Insights */}
         {currentWorkspace && (
-          <div className="mb-content">
-            <AIInsightCard workspaceId={currentWorkspace.id} />
-          </div>
+          <>
+            <div className="mb-content">
+              <AIInsightCard workspaceId={currentWorkspace.id} />
+            </div>
+            
+            {anomalies && anomalies.length > 0 && (
+              <div className="space-y-4 mb-content">
+                <h2 className="text-xl font-semibold">anomalies detected</h2>
+                {anomalies.slice(0, 3).map((anomaly) => (
+                  <AnomalyAlert 
+                    key={anomaly.id} 
+                    anomaly={anomaly} 
+                    onDismiss={invalidateAnomalies}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
         
         <div className="mb-content">

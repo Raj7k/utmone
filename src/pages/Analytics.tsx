@@ -13,8 +13,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
 import { useConversionMetrics } from "@/hooks/useConversionMetrics";
 import { AIInsightCard } from "@/components/analytics/AIInsightCard";
+import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
+import { ReportScheduler } from "@/components/analytics/ReportScheduler";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
+import { useAnomalies } from "@/hooks/useAnomalies";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ const Analytics = () => {
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
+  const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
@@ -123,6 +127,20 @@ const Analytics = () => {
               <AIInsightCard workspaceId={currentWorkspace.id} />
             </div>
 
+            {/* Anomalies */}
+            {anomalies && anomalies.length > 0 && (
+              <div className="space-y-4 mb-content">
+                <h2 className="text-xl font-semibold">anomalies detected</h2>
+                {anomalies.slice(0, 3).map((anomaly) => (
+                  <AnomalyAlert 
+                    key={anomaly.id} 
+                    anomaly={anomaly as any}
+                    onDismiss={invalidateAnomalies}
+                  />
+                ))}
+              </div>
+            )}
+
             <Tabs defaultValue="overview" className="space-y-6">
               <TabsList>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -130,6 +148,7 @@ const Analytics = () => {
                 <TabsTrigger value="devices">Devices</TabsTrigger>
                 <TabsTrigger value="geography">Geography</TabsTrigger>
                 <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+                <TabsTrigger value="reports">Reports</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview">
@@ -158,6 +177,10 @@ const Analytics = () => {
 
             <TabsContent value="campaigns">
               <UTMCampaignRollups workspaceId={currentWorkspace.id} />
+            </TabsContent>
+
+            <TabsContent value="reports">
+              <ReportScheduler workspaceId={currentWorkspace.id} />
             </TabsContent>
           </Tabs>
 
