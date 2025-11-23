@@ -102,6 +102,12 @@ All colors MUST be HSL.
     --chart-3: 227 7% 39.8%;
     --chart-4: 84 18.9% 82.8%;
     --chart-5: 70 18.8% 76.9%;
+
+    /* New Color Palette - Professional & Vibrant */
+    --mirage: 210 29% 12%;        /* #16232A - Dark blue-grey */
+    --blaze-orange: 18 100% 51%;  /* #FF5B04 - Vibrant orange */
+    --deep-sea: 184 92% 18%;      /* #075056 - Deep teal-green */
+    --wild-sand: 180 25% 93%;     /* #E4EEF0 - Light beige */
     --sidebar: 248 0.3% 98.4%;
     --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
