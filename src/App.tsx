@@ -36,6 +36,7 @@ import PartnerApply from "./pages/Partners/Apply";
 import PartnerDashboard from "./pages/Partners/Dashboard";
 import PasswordProtected from "./pages/PasswordProtected";
 import APIDocumentation from "./pages/Docs/API";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 

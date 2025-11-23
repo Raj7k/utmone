@@ -4,20 +4,9 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Database } from "@/integrations/supabase/types";
 
-interface Anomaly {
-  id: string;
-  anomaly_type: 'traffic_spike' | 'new_country' | 'ctr_drop' | 'new_referrer';
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  title: string;
-  description: string;
-  baseline_value?: number;
-  current_value?: number;
-  change_percent?: number;
-  link_id?: string;
-  is_dismissed: boolean;
-  detected_at: string;
-}
+type Anomaly = Database['public']['Tables']['analytics_anomalies']['Row'];
 
 interface AnomalyAlertProps {
   anomaly: Anomaly;

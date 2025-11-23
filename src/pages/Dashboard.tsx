@@ -12,6 +12,8 @@ import { UsageLimitBanner } from "@/components/UsageLimitBanner";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { AIInsightCard } from "@/components/analytics/AIInsightCard";
+import { useAnomalies } from "@/hooks/useAnomalies";
+import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,7 +23,6 @@ const Dashboard = () => {
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
-  const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
 
   // Keyboard shortcuts
