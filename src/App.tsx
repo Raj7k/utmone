@@ -119,7 +119,7 @@ import Academy from "./pages/resources/Academy";
 
 // Reports
 import Reports from "./pages/resources/Reports";
-import SalaryBenchmark2025 from "./pages/resources/reports/SalaryBenchmark2025";
+import SalaryBenchmark2026 from "./pages/resources/reports/SalaryBenchmark2026";
 
 // Salary Tools
 import SalaryNegotiationCoach from "./pages/resources/tools/SalaryNegotiationCoach";
@@ -235,7 +235,8 @@ const App = () => (
           
           {/* Reports Routes */}
           <Route path="/resources/reports" element={<Reports />} />
-          <Route path="/resources/reports/salary-benchmark-2025" element={<SalaryBenchmark2025 />} />
+            <Route path="/resources/reports/salary-benchmark-2026" element={<SalaryBenchmark2026 />} />
+            <Route path="/resources/reports/salary-benchmark-2025" element={<SalaryBenchmark2026 />} /> {/* Legacy route redirect */}
           
           {/* Framework Routes */}
             <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
