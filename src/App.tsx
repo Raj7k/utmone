@@ -15,6 +15,10 @@ import TrackingArchitecture from "./pages/resources/guides/TrackingArchitecture"
 import SimpleAnalytics from "./pages/resources/guides/SimpleAnalytics";
 import GrowthAnalytics from "./pages/resources/guides/GrowthAnalytics";
 import LLMSeo from "./pages/resources/guides/LLMSeo";
+import UTMGovernancePlaybook from "./pages/resources/playbooks/UTMGovernancePlaybook";
+import StartupAnalyticsPlaybook from "./pages/resources/playbooks/StartupAnalyticsPlaybook";
+import EventLedGrowthPlaybook from "./pages/resources/playbooks/EventLedGrowthPlaybook";
+import NamingConventionPlaybook from "./pages/resources/playbooks/NamingConventionPlaybook";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
 import Checklists from "./pages/resources/Checklists";
@@ -96,6 +100,12 @@ const App = () => (
           <Route path="/resources/guides/simple-analytics" element={<SimpleAnalytics />} />
           <Route path="/resources/guides/growth-analytics" element={<GrowthAnalytics />} />
           <Route path="/resources/guides/llm-seo" element={<LLMSeo />} />
+          
+          {/* Playbook Routes */}
+          <Route path="/resources/playbooks/utm-governance-playbook" element={<UTMGovernancePlaybook />} />
+          <Route path="/resources/playbooks/startup-analytics-playbook" element={<StartupAnalyticsPlaybook />} />
+          <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
+          <Route path="/resources/playbooks/naming-convention-playbook" element={<NamingConventionPlaybook />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
