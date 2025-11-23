@@ -20,7 +20,7 @@ const Reports = () => {
               resources
             </Link>
             <span>/</span>
-            <span className="text-foreground">reports</span>
+            <span className="text-foreground">Reports</span>
           </div>
         </div>
       </div>
@@ -37,11 +37,11 @@ const Reports = () => {
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-foreground lowercase">
-              reports
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-foreground">
+              Reports
             </h1>
             <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
-              data-driven research reports on salaries, market trends, and industry benchmarks
+              Data-driven research reports on salaries, market trends, and industry benchmarks
             </p>
           </motion.div>
         </div>
@@ -75,7 +75,7 @@ const Reports = () => {
                         {report.title}
                       </CardTitle>
                       <CardDescription className="text-base mt-2">
-                        comprehensive salary data across 20+ marketing and sales operations roles
+                        Comprehensive salary data across 30+ roles, 15+ countries, 100+ cities, and 8 industries
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -90,18 +90,22 @@ const Reports = () => {
                         </Button>
                       </div>
                       <div className="mt-6 pt-6 border-t border-border/50">
-                        <div className="grid grid-cols-3 gap-4 text-center">
+                        <div className="grid grid-cols-4 gap-4 text-center">
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">20+</div>
-                            <div className="text-sm text-muted-foreground">roles</div>
+                            <div className="text-2xl font-display font-bold text-foreground">30+</div>
+                            <div className="text-sm text-muted-foreground">Roles</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">50+</div>
-                            <div className="text-sm text-muted-foreground">markets</div>
+                            <div className="text-2xl font-display font-bold text-foreground">15+</div>
+                            <div className="text-sm text-muted-foreground">Countries</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">1,000+</div>
-                            <div className="text-sm text-muted-foreground">companies</div>
+                            <div className="text-2xl font-display font-bold text-foreground">100+</div>
+                            <div className="text-sm text-muted-foreground">Cities</div>
+                          </div>
+                          <div>
+                            <div className="text-2xl font-display font-bold text-foreground">50K+</div>
+                            <div className="text-sm text-muted-foreground">Job Postings</div>
                           </div>
                         </div>
                       </div>
@@ -118,10 +122,10 @@ const Reports = () => {
       <section className="py-20 bg-muted/20">
         <div className="max-w-[640px] mx-auto px-8 text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            want more insights?
+            Want More Insights?
           </h2>
           <p className="text-lg text-muted-foreground">
-            explore our interactive salary tools for personalized analysis and negotiation support
+            Explore our interactive salary tools for personalized analysis and negotiation support
           </p>
           <Link to="/resources/tools">
             <Button size="lg" variant="default" className="mt-4">

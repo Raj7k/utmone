@@ -57,7 +57,7 @@ export const resourceRegistry = {
   ],
   glossary: [] as Resource[], // Dynamically counted from glossary page
   reports: [
-    { slug: 'salary-benchmark-2025', title: '2025 Global Salary Benchmark Report', badge: 'FEATURED' as const }
+    { slug: 'salary-benchmark-2026', title: '2026 Global Salary Benchmark Report', badge: 'FEATURED' as const }
   ]
 };
 
