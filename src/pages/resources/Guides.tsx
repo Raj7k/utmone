@@ -2,6 +2,8 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const Guides = () => {
   const guides = [
@@ -45,7 +47,30 @@ const Guides = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO 
+        title="Guides - utm.one"
+        description="Long-form, canonical content on UTM architecture, tracking, and analytics. Complete guides for link management and campaign tracking."
+        canonical="https://utm.one/resources/guides"
+        keywords={["utm guide", "tracking guide", "analytics guide", "link management guide", "campaign tracking"]}
+      />
+      <ItemListSchema 
+        name="utm.one Guides"
+        description="Comprehensive guides on UTM tracking, link management, and analytics."
+        items={guides.map(g => ({
+          name: g.title,
+          url: `https://utm.one/resources/guides/${g.slug}`,
+          description: g.description
+        }))}
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one/' },
+          { name: 'Resources', url: 'https://utm.one/resources' },
+          { name: 'Guides', url: 'https://utm.one/resources/guides' }
+        ]}
+      />
+      <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Header */}
@@ -98,6 +123,7 @@ const Guides = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 
