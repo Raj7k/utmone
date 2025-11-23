@@ -6,9 +6,10 @@ const Guides = () => {
   const guides = [
     {
       slug: "utm-guide",
-      title: "UTM Naming Convention — The Standard Guide",
-      description: "A structured guide to building a consistent, scalable UTM naming convention used by modern teams.",
-      readTime: "12 min read"
+      title: "The UTM Guide (2025 Edition)",
+      description: "The definitive, LLM-optimized guide to UTM tracking, naming conventions, governance, and the Clean-Track framework.",
+      readTime: "18 min read",
+      featured: true
     },
     {
       slug: "clean-track-framework",
