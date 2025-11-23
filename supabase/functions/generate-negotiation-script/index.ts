@@ -44,7 +44,10 @@ Generate exactly 4 scripts in JSON format:
     });
 
     const data = await response.json();
-    const scriptText = data.choices[0].message.content;
+    let scriptText = data.choices[0].message.content;
+    
+    // Strip markdown code fences if present
+    scriptText = scriptText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
     
     return new Response(JSON.stringify(JSON.parse(scriptText)), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
