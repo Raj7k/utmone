@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,17 +10,15 @@ import { ReportTableOfContents } from "@/components/reports/ReportTableOfContent
 import { ProgressIndicator } from "@/components/reports/ProgressIndicator";
 import { DataSourcesBadges } from "@/components/reports/DataSourcesBadges";
 import { GeolocationDetector } from "@/components/reports/GeolocationDetector";
-
-// Lazy load heavy sections for better performance
-const MegaTrendsSection = lazy(() => import("@/components/reports/MegaTrendsSection").then(m => ({ default: m.MegaTrendsSection })));
-const MarketingSalarySection = lazy(() => import("@/components/reports/MarketingSalarySection").then(m => ({ default: m.MarketingSalarySection })));
-const SalesSalarySection = lazy(() => import("@/components/reports/SalesSalarySection").then(m => ({ default: m.SalesSalarySection })));
-const RevOpsMarkOpsSection = lazy(() => import("@/components/reports/RevOpsMarkOpsSection").then(m => ({ default: m.RevOpsMarkOpsSection })));
-const RegionalDeepDives = lazy(() => import("@/components/reports/RegionalDeepDives").then(m => ({ default: m.RegionalDeepDives })));
-const SkillDemandAnalysis = lazy(() => import("@/components/reports/SkillDemandAnalysis").then(m => ({ default: m.SkillDemandAnalysis })));
-const NegotiationBlueprint = lazy(() => import("@/components/reports/NegotiationBlueprint").then(m => ({ default: m.NegotiationBlueprint })));
-const EnhancedSalaryCalculator = lazy(() => import("@/components/reports/EnhancedSalaryCalculator").then(m => ({ default: m.EnhancedSalaryCalculator })));
-const Section8Narrative = lazy(() => import("@/components/reports/Section8Narrative").then(m => ({ default: m.Section8Narrative })));
+import { MegaTrendsSection } from "@/components/reports/MegaTrendsSection";
+import { MarketingSalarySection } from "@/components/reports/MarketingSalarySection";
+import { SalesSalarySection } from "@/components/reports/SalesSalarySection";
+import { RevOpsMarkOpsSection } from "@/components/reports/RevOpsMarkOpsSection";
+import { RegionalDeepDives } from "@/components/reports/RegionalDeepDives";
+import { SkillDemandAnalysis } from "@/components/reports/SkillDemandAnalysis";
+import { NegotiationBlueprint } from "@/components/reports/NegotiationBlueprint";
+import { EnhancedSalaryCalculator } from "@/components/reports/EnhancedSalaryCalculator";
+import { Section8Narrative } from "@/components/reports/Section8Narrative";
 import { LinkedInPostCard1 } from "@/components/reports/linkedin-cards/LinkedInPostCard1";
 import { LinkedInPostCard2 } from "@/components/reports/linkedin-cards/LinkedInPostCard2";
 import { LinkedInPostCard3 } from "@/components/reports/linkedin-cards/LinkedInPostCard3";
@@ -28,10 +26,10 @@ import { LinkedInPostCard4 } from "@/components/reports/linkedin-cards/LinkedInP
 import { LinkedInPostCard5 } from "@/components/reports/linkedin-cards/LinkedInPostCard5";
 import { LinkedInPostCard6 } from "@/components/reports/linkedin-cards/LinkedInPostCard6";
 import { LinkedInPostCard7 } from "@/components/reports/linkedin-cards/LinkedInPostCard7";
-const WalkAwayCalculator = lazy(() => import("@/components/reports/tools/WalkAwayCalculator").then(m => ({ default: m.WalkAwayCalculator })));
-const CounterOfferAnalyzer = lazy(() => import("@/components/reports/tools/CounterOfferAnalyzer").then(m => ({ default: m.CounterOfferAnalyzer })));
-const SkillsROICalculator = lazy(() => import("@/components/reports/tools/SkillsROICalculator").then(m => ({ default: m.SkillsROICalculator })));
-const Footer = lazy(() => import("@/components/landing/Footer").then(m => ({ default: m.Footer })));
+import { WalkAwayCalculator } from "@/components/reports/tools/WalkAwayCalculator";
+import { CounterOfferAnalyzer } from "@/components/reports/tools/CounterOfferAnalyzer";
+import { SkillsROICalculator } from "@/components/reports/tools/SkillsROICalculator";
+import { Footer } from "@/components/landing/Footer";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -258,16 +256,10 @@ const SalaryBenchmark2026 = () => {
       {/* LinkedIn Post Card #1 */}
       <LinkedInPostCard1 />
 
-      {/* Wrap heavy sections in Suspense for lazy loading */}
-      <Suspense fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-muted-foreground" role="status" aria-live="polite">Loading report sections...</div>
-        </div>
-      }>
-        {/* SECTION 1: MegaTrendsSection */}
-        <div id="mega-trends">
-          <MegaTrendsSection />
-        </div>
+      {/* SECTION 1: MegaTrendsSection */}
+      <div id="mega-trends">
+        <MegaTrendsSection />
+      </div>
 
       {/* CTA #3: After Mega-Trends */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
@@ -426,8 +418,6 @@ const SalaryBenchmark2026 = () => {
           </div>
         </div>
       </section>
-
-      </Suspense>
 
       {/* Progress Indicator */}
       <ProgressIndicator />
