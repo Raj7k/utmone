@@ -19,9 +19,9 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Apple Design System - Exact color tokens */
-    --background: 39 5% 98%;           /* #FAFAF9 */
-    --foreground: 240 5% 9.6%;         /* #18181B */
+    /* Apple Design System - WCAG AAA Compliant (7:1 contrast) */
+    --background: 0 0% 100%;           /* #FFFFFF - Pure white for maximum contrast */
+    --foreground: 0 0% 0%;             /* #000000 - Pure black for 21:1 contrast ratio */
 
     --card: 0 0% 100%;
     --card-foreground: 240 5% 9.6%;
@@ -43,9 +43,9 @@ All colors MUST be HSL.
     --success: 142 71% 45%;             /* #10B981 */
     --success-foreground: 355.7 100% 97.3%;
 
-    /* Muted elements */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 240 5% 44.5%;   /* Matches text-secondary #71717A */
+    /* Muted elements - WCAG AAA compliant */
+    --muted: 0 0% 96%;                  /* Light gray background */
+    --muted-foreground: 0 0% 20%;       /* Dark gray text for 12:1 contrast on white */
 
     /* Accent color - Indigo light */
     --accent: 238 84% 74%;              /* #818CF8 */
@@ -234,5 +234,28 @@ All colors MUST be HSL.
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Focus indicators - WCAG AAA compliant */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Minimum 44x44px touch targets */
+  button,
+  a[role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 44px;
+    min-height: 44px;
   }
 }

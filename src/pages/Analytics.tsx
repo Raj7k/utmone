@@ -12,13 +12,22 @@ import { UTMCampaignRollups } from "@/components/analytics/UTMCampaignRollups";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
 import { useConversionMetrics } from "@/hooks/useConversionMetrics";
+import { AIInsightCard } from "@/components/analytics/AIInsightCard";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 
 const Analytics = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onShowHelp: () => setShowShortcutsHelp(true),
+  });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -108,18 +117,24 @@ const Analytics = () => {
         </div>
 
         {currentWorkspace && (
-          <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="conversions">Conversions</TabsTrigger>
-          <TabsTrigger value="devices">Devices</TabsTrigger>
-          <TabsTrigger value="geography">Geography</TabsTrigger>
-          <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
-        </TabsList>
+          <>
+            {/* AI Insights */}
+            <div className="mb-content">
+              <AIInsightCard workspaceId={currentWorkspace.id} />
+            </div>
 
-            <TabsContent value="overview">
-              <AnalyticsOverview workspaceId={currentWorkspace.id} />
-            </TabsContent>
+            <Tabs defaultValue="overview" className="space-y-6">
+              <TabsList>
+                <TabsTrigger value="overview">Overview</TabsTrigger>
+                <TabsTrigger value="conversions">Conversions</TabsTrigger>
+                <TabsTrigger value="devices">Devices</TabsTrigger>
+                <TabsTrigger value="geography">Geography</TabsTrigger>
+                <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="overview">
+                <AnalyticsOverview workspaceId={currentWorkspace.id} />
+              </TabsContent>
 
             <TabsContent value="conversions" className="space-y-6">
               {conversionMetrics.data && (
@@ -145,6 +160,13 @@ const Analytics = () => {
               <UTMCampaignRollups workspaceId={currentWorkspace.id} />
             </TabsContent>
           </Tabs>
+
+          {/* Keyboard Shortcuts Help */}
+          <KeyboardShortcutsHelp 
+            open={showShortcutsHelp}
+            onOpenChange={setShowShortcutsHelp}
+          />
+        </>
         )}
       </main>
     </div>

@@ -10,10 +10,20 @@ import { useNavigate } from "react-router-dom";
 
 interface CreateLinkDialogProps {
   workspaceId: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const CreateLinkDialog = ({ workspaceId }: CreateLinkDialogProps) => {
-  const [open, setOpen] = useState(false);
+export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange }: CreateLinkDialogProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = externalOpen !== undefined ? externalOpen : internalOpen;
+  const setOpen = (newOpen: boolean) => {
+    if (onOpenChange) {
+      onOpenChange(newOpen);
+    } else {
+      setInternalOpen(newOpen);
+    }
+  };
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);
   const [createdShortUrl, setCreatedShortUrl] = useState<string>("");

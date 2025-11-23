@@ -9,13 +9,24 @@ import type { User } from "@supabase/supabase-js";
 import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { UsageLimitBanner } from "@/components/UsageLimitBanner";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
+import { AIInsightCard } from "@/components/analytics/AIInsightCard";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onCreateLink: () => setCreateLinkDialogOpen(true),
+    onShowHelp: () => setShowShortcutsHelp(true),
+  });
 
   useEffect(() => {
     // Check authentication
@@ -100,6 +111,13 @@ const Dashboard = () => {
       <main className="container mx-auto px-8 py-group">
         <UsageLimitBanner />
         
+        {/* AI Insights */}
+        {currentWorkspace && (
+          <div className="mb-content">
+            <AIInsightCard workspaceId={currentWorkspace.id} />
+          </div>
+        )}
+        
         <div className="mb-content">
           <h1 className="text-heading-3 font-bold mb-2">welcome back</h1>
           <p className="text-body-text text-muted-foreground">here's what's happening with your links today.</p>
@@ -117,7 +135,11 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               {currentWorkspace ? (
-                <CreateLinkDialog workspaceId={currentWorkspace.id} />
+                <CreateLinkDialog 
+                  workspaceId={currentWorkspace.id}
+                  open={createLinkDialogOpen}
+                  onOpenChange={setCreateLinkDialogOpen}
+                />
               ) : (
                 <Button className="w-full bg-gradient-primary" disabled>
                   <Plus className="h-4 w-4 mr-2" />
@@ -216,6 +238,12 @@ const Dashboard = () => {
             </Button>
           </CardContent>
         </Card>
+
+        {/* Keyboard Shortcuts Help */}
+        <KeyboardShortcutsHelp 
+          open={showShortcutsHelp}
+          onOpenChange={setShowShortcutsHelp}
+        />
       </main>
     </div>
   );

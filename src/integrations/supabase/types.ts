@@ -53,6 +53,44 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_insights: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          insight_type: string
+          metadata: Json | null
+          summary_text: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          insight_type?: string
+          metadata?: Json | null
+          summary_text: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          insight_type?: string
+          metadata?: Json | null
+          summary_text?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_insights_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alert_configurations: {
         Row: {
           alert_name: string
