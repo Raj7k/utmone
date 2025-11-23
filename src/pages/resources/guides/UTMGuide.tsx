@@ -5,6 +5,10 @@ import { InlineTemplate } from "@/components/resources/InlineTemplate";
 import { CaseStudyCard } from "@/components/resources/CaseStudyCard";
 import { CTABanner } from "@/components/resources/CTABanner";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { TableOfContents } from "@/components/resources/TableOfContents";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const UTMGuide = () => {
   const breadcrumbs = [
@@ -124,18 +128,43 @@ const UTMGuide = () => {
   ];
 
   return (
-    <GuideLayout
-      title="The UTM Guide (2025 Edition)"
-      subtitle="The definitive guide to UTM tracking, naming conventions, governance, and the Clean-Track framework. Optimized for humans and AI answer engines."
-      readTime="18 min read"
-      lastUpdated="January 2025"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="The UTM Guide (2025 Edition) - Complete UTM Tracking Reference | utm.one"
+        description="The definitive guide to UTM tracking, naming conventions, governance, and the Clean-Track framework. Learn UTM parameters, best practices, templates, and implementation strategies."
+        canonical="https://utm.one/resources/guides/utm-guide"
+        ogType="article"
+        publishedTime="2025-01-01"
+        modifiedTime="2025-01-23"
+        keywords={["utm parameters", "utm tracking", "utm guide", "campaign tracking", "google analytics", "utm naming conventions"]}
+      />
+      <ArticleSchema
+        headline="The UTM Guide (2025 Edition)"
+        description="The definitive guide to UTM tracking, naming conventions, governance, and the Clean-Track framework"
+        author="utm.one"
+        datePublished="2025-01-01"
+        dateModified="2025-01-23"
+      />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="The UTM Guide (2025 Edition)"
+        subtitle="The definitive guide to UTM tracking, naming conventions, governance, and the Clean-Track framework. Optimized for humans and AI answer engines."
+        readTime="18 min read"
+        lastUpdated="January 2025"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <TableOfContents />
+      
+      <QuickAnswer>
+        UTM parameters are query strings appended to URLs to track where website traffic comes from. The 5 parameters (utm_source, utm_medium, utm_campaign, utm_term, utm_content) identify traffic origins and campaign performance in analytics tools like Google Analytics. Proper UTM governance ensures consistent tracking, reliable attribution, and accurate campaign reporting.
+      </QuickAnswer>
+
       {/* Introduction */}
       <ProgressiveReveal>
         <section className="mb-12">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-6" id="why-this-guide-exists">
             Why This Guide Exists
           </h2>
           
@@ -469,7 +498,8 @@ utm_term=utm-tracking-software`}
         buttonHref="/early-access"
         variant="primary"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 

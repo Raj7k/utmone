@@ -2,6 +2,9 @@ import { GuideLayout } from "@/components/resources/GuideLayout";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { ComparisonCard } from "@/components/resources/ComparisonCard";
 import { CTABanner } from "@/components/resources/CTABanner";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { Link } from "react-router-dom";
 
 const SimpleAnalytics = () => {
@@ -41,14 +44,37 @@ const SimpleAnalytics = () => {
   ];
 
   return (
-    <GuideLayout
-      title="Simple Analytics — Clarity Over Complexity"
-      subtitle="reducing measurement to the smallest set of metrics, events, and dashboards required for confident decisions"
-      readTime="10 min read"
-      lastUpdated="2025-01-23"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="Simple Analytics Guide - Clarity Over Complexity | utm.one"
+        description="Reduce measurement to the smallest set of metrics, events, and dashboards required for confident decisions. Focus on what matters: acquisition, engagement, revenue."
+        canonical="https://utm.one/resources/guides/simple-analytics"
+        ogType="article"
+        publishedTime="2025-01-23"
+        keywords={["simple analytics", "minimal metrics", "analytics framework", "marketing measurement"]}
+      />
+      <ArticleSchema
+        headline="Simple Analytics — Clarity Over Complexity"
+        description="Reducing measurement to the smallest set of metrics, events, and dashboards required for confident decisions"
+        author="utm.one"
+        datePublished="2025-01-23"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="Simple Analytics — Clarity Over Complexity"
+        subtitle="reducing measurement to the smallest set of metrics, events, and dashboards required for confident decisions"
+        readTime="10 min read"
+        lastUpdated="2025-01-23"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <QuickAnswer>
+        Simple Analytics is the discipline of reducing your measurement system to the smallest set of metrics, events, and dashboards required to make confident decisions. It focuses on 3 core metrics (acquisition, engagement, revenue) instead of tracking everything, eliminating analytics paralysis and reporting noise.
+      </QuickAnswer>
+
       {/* Narrative Introduction */}
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">the problem with complex analytics</h2>
@@ -222,7 +248,8 @@ const SimpleAnalytics = () => {
         buttonText="get early access"
         buttonHref="/early-access"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 

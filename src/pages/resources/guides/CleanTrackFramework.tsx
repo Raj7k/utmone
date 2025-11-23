@@ -2,6 +2,9 @@ import { GuideLayout } from "@/components/resources/GuideLayout";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { ComparisonCard } from "@/components/resources/ComparisonCard";
 import { CTABanner } from "@/components/resources/CTABanner";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { Link } from "react-router-dom";
 import { Layers, Database, LineChart, Shield } from "lucide-react";
 
@@ -42,14 +45,37 @@ const CleanTrackFramework = () => {
   ];
 
   return (
-    <GuideLayout
-      title="Clean-Track Framework — Data Architecture Guide"
-      subtitle="the foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems"
-      readTime="15 min read"
-      lastUpdated="2025-01-23"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="Clean-Track Framework - Data Architecture Guide | utm.one"
+        description="The foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems. 4-layer framework for tracking governance."
+        canonical="https://utm.one/resources/guides/clean-track-framework"
+        ogType="article"
+        publishedTime="2025-01-23"
+        keywords={["clean-track framework", "tracking governance", "utm architecture", "campaign tracking"]}
+      />
+      <ArticleSchema
+        headline="Clean-Track Framework — Data Architecture Guide"
+        description="The foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems"
+        author="utm.one"
+        datePublished="2025-01-23"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="Clean-Track Framework — Data Architecture Guide"
+        subtitle="the foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems"
+        readTime="15 min read"
+        lastUpdated="2025-01-23"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <QuickAnswer>
+        The Clean-Track Framework is the foundation of reliable, scalable campaign tracking across UTMs, naming conventions, attribution, and analytics systems. It's a 4-layer architecture: Campaign Taxonomy (naming structure), UTM Governance (parameter rules), Attribution Logic (credit assignment), and Reporting Standards (dashboard consistency).
+      </QuickAnswer>
+
       {/* Narrative Introduction */}
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">why tracking frameworks matter</h2>
@@ -211,7 +237,8 @@ const CleanTrackFramework = () => {
         buttonText="get early access"
         buttonHref="/early-access"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 

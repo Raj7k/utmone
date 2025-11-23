@@ -2,6 +2,9 @@ import { GuideLayout } from "@/components/resources/GuideLayout";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { CaseStudyCard } from "@/components/resources/CaseStudyCard";
 import { CTABanner } from "@/components/resources/CTABanner";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { Link } from "react-router-dom";
 
 const GrowthAnalytics = () => {
@@ -41,14 +44,37 @@ const GrowthAnalytics = () => {
   ];
 
   return (
-    <GuideLayout
-      title="Growth Analytics — Measuring What Matters"
-      subtitle="measuring acquisition, activation, retention, and revenue across the entire customer lifecycle"
-      readTime="14 min read"
-      lastUpdated="2025-01-23"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="Growth Analytics Guide - Measuring What Matters | utm.one"
+        description="Measuring acquisition, activation, retention, and revenue across the entire customer lifecycle. AARRR framework for growth teams."
+        canonical="https://utm.one/resources/guides/growth-analytics"
+        ogType="article"
+        publishedTime="2025-01-23"
+        keywords={["growth analytics", "aarrr framework", "pirate metrics", "customer lifecycle"]}
+      />
+      <ArticleSchema
+        headline="Growth Analytics — Measuring What Matters"
+        description="Measuring acquisition, activation, retention, and revenue across the entire customer lifecycle"
+        author="utm.one"
+        datePublished="2025-01-23"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="Growth Analytics — Measuring What Matters"
+        subtitle="measuring acquisition, activation, retention, and revenue across the entire customer lifecycle"
+        readTime="14 min read"
+        lastUpdated="2025-01-23"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <QuickAnswer>
+        Growth Analytics is the discipline of measuring acquisition, activation, retention, and revenue across the entire customer lifecycle using clean, structured tracking. It uses the AARRR framework (Pirate Metrics) to track users through every lifecycle stage, showing where growth happens and where it breaks.
+      </QuickAnswer>
+
       {/* Narrative Introduction */}
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">why growth teams fail at analytics</h2>
@@ -212,7 +238,8 @@ const GrowthAnalytics = () => {
         buttonText="get early access"
         buttonHref="/early-access"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 

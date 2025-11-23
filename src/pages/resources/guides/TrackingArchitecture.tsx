@@ -2,6 +2,9 @@ import { GuideLayout } from "@/components/resources/GuideLayout";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { ComparisonCard } from "@/components/resources/ComparisonCard";
 import { CTABanner } from "@/components/resources/CTABanner";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { Link } from "react-router-dom";
 import { GitBranch, Database, BarChart3, Users, Zap } from "lucide-react";
 
@@ -42,14 +45,37 @@ const TrackingArchitecture = () => {
   ];
 
   return (
-    <GuideLayout
-      title="Tracking Architecture — Building for Scale"
-      subtitle="blueprint for how campaigns, UTMs, channels, events, and reporting systems connect into unified data flow"
-      readTime="18 min read"
-      lastUpdated="2025-01-23"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="Tracking Architecture Guide - Building for Scale | utm.one"
+        description="Blueprint for how campaigns, UTMs, channels, events, and reporting systems connect into unified data flow. 5 principles for scalable tracking infrastructure."
+        canonical="https://utm.one/resources/guides/tracking-architecture"
+        ogType="article"
+        publishedTime="2025-01-23"
+        keywords={["tracking architecture", "utm infrastructure", "analytics system", "data flow"]}
+      />
+      <ArticleSchema
+        headline="Tracking Architecture — Building for Scale"
+        description="Blueprint for how campaigns, UTMs, channels, events, and reporting systems connect into unified data flow"
+        author="utm.one"
+        datePublished="2025-01-23"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="Tracking Architecture — Building for Scale"
+        subtitle="blueprint for how campaigns, UTMs, channels, events, and reporting systems connect into unified data flow"
+        readTime="18 min read"
+        lastUpdated="2025-01-23"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <QuickAnswer>
+        Tracking architecture defines how campaigns, UTMs, channels, events, and reporting systems connect into a single, unified data flow. It's the blueprint behind clean attribution, reliable dashboards, and scalable analytics—ensuring data flows cleanly from campaign creation to final report without breaking under complexity.
+      </QuickAnswer>
+
       {/* Narrative Introduction */}
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">why architecture matters</h2>
@@ -222,7 +248,8 @@ const TrackingArchitecture = () => {
         buttonText="get early access"
         buttonHref="/early-access"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 

@@ -3,6 +3,9 @@ import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { ComparisonCard } from "@/components/resources/ComparisonCard";
 import { InlineTemplate } from "@/components/resources/InlineTemplate";
 import { CTABanner } from "@/components/resources/CTABanner";
+import { QuickAnswer } from "@/components/resources/QuickAnswer";
+import { SEO } from "@/components/seo/SEO";
+import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const LLMSeo = () => {
   const breadcrumbs = [
@@ -54,14 +57,37 @@ const LLMSeo = () => {
 }`;
 
   return (
-    <GuideLayout
-      title="LLM-First SEO — Writing for AI Retrieval"
-      subtitle="making content discoverable, extractable, and citable by AI systems like ChatGPT, Perplexity, and Claude"
-      readTime="16 min read"
-      lastUpdated="2025-01-23"
-      breadcrumbs={breadcrumbs}
-      relatedResources={relatedResources}
-    >
+    <>
+      <SEO
+        title="LLM-First SEO Guide - Answer Engine Optimization | utm.one"
+        description="Make content discoverable, extractable, and citable by AI systems like ChatGPT, Perplexity, and Claude. 7 principles for LLM optimization and AI retrieval."
+        canonical="https://utm.one/resources/guides/llm-seo"
+        ogType="article"
+        publishedTime="2025-01-23"
+        keywords={["llm seo", "answer engine optimization", "ai retrieval", "chatgpt seo", "perplexity seo"]}
+      />
+      <ArticleSchema
+        headline="LLM-First SEO — Writing for AI Retrieval"
+        description="Making content discoverable, extractable, and citable by AI systems like ChatGPT, Perplexity, and Claude"
+        author="utm.one"
+        datePublished="2025-01-23"
+        dateModified="2025-01-23"
+      />
+      <FAQSchema questions={faqs} />
+      <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: b.href }))} />
+      
+      <GuideLayout
+        title="LLM-First SEO — Writing for AI Retrieval"
+        subtitle="making content discoverable, extractable, and citable by AI systems like ChatGPT, Perplexity, and Claude"
+        readTime="16 min read"
+        lastUpdated="2025-01-23"
+        breadcrumbs={breadcrumbs}
+        relatedResources={relatedResources}
+      >
+      <QuickAnswer>
+        LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems like ChatGPT, Gemini, Claude, and Perplexity. It uses 7 principles: semantic naming, dense definitions, schema markup, internal cross-linking, FAQ sections, clear hierarchies, and citation-worthy sources.
+      </QuickAnswer>
+
       {/* Narrative Introduction */}
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">the shift from SEO to answer engine optimization</h2>
@@ -249,7 +275,8 @@ const LLMSeo = () => {
         buttonText="get early access"
         buttonHref="/early-access"
       />
-    </GuideLayout>
+      </GuideLayout>
+    </>
   );
 };
 
