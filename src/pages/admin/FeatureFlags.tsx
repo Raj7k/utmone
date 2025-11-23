@@ -43,7 +43,7 @@ export default function FeatureFlags() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">feature flags</h1>
+        <h1 className="text-3xl font-display font-bold mb-2">feature flags</h1>
         <p className="text-muted-foreground">
           runtime control for performance optimization and maintenance
         </p>

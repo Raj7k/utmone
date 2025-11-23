@@ -113,7 +113,7 @@ const Links = () => {
         <div className="mb-content">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-heading-3 font-bold mb-2">links</h1>
+              <h1 className="text-heading-3 font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">links</h1>
               <p className="text-body-text text-muted-foreground">
                 manage and track all your short links
               </p>

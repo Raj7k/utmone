@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
           </Button>
         </Link>
 
-        <h1 className="text-5xl font-bold mb-8">privacy policy</h1>
+        <h1 className="text-5xl font-display font-bold mb-8 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">privacy policy</h1>
         <p className="text-xl text-muted-foreground mb-12">
           last updated: {new Date().toLocaleDateString()}
         </p>

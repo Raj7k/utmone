@@ -84,7 +84,7 @@ const LinkDetail = () => {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl font-bold">{link.title}</h1>
+                <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">{link.title}</h1>
                 <Badge variant="outline" className={getStatusColor(link.status)}>
                   {link.status}
                 </Badge>

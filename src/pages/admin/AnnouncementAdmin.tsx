@@ -36,7 +36,7 @@ export default function AnnouncementAdmin() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">announcement management</h1>
+            <h1 className="text-3xl font-display font-bold">announcement management</h1>
             <p className="text-muted-foreground mt-2">
               manage announcement bar configurations and track performance
             </p>

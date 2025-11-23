@@ -34,9 +34,11 @@ const Pricing = () => {
       <section className="py-section bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
-            <h1 className="text-heading-1 text-foreground font-extrabold tracking-tight">
-              simple pricing.<br />generous limits.
-            </h1>
+            <div className="hero-glow">
+              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+                simple pricing.<br />generous limits.
+              </h1>
+            </div>
             <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
               no per-seat charges. no hidden fees. just straightforward pricing that scales with your links, not your team size.
             </p>

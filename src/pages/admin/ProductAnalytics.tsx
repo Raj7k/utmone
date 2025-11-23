@@ -106,7 +106,7 @@ export default function ProductAnalytics() {
     <AdminLayout>
       <div className="p-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold">product analytics</h1>
+          <h1 className="text-3xl font-display font-bold">product analytics</h1>
           <p className="text-muted-foreground mt-1">
             usage trends and feature adoption
           </p>

@@ -27,9 +27,11 @@ export default function Invite() {
     <div className="min-h-screen bg-white flex items-center justify-center px-6">
       <div className="text-center max-w-[600px]">
         <AnimatedHeadline>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            you've been invited to utm.one
-          </h1>
+          <div className="hero-glow">
+            <h1 className="hero-gradient text-4xl md:text-5xl font-display font-bold mb-4">
+              you've been invited to utm.one
+            </h1>
+          </div>
         </AnimatedHeadline>
         <AnimatedHeadline delay={200}>
           <p className="text-xl text-muted-foreground">

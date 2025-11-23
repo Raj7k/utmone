@@ -65,14 +65,16 @@ const Index = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
               >
-                <motion.h1 
-                  className="text-4xl md:text-hero text-foreground font-extrabold tracking-tight text-balance"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                >
-                  {variant.headline}
-                </motion.h1>
+                <motion.div className="hero-glow">
+                  <motion.h1 
+                    className="hero-gradient text-4xl md:text-hero font-display font-extrabold tracking-tight text-balance"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                  >
+                    {variant.headline}
+                  </motion.h1>
+                </motion.div>
                 <motion.p 
                   className="text-body text-muted-foreground max-w-[640px] mx-auto text-balance"
                   initial={{ opacity: 0, y: 20 }}

@@ -110,7 +110,7 @@ export default function PartnersManagement() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Partner Management</h1>
+        <h1 className="text-3xl font-display font-bold">Partner Management</h1>
         <p className="text-muted-foreground">Manage partner applications, active partners, and payouts</p>
       </div>
 

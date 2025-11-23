@@ -93,7 +93,7 @@ export default function Settings() {
           </div>
 
           <div>
-            <h1 className="text-3xl font-bold mb-2">Settings</h1>
+            <h1 className="text-3xl font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">Settings</h1>
             <p className="text-muted-foreground">
               Manage your workspace settings, domains, and preferences
             </p>

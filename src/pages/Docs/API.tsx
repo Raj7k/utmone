@@ -8,7 +8,7 @@ export default function APIDocumentation() {
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="space-y-6">
         <div>
-          <h1 className="text-4xl font-bold mb-2">API Documentation</h1>
+          <h1 className="text-4xl font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">API Documentation</h1>
           <p className="text-muted-foreground text-lg">
             Integrate utm.one into your applications with our RESTful API
           </p>

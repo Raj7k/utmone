@@ -85,7 +85,7 @@ export const Navigation = () => {
             <img 
               src="/src/assets/utm-one-logo.svg" 
               alt="utm.one logo" 
-              className="h-8 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
@@ -314,11 +314,11 @@ export const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 {/* Logo at top of mobile menu */}
                 <div className="flex items-center gap-2 mb-6">
-                  <img 
-                    src="/src/assets/utm-one-logo.svg" 
-                    alt="utm.one" 
-                    className="h-6 w-auto"
-                  />
+            <img 
+              src="/src/assets/utm-one-logo.svg" 
+              alt="utm.one" 
+              className="h-8 w-auto"
+            />
                 </div>
                 
                 <nav className="flex flex-col gap-4 mt-8">
