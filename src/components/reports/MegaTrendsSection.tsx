@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { TrendingUp, Bot, DollarSign, MapPin, Users, Target, Building2, Activity, Briefcase, Award } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MegaTrendsTimeline } from "./visualizations/MegaTrendsTimeline";
+import { RegionalFragmentationChart } from "./visualizations/RegionalFragmentationChart";
+import { CareerSatisfactionScatter } from "./visualizations/CareerSatisfactionScatter";
 
 const trends = [
   {
@@ -163,6 +166,13 @@ export const MegaTrendsSection = () => {
           <p className="text-center text-muted-foreground">
             <strong className="text-foreground">Critical Insight:</strong> These 10 trends form the core narrative for compensation across all regions and functions. Every salary table, skill premium, and negotiation strategy in this report connects back to these foundational forces.
           </p>
+        </div>
+
+        {/* Visualizations */}
+        <div className="mt-16 space-y-12">
+          <MegaTrendsTimeline />
+          <RegionalFragmentationChart />
+          <CareerSatisfactionScatter />
         </div>
       </div>
     </section>

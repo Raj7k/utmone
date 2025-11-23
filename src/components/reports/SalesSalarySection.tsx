@@ -2,6 +2,7 @@ import { SalesSalaryTables } from "./SalesSalaryTables";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, AlertTriangle } from "lucide-react";
+import { SalesOTEHistogram } from "./visualizations/SalesOTEHistogram";
 
 export const SalesSalarySection = () => {
   return (
@@ -58,10 +59,15 @@ export const SalesSalarySection = () => {
                 </div>
               </div>
               <p className="mt-4">
-                <strong className="text-foreground">Sales Leadership OTE shifts:</strong> VPs and CROs have higher base, lower upside multiple (60-70% base, 30-40% variable). Stability over volatility as you move up.
-              </p>
-            </div>
+              <strong className="text-foreground">Sales Leadership OTE shifts:</strong> VPs and CROs have higher base, lower upside multiple (60-70% base, 30-40% variable). Stability over volatility as you move up.
+            </p>
           </div>
+
+          {/* Sales OTE Distribution Visualization */}
+          <div className="my-12">
+            <SalesOTEHistogram />
+          </div>
+        </div>
 
           {/* SDR/BDR Deep Dive */}
           <h3 className="text-3xl font-display font-bold mb-6">SDR/BDR Deep Dive</h3>

@@ -2,6 +2,8 @@ import { MarketingSalaryTables } from "./MarketingSalaryTables";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react";
+import { MarketingRoleDemandPie } from "./visualizations/MarketingRoleDemandPie";
+import { B2BvsB2CComparison } from "./visualizations/B2BvsB2CComparison";
 
 export const MarketingSalarySection = () => {
   return (
@@ -25,6 +27,11 @@ export const MarketingSalarySection = () => {
             <p>
               The result: Marketing compensation is fragmenting. High-value roles command 30-60% premiums over median. Low-value roles see stagnant or declining pay. Geography, industry, company stage, and skills compound these gaps.
             </p>
+          </div>
+
+          {/* Marketing Role Demand Visualization */}
+          <div className="my-12">
+            <MarketingRoleDemandPie />
           </div>
 
           {/* B2B vs B2C Divide */}
@@ -61,6 +68,11 @@ export const MarketingSalarySection = () => {
             <p className="text-muted-foreground mt-4">
               <strong className="text-foreground">Exception:</strong> Performance Marketing and CRM/Lifecycle roles in B2C often match or exceed B2B pay due to direct revenue accountability and technical complexity.
             </p>
+          </div>
+
+          {/* B2B vs B2C Comparison Visualization */}
+          <div className="my-12">
+            <B2BvsB2CComparison />
           </div>
 
           {/* B2B Marketing Deep Dive */}
