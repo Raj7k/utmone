@@ -170,24 +170,6 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  privacy policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  terms
-                </Link>
-              </li>
-              <li>
-                <Link to="/security" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  data & security
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
         {/* Bottom Section */}
