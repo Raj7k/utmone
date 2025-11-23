@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
-import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap, Calculator } from "lucide-react";
+import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap, Calculator, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getResourceCount, getNewResources } from "@/lib/resourceRegistry";
 
@@ -74,6 +74,15 @@ const Resources = () => {
       count: getResourceCount("tools")
     },
     {
+      name: "reports",
+      title: "Reports",
+      description: "data-driven research reports on salaries, market trends, and industry benchmarks",
+      icon: BarChart3,
+      path: "/resources/reports",
+      count: getResourceCount("reports"),
+      badge: "FEATURED"
+    },
+    {
       name: "academy",
       title: "Academy",
       description: "micro lessons on utm, analytics, frameworks, and naming conventions",
@@ -103,50 +112,32 @@ const Resources = () => {
         </div>
       </section>
 
-      {/* New This Month Section */}
-      {newResources.length > 0 && (
-        <section className="py-16 bg-muted/20 border-y border-border/50">
-          <div className="max-w-[1280px] mx-auto px-8">
-            <h2 className="text-2xl font-display font-semibold text-foreground mb-8 lowercase">
-              new this month
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {newResources.map((resource) => (
-                <Link
-                  key={resource.slug}
-                  to={`/resources/${resource.category}/${resource.slug}`}
-                  className="bg-card rounded-2xl p-6 border-2 border-primary/20 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-                >
-                  <Badge className="mb-4 bg-primary text-primary-foreground animate-pulse">NEW</Badge>
-                  <h3 className="font-display font-semibold text-lg text-foreground mb-2 lowercase">
-                    {resource.title}
-                  </h3>
-                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
-                    {resource.category}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Categories Grid */}
-      <section className="py-20 bg-background">
+      <section className="py-16 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => {
-              const Icon = category.icon;
+              const IconComponent = category.icon;
+              const hasNewBadge = newResources.some(r => r.category === category.name);
+              const isFeatured = category.badge === "FEATURED";
+              
               return (
                 <Link
                   key={category.name}
                   to={category.path}
-                  className="group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                  className="group block p-6 rounded-2xl border-2 border-border/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300 bg-card"
                 >
-                  <div className="flex flex-col h-full space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Icon className="w-6 h-6 text-primary" />
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                      <IconComponent className="h-6 w-6" />
                     </div>
+                    {(hasNewBadge || isFeatured) && (
+                      <Badge variant={isFeatured ? "default" : "secondary"} className={isFeatured ? "animate-pulse" : ""}>
+                        {isFeatured ? "FEATURED" : "NEW"}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="mt-4 flex items-start justify-between gap-4">
                     <div className="flex-1 space-y-2">
                       <h3 className="text-xl font-display font-semibold text-foreground lowercase">
                         {category.title}

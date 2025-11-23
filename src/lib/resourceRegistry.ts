@@ -55,7 +55,10 @@ export const resourceRegistry = {
     { slug: 'compensation-transparency', title: 'Compensation Transparency', badge: 'NEW' as const },
     { slug: 'linkedin-reality-check', title: 'LinkedIn Reality Check', badge: 'NEW' as const }
   ],
-  glossary: [] as Resource[] // Dynamically counted from glossary page
+  glossary: [] as Resource[], // Dynamically counted from glossary page
+  reports: [
+    { slug: 'salary-benchmark-2025', title: '2025 Global Salary Benchmark Report', badge: 'FEATURED' as const }
+  ]
 };
 
 export function getResourceCount(category: keyof typeof resourceRegistry): string {
@@ -83,4 +86,8 @@ export function getNewResources() {
 
 export function hasNewContent(): boolean {
   return getNewResources().length > 0;
+}
+
+export function getResourcesByCategory(category: keyof typeof resourceRegistry) {
+  return resourceRegistry[category];
 }

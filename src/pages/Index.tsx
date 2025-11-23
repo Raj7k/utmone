@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { 
   Link as LinkIcon, 
   QrCode, 
@@ -239,6 +240,81 @@ const Index = () => {
                 from link creation to tracking, utm.one keeps your entire marketing workflow clean, consistent, and accurate.
               </p>
             </motion.div>
+          </div>
+        </section>
+      </AnimatedSection>
+
+      {/* Featured Research - Salary Report */}
+      <AnimatedSection direction="up">
+        <section className="py-32 bg-muted/20">
+          <div className="max-w-[1280px] mx-auto px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Left: Visual */}
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-12 border border-primary/20">
+                  <div className="text-6xl font-display font-extrabold text-primary mb-4">
+                    $95K
+                  </div>
+                  <div className="text-xl text-muted-foreground mb-8">
+                    median marketing manager salary (US)
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      { label: "25th percentile", value: "$78K" },
+                      { label: "median", value: "$95K" },
+                      { label: "75th percentile", value: "$118K" }
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex justify-between items-center p-3 bg-white/50 rounded-lg">
+                        <span className="text-sm text-muted-foreground">{item.label}</span>
+                        <span className="text-lg font-display font-bold text-foreground">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right: Content */}
+              <motion.div
+                className="space-y-6"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <Badge variant="default" className="animate-pulse">NEW REPORT</Badge>
+                <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground lowercase">
+                  2025 salary benchmark report
+                </h2>
+                <p className="text-xl text-muted-foreground">
+                  comprehensive data across 20+ marketing and sales operations roles. 
+                  know your worth. negotiate with confidence. plan your career.
+                </p>
+                <div className="flex flex-wrap gap-4 pt-4">
+                  <Link to="/resources/reports/salary-benchmark-2025">
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button size="lg" variant="default">
+                        Explore Report
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  </Link>
+                  <Link to="/resources/tools">
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button size="lg" variant="outline">
+                        Use Salary Tools
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
       </AnimatedSection>
