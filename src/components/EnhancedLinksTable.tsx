@@ -42,6 +42,9 @@ import { formatDistanceToNow } from "date-fns";
 import { QRCodeDialog } from "./QRCodeDialog";
 import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
 import type { Database } from "@/integrations/supabase/types";
+import { LinkPreviewCard } from "./LinkPreviewCard";
+import { TrustBadge } from "./TrustBadge";
+import { generateLinkAriaLabel, generateTableRowAriaLabel, generateDropdownAriaLabel, generateStatusAriaLabel } from "@/lib/accessibility";
 
 type LinkStatus = Database["public"]["Enums"]["link_status"];
 
@@ -172,103 +175,130 @@ export const EnhancedLinksTable = ({
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-border">
-        <Table>
+        <Table aria-label="Links table with sortable columns">
           <TableHeader>
-            <TableRow>
-              <TableHead>
+            <TableRow role="row">
+              <TableHead role="columnheader">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("title")}
                   className="font-semibold hover:bg-muted"
+                  aria-label={`Sort by title, currently ${sortBy === "title" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
+                  aria-sort={sortBy === "title" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
                   Title
                   <SortIcon column="title" />
                 </Button>
               </TableHead>
-              <TableHead>Short URL</TableHead>
-              <TableHead>Destination</TableHead>
-              <TableHead>UTM Summary</TableHead>
-              <TableHead>
+              <TableHead role="columnheader">Short URL</TableHead>
+              <TableHead role="columnheader">Destination</TableHead>
+              <TableHead role="columnheader">UTM Summary</TableHead>
+              <TableHead role="columnheader">Security</TableHead>
+              <TableHead role="columnheader">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("domain")}
                   className="font-semibold hover:bg-muted"
+                  aria-label={`Sort by domain, currently ${sortBy === "domain" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
+                  aria-sort={sortBy === "domain" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
                   Domain
                   <SortIcon column="domain" />
                 </Button>
               </TableHead>
-              <TableHead>Owner</TableHead>
-              <TableHead>
+              <TableHead role="columnheader">Owner</TableHead>
+              <TableHead role="columnheader">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("created_at")}
                   className="font-semibold hover:bg-muted"
+                  aria-label={`Sort by created date, currently ${sortBy === "created_at" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
+                  aria-sort={sortBy === "created_at" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
                   Created
                   <SortIcon column="created_at" />
                 </Button>
               </TableHead>
-              <TableHead>
+              <TableHead role="columnheader">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("total_clicks")}
                   className="font-semibold hover:bg-muted"
+                  aria-label={`Sort by clicks, currently ${sortBy === "total_clicks" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
+                  aria-sort={sortBy === "total_clicks" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
                   Clicks
                   <SortIcon column="total_clicks" />
                 </Button>
               </TableHead>
-              <TableHead>
+              <TableHead role="columnheader">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("status")}
                   className="font-semibold hover:bg-muted"
+                  aria-label={`Sort by status, currently ${sortBy === "status" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
+                  aria-sort={sortBy === "status" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
                   Status
                   <SortIcon column="status" />
                 </Button>
               </TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead role="columnheader" className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.links.map((link) => (
-              <TableRow key={link.id} className="cursor-pointer hover:bg-muted/50">
+              <TableRow 
+                key={link.id} 
+                className="cursor-pointer hover:bg-muted/50"
+                role="row"
+                aria-label={generateTableRowAriaLabel(link)}
+              >
                 <TableCell 
                   className="font-medium cursor-pointer hover:underline"
                   onClick={() => navigate(`/links/${link.id}`)}
+                  role="cell"
                 >
                   {link.title}
                 </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      {link.short_url}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      onClick={() => copyToClipboard(link.short_url || "")}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      onClick={() => window.open(link.short_url || "", "_blank")}
-                    >
-                      <ExternalLink className="h-3 w-3" />
-                    </Button>
-                  </div>
+                <TableCell role="cell">
+                  <LinkPreviewCard 
+                    linkId={link.id} 
+                    destinationUrl={link.destination_url}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground cursor-help hover:underline">
+                        {link.short_url}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => copyToClipboard(link.short_url || "")}
+                        aria-label={`Copy short URL ${link.short_url} to clipboard`}
+                      >
+                        <Copy className="h-3 w-3" aria-hidden="true" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => window.open(link.short_url || "", "_blank")}
+                        aria-label={`Open short URL ${link.short_url} in new tab`}
+                      >
+                        <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                      </Button>
+                    </div>
+                  </LinkPreviewCard>
                 </TableCell>
-                <TableCell>
+                <TableCell role="cell">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="text-sm text-muted-foreground cursor-help">
+                        <span 
+                          className="text-sm text-muted-foreground cursor-help"
+                          aria-label={`Destination URL: ${link.destination_url}`}
+                        >
                           {truncateUrl(link.destination_url)}
                         </span>
                       </TooltipTrigger>
@@ -278,8 +308,8 @@ export const EnhancedLinksTable = ({
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
-                <TableCell>
-                  <div className="text-sm">
+                <TableCell role="cell">
+                  <div className="text-sm" aria-label={`UTM parameters: ${link.utm_source || 'none'}, ${link.utm_medium || 'none'}, ${link.utm_campaign || 'none'}`}>
                     {link.utm_source || link.utm_medium || link.utm_campaign ? (
                       <span className="text-muted-foreground">
                         {link.utm_source && <span>{link.utm_source}</span>}
@@ -294,24 +324,32 @@ export const EnhancedLinksTable = ({
                     )}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell role="cell">
+                  <div className="flex gap-1">
+                    {link.destination_url?.startsWith('https://') && (
+                      <TrustBadge variant="ssl-secure" size="sm" />
+                    )}
+                    <TrustBadge variant="utm-verified" size="sm" />
+                  </div>
+                </TableCell>
+                <TableCell role="cell">
                   <span className="text-sm text-muted-foreground">
                     {link.domain}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell role="cell">
                   <span className="text-sm text-muted-foreground">
                     {link.owner?.full_name || link.owner?.email || "Unknown"}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell role="cell">
                   <span className="text-sm text-muted-foreground">
                     {formatDistanceToNow(new Date(link.created_at || ""), {
                       addSuffix: true,
                     })}
                   </span>
                 </TableCell>
-                <TableCell>
+                <TableCell role="cell" aria-label={`Total clicks: ${link.total_clicks || 0}, last 30 days: ${link.clicks_last_30_days}`}>
                   <div className="flex flex-col gap-1">
                     <span className="text-sm font-medium">
                       {link.total_clicks || 0}
@@ -321,12 +359,20 @@ export const EnhancedLinksTable = ({
                     </span>
                   </div>
                 </TableCell>
-                <TableCell>{getStatusBadge(link.status || "active")}</TableCell>
-                <TableCell className="text-right">
+                <TableCell role="cell">
+                  <div aria-label={generateStatusAriaLabel(link.status || "active")}>
+                    {getStatusBadge(link.status || "active")}
+                  </div>
+                </TableCell>
+                <TableCell className="text-right" role="cell">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4" />
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        aria-label={generateDropdownAriaLabel(link.title)}
+                      >
+                        <MoreVertical className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -391,22 +437,27 @@ export const EnhancedLinksTable = ({
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+      <nav 
+        className="flex items-center justify-between"
+        role="navigation"
+        aria-label={`Pagination navigation. Currently on page ${page} of ${data.totalPages}`}
+      >
+        <p className="text-sm text-muted-foreground" aria-live="polite">
           Showing {(page - 1) * pageSize + 1} to{" "}
           {Math.min(page * pageSize, data.totalCount)} of {data.totalCount}{" "}
           links
         </p>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" role="group">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setPage(page - 1)}
             disabled={page === 1}
+            aria-label="Go to previous page"
           >
             previous
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-muted-foreground" aria-current="page">
             page {page} of {data.totalPages}
           </span>
           <Button
@@ -414,11 +465,12 @@ export const EnhancedLinksTable = ({
             size="sm"
             onClick={() => setPage(page + 1)}
             disabled={page >= data.totalPages}
+            aria-label="Go to next page"
           >
             next
           </Button>
         </div>
-      </div>
+      </nav>
     </div>
   );
 };

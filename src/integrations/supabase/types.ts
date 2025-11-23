@@ -1133,6 +1133,70 @@ export type Database = {
           },
         ]
       }
+      link_previews: {
+        Row: {
+          cached_at: string | null
+          destination_url: string
+          expires_at: string | null
+          favicon_url: string | null
+          id: string
+          is_safe: boolean | null
+          is_ssl_secure: boolean | null
+          link_id: string | null
+          og_image_url: string | null
+          page_title: string | null
+          threats: Json | null
+        }
+        Insert: {
+          cached_at?: string | null
+          destination_url: string
+          expires_at?: string | null
+          favicon_url?: string | null
+          id?: string
+          is_safe?: boolean | null
+          is_ssl_secure?: boolean | null
+          link_id?: string | null
+          og_image_url?: string | null
+          page_title?: string | null
+          threats?: Json | null
+        }
+        Update: {
+          cached_at?: string | null
+          destination_url?: string
+          expires_at?: string | null
+          favicon_url?: string | null
+          id?: string
+          is_safe?: boolean | null
+          is_ssl_secure?: boolean | null
+          link_id?: string | null
+          og_image_url?: string | null
+          page_title?: string | null
+          threats?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_previews_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_previews_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_previews_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_tags: {
         Row: {
           created_at: string | null
@@ -1205,6 +1269,7 @@ export type Database = {
           password_hint: string | null
           path: string
           redirect_type: string | null
+          security_status: Database["public"]["Enums"]["security_status"] | null
           short_url: string | null
           slug: string
           status: Database["public"]["Enums"]["link_status"] | null
@@ -1249,6 +1314,9 @@ export type Database = {
           password_hint?: string | null
           path?: string
           redirect_type?: string | null
+          security_status?:
+            | Database["public"]["Enums"]["security_status"]
+            | null
           short_url?: string | null
           slug: string
           status?: Database["public"]["Enums"]["link_status"] | null
@@ -1293,6 +1361,9 @@ export type Database = {
           password_hint?: string | null
           path?: string
           redirect_type?: string | null
+          security_status?:
+            | Database["public"]["Enums"]["security_status"]
+            | null
           short_url?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["link_status"] | null
@@ -2527,6 +2598,7 @@ export type Database = {
       app_role: "admin" | "user"
       link_status: "active" | "paused" | "archived"
       plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
+      security_status: "safe" | "threats_detected" | "not_scanned" | "pending"
       user_role: "super_admin" | "workspace_admin" | "editor" | "viewer"
     }
     CompositeTypes: {
@@ -2658,6 +2730,7 @@ export const Constants = {
       app_role: ["admin", "user"],
       link_status: ["active", "paused", "archived"],
       plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
+      security_status: ["safe", "threats_detected", "not_scanned", "pending"],
       user_role: ["super_admin", "workspace_admin", "editor", "viewer"],
     },
   },

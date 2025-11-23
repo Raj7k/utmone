@@ -11,6 +11,8 @@ import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag } from "
 import { LinkDetail } from "@/hooks/useLinkDetail";
 import { useUpdateLink } from "@/hooks/useUpdateLink";
 import { format } from "date-fns";
+import { TrustBadge } from "@/components/TrustBadge";
+import { generateFieldAriaLabel } from "@/lib/accessibility";
 
 interface LinkDetailOverviewProps {
   link: LinkDetail;
@@ -84,7 +86,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" role="form" aria-label="Link details form">
       {/* URLs Section */}
       <Card>
         <CardHeader>
@@ -94,7 +96,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
           <div>
             <Label className="text-sm text-muted-foreground">Short URL</Label>
             <div className="flex items-center gap-2 mt-1">
-              <code className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-sm">
+              <code 
+                className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-sm"
+                aria-label={`Short URL: ${link.short_url}`}
+              >
                 {link.short_url}
               </code>
               <Button
@@ -102,29 +107,53 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
                 variant="outline"
                 size="sm"
                 onClick={() => copyToClipboard(link.short_url || "", "short")}
+                aria-label="Copy short URL to clipboard"
               >
-                {copiedUrl === "short" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copiedUrl === "short" ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={() => window.open(link.short_url || "", "_blank")}
+                aria-label="Open short URL in new tab"
               >
-                <ExternalLink className="h-4 w-4" />
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </Button>
+            </div>
+            
+            {/* Trust Badges */}
+            <div className="flex gap-2 mt-3">
+              {link.destination_url?.startsWith('https://') && (
+                <TrustBadge variant="ssl-secure" size="sm" />
+              )}
+              <TrustBadge variant="utm-verified" size="sm" />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="destination_url">Destination URL</Label>
-            <Input id="destination_url" {...register("destination_url")} className="font-mono text-sm" />
+            <Label htmlFor="destination_url" aria-label={generateFieldAriaLabel("Destination URL", true, "The full URL where this short link redirects to")}>
+              Destination URL
+            </Label>
+            <Input 
+              id="destination_url" 
+              {...register("destination_url")} 
+              className="font-mono text-sm"
+              aria-required="true"
+              aria-describedby="destination-url-hint"
+            />
+            <p id="destination-url-hint" className="text-xs text-muted-foreground mt-1 sr-only">
+              Enter the complete URL including https://
+            </p>
           </div>
 
           <div>
             <Label className="text-sm text-muted-foreground">Final URL (with UTMs)</Label>
             <div className="flex items-center gap-2 mt-1">
-              <code className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-xs break-all">
+              <code 
+                className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-xs break-all"
+                aria-label={`Final URL with UTM parameters: ${computedFinalUrl()}`}
+              >
                 {computedFinalUrl()}
               </code>
               <Button
@@ -132,8 +161,9 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
                 variant="outline"
                 size="sm"
                 onClick={() => copyToClipboard(computedFinalUrl(), "final")}
+                aria-label="Copy final URL with UTM parameters to clipboard"
               >
-                {copiedUrl === "final" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copiedUrl === "final" ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               </Button>
             </div>
           </div>
@@ -315,8 +345,12 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex gap-2 justify-end">
-        <Button type="submit" disabled={!isDirty || updateLink.isPending}>
+      <div className="flex gap-2 justify-end" role="group" aria-label="Form actions">
+        <Button 
+          type="submit" 
+          disabled={!isDirty || updateLink.isPending}
+          aria-label={updateLink.isPending ? "Saving changes" : "Save changes to link"}
+        >
           {updateLink.isPending ? "saving…" : "save"}
         </Button>
       </div>
