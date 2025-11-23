@@ -79,7 +79,7 @@ const Playbooks = () => {
                 className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300 relative"
               >
                 {playbook.badge && (
-                  <Badge className="absolute top-4 right-4 bg-primary text-white">
+                  <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground animate-pulse">
                     {playbook.badge}
                   </Badge>
                 )}

@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -79,15 +80,15 @@ const Resources = () => {
       <Navigation />
 
       {/* Hero */}
-      <section className="py-32 bg-background">
+      <section className="py-20 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-6">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance lowercase">
                 resources
               </h1>
             </div>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
               a knowledge system for clean tracking, utm governance, and analytics clarity.
             </p>
           </div>
@@ -106,10 +107,10 @@ const Resources = () => {
                 <Link
                   key={resource.slug}
                   to={`/resources/${resource.category}/${resource.slug}`}
-                  className="bg-card rounded-2xl p-6 border-2 border-primary/20 hover:shadow-lg transition-all"
+                  className="bg-card rounded-2xl p-6 border-2 border-primary/20 hover:border-primary/30 hover:shadow-lg transition-all duration-300"
                 >
-                  <Badge className="mb-4 bg-primary text-primary-foreground">NEW</Badge>
-                  <h3 className="font-display font-semibold text-lg text-foreground mb-2">
+                  <Badge className="mb-4 bg-primary text-primary-foreground animate-pulse">NEW</Badge>
+                  <h3 className="font-display font-semibold text-lg text-foreground mb-2 lowercase">
                     {resource.title}
                   </h3>
                   <span className="text-xs text-muted-foreground uppercase tracking-wide">
@@ -157,16 +158,7 @@ const Resources = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/50 py-12 bg-background">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-[13px] text-muted-foreground">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
