@@ -17,11 +17,13 @@ interface RelatedResource {
   type: string;
 }
 
+type DefinitionContent = string | { type: 'paragraph' | 'list'; content?: string; items?: string[] };
+
 interface GlossaryTermLayoutProps {
   term: string;
   category: string;
   quickDefinition: string;
-  fullDefinition: string[];
+  fullDefinition: DefinitionContent[];
   whenToUse?: string;
   whenNotToUse?: string;
   commonMistakes?: string[];
@@ -39,6 +41,9 @@ const categoryColors: Record<string, string> = {
   "Sales & RevOps": "hsl(330 81% 60%)", // Pink
   "B2B SaaS": "hsl(142 76% 36%)", // Green
   "Operational": "hsl(215 20% 45%)", // Slate
+  "PLG & Product-Led": "hsl(262 83% 58%)", // Purple-Blue
+  "Customer Success": "hsl(199 89% 48%)", // Bright Blue
+  "Marketing Operations": "hsl(340 82% 52%)", // Magenta
 };
 
 export const GlossaryTermLayout = ({
@@ -146,11 +151,37 @@ export const GlossaryTermLayout = ({
                   definition
                 </h2>
                 <div className="space-y-4">
-                  {fullDefinition.map((paragraph, index) => (
-                    <p key={index} className="text-base text-muted-foreground leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
+                  {fullDefinition.map((item, index) => {
+                    if (typeof item === 'string') {
+                      return (
+                        <p key={index} className="text-base text-muted-foreground leading-relaxed">
+                          {item}
+                        </p>
+                      );
+                    }
+                    
+                    if (item.type === 'paragraph') {
+                      return (
+                        <p key={index} className="text-base text-muted-foreground leading-relaxed">
+                          {item.content}
+                        </p>
+                      );
+                    }
+                    
+                    if (item.type === 'list' && item.items) {
+                      return (
+                        <ul key={index} className="space-y-2 ml-6">
+                          {item.items.map((listItem, listIndex) => (
+                            <li key={listIndex} className="text-base text-muted-foreground leading-relaxed list-disc">
+                              {listItem}
+                            </li>
+                          ))}
+                        </ul>
+                      );
+                    }
+                    
+                    return null;
+                  })}
                 </div>
               </section>
 

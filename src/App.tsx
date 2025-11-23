@@ -45,6 +45,67 @@ import GlossaryTerm from "./pages/resources/glossary/term";
 import GlossaryTaxonomy from "./pages/resources/glossary/taxonomy";
 import GlossaryNamingConvention from "./pages/resources/glossary/naming-convention";
 import GlossaryTrackingArchitecture from "./pages/resources/glossary/tracking-architecture";
+import GlossaryFirstTouch from "./pages/resources/glossary/first-touch";
+import GlossaryLastTouch from "./pages/resources/glossary/last-touch";
+import GlossaryMultiTouch from "./pages/resources/glossary/multi-touch";
+import GlossaryLinear from "./pages/resources/glossary/linear";
+import GlossaryTimeDecay from "./pages/resources/glossary/time-decay";
+import GlossaryPaidSearch from "./pages/resources/glossary/paid-search";
+import GlossaryPaidSocial from "./pages/resources/glossary/paid-social";
+import GlossaryOrganicSocial from "./pages/resources/glossary/organic-social";
+import GlossaryEmail from "./pages/resources/glossary/email";
+import GlossarySEO from "./pages/resources/glossary/seo";
+import GlossaryReferral from "./pages/resources/glossary/referral";
+import GlossaryDirect from "./pages/resources/glossary/direct";
+import GlossaryDisplay from "./pages/resources/glossary/display";
+import GlossaryMQL from "./pages/resources/glossary/mql";
+import GlossarySQL from "./pages/resources/glossary/sql";
+import GlossarySAL from "./pages/resources/glossary/sal";
+import GlossaryLeadScoring from "./pages/resources/glossary/lead-scoring";
+import GlossaryConversionRate from "./pages/resources/glossary/conversion-rate";
+import GlossaryPipeline from "./pages/resources/glossary/pipeline";
+import GlossaryCohort from "./pages/resources/glossary/cohort";
+import GlossaryARR from "./pages/resources/glossary/arr";
+import GlossaryMRR from "./pages/resources/glossary/mrr";
+import GlossaryCAC from "./pages/resources/glossary/cac";
+import GlossaryLTV from "./pages/resources/glossary/ltv";
+import GlossaryChurn from "./pages/resources/glossary/churn";
+import GlossaryActivation from "./pages/resources/glossary/activation";
+import GlossaryLinkShortener from "./pages/resources/glossary/link-shortener";
+import GlossaryQRCode from "./pages/resources/glossary/qr-code";
+import GlossaryRedirect from "./pages/resources/glossary/redirect";
+import GlossaryCustomDomain from "./pages/resources/glossary/custom-domain";
+import GlossaryLinkExpiration from "./pages/resources/glossary/link-expiration";
+import GlossaryPQL from "./pages/resources/glossary/pql";
+import GlossarySelfServeConversion from "./pages/resources/glossary/self-serve-conversion";
+import GlossaryUsageThreshold from "./pages/resources/glossary/usage-threshold";
+import GlossaryHealthScore from "./pages/resources/glossary/health-score";
+import GlossaryRenewalMotion from "./pages/resources/glossary/renewal-motion";
+import GlossaryQBR from "./pages/resources/glossary/qbr";
+import GlossaryTimeToValue from "./pages/resources/glossary/time-to-value";
+import GlossaryImplementationPlan from "./pages/resources/glossary/implementation-plan";
+import GlossaryAdoptionMilestones from "./pages/resources/glossary/adoption-milestones";
+import GlossaryEarlyChurnSignals from "./pages/resources/glossary/early-churn-signals";
+import GlossaryReactivationCampaign from "./pages/resources/glossary/reactivation-campaign";
+import GlossaryValueMoments from "./pages/resources/glossary/value-moments";
+import GlossaryFunnelMath from "./pages/resources/glossary/funnel-math";
+import GlossaryLeadVelocityRate from "./pages/resources/glossary/lead-velocity-rate";
+import GlossaryConversionWaterfall from "./pages/resources/glossary/conversion-waterfall";
+import GlossaryCommitForecast from "./pages/resources/glossary/commit-forecast";
+import GlossaryPipelineCoverageRatio from "./pages/resources/glossary/pipeline-coverage-ratio";
+import GlossaryRunRate from "./pages/resources/glossary/run-rate";
+import GlossaryQualityScore from "./pages/resources/glossary/quality-score";
+import GlossaryBidStrategy from "./pages/resources/glossary/bid-strategy";
+import GlossaryCreativeFatigue from "./pages/resources/glossary/creative-fatigue";
+import GlossaryBoothEngagementRate from "./pages/resources/glossary/booth-engagement-rate";
+import GlossaryEventROIModel from "./pages/resources/glossary/event-roi-model";
+import GlossaryPipelineInfluence from "./pages/resources/glossary/pipeline-influence";
+import GlossarySolutionMapping from "./pages/resources/glossary/solution-mapping";
+import GlossaryTechnicalValidation from "./pages/resources/glossary/technical-validation";
+import GlossaryPilotSuccessCriteria from "./pages/resources/glossary/pilot-success-criteria";
+import GlossaryGrossMargin from "./pages/resources/glossary/gross-margin";
+import GlossaryCACPaybackPeriod from "./pages/resources/glossary/cac-payback-period";
+import GlossaryRevenueRecognition from "./pages/resources/glossary/revenue-recognition";
 import Checklists from "./pages/resources/Checklists";
 import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
@@ -157,6 +218,67 @@ const App = () => (
             <Route path="/resources/glossary/taxonomy" element={<GlossaryTaxonomy />} />
             <Route path="/resources/glossary/naming-convention" element={<GlossaryNamingConvention />} />
             <Route path="/resources/glossary/tracking-architecture" element={<GlossaryTrackingArchitecture />} />
+            <Route path="/resources/glossary/first-touch" element={<GlossaryFirstTouch />} />
+            <Route path="/resources/glossary/last-touch" element={<GlossaryLastTouch />} />
+            <Route path="/resources/glossary/multi-touch" element={<GlossaryMultiTouch />} />
+            <Route path="/resources/glossary/linear" element={<GlossaryLinear />} />
+            <Route path="/resources/glossary/time-decay" element={<GlossaryTimeDecay />} />
+            <Route path="/resources/glossary/paid-search" element={<GlossaryPaidSearch />} />
+            <Route path="/resources/glossary/paid-social" element={<GlossaryPaidSocial />} />
+            <Route path="/resources/glossary/organic-social" element={<GlossaryOrganicSocial />} />
+            <Route path="/resources/glossary/email" element={<GlossaryEmail />} />
+            <Route path="/resources/glossary/seo" element={<GlossarySEO />} />
+            <Route path="/resources/glossary/referral" element={<GlossaryReferral />} />
+            <Route path="/resources/glossary/direct" element={<GlossaryDirect />} />
+            <Route path="/resources/glossary/display" element={<GlossaryDisplay />} />
+            <Route path="/resources/glossary/mql" element={<GlossaryMQL />} />
+            <Route path="/resources/glossary/sql" element={<GlossarySQL />} />
+            <Route path="/resources/glossary/sal" element={<GlossarySAL />} />
+            <Route path="/resources/glossary/lead-scoring" element={<GlossaryLeadScoring />} />
+            <Route path="/resources/glossary/conversion-rate" element={<GlossaryConversionRate />} />
+            <Route path="/resources/glossary/pipeline" element={<GlossaryPipeline />} />
+            <Route path="/resources/glossary/cohort" element={<GlossaryCohort />} />
+            <Route path="/resources/glossary/arr" element={<GlossaryARR />} />
+            <Route path="/resources/glossary/mrr" element={<GlossaryMRR />} />
+            <Route path="/resources/glossary/cac" element={<GlossaryCAC />} />
+            <Route path="/resources/glossary/ltv" element={<GlossaryLTV />} />
+            <Route path="/resources/glossary/churn" element={<GlossaryChurn />} />
+            <Route path="/resources/glossary/activation" element={<GlossaryActivation />} />
+            <Route path="/resources/glossary/link-shortener" element={<GlossaryLinkShortener />} />
+            <Route path="/resources/glossary/qr-code" element={<GlossaryQRCode />} />
+            <Route path="/resources/glossary/redirect" element={<GlossaryRedirect />} />
+            <Route path="/resources/glossary/custom-domain" element={<GlossaryCustomDomain />} />
+            <Route path="/resources/glossary/link-expiration" element={<GlossaryLinkExpiration />} />
+            <Route path="/resources/glossary/pql" element={<GlossaryPQL />} />
+            <Route path="/resources/glossary/self-serve-conversion" element={<GlossarySelfServeConversion />} />
+            <Route path="/resources/glossary/usage-threshold" element={<GlossaryUsageThreshold />} />
+            <Route path="/resources/glossary/health-score" element={<GlossaryHealthScore />} />
+            <Route path="/resources/glossary/renewal-motion" element={<GlossaryRenewalMotion />} />
+            <Route path="/resources/glossary/qbr" element={<GlossaryQBR />} />
+            <Route path="/resources/glossary/time-to-value" element={<GlossaryTimeToValue />} />
+            <Route path="/resources/glossary/implementation-plan" element={<GlossaryImplementationPlan />} />
+            <Route path="/resources/glossary/adoption-milestones" element={<GlossaryAdoptionMilestones />} />
+            <Route path="/resources/glossary/early-churn-signals" element={<GlossaryEarlyChurnSignals />} />
+            <Route path="/resources/glossary/reactivation-campaign" element={<GlossaryReactivationCampaign />} />
+            <Route path="/resources/glossary/value-moments" element={<GlossaryValueMoments />} />
+            <Route path="/resources/glossary/funnel-math" element={<GlossaryFunnelMath />} />
+            <Route path="/resources/glossary/lead-velocity-rate" element={<GlossaryLeadVelocityRate />} />
+            <Route path="/resources/glossary/conversion-waterfall" element={<GlossaryConversionWaterfall />} />
+            <Route path="/resources/glossary/commit-forecast" element={<GlossaryCommitForecast />} />
+            <Route path="/resources/glossary/pipeline-coverage-ratio" element={<GlossaryPipelineCoverageRatio />} />
+            <Route path="/resources/glossary/run-rate" element={<GlossaryRunRate />} />
+            <Route path="/resources/glossary/quality-score" element={<GlossaryQualityScore />} />
+            <Route path="/resources/glossary/bid-strategy" element={<GlossaryBidStrategy />} />
+            <Route path="/resources/glossary/creative-fatigue" element={<GlossaryCreativeFatigue />} />
+            <Route path="/resources/glossary/booth-engagement-rate" element={<GlossaryBoothEngagementRate />} />
+            <Route path="/resources/glossary/event-roi-model" element={<GlossaryEventROIModel />} />
+            <Route path="/resources/glossary/pipeline-influence" element={<GlossaryPipelineInfluence />} />
+            <Route path="/resources/glossary/solution-mapping" element={<GlossarySolutionMapping />} />
+            <Route path="/resources/glossary/technical-validation" element={<GlossaryTechnicalValidation />} />
+            <Route path="/resources/glossary/pilot-success-criteria" element={<GlossaryPilotSuccessCriteria />} />
+            <Route path="/resources/glossary/gross-margin" element={<GlossaryGrossMargin />} />
+            <Route path="/resources/glossary/cac-payback-period" element={<GlossaryCACPaybackPeriod />} />
+            <Route path="/resources/glossary/revenue-recognition" element={<GlossaryRevenueRecognition />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
           <Route path="/resources/frameworks" element={<Frameworks />} />
