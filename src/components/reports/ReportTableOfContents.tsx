@@ -44,7 +44,7 @@ export const ReportTableOfContents = ({ onScrollToSection }: ReportTableOfConten
   }, []);
 
   return (
-    <div className="hidden xl:block fixed right-8 top-32 w-64 bg-white border-2 border-deepSea/10 rounded-2xl p-6 shadow-lg">
+    <div className="hidden xl:block fixed right-4 top-32 w-64 bg-white border-2 border-deepSea/10 rounded-2xl p-6 shadow-lg z-10">
       <h3 className="text-sm font-bold text-mirage mb-4 uppercase tracking-wide">
         Table of Contents
       </h3>

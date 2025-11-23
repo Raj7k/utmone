@@ -30,6 +30,11 @@ import { WalkAwayCalculator } from "@/components/reports/tools/WalkAwayCalculato
 import { CounterOfferAnalyzer } from "@/components/reports/tools/CounterOfferAnalyzer";
 import { SkillsROICalculator } from "@/components/reports/tools/SkillsROICalculator";
 import { Footer } from "@/components/landing/Footer";
+import { WhyThisReportSection } from "@/components/reports/WhyThisReportSection";
+import { MethodologySection } from "@/components/reports/MethodologySection";
+import { PDFDownloadSection } from "@/components/reports/PDFDownloadSection";
+import { ScrollReveal } from "@/components/reports/ScrollReveal";
+import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -123,8 +128,11 @@ const SalaryBenchmark2026 = () => {
       {/* Sticky Navigation */}
       <ReportNavigation onScrollToSection={scrollToSection} />
       
-      {/* Table of Contents (Desktop Only) */}
+      {/* Table of Contents (Desktop Only) - Fixed with proper margin */}
       <ReportTableOfContents onScrollToSection={scrollToSection} />
+      
+      {/* Main Content Wrapper - Add right margin for sidebar on xl+ screens */}
+      <div className="xl:mr-[280px]">
 
       {/* Breadcrumb */}
       <div className="border-b border-border/50">
@@ -181,12 +189,8 @@ const SalaryBenchmark2026 = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-6">
-              <Button size="lg" variant="default" className="bg-blazeOrange hover:bg-blazeOrange/90">
-                <Download className="mr-2 h-5 w-5" />
-                Download Full PDF Report
-              </Button>
               <Link to="/resources/tools/market-value-calculator">
-                <Button size="lg" variant="outline" className="border-deepSea text-deepSea hover:bg-deepSea/10">
+                <Button size="lg" variant="default" className="bg-blazeOrange hover:bg-blazeOrange/90">
                   <TrendingUp className="mr-2 h-5 w-5" />
                   Calculate Your Salary
                 </Button>
@@ -202,6 +206,15 @@ const SalaryBenchmark2026 = () => {
           <GeolocationDetector onLocationSelect={setDetectedLocation} />
         </div>
       </section>
+
+      {/* Why This Report Section (2nd Fold) */}
+      <WhyThisReportSection />
+
+      {/* Methodology Section (3rd Fold) */}
+      <MethodologySection />
+
+      {/* PDF Download Section (4th Fold - Email Gated) */}
+      <PDFDownloadSection />
 
       {/* Executive Summary */}
       <section id="executive-summary" className="py-20 bg-white">
@@ -419,9 +432,6 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
-      {/* Progress Indicator */}
-      <ProgressIndicator />
-
       {/* Data Sources & Methodology */}
       <section id="data-sources" className="py-20 bg-wildSand/30">
         <div className="max-w-[1280px] mx-auto px-8">
@@ -553,9 +563,7 @@ const SalaryBenchmark2026 = () => {
       </div>
 
       <Footer />
-      
-      {/* Scroll Progress Bar */}
-      <ProgressIndicator />
+      </div> {/* Close main content wrapper */}
     </div>
   );
 };
