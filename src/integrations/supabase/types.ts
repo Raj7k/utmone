@@ -145,6 +145,86 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_anomalies: {
+        Row: {
+          anomaly_type: string
+          baseline_value: number | null
+          change_percent: number | null
+          created_at: string | null
+          current_value: number | null
+          description: string
+          detected_at: string | null
+          id: string
+          is_dismissed: boolean | null
+          link_id: string | null
+          metadata: Json | null
+          severity: string
+          title: string
+          workspace_id: string
+        }
+        Insert: {
+          anomaly_type: string
+          baseline_value?: number | null
+          change_percent?: number | null
+          created_at?: string | null
+          current_value?: number | null
+          description: string
+          detected_at?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          link_id?: string | null
+          metadata?: Json | null
+          severity: string
+          title: string
+          workspace_id: string
+        }
+        Update: {
+          anomaly_type?: string
+          baseline_value?: number | null
+          change_percent?: number | null
+          created_at?: string | null
+          current_value?: number | null
+          description?: string
+          detected_at?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          link_id?: string | null
+          metadata?: Json | null
+          severity?: string
+          title?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_anomalies_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_anomalies_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "analytics_anomalies_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "analytics_anomalies_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       announcement_clicks: {
         Row: {
           announcement_id: string
@@ -469,6 +549,41 @@ export type Database = {
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_export_requests: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          export_url: string | null
+          id: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          export_url?: string | null
+          id?: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          export_url?: string | null
+          id?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_export_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1769,6 +1884,7 @@ export type Database = {
           activation_score: number | null
           avatar_url: string | null
           created_at: string | null
+          data_retention_days: number | null
           email: string
           first_analytics_viewed_at: string | null
           first_link_created_at: string | null
@@ -1778,6 +1894,7 @@ export type Database = {
           is_super_admin: boolean | null
           onboarding_completed: boolean | null
           team_members_invited_count: number | null
+          tracking_consent: boolean | null
           updated_at: string | null
         }
         Insert: {
@@ -1785,6 +1902,7 @@ export type Database = {
           activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
+          data_retention_days?: number | null
           email: string
           first_analytics_viewed_at?: string | null
           first_link_created_at?: string | null
@@ -1794,6 +1912,7 @@ export type Database = {
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
           team_members_invited_count?: number | null
+          tracking_consent?: boolean | null
           updated_at?: string | null
         }
         Update: {
@@ -1801,6 +1920,7 @@ export type Database = {
           activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
+          data_retention_days?: number | null
           email?: string
           first_analytics_viewed_at?: string | null
           first_link_created_at?: string | null
@@ -1810,6 +1930,7 @@ export type Database = {
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
           team_members_invited_count?: number | null
+          tracking_consent?: boolean | null
           updated_at?: string | null
         }
         Relationships: []
@@ -1894,6 +2015,53 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
+          },
+        ]
+      }
+      scheduled_reports: {
+        Row: {
+          created_at: string | null
+          custom_cron: string | null
+          frequency: Database["public"]["Enums"]["report_frequency"]
+          id: string
+          is_active: boolean | null
+          last_sent_at: string | null
+          next_send_at: string
+          recipients: string[]
+          template_name: Database["public"]["Enums"]["report_template"]
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          custom_cron?: string | null
+          frequency: Database["public"]["Enums"]["report_frequency"]
+          id?: string
+          is_active?: boolean | null
+          last_sent_at?: string | null
+          next_send_at: string
+          recipients: string[]
+          template_name: Database["public"]["Enums"]["report_template"]
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          custom_cron?: string | null
+          frequency?: Database["public"]["Enums"]["report_frequency"]
+          id?: string
+          is_active?: boolean | null
+          last_sent_at?: string | null
+          next_send_at?: string
+          recipients?: string[]
+          template_name?: Database["public"]["Enums"]["report_template"]
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_reports_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -2636,6 +2804,11 @@ export type Database = {
       app_role: "admin" | "user"
       link_status: "active" | "paused" | "archived"
       plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
+      report_frequency: "daily" | "weekly" | "monthly" | "custom"
+      report_template:
+        | "weekly_summary"
+        | "monthly_overview"
+        | "campaign_performance"
       security_status: "safe" | "threats_detected" | "not_scanned" | "pending"
       user_role: "super_admin" | "workspace_admin" | "editor" | "viewer"
     }
@@ -2768,6 +2941,12 @@ export const Constants = {
       app_role: ["admin", "user"],
       link_status: ["active", "paused", "archived"],
       plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
+      report_frequency: ["daily", "weekly", "monthly", "custom"],
+      report_template: [
+        "weekly_summary",
+        "monthly_overview",
+        "campaign_performance",
+      ],
       security_status: ["safe", "threats_detected", "not_scanned", "pending"],
       user_role: ["super_admin", "workspace_admin", "editor", "viewer"],
     },

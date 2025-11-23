@@ -96,6 +96,15 @@ verify_jwt = true
 [functions.generate-analytics-summary]
 verify_jwt = true
 
+[functions.detect-analytics-anomalies]
+verify_jwt = false
+
+[functions.send-scheduled-report]
+verify_jwt = false
+
+[functions.export-user-data]
+verify_jwt = true
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]

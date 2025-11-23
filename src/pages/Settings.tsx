@@ -111,9 +111,9 @@ export default function Settings() {
                 <Webhook className="w-4 h-4" />
                 Integrations
               </TabsTrigger>
-              <TabsTrigger value="security" className="gap-2">
+              <TabsTrigger value="privacy" className="gap-2">
                 <Shield className="w-4 h-4" />
-                Security
+                Data & Privacy
               </TabsTrigger>
             </TabsList>
 
@@ -134,10 +134,8 @@ export default function Settings() {
               )}
             </TabsContent>
 
-            <TabsContent value="security" className="space-y-6">
-              <div className="text-center py-12 text-muted-foreground">
-                Security settings coming soon
-              </div>
+            <TabsContent value="privacy" className="space-y-6">
+              <DataPrivacySettings />
             </TabsContent>
           </Tabs>
         </div>
