@@ -3,6 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Rocket, TrendingUp, ArrowRight } from "lucide-react";
 import { RevOpsGrowthChart } from "./visualizations/RevOpsGrowthChart";
+import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
+import { CalloutBox } from "./CalloutBox";
+import { CheckCircle2 } from "lucide-react";
 
 export const RevOpsMarkOpsSection = () => {
   return (
@@ -216,6 +219,52 @@ export const RevOpsMarkOpsSection = () => {
 
         {/* Import Existing RevOps/MarkOps Tables */}
         <RevOpsMarkOpsTables />
+
+        <CalloutBox className="mt-12">
+          <strong>Why RevOps Salaries Are Exploding:</strong> Demand far exceeds supply. Companies need RevOps to align sales, marketing, and customer success, but most organizations are critically understaffed. This supply-demand imbalance drives 20-32% YoY salary growth globally.
+        </CalloutBox>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-center">
+            Your 10-Year RevOps Career Path
+          </h3>
+          <p className="text-lg leading-[1.7] text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            See how RevOps and MarkOps salaries scale from Specialist to VP levels. These roles are the fastest-growing in GTM with unprecedented demand.
+          </p>
+          <CareerProgressionTimeline />
+        </div>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8">
+            What Makes RevOps & MarkOps So Valuable
+          </h3>
+          <div className="space-y-4 max-w-[750px] mx-auto">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Critical role, low supply</strong> — Only 1 in 10 companies have dedicated RevOps, creating massive talent shortage and wage inflation
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">GTM alignment = revenue efficiency</strong> — RevOps professionals reduce sales cycles by 20-30% and improve win rates by coordinating across teams
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Technical + strategic hybrid</strong> — Professionals who master Salesforce, SQL, automation tools, AND strategic thinking command 40%+ premiums
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Career satisfaction is low</strong> — 71% of MarkOps/RevOps feel undervalued despite high pay, signaling retention risk and continued upward salary pressure
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Career Mobility */}
         <div className="mt-16 mb-12">

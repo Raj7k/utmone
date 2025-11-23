@@ -4,6 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react";
 import { MarketingRoleDemandPie } from "./visualizations/MarketingRoleDemandPie";
 import { B2BvsB2CComparison } from "./visualizations/B2BvsB2CComparison";
+import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
+import { CalloutBox } from "./CalloutBox";
+import { CheckCircle2 } from "lucide-react";
 
 export const MarketingSalarySection = () => {
   return (
@@ -170,6 +173,52 @@ export const MarketingSalarySection = () => {
 
         {/* Import Existing Marketing Salary Tables */}
         <MarketingSalaryTables />
+
+        <CalloutBox className="mt-12">
+          <strong>Critical Insight:</strong> The highest-paid marketing roles aren't just "doing marketing"—they're building systems that generate predictable pipeline. Companies pay premiums for marketers who can automate, attribute, and prove ROI.
+        </CalloutBox>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-center">
+            Your 10-Year Marketing Career Path
+          </h3>
+          <p className="text-lg leading-[1.7] text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            See how your salary could evolve from Coordinator to VP over the next decade. Choose your path and scenario to see realistic projections.
+          </p>
+          <CareerProgressionTimeline />
+        </div>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8">
+            Why Marketing Salaries Vary So Much
+          </h3>
+          <div className="space-y-4 max-w-[750px] mx-auto">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Skills beat titles</strong> — A Product Marketing Manager with SQL, analytics, and AI automation skills earns 40% more than one without
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">B2B pays more than B2C</strong> — Enterprise B2B marketing roles command 25-35% premiums due to longer sales cycles and complex attribution
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Geography still matters</strong> — San Francisco PMMs earn 4.8× what Mexico City PMMs make, despite identical responsibilities
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-blazeOrange mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-blazeOrange">Company size sweet spot</strong> — Firms with 51-500 employees offer the highest increases because marketing directly impacts pipeline quality
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Geographic Spotlight */}
         <div className="mt-16 mb-12">
