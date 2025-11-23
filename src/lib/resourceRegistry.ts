@@ -45,6 +45,16 @@ export const resourceRegistry = {
     { slug: 'naming-examples', title: 'Naming Examples' },
     { slug: 'dashboard-examples', title: 'Dashboard Examples' }
   ],
+  tools: [
+    { slug: 'salary-negotiation-coach', title: 'AI Salary Negotiation Coach', badge: 'NEW' as const },
+    { slug: 'market-value-calculator', title: 'Market Value Calculator', badge: 'NEW' as const },
+    { slug: 'career-path-optimizer', title: 'Career Path Optimizer', badge: 'NEW' as const },
+    { slug: 'job-offer-analyzer', title: 'Job Offer Analyzer', badge: 'NEW' as const },
+    { slug: 'team-budget-optimizer', title: 'Team Budget Optimizer', badge: 'NEW' as const },
+    { slug: 'ai-vs-human-roi', title: 'AI vs. Human ROI Calculator', badge: 'NEW' as const },
+    { slug: 'compensation-transparency', title: 'Compensation Transparency', badge: 'NEW' as const },
+    { slug: 'linkedin-reality-check', title: 'LinkedIn Reality Check', badge: 'NEW' as const }
+  ],
   glossary: [] as Resource[] // Dynamically counted from glossary page
 };
 
