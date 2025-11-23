@@ -21,6 +21,7 @@ import { ExperienceLevelProgression } from "@/components/reports/ExperienceLevel
 import { StateDeepDive } from "@/components/reports/StateDeepDive";
 import { RemoteWorkAnalyzer } from "@/components/reports/RemoteWorkAnalyzer";
 import { CostOfLivingAdjuster } from "@/components/reports/CostOfLivingAdjuster";
+import { EquityCalculator } from "@/components/reports/EquityCalculator";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
@@ -197,6 +198,11 @@ const SalaryBenchmark2026 = () => {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* Geolocation Detection */}
+      <section className="max-w-[1280px] mx-auto px-8 py-8">
+        <GeolocationDetector onLocationSelect={setDetectedLocation} />
       </section>
 
       {/* Data Sources & Methodology */}
@@ -403,6 +409,21 @@ const SalaryBenchmark2026 = () => {
             </p>
           </div>
           <GenderPayGapDashboard />
+        </div>
+      </section>
+
+      {/* Equity & Stock Options Calculator */}
+      <section className="py-16 bg-wildSand/30">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="max-w-[900px] mx-auto text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              Equity & Stock Options Calculator
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Understand the real value of your equity compensation with our comprehensive calculator
+            </p>
+          </div>
+          <EquityCalculator />
         </div>
       </section>
 
