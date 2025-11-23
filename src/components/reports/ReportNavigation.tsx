@@ -149,15 +149,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
             </button>
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:block">
-            <Button
-              onClick={() => scrollTo("calculator-section")}
-              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white transition-apple hover:scale-105"
-            >
-              Run Salary Analysis
-            </Button>
-          </div>
+          {/* CTA Button - Removed to reduce clutter */}
 
           {/* Mobile Menu Button */}
           <button
@@ -218,12 +210,6 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
               >
                 Salary Calculator
               </button>
-              <Button
-                onClick={() => scrollTo("calculator-section")}
-                className="bg-blazeOrange hover:bg-blazeOrange/90 text-white w-full"
-              >
-                Run Salary Analysis
-              </Button>
             </div>
           </div>
         )}
