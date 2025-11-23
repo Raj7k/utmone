@@ -38,9 +38,11 @@ import { MethodologySection } from "@/components/reports/MethodologySection";
 import { PDFDownloadSection } from "@/components/reports/PDFDownloadSection";
 import { ScrollReveal } from "@/components/reports/ScrollReveal";
 import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
+import { PersonalizedReportModal } from "@/components/reports/modals/PersonalizedReportModal";
 
 const SalaryBenchmark2026 = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
+  const [showPersonalizedModal, setShowPersonalizedModal] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -260,7 +262,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
             Get your personalized salary range, skill gaps, and career roadmap based on your exact role, location, and experience.
           </p>
-          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+          <Button 
+            size="lg" 
+            onClick={() => scrollToSection('calculator-section')}
+            className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white"
+          >
             See What You Should Really Be Earning
           </Button>
         </Card>
@@ -283,7 +289,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
             Use our advanced salary calculator to see exactly where you stand based on role, skills, location, and company size.
           </p>
-          <Button size="lg" className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white">
+          <Button 
+            size="lg" 
+            onClick={() => scrollToSection('calculator-section')}
+            className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white"
+          >
             Check Your True Market Value
           </Button>
         </Card>
@@ -306,7 +316,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
             Compare your current compensation against global benchmarks and discover your skill gaps.
           </p>
-          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+          <Button 
+            size="lg" 
+            onClick={() => setShowPersonalizedModal(true)}
+            className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white"
+          >
             Get My Personalized Report
           </Button>
         </Card>
@@ -342,7 +356,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
             See how your compensation compares across 15+ countries and 100+ cities with our interactive calculator.
           </p>
-          <Button size="lg" className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white">
+          <Button 
+            size="lg" 
+            onClick={() => scrollToSection('calculator-section')}
+            className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white"
+          >
             Compare My Salary Globally
           </Button>
         </Card>
@@ -375,7 +393,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
             Get a personalized skill gap analysis showing which high-value skills you should learn next.
           </p>
-          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+          <Button 
+            size="lg" 
+            onClick={() => scrollToSection('skill-demand')}
+            className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white"
+          >
             Show Me My Skill Gaps
           </Button>
         </Card>
@@ -441,7 +463,11 @@ const SalaryBenchmark2026 = () => {
           <p className="text-lg text-muted-foreground mb-8 max-w-[700px] mx-auto">
             Everything in this report, personalized for your exact role, location, experience, and career goals. Plus quarterly updates as new data becomes available.
           </p>
-          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white text-lg px-8 py-6">
+          <Button 
+            size="lg" 
+            onClick={() => setShowPersonalizedModal(true)}
+            className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white text-lg px-8 py-6"
+          >
             Get My Personal Report
           </Button>
           <p className="text-sm text-muted-foreground mt-4">
@@ -455,7 +481,11 @@ const SalaryBenchmark2026 = () => {
 
       {/* CTA #12: Sticky Side Button - Always Visible */}
       <div className="fixed bottom-8 right-8 z-50">
-        <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl">
+        <Button 
+          size="lg" 
+          onClick={() => scrollToSection('pdf-download-section')}
+          className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl"
+        >
           <Download className="mr-2 h-5 w-5" />
           Download Report
         </Button>
@@ -463,6 +493,11 @@ const SalaryBenchmark2026 = () => {
 
       <Footer />
       </div> {/* Close main content wrapper */}
+      
+      <PersonalizedReportModal 
+        open={showPersonalizedModal} 
+        onOpenChange={setShowPersonalizedModal} 
+      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, Rocket } from "lucide-react";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Legend } from "recharts";
+import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 const data = [
   { year: "2020", india: 85, us: 110, europe: 95 },
@@ -11,9 +12,17 @@ const data = [
 ];
 
 export const LinkedInPostCard4 = () => {
+  const handleShare = () => {
+    shareOnLinkedIn("RevOps salaries grew 32% YoY in India, 22% in US, 18% in Europe. Demand > Supply = salary inflation. — via utm.one Salary Report 2026");
+  };
+
+  const handleDownload = () => {
+    downloadCardAsImage("linkedin-card-4", "revops-salary-growth.png");
+  };
+
   return (
     <div className="max-w-[1280px] mx-auto px-8 py-8">
-      <Card className="bg-gradient-to-br from-deepSea/5 to-blazeOrange/5 border-2 border-deepSea/20 hover:shadow-xl transition-shadow">
+      <Card id="linkedin-card-4" className="bg-gradient-to-br from-deepSea/5 to-blazeOrange/5 border-2 border-deepSea/20 hover:shadow-xl transition-shadow">
         <CardContent className="p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             {/* Visual */}
@@ -49,13 +58,19 @@ export const LinkedInPostCard4 = () => {
               </p>
               <div className="flex items-center gap-4">
                 <Button
+                  onClick={handleShare}
                   variant="outline"
                   className="border-deepSea text-deepSea hover:bg-deepSea/10"
                 >
                   <Share2 className="mr-2 h-4 w-4" />
                   Share With Your RevOps Network
                 </Button>
-                <Button variant="ghost" size="sm" className="text-blazeOrange hover:text-blazeOrange/80">
+                <Button 
+                  onClick={handleDownload}
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-blazeOrange hover:text-blazeOrange/80"
+                >
                   <Download className="mr-2 h-4 w-4" />
                   Download as Image
                 </Button>
