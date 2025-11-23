@@ -86,6 +86,29 @@ serve(async (req) => {
       }
     }
 
+    // Update link security status in database
+    const linkId = req.headers.get('x-link-id');
+    if (linkId) {
+      const supabaseUrl = Deno.env.get('SUPABASE_URL');
+      const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+      
+      if (supabaseUrl && supabaseKey) {
+        try {
+          const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.38.4');
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          
+          await supabase
+            .from('links')
+            .update({ 
+              security_status: isSafe ? 'safe' : 'threats_detected' 
+            })
+            .eq('id', linkId);
+        } catch (dbError) {
+          console.error('Failed to update security status:', dbError);
+        }
+      }
+    }
+
     return new Response(
       JSON.stringify({
         safe: isSafe,

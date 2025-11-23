@@ -12,6 +12,8 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           className,
         )}
         ref={ref}
+        aria-disabled={props.disabled}
+        aria-readonly={props.readOnly}
         {...props}
       />
     );
