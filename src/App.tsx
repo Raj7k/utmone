@@ -195,6 +195,7 @@ const App = () => (
           <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
           <Route path="/resources/playbooks/naming-convention-playbook" element={<NamingConventionPlaybook />} />
           <Route path="/resources/playbooks/sales-marketing-alignment" element={<SalesMarketingAlignmentPlaybook />} />
+          <Route path="/resources/playbooks/ai-marketing" element={<AIMarketingPlaybook />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
           
           {/* Template Routes */}
@@ -205,6 +206,7 @@ const App = () => (
             <Route path="/resources/frameworks/clean-track-model" element={<CleanTrackModel />} />
             <Route path="/resources/frameworks/minimal-analytics-stack" element={<MinimalAnalyticsStack />} />
             <Route path="/resources/frameworks/attribution-clarity-model" element={<AttributionClarityModel />} />
+            <Route path="/resources/frameworks/b2b-attribution" element={<B2BAttributionFramework />} />
             <Route path="/resources/examples/utm-examples" element={<UTMExamples />} />
             <Route path="/resources/examples/naming-examples" element={<NamingExamples />} />
             <Route path="/resources/examples/dashboard-examples" element={<DashboardExamples />} />
