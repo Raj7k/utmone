@@ -41,9 +41,11 @@ const ConversionRateTerm = () => {
         { slug: "cohort", term: "Cohort Analysis", category: "Sales & RevOps" }
       ]}
       relatedResources={[
+        { title: "Sales & Marketing Alignment Playbook", url: "/resources/playbooks/sales-marketing-alignment", type: "playbook" },
         { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics", type: "playbook" }
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics-playbook", type: "playbook" }
       ]}
     />
   );

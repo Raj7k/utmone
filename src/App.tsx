@@ -192,6 +192,7 @@ const App = () => (
           <Route path="/resources/playbooks/startup-analytics-playbook" element={<StartupAnalyticsPlaybook />} />
           <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
           <Route path="/resources/playbooks/naming-convention-playbook" element={<NamingConventionPlaybook />} />
+          <Route path="/resources/playbooks/sales-marketing-alignment" element={<SalesMarketingAlignmentPlaybook />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
           
           {/* Template Routes */}
