@@ -138,9 +138,12 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <LinkIcon className="h-10 w-10 text-primary" />
-          <span className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">LinkHub</span>
+        <div className="flex items-center justify-center mb-8">
+          <img 
+            src="/src/assets/utm-one-logo.svg" 
+            alt="utm.one" 
+            className="h-10 w-auto"
+          />
         </div>
 
         <Tabs defaultValue="signin" className="w-full">

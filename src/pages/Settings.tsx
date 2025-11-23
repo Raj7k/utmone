@@ -61,10 +61,11 @@ export default function Settings() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <SettingsIcon className="w-6 h-6" />
-                <h1 className="text-xl font-bold">Settings</h1>
-              </div>
+              <img 
+                src="/src/assets/utm-one-logo.svg" 
+                alt="utm.one" 
+                className="h-7 w-auto"
+              />
               <nav className="hidden md:flex gap-6">
                 <NavLink to="/dashboard">Dashboard</NavLink>
                 <NavLink to="/links">Links</NavLink>

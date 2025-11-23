@@ -177,8 +177,11 @@ const ClaimAccess = () => {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex items-center gap-2">
-            <LinkIcon className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">utm.one</span>
+            <img 
+              src="/src/assets/utm-one-logo.svg" 
+              alt="utm.one" 
+              className="h-8 w-auto"
+            />
           </div>
           <CardTitle>claim your early access</CardTitle>
           <CardDescription>

@@ -81,11 +81,12 @@ export const Navigation = () => {
       <div className="max-w-[1280px] mx-auto px-8 h-full">
         <nav className="flex items-center justify-between h-full">
           {/* Logo with hover effect */}
-          <Link to="/" className="flex items-center gap-2 group transition-apple hover:opacity-70">
-            <LinkIcon className="h-7 w-7 text-primary" />
-            <span className="text-xl font-bold text-foreground">
-              utm.one
-            </span>
+          <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
+            <img 
+              src="/src/assets/utm-one-logo.svg" 
+              alt="utm.one logo" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -311,6 +312,15 @@ export const Navigation = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                {/* Logo at top of mobile menu */}
+                <div className="flex items-center gap-2 mb-6">
+                  <img 
+                    src="/src/assets/utm-one-logo.svg" 
+                    alt="utm.one" 
+                    className="h-6 w-auto"
+                  />
+                </div>
+                
                 <nav className="flex flex-col gap-4 mt-8">
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>

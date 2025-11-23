@@ -137,6 +137,15 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
       <div className="w-full max-w-3xl">
+        {/* Logo at top */}
+        <div className="flex items-center justify-center mb-8">
+          <img 
+            src="/src/assets/utm-one-logo.svg" 
+            alt="utm.one" 
+            className="h-8 w-auto"
+          />
+        </div>
+        
         {step === "welcome" && (
           <Card>
             <CardHeader className="text-center">
