@@ -9,6 +9,7 @@ import About from "./pages/About";
 import Docs from "./pages/Docs";
 import Resources from "./pages/Resources";
 import Guides from "./pages/resources/Guides";
+import UTMGuide from "./pages/resources/guides/UTMGuide";
 import Playbooks from "./pages/resources/Playbooks";
 import Templates from "./pages/resources/Templates";
 import Checklists from "./pages/resources/Checklists";
@@ -84,6 +85,7 @@ const App = () => (
           <Route path="/docs/api" element={<APIDocumentation />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/resources/guides" element={<Guides />} />
+          <Route path="/resources/guides/utm-guide" element={<UTMGuide />} />
           <Route path="/resources/playbooks" element={<Playbooks />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
