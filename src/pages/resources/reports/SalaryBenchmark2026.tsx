@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Download, TrendingUp, Globe, Users, CheckCircle2, Database, Building2 } from "lucide-react";
+import { Download, TrendingUp, Globe, Users, CheckCircle2, Database, Building2, Target } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ReportNavigation } from "@/components/reports/ReportNavigation";
 import { ReportTableOfContents } from "@/components/reports/ReportTableOfContents";
 import { ProgressIndicator } from "@/components/reports/ProgressIndicator";
@@ -46,12 +46,12 @@ import { HiringCompetitivenessDashboard } from "@/components/reports/tools/Hirin
 import { RetentionRiskCalculator } from "@/components/reports/tools/RetentionRiskCalculator";
 import { TeamSkillsGapAnalyzer } from "@/components/reports/tools/TeamSkillsGapAnalyzer";
 import { BrandQuote } from "@/components/reports/BrandQuote";
-import { PDFDownloadCTA } from "@/components/reports/PDFDownloadCTA";
 
 const SalaryBenchmark2026Content = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
   const [showPersonalizedModal, setShowPersonalizedModal] = useState(false);
-  const { isEmployeeMode, isEmployerMode } = useReportMode();
+  const [showPDFModal, setShowPDFModal] = useState(false);
+  const { isEmployeeMode, isEmployerMode, mode } = useReportMode();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -145,11 +145,36 @@ const SalaryBenchmark2026Content = () => {
       {/* Mode Toggle */}
       <ModeToggle />
       
-      {/* PDF Download Floating CTA */}
-      <PDFDownloadCTA />
-      
       {/* Table of Contents (Desktop Only) - Fixed with proper margin */}
       <ReportTableOfContents onScrollToSection={scrollToSection} />
+      
+      {/* Mode Indicator Banner */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={mode}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4 }}
+          className={`py-4 text-center font-medium border-y-2 ${
+            isEmployeeMode
+              ? 'bg-blazeOrange/10 text-blazeOrange border-blazeOrange/20'
+              : 'bg-deepSea/10 text-deepSea border-deepSea/20'
+          }`}
+        >
+          {isEmployeeMode ? (
+            <div className="flex items-center justify-center gap-2">
+              <Users className="w-4 h-4" />
+              <strong>Employee View:</strong> Focused on salary negotiation, career progression, and skill development
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2">
+              <Target className="w-4 h-4" />
+              <strong>Employer View:</strong> Focused on hiring benchmarks, team budgets, and retention strategies
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
       
       {/* Main Content Wrapper - Add right margin for sidebar on xl+ screens */}
       <div className="xl:mr-[280px]">
@@ -208,13 +233,18 @@ const SalaryBenchmark2026Content = () => {
               })}
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-6">
-              <Link to="/resources/tools/market-value-calculator">
-                <Button size="lg" variant="default" className="bg-blazeOrange hover:bg-blazeOrange/90">
-                  <TrendingUp className="mr-2 h-5 w-5" />
-                  Calculate Your Salary
-                </Button>
-              </Link>
+            <div className="flex flex-col items-center justify-center gap-3 pt-6">
+              <Button
+                size="lg"
+                onClick={() => scrollToSection('calculator-section')}
+                className="bg-gradient-to-r from-blazeOrange to-blazeOrange/90 text-white px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-105"
+              >
+                <TrendingUp className="w-5 h-5 mr-2" />
+                Calculate Your Salary Now
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Free • Takes 2 minutes • No signup required
+              </p>
             </div>
           </motion.div>
         </div>
@@ -549,17 +579,32 @@ const SalaryBenchmark2026Content = () => {
       {/* PDF Download Section (Moved to Bottom) */}
       <PDFDownloadSection />
 
-      {/* CTA #12: Sticky Side Button - Always Visible */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <Button 
-          size="lg" 
-          onClick={() => scrollToSection('pdf-download-section')}
-          className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl"
-        >
-          <Download className="mr-2 h-5 w-5" />
-          Download Report
-        </Button>
-      </div>
+      {/* Inline PDF Download Section */}
+      <section className="py-20 bg-gradient-to-br from-mirage/5 to-deepSea/5 border-t-2 border-mirage/10">
+        <div className="max-w-[900px] mx-auto px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-4xl font-display font-bold mb-4 text-mirage">
+              Want This Report as PDF?
+            </h2>
+            <p className="text-lg text-mirage/70 mb-8 max-w-[600px] mx-auto">
+              Download the complete 2026 Salary Benchmark with all data tables, charts, and analysis.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => setShowPDFModal(true)}
+              className="bg-mirage text-white hover:bg-mirage/90 px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-105"
+            >
+              <Download className="w-5 h-5 mr-2" />
+              Download Full PDF Report
+            </Button>
+          </motion.div>
+        </div>
+      </section>
 
       <Footer />
       </div> {/* Close main content wrapper */}
