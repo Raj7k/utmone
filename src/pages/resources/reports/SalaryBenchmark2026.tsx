@@ -39,10 +39,17 @@ import { PDFDownloadSection } from "@/components/reports/PDFDownloadSection";
 import { ScrollReveal } from "@/components/reports/ScrollReveal";
 import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
 import { PersonalizedReportModal } from "@/components/reports/modals/PersonalizedReportModal";
+import { ReportModeProvider, useReportMode } from "@/contexts/ReportModeContext";
+import { ModeToggle } from "@/components/reports/ModeToggle";
+import { TeamBudgetOptimizer } from "@/components/reports/tools/TeamBudgetOptimizer";
+import { HiringCompetitivenessDashboard } from "@/components/reports/tools/HiringCompetitivenessDashboard";
+import { RetentionRiskCalculator } from "@/components/reports/tools/RetentionRiskCalculator";
+import { TeamSkillsGapAnalyzer } from "@/components/reports/tools/TeamSkillsGapAnalyzer";
 
-const SalaryBenchmark2026 = () => {
+const SalaryBenchmark2026Content = () => {
   const [detectedLocation, setDetectedLocation] = useState<string | null>(null);
   const [showPersonalizedModal, setShowPersonalizedModal] = useState(false);
+  const { isEmployeeMode, isEmployerMode } = useReportMode();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -132,6 +139,9 @@ const SalaryBenchmark2026 = () => {
     <div className="min-h-screen bg-white">
       {/* Sticky Navigation */}
       <ReportNavigation onScrollToSection={scrollToSection} />
+      
+      {/* Mode Toggle */}
+      <ModeToggle />
       
       {/* Table of Contents (Desktop Only) - Fixed with proper margin */}
       <ReportTableOfContents onScrollToSection={scrollToSection} />
@@ -403,25 +413,62 @@ const SalaryBenchmark2026 = () => {
         </Card>
       </div>
 
-      {/* SECTION 7: Negotiation Blueprint */}
-      <NegotiationBlueprint />
+      {/* SECTION 7: Negotiation Blueprint - Employee Mode Only */}
+      {isEmployeeMode && (
+        <>
+          <NegotiationBlueprint />
 
-      {/* Walk-Away Calculator Tool */}
-      <div className="py-16 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <WalkAwayCalculator />
-        </div>
-      </div>
+          {/* Walk-Away Calculator Tool */}
+          <div className="py-16 bg-white">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <WalkAwayCalculator />
+            </div>
+          </div>
 
-      {/* Counter-Offer Analyzer Tool */}
-      <div className="py-16 bg-wildSand/30">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <CounterOfferAnalyzer />
-        </div>
-      </div>
+          {/* Counter-Offer Analyzer Tool */}
+          <div className="py-16 bg-wildSand/30">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <CounterOfferAnalyzer />
+            </div>
+          </div>
+        </>
+      )}
 
-      {/* LinkedIn Post Card #7 */}
-      <LinkedInPostCard7 />
+      {/* Employer Mode Tools */}
+      {isEmployerMode && (
+        <>
+          {/* Team Budget Optimizer */}
+          <div className="py-16 bg-white">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <TeamBudgetOptimizer />
+            </div>
+          </div>
+
+          {/* Hiring Competitiveness Dashboard */}
+          <div className="py-16 bg-wildSand/30">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <HiringCompetitivenessDashboard />
+            </div>
+          </div>
+
+          {/* Retention Risk Calculator */}
+          <div className="py-16 bg-white">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <RetentionRiskCalculator />
+            </div>
+          </div>
+
+          {/* Team Skills Gap Analyzer */}
+          <div className="py-16 bg-wildSand/30">
+            <div className="max-w-[1280px] mx-auto px-8">
+              <TeamSkillsGapAnalyzer />
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* LinkedIn Post Card #7 - Always visible */}
+      {isEmployeeMode && <LinkedInPostCard7 />}
 
       {/* SECTION 8: Enhanced Salary Calculator */}
       <section id="calculator-section" className="py-32 bg-background">
@@ -499,6 +546,14 @@ const SalaryBenchmark2026 = () => {
         onOpenChange={setShowPersonalizedModal} 
       />
     </div>
+  );
+};
+
+const SalaryBenchmark2026 = () => {
+  return (
+    <ReportModeProvider>
+      <SalaryBenchmark2026Content />
+    </ReportModeProvider>
   );
 };
 
