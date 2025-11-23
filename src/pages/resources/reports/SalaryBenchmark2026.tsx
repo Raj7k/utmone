@@ -203,6 +203,21 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
+      {/* CTA Placement #2: After Executive Summary */}
+      <div className="max-w-[1280px] mx-auto px-8 py-12">
+        <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-[hsl(184,92%,18%)]/5 border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
+          <h3 className="text-2xl font-display font-bold mb-4">
+            Curious Where You Stand?
+          </h3>
+          <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
+            Get your personalized salary range, skill gaps, and career roadmap based on your exact role, location, and experience.
+          </p>
+          <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white">
+            See What You Should Really Be Earning
+          </Button>
+        </Card>
+      </div>
+
       {/* Geolocation Detection */}
       <section className="max-w-[1280px] mx-auto px-8 py-8">
         <GeolocationDetector onLocationSelect={setDetectedLocation} />
@@ -226,6 +241,16 @@ const SalaryBenchmark2026 = () => {
             </p>
           </div>
           <EnhancedSalaryCalculator />
+          
+          {/* CTA Placement #5: Calculator Save Results */}
+          <div className="mt-8 p-6 bg-[hsl(180,25%,93%)]/50 rounded-xl border-2 border-[hsl(184,92%,18%)]/20 text-center">
+            <p className="text-sm text-muted-foreground mb-4">
+              💾 Want to save your salary profile and get quarterly updates as data changes?
+            </p>
+            <Button variant="outline" className="border-[hsl(184,92%,18%)] text-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/10">
+              Save My Results
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -488,6 +513,56 @@ const SalaryBenchmark2026 = () => {
         </div>
       </section>
 
+      {/* CTA Placement #11: Final Push Before Takeaways */}
+      <section className="py-20 bg-gradient-to-br from-[hsl(18,100%,51%)]/10 via-[hsl(184,92%,18%)]/10 to-[hsl(180,25%,93%)]/20">
+        <div className="max-w-[1000px] mx-auto px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Badge variant="default" className="mb-6 bg-[hsl(18,100%,51%)] animate-pulse">
+              FREE • NO CREDIT CARD • INSTANT ACCESS
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+              Ready to See Your Complete Picture?
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8 max-w-[700px] mx-auto">
+              Get your personalized GTM career report with salary ranges, skill gaps, career paths, and negotiation strategies.
+            </p>
+            
+            {/* Value Props Grid */}
+            <div className="grid md:grid-cols-3 gap-4 mb-8 text-left">
+              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
+                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
+                <h4 className="font-semibold text-sm mb-1">Your Salary Range</h4>
+                <p className="text-xs text-muted-foreground">Base, OTE, equity across 15+ countries</p>
+              </Card>
+              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
+                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
+                <h4 className="font-semibold text-sm mb-1">Skill Gap Analysis</h4>
+                <p className="text-xs text-muted-foreground">Top 10 skills you need + salary impact</p>
+              </Card>
+              <Card className="p-4 border-2 border-[hsl(184,92%,18%)]/20">
+                <CheckCircle2 className="h-6 w-6 text-[hsl(184,92%,18%)] mb-2" />
+                <h4 className="font-semibold text-sm mb-1">Career Roadmap</h4>
+                <p className="text-xs text-muted-foreground">Next roles, timeline, earnings forecast</p>
+              </Card>
+            </div>
+
+            <Button size="lg" className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white text-lg px-8 py-6 h-auto">
+              <TrendingUp className="mr-2 h-6 w-6" />
+              Get Your Personal GTM Career Report
+            </Button>
+            
+            <p className="text-xs text-muted-foreground mt-4">
+              ✨ Takes 2 minutes. No spam. No sales calls. Just data.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA to Tools */}
       <section className="py-20 bg-gradient-to-br from-deepSea/10 to-blazeOrange/10">
         <div className="max-w-[640px] mx-auto px-8 text-center space-y-6">
@@ -511,6 +586,23 @@ const SalaryBenchmark2026 = () => {
           </div>
         </div>
       </section>
+
+      {/* CTA Placement #12: Sticky Side Button */}
+      <motion.div
+        className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden lg:block"
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 2 }}
+      >
+        <Button
+          size="lg"
+          className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white shadow-2xl hover:shadow-[hsl(18,100%,51%)]/20 transition-all hover:scale-105 flex-col h-auto py-4 px-3 gap-2"
+          style={{ writingMode: 'vertical-rl' }}
+        >
+          <TrendingUp className="h-5 w-5 rotate-90" />
+          <span className="text-sm font-bold">Get My Salary</span>
+        </Button>
+      </motion.div>
 
       <Footer />
     </div>
