@@ -43,8 +43,10 @@ const TermParameter = () => {
       ]}
       relatedResources={[
         { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "Naming Taxonomy Template", url: "/resources/templates/naming-taxonomy", type: "template" }
+        { title: "UTM Template", url: "/resources/templates/utm-template", type: "template" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief-template", type: "template" },
+        { title: "UTM Governance Playbook", url: "/resources/playbooks/utm-governance", type: "playbook" }
       ]}
     />
   );

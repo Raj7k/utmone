@@ -44,9 +44,10 @@ const ContentTerm = () => {
       ]}
       relatedResources={[
         { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
+        { title: "UTM Template", url: "/resources/templates/utm-template", type: "template" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
         { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" },
-        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief", type: "template" }
+        { title: "Clean-Track Framework", url: "/resources/guides/clean-track-framework", type: "guide" }
       ]}
     />
   );

@@ -45,8 +45,9 @@ const CampaignTerm = () => {
       relatedResources={[
         { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
         { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" },
-        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief", type: "template" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" }
+        { title: "Campaign Brief Template", url: "/resources/templates/campaign-brief-template", type: "template" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "UTM Governance Playbook", url: "/resources/playbooks/utm-governance", type: "playbook" }
       ]}
     />
   );

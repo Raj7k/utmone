@@ -40,11 +40,11 @@ const TaxonomyTerm = () => {
         { slug: "source", term: "utm_source", category: "Core Tracking" }
       ]}
       relatedResources={[
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" },
-        { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" },
-        { title: "Naming Taxonomy Template", url: "/resources/templates/naming-taxonomy", type: "template" },
         { title: "UTM Governance Playbook", url: "/resources/playbooks/utm-governance", type: "playbook" },
-        { title: "Naming Examples", url: "/resources/examples/naming", type: "examples" }
+        { title: "Naming Taxonomy Template", url: "/resources/templates/naming-taxonomy-template", type: "template" },
+        { title: "Naming Convention Playbook", url: "/resources/playbooks/naming-convention", type: "playbook" },
+        { title: "Naming Examples", url: "/resources/examples/naming-examples", type: "examples" },
+        { title: "Clean-Track Framework", url: "/resources/guides/clean-track-framework", type: "guide" }
       ]}
     />
   );

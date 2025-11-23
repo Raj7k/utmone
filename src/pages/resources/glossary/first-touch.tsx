@@ -41,9 +41,11 @@ const FirstTouchTerm = () => {
         { slug: "conversion-rate", term: "Conversion Rate", category: "Sales & RevOps" }
       ]}
       relatedResources={[
-        { title: "Attribution Clarity Framework", url: "/resources/frameworks/attribution-clarity", type: "framework" },
+        { title: "Attribution Clarity Model", url: "/resources/frameworks/attribution-clarity-model", type: "framework" },
         { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" }
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" },
+        { title: "Simple Analytics Guide", url: "/resources/guides/simple-analytics", type: "guide" },
+        { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" }
       ]}
     />
   );

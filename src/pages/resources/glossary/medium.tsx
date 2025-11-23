@@ -44,9 +44,10 @@ const MediumTerm = () => {
       ]}
       relatedResources={[
         { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
-        { title: "UTM Examples", url: "/resources/examples/utm", type: "examples" },
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" },
-        { title: "Naming Taxonomy Template", url: "/resources/templates/naming-taxonomy", type: "template" }
+        { title: "UTM Template", url: "/resources/templates/utm-template", type: "template" },
+        { title: "UTM Governance Playbook", url: "/resources/playbooks/utm-governance", type: "playbook" },
+        { title: "UTM Examples", url: "/resources/examples/utm-examples", type: "examples" },
+        { title: "Clean-Track Framework", url: "/resources/guides/clean-track-framework", type: "guide" }
       ]}
     />
   );

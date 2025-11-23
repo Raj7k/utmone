@@ -42,8 +42,9 @@ const DirectTerm = () => {
       ]}
       relatedResources={[
         { title: "UTM Guide", url: "/resources/guides/utm", type: "guide" },
-        { title: "Clean-Track Framework", url: "/resources/guides/clean-track", type: "guide" },
-        { title: "UTM Template", url: "/resources/templates/utm", type: "template" }
+        { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
+        { title: "Attribution Clarity Model", url: "/resources/frameworks/attribution-clarity-model", type: "framework" },
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" }
       ]}
     />
   );
