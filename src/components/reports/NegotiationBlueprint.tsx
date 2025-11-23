@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Target, DollarSign, TrendingUp, Shield, MessageSquare, CheckCircle2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CalloutBox } from "./CalloutBox";
 
 const negotiationScripts = [
   {
@@ -89,12 +90,13 @@ export const NegotiationBlueprint = () => {
           </p>
         </div>
 
-        <Alert className="mb-12 bg-[hsl(18,100%,51%)]/10 border-[hsl(18,100%,51%)]/20">
-          <Target className="h-5 w-5 text-[hsl(18,100%,51%)]" />
-          <AlertDescription className="text-foreground">
-            <strong>The Single Most Important Rule:</strong> You do not get paid for your current value. You get paid for the future value you represent. Your job is to demonstrate "future value → higher salary."
-          </AlertDescription>
-        </Alert>
+        <CalloutBox className="mb-12">
+          <strong>The Single Most Important Rule:</strong> You do not get paid for your current value. You get paid for the future value you represent. Your job is to demonstrate "future value → higher salary."
+        </CalloutBox>
+
+        <CalloutBox className="mb-12">
+          <strong>Negotiation Reality:</strong> 82% of professionals who negotiate their offers receive higher compensation. Yet only 37% actually negotiate. The data is clear—asking works, and not asking costs you an average of $7,500-$15,000 per year in lost earnings.
+        </CalloutBox>
 
         {/* 5-Part Framework */}
         <Card className="mb-12">

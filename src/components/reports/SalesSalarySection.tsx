@@ -3,6 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 import { SalesOTEHistogram } from "./visualizations/SalesOTEHistogram";
+import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
+import { CalloutBox } from "./CalloutBox";
+import { CheckCircle2 } from "lucide-react";
 
 export const SalesSalarySection = () => {
   return (
@@ -161,6 +164,52 @@ export const SalesSalarySection = () => {
 
         {/* Import Existing Sales Salary Tables */}
         <SalesSalaryTables />
+
+        <CalloutBox className="mt-12">
+          <strong>Critical Reality:</strong> Enterprise AE salaries can vary by ±40% for the same role title. The difference? Book of business size, industry vertical, sales cycle complexity, and quota attainment history. Your earning potential is tied directly to deal size and close rates.
+        </CalloutBox>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-center">
+            Your 10-Year Sales Career Path
+          </h3>
+          <p className="text-lg leading-[1.7] text-muted-foreground text-center max-w-[750px] mx-auto mb-8">
+            See your earning trajectory from SDR to VP Sales. Switch between steady progression and fast-track scenarios to understand the time and compensation trade-offs.
+          </p>
+          <CareerProgressionTimeline />
+        </div>
+
+        <div className="mt-16">
+          <h3 className="text-3xl md:text-4xl font-display font-bold mb-8">
+            What Drives Sales Compensation Extremes
+          </h3>
+          <div className="space-y-4 max-w-[750px] mx-auto">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-deepSea mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-deepSea">Deal size is everything</strong> — Enterprise AEs closing $500K+ deals earn 3× more than SMB reps closing $20K deals, even with similar win rates
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-deepSea mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-deepSea">Quota attainment multiplies income</strong> — Reps consistently hitting 120%+ quota can double their OTE through accelerators and bonuses
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-deepSea mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-deepSea">Industry vertical premiums</strong> — FinTech and Enterprise SaaS sales roles pay 25-40% more than e-commerce or consumer SaaS
+              </p>
+            </div>
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="h-5 w-5 text-deepSea mt-1 flex-shrink-0" aria-hidden="true" />
+              <p className="text-lg leading-relaxed">
+                <strong className="text-deepSea">AI is reshaping SDR roles</strong> — Companies are cutting SDR headcount by 30-50% and investing in AI-powered outbound, pushing survivors to focus on complex, high-touch accounts
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Sales Volatility Analysis */}
         <div className="mt-16 mb-12">
