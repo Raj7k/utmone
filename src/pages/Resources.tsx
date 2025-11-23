@@ -1,8 +1,12 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Link } from "react-router-dom";
 import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getResourceCount, getNewResources } from "@/lib/resourceRegistry";
 
 const Resources = () => {
+  const newResources = getNewResources();
+  
   const categories = [
     {
       name: "guides",
@@ -10,7 +14,7 @@ const Resources = () => {
       description: "long-form, canonical content on utm architecture, tracking, and analytics",
       icon: BookOpen,
       path: "/resources/guides",
-      count: "6 guides"
+      count: getResourceCount("guides")
     },
     {
       name: "playbooks",
@@ -18,7 +22,7 @@ const Resources = () => {
       description: "tactical, step-by-step workflows for utm governance, analytics, and campaign execution",
       icon: FileText,
       path: "/resources/playbooks",
-      count: "4 playbooks"
+      count: getResourceCount("playbooks")
     },
     {
       name: "templates",
@@ -26,7 +30,7 @@ const Resources = () => {
       description: "copy/paste templates for utm setup, naming conventions, and reporting",
       icon: Layout,
       path: "/resources/templates",
-      count: "4 templates"
+      count: getResourceCount("templates")
     },
     {
       name: "checklists",
@@ -34,7 +38,7 @@ const Resources = () => {
       description: "actionable checklists for utm audits, campaign launches, and analytics health",
       icon: CheckSquare,
       path: "/resources/checklists",
-      count: "4 checklists"
+      count: getResourceCount("checklists")
     },
     {
       name: "frameworks",
@@ -42,7 +46,7 @@ const Resources = () => {
       description: "proprietary mental models for clean tracking, minimal analytics, and utm governance",
       icon: Network,
       path: "/resources/frameworks",
-      count: "3 frameworks"
+      count: getResourceCount("frameworks")
     },
     {
       name: "examples",
@@ -50,7 +54,7 @@ const Resources = () => {
       description: "real-world utm examples, before/after tracking, and dashboard visualizations",
       icon: Image,
       path: "/resources/examples",
-      count: "4 examples"
+      count: getResourceCount("examples")
     },
     {
       name: "glossary",
@@ -58,7 +62,7 @@ const Resources = () => {
       description: "canonical definitions for utm, taxonomy, attribution, and campaign structure",
       icon: BookMarked,
       path: "/resources/glossary",
-      count: "6 terms"
+      count: getResourceCount("glossary")
     },
     {
       name: "academy",
@@ -89,6 +93,34 @@ const Resources = () => {
           </div>
         </div>
       </section>
+
+      {/* New This Month Section */}
+      {newResources.length > 0 && (
+        <section className="py-16 bg-muted/20 border-y border-border/50">
+          <div className="max-w-[1280px] mx-auto px-8">
+            <h2 className="text-2xl font-display font-semibold text-foreground mb-8 lowercase">
+              new this month
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {newResources.map((resource) => (
+                <Link
+                  key={resource.slug}
+                  to={`/resources/${resource.category}/${resource.slug}`}
+                  className="bg-card rounded-2xl p-6 border-2 border-primary/20 hover:shadow-lg transition-all"
+                >
+                  <Badge className="mb-4 bg-primary text-primary-foreground">NEW</Badge>
+                  <h3 className="font-display font-semibold text-lg text-foreground mb-2">
+                    {resource.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                    {resource.category}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Categories Grid */}
       <section className="py-20 bg-background">

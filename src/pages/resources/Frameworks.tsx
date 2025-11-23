@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const Frameworks = () => {
   const frameworks = [
@@ -21,6 +22,13 @@ const Frameworks = () => {
       title: "Attribution Clarity Model — Decision Framework",
       description: "Four-layer framework for aligning teams on marketing attribution without political fights over credit.",
       type: "Decision Framework"
+    },
+    {
+      slug: "b2b-attribution",
+      title: "B2B Attribution Framework — From $0 to $100M+",
+      description: "Complete playbook with 4-stage growth framework, CRM implementation guides, real case studies (Airbnb, Dropbox, Slack), and battle-tested insights from 50+ B2B companies.",
+      type: "Growth Framework",
+      badge: "NEW"
     }
   ];
 
@@ -55,8 +63,13 @@ const Frameworks = () => {
               <Link
                 key={framework.slug}
                 to={`/resources/frameworks/${framework.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="block group relative bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
               >
+                {framework.badge && (
+                  <Badge className="absolute top-6 right-6 bg-primary text-primary-foreground animate-pulse">
+                    {framework.badge}
+                  </Badge>
+                )}
                 <div className="space-y-3">
                   <h2 className="text-2xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
                     {framework.title}
