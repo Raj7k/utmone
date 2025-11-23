@@ -143,52 +143,61 @@ const AIMarketingPlaybook = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-b from-background to-muted/20">
-        <div className="max-w-[980px] mx-auto px-8">
-          <Link
-            to="/resources/playbooks"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            back to playbooks
-          </Link>
+      <section className="py-20 bg-background border-b border-border/50">
+        <div className="max-w-[1200px] mx-auto px-8">
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+            <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+            <span>/</span>
+            <Link to="/resources/playbooks" className="hover:text-foreground transition-colors">Playbooks</Link>
+            <span>/</span>
+            <span className="text-foreground">AI Marketing</span>
+          </nav>
 
-          <div className="space-y-6">
-            <div className="flex flex-wrap gap-2">
-              <Badge className="bg-primary text-white">NEW</Badge>
-              <Badge variant="secondary">Most Read</Badge>
-              <Badge variant="outline">25-page guide</Badge>
-              <Badge variant="outline">30+ AI tools</Badge>
-              <Badge variant="outline">8-step workflow</Badge>
-            </div>
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
+            <Badge variant="secondary">Most Read</Badge>
+            <Badge variant="outline">25-page guide</Badge>
+            <Badge variant="outline">30+ AI tools</Badge>
+            <Badge variant="outline">8-step workflow</Badge>
+          </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
-              AI Marketing Playbook: Content Creation in the AI Era
-            </h1>
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-6">
+            ai marketing playbook: content creation in the ai era
+          </h1>
+          
+          {/* Subtitle */}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-[800px] mb-8">
+            the 8-step workflow to combine human creativity with ai efficiency for content marketing and thought leadership
+          </p>
 
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
-              The 8-step workflow to combine human creativity with AI efficiency for content marketing and thought leadership
-            </p>
+          {/* Meta Info */}
+          <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-8">
+            <span>25 min read</span>
+            <span>Updated January 2025</span>
+          </div>
 
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Button size="lg" className="gap-2">
-                <Sparkles className="w-5 h-5" />
-                Start the Workflow
-              </Button>
-              <Button size="lg" variant="outline" className="gap-2">
-                <Download className="w-5 h-5" />
-                Download PDF
-              </Button>
-            </div>
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-3">
+            <Button size="lg" className="gap-2">
+              <Sparkles className="w-5 h-5" />
+              Start the Workflow
+            </Button>
+            <Button size="lg" variant="outline" className="gap-2">
+              <Download className="w-5 h-5" />
+              Download PDF
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Problem Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-[900px] mx-auto px-8 text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold">
-            The Content Flood: Everyone Can Create, Few Can Stand Out
+          <h2 className="text-4xl md:text-5xl font-display font-extrabold">
+            the content flood: everyone can create, few can stand out
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8 pt-8">
@@ -216,9 +225,9 @@ const AIMarketingPlaybook = () => {
       <section className="py-20 bg-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold">
-              7 Core Principles of AI-Driven Content
-            </h2>
+              <h2 className="text-3xl md:text-4xl font-display font-bold">
+                7 core principles of ai-driven content
+              </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               To succeed with AI in content creation and thought leadership, keep these key principles in mind
             </p>
@@ -279,11 +288,11 @@ const AIMarketingPlaybook = () => {
       </section>
 
       {/* 8-Step Workflow */}
-      <section className="py-20 bg-white" id="workflow">
+      <section className="py-20 bg-background" id="workflow">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              The 8-Step AI Content Workflow
+              the 8-step ai content workflow
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               A practical, repeatable process for creating authentic, high-impact content with AI
@@ -299,7 +308,7 @@ const AIMarketingPlaybook = () => {
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              30+ AI Tools for Every Stage
+              30+ ai tools for every stage
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               Essential tools for content creation, from writing to design to analytics
@@ -311,11 +320,11 @@ const AIMarketingPlaybook = () => {
       </section>
 
       {/* Prompt Library */}
-      <section className="py-20 bg-white" id="prompts">
+      <section className="py-20 bg-background" id="prompts">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              Prompt Library: Copy & Use
+              prompt library: copy & use
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               20+ battle-tested prompts for every stage of content creation
@@ -331,7 +340,7 @@ const AIMarketingPlaybook = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              Content Readiness Checklist
+              content readiness checklist
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               10 essential checks before publishing AI-assisted content
@@ -343,11 +352,11 @@ const AIMarketingPlaybook = () => {
       </section>
 
       {/* ROI Calculator */}
-      <section className="py-20 bg-white" id="calculator">
+      <section className="py-20 bg-background" id="calculator">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              Calculate Your Time Savings
+              calculate your time savings
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               See the ROI of AI-assisted content creation for your team
@@ -363,7 +372,7 @@ const AIMarketingPlaybook = () => {
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              Common Pitfalls to Avoid
+              common pitfalls to avoid
             </h2>
             <p className="text-lg text-muted-foreground max-w-[640px] mx-auto">
               Learn from these mistakes and apply the fixes immediately
@@ -375,11 +384,11 @@ const AIMarketingPlaybook = () => {
       </section>
 
       {/* Related Resources */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-4 mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold">
-              Related Resources
+              related resources
             </h2>
             <p className="text-lg text-muted-foreground">
               Continue your content marketing education

@@ -3,6 +3,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, TrendingUp, Users, Target, Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { StageSelector } from "@/components/resources/StageSelector";
 import { AttributionModelComparator } from "@/components/resources/AttributionModelComparator";
 import { CRMImplementationWizard } from "@/components/resources/CRMImplementationWizard";
@@ -99,40 +100,39 @@ const B2BAttributionFramework = () => {
         <Navigation />
 
         {/* Hero Section */}
-        <section className="relative py-32 bg-gradient-to-br from-primary/5 to-primary/10">
-          <div className="max-w-[980px] mx-auto px-8">
-            <Link
-              to="/resources/frameworks"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              back to frameworks
-            </Link>
-            
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-extrabold text-foreground lowercase leading-tight">
-                  the ultimate b2b attribution framework
-                </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-[720px]">
-                  from $0 to $100m+: real-world playbook with case studies, crm implementation & battle-tested insights
-                </p>
-              </div>
+        <section className="py-20 bg-background border-b border-border/50">
+          <div className="max-w-[1200px] mx-auto px-8">
+            {/* Breadcrumbs */}
+            <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+              <Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link>
+              <span>/</span>
+              <Link to="/resources/frameworks" className="hover:text-foreground transition-colors">Frameworks</Link>
+              <span>/</span>
+              <span className="text-foreground">B2B Attribution</span>
+            </nav>
 
-              <div className="flex flex-wrap gap-4">
-                <div className="px-4 py-2 rounded-full bg-card border border-border/50 text-sm font-medium">
-                  25-page framework
-                </div>
-                <div className="px-4 py-2 rounded-full bg-card border border-border/50 text-sm font-medium">
-                  5 real case studies
-                </div>
-                <div className="px-4 py-2 rounded-full bg-card border border-border/50 text-sm font-medium">
-                  4-stage growth model
-                </div>
-                <div className="px-4 py-2 rounded-full bg-card border border-border/50 text-sm font-medium">
-                  30+ tools cataloged
-                </div>
-              </div>
+            {/* Badges */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
+              <Badge variant="outline">25-page framework</Badge>
+              <Badge variant="outline">5 case studies</Badge>
+              <Badge variant="outline">4-stage model</Badge>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-6">
+              b2b attribution framework: from $0 to $100m+
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[800px] mb-8">
+              real-world playbook with case studies, crm implementation & battle-tested insights from 50+ b2b companies
+            </p>
+
+            {/* Meta Info */}
+            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
+              <span>35 min read</span>
+              <span>Updated January 2025</span>
             </div>
           </div>
         </section>
