@@ -34,6 +34,17 @@ import DashboardExamples from "./pages/resources/examples/DashboardExamples";
 import UTMAudit from "./pages/resources/checklists/UTMAudit";
 import AnalyticsHealth from "./pages/resources/checklists/AnalyticsHealth";
 import CampaignLaunch from "./pages/resources/checklists/CampaignLaunch";
+
+// Glossary term pages
+import GlossaryUTM from "./pages/resources/glossary/utm";
+import GlossarySource from "./pages/resources/glossary/source";
+import GlossaryMedium from "./pages/resources/glossary/medium";
+import GlossaryCampaign from "./pages/resources/glossary/campaign";
+import GlossaryContent from "./pages/resources/glossary/content";
+import GlossaryTerm from "./pages/resources/glossary/term";
+import GlossaryTaxonomy from "./pages/resources/glossary/taxonomy";
+import GlossaryNamingConvention from "./pages/resources/glossary/naming-convention";
+import GlossaryTrackingArchitecture from "./pages/resources/glossary/tracking-architecture";
 import Checklists from "./pages/resources/Checklists";
 import Frameworks from "./pages/resources/Frameworks";
 import Examples from "./pages/resources/Examples";
@@ -135,6 +146,17 @@ const App = () => (
             <Route path="/resources/checklists/utm-audit" element={<UTMAudit />} />
             <Route path="/resources/checklists/analytics-health" element={<AnalyticsHealth />} />
             <Route path="/resources/checklists/campaign-launch" element={<CampaignLaunch />} />
+            
+            {/* Glossary term pages */}
+            <Route path="/resources/glossary/utm" element={<GlossaryUTM />} />
+            <Route path="/resources/glossary/source" element={<GlossarySource />} />
+            <Route path="/resources/glossary/medium" element={<GlossaryMedium />} />
+            <Route path="/resources/glossary/campaign" element={<GlossaryCampaign />} />
+            <Route path="/resources/glossary/content" element={<GlossaryContent />} />
+            <Route path="/resources/glossary/term" element={<GlossaryTerm />} />
+            <Route path="/resources/glossary/taxonomy" element={<GlossaryTaxonomy />} />
+            <Route path="/resources/glossary/naming-convention" element={<GlossaryNamingConvention />} />
+            <Route path="/resources/glossary/tracking-architecture" element={<GlossaryTrackingArchitecture />} />
           <Route path="/resources/templates" element={<Templates />} />
           <Route path="/resources/checklists" element={<Checklists />} />
           <Route path="/resources/frameworks" element={<Frameworks />} />
