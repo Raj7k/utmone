@@ -27,6 +27,12 @@ const Playbooks = () => {
       title: "Naming Convention Playbook — Taxonomy Design",
       description: "Practical steps for designing and rolling out a consistent naming taxonomy across your organization.",
       readTime: "9 min read"
+    },
+    {
+      slug: "sales-marketing-alignment",
+      title: "Sales & Marketing Alignment Playbook — The Simple Version",
+      description: "90-day implementation plan to align sales and marketing with zero confusion. Includes interactive calculators, checklists, and templates.",
+      readTime: "22 min read"
     }
   ];
 
