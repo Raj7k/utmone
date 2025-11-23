@@ -6,13 +6,21 @@ import { SalesOTEHistogram } from "./visualizations/SalesOTEHistogram";
 
 export const SalesSalarySection = () => {
   return (
-    <section className="py-20 bg-muted/20">
+    <section id="section-3" className="py-32 bg-background">
       <div className="max-w-[1400px] mx-auto px-8">
-        {/* Opening Narrative */}
-        <div className="prose prose-lg max-w-none mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-blazeOrange text-white text-base px-4 py-2">Section 03</Badge>
+            <Badge variant="outline" className="text-sm">10 min read</Badge>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Global Sales Salary Benchmarks
           </h2>
+        </div>
+
+        {/* Opening Narrative */}
+        <div className="prose prose-lg max-w-[750px] mx-auto mb-16">
           
           <div className="text-lg text-muted-foreground space-y-4 mb-12">
             <p className="lead text-xl">

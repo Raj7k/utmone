@@ -117,13 +117,17 @@ export const MegaTrendsSection = () => {
   };
 
   return (
-    <section className="py-20 bg-background">
+    <section id="section-1" className="py-32 bg-background">
       <div className="max-w-[1280px] mx-auto px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Badge className="bg-blazeOrange text-white text-base px-4 py-2">Section 01</Badge>
+            <Badge variant="outline" className="text-sm">8 min read</Badge>
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             10 Global Mega-Trends Reshaping Compensation
           </h2>
-          <p className="text-xl text-muted-foreground max-w-[800px] mx-auto">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-[1.7]">
             These forces define the entire salary landscape across Marketing, Sales, RevOps, and MarkOps in 2025-2026.
           </p>
         </div>
