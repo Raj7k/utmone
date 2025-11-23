@@ -166,6 +166,32 @@ export const Navigation = () => {
                           </Link>
                         </NavigationMenuLink>
                       </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/clean-track"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Clean-Track</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              your tracking rules, automated
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <Link
+                            to="/features/partner-program"
+                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          >
+                            <div className="text-sm font-medium leading-none">Partner Program</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              attribution without spreadsheets
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -438,6 +464,14 @@ export const Navigation = () => {
                     </Link>
                     <Link to="/features/governance" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>Enterprise Control</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/clean-track" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Clean-Track</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                    <Link to="/features/partner-program" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <span>Partner Program</span>
                       <ChevronRight className="h-4 w-4" />
                     </Link>
                   </div>
