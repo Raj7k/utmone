@@ -40,7 +40,7 @@ const Developers = () => {
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
             <AnimatedHeadline>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground font-extrabold tracking-tight leading-[1.1]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
                 Complex link systems break silently.
               </h2>
             </AnimatedHeadline>
@@ -55,7 +55,7 @@ const Developers = () => {
       {/* Why Developers Choose utm.one */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl md:text-5xl text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             Why developers choose utm.one
           </h2>
           
@@ -94,7 +94,7 @@ const Developers = () => {
       {/* Integration Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-3xl md:text-4xl text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             Built for integration
           </h2>
           
@@ -105,7 +105,7 @@ const Developers = () => {
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-foreground/5 flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-105">
                 <Box className="w-10 h-10 md:w-12 md:h-12 text-foreground" strokeWidth={2} />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">utm.one API</h3>
+              <h3 className="text-xl font-display font-semibold text-foreground mb-2">utm.one API</h3>
               <p className="text-sm text-muted-foreground">Clean API foundation</p>
             </div>
             
@@ -161,7 +161,7 @@ const Developers = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <AnimatedHeadline delay={100}>
-              <h2 className="text-h1 text-foreground font-bold tracking-tight">
+              <h2 className="text-h1 font-display text-foreground font-bold tracking-tight">
                 utm.one gives teams a single, reliable foundation for link data.
               </h2>
             </AnimatedHeadline>

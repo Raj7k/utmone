@@ -224,6 +224,25 @@ All colors MUST be HSL.
   pointer-events: none;
 }
 
+/* Typography Utility Classes */
+.heading {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.body-text {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.metric-text {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

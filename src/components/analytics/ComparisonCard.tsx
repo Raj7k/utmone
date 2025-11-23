@@ -23,7 +23,7 @@ export const ComparisonCard = ({ title, current, change, format = "number", icon
         {icon}
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{formattedCurrent}</div>
+        <div className="text-2xl font-display font-bold">{formattedCurrent}</div>
         <div className={cn(
           "text-xs flex items-center gap-1 mt-1",
           isPositive && "text-green-600",

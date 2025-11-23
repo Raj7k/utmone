@@ -63,7 +63,7 @@ export const KeyboardShortcutsHelp = ({ open, onOpenChange }: KeyboardShortcutsH
         <div className="space-y-6">
           {Object.entries(categories).map(([category, title]) => (
             <div key={category}>
-              <h3 className="text-sm font-medium text-muted-foreground mb-3">{title}</h3>
+              <h3 className="text-sm font-display font-medium text-muted-foreground mb-3">{title}</h3>
               <div className="space-y-2">
                 {shortcuts
                   .filter(s => s.category === category)

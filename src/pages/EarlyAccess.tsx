@@ -54,7 +54,7 @@ const BenefitCard = ({ number, title, description, delay = 0 }: { number: string
         {number}
       </div>
       <div className="relative z-10">
-        <h3 className="text-2xl md:text-3xl font-semibold mb-4">{title}</h3>
+        <h3 className="text-2xl md:text-3xl font-display font-semibold mb-4">{title}</h3>
         <p className="text-lg text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </div>
@@ -215,7 +215,7 @@ export default function EarlyAccess() {
       <section className="bg-muted/20 py-40 px-6">
         <div className="max-w-[800px] mx-auto">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-center">
               why invite-only?
             </h2>
           </AnimatedHeadline>
@@ -258,7 +258,7 @@ export default function EarlyAccess() {
       <section className="bg-white py-40 px-6">
         <div className="max-w-[1280px] mx-auto">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center">
               what early access gives you
             </h2>
           </AnimatedHeadline>
@@ -295,7 +295,7 @@ export default function EarlyAccess() {
       <section className="bg-muted/20 py-32 px-6">
         <div className="max-w-[800px] mx-auto">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-center">
               who we're selecting
             </h2>
           </AnimatedHeadline>
@@ -340,7 +340,7 @@ export default function EarlyAccess() {
           {!isSubmitted ? (
             <>
               <AnimatedHeadline>
-                <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 text-center">
                   join the early circle
                 </h2>
               </AnimatedHeadline>

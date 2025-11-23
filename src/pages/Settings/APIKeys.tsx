@@ -282,7 +282,7 @@ export default function APIKeysSettings() {
         <CardContent>
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium mb-2">authentication</h3>
+              <h3 className="font-display font-medium mb-2">authentication</h3>
               <p className="text-sm text-muted-foreground">
                 include your api key in the request header:
               </p>
@@ -291,13 +291,13 @@ export default function APIKeysSettings() {
               </pre>
             </div>
             <div>
-              <h3 className="font-medium mb-2">base url</h3>
+              <h3 className="font-display font-medium mb-2">base url</h3>
               <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
                 {`https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/api`}
               </pre>
             </div>
             <div>
-              <h3 className="font-medium mb-2">example request</h3>
+              <h3 className="font-display font-medium mb-2">example request</h3>
               <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto">
                 {`curl -X POST https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/api/links \\
   -H "Authorization: Bearer utm_your_api_key_here" \\

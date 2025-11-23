@@ -60,7 +60,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-semibold text-center lowercase text-foreground">
+              <h3 className="text-lg font-display font-semibold text-center lowercase text-foreground">
                 {card.title}
               </h3>
             </div>
@@ -89,7 +89,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-semibold text-center lowercase text-foreground">
+              <h3 className="text-lg font-display font-semibold text-center lowercase text-foreground">
                 {card.title}
               </h3>
             </div>

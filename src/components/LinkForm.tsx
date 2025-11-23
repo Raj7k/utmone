@@ -903,7 +903,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
 
         {/* URL Preview - Always Visible */}
         <Card className="p-4 space-y-3 bg-muted/50 border-border">
-          <h3 className="font-serif text-lg font-semibold text-foreground">Preview</h3>
+          <h3 className="font-display text-lg font-semibold text-foreground">Preview</h3>
         
         <div className="space-y-2">
           <Label className="text-sm text-muted-foreground">Short URL</Label>
@@ -946,7 +946,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         <Card className="p-4 space-y-3 bg-muted/50 border-border">
           <div className="flex items-center gap-2">
             <AlertCircleIcon className="h-4 w-4 text-muted-foreground" />
-            <h3 className="font-serif text-lg font-semibold text-foreground">Security Verification</h3>
+            <h3 className="font-display text-lg font-semibold text-foreground">Security Verification</h3>
           </div>
           
           <div className="flex justify-center py-2">
@@ -983,7 +983,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     {createdLinkId && (
       <div className="mt-8 space-y-6">
         <div className="border-t pt-6">
-          <h2 className="text-2xl font-bold mb-2">A/B Test Variants</h2>
+          <h2 className="text-2xl font-display font-bold mb-2">A/B Test Variants</h2>
           <p className="text-muted-foreground mb-6">
             Create multiple Open Graph variants to test which preview generates more clicks
           </p>

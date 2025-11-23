@@ -56,7 +56,7 @@ export const WorkflowStep = ({
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
+      <h3 className="text-lg font-display font-semibold text-foreground mb-2">{title}</h3>
 
       {/* Description */}
       <p className="text-sm text-muted-foreground leading-relaxed max-w-[200px]">

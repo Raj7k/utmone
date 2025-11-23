@@ -144,7 +144,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         <TabsContent value="overview" className="space-y-6">
       {/* Date Range Selector */}
       <div className="flex justify-between items-center flex-wrap gap-4">
-        <h3 className="text-lg font-semibold">Analytics Overview</h3>
+        <h3 className="text-lg font-display font-semibold">Analytics Overview</h3>
         <div className="flex gap-2">
           {qrCodes && qrCodes.length > 0 && (
             <Select value={selectedQRCode} onValueChange={setSelectedQRCode}>

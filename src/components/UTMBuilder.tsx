@@ -50,7 +50,7 @@ export const UTMBuilder = ({ form, workspaceId, onSaveTemplate }: UTMBuilderProp
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-serif text-lg font-semibold text-foreground">utm parameters</h3>
+        <h3 className="font-display text-lg font-semibold text-foreground">utm parameters</h3>
         {templates && templates.length > 0 && (
           <TooltipProvider>
             <Tooltip>

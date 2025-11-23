@@ -37,7 +37,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
             alt="utm.one" 
             className="h-6 w-auto mb-4"
           />
-          <h2 className="text-xl font-bold text-foreground">Admin Panel</h2>
+          <h2 className="text-xl font-display font-bold text-foreground">Admin Panel</h2>
           <p className="text-sm text-muted-foreground">System Management</p>
         </div>
 

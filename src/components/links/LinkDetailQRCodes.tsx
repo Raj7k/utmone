@@ -69,7 +69,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">{qrCodes.length} QR Code{qrCodes.length !== 1 ? 's' : ''}</h3>
+        <h3 className="text-lg font-display font-semibold">{qrCodes.length} QR Code{qrCodes.length !== 1 ? 's' : ''}</h3>
         <QRCodeDialog linkId={linkId} shortUrl={shortUrl} trigger={
           <Button>
             <QrCode className="h-4 w-4 mr-2" />

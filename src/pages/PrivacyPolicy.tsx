@@ -20,7 +20,7 @@ export default function PrivacyPolicy() {
 
         <div className="space-y-12 text-lg leading-relaxed">
           <section>
-            <h2 className="text-3xl font-bold mb-4">what we collect</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">what we collect</h2>
             <p className="mb-4">
               when you use utm.one, we collect information necessary to provide our link management service:
             </p>
@@ -34,7 +34,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">why we collect it</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">why we collect it</h2>
             <p className="mb-4">we use this data to:</p>
             <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
               <li>provide click analytics and campaign insights</li>
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">how long we keep it</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">how long we keep it</h2>
             <p className="mb-4 text-muted-foreground">
               by default, we retain granular click data (ip addresses, user agents) for 90 days. 
               after that, we keep only aggregated analytics (country-level, device types) indefinitely 
@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">your rights</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">your rights</h2>
             <p className="mb-4">you have the right to:</p>
             <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
               <li><strong>access:</strong> request a copy of all your data</li>
@@ -69,7 +69,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">security</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">security</h2>
             <p className="text-muted-foreground">
               we encrypt all data in transit (tls 1.3) and at rest (aes-256). access to personal 
               data is strictly limited to authorized personnel. we conduct regular security audits 
@@ -78,7 +78,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">third parties</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">third parties</h2>
             <p className="text-muted-foreground mb-4">
               we do not sell your data. we share data only with:
             </p>
@@ -90,14 +90,14 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">cookies</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">cookies</h2>
             <p className="text-muted-foreground">
               we use essential cookies for authentication. no tracking or advertising cookies.
             </p>
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">gdpr & ccpa compliance</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">gdpr & ccpa compliance</h2>
             <p className="text-muted-foreground">
               we are fully compliant with gdpr (europe) and ccpa (california). if you are a resident 
               of the eu or california, you have additional rights including the right to request deletion 
@@ -106,7 +106,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-bold mb-4">contact</h2>
+            <h2 className="text-3xl font-display font-bold mb-4">contact</h2>
             <p className="text-muted-foreground">
               questions about privacy? email us at <strong>privacy@utm.one</strong>
             </p>
