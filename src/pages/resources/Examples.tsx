@@ -6,28 +6,22 @@ const Examples = () => {
   const examples = [
     {
       slug: "utm-examples",
-      title: "UTM Examples — Real-World Patterns",
-      description: "Collection of real UTM structures used by modern teams across different industries and use cases.",
-      count: "32 examples"
+      title: "UTM Examples Library",
+      description: "Real UTM patterns across paid search, social, email, affiliates, offline, events, and product-led growth.",
+      count: "150+ examples",
     },
     {
-      slug: "before-after-tracking",
-      title: "Before/After Tracking — Case Studies",
-      description: "Visual comparisons showing tracking implementations before and after applying clean track principles.",
-      count: "8 case studies"
+      slug: "naming-examples",
+      title: "Naming Examples Library",
+      description: "Real naming conventions for campaigns, audiences, objectives, variants, and lifecycle segments.",
+      count: "100+ examples",
     },
     {
-      slug: "campaign-naming-examples",
-      title: "Campaign Naming Examples — Taxonomy in Action",
-      description: "Real campaign naming conventions from B2B, SaaS, e-commerce, and agency teams.",
-      count: "24 examples"
+      slug: "dashboard-examples",
+      title: "Dashboard Examples Library",
+      description: "Practical dashboard structures for SaaS, B2B, and multi-channel marketing environments.",
+      count: "12+ dashboards",
     },
-    {
-      slug: "dashboards-visualised",
-      title: "Dashboards Visualized — Analytics UI",
-      description: "Screenshots and breakdowns of effective analytics dashboards that drive decisions.",
-      count: "12 dashboards"
-    }
   ];
 
   return (
