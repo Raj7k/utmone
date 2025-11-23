@@ -13,6 +13,7 @@ import { DownloadOptions } from "@/components/resources/DownloadOptions";
 import { PlaybookSteps } from "@/components/resources/PlaybookSteps";
 import { motion } from "framer-motion";
 import { ComparisonCard } from "@/components/analytics/ComparisonCard";
+import { Helmet } from "react-helmet";
 
 const SalesMarketingAlignmentPlaybook = () => {
   const steps = [
@@ -28,6 +29,113 @@ const SalesMarketingAlignmentPlaybook = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Sales & Marketing Alignment Playbook — 90-Day Implementation | utm.one</title>
+        <meta name="description" content="Complete 90-day playbook to align sales and marketing teams. Includes interactive lead scoring calculator, metrics dashboard, weekly sync timer, SLA agreement, and role-specific checklists. Plain English, zero confusion." />
+        <meta name="keywords" content="sales marketing alignment, MQL SQL definition, lead scoring calculator, sales SLA, marketing operations, revenue alignment, B2B sales process" />
+        <link rel="canonical" href="https://utm.one/resources/playbooks/sales-marketing-alignment" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Sales & Marketing Alignment Playbook — The Simple Version" />
+        <meta property="og:description" content="90-day implementation plan to align sales and marketing with interactive tools, calculators, and templates. No theory, just action." />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://utm.one/resources/playbooks/sales-marketing-alignment" />
+        
+        {/* Schema.org structured data for HowTo */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "Sales & Marketing Alignment Playbook",
+            "description": "90-day implementation plan to align sales and marketing teams with zero confusion",
+            "totalTime": "P90D",
+            "tool": [
+              "Lead Scoring Calculator",
+              "Metrics Dashboard",
+              "Weekly Sync Timer",
+              "SLA Agreement Template"
+            ],
+            "step": [
+              {
+                "@type": "HowToStep",
+                "name": "Week 1: Agree on definitions",
+                "text": "1-hour meeting with sales & marketing leaders to define MQL and SQL criteria",
+                "position": 1
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Week 2: Set up automation",
+                "text": "Configure CRM routing, alerts, and lead scoring automation",
+                "position": 2
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Week 3: Soft launch",
+                "text": "Test process with 25% of leads before full rollout",
+                "position": 3
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Week 4: Full launch",
+                "text": "Go live with 100% of leads and celebrate first wins",
+                "position": 4
+              }
+            ]
+          })}
+        </script>
+        
+        {/* Schema.org for Article */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Sales & Marketing Alignment Playbook — The Simple Version",
+            "description": "Complete 90-day implementation plan with interactive calculators, checklists, and templates for aligning sales and marketing teams",
+            "author": {
+              "@type": "Organization",
+              "name": "utm.one"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "utm.one",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://utm.one/logo.png"
+              }
+            },
+            "datePublished": "2024-01-15",
+            "dateModified": "2024-01-15"
+          })}
+        </script>
+        
+        {/* BreadcrumbList Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Resources",
+                "item": "https://utm.one/resources"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Playbooks",
+                "item": "https://utm.one/resources/playbooks"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Sales & Marketing Alignment",
+                "item": "https://utm.one/resources/playbooks/sales-marketing-alignment"
+              }
+            ]
+          })}
+        </script>
+      </Helmet>
       <Navigation />
 
       {/* Hero Section */}

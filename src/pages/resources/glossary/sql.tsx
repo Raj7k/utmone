@@ -41,9 +41,11 @@ const SQLTerm = () => {
         { slug: "utm", term: "UTM", category: "Core Tracking" }
       ]}
       relatedResources={[
+        { title: "Sales & Marketing Alignment Playbook", url: "/resources/playbooks/sales-marketing-alignment", type: "playbook" },
         { title: "Growth Analytics Guide", url: "/resources/guides/growth-analytics", type: "guide" },
-        { title: "Attribution Clarity Framework", url: "/resources/frameworks/attribution-clarity", type: "framework" },
-        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics", type: "playbook" }
+        { title: "Dashboard Examples", url: "/resources/examples/dashboard-examples", type: "examples" },
+        { title: "Startup Analytics Playbook", url: "/resources/playbooks/startup-analytics-playbook", type: "playbook" },
+        { title: "Analytics Health Checklist", url: "/resources/checklists/analytics-health", type: "checklist" }
       ]}
     />
   );
