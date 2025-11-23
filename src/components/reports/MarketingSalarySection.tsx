@@ -7,6 +7,7 @@ import { B2BvsB2CComparison } from "./visualizations/B2BvsB2CComparison";
 import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
 import { CalloutBox } from "./CalloutBox";
 import { CheckCircle2 } from "lucide-react";
+import { ScrollReveal } from "./ScrollReveal";
 
 export const MarketingSalarySection = () => {
   return (
@@ -220,86 +221,94 @@ export const MarketingSalarySection = () => {
           </div>
         </div>
 
-        {/* Geographic Spotlight */}
+        {/* Geographic Spotlight - Vertical Stacked with Animation */}
         <div className="mt-16 mb-12">
-          <h3 className="text-3xl font-display font-bold mb-8">Geographic Salary Spotlight</h3>
+          <h3 className="text-3xl font-display font-bold mb-8 text-center">Geographic Salary Spotlight</h3>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🇺🇸 United States
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">San Francisco & Silicon Valley:</strong> Highest marketing salaries globally. PMM Directors earn $200K-$260K. Demand Gen Managers: $130K-$160K. 25-40% premium over national average.
-                </p>
-                <p>
-                  <strong className="text-foreground">New York City:</strong> Second-highest market. Finance, media, enterprise SaaS drive demand. PMM compensation matches SF; Demand Gen slightly lower.
-                </p>
-                <p>
-                  <strong className="text-foreground">Austin, Denver, Seattle:</strong> 10-18% lower than SF/NYC but cost-of-living adjusted purchasing power often higher. Remote-first companies anchoring salaries to these markets.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="max-w-[900px] mx-auto space-y-8">
+            <ScrollReveal delay={0}>
+              <Card className="hover:shadow-lg transition-all">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    🇺🇸 United States
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">San Francisco & Silicon Valley:</strong> Highest marketing salaries globally. PMM Directors earn $200K-$260K. Demand Gen Managers: $130K-$160K. 25-40% premium over national average.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">New York City:</strong> Second-highest market. Finance, media, enterprise SaaS drive demand. PMM compensation matches SF; Demand Gen slightly lower.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Austin, Denver, Seattle:</strong> 10-18% lower than SF/NYC but cost-of-living adjusted purchasing power often higher. Remote-first companies anchoring salaries to these markets.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🇮🇳 India
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Bangalore (Bengaluru):</strong> Highest marketing salaries in India. Senior PMMs: ₹30-45L ($36K-$54K). Demand Gen Managers: ₹20-35L ($24K-$42K). Global SaaS companies (Freshworks, Razorpay, Chargebee) compete with US remote roles.
-                </p>
-                <p>
-                  <strong className="text-foreground">Mumbai, Delhi NCR, Hyderabad, Pune:</strong> 10-20% lower than Bangalore. Strong growth in MarkOps and Performance Marketing roles as companies invest in marketing automation.
-                </p>
-                <p>
-                  <strong className="text-foreground">YoY Growth:</strong> India marketing salaries growing fastest globally (+22-32% YoY) due to global remote hiring and domestic SaaS boom.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delay={0.15}>
+              <Card className="hover:shadow-lg transition-all">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    🇮🇳 India
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Bangalore (Bengaluru):</strong> Highest marketing salaries in India. Senior PMMs: ₹30-45L ($36K-$54K). Demand Gen Managers: ₹20-35L ($24K-$42K). Global SaaS companies (Freshworks, Razorpay, Chargebee) compete with US remote roles.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Mumbai, Delhi NCR, Hyderabad, Pune:</strong> 10-20% lower than Bangalore. Strong growth in MarkOps and Performance Marketing roles as companies invest in marketing automation.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">YoY Growth:</strong> India marketing salaries growing fastest globally (+22-32% YoY) due to global remote hiring and domestic SaaS boom.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🇬🇧 🇪🇺 UK & Europe
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">London:</strong> Highest European marketing salaries. PMM Directors: £80K-£110K ($100K-$140K). Demand Gen Managers: £60K-£85K. Fintech, enterprise software, consulting drive demand.
-                </p>
-                <p>
-                  <strong className="text-foreground">Berlin, Amsterdam, Stockholm:</strong> Tech hubs with strong startup ecosystems. 15-25% lower than London but cost-of-living adjusted comparable. Remote EU hiring compressing geographic gaps.
-                </p>
-                <p>
-                  <strong className="text-foreground">Eastern Europe (Poland, Czech Republic, Romania):</strong> Emerging remote marketing hubs. English-speaking, western-educated marketers earning €25K-€45K ($27K-$48K)—50-60% less than Western Europe but equivalent purchasing power.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delay={0.3}>
+              <Card className="hover:shadow-lg transition-all">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    🇬🇧 🇪🇺 UK & Europe
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">London:</strong> Highest European marketing salaries. PMM Directors: £80K-£110K ($100K-$140K). Demand Gen Managers: £60K-£85K. Fintech, enterprise software, consulting drive demand.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Berlin, Amsterdam, Stockholm:</strong> Tech hubs with strong startup ecosystems. 15-25% lower than London but cost-of-living adjusted comparable. Remote EU hiring compressing geographic gaps.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Eastern Europe (Poland, Czech Republic, Romania):</strong> Emerging remote marketing hubs. English-speaking, western-educated marketers earning €25K-€45K ($27K-$48K)—50-60% less than Western Europe but equivalent purchasing power.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  🌏 APAC, LATAM, MENA
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Singapore, Hong Kong, Australia:</strong> Highest APAC salaries. PMM Managers: $70K-$110K. Demand Gen Managers: $60K-$90K. English fluency + cost-of-living premiums.
-                </p>
-                <p>
-                  <strong className="text-foreground">LATAM (Mexico, Brazil, Argentina, Colombia):</strong> Fastest-growing remote marketing hiring region. Demand Gen Managers: $18K-$30K. Content strategists: $12K-$22K. Timezone overlap with US + English fluency drive demand.
-                </p>
-                <p>
-                  <strong className="text-foreground">MENA (UAE, Saudi Arabia, Egypt):</strong> Enterprise B2B marketing (government, telco, oil/gas) pays premiums. PMM Managers in Dubai: $50K-$80K. Lower salaries than US/Europe but tax-free income in UAE/Saudi increases net comp.
-                </p>
-              </CardContent>
-            </Card>
+            <ScrollReveal delay={0.45}>
+              <Card className="hover:shadow-lg transition-all">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-2xl">
+                    🌏 APAC, LATAM, MENA
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>
+                    <strong className="text-foreground">Singapore, Hong Kong, Australia:</strong> Highest APAC salaries. PMM Managers: $70K-$110K. Demand Gen Managers: $60K-$90K. English fluency + cost-of-living premiums.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">LATAM (Mexico, Brazil, Argentina, Colombia):</strong> Fastest-growing remote marketing hiring region. Demand Gen Managers: $18K-$30K. Content strategists: $12K-$22K. Timezone overlap with US + English fluency drive demand.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">MENA (UAE, Saudi Arabia, Egypt):</strong> Enterprise B2B marketing (government, telco, oil/gas) pays premiums. PMM Managers in Dubai: $50K-$80K. Lower salaries than US/Europe but tax-free income in UAE/Saudi increases net comp.
+                  </p>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
         </div>
 

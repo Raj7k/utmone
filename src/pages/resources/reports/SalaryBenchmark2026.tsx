@@ -240,15 +240,18 @@ const SalaryBenchmark2026Content = () => {
             <div className="flex flex-col items-center justify-center gap-3 pt-6">
               <Button
                 size="lg"
-                onClick={() => scrollToSection('calculator-section')}
+                onClick={() => setShowPDFModal(true)}
                 className="bg-gradient-to-r from-blazeOrange to-blazeOrange/90 text-white px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all hover:scale-105"
               >
-                <TrendingUp className="w-5 h-5 mr-2" />
-                Calculate Your Salary Now
+                <Download className="w-5 h-5 mr-2" />
+                Download Full Report
               </Button>
-              <p className="text-sm text-muted-foreground">
-                Free • Takes 2 minutes • No signup required
-              </p>
+              <button 
+                onClick={() => scrollToSection('calculator-section')}
+                className="text-sm text-muted-foreground hover:text-foreground transition-apple underline"
+              >
+                Or calculate your salary now →
+              </button>
             </div>
           </motion.div>
         </div>
@@ -302,21 +305,24 @@ const SalaryBenchmark2026Content = () => {
         </div>
       </section>
 
-      {/* CTA #2: After Executive Summary */}
+      {/* CTA #2: After Executive Summary - Mode-Specific */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
         <Card className="bg-gradient-to-br from-[hsl(18,100%,51%)]/5 to-[hsl(184,92%,18%)]/5 border-2 border-[hsl(18,100%,51%)]/20 p-8 text-center">
           <h3 className="text-2xl font-display font-bold mb-4">
-            Curious Where You Stand?
+            {isEmployeeMode ? "Curious Where You Stand?" : "Planning Your Next Hire?"}
           </h3>
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
-            Get your personalized salary range, skill gaps, and career roadmap based on your exact role, location, and experience.
+            {isEmployeeMode 
+              ? "Get your personalized salary range, skill gaps, and career roadmap based on your exact role, location, and experience."
+              : "Get competitive salary benchmarks and team budget recommendations for your next GTM hire."
+            }
           </p>
           <Button 
             size="lg" 
             onClick={() => scrollToSection('calculator-section')}
             className="bg-[hsl(18,100%,51%)] hover:bg-[hsl(18,100%,51%)]/90 text-white"
           >
-            See What You Should Really Be Earning
+            {isEmployeeMode ? "See What You Should Really Be Earning" : "Build Your Hiring Budget"}
           </Button>
         </Card>
       </div>
@@ -332,21 +338,24 @@ const SalaryBenchmark2026Content = () => {
         <MegaTrendsSection />
       </div>
 
-      {/* CTA #3: After Mega-Trends */}
+      {/* CTA #3: After Mega-Trends - Mode-Specific */}
       <div className="max-w-[1280px] mx-auto px-8 py-12">
         <Card className="bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-[hsl(18,100%,51%)]/5 border-2 border-[hsl(184,92%,18%)]/20 p-8 text-center">
           <h3 className="text-2xl font-display font-bold mb-4">
-            Ready to Check Your True Market Value?
+            {isEmployeeMode ? "Ready to Check Your True Market Value?" : "Benchmark Your Team's Compensation"}
           </h3>
           <p className="text-muted-foreground mb-6 max-w-[600px] mx-auto">
-            Use our advanced salary calculator to see exactly where you stand based on role, skills, location, and company size.
+            {isEmployeeMode
+              ? "Use our advanced salary calculator to see exactly where you stand based on role, skills, location, and company size."
+              : "Compare your current team salaries against market benchmarks and identify retention risks."
+            }
           </p>
           <Button 
             size="lg" 
             onClick={() => scrollToSection('calculator-section')}
             className="bg-[hsl(184,92%,18%)] hover:bg-[hsl(184,92%,18%)]/90 text-white"
           >
-            Check Your True Market Value
+            {isEmployeeMode ? "Check Your True Market Value" : "Analyze Team Compensation"}
           </Button>
         </Card>
       </div>

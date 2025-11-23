@@ -42,9 +42,9 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
         isScrolled ? "bg-white/60 backdrop-blur-xl shadow-sm" : "bg-white/80"
       } supports-[backdrop-filter]:bg-white/60`}
     >
-      {/* Scroll Progress Bar */}
+      {/* Scroll Progress Bar - Matching Homepage Colors */}
       <motion.div
-        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-blazeOrange via-deepSea to-mirage origin-left"
+        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left"
         style={{ width: progressWidth }}
       />
       
