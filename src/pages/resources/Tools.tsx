@@ -94,7 +94,7 @@ const Tools = () => {
                 Tools
               </h1>
             </div>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto leading-relaxed">
               Interactive calculators for salary negotiation, career planning, and team budgeting. Backed by real market data.
             </p>
           </div>
@@ -111,7 +111,7 @@ const Tools = () => {
                 <Link
                   key={tool.slug}
                   to={`/resources/tools/${tool.slug}`}
-                  className="group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                  className="group bg-card rounded-2xl p-8 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
                 >
                   <div className="flex flex-col space-y-4">
                     <div className="flex items-start justify-between">
@@ -121,10 +121,10 @@ const Tools = () => {
                       <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-xl font-display font-semibold text-foreground">
+                      <h3 className="text-xl font-display font-semibold text-label">
                         {tool.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm text-secondary-label leading-relaxed">
                         {tool.description}
                       </p>
                       <p className="text-xs text-primary/60 italic pt-2">
@@ -140,9 +140,9 @@ const Tools = () => {
       </section>
 
       {/* Data Sources Note */}
-      <section className="py-12 bg-muted/20 border-y border-border/50">
+      <section className="py-12 bg-muted/20 border-y border-separator">
         <div className="max-w-[980px] mx-auto px-8 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             All salary data sourced from 2026 Global Marketing & Sales Operations Benchmark Report
             <br />
             <span className="text-xs">Updated quarterly • Covering 2,000+ roles across 50+ markets</span>

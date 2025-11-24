@@ -13,14 +13,14 @@ const Reports = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumb */}
-      <div className="border-b border-border/50">
+      <div className="border-b border-separator">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/resources" className="hover:text-foreground transition-apple">
+          <div className="flex items-center gap-2 text-sm text-secondary-label">
+            <Link to="/resources" className="hover:text-label transition-apple">
               resources
             </Link>
             <span>/</span>
-            <span className="text-foreground">Reports</span>
+            <span className="text-label">Reports</span>
           </div>
         </div>
       </div>
@@ -37,10 +37,10 @@ const Reports = () => {
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-foreground">
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-label">
               Reports
             </h1>
-            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-xl text-secondary-label max-w-[640px] mx-auto">
               Data-driven research reports on salaries, market trends, and industry benchmarks
             </p>
           </motion.div>
@@ -121,10 +121,10 @@ const Reports = () => {
       {/* CTA Section */}
       <section className="py-20 bg-muted/20">
         <div className="max-w-[640px] mx-auto px-8 text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
             Want More Insights?
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-secondary-label">
             Explore our interactive salary tools for personalized analysis and negotiation support
           </p>
           <Link to="/resources/tools">

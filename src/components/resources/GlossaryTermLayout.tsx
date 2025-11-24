@@ -99,7 +99,7 @@ export const GlossaryTermLayout = ({
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources/glossary"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             back to glossary
@@ -108,10 +108,10 @@ export const GlossaryTermLayout = ({
           <div className="space-y-4">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-4 flex-1">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
                   {term}
                 </h1>
-                <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
+                <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
                   {quickDefinition}
                 </p>
               </div>
@@ -147,14 +147,14 @@ export const GlossaryTermLayout = ({
             <div className="lg:col-span-2 space-y-16">
               {/* Full Definition */}
               <section className="space-y-6">
-                <h2 className="text-2xl font-display font-semibold text-foreground">
+                <h2 className="text-2xl font-display font-semibold text-label">
                   definition
                 </h2>
                 <div className="space-y-4">
                   {fullDefinition.map((item, index) => {
                     if (typeof item === 'string') {
                       return (
-                        <p key={index} className="text-base text-muted-foreground leading-relaxed">
+                        <p key={index} className="text-base text-secondary-label leading-relaxed">
                           {item}
                         </p>
                       );
@@ -162,7 +162,7 @@ export const GlossaryTermLayout = ({
                     
                     if (item.type === 'paragraph') {
                       return (
-                        <p key={index} className="text-base text-muted-foreground leading-relaxed">
+                        <p key={index} className="text-base text-secondary-label leading-relaxed">
                           {item.content}
                         </p>
                       );
@@ -172,7 +172,7 @@ export const GlossaryTermLayout = ({
                       return (
                         <ul key={index} className="space-y-2 ml-6">
                           {item.items.map((listItem, listIndex) => (
-                            <li key={listIndex} className="text-base text-muted-foreground leading-relaxed list-disc">
+                            <li key={listIndex} className="text-base text-secondary-label leading-relaxed list-disc">
                               {listItem}
                             </li>
                           ))}
@@ -188,26 +188,26 @@ export const GlossaryTermLayout = ({
               {/* When to Use / When Not to Use */}
               {(whenToUse || whenNotToUse) && (
                 <section className="space-y-6">
-                  <h2 className="text-2xl font-display font-semibold text-foreground">
+                  <h2 className="text-2xl font-display font-semibold text-label">
                     usage guidelines
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {whenToUse && (
-                      <div className="bg-card rounded-2xl p-6 border border-border/50">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                      <div className="bg-card rounded-2xl p-6 border border-separator">
+                        <h3 className="text-sm font-semibold text-label mb-3 flex items-center gap-2">
                           <Check className="w-4 h-4 text-green-600" />
                           when to use
                         </h3>
-                        <p className="text-sm text-muted-foreground">{whenToUse}</p>
+                        <p className="text-sm text-secondary-label">{whenToUse}</p>
                       </div>
                     )}
                     {whenNotToUse && (
-                      <div className="bg-card rounded-2xl p-6 border border-border/50">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                      <div className="bg-card rounded-2xl p-6 border border-separator">
+                        <h3 className="text-sm font-semibold text-label mb-3 flex items-center gap-2">
                           <X className="w-4 h-4 text-red-600" />
                           when not to use
                         </h3>
-                        <p className="text-sm text-muted-foreground">{whenNotToUse}</p>
+                        <p className="text-sm text-secondary-label">{whenNotToUse}</p>
                       </div>
                     )}
                   </div>
@@ -217,14 +217,14 @@ export const GlossaryTermLayout = ({
               {/* Common Mistakes */}
               {commonMistakes && commonMistakes.length > 0 && (
                 <section className="space-y-6">
-                  <h2 className="text-2xl font-display font-semibold text-foreground">
+                  <h2 className="text-2xl font-display font-semibold text-label">
                     common mistakes
                   </h2>
                   <div className="space-y-3">
                     {commonMistakes.map((mistake, index) => (
-                      <div key={index} className="flex items-start gap-3 bg-card rounded-xl p-4 border border-border/50">
+                      <div key={index} className="flex items-start gap-3 bg-card rounded-xl p-4 border border-separator">
                         <X className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                        <p className="text-sm text-muted-foreground">{mistake}</p>
+                        <p className="text-sm text-secondary-label">{mistake}</p>
                       </div>
                     ))}
                   </div>
@@ -234,7 +234,7 @@ export const GlossaryTermLayout = ({
               {/* Examples */}
               {((goodExamples && goodExamples.length > 0) || (badExamples && badExamples.length > 0)) && (
                 <section className="space-y-6">
-                  <h2 className="text-2xl font-display font-semibold text-foreground">
+                  <h2 className="text-2xl font-display font-semibold text-label">
                     examples
                   </h2>
                   <div className="space-y-4">
@@ -242,7 +242,7 @@ export const GlossaryTermLayout = ({
                       <div key={`good-${index}`} className="bg-green-50 border-l-4 border-green-600 rounded-xl p-4">
                         <div className="flex items-start gap-3">
                           <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                          <code className="text-sm text-foreground font-mono">{example}</code>
+                          <code className="text-sm text-label font-mono">{example}</code>
                         </div>
                       </div>
                     ))}
@@ -250,7 +250,7 @@ export const GlossaryTermLayout = ({
                       <div key={`bad-${index}`} className="bg-red-50 border-l-4 border-red-600 rounded-xl p-4">
                         <div className="flex items-start gap-3">
                           <X className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                          <code className="text-sm text-muted-foreground font-mono line-through">{example}</code>
+                          <code className="text-sm text-secondary-label font-mono line-through">{example}</code>
                         </div>
                       </div>
                     ))}
@@ -261,7 +261,7 @@ export const GlossaryTermLayout = ({
               {/* Related Terms */}
               {relatedTerms.length > 0 && (
                 <section className="space-y-6">
-                  <h2 className="text-2xl font-display font-semibold text-foreground">
+                  <h2 className="text-2xl font-display font-semibold text-label">
                     related terms
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -271,11 +271,11 @@ export const GlossaryTermLayout = ({
                         <Link
                           key={relatedTerm.slug}
                           to={`/resources/glossary/${relatedTerm.slug}`}
-                          className="group bg-card rounded-xl p-4 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                          className="group bg-card rounded-xl p-4 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
                         >
                           <div className="space-y-2">
                             <div className="flex items-center justify-between gap-2">
-                              <h3 className="text-base font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                              <h3 className="text-base font-display font-semibold text-label group-hover:text-primary transition-colors">
                                 {relatedTerm.term}
                               </h3>
                               <span 
@@ -300,8 +300,8 @@ export const GlossaryTermLayout = ({
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-8 space-y-8">
-                <div className="bg-card rounded-2xl p-6 border border-border/50">
-                  <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wide">
+                <div className="bg-card rounded-2xl p-6 border border-separator">
+                  <h3 className="text-sm font-semibold text-label mb-4 uppercase tracking-wide">
                     related resources
                   </h3>
                   <div className="space-y-3">
@@ -312,10 +312,10 @@ export const GlossaryTermLayout = ({
                         className="block group"
                       >
                         <div className="space-y-1">
-                          <p className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                          <p className="text-sm font-medium text-label group-hover:text-primary transition-colors">
                             {resource.title}
                           </p>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-secondary-label">
                             {resource.type}
                           </p>
                         </div>
@@ -329,10 +329,10 @@ export const GlossaryTermLayout = ({
         </div>
       </div>
 
-      <footer className="border-t border-border/50 py-12 bg-background">
+      <footer className="border-t border-separator py-12 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center">
-            <span className="text-[13px] text-muted-foreground">
+            <span className="text-[13px] text-secondary-label">
               © 2024 utm.one. clarity creates confidence.
             </span>
           </div>
