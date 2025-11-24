@@ -49,27 +49,28 @@ export default function PasswordProtected() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
+      <Card variant="grouped" className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-            <Lock className="w-6 h-6 text-primary" />
+          <div className="mx-auto w-12 h-12 bg-system-blue/10 rounded-full flex items-center justify-center mb-4">
+            <Lock className="w-6 h-6 text-system-blue" />
           </div>
-          <CardTitle>🔒 Password Protected Link</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-title-2">🔒 Password Protected Link</CardTitle>
+          <CardDescription className="text-body-apple text-secondary-label">
             This link is password protected. Please enter the password to continue.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {hint && (
-              <div className="p-3 bg-muted rounded-md">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">Hint:</span> {hint}
+              <div className="p-3 bg-fill-tertiary rounded-lg">
+                <p className="text-footnote text-secondary-label">
+                  <span className="font-medium text-label">Hint:</span> {hint}
                 </p>
               </div>
             )}
             <Input
+              variant="system"
               type="password"
               placeholder="Enter password"
               value={password}
@@ -77,7 +78,7 @@ export default function PasswordProtected() {
               required
               autoFocus
             />
-            <Button type="submit" className="w-full" disabled={isVerifying}>
+            <Button variant="system" type="submit" className="w-full" disabled={isVerifying}>
               {isVerifying ? "verifying..." : "unlock link"}
             </Button>
           </form>

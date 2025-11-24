@@ -135,7 +135,7 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-grouped-background flex items-center justify-center p-4">
       <div className="w-full max-w-3xl">
         {/* Logo at top */}
         <div className="flex items-center justify-center mb-8">
@@ -147,40 +147,43 @@ export default function Onboarding() {
         </div>
         
         {step === "welcome" && (
-          <Card>
+          <Card variant="grouped">
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">welcome to utm.one</CardTitle>
-              <CardDescription className="text-lg mt-4">
+              <CardTitle className="text-title-1">welcome to utm.one</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
                 add your domain
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert>
-                <CheckCircle2 className="h-4 w-4" />
-                <AlertDescription>
+              <Alert className="bg-fill-tertiary border-separator">
+                <CheckCircle2 className="h-4 w-4 text-system-green" />
+                <AlertDescription className="text-body-apple text-secondary-label">
                   With a custom domain, your short links will look like{" "}
-                  <strong>yourbrand.com/go/product</strong> instead of generic URLs.
+                  <strong className="text-label">yourbrand.com/go/product</strong> instead of generic URLs.
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-4">
                 <Button
+                  variant="system"
+                  size="lg"
                   className="w-full h-auto py-6 flex-col items-start"
                   onClick={() => setStep("domain")}
                 >
-                  <div className="text-lg font-semibold mb-1">use my custom domain</div>
-                  <div className="text-sm font-normal opacity-90">
+                  <div className="text-headline font-semibold mb-1">use my custom domain</div>
+                  <div className="text-subheadline font-normal text-secondary-label">
                     i have a domain and want to use it for short links
                   </div>
                 </Button>
 
                 <Button
-                  variant="outline"
+                  variant="system-secondary"
+                  size="lg"
                   className="w-full h-auto py-6 flex-col items-start"
                   onClick={handleSkip}
                 >
-                  <div className="text-lg font-semibold mb-1">skip for now</div>
-                  <div className="text-sm font-normal opacity-70">
+                  <div className="text-headline font-semibold mb-1">skip for now</div>
+                  <div className="text-subheadline font-normal text-tertiary-label">
                     i'll add my domain later
                   </div>
                 </Button>
@@ -190,30 +193,32 @@ export default function Onboarding() {
         )}
 
         {step === "domain" && (
-          <Card>
+          <Card variant="grouped">
             <CardHeader>
-              <CardTitle>add your custom domain</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-title-2">add your custom domain</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">
                 add a branded domain to make your links yours.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="domain">domain name</Label>
+                <Label className="text-subheadline text-label" htmlFor="domain">domain name</Label>
                 <Input
+                  variant="system"
                   id="domain"
                   placeholder="yourdomain.com"
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleAddDomain()}
                 />
-                <p className="text-sm text-muted-foreground">
+                <p className="text-footnote text-tertiary-label">
                   your domain increases trust and click-through rates.
                 </p>
               </div>
 
               <div className="flex gap-3">
                 <Button
+                  variant="system"
                   onClick={handleAddDomain}
                   disabled={addDomainMutation.isPending}
                   className="flex-1"
@@ -224,7 +229,7 @@ export default function Onboarding() {
                   continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="outline" onClick={() => setStep("welcome")}>
+                <Button variant="system-secondary" onClick={() => setStep("welcome")}>
                   back
                 </Button>
               </div>
@@ -233,10 +238,10 @@ export default function Onboarding() {
         )}
 
         {step === "verify" && addedDomain && (
-          <Card>
+          <Card variant="grouped">
             <CardHeader>
-              <CardTitle>verify your domain</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-title-2">verify your domain</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">
                 this domain isn't verified yet.
               </CardDescription>
             </CardHeader>
@@ -248,6 +253,7 @@ export default function Onboarding() {
 
               <div className="flex gap-3">
                 <Button
+                  variant="system"
                   onClick={handleVerifyDomain}
                   disabled={isVerifying}
                   className="flex-1"
@@ -255,7 +261,7 @@ export default function Onboarding() {
                   {isVerifying && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   verify domain
                 </Button>
-                <Button variant="outline" onClick={handleSkip}>
+                <Button variant="system-tertiary" onClick={handleSkip}>
                   skip for now
                 </Button>
               </div>
@@ -264,18 +270,18 @@ export default function Onboarding() {
         )}
 
         {step === "complete" && (
-          <Card>
+          <Card variant="grouped">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-system-green/10 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-8 h-8 text-system-green" />
               </div>
-              <CardTitle className="text-2xl">domain added successfully.</CardTitle>
-              <CardDescription className="text-lg">
+              <CardTitle className="text-title-2">domain added successfully.</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label text-lg">
                 your domain is ready
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={handleComplete} className="w-full" size="lg">
+              <Button variant="system" onClick={handleComplete} className="w-full" size="lg">
                 continue
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
