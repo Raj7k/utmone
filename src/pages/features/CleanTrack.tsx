@@ -69,9 +69,9 @@ const CleanTrack = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Discipline, Without The Effort
-          </h2>
+          </h1>
           <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
             <p>Clean-track ensures every link follows the same structure</p>
             <p>No more mismatched names</p>
@@ -82,9 +82,9 @@ const CleanTrack = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           One System For Everything
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -102,9 +102,9 @@ const CleanTrack = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Clean Data Starts At Creation
-        </h2>
+        </h1>
         <FeatureComparison
           title="Clean-Track vs Traditional Approach"
           items={comparisonItems}
@@ -121,9 +121,9 @@ const CleanTrack = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Define → Enforce → Track
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={Target}
@@ -148,9 +148,9 @@ const CleanTrack = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Set Up Clean-Track
-          </h2>
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
             Start building the tracking foundation your team deserves.
           </p>

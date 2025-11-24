@@ -69,9 +69,9 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Clarity Builds Trust
-          </h2>
+          </h1>
           <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
             <p>• No random strings</p>
             <p>• No suspicious slugs</p>
@@ -85,9 +85,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           The Basics, Done Beautifully
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -105,9 +105,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           More Trustworthy Than Any Shortener
-        </h2>
+        </h1>
         <FeatureComparison
           title="utm.one vs Competitors"
           items={comparisonItems}
@@ -118,9 +118,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Built For Speed
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={Edit3}
@@ -150,9 +150,9 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Create Your First Link
-          </h2>
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
             Start building links your audience can trust.
           </p>

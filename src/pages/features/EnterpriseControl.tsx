@@ -69,9 +69,9 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Control The System, Not Your People
-          </h2>
+          </h1>
           <div className="max-w-2xl mx-auto space-y-4 text-lg text-foreground">
             <p>The guardrails are invisible</p>
             <p>The workflow stays fast</p>
@@ -80,9 +80,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Built For Scale
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -101,9 +101,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Finally, Governance That Feels Light
-        </h2>
+        </h1>
         <FeatureComparison
           title="utm.one vs Heavy Enterprise Tools"
           items={comparisonItems}
@@ -114,9 +114,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Manage → Approve → Track
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={Shield}
@@ -141,9 +141,9 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Explore Enterprise Control
-          </h2>
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
             Give your team the governance they need without the friction they hate.
           </p>
