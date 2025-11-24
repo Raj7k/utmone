@@ -109,6 +109,7 @@ const Index = () => {
                   >
                     <Button
                       size="lg"
+                      variant="marketing"
                       className="text-base px-8 py-6 rounded-full font-medium hover:scale-105 transition-transform"
                       onClick={() => trackCTAClick('hero-cta')}
                       asChild
@@ -163,56 +164,56 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 3: Trust and Transparency */}
-        <AnimatedSection className="py-20 md:py-32 bg-white">
+        <AnimatedSection className="py-20 md:py-32 bg-grouped-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-large-title font-bold text-label mb-4">
                 Click With Confidence
               </h1>
             </div>
             <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <Eye className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Link Previews</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <Eye className="w-10 h-10 text-system-blue mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Link Previews</h3>
+                  <p className="text-subheadline text-secondary-label">
                     See the destination before you click — title, favicon, page summary
                   </p>
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <Shield className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Safety Indicators</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <Shield className="w-10 h-10 text-system-green mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Safety Indicators</h3>
+                  <p className="text-subheadline text-secondary-label">
                     Malware scan, blacklist check, SSL validation
                   </p>
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <BarChart3 className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Transparent Analytics</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <BarChart3 className="w-10 h-10 text-system-teal mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Transparent Analytics</h3>
+                  <p className="text-subheadline text-secondary-label">
                     You always know what's collected and why
                   </p>
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <Lock className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Privacy by Default</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <Lock className="w-10 h-10 text-system-indigo mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Privacy by Default</h3>
+                  <p className="text-subheadline text-secondary-label">
                     GDPR-ready, easy export, simple opt-out
                   </p>
                 </div>
               </StaggerItem>
             </StaggerContainer>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-2xl md:text-3xl font-display font-semibold text-foreground">
+              <p className="text-title-2 text-label">
                 Trust drives engagement.
               </p>
-              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
+              <p className="text-title-2 font-semibold text-blazeOrange">
                 Clarity drives trust.
               </p>
             </div>
@@ -257,46 +258,46 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 5: Permanence */}
-        <AnimatedSection className="py-20 md:py-32 bg-white">
+        <AnimatedSection className="py-20 md:py-32 bg-system-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-large-title font-bold text-label">
                 Your Links Outlive Your Tools
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-title-3 text-secondary-label">
                 Platform shutdowns shouldn't break the web
               </p>
             </div>
             <StaggerContainer className="grid md:grid-cols-3 gap-8">
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <Infinity className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Permanent Redirects</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <Infinity className="w-10 h-10 text-system-blue mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Permanent Redirects</h3>
+                  <p className="text-subheadline text-secondary-label">
                     Your links keep working, always
                   </p>
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <Database className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Self-Hosted Option</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <Database className="w-10 h-10 text-system-indigo mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Self-Hosted Option</h3>
+                  <p className="text-subheadline text-secondary-label">
                     Run utm.one locally, keep full control
                   </p>
                 </div>
               </StaggerItem>
               <StaggerItem>
-                <div className="bg-white border border-border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                  <GitBranch className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-display font-semibold mb-3">Link Backups</h3>
-                  <p className="text-muted-foreground text-sm">
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
+                  <GitBranch className="w-10 h-10 text-system-teal mb-4" />
+                  <h3 className="text-title-3 font-semibold text-label mb-3">Link Backups</h3>
+                  <p className="text-subheadline text-secondary-label">
                     Auto-backup to your GitHub or storage
                   </p>
                 </div>
               </StaggerItem>
             </StaggerContainer>
-            <p className="text-center text-2xl md:text-3xl font-display font-semibold text-primary mt-12">
+            <p className="text-center text-title-2 font-semibold text-blazeOrange mt-12">
               Reliability is a feature, not a nice-to-have.
             </p>
           </div>
@@ -524,11 +525,12 @@ const Index = () => {
         {/* Fold 11: Final CTA */}
         <AnimatedSection className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-white to-primary/10">
           <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground">
+            <h1 className="text-large-title font-bold text-label">
               Change the Way Your Team Shares the Internet
             </h1>
             <Button
               size="lg"
+              variant="marketing"
               className="text-base px-10 py-7 rounded-full font-medium hover:scale-105 transition-transform"
               onClick={() => trackCTAClick('final-cta')}
               asChild
@@ -538,7 +540,7 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <p className="text-base text-muted-foreground">
+            <p className="text-body-apple text-secondary-label">
               Join thousands of teams moving toward clarity, trust, and cleaner data.
             </p>
           </div>
