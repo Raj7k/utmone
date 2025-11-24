@@ -75,8 +75,8 @@ const Links = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="h-[72px] border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-50">
+    <div className="min-h-screen bg-grouped-background">
+      <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-8 h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex items-center gap-8">
@@ -88,20 +88,20 @@ const Links = () => {
                 />
               </div>
               <nav className="hidden md:flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/dashboard")}>
+                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
                   dashboard
                 </Button>
-                <Button variant="default" size="sm" className="h-9">links</Button>
-                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/analytics")}>
+                <Button variant="system" size="sm">links</Button>
+                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/analytics")}>
                   analytics
                 </Button>
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-small-text text-muted-foreground hidden md:block">
+              <span className="text-footnote text-secondary-label hidden md:block">
                 {user?.email}
               </span>
-              <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleSignOut}>
+              <Button variant="system-tertiary" size="icon" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
@@ -113,8 +113,8 @@ const Links = () => {
         <div className="mb-content">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-heading-3 font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">links</h1>
-              <p className="text-body-text text-muted-foreground">
+              <h1 className="text-large-title font-bold text-label mb-2">links</h1>
+              <p className="text-body-apple text-secondary-label">
                 manage and track all your short links
               </p>
             </div>
@@ -133,10 +133,10 @@ const Links = () => {
           />
         </div>
 
-        <Card>
+        <Card variant="grouped">
           <CardHeader>
-            <CardTitle className="font-serif">Your Links</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-title-2 text-label">Your Links</CardTitle>
+            <CardDescription className="text-secondary-label">
               View and manage all links in your workspace
             </CardDescription>
           </CardHeader>
@@ -148,7 +148,7 @@ const Links = () => {
                 statusFilter={statusFilter}
               />
             ) : (
-              <p className="text-center text-muted-foreground py-8">
+              <p className="text-center text-secondary-label py-8">
                 Loading workspace...
               </p>
             )}
