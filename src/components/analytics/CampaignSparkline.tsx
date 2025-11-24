@@ -75,7 +75,7 @@ export const CampaignSparkline = ({
   });
 
   if (!sparklineData || sparklineData.length === 0) {
-    return <div className="w-20 h-8 flex items-center justify-center text-muted-foreground text-xs">-</div>;
+    return <div className="w-20 h-8 flex items-center justify-center text-secondary-label text-xs">-</div>;
   }
 
   const maxClicks = Math.max(...sparklineData.map(d => d.clicks));

@@ -82,7 +82,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
     }
   };
 
-    return <div className="text-muted-foreground">loading variants…</div>;
+    return <div className="text-secondary-label">loading variants…</div>;
 
   const activeVariantCount = variants?.filter(v => v.is_active).length || 0;
   const canStartTest = activeVariantCount >= 2;
@@ -175,7 +175,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
                     onChange={(e) => setFormData({ ...formData, og_title: e.target.value })}
                     maxLength={60}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-secondary-label mt-1">
                     {formData.og_title?.length || 0}/60 characters
                   </p>
                 </div>
@@ -189,7 +189,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
                     maxLength={160}
                     rows={3}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-secondary-label mt-1">
                     {formData.og_description?.length || 0}/160 characters
                   </p>
                 </div>
@@ -213,7 +213,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
       <CardContent>
         {!canStartTest && testStatus?.ab_test_status === 'inactive' && (
           <div className="mb-4 p-4 border border-muted rounded-lg bg-muted/30">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               ℹ️ You need at least 2 active variants to start an A/B test. Add more variants or activate existing ones.
             </p>
           </div>
@@ -221,7 +221,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
         {testStatus?.ab_test_status === 'running' && (
           <div className="mb-4 p-4 border border-primary rounded-lg bg-primary/5">
             <p className="text-sm font-medium">A/B Test Active</p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               The system is automatically tracking variant performance. When statistical significance is reached 
               (≥{((testStatus.ab_test_confidence_threshold || 0.95) * 100).toFixed(0)}% confidence, 
               min {testStatus.ab_test_min_clicks} clicks), the winner will be automatically declared.
@@ -229,7 +229,7 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
           </div>
         )}
         {!variants || variants.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-secondary-label">
             <p>No variants created yet.</p>
             <p className="text-sm mt-2">Create multiple variants to run A/B tests on your social previews.</p>
           </div>
@@ -255,12 +255,12 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
                         </Badge>
                       </div>
                       {variant.og_title && (
-                        <p className="text-sm text-muted-foreground truncate">
+                        <p className="text-sm text-secondary-label truncate">
                           {variant.og_title}
                         </p>
                       )}
                       {variant.og_description && (
-                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                        <p className="text-xs text-secondary-label line-clamp-2 mt-1">
                           {variant.og_description}
                         </p>
                       )}

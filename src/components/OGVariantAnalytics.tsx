@@ -54,7 +54,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           <CardTitle>Variant Performance</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-muted-foreground">loading analytics…</div>
+          <div className="text-secondary-label">loading analytics…</div>
         </CardContent>
       </Card>
     );
@@ -70,7 +70,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-8 text-secondary-label">
             <p>No data yet.</p>
             <p className="text-sm mt-2">Clicks will appear here once users interact with your variants.</p>
           </div>
@@ -148,19 +148,19 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           {/* Summary Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">Total Clicks</p>
+              <p className="text-sm text-secondary-label">Total Clicks</p>
               <p className="text-2xl font-bold">{totalClicks}</p>
             </div>
             <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">Variants Tested</p>
+              <p className="text-sm text-secondary-label">Variants Tested</p>
               <p className="text-2xl font-bold">{analytics.length}</p>
             </div>
             <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">Best Performer</p>
+              <p className="text-sm text-secondary-label">Best Performer</p>
               <p className="text-lg font-semibold truncate">{analytics[0]?.variantName}</p>
             </div>
             <div className="p-4 bg-muted rounded-lg">
-              <p className="text-sm text-muted-foreground">Win Rate</p>
+              <p className="text-sm text-secondary-label">Win Rate</p>
               <p className="text-2xl font-bold">
                 {totalClicks > 0 ? Math.round((analytics[0]?.clicks / totalClicks) * 100) : 0}%
               </p>
@@ -225,7 +225,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
                   </div>
                   <div className="text-right min-w-[80px]">
                     <p className="text-2xl font-bold">{variant.clicks}</p>
-                    <p className="text-xs text-muted-foreground">{percentage.toFixed(1)}%</p>
+                    <p className="text-xs text-secondary-label">{percentage.toFixed(1)}%</p>
                   </div>
                 </div>
               );

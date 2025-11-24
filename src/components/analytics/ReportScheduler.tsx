@@ -150,7 +150,7 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-display font-bold">scheduled reports</h2>
-          <p className="text-muted-foreground">automate your analytics delivery</p>
+          <p className="text-secondary-label">automate your analytics delivery</p>
         </div>
         
         <Dialog open={open} onOpenChange={setOpen}>
@@ -252,12 +252,12 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
       </div>
 
       {isLoading ? (
-        <div className="text-center py-12 text-muted-foreground">loading reports...</div>
+        <div className="text-center py-12 text-secondary-label">loading reports...</div>
       ) : !reports || reports.length === 0 ? (
         <Card className="p-12 text-center">
-          <Mail className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+          <Mail className="h-12 w-12 mx-auto mb-4 text-secondary-label" />
           <h3 className="font-display font-semibold mb-2">no scheduled reports yet</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-sm text-secondary-label mb-4">
             create your first automated report to start receiving analytics via email
           </p>
         </Card>
@@ -278,10 +278,10 @@ export function ReportScheduler({ workspaceId }: ReportSchedulerProps) {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-secondary-label">
                     sent to: {report.recipients.join(', ')}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-secondary-label mt-1">
                     {report.last_sent_at 
                       ? `last sent: ${new Date(report.last_sent_at).toLocaleDateString()}`
                       : 'never sent'}
