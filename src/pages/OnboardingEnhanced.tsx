@@ -361,16 +361,16 @@ export default function OnboardingEnhanced() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-grouped-background flex items-center justify-center p-4">
       <div className="w-full max-w-3xl">
         {/* Exit button */}
         {step !== "workspace-create" && (
           <div className="mb-4 flex justify-end">
             <Button
-              variant="ghost"
+              variant="system-tertiary"
               size="sm"
               onClick={handleExitOnboarding}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-secondary-label hover:text-label"
             >
               <X className="w-4 h-4 mr-2" />
               exit onboarding
@@ -381,13 +381,13 @@ export default function OnboardingEnhanced() {
         {/* Progress bar */}
         {step !== "workspace-create" && (
           <div className="mb-8">
-            <div className="w-full bg-muted/20 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-fill-tertiary h-2 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-nature-1 transition-all duration-300"
+                className="h-full bg-system-blue transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="text-sm text-muted-foreground mt-2 text-center">
+            <p className="text-footnote text-tertiary-label mt-2 text-center">
               step {currentStepIndex + 1} of {steps.length}
             </p>
           </div>
@@ -395,17 +395,18 @@ export default function OnboardingEnhanced() {
 
         {/* Workspace Creation */}
         {step === "workspace-create" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">create your workspace</CardTitle>
-              <CardDescription className="text-lg mt-4">
+              <CardTitle className="text-title-1">create your workspace</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
                 let's start with a name for your team.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="workspace-name">workspace name</Label>
+                <Label className="text-subheadline text-label" htmlFor="workspace-name">workspace name</Label>
                 <Input
+                  variant="system"
                   id="workspace-name"
                   placeholder="acme marketing"
                   value={workspaceName}
@@ -414,7 +415,7 @@ export default function OnboardingEnhanced() {
                 />
               </div>
 
-              <Button onClick={handleCreateWorkspace} className="w-full" size="lg">
+              <Button variant="system" onClick={handleCreateWorkspace} className="w-full" size="lg">
                 create workspace
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -424,15 +425,15 @@ export default function OnboardingEnhanced() {
 
         {/* Welcome */}
         {step === "welcome" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">welcome to utm.one</CardTitle>
-              <CardDescription className="text-lg mt-4">
+              <CardTitle className="text-title-1">welcome to utm.one</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
                 let's set up your workspace. it takes under 2 minutes.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Button onClick={() => setStep("domain")} className="w-full" size="lg">
+              <Button variant="system" onClick={() => setStep("domain")} className="w-full" size="lg">
                 continue
               </Button>
             </CardContent>
@@ -441,17 +442,18 @@ export default function OnboardingEnhanced() {
 
         {/* Domain Setup */}
         {step === "domain" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>add your branded domain</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-title-2">add your branded domain</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">
                 use your own domain for short links. example: yourcompany.com/go/
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="domain">your domain</Label>
+                <Label className="text-subheadline text-label" htmlFor="domain">your domain</Label>
                 <Input
+                  variant="system"
                   id="domain"
                   placeholder="yourdomain.com"
                   value={domainInput}
@@ -462,6 +464,7 @@ export default function OnboardingEnhanced() {
 
               <div className="flex gap-3">
                 <Button
+                  variant="system"
                   onClick={handleAddDomain}
                   disabled={addDomainMutation.isPending}
                   className="flex-1"
@@ -472,7 +475,7 @@ export default function OnboardingEnhanced() {
                   continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="outline" onClick={() => setStep("first-link")}>
+                <Button variant="system-tertiary" onClick={() => setStep("first-link")}>
                   skip
                 </Button>
               </div>
@@ -482,10 +485,10 @@ export default function OnboardingEnhanced() {
 
         {/* Domain Verification */}
         {step === "verify" && addedDomain && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>verify your domain</CardTitle>
-              <CardDescription>add this DNS record to verify ownership.</CardDescription>
+              <CardTitle className="text-title-2">verify your domain</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">add this DNS record to verify ownership.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <DomainDNSInstructions
@@ -493,23 +496,23 @@ export default function OnboardingEnhanced() {
                 verificationCode={addedDomain.verification_code}
               />
 
-              <Alert>
-                <AlertDescription>
+              <Alert className="bg-fill-tertiary border-separator">
+                <AlertDescription className="text-body-apple text-secondary-label">
                   dns verification can take up to 72 hours. you can continue now and we'll verify in the background.
                 </AlertDescription>
               </Alert>
 
               <div className="flex gap-3">
                 <Button
+                  variant="system-secondary"
                   onClick={handleVerifyDomain}
                   disabled={isVerifying}
-                  variant="outline"
                   className="flex-1"
                 >
                   {isVerifying && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   verify now
                 </Button>
-                <Button onClick={handleSkipVerification} className="flex-1">
+                <Button variant="system" onClick={handleSkipVerification} className="flex-1">
                   continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -520,16 +523,17 @@ export default function OnboardingEnhanced() {
 
         {/* First Link */}
         {step === "first-link" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>your first short link</CardTitle>
-              <CardDescription>paste any url to get started.</CardDescription>
+              <CardTitle className="text-title-2">your first short link</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">paste any url to get started.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="link-title">link title</Label>
+                  <Label className="text-subheadline text-label" htmlFor="link-title">link title</Label>
                   <Input
+                    variant="system"
                     id="link-title"
                     placeholder="welcome offer"
                     value={linkTitle}
@@ -538,8 +542,9 @@ export default function OnboardingEnhanced() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="link-destination">destination url</Label>
+                  <Label className="text-subheadline text-label" htmlFor="link-destination">destination url</Label>
                   <Input
+                    variant="system"
                     id="link-destination"
                     placeholder="https://example.com/welcome"
                     value={linkDestination}
@@ -549,11 +554,11 @@ export default function OnboardingEnhanced() {
               </div>
 
               <div className="flex gap-3">
-                <Button onClick={handleCreateFirstLink} className="flex-1">
+                <Button variant="system" onClick={handleCreateFirstLink} className="flex-1">
                   create link
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="outline" onClick={() => setStep("first-qr")}>
+                <Button variant="system-tertiary" onClick={() => setStep("first-qr")}>
                   skip
                 </Button>
               </div>
@@ -563,10 +568,10 @@ export default function OnboardingEnhanced() {
 
         {/* QR Code Generation */}
         {step === "first-qr" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>your qr code, designed beautifully</CardTitle>
-              <CardDescription>choose a color and add your logo.</CardDescription>
+              <CardTitle className="text-title-2">your qr code, designed beautifully</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">choose a color and add your logo.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {createdLink ? (
@@ -576,15 +581,15 @@ export default function OnboardingEnhanced() {
                   onSuccess={handleQRGenerated}
                 />
               ) : (
-                <Alert>
-                  <AlertDescription>
+                <Alert className="bg-fill-tertiary border-separator">
+                  <AlertDescription className="text-body-apple text-secondary-label">
                     create a link first to generate a qr code
                   </AlertDescription>
                 </Alert>
               )}
 
               <Button
-                variant="outline"
+                variant="system-tertiary"
                 onClick={() => setStep("analytics")}
                 className="w-full"
               >
@@ -596,35 +601,35 @@ export default function OnboardingEnhanced() {
 
         {/* Analytics Preview */}
         {step === "analytics" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>see your analytics</CardTitle>
-              <CardDescription>see how your links are performing.</CardDescription>
+              <CardTitle className="text-title-2">see your analytics</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">see how your links are performing.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <div className="text-3xl font-bold">0</div>
-                  <div className="text-sm text-muted-foreground mt-1">total clicks</div>
+                <div className="text-center p-4 bg-fill-tertiary rounded-lg">
+                  <div className="text-title-1 font-bold text-label">0</div>
+                  <div className="text-footnote text-tertiary-label mt-1">total clicks</div>
                 </div>
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <div className="text-3xl font-bold">0</div>
-                  <div className="text-sm text-muted-foreground mt-1">unique visitors</div>
+                <div className="text-center p-4 bg-fill-tertiary rounded-lg">
+                  <div className="text-title-1 font-bold text-label">0</div>
+                  <div className="text-footnote text-tertiary-label mt-1">unique visitors</div>
                 </div>
-                <div className="text-center p-4 bg-muted/50 rounded-lg">
-                  <div className="text-3xl font-bold">0%</div>
-                  <div className="text-sm text-muted-foreground mt-1">click rate</div>
+                <div className="text-center p-4 bg-fill-tertiary rounded-lg">
+                  <div className="text-title-1 font-bold text-label">0%</div>
+                  <div className="text-footnote text-tertiary-label mt-1">click rate</div>
                 </div>
               </div>
 
-              <Alert>
-                <CheckCircle2 className="h-4 w-4" />
-                <AlertDescription>
+              <Alert className="bg-fill-tertiary border-separator">
+                <CheckCircle2 className="h-4 w-4 text-system-green" />
+                <AlertDescription className="text-body-apple text-secondary-label">
                   your analytics will update automatically as people click your links
                 </AlertDescription>
               </Alert>
 
-              <Button onClick={handleViewAnalytics} className="w-full">
+              <Button variant="system" onClick={handleViewAnalytics} className="w-full">
                 continue
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -634,17 +639,18 @@ export default function OnboardingEnhanced() {
 
         {/* Team Invitation */}
         {step === "team" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle>add your team</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-title-2">add your team</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">
                 share access with teammates so everyone follows the same rules.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="team-email">team member email</Label>
+                <Label className="text-subheadline text-label" htmlFor="team-email">team member email</Label>
                 <Input
+                  variant="system"
                   id="team-email"
                   type="email"
                   placeholder="colleague@company.com"
@@ -653,7 +659,7 @@ export default function OnboardingEnhanced() {
                 />
               </div>
 
-              <Button onClick={handleInviteTeamMember} className="w-full">
+              <Button variant="system" onClick={handleInviteTeamMember} className="w-full">
                 {teamEmail ? "send invite" : "skip"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -663,18 +669,18 @@ export default function OnboardingEnhanced() {
 
         {/* Completion */}
         {step === "complete" && (
-          <Card className="max-w-2xl mx-auto">
+          <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-gradient-nature-1 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-8 h-8 text-accent-forest" />
+              <div className="mx-auto w-16 h-16 bg-system-green/10 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-8 h-8 text-system-green" />
               </div>
-              <CardTitle className="text-2xl">you're ready.</CardTitle>
-              <CardDescription className="text-lg">
+              <CardTitle className="text-title-2">you're ready.</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label text-lg">
                 your workspace is set. your links are clean. your data will be too.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Button onClick={handleComplete} className="w-full" size="lg">
+              <Button variant="system" onClick={handleComplete} className="w-full" size="lg">
                 go to dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
