@@ -111,14 +111,14 @@ export default function PartnersManagement() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-display font-bold">Partner Management</h1>
-        <p className="text-muted-foreground">Manage partner applications, active partners, and payouts</p>
+        <p className="text-secondary-label">Manage partner applications, active partners, and payouts</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Partners</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{activePartners?.length || 0}</div>
@@ -128,7 +128,7 @@ export default function PartnersManagement() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Applications</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{pendingPartners?.length || 0}</div>
@@ -138,7 +138,7 @@ export default function PartnersManagement() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending Payouts</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">

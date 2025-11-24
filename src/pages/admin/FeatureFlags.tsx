@@ -44,7 +44,7 @@ export default function FeatureFlags() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-display font-bold mb-2">feature flags</h1>
-        <p className="text-muted-foreground">
+        <p className="text-secondary-label">
           runtime control for performance optimization and maintenance
         </p>
       </div>
@@ -131,11 +131,11 @@ export default function FeatureFlags() {
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-secondary-label">
                           {flag.description}
                         </p>
                         {flag.metadata && Object.keys(flag.metadata).length > 0 && (
-                          <div className="flex gap-4 text-xs text-muted-foreground">
+                          <div className="flex gap-4 text-xs text-secondary-label">
                             {flag.metadata.latency_cost_ms && (
                               <span>latency cost: {flag.metadata.latency_cost_ms}ms</span>
                             )}
@@ -151,14 +151,14 @@ export default function FeatureFlags() {
                           </div>
                         )}
                         {flag.last_modified_at && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-secondary-label">
                             last modified: {new Date(flag.last_modified_at).toLocaleString()}
                           </p>
                         )}
                       </div>
                       <div className="flex items-center gap-3">
                         <div className="text-right">
-                          <p className="text-xs text-muted-foreground mb-1">
+                          <p className="text-xs text-secondary-label mb-1">
                             {flag.is_enabled ? 'enabled' : 'disabled'}
                           </p>
                           <Switch
@@ -192,7 +192,7 @@ export default function FeatureFlags() {
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">total latency cost</p>
+              <p className="text-sm text-secondary-label">total latency cost</p>
               <p className="text-2xl font-bold">
                 {flags
                   ?.filter(f => f.is_enabled && f.metadata?.latency_cost_ms)
@@ -200,13 +200,13 @@ export default function FeatureFlags() {
               </p>
             </div>
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">enabled critical features</p>
+              <p className="text-sm text-secondary-label">enabled critical features</p>
               <p className="text-2xl font-bold text-green-600">
                 {flags?.filter(f => f.is_enabled && f.metadata?.impact === 'critical').length || 0}
               </p>
             </div>
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">disabled features</p>
+              <p className="text-sm text-secondary-label">disabled features</p>
               <p className="text-2xl font-bold text-red-600">
                 {flags?.filter(f => !f.is_enabled).length || 0}
               </p>

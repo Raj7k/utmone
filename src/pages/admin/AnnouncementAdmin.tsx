@@ -24,7 +24,7 @@ export default function AnnouncementAdmin() {
     return (
       <div className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-muted-foreground">loading announcements...</p>
+          <p className="text-secondary-label">loading announcements...</p>
         </div>
       </div>
     );
@@ -37,7 +37,7 @@ export default function AnnouncementAdmin() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-display font-bold">announcement management</h1>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-secondary-label mt-2">
               manage announcement bar configurations and track performance
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function AnnouncementAdmin() {
                   <div className="grid grid-cols-4 gap-4 text-sm">
                     {/* Scheduling Info */}
                     {announcement.start_date && (
-                      <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-secondary-label">
                         <Calendar className="h-4 w-4" />
                         <span>
                           {format(new Date(announcement.start_date), "MMM d")} -{" "}
@@ -121,14 +121,14 @@ export default function AnnouncementAdmin() {
                     )}
 
                     {/* User Segment */}
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="flex items-center gap-2 text-secondary-label">
                       <Users className="h-4 w-4" />
                       <span>{announcement.user_segment}</span>
                     </div>
 
                     {/* Days of Week */}
                     {announcement.days_of_week && announcement.days_of_week.length > 0 && (
-                      <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-secondary-label">
                         <Target className="h-4 w-4" />
                         <span>
                           {announcement.days_of_week.length === 7
@@ -140,7 +140,7 @@ export default function AnnouncementAdmin() {
 
                     {/* CTA */}
                     {announcement.cta_link && (
-                      <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2 text-secondary-label">
                         <span className="font-medium">{announcement.cta_text}</span>
                         <span>→ {announcement.cta_link}</span>
                       </div>
@@ -153,7 +153,7 @@ export default function AnnouncementAdmin() {
             {(!announcements || announcements.length === 0) && (
               <Card>
                 <CardContent className="py-16 text-center">
-                  <p className="text-muted-foreground">
+                  <p className="text-secondary-label">
                     no announcements configured yet. create your first one to get started.
                   </p>
                 </CardContent>
@@ -216,14 +216,14 @@ export default function AnnouncementAdmin() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">engagement rate</span>
-                        <span className="font-medium">
-                          {((analytics.clicks + analytics.dismissals) / analytics.impressions * 100).toFixed(1)}%
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">conversion quality</span>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-secondary-label">engagement rate</span>
+                      <span className="font-medium">
+                        {((analytics.clicks + analytics.dismissals) / analytics.impressions * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-secondary-label">conversion quality</span>
                         <Badge variant={analytics.ctr > 5 ? "default" : "secondary"}>
                           {analytics.ctr > 5 ? "excellent" : analytics.ctr > 2 ? "good" : "needs improvement"}
                         </Badge>
@@ -235,7 +235,7 @@ export default function AnnouncementAdmin() {
             ) : (
               <Card>
                 <CardContent className="py-16 text-center">
-                  <p className="text-muted-foreground">
+                  <p className="text-secondary-label">
                     select an announcement from the list to view analytics
                   </p>
                 </CardContent>
@@ -265,7 +265,7 @@ export default function AnnouncementAdmin() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="font-medium mb-2">targeting rules</p>
-                    <ul className="space-y-1 text-muted-foreground">
+                    <ul className="space-y-1 text-secondary-label">
                       <li>• User Segment: all visitors</li>
                       <li>• Days: Monday - Sunday</li>
                       <li>• Time: 00:00 - 23:59</li>
