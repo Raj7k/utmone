@@ -69,23 +69,23 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Consistency Is The Foundation Of Clean Data
           </h1>
-          <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
+          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>No broken naming</p>
             <p>No mismatched parameters</p>
             <p>No duplicate campaigns</p>
             <p>No messy dashboards</p>
           </div>
-          <p className="mt-8 text-xl text-foreground font-medium">
+          <p className="mt-8 text-headline text-label font-medium">
             Clarity begins at the link.
           </p>
         </div>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Built With Clean-Track
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,13 +99,13 @@ const UTMBuilder = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Your entire team creates UTMs the same way — effortlessly.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           The Only UTM Builder That Prevents Errors
         </h1>
         <FeatureComparison
@@ -113,14 +113,14 @@ const UTMBuilder = () => {
           items={comparisonItems}
         />
         <div className="text-center mt-12 space-y-4">
-          <p className="text-lg text-muted-foreground">Others generate strings</p>
-          <p className="text-xl text-foreground font-medium">We protect your data</p>
-          <p className="text-lg text-muted-foreground mt-8">No more UTM chaos.</p>
+          <p className="text-body-apple text-secondary-label">Others generate strings</p>
+          <p className="text-headline text-label font-medium">We protect your data</p>
+          <p className="text-body-apple text-secondary-label mt-8">No more UTM chaos.</p>
         </div>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           UTMs In One Motion
         </h1>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -145,20 +145,21 @@ const UTMBuilder = () => {
             description="Use clean, validated UTM"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Consistent every time.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Build A Clean UTM Now
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Start creating UTMs that keep your data clean.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"

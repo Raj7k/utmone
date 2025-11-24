@@ -69,10 +69,10 @@ const CleanTrack = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Discipline, Without The Effort
           </h1>
-          <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
+          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>Clean-track ensures every link follows the same structure</p>
             <p>No more mismatched names</p>
             <p>No more broken UTMs</p>
@@ -82,7 +82,7 @@ const CleanTrack = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           One System For Everything
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,13 +96,13 @@ const CleanTrack = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           The backbone your GTM engine needed.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Clean Data Starts At Creation
         </h1>
         <FeatureComparison
@@ -110,18 +110,18 @@ const CleanTrack = () => {
           items={comparisonItems}
         />
         <div className="text-center mt-12 space-y-4">
-          <p className="text-lg text-muted-foreground">Competitors fix errors after they happen</p>
-          <p className="text-xl text-foreground font-medium">Clean-track prevents them entirely</p>
+          <p className="text-body-apple text-secondary-label">Competitors fix errors after they happen</p>
+          <p className="text-headline text-label font-medium">Clean-track prevents them entirely</p>
           <div className="mt-8 space-y-2">
-            <p className="text-muted-foreground">Your dashboards become calm</p>
-            <p className="text-muted-foreground">Your teams stay aligned</p>
-            <p className="text-muted-foreground">Your reporting becomes trustworthy</p>
+            <p className="text-body-apple text-secondary-label">Your dashboards become calm</p>
+            <p className="text-body-apple text-secondary-label">Your teams stay aligned</p>
+            <p className="text-body-apple text-secondary-label">Your reporting becomes trustworthy</p>
           </div>
         </div>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Define → Enforce → Track
         </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -141,20 +141,21 @@ const CleanTrack = () => {
             description="Monitor compliance over time"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Clean by design.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Set Up Clean-Track
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Start building the tracking foundation your team deserves.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"

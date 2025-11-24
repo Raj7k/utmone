@@ -34,7 +34,7 @@ export const FeatureHero = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10"
+          className="text-body-emphasized text-secondary-label max-w-3xl mx-auto mb-10"
         >
           {subheadline}
         </motion.p>
@@ -45,6 +45,7 @@ export const FeatureHero = ({
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"

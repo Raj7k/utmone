@@ -15,20 +15,20 @@ interface FeatureComparisonProps {
 export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
   return (
     <div className="w-full">
-      <h3 className="font-display text-2xl font-semibold mb-8 text-center">
+      <h3 className="font-display text-title-2 font-semibold mb-8 text-center text-label">
         {title}
       </h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
             <tr className="border-b border-border">
-              <th className="text-left py-4 px-6 font-display text-sm font-medium text-muted-foreground">
+              <th className="text-left py-4 px-6 font-display text-subheadline font-medium text-tertiary-label">
                 Feature
               </th>
-              <th className="text-center py-4 px-6 font-display text-sm font-medium text-muted-foreground">
+              <th className="text-center py-4 px-6 font-display text-subheadline font-medium text-tertiary-label">
                 Competitors
               </th>
-              <th className="text-center py-4 px-6 font-display text-sm font-medium text-primary">
+              <th className="text-center py-4 px-6 font-display text-subheadline font-medium text-primary">
                 utm.one
               </th>
             </tr>
@@ -43,7 +43,7 @@ export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="border-b border-border/50 hover:bg-muted/10 transition-colors"
               >
-                <td className="py-4 px-6 text-sm text-foreground">{item.feature}</td>
+                <td className="py-4 px-6 text-body-apple text-label">{item.feature}</td>
                 <td className="py-4 px-6 text-center">
                   {item.competitors ? (
                     <Check className="w-5 h-5 text-muted-foreground/40 mx-auto" />

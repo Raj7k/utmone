@@ -69,17 +69,17 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Track QR Like It's Digital
           </h1>
-          <p className="text-2xl text-foreground font-medium max-w-2xl mx-auto">
+          <p className="text-title-2 text-label font-medium max-w-2xl mx-auto">
             Offline → online attribution made simple
           </p>
         </div>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Everything You Expect, Done Better
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -93,26 +93,26 @@ const QRGenerator = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           QR codes without guesswork.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           QR Codes That Feel Safe To Scan
         </h1>
         <FeatureComparison
           title="utm.one vs Standard QR Generators"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
+        <p className="text-center text-title-2 text-label font-medium mt-12">
           Trust matters offline, too.
         </p>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Scan → Understand → Convert
         </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -132,20 +132,21 @@ const QRGenerator = () => {
             description="Full attribution captured"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           All connected.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Generate A QR Code
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Create QR codes with real tracking built in.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
