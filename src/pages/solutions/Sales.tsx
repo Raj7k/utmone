@@ -132,7 +132,7 @@ const Sales = () => {
           </div>
           
           {/* Supporting Text */}
-          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+          <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-[640px] mx-auto">
             utm.one makes every touchpoint clean and reliable.
           </p>
         </div>

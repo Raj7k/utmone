@@ -95,7 +95,7 @@ const Analytics = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Analytics made human.
         </p>
       </FeatureSection>
@@ -108,7 +108,7 @@ const Analytics = () => {
           title="utm.one vs Complex Analytics Tools"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-xl font-medium">
+        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
           Marketers shouldn't need manuals to read charts.
         </p>
       </FeatureSection>
@@ -134,7 +134,7 @@ const Analytics = () => {
             description="Make informed decisions fast"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Your data, simplified.
         </p>
       </FeatureSection>

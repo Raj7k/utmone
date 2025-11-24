@@ -96,7 +96,7 @@ const CleanTrack = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           The backbone your GTM engine needed.
         </p>
       </FeatureSection>
@@ -141,7 +141,7 @@ const CleanTrack = () => {
             description="Monitor compliance over time"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Clean by design.
         </p>
       </FeatureSection>

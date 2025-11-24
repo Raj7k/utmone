@@ -99,7 +99,7 @@ const ShortLinks = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Simple on the surface. Powerful underneath.
         </p>
       </FeatureSection>
@@ -112,9 +112,9 @@ const ShortLinks = () => {
           title="utm.one vs Competitors"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-xl font-medium">
-          People hesitate less when the link feels honest.
-        </p>
+          <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
+            People hesitate less when the link feels honest.
+          </p>
       </FeatureSection>
 
       <FeatureSection>
@@ -143,7 +143,7 @@ const ShortLinks = () => {
             description="Deploy with confidence"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           All in one place. All in one motion.
         </p>
       </FeatureSection>

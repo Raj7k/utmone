@@ -108,7 +108,7 @@ const EnterpriseControl = () => {
           title="utm.one vs Heavy Enterprise Tools"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-xl font-medium">
+        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
           Clarity becomes culture.
         </p>
       </FeatureSection>
@@ -134,7 +134,7 @@ const EnterpriseControl = () => {
             description="Audit all changes"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Built for growing teams.
         </p>
       </FeatureSection>

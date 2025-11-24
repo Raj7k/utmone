@@ -93,7 +93,7 @@ const QRGenerator = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           QR codes without guesswork.
         </p>
       </FeatureSection>
@@ -106,7 +106,7 @@ const QRGenerator = () => {
           title="utm.one vs Standard QR Generators"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-xl font-medium">
+        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
           Trust matters offline, too.
         </p>
       </FeatureSection>
@@ -132,7 +132,7 @@ const QRGenerator = () => {
             description="Full attribution captured"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           All connected.
         </p>
       </FeatureSection>

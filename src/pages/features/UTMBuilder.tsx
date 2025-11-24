@@ -99,7 +99,7 @@ const UTMBuilder = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Your entire team creates UTMs the same way — effortlessly.
         </p>
       </FeatureSection>
@@ -145,7 +145,7 @@ const UTMBuilder = () => {
             description="Use clean, validated UTM"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Consistent every time.
         </p>
       </FeatureSection>
