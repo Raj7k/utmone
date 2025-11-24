@@ -14,7 +14,7 @@ const Docs = () => {
                 documentation
               </h1>
             </div>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-secondary-label max-w-[720px] mx-auto leading-relaxed">
               everything you need to know about utm.one.
             </p>
           </div>

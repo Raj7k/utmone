@@ -67,7 +67,7 @@ const LandingAnalytics = () => {
   if (isCheckingAuth) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">verifying access...</p>
+        <p className="text-secondary-label">verifying access...</p>
       </div>
     );
   }
@@ -78,7 +78,7 @@ const LandingAnalytics = () => {
         <div className="text-center max-w-md px-4">
           <ShieldAlert className="h-16 w-16 text-destructive mx-auto mb-4" />
           <h1 className="text-2xl font-display font-semibold mb-2">access denied</h1>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-secondary-label mb-6">
             this page is restricted to super admins only.
           </p>
           <Button onClick={() => navigate('/dashboard')} variant="outline">
@@ -120,13 +120,13 @@ const LandingAnalytics = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground">Loading analytics...</p>
+            <p className="text-secondary-label">Loading analytics...</p>
           </div>
         ) : metrics && metrics.length > 0 ? (
           <ABTestResults metrics={metrics} />
         ) : (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No data available yet</p>
+            <p className="text-secondary-label">No data available yet</p>
           </div>
         )}
       </div>

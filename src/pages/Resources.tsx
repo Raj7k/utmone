@@ -105,7 +105,7 @@ const Resources = () => {
                 Resources
               </h1>
             </div>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto leading-relaxed">
               A knowledge system for clean tracking, UTM governance, and analytics clarity.
             </p>
           </div>
@@ -142,11 +142,11 @@ const Resources = () => {
                     <h3 className="text-xl font-display font-semibold text-foreground">
                       {category.title}
                     </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm text-secondary-label leading-relaxed">
                         {category.description}
                       </p>
                     </div>
-                    <div className="text-xs text-muted-foreground font-medium">
+                    <div className="text-xs text-secondary-label font-medium">
                       {category.count}
                     </div>
                   </div>
