@@ -54,7 +54,7 @@ const Pricing = () => {
                 simple pricing.<br />generous limits.
               </h1>
             </div>
-            <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto">
               no per-seat charges. no hidden fees. just straightforward pricing that scales with your links, not your team size.
             </p>
           </AnimatedSection>
@@ -79,17 +79,17 @@ const Pricing = () => {
           <AnimatedSection delay={0.4}>
             <div className="mt-16 text-center space-y-6 p-12 bg-gradient-nature-1 rounded-2xl border border-primary/20">
               <div className="space-y-3">
-                <div className="inline-block px-4 py-1 bg-primary/20 text-primary text-small-text font-semibold rounded-full">
+                <div className="inline-block px-4 py-1 bg-system-orange/20 text-system-orange text-subheadline font-semibold rounded-full">
                   🔥 limited time offer
                 </div>
-                <h3 className="text-heading-2 font-display font-bold">
+                <h3 className="text-title-2 font-display font-bold text-label">
                   lifetime deal: $299 once
                 </h3>
-                <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
+                <p className="text-body-apple text-secondary-label max-w-[640px] mx-auto">
                   get pro features forever with a one-time payment. limited to first 500 customers.
                 </p>
               </div>
-              <Button size="lg" onClick={() => handlePlanSelect('lifetime')}>
+              <Button variant="marketing" size="lg" onClick={() => handlePlanSelect('lifetime')}>
                 claim lifetime deal
               </Button>
             </div>
@@ -110,39 +110,39 @@ const Pricing = () => {
       <section className="py-group bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
-            <h2 className="text-heading-2 font-display text-center font-bold mb-12">
+            <h2 className="text-title-1 font-display text-center font-bold text-label mb-12">
               frequently asked questions
             </h2>
             <div className="space-y-8">
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-display font-semibold">
+                <h3 className="text-title-3 font-display font-semibold text-label">
                   what happens if i exceed my plan limits?
                 </h3>
-                <p className="text-body-text text-muted-foreground">
+                <p className="text-body-apple text-secondary-label">
                   we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-display font-semibold">
+                <h3 className="text-title-3 font-display font-semibold text-label">
                   do you really offer unlimited team members on all plans?
                 </h3>
-                <p className="text-body-text text-muted-foreground">
+                <p className="text-body-apple text-secondary-label">
                   yes! unlike bitly ($35/mo for 1 user) and rebrandly ($39/mo for 1 user), we believe collaboration shouldn't cost extra. invite your entire team on any plan, even free.
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-display font-semibold">
+                <h3 className="text-title-3 font-display font-semibold text-label">
                   can i cancel anytime?
                 </h3>
-                <p className="text-body-text text-muted-foreground">
+                <p className="text-body-apple text-secondary-label">
                   absolutely. cancel anytime with no penalties. your links will continue working, and you'll have read-only access to your analytics.
                 </p>
               </div>
               <div className="space-y-3">
-                <h3 className="text-heading-3 font-display font-semibold">
+                <h3 className="text-title-3 font-display font-semibold text-label">
                   is the lifetime deal really lifetime?
                 </h3>
-                <p className="text-body-text text-muted-foreground">
+                <p className="text-body-apple text-secondary-label">
                   yes. pay once, use forever. even if we shut down, we guarantee your links will continue working through our permanence guarantee.
                 </p>
               </div>

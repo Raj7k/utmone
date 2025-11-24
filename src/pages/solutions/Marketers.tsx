@@ -22,12 +22,12 @@ const Marketers = () => {
                 Campaigns work better when links do.
               </h1>
             </div>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
+            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto text-balance">
               utm.one brings clarity, consistency, and precision to every link you create.
             </p>
             <div className="pt-4">
               <Link to="/pricing">
-                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
                   get early access
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
@@ -46,10 +46,10 @@ const Marketers = () => {
                 When UTMs break, attribution breaks.
               </h1>
             </AnimatedHeadline>
-            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
+            <div className="text-title-2 text-secondary-label max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>when links drift, data drifts.</p>
               <p>and when data drifts, decisions suffer.</p>
-              <p className="text-foreground font-medium">utm.one fixes this at the source.</p>
+              <p className="text-label font-medium">utm.one fixes this at the source.</p>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@ const Marketers = () => {
       {/* Why Marketers Choose utm.one */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h1 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
             Why marketers choose utm.one
           </h1>
           
@@ -97,7 +97,7 @@ const Marketers = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h1 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
             A workflow designed for speed
           </h1>
           
@@ -136,7 +136,7 @@ const Marketers = () => {
           </div>
           
           {/* Supporting Text */}
-          <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-[640px] mx-auto">
+          <p className="text-center text-title-2 text-secondary-label max-w-[640px] mx-auto">
             all in under 30 seconds.<br />
             no switching tools.<br />
             no broken tracking.
@@ -155,7 +155,7 @@ const Marketers = () => {
             </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
-                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
                   see how marketers use utm.one
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
@@ -169,8 +169,8 @@ const Marketers = () => {
       <section className="py-16 bg-muted/30">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center">
-            <p className="text-body text-muted-foreground">
-              <Link to="/solutions/sales" className="text-foreground hover:underline">
+            <p className="text-body-apple text-secondary-label">
+              <Link to="/solutions/sales" className="text-label hover:underline">
                 sales also moves faster with clean links →
               </Link>
             </p>

@@ -138,16 +138,16 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-[800px] mx-auto px-8 text-center space-y-8">
             <div className="space-y-4">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-title-1 font-display font-bold text-label">
                 Most Link Tools Focus on Shortening
               </h1>
-              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
+              <p className="text-title-2 font-display font-semibold text-blazeOrange">
                 Few Focus on Trust
               </p>
             </div>
             <div className="prose prose-lg mx-auto text-muted-foreground space-y-6 text-left">
-              <p className="text-xl font-semibold text-foreground">Today's Internet Has a Trust Gap</p>
-              <ul className="space-y-3 text-base leading-relaxed">
+              <p className="text-headline font-semibold text-label">Today's Internet Has a Trust Gap</p>
+              <ul className="space-y-3 text-body-apple text-secondary-label leading-relaxed">
                 <li>People hesitate to click unknown links</li>
                 <li>Teams struggle with inconsistent naming</li>
                 <li>Screen readers hate random slugs</li>
@@ -156,7 +156,7 @@ const Index = () => {
                 <li>Partner attribution gets lost</li>
                 <li>And when tools shut down, links die</li>
               </ul>
-              <p className="text-xl font-display font-semibold text-primary pt-8">
+              <p className="text-headline font-display font-semibold text-blazeOrange pt-8">
                 utm.one fixes the fundamentals — not the symptoms.
               </p>
             </div>
@@ -224,7 +224,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-large-title font-display font-bold text-label mb-4">
                 Links That Include Everyone
               </h1>
             </div>
@@ -251,7 +251,7 @@ const Index = () => {
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-center text-title-2 text-secondary-label max-w-3xl mx-auto">
               Finally — a link system government, education, nonprofit, and public institutions can use confidently.
             </p>
           </div>
@@ -307,7 +307,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-title-1 font-display font-bold text-label">
                 Everything Your GTM Team Needs, in One Place
               </h1>
             </div>
@@ -356,9 +356,9 @@ const Index = () => {
               />
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-2xl md:text-3xl font-medium text-muted-foreground">No clutter.</p>
-              <p className="text-2xl md:text-3xl font-medium text-muted-foreground">No noise.</p>
-              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">Just clarity.</p>
+              <p className="text-title-2 font-medium text-secondary-label">No clutter.</p>
+              <p className="text-title-2 font-medium text-secondary-label">No noise.</p>
+              <p className="text-title-2 font-display font-semibold text-blazeOrange">Just clarity.</p>
             </div>
           </div>
         </AnimatedSection>
@@ -367,7 +367,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-title-1 font-display font-bold text-label">
                 Pricing That Respects You
               </h1>
             </div>
