@@ -40,13 +40,13 @@ const sendEvent = async ({ eventType, eventData, pagePath }: TrackEventParams) =
   try {
     await supabase.functions.invoke('track-waitlist-engagement', {
       body: {
-        session_id: sessionId,
-        event_type: eventType,
-        event_data: eventData || {},
-        page_path: pagePath || window.location.pathname,
+        sessionId: sessionId,
+        eventType: eventType,
+        eventData: eventData || {},
+        pagePath: pagePath || window.location.pathname,
         referrer: document.referrer || null,
-        referral_code: referralCode,
-        user_agent: navigator.userAgent,
+        referralCode: referralCode,
+        userAgent: navigator.userAgent,
       },
     });
   } catch (error) {
