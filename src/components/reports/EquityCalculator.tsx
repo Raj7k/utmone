@@ -53,7 +53,7 @@ export const EquityCalculator = () => {
           </div>
           <div>
             <CardTitle className="text-2xl">Equity & Stock Options Calculator</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               Understand the real value of your equity compensation
             </p>
           </div>
@@ -129,25 +129,25 @@ export const EquityCalculator = () => {
           
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Potential Value</div>
+              <div className="text-sm text-secondary-label mb-1">Potential Value</div>
               <div className="text-2xl font-bold text-blazeOrange">
                 ${result.potentialValue.toLocaleString()}
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Cost to Exercise</div>
+              <div className="text-sm text-secondary-label mb-1">Cost to Exercise</div>
               <div className="text-2xl font-bold text-mirage">
                 ${result.costToExercise.toLocaleString()}
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Net Value</div>
+              <div className="text-sm text-secondary-label mb-1">Net Value</div>
               <div className="text-2xl font-bold text-deepSea">
                 ${result.netValue.toLocaleString()}
               </div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Annual Value (vested)</div>
+              <div className="text-sm text-secondary-label mb-1">Annual Value (vested)</div>
               <div className="text-2xl font-bold text-deepSea">
                 ${result.annualValue.toLocaleString()}/yr
               </div>
@@ -173,7 +173,7 @@ export const EquityCalculator = () => {
                   Potential: {stageMultipliers[companyStage as keyof typeof stageMultipliers].multiplier}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-secondary-label">
                 At {companyStage} stage, your equity has a {stageMultipliers[companyStage as keyof typeof stageMultipliers].probability} probability 
                 of a successful exit. Potential upside: {stageMultipliers[companyStage as keyof typeof stageMultipliers].multiplier} on current valuation.
               </p>
@@ -184,7 +184,7 @@ export const EquityCalculator = () => {
         <div className="p-6 bg-mirage/5 rounded-lg border border-mirage/20">
           <div className="flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-mirage mt-0.5" />
-            <div className="text-sm text-muted-foreground space-y-2">
+            <div className="text-sm text-secondary-label space-y-2">
               <p className="font-semibold text-foreground">Important Considerations:</p>
               <ul className="space-y-1 ml-4 list-disc">
                 <li>This is a simplified calculation. Actual value depends on: dilution from future funding rounds, preference stack, liquidation preferences.</li>

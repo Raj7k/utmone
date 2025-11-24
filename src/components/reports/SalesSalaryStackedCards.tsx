@@ -56,20 +56,20 @@ export const SalesSalaryStackedCards = () => {
                   <Badge variant="secondary">{role.badge}</Badge>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-muted-foreground">Base Salary</p>
+                  <p className="text-sm text-secondary-label">Base Salary</p>
                   <p className="text-xl font-bold text-primary">{role.baseSalary}</p>
-                  <p className="text-sm text-muted-foreground mt-2">On-Target Earnings (OTE)</p>
+                  <p className="text-sm text-secondary-label mt-2">On-Target Earnings (OTE)</p>
                   <p className="text-2xl font-bold text-blazeOrange">{role.ote}</p>
                 </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-muted-foreground">{role.description}</p>
+              <p className="text-secondary-label">{role.description}</p>
               <div>
                 <p className="text-sm font-semibold mb-2">Key Performance Metrics:</p>
                 <ul className="space-y-1">
                   {role.keyMetrics.map((metric, i) => (
-                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                    <li key={i} className="text-sm text-secondary-label flex items-start gap-2">
                       <span className="text-primary">•</span>
                       <span>{metric}</span>
                     </li>

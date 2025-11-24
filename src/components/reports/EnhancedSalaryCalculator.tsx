@@ -186,7 +186,7 @@ export const EnhancedSalaryCalculator = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-display">Enhanced Global Salary Calculator</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               Based on Section 8 Formula: Global Base × Region × Experience × Company Size × Industry × (1 + Skills)
             </p>
           </div>
@@ -323,16 +323,16 @@ export const EnhancedSalaryCalculator = () => {
         {result && (
           <div className="space-y-6 pt-6 border-t border-border">
             <div className="text-center space-y-3">
-              <div className="text-sm text-muted-foreground">Estimated Base Salary</div>
+              <div className="text-sm text-secondary-label">Estimated Base Salary</div>
               <div className="text-5xl font-display font-extrabold text-blazeOrange">
                 {formatCurrency(result.baseSalary)}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-secondary-label">
                 Range: {formatCurrency(result.salaryRange.min)} - {formatCurrency(result.salaryRange.max)}
               </div>
               {result.oteRange && (
                 <div className="mt-2 p-3 bg-deepSea/10 rounded-lg">
-                  <div className="text-xs text-muted-foreground mb-1">OTE (On-Target Earnings)</div>
+                  <div className="text-xs text-secondary-label mb-1">OTE (On-Target Earnings)</div>
                   <div className="text-2xl font-display font-bold text-deepSea">
                     {formatCurrency(result.oteRange.min)} - {formatCurrency(result.oteRange.max)}
                   </div>
@@ -342,7 +342,7 @@ export const EnhancedSalaryCalculator = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div className="text-center p-4 bg-muted/30 rounded-lg">
-                <div className="text-xs text-muted-foreground mb-1">Confidence Score</div>
+                <div className="text-xs text-secondary-label mb-1">Confidence Score</div>
                 <div className="text-3xl font-display font-bold">
                   {(result.confidenceScore * 100).toFixed(0)}%
                 </div>
@@ -350,7 +350,7 @@ export const EnhancedSalaryCalculator = () => {
 
               {result.percentile && (
                 <div className="text-center p-4 bg-deepSea/10 rounded-lg">
-                  <div className="text-xs text-muted-foreground mb-1">Your Percentile</div>
+                  <div className="text-xs text-secondary-label mb-1">Your Percentile</div>
                   <Badge variant="default" className="text-xl px-4 py-2 bg-deepSea">
                     {result.percentile}th
                   </Badge>
@@ -366,7 +366,7 @@ export const EnhancedSalaryCalculator = () => {
                     <h4 className="font-semibold text-sm mb-2">Skills You're Missing (High Value)</h4>
                     <ul className="space-y-1">
                       {result.skillGaps.map(skill => (
-                        <li key={skill} className="text-sm text-muted-foreground">
+                      <li key={skill} className="text-sm text-secondary-label">
                           • {skill}
                         </li>
                       ))}
