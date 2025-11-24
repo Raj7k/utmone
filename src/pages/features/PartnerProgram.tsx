@@ -69,10 +69,10 @@ const PartnerProgram = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Simple For Partners, Powerful For You
           </h1>
-          <div className="max-w-2xl mx-auto space-y-4 text-lg text-foreground">
+          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>Partners share</p>
             <p>You see everything</p>
           </div>
@@ -80,7 +80,7 @@ const PartnerProgram = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Built For Predictable Performance
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -94,26 +94,26 @@ const PartnerProgram = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Everything partners touch becomes measurable.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Partners Shouldn't Need Training
         </h1>
         <FeatureComparison
           title="utm.one vs Complex Partner Systems"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
+        <p className="text-center text-title-2 text-label font-medium mt-12">
           Clarity invites participation.
         </p>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Invite → Assign Link → Track → Payout
         </h1>
         <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -138,20 +138,21 @@ const PartnerProgram = () => {
             description="Process commissions"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           As simple as it should be.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Build Your Partner Program
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Start scaling with partners who have the tools they need.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"

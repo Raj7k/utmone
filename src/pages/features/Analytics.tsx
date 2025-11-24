@@ -69,10 +69,10 @@ const Analytics = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Analytics That Feel Effortless
           </h1>
-          <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
+          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>Zero noise</p>
             <p>Zero overwhelm</p>
             <p>Zero configuration</p>
@@ -81,7 +81,7 @@ const Analytics = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Designed Around Clarity
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -95,26 +95,26 @@ const Analytics = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Analytics made human.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           No Dashboards That Fight You
         </h1>
         <FeatureComparison
           title="utm.one vs Complex Analytics Tools"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
+        <p className="text-center text-title-2 text-label font-medium mt-12">
           Marketers shouldn't need manuals to read charts.
         </p>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Click → Understand → Act
         </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -134,20 +134,21 @@ const Analytics = () => {
             description="Make informed decisions fast"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           Your data, simplified.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             See Your Insights
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Start understanding your link performance today.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"

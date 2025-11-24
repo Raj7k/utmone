@@ -69,23 +69,23 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Clarity Builds Trust
           </h1>
-          <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
-            <p>• No random strings</p>
-            <p>• No suspicious slugs</p>
-            <p>• No link rot</p>
-            <p>• No unknown redirects</p>
+          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
+            <p>No broken links</p>
+            <p>No suspicious URLs</p>
+            <p>No lost clicks</p>
+            <p>No missed context</p>
           </div>
-          <p className="mt-8 text-xl text-foreground font-medium">
-            Your audience knows exactly where they're going.
+          <p className="mt-8 text-headline text-label font-medium">
+            Every link tells its own story.
           </p>
         </div>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           The Basics, Done Beautifully
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,26 +99,26 @@ const ShortLinks = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
-          Simple on the surface. Powerful underneath.
+        <p className="text-center text-title-2 text-secondary-label mt-12">
+          Simplicity creates clarity.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           More Trustworthy Than Any Shortener
         </h1>
         <FeatureComparison
           title="utm.one vs Competitors"
           items={comparisonItems}
         />
-          <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
+          <p className="text-center text-title-2 text-label font-medium mt-12">
             People hesitate less when the link feels honest.
           </p>
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
           Built For Speed
         </h1>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -143,20 +143,21 @@ const ShortLinks = () => {
             description="Deploy with confidence"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
+        <p className="text-center text-title-2 text-secondary-label mt-12">
           All in one place. All in one motion.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
             Create Your First Link
           </h1>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-body-apple text-secondary-label mb-8">
             Start building links your audience can trust.
           </p>
           <Button
+            variant="marketing"
             asChild
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
