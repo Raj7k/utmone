@@ -97,7 +97,7 @@ export const CareerLadder = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-foreground mb-1">{rung.role}</h3>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-4 text-sm text-secondary-label">
                         <span>{rung.yearsToNext} years to next level</span>
                         {salaryIncrease && (
                           <Badge variant="outline" className="border-blazeOrange text-blazeOrange">
@@ -110,12 +110,12 @@ export const CareerLadder = () => {
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-right">
-                      <div className="text-sm text-muted-foreground mb-1">Median Salary</div>
+                      <div className="text-sm text-secondary-label mb-1">Median Salary</div>
                       <div className="text-2xl font-bold text-blazeOrange">
                         {formatCurrency(rung.medianSalary)}
                       </div>
                     </div>
-                    <ChevronRight className={`h-6 w-6 text-muted-foreground transition-transform ${
+                    <ChevronRight className={`h-6 w-6 text-secondary-label transition-transform ${
                       isExpanded ? 'rotate-90' : ''
                     }`} />
                   </div>
@@ -145,7 +145,7 @@ export const CareerLadder = () => {
                           <h4 className="font-semibold text-deepSea mb-3">Core Responsibilities</h4>
                           <ul className="space-y-2">
                             {rung.responsibilities.map((resp, i) => (
-                              <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                              <li key={i} className="text-sm text-secondary-label flex items-start gap-2">
                                 <span className="text-blazeOrange mt-1">•</span>
                                 <span>{resp}</span>
                               </li>

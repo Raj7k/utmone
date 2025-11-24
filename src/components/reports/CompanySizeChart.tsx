@@ -33,7 +33,7 @@ export const CompanySizeChart = () => {
     <Card>
       <CardHeader>
         <CardTitle>Total Compensation by Company Size</CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           Breakdown of cash, equity, and benefits for Marketing Managers
         </p>
       </CardHeader>
@@ -43,11 +43,11 @@ export const CompanySizeChart = () => {
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis 
               dataKey="size" 
-              stroke="hsl(var(--muted-foreground))"
+              stroke="hsl(var(--secondary-label))"
               style={{ fontSize: '12px' }}
             />
             <YAxis 
-              stroke="hsl(var(--muted-foreground))"
+              stroke="hsl(var(--secondary-label))"
               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
             />
             <Tooltip 
@@ -68,14 +68,14 @@ export const CompanySizeChart = () => {
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           <div className="p-4 bg-wildSand rounded-lg">
             <h4 className="font-semibold text-deepSea mb-2">Startup Advantage</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               Higher equity compensation (avg $45K/year over 4 years) but lower cash and benefits. 
               Best for risk-tolerant professionals with 5-10 year horizon.
             </p>
           </div>
           <div className="p-4 bg-wildSand rounded-lg">
             <h4 className="font-semibold text-deepSea mb-2">Enterprise Stability</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               Highest total cash compensation ($140K including benefits) with minimal equity risk. 
               Best for stability-focused professionals.
             </p>

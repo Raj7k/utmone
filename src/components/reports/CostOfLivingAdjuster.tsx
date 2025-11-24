@@ -32,7 +32,7 @@ export const CostOfLivingAdjuster = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-display">Cost of Living Adjusted Salaries</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               Real purchasing power comparison across cities
             </p>
           </div>
@@ -57,7 +57,7 @@ export const CostOfLivingAdjuster = () => {
           <div className="grid md:grid-cols-3 gap-4">
             <Card className="border-2 border-blazeOrange/20">
               <CardContent className="pt-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                <div className="flex items-center gap-2 text-sm text-secondary-label mb-2">
                   <DollarSign className="h-4 w-4" />
                   <span>Nominal Salary</span>
                 </div>
@@ -69,27 +69,27 @@ export const CostOfLivingAdjuster = () => {
 
             <Card className="border-2 border-deepSea/20">
               <CardContent className="pt-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                <div className="flex items-center gap-2 text-sm text-secondary-label mb-2">
                   <Home className="h-4 w-4" />
                   <span>CoL Index</span>
                 </div>
                 <div className="text-3xl font-display font-extrabold text-foreground">
                   {selectedCityData.colIndex}
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">100 = National Avg</div>
+                <div className="text-xs text-secondary-label mt-1">100 = National Avg</div>
               </CardContent>
             </Card>
 
             <Card className="border-2 border-green-600/20 bg-green-50">
               <CardContent className="pt-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                <div className="flex items-center gap-2 text-sm text-secondary-label mb-2">
                   <TrendingUp className="h-4 w-4" />
                   <span>Real Value</span>
                 </div>
                 <div className="text-3xl font-display font-extrabold text-green-600">
                   {formatCurrency(selectedCityData.realValue)}
                 </div>
-                <div className="text-xs text-muted-foreground mt-1">Purchasing Power</div>
+                <div className="text-xs text-secondary-label mt-1">Purchasing Power</div>
               </CardContent>
             </Card>
           </div>
@@ -113,7 +113,7 @@ export const CostOfLivingAdjuster = () => {
                     <Badge variant="outline" className="font-bold">#{idx + 1}</Badge>
                     <div>
                       <div className="font-medium">{city.name}</div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-secondary-label">
                         Nominal: {formatCurrency(city.salary)} • CoL: {city.colIndex}
                       </div>
                     </div>
@@ -122,14 +122,14 @@ export const CostOfLivingAdjuster = () => {
                     <div className="text-2xl font-display font-extrabold text-green-600">
                       {formatCurrency(city.realValue)}
                     </div>
-                    <div className="text-xs text-muted-foreground">Real Value</div>
+                    <div className="text-xs text-secondary-label">Real Value</div>
                   </div>
                 </div>
               </div>
             ))}
         </div>
 
-        <div className="p-4 bg-wildSand/50 rounded-lg text-sm text-muted-foreground">
+        <div className="p-4 bg-wildSand/50 rounded-lg text-sm text-secondary-label">
           <strong className="text-foreground">Formula:</strong> Real Value = (Nominal Salary) × (100 / Cost of Living Index). 
           This shows what your salary is actually worth in purchasing power when accounting for local costs.
         </div>

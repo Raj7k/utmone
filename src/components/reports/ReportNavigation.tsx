@@ -75,7 +75,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Global Salary Benchmarks</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             comprehensive salary data across roles
                           </p>
                         </button>
@@ -83,7 +83,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                       <li>
                         <div className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none opacity-50 cursor-not-allowed">
                           <div className="text-sm font-medium leading-none">Quarterly Talent Report</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             Coming Soon
                           </p>
                         </div>
@@ -91,7 +91,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                       <li>
                         <div className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none opacity-50 cursor-not-allowed">
                           <div className="text-sm font-medium leading-none">GTM Hiring Index</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             Coming Soon
                           </p>
                         </div>
@@ -113,7 +113,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Marketing</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             roles, salaries, and benchmarks
                           </p>
                         </button>
@@ -124,7 +124,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Sales</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             OTE, quotas, and comp structures
                           </p>
                         </button>
@@ -135,7 +135,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">RevOps & Marketing Ops</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             ops roles with high demand
                           </p>
                         </button>
@@ -157,7 +157,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">United States</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             state-by-state salary breakdown
                           </p>
                         </button>
@@ -168,7 +168,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">India</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             city-level insights and trends
                           </p>
                         </button>
@@ -179,7 +179,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Europe & APAC</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             international markets
                           </p>
                         </button>
@@ -201,7 +201,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Salary Tables</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             role-specific compensation data
                           </p>
                         </button>
@@ -212,7 +212,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Skill Taxonomy</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             in-demand skills and premiums
                           </p>
                         </button>
@@ -223,7 +223,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Interactive Tools</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             calculators and benchmarking
                           </p>
                         </button>
@@ -234,7 +234,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
                           className="w-full text-left block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                         >
                           <div className="text-sm font-medium leading-none">Methodology</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                          <p className="line-clamp-2 text-sm leading-snug text-secondary-label">
                             data sources and methodology
                           </p>
                         </button>

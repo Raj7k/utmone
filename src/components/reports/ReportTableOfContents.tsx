@@ -57,7 +57,7 @@ export const ReportTableOfContents = ({ onScrollToSection }: ReportTableOfConten
               "flex items-start gap-3 w-full text-left text-sm transition-all group",
               activeSection === section.id
                 ? "text-blazeOrange font-semibold"
-                : "text-muted-foreground hover:text-deepSea"
+                : "text-secondary-label hover:text-deepSea"
             )}
           >
             <span
@@ -74,7 +74,7 @@ export const ReportTableOfContents = ({ onScrollToSection }: ReportTableOfConten
       </nav>
 
       <div className="mt-6 pt-6 border-t border-deepSea/10">
-        <p className="text-xs text-muted-foreground mb-2">Reading Progress</p>
+        <p className="text-xs text-secondary-label mb-2">Reading Progress</p>
         <div className="h-2 bg-wildSand rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-blazeOrange to-deepSea transition-all duration-300"
@@ -87,7 +87,7 @@ export const ReportTableOfContents = ({ onScrollToSection }: ReportTableOfConten
             }}
           />
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
+        <p className="text-xs text-secondary-label mt-2">
           {sections.findIndex((s) => s.id === activeSection) + 1} of {sections.length} sections
         </p>
       </div>
