@@ -96,7 +96,7 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
             </div>
 
             <Card className="p-4 bg-muted/50">
-              <label className="text-sm font-medium text-muted-foreground block mb-2">
+              <label className="text-sm font-medium text-secondary-label block mb-2">
                 Short URL
               </label>
               <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
             </Card>
 
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground">What would you like to do next?</h4>
+              <h4 className="font-medium text-sm text-secondary-label">What would you like to do next?</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <QRCodeDialog
                   linkId={createdLinkId!}

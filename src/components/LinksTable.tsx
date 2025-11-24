@@ -94,7 +94,7 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
 
   if (isLoading) {
       <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">loading links…</p>
+        <p className="text-secondary-label">loading links…</p>
       </div>
   }
 
@@ -102,7 +102,7 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center">
         <p className="text-xl font-semibold text-foreground mb-2">No links yet</p>
-        <p className="text-muted-foreground">Create your first short link to get started</p>
+        <p className="text-secondary-label">Create your first short link to get started</p>
       </div>
     );
   }
@@ -128,7 +128,7 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
                 <div>
                   <p className="font-semibold text-foreground">{link.title}</p>
                   {link.description && (
-                    <p className="text-sm text-muted-foreground truncate max-w-xs">
+                    <p className="text-sm text-secondary-label truncate max-w-xs">
                       {link.description}
                     </p>
                   )}
@@ -162,7 +162,7 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
                   <p className="text-sm font-medium text-foreground">
                     {link.utm_campaign || "—"}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-secondary-label">
                     {link.utm_source} / {link.utm_medium}
                   </p>
                 </div>
@@ -172,13 +172,13 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
                   <p className="text-sm font-semibold text-foreground">
                     {link.total_clicks || 0}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-secondary-label">
                     {link.unique_clicks || 0} unique
                   </p>
                 </div>
               </TableCell>
               <TableCell>{getStatusBadge(link.status || "active")}</TableCell>
-              <TableCell className="text-sm text-muted-foreground">
+              <TableCell className="text-sm text-secondary-label">
                 {formatDistanceToNow(new Date(link.created_at || ""), {
                   addSuffix: true,
                 })}

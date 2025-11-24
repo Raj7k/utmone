@@ -56,7 +56,7 @@ export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPrevie
                 />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted-foreground truncate" title={destinationUrl}>
+                <p className="text-xs text-secondary-label truncate" title={destinationUrl}>
                   {destinationUrl}
                 </p>
                 {preview.page_title && (
@@ -89,7 +89,7 @@ export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPrevie
             </div>
           </div>
         ) : (
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-secondary-label">
             preview not available
           </div>
         )}

@@ -322,23 +322,23 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Created by:</span>
+            <span className="text-secondary-label">Created by:</span>
             <span>{link.owner.full_name || link.owner.email}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Created at:</span>
+            <span className="text-secondary-label">Created at:</span>
             <span>{link.created_at ? format(new Date(link.created_at), "PPP p") : "N/A"}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Last updated:</span>
+            <span className="text-secondary-label">Last updated:</span>
             <span>{link.updated_at ? format(new Date(link.updated_at), "PPP p") : "N/A"}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Total clicks:</span>
+            <span className="text-secondary-label">Total clicks:</span>
             <span>{link.total_clicks || 0} ({link.unique_clicks || 0} unique)</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Last clicked:</span>
+            <span className="text-secondary-label">Last clicked:</span>
             <span>{link.last_clicked_at ? format(new Date(link.last_clicked_at), "PPP p") : "Never"}</span>
           </div>
         </CardContent>

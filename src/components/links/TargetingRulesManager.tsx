@@ -63,13 +63,13 @@ export function TargetingRulesManager({ linkId }: TargetingRulesManagerProps) {
   };
 
   if (isLoading) {
-    return <div className="text-sm text-muted-foreground">loading rules...</div>;
+    return <div className="text-sm text-secondary-label">loading rules...</div>;
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           redirect users to different URLs based on location, device, or browser
         </p>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -140,7 +140,7 @@ export function TargetingRulesManager({ linkId }: TargetingRulesManagerProps) {
                   onChange={(e) => setFormData({ ...formData, value: e.target.value })}
                   placeholder="e.g., US, CA, UK"
                 />
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-secondary-label mt-1">
                   for countries use 2-letter codes (US, CA, UK). for devices use mobile, desktop, tablet
                 </p>
               </div>
@@ -177,19 +177,19 @@ export function TargetingRulesManager({ linkId }: TargetingRulesManagerProps) {
             <Card key={rule.id}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3 flex-1">
-                    <GripVertical className="w-4 h-4 text-muted-foreground mt-1" />
-                    <div className="flex-1 space-y-2">
+                <div className="flex items-start gap-3 flex-1">
+                  <GripVertical className="w-4 h-4 text-secondary-label mt-1" />
+                  <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2">
                         <h4 className="font-medium">{rule.rule_name}</h4>
                         <Badge variant={rule.is_active ? 'default' : 'secondary'}>
                           {rule.is_active ? 'active' : 'inactive'}
                         </Badge>
-                        <Badge variant="outline">priority: {rule.priority}</Badge>
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        if {getRuleTypeLabel(rule.rule_type).toLowerCase()} {rule.condition.replace('_', ' ')} <span className="font-mono">{rule.value.join(', ')}</span>
-                      </div>
+                      <Badge variant="outline">priority: {rule.priority}</Badge>
+                    </div>
+                    <div className="text-sm text-secondary-label">
+                      if {getRuleTypeLabel(rule.rule_type).toLowerCase()} {rule.condition.replace('_', ' ')} <span className="font-mono">{rule.value.join(', ')}</span>
+                    </div>
                       <div className="text-sm">
                         → <span className="font-mono text-primary">{rule.redirect_url}</span>
                       </div>
@@ -218,7 +218,7 @@ export function TargetingRulesManager({ linkId }: TargetingRulesManagerProps) {
       ) : (
         <Card>
           <CardContent className="p-8 text-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               no targeting rules yet. create your first rule to redirect users based on their location or device.
             </p>
           </CardContent>
