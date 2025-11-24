@@ -28,7 +28,7 @@ export const ComparisonCard = ({ title, current, change, format = "number", icon
           "text-xs flex items-center gap-1 mt-1",
           isPositive && "text-green-600",
           isNegative && "text-red-600",
-          isNeutral && "text-muted-foreground"
+          isNeutral && "text-secondary-label"
         )}>
           {isPositive && <ArrowUp className="h-3 w-3" />}
           {isNegative && <ArrowDown className="h-3 w-3" />}

@@ -66,7 +66,7 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
     },
   });
 
-    return <div className="text-center py-8 text-muted-foreground">loading analytics…</div>;
+    return <div className="text-center py-8 text-secondary-label">loading analytics…</div>;
 
   return (
     <div className="space-y-6">
@@ -81,26 +81,26 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
           title="Total Links"
           current={comparisonData?.links.current || stats?.totalLinks || 0}
           change={comparisonData?.links.change || 0}
-          icon={<Link2 className="h-4 w-4 text-muted-foreground" />}
+          icon={<Link2 className="h-4 w-4 text-secondary-label" />}
         />
         <ComparisonCard
           title="Total Clicks"
           current={comparisonData?.clicks.current || stats?.totalClicks || 0}
           change={comparisonData?.clicks.change || 0}
-          icon={<MousePointerClick className="h-4 w-4 text-muted-foreground" />}
+          icon={<MousePointerClick className="h-4 w-4 text-secondary-label" />}
         />
         <ComparisonCard
           title="Unique Visitors"
           current={comparisonData?.uniqueClicks.current || stats?.uniqueClicks || 0}
           change={comparisonData?.uniqueClicks.change || 0}
-          icon={<Users className="h-4 w-4 text-muted-foreground" />}
+          icon={<Users className="h-4 w-4 text-secondary-label" />}
         />
         <ComparisonCard
           title="Click Rate"
           current={comparisonData?.clickRate.current || (stats?.totalLinks && stats.totalLinks > 0 ? stats.totalClicks / stats.totalLinks : 0)}
           change={comparisonData?.clickRate.change || 0}
           format="decimal"
-          icon={<TrendingUp className="h-4 w-4 text-muted-foreground" />}
+          icon={<TrendingUp className="h-4 w-4 text-secondary-label" />}
         />
       </div>
 
@@ -116,14 +116,14 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
                 <div key={link.id} className="flex items-center justify-between">
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-foreground">{link.title}</p>
-                    <p className="text-xs text-muted-foreground font-mono">{link.short_url}</p>
+                    <p className="text-xs text-secondary-label font-mono">{link.short_url}</p>
                   </div>
                   <div className="text-sm font-bold text-foreground">{link.total_clicks || 0} clicks</div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground text-center py-4">No click data yet</p>
+            <p className="text-sm text-secondary-label text-center py-4">No click data yet</p>
           )}
         </CardContent>
       </Card>
