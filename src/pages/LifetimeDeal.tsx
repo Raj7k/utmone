@@ -25,7 +25,7 @@ const LifetimeDeal = () => {
                 pay once.<br />use forever.
               </h1>
             </div>
-            <p className="text-body-text text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-body-text text-secondary-label max-w-[640px] mx-auto">
               get lifetime access to pro features for a one-time payment of $299. no recurring fees. no limits on time.
             </p>
             <div className="pt-4">
@@ -49,7 +49,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">1,000 links/month</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     create up to 1,000 short links every month
                   </p>
                 </div>
@@ -58,7 +58,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">unlimited domains</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     connect as many custom domains as you need
                   </p>
                 </div>
@@ -67,7 +67,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">100k clicks/month</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     track up to 100,000 clicks monthly
                   </p>
                 </div>
@@ -76,7 +76,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">1-year analytics</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     365 days of historical analytics data
                   </p>
                 </div>
@@ -85,7 +85,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">unlimited team members</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     invite your entire team at no extra cost
                   </p>
                 </div>
@@ -94,7 +94,7 @@ const LifetimeDeal = () => {
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-heading-3 font-display font-semibold mb-2">priority support</h3>
-                  <p className="text-small-text text-muted-foreground">
+                  <p className="text-small-text text-secondary-label">
                     get help faster with priority email support
                   </p>
                 </div>
@@ -111,7 +111,7 @@ const LifetimeDeal = () => {
             <h2 className="text-heading-2 font-display text-center font-bold mb-6">
               why only 500 spots?
             </h2>
-            <div className="space-y-4 text-body-text text-muted-foreground">
+            <div className="space-y-4 text-body-text text-secondary-label">
               <p>
                 we're limiting this offer to our first 500 customers to build a sustainable business while rewarding early believers.
               </p>
@@ -171,7 +171,7 @@ const LifetimeDeal = () => {
       <footer className="border-t border-border py-12 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="text-center">
-            <span className="text-micro-text text-muted-foreground">
+            <span className="text-micro-text text-secondary-label">
               © 2024 utm.one. clarity creates confidence.
             </span>
           </div>

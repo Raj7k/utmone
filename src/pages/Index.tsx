@@ -94,7 +94,7 @@ const Index = () => {
                     </motion.h1>
                   </motion.div>
                   <motion.p 
-                    className="text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto text-balance leading-relaxed"
+                    className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto text-balance leading-relaxed"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
@@ -124,7 +124,7 @@ const Index = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
-                    className="text-sm text-muted-foreground"
+                    className="text-sm text-secondary-label"
                   >
                     {variant.microcopy}
                   </motion.p>
@@ -145,7 +145,7 @@ const Index = () => {
                 Few Focus on Trust
               </p>
             </div>
-            <div className="prose prose-lg mx-auto text-muted-foreground space-y-6 text-left">
+            <div className="prose prose-lg mx-auto text-secondary-label space-y-6 text-left">
               <p className="text-headline font-semibold text-label">Today's Internet Has a Trust Gap</p>
               <ul className="space-y-3 text-body-apple text-secondary-label leading-relaxed">
                 <li>People hesitate to click unknown links</li>
@@ -247,7 +247,7 @@ const Index = () => {
                   <div className="p-4 rounded-xl bg-primary/10 text-primary">
                     <item.icon className="w-8 h-8" />
                   </div>
-                  <p className="text-sm font-medium text-foreground">{item.label}</p>
+                  <p className="text-sm font-medium text-label">{item.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -389,12 +389,12 @@ const Index = () => {
                   className="flex items-start space-x-4 p-6 bg-muted/30 rounded-xl"
                 >
                   <item.icon className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                  <p className="text-base font-medium text-foreground">{item.label}</p>
+                  <p className="text-base font-medium text-label">{item.label}</p>
                 </motion.div>
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-2xl md:text-3xl text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-secondary-label">
                 The internet is tired of predatory pricing.
               </p>
               <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
@@ -408,7 +408,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
                 See What Matters First
               </h1>
             </div>
@@ -428,12 +428,12 @@ const Index = () => {
                   transition={{ delay: i * 0.1 }}
                   className="bg-white border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
                 >
-                  <p className="text-sm font-medium text-foreground">{item}</p>
+                  <p className="text-sm font-medium text-label">{item}</p>
                 </motion.div>
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-2xl md:text-3xl text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-secondary-label">
                 Analytics shouldn't overwhelm.
               </p>
               <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
@@ -447,7 +447,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
                 Built for Modern Teams
               </h1>
             </div>
@@ -468,11 +468,11 @@ const Index = () => {
                   className="flex items-center space-x-4 p-6 bg-muted/30 rounded-xl"
                 >
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0" />
-                  <p className="text-base font-medium text-foreground">{item}</p>
+                  <p className="text-base font-medium text-label">{item}</p>
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-2xl md:text-3xl text-muted-foreground mt-12">
+            <p className="text-center text-2xl md:text-3xl text-secondary-label mt-12">
               Finally — link management designed for agencies, teams, and cross-functional workflows.
             </p>
           </div>
@@ -482,7 +482,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
                 A Clean API for a Cleaner Stack
               </h1>
             </div>
@@ -504,15 +504,15 @@ const Index = () => {
                   className="bg-white border border-border rounded-xl p-6 hover:shadow-lg transition-shadow"
                 >
                   <Code className="w-8 h-8 text-primary mb-3" />
-                  <h4 className="text-base font-display font-semibold text-foreground mb-2">
+                  <h4 className="text-base font-display font-semibold text-label mb-2">
                     {item.title}
                   </h4>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  <p className="text-sm text-secondary-label">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-2xl md:text-3xl text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-secondary-label">
                 Developers recommend the tools they trust.
               </p>
               <p className="text-2xl md:text-3xl font-display font-semibold text-primary">

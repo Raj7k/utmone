@@ -56,7 +56,7 @@ const BenefitCard = ({ number, title, description, delay = 0 }: { number: string
       </div>
       <div className="relative z-10">
         <h3 className="text-2xl md:text-3xl font-display font-semibold mb-4">{title}</h3>
-        <p className="text-lg text-muted-foreground leading-relaxed">{description}</p>
+        <p className="text-lg text-secondary-label leading-relaxed">{description}</p>
       </div>
     </div>
   </AnimatedHeadline>
@@ -205,7 +205,7 @@ export default function EarlyAccess() {
             </div>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+            <p className="text-xl md:text-2xl text-secondary-label leading-relaxed">
               utm.one is launching in phases — and early access is limited to teams who want clarity from day one.
             </p>
           </AnimatedHeadline>
@@ -221,31 +221,31 @@ export default function EarlyAccess() {
             </h2>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
-            <div className="space-y-8 text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <div className="space-y-8 text-lg md:text-xl text-secondary-label leading-relaxed">
               <p>
                 we're designing utm.one with the same care we bring to the product itself.
                 every feature is tested, refined, and perfected with a small group of early users.
               </p>
-              <p className="font-medium text-foreground">this ensures:</p>
+              <p className="font-medium text-label">this ensures:</p>
               <ul className="space-y-4 pl-6">
                 <li className="flex items-start">
-                  <span className="mr-3 text-foreground">•</span>
+                  <span className="mr-3 text-label">•</span>
                   <span>cleaner workflows</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-3 text-foreground">•</span>
+                  <span className="mr-3 text-label">•</span>
                   <span>tighter governance</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-3 text-foreground">•</span>
+                  <span className="mr-3 text-label">•</span>
                   <span>smoother integrations</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-3 text-foreground">•</span>
+                  <span className="mr-3 text-label">•</span>
                   <span>stronger analytics</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-3 text-foreground">•</span>
+                  <span className="mr-3 text-label">•</span>
                   <span>flawless branding</span>
                 </li>
               </ul>
@@ -301,31 +301,31 @@ export default function EarlyAccess() {
             </h2>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
-            <div className="space-y-8 text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <div className="space-y-8 text-lg md:text-xl text-secondary-label leading-relaxed">
               <p className="text-center">teams that value:</p>
               <div className="space-y-4">
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>disciplined UTMs</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>branded links</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>qr code quality</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>clean analytics</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>enterprise governance</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 mr-3 text-foreground flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 mr-3 text-label flex-shrink-0" />
                   <span>high-clarity marketing</span>
                 </div>
               </div>
@@ -682,7 +682,7 @@ export default function EarlyAccess() {
 
       {/* Footer Message */}
       <section className="bg-white py-12 px-6 border-t">
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-sm text-secondary-label text-center">
           we'll reach out when a spot opens.
         </p>
       </section>

@@ -24,7 +24,7 @@ const NotFound = () => {
             <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
               page not found
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[600px] mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-secondary-label max-w-[600px] mx-auto leading-relaxed">
               the link is fine. the destination isn't.<br />
               let's take you back to where things make sense.
             </p>
@@ -35,7 +35,7 @@ const NotFound = () => {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
           
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             still stuck? reach us → <a href="mailto:support@utm.one" className="text-primary hover:underline">support@utm.one</a>
           </p>
         </div>

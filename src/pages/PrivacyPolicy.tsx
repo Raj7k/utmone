@@ -13,8 +13,8 @@ export default function PrivacyPolicy() {
           </Button>
         </Link>
 
-        <h1 className="text-5xl font-display font-bold mb-8 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">privacy policy</h1>
-        <p className="text-xl text-muted-foreground mb-12">
+        <h1 className="text-5xl font-display font-bold mb-8 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">privacy policy</h1>
+        <p className="text-xl text-secondary-label mb-12">
           last updated: {new Date().toLocaleDateString()}
         </p>
 
@@ -24,7 +24,7 @@ export default function PrivacyPolicy() {
             <p className="mb-4">
               when you use utm.one, we collect information necessary to provide our link management service:
             </p>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul className="list-disc pl-6 space-y-2 text-secondary-label">
               <li>ip address (for geolocation analytics and fraud prevention)</li>
               <li>user agent (device type, browser, operating system)</li>
               <li>referrer (where clicks came from)</li>
@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">why we collect it</h2>
             <p className="mb-4">we use this data to:</p>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul className="list-disc pl-6 space-y-2 text-secondary-label">
               <li>provide click analytics and campaign insights</li>
               <li>detect fraudulent activity and abuse</li>
               <li>improve our product and user experience</li>
@@ -46,7 +46,7 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">how long we keep it</h2>
-            <p className="mb-4 text-muted-foreground">
+            <p className="mb-4 text-secondary-label">
               by default, we retain granular click data (ip addresses, user agents) for 90 days. 
               after that, we keep only aggregated analytics (country-level, device types) indefinitely 
               for historical trend analysis. you can adjust your retention period in settings.
@@ -56,21 +56,21 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">your rights</h2>
             <p className="mb-4">you have the right to:</p>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul className="list-disc pl-6 space-y-2 text-secondary-label">
               <li><strong>access:</strong> request a copy of all your data</li>
               <li><strong>export:</strong> download your data in machine-readable format</li>
               <li><strong>delete:</strong> request deletion of your account and data</li>
               <li><strong>opt-out:</strong> disable tracking for your links</li>
               <li><strong>portability:</strong> take your data to another service</li>
             </ul>
-            <p className="mt-4 text-muted-foreground">
+            <p className="mt-4 text-secondary-label">
               manage your data preferences in settings → data & privacy, or contact us at privacy@utm.one
             </p>
           </section>
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">security</h2>
-            <p className="text-muted-foreground">
+            <p className="text-secondary-label">
               we encrypt all data in transit (tls 1.3) and at rest (aes-256). access to personal 
               data is strictly limited to authorized personnel. we conduct regular security audits 
               and maintain soc 2 compliance.
@@ -79,10 +79,10 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">third parties</h2>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-secondary-label mb-4">
               we do not sell your data. we share data only with:
             </p>
-            <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
+            <ul className="list-disc pl-6 space-y-2 text-secondary-label">
               <li>cloud infrastructure providers (aws, supabase) for hosting</li>
               <li>analytics tools (for product improvement only)</li>
               <li>law enforcement (when legally required)</li>
@@ -91,14 +91,14 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">cookies</h2>
-            <p className="text-muted-foreground">
+            <p className="text-secondary-label">
               we use essential cookies for authentication. no tracking or advertising cookies.
             </p>
           </section>
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">gdpr & ccpa compliance</h2>
-            <p className="text-muted-foreground">
+            <p className="text-secondary-label">
               we are fully compliant with gdpr (europe) and ccpa (california). if you are a resident 
               of the eu or california, you have additional rights including the right to request deletion 
               and opt-out of data processing.
@@ -107,13 +107,13 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="text-3xl font-display font-bold mb-4">contact</h2>
-            <p className="text-muted-foreground">
+            <p className="text-secondary-label">
               questions about privacy? email us at <strong>privacy@utm.one</strong>
             </p>
           </section>
 
           <section className="pt-8 border-t">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               this policy may be updated periodically. continued use of utm.one after changes 
               constitutes acceptance of the updated policy. major changes will be announced via email.
             </p>
