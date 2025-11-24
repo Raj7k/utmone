@@ -123,8 +123,8 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
       <Card>
         <CardContent className="py-12 text-center">
           <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
-          <p className="text-muted-foreground">no historical data available for this flag</p>
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-secondary-label">no historical data available for this flag</p>
+          <p className="text-xs text-secondary-label mt-2">
             toggle the flag to start collecting metrics
           </p>
         </CardContent>
@@ -233,7 +233,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm font-medium">{anomaly.reason}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <p className="text-xs text-secondary-label mt-1">
                         {formatDistanceToNow(new Date(anomaly.timestamp))} ago
                       </p>
                     </div>
@@ -263,7 +263,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
                     <Badge variant={snapshot.flag_enabled ? 'default' : 'secondary'}>
                       {snapshot.flag_enabled ? 'enabled' : 'disabled'}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-secondary-label">
                       {formatDistanceToNow(new Date(snapshot.timestamp))} ago
                     </span>
                   </div>
@@ -275,7 +275,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
                 
                 <div className="grid grid-cols-3 gap-4 text-sm">
                   <div>
-                    <p className="text-xs text-muted-foreground">latency impact</p>
+                    <p className="text-xs text-secondary-label">latency impact</p>
                     <p className={cn(
                       "font-medium",
                       (snapshot.latency_impact || 0) < 0 ? "text-green-600" : "text-red-600"
@@ -285,7 +285,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
                   </div>
                   
                   <div>
-                    <p className="text-xs text-muted-foreground">error rate impact</p>
+                    <p className="text-xs text-secondary-label">error rate impact</p>
                     <p className={cn(
                       "font-medium",
                       (snapshot.error_rate_impact || 0) < 0 ? "text-green-600" : "text-red-600"
@@ -295,7 +295,7 @@ export function FlagDetailedAnalytics({ flagKey }: FlagDetailedAnalyticsProps) {
                   </div>
                   
                   <div>
-                    <p className="text-xs text-muted-foreground">cache impact</p>
+                    <p className="text-xs text-secondary-label">cache impact</p>
                     <p className={cn(
                       "font-medium",
                       (snapshot.cache_hit_rate_impact || 0) > 0 ? "text-green-600" : "text-red-600"

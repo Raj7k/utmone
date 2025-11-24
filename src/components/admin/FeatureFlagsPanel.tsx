@@ -51,7 +51,7 @@ export function FeatureFlagsPanel() {
   };
 
   if (isLoading) {
-    return <div className="text-center py-12 text-muted-foreground">loading flags...</div>;
+    return <div className="text-center py-12 text-secondary-label">loading flags...</div>;
   }
 
   return (
@@ -65,7 +65,7 @@ export function FeatureFlagsPanel() {
               <span>cache status:</span>
               <Badge variant="secondary">auto-refresh every 30s</Badge>
             </div>
-            <div className="text-muted-foreground">
+            <div className="text-secondary-label">
               changes propagate within 60 seconds
             </div>
           </div>
@@ -216,12 +216,12 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
             {isDangerous && <AlertTriangle className="w-4 h-4 text-red-600" />}
           </div>
           
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             {flag.description}
           </p>
           
           {/* Metadata display */}
-          <div className="flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
+          <div className="flex items-center gap-4 text-xs text-secondary-label flex-wrap">
             {latencyReduction && (
               <span>saves: {latencyReduction}ms</span>
             )}
@@ -235,7 +235,7 @@ function FlagRow({ flag, onToggle, isToggling }: FlagRowProps) {
           
           {/* Last modified */}
           {flag.last_modified_at && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               modified {formatDistanceToNow(new Date(flag.last_modified_at))} ago
             </p>
           )}

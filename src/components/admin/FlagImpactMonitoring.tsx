@@ -210,7 +210,7 @@ export function FlagImpactMonitoring() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-secondary-label">
               target: &lt;100ms
             </div>
             <Badge 
@@ -243,7 +243,7 @@ export function FlagImpactMonitoring() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-secondary-label">
               target: &lt;0.5%
             </div>
             <Badge 
@@ -276,7 +276,7 @@ export function FlagImpactMonitoring() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-secondary-label">
               target: &gt;85%
             </div>
             <Badge 
@@ -303,7 +303,7 @@ export function FlagImpactMonitoring() {
         <CardContent>
           <div className="space-y-3">
             {getFlagContributions().length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-8 text-secondary-label">
                 <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
                 <p className="text-sm">no performance-affecting flags are currently enabled</p>
               </div>
@@ -323,7 +323,7 @@ export function FlagImpactMonitoring() {
                     )}
                     <div>
                       <code className="text-sm font-mono">{contrib.flag}</code>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-secondary-label">
                         affecting {contrib.impact}
                       </p>
                     </div>
@@ -338,7 +338,7 @@ export function FlagImpactMonitoring() {
 
           {getFlagContributions().length > 0 && (
             <div className="mt-4 pt-4 border-t">
-              <div className="text-xs text-muted-foreground space-y-1">
+              <div className="text-xs text-secondary-label space-y-1">
                 <p className="flex items-center gap-2">
                   <TrendingDown className="w-3 h-3 text-green-600" />
                   positive impact: reduces latency or errors
@@ -366,7 +366,7 @@ export function FlagImpactMonitoring() {
             <div className="space-y-3">
               {metricsHistory.slice(-5).reverse().map((snapshot, idx) => (
                 <div key={idx} className="flex items-center justify-between text-sm p-2 rounded border">
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-xs text-secondary-label">
                     {new Date(snapshot.timestamp).toLocaleTimeString()}
                   </span>
                   <div className="flex items-center gap-4 text-xs">
@@ -382,7 +382,7 @@ export function FlagImpactMonitoring() {
       )}
 
       {/* Real-time Status Indicator */}
-      <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+      <div className="flex items-center justify-center gap-2 text-xs text-secondary-label">
         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
         <span>real-time monitoring active • updates every 5s</span>
       </div>

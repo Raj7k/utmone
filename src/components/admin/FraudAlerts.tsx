@@ -73,7 +73,7 @@ export default function FraudAlerts() {
                     </div>
                     <div>
                       <div className="font-semibold">{user.name}</div>
-                      <div className="text-sm text-muted-foreground">{user.email}</div>
+                      <div className="text-sm text-secondary-label">{user.email}</div>
                     </div>
                   </div>
                   <Badge variant="destructive" className="capitalize">
@@ -83,14 +83,14 @@ export default function FraudAlerts() {
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">fraud risk score</span>
+                    <span className="text-secondary-label">fraud risk score</span>
                     <span className="font-semibold">{user.fraud_risk_score}/100</span>
                   </div>
 
                   {latestLog && latestLog.details && (
                     <div className="mt-4 p-3 bg-muted/50 rounded-lg">
                       <div className="text-sm font-semibold mb-2">detection details</div>
-                      <ul className="text-sm space-y-1 text-muted-foreground">
+                      <ul className="text-sm space-y-1 text-secondary-label">
                         {latestLog.details.disposable_email && (
                           <li>• disposable email domain detected</li>
                         )}
@@ -113,7 +113,7 @@ export default function FraudAlerts() {
                     </div>
                   )}
 
-                  <div className="text-xs text-muted-foreground mt-2">
+                  <div className="text-xs text-secondary-label mt-2">
                     flagged: {new Date(user.created_at).toLocaleDateString()}
                   </div>
                 </div>

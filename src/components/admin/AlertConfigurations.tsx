@@ -246,12 +246,12 @@ export function AlertConfigurations() {
       
       <CardContent>
         {isLoading ? (
-          <div className="text-center py-8 text-muted-foreground">loading alerts...</div>
+          <div className="text-center py-8 text-secondary-label">loading alerts...</div>
         ) : !alerts || alerts.length === 0 ? (
           <div className="text-center py-12">
             <Bell className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p className="text-muted-foreground">no alerts configured yet</p>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-secondary-label">no alerts configured yet</p>
+            <p className="text-xs text-secondary-label mt-2">
               create your first alert to monitor system metrics
             </p>
           </div>
@@ -268,7 +268,7 @@ export function AlertConfigurations() {
                       </Badge>
                     </div>
                     
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-secondary-label">
                       Alert when <code className="text-xs bg-muted px-1 py-0.5 rounded">{getMetricLabel(alert.metric_type)}</code>
                       {' '}{alert.comparison_operator} {alert.threshold_value}
                       {alert.metric_type.includes('rate') ? '%' : 'ms'}

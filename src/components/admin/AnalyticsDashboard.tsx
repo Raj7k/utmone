@@ -49,11 +49,11 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">total waitlist</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics?.total_waitlist || 0}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               {analytics?.signups_last_7_days || 0} in last 7 days
             </p>
           </CardContent>
@@ -62,11 +62,11 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">approved users</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
+            <UserCheck className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics?.total_approved || 0}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               {conversionRate}% conversion rate
             </p>
           </CardContent>
@@ -75,11 +75,11 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">referral signups</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics?.referral_based_signups || 0}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               {referralRate}% of total signups
             </p>
           </CardContent>
@@ -88,11 +88,11 @@ export default function AnalyticsDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">flagged users</CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            <AlertCircle className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analytics?.flagged_users || 0}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               fraud detection active
             </p>
           </CardContent>
@@ -110,19 +110,19 @@ export default function AnalyticsDashboard() {
         <CardContent>
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">average engagement score</span>
+              <span className="text-secondary-label">average engagement score</span>
               <span className="font-semibold">{analytics?.avg_engagement_score?.toFixed(1) || "0.0"}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">average fit score</span>
+              <span className="text-secondary-label">average fit score</span>
               <span className="font-semibold">{analytics?.avg_fit_score?.toFixed(1) || "0.0"}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">average total score</span>
+              <span className="text-secondary-label">average total score</span>
               <span className="font-semibold">{analytics?.avg_total_score?.toFixed(1) || "0.0"}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">unique companies</span>
+              <span className="text-secondary-label">unique companies</span>
               <span className="font-semibold">{analytics?.unique_companies || 0}</span>
             </div>
           </div>
