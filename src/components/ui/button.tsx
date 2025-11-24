@@ -17,12 +17,18 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         gradient: "bg-gradient-nature-3 text-white hover:bg-gradient-nature-2 transition-all duration-300 h-12",
         "glow-pink": "bg-[#FF6B9D] text-white hover:bg-[#FF5A8C] shadow-[0_0_20px_rgba(255,107,157,0.4)] hover:shadow-[0_0_30px_rgba(255,107,157,0.6)] transition-all duration-300 h-12",
+        // Apple HIG System Variants
+        system: "bg-system-blue text-white hover:opacity-80 active:opacity-60 h-[44px]",
+        "system-secondary": "bg-fill-secondary text-label border border-separator hover:bg-fill-primary h-[44px]",
+        "system-tertiary": "bg-transparent text-system-blue hover:bg-fill-tertiary h-[44px]",
+        "system-destructive": "bg-system-red text-white hover:opacity-80 active:opacity-60 h-[44px]",
+        marketing: "bg-blazeOrange text-white hover:opacity-90 shadow-sm hover:shadow-md h-[44px]",
       },
       size: {
-        default: "px-4 py-2",
-        sm: "h-9 rounded-lg px-3",
-        lg: "h-12 rounded-xl px-8",
-        icon: "h-12 w-12",
+        default: "px-4 py-2 min-h-[44px]",
+        sm: "h-[44px] px-4",
+        lg: "h-[52px] px-8",
+        icon: "h-[44px] w-[44px]",
       },
     },
     defaultVariants: {
