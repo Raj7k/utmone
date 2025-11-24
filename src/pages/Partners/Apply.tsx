@@ -46,8 +46,8 @@ export default function PartnerApply() {
   return (
     <div className="container max-w-2xl py-16">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">join the utm.one partner program</h1>
-        <p className="text-xl text-muted-foreground">
+        <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">join the utm.one partner program</h1>
+        <p className="text-xl text-secondary-label">
           earn 10% recurring commission on every referral
         </p>
       </div>
@@ -71,7 +71,7 @@ export default function PartnerApply() {
                 onChange={(e) => setFormData({ ...formData, payment_email: e.target.value })}
                 placeholder="payments@example.com"
               />
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-secondary-label mt-1">
                 we'll use this email to send your commission payouts
               </p>
             </div>
@@ -103,7 +103,7 @@ export default function PartnerApply() {
                 placeholder="Tell us about your audience, channels, and promotion strategy..."
                 rows={6}
               />
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-secondary-label mt-1">
                 include details about your reach, platforms, and marketing approach
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function PartnerApply() {
             <CardTitle className="text-lg">10% commission</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               earn 10% recurring commission on all payments from your referrals
             </p>
           </CardContent>
@@ -159,7 +159,7 @@ export default function PartnerApply() {
             <CardTitle className="text-lg">$50 minimum</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               request payout once you reach $50 in earnings
             </p>
           </CardContent>
@@ -169,7 +169,7 @@ export default function PartnerApply() {
             <CardTitle className="text-lg">lifetime value</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-secondary-label">
               earn commission for as long as your referrals remain customers
             </p>
           </CardContent>
