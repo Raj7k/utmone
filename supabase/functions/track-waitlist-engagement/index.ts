@@ -95,6 +95,17 @@ const handler = async (req: Request): Promise<Response> => {
       userAgent,
     }: EngagementEvent = await req.json();
 
+    // Validate required sessionId
+    if (!sessionId) {
+      return new Response(
+        JSON.stringify({ error: 'sessionId is required' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
     // Get IP address
     const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0] || 
                      req.headers.get('x-real-ip') || 
