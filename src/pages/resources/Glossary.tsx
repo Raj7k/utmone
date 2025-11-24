@@ -504,11 +504,11 @@ const Glossary = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <section className="py-20 bg-background border-b border-border/50">
+      <section className="py-20 bg-background border-b border-separator">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             back to resources
@@ -516,27 +516,27 @@ const Glossary = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
                   Glossary
                 </h1>
                 <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
                   {terms.length} terms
                 </span>
               </div>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
+              <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
                 canonical definitions for utm, taxonomy, attribution, and campaign structure.
               </p>
             </div>
 
             {/* Search Bar */}
             <div className="relative max-w-xl">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-label" />
               <Input
                 type="text"
                 placeholder="search terms..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 rounded-xl bg-card border-border/50"
+                className="pl-12 h-12 rounded-xl bg-card border-separator"
               />
             </div>
 
@@ -547,7 +547,7 @@ const Glossary = () => {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
                     ? "bg-primary text-primary-foreground"
-                    : "bg-card text-muted-foreground hover:bg-muted"
+                    : "bg-card text-secondary-label hover:bg-fill-tertiary"
                 }`}
               >
                 all terms
@@ -561,7 +561,7 @@ const Glossary = () => {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                       selectedCategory === category
                         ? "text-white"
-                        : "bg-card hover:bg-muted"
+                        : "bg-card hover:bg-fill-tertiary"
                     }`}
                     style={
                       selectedCategory === category
@@ -582,7 +582,7 @@ const Glossary = () => {
         <div className="max-w-[980px] mx-auto px-8">
           {filteredTerms.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-secondary-label">
                 no terms found matching "{searchQuery}"
               </p>
             </div>
@@ -594,12 +594,12 @@ const Glossary = () => {
                   <Link
                     key={item.slug}
                     to={`/resources/glossary/${item.slug}`}
-                    className="group bg-card rounded-2xl p-6 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                    className="group bg-card rounded-2xl p-6 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
                     style={{ borderLeftWidth: "4px", borderLeftColor: color }}
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-4">
-                        <h2 className="text-xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                        <h2 className="text-xl font-display font-semibold text-label group-hover:text-primary transition-colors">
                           {item.term}
                         </h2>
                         <span
@@ -612,7 +612,7 @@ const Glossary = () => {
                           {item.category}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                      <p className="text-sm text-secondary-label leading-relaxed line-clamp-3">
                         {item.definition}
                       </p>
                     </div>

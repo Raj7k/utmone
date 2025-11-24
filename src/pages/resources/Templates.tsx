@@ -35,20 +35,20 @@ const Templates = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <section className="py-20 bg-background border-b border-border/50">
+      <section className="py-20 bg-background border-b border-separator">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
               Templates
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
+            <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
               Copy/paste templates for UTM setup, naming conventions, and reporting.
             </p>
           </div>
@@ -62,17 +62,17 @@ const Templates = () => {
               <Link
                 key={template.slug}
                 to={`/resources/templates/${template.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="block group bg-card rounded-2xl p-8 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-start justify-between gap-6">
                   <div className="flex-1 space-y-3">
-                    <h2 className="text-2xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-label group-hover:text-primary transition-colors">
                       {template.title}
                     </h2>
-                    <p className="text-base text-muted-foreground leading-relaxed">
+                    <p className="text-base text-secondary-label leading-relaxed">
                       {template.description}
                     </p>
-                    <div className="text-xs text-muted-foreground font-medium">
+                    <div className="text-xs text-secondary-label font-medium">
                       {template.format}
                     </div>
                   </div>
