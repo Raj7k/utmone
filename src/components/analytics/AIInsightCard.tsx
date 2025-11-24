@@ -70,7 +70,7 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="flex items-center gap-2 text-secondary-label">
             <Loader2 className="h-4 w-4 animate-spin" />
             <span className="text-sm">generating insights…</span>
           </div>
@@ -104,7 +104,7 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="prose prose-sm max-w-none">
-          <p className="text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+          <p className="text-sm text-label whitespace-pre-wrap leading-relaxed">
             {insight?.summary || 'no insights available yet. create some links to get started.'}
           </p>
         </div>

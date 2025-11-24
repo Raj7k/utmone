@@ -11,8 +11,9 @@ export const LinkFilters = ({ onSearchChange, onStatusChange }: LinkFiltersProps
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-secondary-label" />
         <Input
+          variant="system"
           placeholder="Search links by title, URL, or campaign..."
           className="pl-10"
           onChange={(e) => onSearchChange(e.target.value)}

@@ -68,11 +68,11 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
     },
   });
 
-    return <div className="p-8 text-center text-muted-foreground">loading qr performance…</div>;
+    return <div className="p-8 text-center text-secondary-label">loading qr performance…</div>;
 
   if (!qrPerformance || qrPerformance.length === 0) {
     return (
-      <div className="p-8 text-center text-muted-foreground">
+      <div className="p-8 text-center text-secondary-label">
         No QR codes to compare. Generate QR codes to see performance metrics.
       </div>
     );
@@ -105,7 +105,7 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-bold">{qr.totalClicks}</div>
-                  <div className="text-xs text-muted-foreground">total clicks</div>
+                  <div className="text-xs text-secondary-label">total clicks</div>
                 </div>
               </div>
             </CardHeader>
@@ -114,19 +114,19 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
-                  <div className="text-muted-foreground">Unique Clicks</div>
+                  <div className="text-secondary-label">Unique Clicks</div>
                   <div className="font-medium">{qr.uniqueClicks}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">Unique Rate</div>
+                  <div className="text-secondary-label">Unique Rate</div>
                   <div className="font-medium">{qr.ctr}%</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">Top Device</div>
+                  <div className="text-secondary-label">Top Device</div>
                   <div className="font-medium capitalize">{qr.topDevice}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground">Top Country</div>
+                  <div className="text-secondary-label">Top Country</div>
                   <div className="font-medium">{qr.topCountry}</div>
                 </div>
               </div>

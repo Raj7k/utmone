@@ -48,11 +48,11 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
   })() : { devices: [], browsers: [], os: [] };
 
   if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">loading device data…</div>;
+    return <div className="text-center py-8 text-secondary-label">loading device data…</div>;
   }
 
   if (!data || (data.devices.length === 0 && data.browsers.length === 0 && data.os.length === 0)) {
-    return <div className="text-center py-8 text-muted-foreground">No device data available</div>;
+    return <div className="text-center py-8 text-secondary-label">No device data available</div>;
   }
 
   const chartConfig = {
@@ -104,8 +104,8 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.browsers}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
-                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
+                  <YAxis stroke="hsl(var(--secondary-label))" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -124,8 +124,8 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.os}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
-                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
+                  <YAxis stroke="hsl(var(--secondary-label))" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="value" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
                 </BarChart>

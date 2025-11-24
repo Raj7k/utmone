@@ -43,11 +43,11 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
   })() : { countries: [], cities: [] };
 
   if (isLoading) {
-    return <div className="text-center py-8 text-muted-foreground">loading location data…</div>;
+    return <div className="text-center py-8 text-secondary-label">loading location data…</div>;
   }
 
   if (!data || (data.countries.length === 0 && data.cities.length === 0)) {
-    return <div className="text-center py-8 text-muted-foreground">No geolocation data available</div>;
+    return <div className="text-center py-8 text-secondary-label">No geolocation data available</div>;
   }
 
   const chartConfig = {
@@ -69,15 +69,15 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.countries} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
-                <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--muted-foreground))" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="value" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={data.countries} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis type="number" stroke="hsl(var(--secondary-label))" />
+                  <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--secondary-label))" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="value" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
       </Card>
@@ -89,15 +89,15 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[400px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.cities} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis type="number" stroke="hsl(var(--muted-foreground))" />
-                <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--muted-foreground))" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="value" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={data.cities} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis type="number" stroke="hsl(var(--secondary-label))" />
+                  <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--secondary-label))" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="value" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
       </Card>

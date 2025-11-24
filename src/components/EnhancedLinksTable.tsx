@@ -114,12 +114,12 @@ export const EnhancedLinksTable = ({
     switch (status) {
       case "active":
         return (
-          <Badge className="bg-success text-success-foreground">Active</Badge>
+          <Badge className="bg-system-green/10 text-system-green border-system-green/20">Active</Badge>
         );
       case "paused":
-        return <Badge variant="secondary">Paused</Badge>;
+        return <Badge className="bg-system-orange/10 text-system-orange border-system-orange/20">Paused</Badge>;
       case "archived":
-        return <Badge variant="outline">Archived</Badge>;
+        return <Badge className="bg-system-gray/10 text-system-gray border-system-gray/20">Archived</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
@@ -152,7 +152,7 @@ export const EnhancedLinksTable = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">loading analytics…</p>
+        <p className="text-secondary-label">loading analytics…</p>
       </div>
     );
   }
@@ -160,10 +160,10 @@ export const EnhancedLinksTable = ({
   if (!data?.links || data.links.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center">
-        <p className="text-xl font-semibold text-foreground mb-2">
+        <p className="text-xl font-semibold text-label mb-2">
           you don't have any links yet.
         </p>
-        <p className="text-muted-foreground">
+        <p className="text-secondary-label">
           {searchQuery || statusFilter !== "all"
             ? "try adjusting your filters"
             : "start by creating your first one."}
@@ -174,7 +174,7 @@ export const EnhancedLinksTable = ({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border border-border">
+      <div className="rounded-md border border-separator">
         <Table aria-label="Links table with sortable columns">
           <TableHeader>
             <TableRow role="row">
@@ -182,7 +182,7 @@ export const EnhancedLinksTable = ({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("title")}
-                  className="font-semibold hover:bg-muted"
+                  className="font-semibold hover:bg-fill-tertiary"
                   aria-label={`Sort by title, currently ${sortBy === "title" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
                   aria-sort={sortBy === "title" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -198,7 +198,7 @@ export const EnhancedLinksTable = ({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("domain")}
-                  className="font-semibold hover:bg-muted"
+                  className="font-semibold hover:bg-fill-tertiary"
                   aria-label={`Sort by domain, currently ${sortBy === "domain" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
                   aria-sort={sortBy === "domain" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -211,7 +211,7 @@ export const EnhancedLinksTable = ({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("created_at")}
-                  className="font-semibold hover:bg-muted"
+                  className="font-semibold hover:bg-fill-tertiary"
                   aria-label={`Sort by created date, currently ${sortBy === "created_at" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
                   aria-sort={sortBy === "created_at" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -223,7 +223,7 @@ export const EnhancedLinksTable = ({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("total_clicks")}
-                  className="font-semibold hover:bg-muted"
+                  className="font-semibold hover:bg-fill-tertiary"
                   aria-label={`Sort by clicks, currently ${sortBy === "total_clicks" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
                   aria-sort={sortBy === "total_clicks" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -235,7 +235,7 @@ export const EnhancedLinksTable = ({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("status")}
-                  className="font-semibold hover:bg-muted"
+                  className="font-semibold hover:bg-fill-tertiary"
                   aria-label={`Sort by status, currently ${sortBy === "status" ? (sortOrder === "asc" ? "ascending" : "descending") : "not sorted"}`}
                   aria-sort={sortBy === "status" ? (sortOrder === "asc" ? "ascending" : "descending") : "none"}
                 >
@@ -250,7 +250,7 @@ export const EnhancedLinksTable = ({
             {data.links.map((link) => (
               <TableRow 
                 key={link.id} 
-                className="cursor-pointer hover:bg-muted/50"
+                className="cursor-pointer hover:bg-fill-tertiary/50"
                 role="row"
                 aria-label={generateTableRowAriaLabel(link)}
               >
@@ -267,7 +267,7 @@ export const EnhancedLinksTable = ({
                     destinationUrl={link.destination_url}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground cursor-help hover:underline">
+                      <span className="text-sm text-secondary-label cursor-help hover:underline">
                         {link.short_url}
                       </span>
                       <Button
@@ -296,7 +296,7 @@ export const EnhancedLinksTable = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <span 
-                          className="text-sm text-muted-foreground cursor-help"
+                          className="text-sm text-secondary-label cursor-help"
                           aria-label={`Destination URL: ${link.destination_url}`}
                         >
                           {truncateUrl(link.destination_url)}
@@ -311,7 +311,7 @@ export const EnhancedLinksTable = ({
                 <TableCell role="cell">
                   <div className="text-sm" aria-label={`UTM parameters: ${link.utm_source || 'none'}, ${link.utm_medium || 'none'}, ${link.utm_campaign || 'none'}`}>
                     {link.utm_source || link.utm_medium || link.utm_campaign ? (
-                      <span className="text-muted-foreground">
+                      <span className="text-secondary-label">
                         {link.utm_source && <span>{link.utm_source}</span>}
                         {link.utm_source && link.utm_medium && <span> / </span>}
                         {link.utm_medium && <span>{link.utm_medium}</span>}
@@ -320,7 +320,7 @@ export const EnhancedLinksTable = ({
                         {link.utm_campaign && <span>{link.utm_campaign}</span>}
                       </span>
                     ) : (
-                      <span className="text-muted-foreground italic">None</span>
+                      <span className="text-secondary-label italic">None</span>
                     )}
                   </div>
                 </TableCell>
@@ -333,17 +333,17 @@ export const EnhancedLinksTable = ({
                   </div>
                 </TableCell>
                 <TableCell role="cell">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-secondary-label">
                     {link.domain}
                   </span>
                 </TableCell>
                 <TableCell role="cell">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-secondary-label">
                     {link.owner?.full_name || link.owner?.email || "Unknown"}
                   </span>
                 </TableCell>
                 <TableCell role="cell">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-secondary-label">
                     {formatDistanceToNow(new Date(link.created_at || ""), {
                       addSuffix: true,
                     })}
@@ -354,7 +354,7 @@ export const EnhancedLinksTable = ({
                     <span className="text-sm font-medium">
                       {link.total_clicks || 0}
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-secondary-label">
                       {link.clicks_last_30_days} (30d)
                     </span>
                   </div>
@@ -442,7 +442,7 @@ export const EnhancedLinksTable = ({
         role="navigation"
         aria-label={`Pagination navigation. Currently on page ${page} of ${data.totalPages}`}
       >
-        <p className="text-sm text-muted-foreground" aria-live="polite">
+        <p className="text-sm text-secondary-label" aria-live="polite">
           Showing {(page - 1) * pageSize + 1} to{" "}
           {Math.min(page * pageSize, data.totalCount)} of {data.totalCount}{" "}
           links
@@ -457,7 +457,7 @@ export const EnhancedLinksTable = ({
           >
             previous
           </Button>
-          <span className="text-sm text-muted-foreground" aria-current="page">
+          <span className="text-sm text-secondary-label" aria-current="page">
             page {page} of {data.totalPages}
           </span>
           <Button

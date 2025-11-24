@@ -73,12 +73,12 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
     },
   });
 
-    return <div className="p-8 text-center text-muted-foreground">loading analytics…</div>;
+    return <div className="p-8 text-center text-secondary-label">loading analytics…</div>;
 
   if (!analyticsData || analyticsData.length === 0) {
     return (
       <div className="p-8 text-center">
-        <p className="text-muted-foreground">No click data available for this link yet.</p>
+        <p className="text-secondary-label">No click data available for this link yet.</p>
       </div>
     );
   }
@@ -179,7 +179,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Clicks</CardTitle>
+            <CardTitle className="text-sm font-medium text-secondary-label">Total Clicks</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalClicks}</div>
@@ -187,7 +187,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Unique Visitors</CardTitle>
+            <CardTitle className="text-sm font-medium text-secondary-label">Unique Visitors</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{uniqueClicks}</div>
