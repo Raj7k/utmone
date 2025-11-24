@@ -66,7 +66,7 @@ export const DataSourcesBadges = () => {
                       <CheckCircle2 className="h-4 w-4 text-deepSea" />
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground">{source.description}</p>
+                  <p className="text-sm text-secondary-label">{source.description}</p>
                 </div>
               </div>
             </CardContent>

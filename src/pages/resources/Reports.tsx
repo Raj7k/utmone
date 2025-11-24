@@ -93,19 +93,19 @@ const Reports = () => {
                         <div className="grid grid-cols-4 gap-4 text-center">
                           <div>
                             <div className="text-2xl font-display font-bold text-foreground">30+</div>
-                            <div className="text-sm text-muted-foreground">Roles</div>
+                            <div className="text-sm text-secondary-label">Roles</div>
                           </div>
                           <div>
                             <div className="text-2xl font-display font-bold text-foreground">15+</div>
-                            <div className="text-sm text-muted-foreground">Countries</div>
+                            <div className="text-sm text-secondary-label">Countries</div>
                           </div>
                           <div>
                             <div className="text-2xl font-display font-bold text-foreground">100+</div>
-                            <div className="text-sm text-muted-foreground">Cities</div>
+                            <div className="text-sm text-secondary-label">Cities</div>
                           </div>
                           <div>
                             <div className="text-2xl font-display font-bold text-foreground">50K+</div>
-                            <div className="text-sm text-muted-foreground">Job Postings</div>
+                            <div className="text-sm text-secondary-label">Job Postings</div>
                           </div>
                         </div>
                       </div>
