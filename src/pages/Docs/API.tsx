@@ -8,8 +8,8 @@ export default function APIDocumentation() {
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="space-y-6">
         <div>
-          <h1 className="text-4xl font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">API Documentation</h1>
-          <p className="text-muted-foreground text-lg">
+          <h1 className="text-4xl font-display font-bold mb-2 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">API Documentation</h1>
+          <p className="text-secondary-label text-lg">
             Integrate utm.one into your applications with our RESTful API
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function APIDocumentation() {
               <code>{`curl https://api.utm.one/v1/links \\
   -H "x-api-key: utm_your_api_key_here"`}</code>
             </pre>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               You can generate API keys in your Settings → API Keys page
             </p>
           </CardContent>
@@ -203,15 +203,15 @@ export default function APIDocumentation() {
           <CardContent>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Free:</span>
+                <span className="text-secondary-label">Free:</span>
                 <span className="font-medium">100 requests/hour</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Pro:</span>
+                <span className="text-secondary-label">Pro:</span>
                 <span className="font-medium">600 requests/minute</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Business:</span>
+                <span className="text-secondary-label">Business:</span>
                 <span className="font-medium">1200 requests/minute</span>
               </div>
             </div>

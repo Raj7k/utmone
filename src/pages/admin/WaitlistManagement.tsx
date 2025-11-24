@@ -131,7 +131,7 @@ export default function WaitlistManagement() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-display font-bold">waitlist management</h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-secondary-label mt-1">
               applications, referrals, and analytics
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function WaitlistManagement() {
             <div className="bg-white rounded-xl border p-4">
               <div className="grid grid-cols-3 gap-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
                   <Input
                     placeholder="search by name or email..."
                     value={searchQuery}
@@ -189,7 +189,7 @@ export default function WaitlistManagement() {
 
             <div className="bg-white rounded-xl border overflow-hidden">
               {isLoading ? (
-                <div className="p-12 text-center text-muted-foreground">loading...</div>
+                <div className="p-12 text-center text-secondary-label">loading...</div>
               ) : (
                 <Table>
                   <TableHeader>
@@ -213,9 +213,9 @@ export default function WaitlistManagement() {
                           </Badge>
                         </TableCell>
                         <TableCell className="font-medium">{request.name}</TableCell>
-                        <TableCell className="text-muted-foreground">{request.email}</TableCell>
+                        <TableCell className="text-secondary-label">{request.email}</TableCell>
                         <TableCell>{request.total_access_score}</TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
+                        <TableCell className="text-sm text-secondary-label">
                           {format(new Date(request.created_at), 'MMM d, yyyy')}
                         </TableCell>
                         <TableCell className="text-right">
@@ -300,19 +300,19 @@ export default function WaitlistManagement() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground">team size:</span>
+                    <span className="text-secondary-label">team size:</span>
                     <p className="font-medium">{selectedRequest.team_size}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">role:</span>
+                    <span className="text-secondary-label">role:</span>
                     <p className="font-medium">{selectedRequest.role || 'n/a'}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">total score:</span>
+                    <span className="text-secondary-label">total score:</span>
                     <p className="font-medium">{selectedRequest.total_access_score}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">status:</span>
+                    <span className="text-secondary-label">status:</span>
                     <Badge>{selectedRequest.status}</Badge>
                   </div>
                 </div>

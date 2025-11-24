@@ -38,7 +38,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
             className="h-6 w-auto mb-4"
           />
           <h2 className="text-xl font-display font-bold text-foreground">Admin Panel</h2>
-          <p className="text-sm text-muted-foreground">System Management</p>
+          <p className="text-sm text-secondary-label">System Management</p>
         </div>
 
         <nav className="space-y-2">

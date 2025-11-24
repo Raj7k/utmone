@@ -137,7 +137,7 @@ export default function SystemMonitoring() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-display font-bold mb-2">system monitoring</h1>
-          <p className="text-muted-foreground">
+          <p className="text-secondary-label">
             real-time performance metrics and system health
           </p>
         </div>
@@ -190,7 +190,7 @@ export default function SystemMonitoring() {
                 )}
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs text-secondary-label">
                   <Clock className="w-3 h-3" />
                   <span>target: &lt;100ms</span>
                 </div>
@@ -209,7 +209,7 @@ export default function SystemMonitoring() {
                 )}
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs text-secondary-label">
                   <TrendingUp className="w-3 h-3" />
                   <span>target: &gt;85%</span>
                 </div>
@@ -228,7 +228,7 @@ export default function SystemMonitoring() {
                 )}
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs text-secondary-label">
                   <AlertTriangle className="w-3 h-3" />
                   <span>target: &lt;1%</span>
                 </div>
@@ -247,7 +247,7 @@ export default function SystemMonitoring() {
                 )}
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs text-secondary-label">
                   <Activity className="w-3 h-3" />
                   <span>avg: {edgeFunctionMetrics?.avgResponseTime}ms</span>
                 </div>
@@ -266,7 +266,7 @@ export default function SystemMonitoring() {
             <CardContent>
               <div className="grid gap-4 md:grid-cols-4">
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">pending queue</p>
+                  <p className="text-sm text-secondary-label">pending queue</p>
                   {loadingClickMetrics ? (
                     <Skeleton className="h-8 w-20" />
                   ) : (
@@ -278,13 +278,13 @@ export default function SystemMonitoring() {
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">batch interval</p>
+                  <p className="text-sm text-secondary-label">batch interval</p>
                   <p className="text-2xl font-bold text-green-600">10s</p>
-                  <p className="text-xs text-muted-foreground">automatic</p>
+                  <p className="text-xs text-secondary-label">automatic</p>
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">pending geolocation</p>
+                  <p className="text-sm text-secondary-label">pending geolocation</p>
                   {loadingClickMetrics ? (
                     <Skeleton className="h-8 w-20" />
                   ) : (
@@ -298,7 +298,7 @@ export default function SystemMonitoring() {
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">total clicks (24h)</p>
+                  <p className="text-sm text-secondary-label">total clicks (24h)</p>
                   {loadingClickMetrics ? (
                     <Skeleton className="h-8 w-20" />
                   ) : (
@@ -310,7 +310,7 @@ export default function SystemMonitoring() {
               </div>
 
               <div className="mt-4 pt-4 border-t">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-secondary-label">
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
                   <span>batch processing reduces database write load by 100x for high-traffic scenarios</span>
                 </div>
@@ -366,19 +366,19 @@ export default function SystemMonitoring() {
             <CardContent>
               <div className="grid gap-4 md:grid-cols-4">
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">refresh interval</p>
+                  <p className="text-sm text-secondary-label">refresh interval</p>
                   <p className="text-2xl font-bold text-green-600">5min</p>
-                  <p className="text-xs text-muted-foreground">automatic via cron</p>
+                  <p className="text-xs text-secondary-label">automatic via cron</p>
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">last refresh</p>
+                  <p className="text-sm text-secondary-label">last refresh</p>
                   <p className="text-lg font-medium">
                     {analyticsRefreshMetrics?.timestamp 
                       ? new Date(analyticsRefreshMetrics.timestamp).toLocaleTimeString()
                       : 'N/A'}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-secondary-label">
                     {analyticsRefreshMetrics?.timestamp 
                       ? `${Math.round((Date.now() - new Date(analyticsRefreshMetrics.timestamp).getTime()) / 60000)}min ago`
                       : ''}
@@ -387,7 +387,7 @@ export default function SystemMonitoring() {
 
                 {analyticsRefreshMetrics?.duration_ms && (
                   <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">refresh duration</p>
+                    <p className="text-sm text-secondary-label">refresh duration</p>
                     <p className="text-2xl font-bold">{analyticsRefreshMetrics.duration_ms}ms</p>
                     <Badge variant={analyticsRefreshMetrics.duration_ms > 5000 ? "destructive" : "secondary"}>
                       {analyticsRefreshMetrics.duration_ms > 5000 ? "slow" : "fast"}
@@ -396,7 +396,7 @@ export default function SystemMonitoring() {
                 )}
 
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground">status</p>
+                  <p className="text-sm text-secondary-label">status</p>
                   <div className="flex items-center gap-2">
                     {analyticsRefreshMetrics?.status === 'success' ? (
                       <>
@@ -418,11 +418,11 @@ export default function SystemMonitoring() {
 
               <div className="mt-4 pt-4 border-t">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 text-sm text-secondary-label">
                     <CheckCircle2 className="w-4 h-4 text-green-600" />
                     <span>5 materialized views caching 90 days of analytics data</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 text-sm text-secondary-label">
                     <Database className="w-4 h-4" />
                     <span>views: link_analytics, utm_campaigns, geolocation, devices, time_series</span>
                   </div>

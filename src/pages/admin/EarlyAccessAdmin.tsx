@@ -249,7 +249,7 @@ export default function EarlyAccessAdmin() {
       case 'rejected':
         return <XCircle className="w-4 h-4 text-destructive" />;
       default:
-        return <Clock className="w-4 h-4 text-muted-foreground" />;
+        return <Clock className="w-4 h-4 text-secondary-label" />;
     }
   };
 
@@ -267,12 +267,12 @@ export default function EarlyAccessAdmin() {
               </Link>
               <div>
                 <h1 className="text-3xl font-display font-bold">early access admin</h1>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-secondary-label mt-1">
                   manage applications and track referrals
                 </p>
               </div>
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-secondary-label">
               {filteredRequests?.length || 0} total requests
             </div>
           </div>
@@ -310,7 +310,7 @@ export default function EarlyAccessAdmin() {
             <div className="bg-white rounded-xl border p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
                   <Input
                     placeholder="search by name, email, or domain..."
                     value={searchQuery}
@@ -350,7 +350,7 @@ export default function EarlyAccessAdmin() {
             {/* Table */}
             <div className="bg-white rounded-xl border overflow-hidden">
               {isLoading ? (
-                <div className="p-12 text-center text-muted-foreground">
+                <div className="p-12 text-center text-secondary-label">
                   loading requests...
                 </div>
               ) : filteredRequests && filteredRequests.length > 0 ? (
@@ -372,7 +372,7 @@ export default function EarlyAccessAdmin() {
                       <TableRow key={request.id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-sm text-muted-foreground">#{index + 1}</span>
+                            <span className="font-mono text-sm text-secondary-label">#{index + 1}</span>
                             {index < 10 && (
                               <TrendingUp className="h-3 w-3 text-primary" />
                             )}
@@ -385,23 +385,23 @@ export default function EarlyAccessAdmin() {
                           </div>
                         </TableCell>
                         <TableCell className="font-medium">{request.name}</TableCell>
-                        <TableCell className="text-muted-foreground">{request.email}</TableCell>
+                        <TableCell className="text-secondary-label">{request.email}</TableCell>
                         <TableCell>
                           <div className="space-y-1 text-xs">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-muted-foreground">total:</span>
+                              <span className="text-secondary-label">total:</span>
                               <span className="font-semibold">{request.total_access_score || 0}</span>
                             </div>
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-muted-foreground">fit:</span>
+                              <span className="text-secondary-label">fit:</span>
                               <span>{request.fit_score || 0}</span>
                             </div>
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-muted-foreground">eng:</span>
+                              <span className="text-secondary-label">eng:</span>
                               <span>{request.engagement_score || 0}</span>
                             </div>
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-muted-foreground">ref:</span>
+                              <span className="text-secondary-label">ref:</span>
                               <span>{request.referral_score || 0}</span>
                             </div>
                           </div>
@@ -411,7 +411,7 @@ export default function EarlyAccessAdmin() {
                             {request.role?.replace('_', ' ') || 'n/a'}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
+                        <TableCell className="text-sm text-secondary-label">
                           {format(new Date(request.created_at), 'MMM d, yyyy')}
                         </TableCell>
                         <TableCell className="text-right">
@@ -441,7 +441,7 @@ export default function EarlyAccessAdmin() {
                   </TableBody>
                 </Table>
               ) : (
-                <div className="p-12 text-center text-muted-foreground">
+                <div className="p-12 text-center text-secondary-label">
                   no requests found
                 </div>
               )}
@@ -457,7 +457,7 @@ export default function EarlyAccessAdmin() {
                       <p className="text-2xl font-bold">
                         {requests?.filter(r => r.status === 'pending').length || 0}
                       </p>
-                      <p className="text-sm text-muted-foreground">pending</p>
+                      <p className="text-sm text-secondary-label">pending</p>
                     </div>
                   </div>
                 </div>
@@ -468,7 +468,7 @@ export default function EarlyAccessAdmin() {
                       <p className="text-2xl font-bold">
                         {requests?.filter(r => r.status === 'approved').length || 0}
                       </p>
-                      <p className="text-sm text-muted-foreground">approved</p>
+                      <p className="text-sm text-secondary-label">approved</p>
                     </div>
                   </div>
                 </div>
@@ -479,7 +479,7 @@ export default function EarlyAccessAdmin() {
                       <p className="text-2xl font-bold">
                         {requests?.filter(r => r.status === 'rejected').length || 0}
                       </p>
-                      <p className="text-sm text-muted-foreground">rejected</p>
+                      <p className="text-sm text-secondary-label">rejected</p>
                     </div>
                   </div>
                 </div>
@@ -511,27 +511,27 @@ export default function EarlyAccessAdmin() {
               <div className="space-y-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-muted-foreground">name</Label>
+                    <Label className="text-secondary-label">name</Label>
                     <p className="font-medium">{selectedRequest.name}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground">email</Label>
+                    <Label className="text-secondary-label">email</Label>
                     <p className="font-medium">{selectedRequest.email}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground">team size</Label>
+                    <Label className="text-secondary-label">team size</Label>
                     <p className="font-medium">{selectedRequest.team_size}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground">role</Label>
+                    <Label className="text-secondary-label">role</Label>
                     <p className="font-medium">{selectedRequest.role || '—'}</p>
                   </div>
                   <div className="col-span-2">
-                    <Label className="text-muted-foreground">company domain</Label>
+                    <Label className="text-secondary-label">company domain</Label>
                     <p className="font-medium">{selectedRequest.company_domain || '—'}</p>
                   </div>
                   <div className="col-span-2">
-                    <Label className="text-muted-foreground mb-3">scoring breakdown</Label>
+                    <Label className="text-secondary-label mb-3">scoring breakdown</Label>
                     <div className="space-y-2 mt-2">
                       <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg">
                         <span className="font-medium">total access score</span>
@@ -539,15 +539,15 @@ export default function EarlyAccessAdmin() {
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         <div className="p-2 bg-muted rounded text-center">
-                          <p className="text-xs text-muted-foreground">fit score</p>
+                          <p className="text-xs text-secondary-label">fit score</p>
                           <p className="text-lg font-semibold">{selectedRequest.fit_score || 0}</p>
                         </div>
                         <div className="p-2 bg-muted rounded text-center">
-                          <p className="text-xs text-muted-foreground">engagement</p>
+                          <p className="text-xs text-secondary-label">engagement</p>
                           <p className="text-lg font-semibold">{selectedRequest.engagement_score || 0}</p>
                         </div>
                         <div className="p-2 bg-muted rounded text-center">
-                          <p className="text-xs text-muted-foreground">referral</p>
+                          <p className="text-xs text-secondary-label">referral</p>
                           <p className="text-lg font-semibold">{selectedRequest.referral_score || 0}</p>
                         </div>
                       </div>
@@ -555,28 +555,28 @@ export default function EarlyAccessAdmin() {
                   </div>
                   {selectedRequest.desired_domain && (
                     <div className="col-span-2">
-                      <Label className="text-muted-foreground">desired domain</Label>
+                      <Label className="text-secondary-label">desired domain</Label>
                       <p className="font-medium">{selectedRequest.desired_domain}</p>
                     </div>
                   )}
                   {selectedRequest.reason_for_joining && (
                     <div className="col-span-2">
-                      <Label className="text-muted-foreground">reason for joining</Label>
+                      <Label className="text-secondary-label">reason for joining</Label>
                       <p className="font-medium">{selectedRequest.reason_for_joining}</p>
                       {selectedRequest.reason_details && (
-                        <p className="text-sm text-muted-foreground mt-2">{selectedRequest.reason_details}</p>
+                        <p className="text-sm text-secondary-label mt-2">{selectedRequest.reason_details}</p>
                       )}
                     </div>
                   )}
                   {selectedRequest.how_heard && (
                     <div className="col-span-2">
-                      <Label className="text-muted-foreground">how they heard</Label>
+                      <Label className="text-secondary-label">how they heard</Label>
                       <p className="font-medium">{selectedRequest.how_heard}</p>
                     </div>
                   )}
                   {selectedRequest.referral_code && (
                     <div className="col-span-2">
-                      <Label className="text-muted-foreground">referral code</Label>
+                      <Label className="text-secondary-label">referral code</Label>
                       <code className="text-sm bg-muted px-2 py-1 rounded block mt-1">{selectedRequest.referral_code}</code>
                     </div>
                   )}
@@ -637,7 +637,7 @@ export default function EarlyAccessAdmin() {
               </Select>
             </div>
 
-            <div className="text-sm text-muted-foreground space-y-2">
+            <div className="text-sm text-secondary-label space-y-2">
               <p><strong>selected level features:</strong></p>
               <ul className="list-disc list-inside space-y-1">
                 {selectedAccessLevel >= 2 && <li>create short links (10/day limit)</li>}
