@@ -136,7 +136,7 @@ const Marketers = () => {
           </div>
           
           {/* Supporting Text */}
-          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+          <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-[640px] mx-auto">
             all in under 30 seconds.<br />
             no switching tools.<br />
             no broken tracking.

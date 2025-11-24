@@ -94,7 +94,7 @@ const PartnerProgram = () => {
             />
           ))}
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           Everything partners touch becomes measurable.
         </p>
       </FeatureSection>
@@ -107,7 +107,7 @@ const PartnerProgram = () => {
           title="utm.one vs Complex Partner Systems"
           items={comparisonItems}
         />
-        <p className="text-center text-foreground mt-12 text-xl font-medium">
+        <p className="text-center text-foreground mt-12 text-2xl md:text-3xl font-medium">
           Clarity invites participation.
         </p>
       </FeatureSection>
@@ -138,7 +138,7 @@ const PartnerProgram = () => {
             description="Process commissions"
           />
         </div>
-        <p className="text-center text-muted-foreground mt-12 text-lg">
+        <p className="text-center text-muted-foreground mt-12 text-2xl md:text-3xl">
           As simple as it should be.
         </p>
       </FeatureSection>

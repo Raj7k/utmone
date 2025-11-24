@@ -148,7 +148,7 @@ const MarketingOps = () => {
           </div>
           
           {/* Supporting Text */}
-          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+          <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-[640px] mx-auto">
             all operating under one clean governance layer.
           </p>
         </div>

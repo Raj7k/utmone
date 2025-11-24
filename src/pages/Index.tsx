@@ -209,10 +209,10 @@ const Index = () => {
               </StaggerItem>
             </StaggerContainer>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-xl font-display font-semibold text-foreground">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-foreground">
                 Trust drives engagement.
               </p>
-              <p className="text-xl font-display font-semibold text-primary">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 Clarity drives trust.
               </p>
             </div>
@@ -250,7 +250,7 @@ const Index = () => {
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-center text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto">
               Finally — a link system government, education, nonprofit, and public institutions can use confidently.
             </p>
           </div>
@@ -296,7 +296,7 @@ const Index = () => {
                 </div>
               </StaggerItem>
             </StaggerContainer>
-            <p className="text-center text-xl font-display font-semibold text-primary mt-12">
+            <p className="text-center text-2xl md:text-3xl font-display font-semibold text-primary mt-12">
               Reliability is a feature, not a nice-to-have.
             </p>
           </div>
@@ -355,9 +355,9 @@ const Index = () => {
               />
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-lg font-medium text-muted-foreground">No clutter.</p>
-              <p className="text-lg font-medium text-muted-foreground">No noise.</p>
-              <p className="text-xl font-display font-semibold text-primary">Just clarity.</p>
+              <p className="text-2xl md:text-3xl font-medium text-muted-foreground">No clutter.</p>
+              <p className="text-2xl md:text-3xl font-medium text-muted-foreground">No noise.</p>
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">Just clarity.</p>
             </div>
           </div>
         </AnimatedSection>
@@ -393,10 +393,10 @@ const Index = () => {
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-muted-foreground">
                 The internet is tired of predatory pricing.
               </p>
-              <p className="text-xl font-display font-semibold text-primary">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 We chose a different path.
               </p>
             </div>
@@ -432,10 +432,10 @@ const Index = () => {
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-muted-foreground">
                 Analytics shouldn't overwhelm.
               </p>
-              <p className="text-xl font-display font-semibold text-primary">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 They should guide.
               </p>
             </div>
@@ -471,7 +471,7 @@ const Index = () => {
                 </motion.div>
               ))}
             </div>
-            <p className="text-center text-lg text-muted-foreground mt-12">
+            <p className="text-center text-2xl md:text-3xl text-muted-foreground mt-12">
               Finally — link management designed for agencies, teams, and cross-functional workflows.
             </p>
           </div>
@@ -511,10 +511,10 @@ const Index = () => {
               ))}
             </div>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-lg text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-muted-foreground">
                 Developers recommend the tools they trust.
               </p>
-              <p className="text-xl font-display font-semibold text-primary">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 We built utm.one for them too.
               </p>
             </div>
