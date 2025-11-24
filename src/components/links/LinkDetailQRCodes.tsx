@@ -49,13 +49,13 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
     },
   });
 
-    return <div className="p-8 text-center text-muted-foreground">loading qr codes…</div>;
+    return <div className="p-8 text-center text-secondary-label">loading qr codes…</div>;
 
   if (!qrCodes || qrCodes.length === 0) {
     return (
       <div className="p-8 text-center space-y-4">
-        <QrCode className="h-16 w-16 mx-auto text-muted-foreground" />
-        <p className="text-muted-foreground">No QR codes generated yet.</p>
+        <QrCode className="h-16 w-16 mx-auto text-secondary-label" />
+        <p className="text-secondary-label">No QR codes generated yet.</p>
         <QRCodeDialog linkId={linkId} shortUrl={shortUrl} trigger={
           <Button>
             <QrCode className="h-4 w-4 mr-2" />
@@ -93,9 +93,9 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
               
               <div className="text-sm space-y-1">
                 {qr.variant_name && (
-                  <div className="text-muted-foreground">Variant: {qr.variant_name}</div>
+                  <div className="text-secondary-label">Variant: {qr.variant_name}</div>
                 )}
-                <div className="text-muted-foreground">
+                <div className="text-secondary-label">
                   Created: {format(new Date(qr.created_at || ""), "PPP")}
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium mt-2">

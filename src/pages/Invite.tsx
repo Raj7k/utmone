@@ -24,7 +24,7 @@ export default function Invite() {
   }, [code, navigate, trackClick]);
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-6">
+    <div className="min-h-screen bg-grouped-background flex items-center justify-center px-6">
       <div className="text-center max-w-[600px]">
         <AnimatedHeadline>
           <div className="hero-glow">
@@ -34,7 +34,7 @@ export default function Invite() {
           </div>
         </AnimatedHeadline>
         <AnimatedHeadline delay={200}>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-secondary-label">
             redirecting to early access...
           </p>
         </AnimatedHeadline>

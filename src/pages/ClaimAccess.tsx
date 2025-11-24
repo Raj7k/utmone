@@ -150,7 +150,7 @@ const ClaimAccess = () => {
 
   if (isValidating) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/20">
+      <div className="min-h-screen flex items-center justify-center bg-grouped-background">
         <div className="animate-pulse">validating invite...</div>
       </div>
     );
@@ -158,11 +158,11 @@ const ClaimAccess = () => {
 
   if (claimed) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/20">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-grouped-background">
+        <Card variant="grouped" className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-success/10 flex items-center justify-center">
-              <CheckCircle2 className="h-6 w-6 text-success" />
+            <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-system-green/10 flex items-center justify-center">
+              <CheckCircle2 className="h-6 w-6 text-system-green" />
             </div>
             <CardTitle>welcome to utm.one</CardTitle>
             <CardDescription>redirecting to onboarding...</CardDescription>
@@ -173,8 +173,8 @@ const ClaimAccess = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/20 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
+      <Card variant="grouped" className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex items-center gap-2">
             <img 
@@ -193,6 +193,7 @@ const ClaimAccess = () => {
             <div className="space-y-2">
               <Label htmlFor="email">email</Label>
               <Input
+                variant="system"
                 id="email"
                 type="email"
                 disabled
@@ -206,6 +207,7 @@ const ClaimAccess = () => {
             <div className="space-y-2">
               <Label htmlFor="password">password</Label>
               <Input
+                variant="system"
                 id="password"
                 type="password"
                 placeholder="at least 8 characters"
@@ -219,6 +221,7 @@ const ClaimAccess = () => {
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">confirm password</Label>
               <Input
+                variant="system"
                 id="confirmPassword"
                 type="password"
                 placeholder="re-enter your password"
@@ -230,6 +233,7 @@ const ClaimAccess = () => {
             </div>
 
             <Button
+              variant="system"
               type="submit"
               className="w-full"
               disabled={isLoading}

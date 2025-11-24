@@ -94,10 +94,10 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label className="text-sm text-muted-foreground">Short URL</Label>
+            <Label className="text-sm text-secondary-label">Short URL</Label>
             <div className="flex items-center gap-2 mt-1">
               <code 
-                className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-sm"
+                className="flex-1 px-3 py-2 bg-fill-tertiary rounded-md font-mono text-sm"
                 aria-label={`Short URL: ${link.short_url}`}
               >
                 {link.short_url}
@@ -142,16 +142,16 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
               aria-required="true"
               aria-describedby="destination-url-hint"
             />
-            <p id="destination-url-hint" className="text-xs text-muted-foreground mt-1 sr-only">
+            <p id="destination-url-hint" className="text-xs text-secondary-label mt-1 sr-only">
               Enter the complete URL including https://
             </p>
           </div>
 
           <div>
-            <Label className="text-sm text-muted-foreground">Final URL (with UTMs)</Label>
+            <Label className="text-sm text-secondary-label">Final URL (with UTMs)</Label>
             <div className="flex items-center gap-2 mt-1">
               <code 
-                className="flex-1 px-3 py-2 bg-muted rounded-md font-mono text-xs break-all"
+                className="flex-1 px-3 py-2 bg-fill-tertiary rounded-md font-mono text-xs break-all"
                 aria-label={`Final URL with UTM parameters: ${computedFinalUrl()}`}
               >
                 {computedFinalUrl()}
@@ -231,7 +231,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="domain">Domain</Label>
-              <Input id="domain" {...register("domain")} readOnly className="bg-muted" />
+              <Input id="domain" {...register("domain")} readOnly className="bg-fill-tertiary" />
             </div>
             <div>
               <Label htmlFor="path">Path</Label>

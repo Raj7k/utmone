@@ -31,7 +31,7 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
           <Skeleton className="h-4 w-64 mt-2" />
         </CardHeader>
         <CardContent>
-          <div className="text-center text-muted-foreground">loading chart data…</div>
+          <div className="text-center text-secondary-label">loading chart data…</div>
         </CardContent>
       </Card>
   }
@@ -83,11 +83,11 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
             <XAxis 
               dataKey="date" 
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: "hsl(var(--secondary-label))" }}
             />
             <YAxis 
               className="text-xs"
-              tick={{ fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fill: "hsl(var(--secondary-label))" }}
             />
             <Tooltip 
               contentStyle={{ 

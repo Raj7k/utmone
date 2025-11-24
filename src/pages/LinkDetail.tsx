@@ -39,7 +39,7 @@ const LinkDetail = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center py-12">
             <h2 className="text-2xl font-display font-bold mb-4">Link Not Found</h2>
-            <p className="text-muted-foreground mb-6">The link you're looking for doesn't exist or you don't have access to it.</p>
+            <p className="text-secondary-label mb-6">The link you're looking for doesn't exist or you don't have access to it.</p>
             <Button onClick={() => navigate("/links")}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Links

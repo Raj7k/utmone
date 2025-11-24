@@ -70,11 +70,11 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
     },
   });
 
-    return <div className="text-center py-8 text-muted-foreground">loading campaign data…</div>;
+    return <div className="text-center py-8 text-secondary-label">loading campaign data…</div>;
 
   if (!campaignData || campaignData.campaigns.length === 0) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-center py-8 text-secondary-label">
         No UTM campaign data available. Create links with UTM parameters to see analytics here.
       </div>
     );
@@ -96,15 +96,15 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={campaignData.topCampaigns}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="clicks" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={campaignData.topCampaigns}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
+                  <YAxis stroke="hsl(var(--secondary-label))" />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="clicks" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
           </ChartContainer>
         </CardContent>
       </Card>
@@ -115,7 +115,7 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
           <CardDescription>Complete campaign breakdown with UTM parameters</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded-md border border-border">
+          <div className="rounded-md border border-separator">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -132,7 +132,7 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
               <TableBody>
                 {campaignData.campaigns.map((campaign, index) => (
                   <TableRow key={index}>
-                    <TableCell className="font-medium text-foreground">
+                    <TableCell className="font-medium text-label">
                       {campaign.campaign}
                     </TableCell>
                     <TableCell>
@@ -157,10 +157,10 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
                         content={campaign.content}
                       />
                     </TableCell>
-                    <TableCell className="text-center text-muted-foreground">
+                    <TableCell className="text-center text-secondary-label">
                       {campaign.links}
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-foreground">
+                    <TableCell className="text-right font-semibold text-label">
                       {campaign.clicks}
                     </TableCell>
                   </TableRow>
