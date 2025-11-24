@@ -41,11 +41,11 @@ const Sales = () => {
         <div className="max-w-[900px] mx-auto px-8">
           <div className="text-center space-y-12">
             <AnimatedHeadline>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
                 Sales shouldn&apos;t worry about tracking.
                 <br />
                 They should focus on conversations.
-              </h2>
+              </h1>
             </AnimatedHeadline>
             <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>every touchpoint—booth, demo, follow-up—should just work.</p>
@@ -58,9 +58,9 @@ const Sales = () => {
       {/* Why Sales Teams Choose utm.one */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h1 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             Why sales teams choose utm.one
-          </h2>
+          </h1>
           
           <div className="space-y-8 max-w-[800px] mx-auto">
             <FeatureCard
@@ -97,9 +97,9 @@ const Sales = () => {
       {/* Workflow Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h1 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
             Designed for moments that matter
-          </h2>
+          </h1>
           
           {/* Use Case Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
@@ -143,9 +143,9 @@ const Sales = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
             <AnimatedHeadline delay={100}>
-              <h2 className="text-h1 font-display text-foreground font-bold tracking-tight">
+              <h1 className="text-h1 font-display text-foreground font-bold tracking-tight">
                 Sales moves faster with simple, consistent links.
-              </h2>
+              </h1>
             </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">

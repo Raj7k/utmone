@@ -137,9 +137,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-[800px] mx-auto px-8 text-center space-y-8">
             <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground">
                 Most Link Tools Focus on Shortening
-              </h2>
+              </h1>
               <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 Few Focus on Trust
               </p>
@@ -166,9 +166,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
                 Click With Confidence
-              </h2>
+              </h1>
             </div>
             <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <StaggerItem>
@@ -223,9 +223,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
                 Links That Include Everyone
-              </h2>
+              </h1>
             </div>
             <div className="grid md:grid-cols-5 gap-6 max-w-5xl mx-auto mb-12">
               {[
@@ -260,9 +260,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
                 Your Links Outlive Your Tools
-              </h2>
+              </h1>
               <p className="text-xl text-muted-foreground">
                 Platform shutdowns shouldn't break the web
               </p>
@@ -306,9 +306,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
                 Everything Your GTM Team Needs, in One Place
-              </h2>
+              </h1>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeaturePillarCard
@@ -366,9 +366,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
                 Pricing That Respects You
-              </h2>
+              </h1>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -407,9 +407,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
                 See What Matters First
-              </h2>
+              </h1>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               {[
@@ -446,9 +446,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
                 Built for Modern Teams
-              </h2>
+              </h1>
             </div>
             <div className="space-y-6">
               {[
@@ -481,9 +481,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
                 A Clean API for a Cleaner Stack
-              </h2>
+              </h1>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {[
@@ -524,9 +524,9 @@ const Index = () => {
         {/* Fold 11: Final CTA */}
         <AnimatedSection className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-white to-primary/10">
           <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground">
               Change the Way Your Team Shares the Internet
-            </h2>
+            </h1>
             <Button
               size="lg"
               className="text-base px-10 py-7 rounded-full font-medium hover:scale-105 transition-transform"

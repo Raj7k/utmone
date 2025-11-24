@@ -69,9 +69,9 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Consistency Is The Foundation Of Clean Data
-          </h2>
+          </h1>
           <div className="max-w-2xl mx-auto space-y-4 text-lg text-muted-foreground">
             <p>No broken naming</p>
             <p>No mismatched parameters</p>
@@ -85,9 +85,9 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           Built With Clean-Track
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -105,9 +105,9 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           The Only UTM Builder That Prevents Errors
-        </h2>
+        </h1>
         <FeatureComparison
           title="utm.one vs Traditional Builders"
           items={comparisonItems}
@@ -120,9 +120,9 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h1 className="font-display text-3xl md:text-4xl font-bold mb-12 text-center">
           UTMs In One Motion
-        </h2>
+        </h1>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={CheckSquare}
@@ -152,9 +152,9 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-6">
             Build A Clean UTM Now
-          </h2>
+          </h1>
           <p className="text-lg text-muted-foreground mb-8">
             Start creating UTMs that keep your data clean.
           </p>
