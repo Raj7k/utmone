@@ -136,7 +136,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
           <img 
@@ -147,22 +147,23 @@ const Auth = () => {
         </div>
 
         <Tabs defaultValue="signin" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 bg-fill-tertiary">
+            <TabsTrigger value="signin" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign In</TabsTrigger>
+            <TabsTrigger value="signup" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign Up</TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
-            <Card>
+            <Card variant="grouped">
               <CardHeader>
-                <CardTitle>Welcome back</CardTitle>
-                <CardDescription>Sign in to your account to continue</CardDescription>
+                <CardTitle className="text-title-2">Welcome back</CardTitle>
+                <CardDescription className="text-body-apple text-secondary-label">Sign in to your account to continue</CardDescription>
               </CardHeader>
               <form onSubmit={handleSignIn}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email">Email</Label>
+                    <Label htmlFor="signin-email" className="text-subheadline text-label">Email</Label>
                     <Input
+                      variant="system"
                       id="signin-email"
                       type="email"
                       placeholder="you@example.com"
@@ -172,8 +173,9 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password">Password</Label>
+                    <Label htmlFor="signin-password" className="text-subheadline text-label">Password</Label>
                     <Input
+                      variant="system"
                       id="signin-password"
                       type="password"
                       value={password}
@@ -183,7 +185,7 @@ const Auth = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-gradient-primary" disabled={isLoading}>
+                  <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? "signing in…" : "sign in"}
                   </Button>
                 </CardFooter>
@@ -192,16 +194,17 @@ const Auth = () => {
           </TabsContent>
 
           <TabsContent value="signup">
-            <Card>
+            <Card variant="grouped">
               <CardHeader>
-                <CardTitle>Create an account</CardTitle>
-                <CardDescription>Enter your details to get started</CardDescription>
+                <CardTitle className="text-title-2">Create an account</CardTitle>
+                <CardDescription className="text-body-apple text-secondary-label">Enter your details to get started</CardDescription>
               </CardHeader>
               <form onSubmit={handleSignUp}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
+                    <Label htmlFor="signup-name" className="text-subheadline text-label">Full Name</Label>
                     <Input
+                      variant="system"
                       id="signup-name"
                       type="text"
                       placeholder="John Doe"
@@ -211,8 +214,9 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                    <Label htmlFor="signup-email" className="text-subheadline text-label">Email</Label>
                     <Input
+                      variant="system"
                       id="signup-email"
                       type="email"
                       placeholder="you@example.com"
@@ -222,8 +226,9 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                    <Label htmlFor="signup-password" className="text-subheadline text-label">Password</Label>
                     <Input
+                      variant="system"
                       id="signup-password"
                       type="password"
                       value={password}
@@ -234,7 +239,7 @@ const Auth = () => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button type="submit" className="w-full bg-gradient-primary" disabled={isLoading}>
+                  <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? "creating account…" : "sign up"}
                   </Button>
                 </CardFooter>

@@ -56,8 +56,8 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
+    <div className="min-h-screen bg-grouped-background">
+      <header className="border-b border-separator bg-system-background/80 backdrop-blur-xl">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
@@ -74,8 +74,8 @@ export default function Settings() {
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">{user.email}</span>
-              <Button variant="outline" onClick={handleSignOut}>
+              <span className="text-subheadline text-secondary-label">{user.email}</span>
+              <Button variant="system-secondary" onClick={handleSignOut}>
                 Logout
               </Button>
             </div>
@@ -86,34 +86,34 @@ export default function Settings() {
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-5xl mx-auto space-y-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")}>
+            <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Button>
           </div>
 
           <div>
-            <h1 className="text-3xl font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">Settings</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-large-title font-display font-bold mb-2 text-label">Settings</h1>
+            <p className="text-body-apple text-secondary-label">
               Manage your workspace settings, domains, and preferences
             </p>
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="domains" className="gap-2">
+            <TabsList className="bg-fill-tertiary">
+              <TabsTrigger value="domains" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
                 <Globe className="w-4 h-4" />
                 Domains
               </TabsTrigger>
-              <TabsTrigger value="api" className="gap-2">
+              <TabsTrigger value="api" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
                 <Key className="w-4 h-4" />
                 API Keys
               </TabsTrigger>
-              <TabsTrigger value="integrations" className="gap-2">
+              <TabsTrigger value="integrations" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
                 <Webhook className="w-4 h-4" />
                 Integrations
               </TabsTrigger>
-              <TabsTrigger value="privacy" className="gap-2">
+              <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
                 <Shield className="w-4 h-4" />
                 Data & Privacy
               </TabsTrigger>
