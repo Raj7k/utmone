@@ -102,95 +102,81 @@ export const Navigation = () => {
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/short-links"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Short Links</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              branded, memorable links that work
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/short-links"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Short Links</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            branded, memorable links that work
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/utm-builder"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">UTM Builder</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              consistent parameters, every time
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/utm-builder"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">UTM Builder</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            consistent parameters, every time
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/qr-generator"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">QR Generator</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              on-brand codes that convert
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/qr-generator"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">QR Generator</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            on-brand codes that convert
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/analytics"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Analytics</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              clear data, better decisions
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/analytics"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Analytics</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            clear data, better decisions
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/governance"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Enterprise Control</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              governance without the friction
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/governance"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Enterprise Control</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            governance without the friction
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/clean-track"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Clean-Track</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              your tracking rules, automated
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/clean-track"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Clean-Track</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            your tracking rules, automated
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/features/partner-program"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Partner Program</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              attribution without spreadsheets
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/features/partner-program"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Partner Program</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            attribution without spreadsheets
+                          </p>
+                        </Link>
                       </li>
                     </ul>
                   </NavigationMenuContent>
@@ -204,68 +190,60 @@ export const Navigation = () => {
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/solutions/marketers"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                              location.pathname === "/solutions/marketers" && "bg-accent"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">For Marketing Teams</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              campaigns work better when links do
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/solutions/marketers"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            location.pathname === "/solutions/marketers" && "bg-accent"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">For Marketing Teams</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            campaigns work better when links do
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/solutions/sales"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                              location.pathname === "/solutions/sales" && "bg-accent"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">For Sales Teams</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              share faster, share cleaner
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/solutions/sales"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            location.pathname === "/solutions/sales" && "bg-accent"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">For Sales Teams</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            share faster, share cleaner
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/solutions/marketing-ops"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                              location.pathname === "/solutions/marketing-ops" && "bg-accent"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">For Marketing Ops</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              governance, without the friction
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/solutions/marketing-ops"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            location.pathname === "/solutions/marketing-ops" && "bg-accent"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">For Marketing Ops</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            governance, without the friction
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/solutions/developers"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                              location.pathname === "/solutions/developers" && "bg-accent"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">For Developers</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              a clean api for a cleaner stack
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/solutions/developers"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            location.pathname === "/solutions/developers" && "bg-accent"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">For Developers</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            a clean api for a cleaner stack
+                          </p>
+                        </Link>
                       </li>
                     </ul>
                   </NavigationMenuContent>
@@ -279,146 +257,133 @@ export const Navigation = () => {
                   <NavigationMenuContent>
                     <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/guides"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Guides</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              long-form educational content
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/guides"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Guides</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            long-form educational content
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/playbooks"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Playbooks</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              step-by-step implementation
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/playbooks"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Playbooks</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            step-by-step implementation
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/templates"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Templates</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              ready-to-use resources
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/templates"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Templates</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            ready-to-use resources
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/frameworks"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Frameworks</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              mental models & methodologies
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/frameworks"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Frameworks</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            mental models & methodologies
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/examples"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Examples</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              real-world use cases
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/examples"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Examples</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            real-world use cases
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/glossary"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Glossary</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              70+ defined terms
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/glossary"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Glossary</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            70+ defined terms
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/reports/salary-benchmark-2026"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium leading-none">2026 Salary Report</span>
-                              <span className="px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full animate-pulse">NEW</span>
-                            </div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              comprehensive salary benchmarks
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/reports/salary-benchmark-2026"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium leading-none">2026 Salary Report</span>
+                            <span className="px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full animate-pulse">NEW</span>
+                          </div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            comprehensive salary benchmarks
+                          </p>
+                        </Link>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            to="/resources/tools"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">Tools</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              interactive calculators
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Link
+                          to="/resources/tools"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">Tools</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            interactive calculators
+                          </p>
+                        </Link>
                       </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/pricing">
-                    <NavigationMenuLink className={cn(
+                  <Link 
+                    to="/pricing"
+                    className={cn(
                       "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/pricing" && "text-foreground"
-                    )}>
-                      pricing
-                    </NavigationMenuLink>
+                    )}
+                  >
+                    pricing
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/about">
-                    <NavigationMenuLink className={cn(
+                  <Link 
+                    to="/about"
+                    className={cn(
                       "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname === "/about" && "text-foreground"
-                    )}>
-                      about
-                    </NavigationMenuLink>
+                    )}
+                  >
+                    about
                   </Link>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <Link to="/partners/apply">
-                    <NavigationMenuLink className={cn(
+                  <Link 
+                    to="/partners/apply"
+                    className={cn(
                       "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
                       location.pathname.startsWith("/partners") && "text-foreground"
-                    )}>
-                      partners
-                    </NavigationMenuLink>
+                    )}
+                  >
+                    partners
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
