@@ -426,7 +426,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 <Input
                   id="title"
                   placeholder="name your campaign"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("title")}
                 />
                 {form.formState.errors.title && (
@@ -439,7 +439,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 <Textarea
                   id="description"
                   placeholder="optional notes"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   rows={2}
                   {...form.register("description")}
                 />
@@ -454,9 +454,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
-                          <span className="text-[10px] text-muted-foreground font-medium">?</span>
-                        </button>
+                      <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                        <span className="text-[10px] text-secondary-label font-medium">?</span>
+                      </button>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs bg-popover border border-border">
                         <p className="text-sm">add the url you want to track</p>
@@ -468,7 +468,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   id="destination_url"
                   type="url"
                   placeholder="https://example.com/page"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("destination_url")}
                 />
                 {form.formState.errors.destination_url && (
@@ -482,9 +482,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
-                          <span className="text-[10px] text-muted-foreground font-medium">?</span>
-                        </button>
+                      <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
+                        <span className="text-[10px] text-secondary-label font-medium">?</span>
+                      </button>
                       </TooltipTrigger>
                       <TooltipContent className="max-w-xs bg-popover border border-border">
                         <p className="text-sm">your domain increases trust and click-through rates.</p>
@@ -507,7 +507,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     </SelectContent>
                   </Select>
                   
-                  <span className="text-muted-foreground">/</span>
+                  <span className="text-secondary-label">/</span>
                   
                   <Select
                     value={form.watch("path")}
@@ -525,12 +525,12 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     </SelectContent>
                   </Select>
                   
-                  <span className="text-muted-foreground">/</span>
+                  <span className="text-secondary-label">/</span>
                   
                   <Input
                     id="slug"
                     placeholder="your-slug"
-                    className="flex-1 min-w-[150px] placeholder:text-muted-foreground"
+                    className="flex-1 min-w-[150px] placeholder:text-tertiary-label"
                     {...form.register("slug")}
                   />
                   
@@ -554,7 +554,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 </div>
                 
                 {slugSource === "auto" && values.slug && (
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-xs text-secondary-label">
                     <Sparkles className="h-3 w-3" />
                     <span>Auto-generated from title. Edit to customize.</span>
                   </div>
@@ -564,7 +564,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <p className="text-sm text-destructive">{form.formState.errors.slug.message}</p>
                 )}
                 {isCheckingSlug && (
-                  <p className="text-xs text-muted-foreground">Checking availability...</p>
+                  <p className="text-xs text-secondary-label">Checking availability...</p>
                 )}
                 {slugAvailable && !slugAvailable.available && values.slug && (
                   <Alert variant="destructive" className="py-2 mt-2">
@@ -604,18 +604,18 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               </div>
             </AccordionTrigger>
             <AccordionContent className="space-y-4 pt-4">
-              <p className="text-sm text-muted-foreground">Customize how your link appears when shared on social media platforms</p>
+              <p className="text-sm text-secondary-label">Customize how your link appears when shared on social media platforms</p>
               
               <div className="space-y-2">
                 <Label htmlFor="og_title" className="text-sm font-medium">Social Media Title</Label>
                 <Input
                   id="og_title"
                   placeholder="Custom title for social media preview (max 60 chars)"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("og_title")}
                   maxLength={60}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-secondary-label">
                   {form.watch("og_title") ? `${form.watch("og_title").length}/60 characters` : "Leave empty to use link title"}
                 </p>
               </div>
@@ -625,12 +625,12 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 <Textarea
                   id="og_description"
                   placeholder="Custom description for social media preview (max 160 chars)"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("og_description")}
                   maxLength={160}
                   rows={3}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-secondary-label">
                   {form.watch("og_description") ? `${form.watch("og_description").length}/160 characters` : "Describe what users will find when they click this link"}
                 </p>
               </div>
@@ -641,10 +641,10 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   id="og_image"
                   type="url"
                   placeholder="https://example.com/image.jpg"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("og_image")}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-secondary-label">
                   Recommended: 1200×630px for optimal display on Facebook, Twitter, LinkedIn
                 </p>
                 {form.formState.errors.og_image && (
@@ -684,10 +684,10 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <Input
                     id="expires_at"
                     type="datetime-local"
-                    className="placeholder:text-muted-foreground"
+                    className="placeholder:text-tertiary-label"
                     {...form.register("expires_at")}
                   />
-                  <p className="text-xs text-muted-foreground">Link will expire at this date/time</p>
+                  <p className="text-xs text-secondary-label">Link will expire at this date/time</p>
                 </div>
 
                 <div className="space-y-2">
@@ -697,13 +697,13 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     type="number"
                     min="1"
                     placeholder="Unlimited"
-                    className="placeholder:text-muted-foreground"
+                    className="placeholder:text-tertiary-label"
                     {...form.register("max_clicks", { valueAsNumber: true })}
                   />
                   {form.formState.errors.max_clicks && (
                     <p className="text-sm text-destructive">{form.formState.errors.max_clicks.message}</p>
                   )}
-                  <p className="text-xs text-muted-foreground">Link expires after this many clicks</p>
+                  <p className="text-xs text-secondary-label">Link expires after this many clicks</p>
                 </div>
               </div>
 
@@ -713,13 +713,13 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   id="fallback_url"
                   type="url"
                   placeholder="https://example.com/expired"
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   {...form.register("fallback_url")}
                 />
                 {form.formState.errors.fallback_url && (
                   <p className="text-sm text-destructive">{form.formState.errors.fallback_url.message}</p>
                 )}
-                <p className="text-xs text-muted-foreground">Redirect to this URL when link expires (optional)</p>
+                <p className="text-xs text-secondary-label">Redirect to this URL when link expires (optional)</p>
               </div>
 
               <div className="space-y-2">
@@ -727,14 +727,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 <Textarea
                   id="custom_expiry_message"
                   placeholder="This link has expired. Please contact us for access."
-                  className="placeholder:text-muted-foreground"
+                  className="placeholder:text-tertiary-label"
                   rows={2}
                   {...form.register("custom_expiry_message")}
                 />
                 {form.formState.errors.custom_expiry_message && (
                   <p className="text-sm text-destructive">{form.formState.errors.custom_expiry_message.message}</p>
                 )}
-                <p className="text-xs text-muted-foreground">Show this message when link expires (if no fallback URL)</p>
+                <p className="text-xs text-secondary-label">Show this message when link expires (if no fallback URL)</p>
               </div>
 
               <div className="space-y-2">
@@ -751,14 +751,14 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     <SelectItem value="301">301 (Permanent)</SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground">Use 302 for campaigns, 301 for permanent redirects</p>
+                <p className="text-xs text-secondary-label">Use 302 for campaigns, 301 for permanent redirects</p>
               </div>
 
               <Separator />
 
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-muted-foreground" />
+                  <Lock className="h-4 w-4 text-secondary-label" />
                   <Label className="text-sm font-medium">Password Protection</Label>
                 </div>
                 
@@ -768,13 +768,13 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                     id="password"
                     type="password"
                     placeholder="leave empty for no password"
-                    className="placeholder:text-muted-foreground"
+                    className="placeholder:text-tertiary-label"
                     {...form.register("password")}
                   />
                   {form.formState.errors.password && (
                     <p className="text-sm text-destructive">{form.formState.errors.password.message}</p>
                   )}
-                  <p className="text-xs text-muted-foreground">require password before redirect (minimum 6 characters)</p>
+                  <p className="text-xs text-secondary-label">require password before redirect (minimum 6 characters)</p>
                 </div>
 
                 <div className="space-y-2">
@@ -782,10 +782,10 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                   <Input
                     id="password_hint"
                     placeholder="hint for users who forgot password"
-                    className="placeholder:text-muted-foreground"
+                    className="placeholder:text-tertiary-label"
                     {...form.register("password_hint")}
                   />
-                  <p className="text-xs text-muted-foreground">shown on password entry page</p>
+                  <p className="text-xs text-secondary-label">shown on password entry page</p>
                 </div>
               </div>
 

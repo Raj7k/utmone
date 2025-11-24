@@ -37,17 +37,17 @@ export const DuplicateLinkDialog = ({ linkId, linkTitle, open, onOpenChange }: D
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label>Original Link</Label>
-            <div className="text-sm text-muted-foreground">{linkTitle}</div>
+            <div className="text-sm text-secondary-label">{linkTitle}</div>
           </div>
 
           <div className="space-y-2">
             <Label>New Link Title</Label>
-            <div className="text-sm text-muted-foreground">{linkTitle} (Copy)</div>
+            <div className="text-sm text-secondary-label">{linkTitle} (Copy)</div>
           </div>
 
           <div className="space-y-2">
             <Label>New Slug</Label>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-secondary-label">
               Will be auto-generated with "-copy" suffix
             </div>
           </div>
