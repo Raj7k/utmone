@@ -44,7 +44,7 @@ export const SkillsPremium = () => {
           <TrendingUp className="h-6 w-6 text-blazeOrange" />
           Skills That Command Premium Salaries
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           Average additional compensation above base role salary
         </p>
       </CardHeader>
@@ -86,7 +86,7 @@ export const SkillsPremium = () => {
 
         <div className="mt-8 p-6 bg-white rounded-lg border-2 border-blazeOrange/20">
           <h4 className="font-semibold text-blazeOrange mb-3">💡 Career Strategy Insight</h4>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-secondary-label leading-relaxed">
             Professionals with 3+ skills from the top 5 list typically earn 25-40% above their base role median. 
             Technical skills (AI/ML, Data Analytics, SQL) show the highest premium growth trajectory, while strategic 
             skills (RevOps, ABM) provide the best career advancement acceleration.

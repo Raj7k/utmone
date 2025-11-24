@@ -16,7 +16,7 @@ export const IndustryComparison = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-display">Industry Comparison</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               Same role, different industry: salary variations explained
             </p>
           </div>
@@ -62,8 +62,8 @@ export const IndustryComparison = () => {
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Award className="h-4 w-4 text-muted-foreground" />
-                  <div className="text-sm text-muted-foreground">
+                  <Award className="h-4 w-4 text-secondary-label" />
+                  <div className="text-sm text-secondary-label">
                     Top Skills:
                   </div>
                   {ind.topSkills.slice(0, 3).map(skill => (
@@ -77,7 +77,7 @@ export const IndustryComparison = () => {
           })}
         </div>
 
-        <div className="mt-6 p-4 bg-wildSand/50 rounded-lg text-sm text-muted-foreground">
+        <div className="mt-6 p-4 bg-wildSand/50 rounded-lg text-sm text-secondary-label">
           <strong className="text-foreground">Note:</strong> Salaries shown are for Marketing Manager role 
           with 5 years experience in mid-sized companies. Industry multipliers based on analysis of 50,000+ 
           job postings and survey data.

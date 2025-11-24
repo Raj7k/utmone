@@ -160,18 +160,18 @@ export const InteractiveSalaryCalculator = () => {
         {result && (
           <div className="space-y-4 pt-6 border-t border-border">
             <div className="text-center space-y-2">
-              <div className="text-sm text-muted-foreground">Estimated Salary</div>
+              <div className="text-sm text-secondary-label">Estimated Salary</div>
               <div className="text-5xl font-display font-extrabold text-blazeOrange">
                 {formatCurrency(result.estimatedSalary)}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-secondary-label">
                 Range: {formatCurrency(result.range.min)} - {formatCurrency(result.range.max)}
               </div>
             </div>
 
             {currentSalary && (
               <div className="text-center p-4 bg-deepSea/10 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">Your Percentile</div>
+                <div className="text-sm text-secondary-label mb-1">Your Percentile</div>
                 <Badge variant="default" className="text-lg px-4 py-2 bg-deepSea">
                   {result.percentile.toFixed(0)}th Percentile
                 </Badge>

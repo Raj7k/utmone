@@ -70,7 +70,7 @@ export const ExperienceLevelProgression = () => {
           </div>
           <div>
             <CardTitle className="text-2xl font-display">Experience Level Progression</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-secondary-label mt-1">
               Typical salary growth trajectory from entry to executive
             </p>
           </div>
@@ -121,12 +121,12 @@ export const ExperienceLevelProgression = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2 text-sm text-secondary-label">
                   <Clock className="h-4 w-4" />
                   <span>Next promotion: {exp.promotionTime}</span>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Award className="h-4 w-4 text-muted-foreground" />
+                  <Award className="h-4 w-4 text-secondary-label" />
                   {exp.skills.map(skill => (
                     <Badge key={skill} variant="secondary" className="text-xs">
                       {skill}
@@ -136,7 +136,7 @@ export const ExperienceLevelProgression = () => {
               </div>
 
               {idx < experienceData.length - 1 && (
-                <div className="mt-3 pt-3 border-t border-border text-xs text-muted-foreground">
+                <div className="mt-3 pt-3 border-t border-border text-xs text-secondary-label">
                   Next level jump: {formatCurrency(experienceData[idx + 1].salary - exp.salary)} 
                   ({(((experienceData[idx + 1].salary - exp.salary) / exp.salary) * 100).toFixed(1)}%)
                 </div>

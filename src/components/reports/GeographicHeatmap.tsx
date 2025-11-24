@@ -32,7 +32,7 @@ export const GeographicHeatmap = () => {
           <MapPin className="h-6 w-6 text-blazeOrange" />
           Top 20 Markets for Marketing Professionals
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           Salary data adjusted for cost of living and remote work opportunities
         </p>
       </CardHeader>
@@ -78,7 +78,7 @@ export const GeographicHeatmap = () => {
                           </Badge>
                         )}
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-4 text-sm text-secondary-label">
                         <span>CoL Index: {city.costOfLiving}</span>
                         <span>•</span>
                         <span>Multiplier: {city.multiplier}x</span>
@@ -93,7 +93,7 @@ export const GeographicHeatmap = () => {
                     <div className="text-2xl font-bold text-blazeOrange">
                       ${(city.medianSalary / 1000).toFixed(0)}K
                     </div>
-                    <div className="text-xs text-muted-foreground">median salary</div>
+                    <div className="text-xs text-secondary-label">median salary</div>
                   </div>
                 </div>
               </div>
@@ -106,7 +106,7 @@ export const GeographicHeatmap = () => {
             <TrendingUp className="h-6 w-6 text-deepSea mt-1 flex-shrink-0" />
             <div>
               <h4 className="font-semibold text-deepSea mb-2">Geographic Arbitrage Strategy</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-secondary-label leading-relaxed">
                 Remote roles offer the best value proposition: earn coastal salaries ($88K+) while living in 
                 lower cost-of-living areas. The adjusted purchasing power of remote work is equivalent to 
                 $112K+ in high-cost markets. Over 3,400+ remote marketing positions currently available.

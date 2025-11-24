@@ -99,7 +99,7 @@ export const GeolocationDetector = ({ onLocationSelect }: GeolocationDetectorPro
                   {location.city}, {location.state}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-secondary-label">
                 Would you like us to show salary data personalized for your location?
               </p>
               <div className="flex gap-2 pt-2">
