@@ -19,6 +19,62 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* ============================================
+       APPLE SEMANTIC COLOR SYSTEM (Product UI)
+       ============================================ */
+    
+    /* Label Colors (Text) - Light Mode */
+    --label: 0 0% 0%;                        /* #000000 */
+    --secondary-label: 220 9% 46% / 0.6;     /* #3C3C43 60% */
+    --tertiary-label: 220 9% 46% / 0.3;      /* #3C3C43 30% */
+    --quaternary-label: 220 9% 46% / 0.18;   /* #3C3C43 18% */
+    
+    /* Fill Colors (UI Elements) - Light Mode */
+    --fill-primary: 240 6% 50% / 0.2;        /* #787880 20% */
+    --fill-secondary: 240 6% 50% / 0.16;     /* #787880 16% */
+    --fill-tertiary: 240 5% 49% / 0.12;      /* #767680 12% */
+    
+    /* System Colors - Light Mode */
+    --system-blue: 217 91% 60%;              /* #3B82F6 */
+    --system-green: 142 71% 48%;             /* #28CD41 */
+    --system-red: 4 90% 58%;                 /* #FF3B30 */
+    --system-orange: 36 100% 50%;            /* #FF9500 */
+    --system-yellow: 48 100% 50%;            /* #FFCC00 */
+    --system-teal: 187 65% 49%;              /* #30B8C6 */
+    --system-indigo: 243 60% 59%;            /* #5856D6 */
+    
+    /* System Grays - Light Mode */
+    --system-gray: 240 4% 56%;               /* #8E8E93 */
+    --system-gray-2: 240 3% 68%;             /* #AEAEB2 */
+    --system-gray-3: 240 4% 78%;             /* #C7C7CC */
+    --system-gray-4: 240 4% 82%;             /* #D1D1D6 */
+    --system-gray-5: 240 5% 90%;             /* #E5E5EA */
+    --system-gray-6: 240 6% 95%;             /* #F2F2F7 */
+    
+    /* Background Colors - Light Mode */
+    --system-background: 0 0% 100%;          /* #FFFFFF */
+    --secondary-system-background: 240 6% 95%; /* #F2F2F7 */
+    --tertiary-system-background: 0 0% 100%; /* #FFFFFF */
+    
+    /* Grouped Background Colors - Light Mode */
+    --grouped-background: 240 6% 95%;        /* #F2F2F7 */
+    --secondary-grouped-background: 0 0% 100%; /* #FFFFFF */
+    --tertiary-grouped-background: 240 6% 95%; /* #F2F2F7 */
+    
+    /* Separator Colors - Light Mode */
+    --separator: 220 9% 46% / 0.29;          /* #3C3C43 29% */
+    --opaque-separator: 240 2% 78%;          /* #C6C6C8 */
+    
+    /* UTM Parameter Color Coding */
+    --utm-source: var(--system-blue);
+    --utm-medium: var(--system-indigo);
+    --utm-campaign: var(--system-teal);
+    --utm-term: var(--system-green);
+    --utm-content: var(--system-yellow);
+
+    /* ============================================
+       LEGACY TOKENS (Backward Compatibility)
+       ============================================ */
     /* Apple Design System - WCAG AAA Compliant (7:1 contrast) */
     --background: 0 0% 100%;           /* #FFFFFF - Pure white for maximum contrast */
     --foreground: 222 47% 11%;         /* #1A202E - Rich dark blue-black for depth */
@@ -121,6 +177,55 @@ All colors MUST be HSL.
   }
 
   .dark {
+    /* ============================================
+       APPLE SEMANTIC COLOR SYSTEM - DARK MODE
+       ============================================ */
+    
+    /* Label Colors (Text) - Dark Mode */
+    --label: 0 0% 100%;                    /* #FFFFFF */
+    --secondary-label: 235 4% 92% / 0.6;   /* #EBEBF5 60% */
+    --tertiary-label: 235 4% 92% / 0.3;    /* #EBEBF5 30% */
+    --quaternary-label: 235 4% 92% / 0.18; /* #EBEBF5 18% */
+    
+    /* Fill Colors (UI Elements) - Dark Mode */
+    --fill-primary: 240 6% 50% / 0.36;     /* #787880 36% */
+    --fill-secondary: 240 6% 50% / 0.32;   /* #787880 32% */
+    --fill-tertiary: 240 5% 49% / 0.24;    /* #767680 24% */
+    
+    /* System Colors - Dark Mode */
+    --system-blue: 215 95% 65%;            /* #409CFF */
+    --system-green: 142 71% 55%;           /* #32D74B */
+    --system-red: 3 100% 62%;              /* #FF453A */
+    --system-orange: 38 100% 53%;          /* #FF9F0A */
+    --system-yellow: 48 100% 53%;          /* #FFD60A */
+    --system-teal: 186 68% 62%;            /* #5FD4E0 */
+    --system-indigo: 242 100% 72%;         /* #7E7CFF */
+    
+    /* System Grays - Dark Mode */
+    --system-gray: 240 4% 56%;             /* #8E8E93 */
+    --system-gray-2: 240 3% 40%;           /* #636366 */
+    --system-gray-3: 240 3% 29%;           /* #48484A */
+    --system-gray-4: 240 3% 23%;           /* #3A3A3C */
+    --system-gray-5: 240 5% 18%;           /* #2C2C2E */
+    --system-gray-6: 240 6% 11%;           /* #1C1C1E */
+    
+    /* Background Colors - Dark Mode */
+    --system-background: 0 0% 0%;          /* #000000 */
+    --secondary-system-background: 240 6% 11%; /* #1C1C1E */
+    --tertiary-system-background: 240 5% 18%; /* #2C2C2E */
+    
+    /* Grouped Background Colors - Dark Mode */
+    --grouped-background: 0 0% 0%;         /* #000000 */
+    --secondary-grouped-background: 240 6% 11%; /* #1C1C1E */
+    --tertiary-grouped-background: 240 5% 18%; /* #2C2C2E */
+    
+    /* Separator Colors - Dark Mode */
+    --separator: 240 6% 34% / 0.6;         /* #545458 60% */
+    --opaque-separator: 240 5% 22%;        /* #38383A */
+
+    /* ============================================
+       LEGACY TOKENS - DARK MODE
+       ============================================ */
     --background: 0 0% 15%;
     --foreground: 248 0.3% 98.4%;
 
@@ -292,10 +397,11 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
-  /* Focus indicators - WCAG AAA compliant */
+  /* Focus indicators - WCAG AAA compliant (Apple HIG) */
   *:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid hsl(var(--system-blue));
     outline-offset: 2px;
+    border-radius: inherit;
   }
 
   button:focus-visible,
@@ -303,16 +409,62 @@ All colors MUST be HSL.
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid hsl(var(--primary));
+    outline: 2px solid hsl(var(--system-blue));
     outline-offset: 2px;
+    border-radius: inherit;
   }
 
-  /* Minimum 44x44px touch targets */
-  button,
-  a[role="button"],
+  /* Minimum 44x44px touch targets (Apple HIG requirement) */
+  button:not(.no-min-size),
+  a[role="button"]:not(.no-min-size),
   input[type="checkbox"],
   input[type="radio"] {
     min-width: 44px;
     min-height: 44px;
+  }
+
+  /* Reduced motion support (Apple accessibility) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* High Contrast - Light Mode */
+  @media (prefers-contrast: more) {
+    :root {
+      --secondary-label: 220 9% 46% / 0.8;
+      --tertiary-label: 220 9% 46% / 0.5;
+      --separator: 220 9% 46% / 0.4;
+      --system-blue: 217 100% 40%;           /* Higher contrast blue */
+      --fill-primary: 240 6% 50% / 0.3;
+      --fill-secondary: 240 6% 50% / 0.24;
+      --fill-tertiary: 240 5% 49% / 0.18;
+    }
+
+    *:focus-visible {
+      outline-width: 3px;
+    }
+  }
+
+  /* High Contrast - Dark Mode */
+  @media (prefers-color-scheme: dark) and (prefers-contrast: more) {
+    :root {
+      --secondary-label: 235 4% 92% / 0.8;
+      --tertiary-label: 235 4% 92% / 0.5;
+      --separator: 240 6% 34% / 0.75;
+      --system-blue: 215 100% 70%;           /* Higher contrast blue */
+      --fill-primary: 240 6% 50% / 0.48;
+      --fill-secondary: 240 6% 50% / 0.42;
+      --fill-tertiary: 240 5% 49% / 0.32;
+    }
+
+    *:focus-visible {
+      outline-width: 3px;
+    }
   }
 }
