@@ -80,8 +80,8 @@ export default function PartnerDashboard() {
     <div className="container max-w-6xl py-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">partner dashboard</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">partner dashboard</h1>
+          <p className="text-secondary-label mt-2">
             track your referrals and earnings
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function PartnerDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">total referrals</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{partner.total_referrals}</div>
@@ -103,7 +103,7 @@ export default function PartnerDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">conversions</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{partner.total_conversions}</div>
@@ -112,7 +112,7 @@ export default function PartnerDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">total earnings</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${partner.total_earnings.toFixed(2)}</div>
@@ -121,7 +121,7 @@ export default function PartnerDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">pending payout</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <DollarSign className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${partner.pending_payout.toFixed(2)}</div>
@@ -195,7 +195,7 @@ export default function PartnerDashboard() {
                       onChange={(e) => setPayoutAmount(e.target.value)}
                       placeholder="50.00"
                     />
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-secondary-label mt-1">
                       available balance: ${partner.pending_payout.toFixed(2)}
                     </p>
                   </div>
@@ -210,7 +210,7 @@ export default function PartnerDashboard() {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             payouts are processed within 3-5 business days via {partner.payment_method}
           </p>
         </CardContent>
@@ -235,11 +235,11 @@ export default function PartnerDashboard() {
                     <Badge variant={referral.status === 'converted' ? 'default' : 'secondary'}>
                       {referral.status}
                     </Badge>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-secondary-label mt-1">
                       signed up: {new Date(referral.created_at).toLocaleDateString()}
                     </p>
                     {referral.conversion_date && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-secondary-label">
                         converted: {new Date(referral.conversion_date).toLocaleDateString()}
                       </p>
                     )}
@@ -249,7 +249,7 @@ export default function PartnerDashboard() {
                       <p className="font-medium">
                         +${referral.commission_earned.toFixed(2)}
                       </p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-secondary-label">
                         {referral.commission_paid ? 'paid' : 'pending'}
                       </p>
                     </div>
@@ -259,8 +259,8 @@ export default function PartnerDashboard() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-muted-foreground">no referrals yet</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-secondary-label">no referrals yet</p>
+              <p className="text-sm text-secondary-label">
                 start sharing your referral link to earn commissions
               </p>
             </div>

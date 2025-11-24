@@ -70,7 +70,7 @@ export default function APIKeysSettings() {
   if (isLoading) {
     return (
       <div className="container max-w-4xl py-8">
-        <div className="text-muted-foreground">loading api keys...</div>
+        <div className="text-secondary-label">loading api keys...</div>
       </div>
     );
   }
@@ -78,8 +78,8 @@ export default function APIKeysSettings() {
   return (
     <div className="container max-w-4xl py-8 space-y-6">
       <div>
-        <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">api keys</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">api keys</h1>
+        <p className="text-secondary-label mt-2">
           manage api keys for programmatic access to your workspace
         </p>
       </div>
@@ -212,7 +212,7 @@ export default function APIKeysSettings() {
                   className="flex items-center justify-between p-4 border rounded-lg"
                 >
                   <div className="flex items-center gap-4">
-                    <Key className="w-5 h-5 text-muted-foreground" />
+                    <Key className="w-5 h-5 text-secondary-label" />
                     <div>
                       <div className="flex items-center gap-2">
                         <p className="font-medium">{key.key_name}</p>
@@ -220,20 +220,20 @@ export default function APIKeysSettings() {
                           {key.is_active ? 'active' : 'revoked'}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground font-mono">
+                      <p className="text-sm text-secondary-label font-mono">
                         {maskAPIKey(key.key_prefix)}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-secondary-label">
                           scopes: {key.scopes.join(', ')}
                         </p>
-                        <span className="text-xs text-muted-foreground">•</span>
-                        <p className="text-xs text-muted-foreground">
+                        <span className="text-xs text-secondary-label">•</span>
+                        <p className="text-xs text-secondary-label">
                           {key.rate_limit} req/min
                         </p>
                       </div>
                       {key.last_used_at && (
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-xs text-secondary-label mt-1">
                           last used: {new Date(key.last_used_at).toLocaleDateString()}
                         </p>
                       )}
@@ -262,9 +262,9 @@ export default function APIKeysSettings() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Key className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">no api keys yet</p>
-              <p className="text-sm text-muted-foreground">
+              <Key className="w-12 h-12 text-secondary-label mx-auto mb-4" />
+              <p className="text-secondary-label">no api keys yet</p>
+              <p className="text-sm text-secondary-label">
                 create your first api key to start building integrations
               </p>
             </div>
@@ -283,7 +283,7 @@ export default function APIKeysSettings() {
           <div className="space-y-4">
             <div>
               <h3 className="font-display font-medium mb-2">authentication</h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-secondary-label">
                 include your api key in the request header:
               </p>
               <pre className="bg-muted p-3 rounded-md text-sm mt-2 overflow-x-auto">

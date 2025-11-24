@@ -167,7 +167,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button type="button" className="inline-flex items-center justify-center rounded-full w-4 h-4 bg-muted hover:bg-muted/80 transition-colors">
-                              <span className="text-[10px] text-muted-foreground font-medium">?</span>
+                              <span className="text-[10px] text-secondary-label font-medium">?</span>
                             </button>
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-popover border border-border">
