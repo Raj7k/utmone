@@ -32,7 +32,7 @@ export const ToolLayout = ({
       {/* Breadcrumb */}
       <div className="border-b border-border/50">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 text-sm text-secondary-label">
             <Link to="/resources" className="hover:text-foreground transition-apple">
               resources
             </Link>
@@ -57,7 +57,7 @@ export const ToolLayout = ({
           <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-4">
             {title}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-[640px]">
+          <p className="text-xl text-secondary-label max-w-[640px]">
             {description}
           </p>
         </div>
@@ -108,7 +108,7 @@ export const ToolLayout = ({
                 <h3 className="text-lg font-display font-bold mb-2 text-foreground">
                   2025 salary report
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-secondary-label mb-4">
                   explore comprehensive salary data across 20+ roles
                 </p>
                 <Link to="/resources/reports/salary-benchmark-2025">

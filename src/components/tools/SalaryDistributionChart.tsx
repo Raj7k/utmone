@@ -55,7 +55,7 @@ export const SalaryDistributionChart = ({
 
   return (
     <div className="space-y-4">
-      <div className="text-sm text-muted-foreground text-center">
+      <div className="text-sm text-secondary-label text-center">
         salary distribution (bell curve)
       </div>
       

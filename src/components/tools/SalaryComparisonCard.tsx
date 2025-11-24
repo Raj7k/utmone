@@ -41,13 +41,13 @@ export const SalaryComparisonCard = ({
           <div className="text-2xl font-display font-bold text-foreground">
             {formattedCurrent}
           </div>
-          <div className="text-xs text-muted-foreground">Your Current</div>
+          <div className="text-xs text-secondary-label">Your Current</div>
         </div>
 
         {/* Comparison to Market */}
         <div className="pt-2 border-t border-border/50">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">Market Median</span>
+            <span className="text-xs text-secondary-label">Market Median</span>
             <span className="text-sm font-medium text-foreground">{formattedMarket}</span>
           </div>
           
@@ -55,7 +55,7 @@ export const SalaryComparisonCard = ({
             "text-xs flex items-center gap-1 mt-2",
             isAbove && "text-green-600",
             isBelow && "text-red-600",
-            isEqual && "text-muted-foreground"
+            isEqual && "text-secondary-label"
           )}>
             {isAbove && <ArrowUp className="h-3 w-3" />}
             {isBelow && <ArrowDown className="h-3 w-3" />}

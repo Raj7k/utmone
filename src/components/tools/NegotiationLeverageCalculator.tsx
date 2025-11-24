@@ -77,7 +77,7 @@ export const NegotiationLeverageCalculator = () => {
             step={1}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs text-secondary-label">
             <span>Beginner</span>
             <span className="font-semibold">{skillLevel}/10</span>
             <span>Expert</span>
@@ -94,7 +94,7 @@ export const NegotiationLeverageCalculator = () => {
             step={1}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs text-secondary-label">
             <span>Low Demand</span>
             <span className="font-semibold">{marketDemand}/10</span>
             <span>High Demand</span>
@@ -104,7 +104,7 @@ export const NegotiationLeverageCalculator = () => {
         <div className="p-6 bg-background rounded-xl border-2" style={{ borderColor: leverageColor }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-muted-foreground mb-1">Your Negotiation Leverage</p>
+              <p className="text-sm text-secondary-label mb-1">Your Negotiation Leverage</p>
               <p className="text-4xl font-display font-bold" style={{ color: leverageColor }}>
                 {leverageScore}/100
               </p>

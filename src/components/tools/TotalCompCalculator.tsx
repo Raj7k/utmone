@@ -49,13 +49,13 @@ export const TotalCompCalculator = () => {
         </div>
 
         <div className="p-6 bg-[hsl(18,100%,51%)]/10 rounded-xl border-2 border-[hsl(18,100%,51%)]">
-          <p className="text-sm text-muted-foreground mb-2">Total Compensation (Year 1)</p>
+          <p className="text-sm text-secondary-label mb-2">Total Compensation (Year 1)</p>
           <p className="text-5xl font-display font-bold text-[hsl(18,100%,51%)]">
             ${totalComp.toLocaleString()}
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-            <div><span className="text-muted-foreground">Base:</span> <span className="font-semibold">{((base/totalComp)*100).toFixed(1)}%</span></div>
-            <div><span className="text-muted-foreground">Variable:</span> <span className="font-semibold">{(((bonus+signing+equity)/totalComp)*100).toFixed(1)}%</span></div>
+            <div><span className="text-secondary-label">Base:</span> <span className="font-semibold">{((base/totalComp)*100).toFixed(1)}%</span></div>
+            <div><span className="text-secondary-label">Variable:</span> <span className="font-semibold">{(((bonus+signing+equity)/totalComp)*100).toFixed(1)}%</span></div>
           </div>
         </div>
       </CardContent>

@@ -28,7 +28,7 @@ export const SalaryBarChart = ({
         <h3 className="text-lg font-display font-semibold text-foreground">
           {role}
         </h3>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm text-secondary-label">
           Median: {formatCurrency(p50)}
         </span>
       </div>
@@ -36,7 +36,7 @@ export const SalaryBarChart = ({
       <div className="space-y-3">
         {/* 10th Percentile */}
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-secondary-label">
             <span>10th Percentile</span>
             <span>{formatCurrency(p10)}</span>
           </div>
@@ -50,7 +50,7 @@ export const SalaryBarChart = ({
 
         {/* 25th Percentile */}
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-secondary-label">
             <span>25th Percentile</span>
             <span>{formatCurrency(p25)}</span>
           </div>
@@ -78,7 +78,7 @@ export const SalaryBarChart = ({
 
         {/* 75th Percentile */}
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-secondary-label">
             <span>75th Percentile</span>
             <span>{formatCurrency(p75)}</span>
           </div>
@@ -92,7 +92,7 @@ export const SalaryBarChart = ({
 
         {/* 90th Percentile */}
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-secondary-label">
             <span>90th Percentile</span>
             <span>{formatCurrency(p90)}</span>
           </div>

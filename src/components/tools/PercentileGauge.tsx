@@ -69,7 +69,7 @@ export const PercentileGauge = ({ percentile, size = 'md' }: PercentileGaugeProp
           <span className={`${config.text} font-display font-bold text-foreground`}>
             {Math.round(percentile)}
           </span>
-          <span className="text-sm text-muted-foreground">percentile</span>
+          <span className="text-sm text-secondary-label">percentile</span>
         </div>
       </div>
 
