@@ -16,7 +16,7 @@ export const ReferralLeaderboard = () => {
           <CardDescription>top referrers by score</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">loading...</p>
+          <p className="text-secondary-label">loading...</p>
         </CardContent>
       </Card>
     );
@@ -56,17 +56,17 @@ export const ReferralLeaderboard = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">score</span>
+                  <span className="text-secondary-label">score</span>
                   <span className="font-semibold text-lg">{user.referral_score}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground flex items-center gap-1">
+                  <span className="text-secondary-label flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     referrals
                   </span>
                   <span className="font-medium">{user.referral_count}</span>
                 </div>
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-secondary-label">
                   joined {formatDistanceToNow(new Date(user.created_at), { addSuffix: true })}
                 </div>
               </CardContent>
@@ -99,17 +99,17 @@ export const ReferralLeaderboard = () => {
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">#{index + 4}</TableCell>
                     <TableCell>{user.name}</TableCell>
-                    <TableCell className="text-muted-foreground">{user.email}</TableCell>
+                    <TableCell className="text-secondary-label">{user.email}</TableCell>
                     <TableCell className="text-right">
                       <Badge variant="secondary">{user.referral_score}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
-                        <Users className="h-3 w-3 text-muted-foreground" />
+                        <Users className="h-3 w-3 text-secondary-label" />
                         <span>{user.referral_count}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
+                    <TableCell className="text-secondary-label text-sm">
                       {formatDistanceToNow(new Date(user.created_at), { addSuffix: true })}
                     </TableCell>
                   </TableRow>
@@ -125,11 +125,11 @@ export const ReferralLeaderboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">total referrers</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{leaderboard?.length || 0}</div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               users with at least 1 referral
             </p>
           </CardContent>
@@ -138,13 +138,13 @@ export const ReferralLeaderboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">total referrals</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {leaderboard?.reduce((sum, user) => sum + user.referral_count, 0) || 0}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               across all referrers
             </p>
           </CardContent>
@@ -153,7 +153,7 @@ export const ReferralLeaderboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">avg per referrer</CardTitle>
-            <Trophy className="h-4 w-4 text-muted-foreground" />
+            <Trophy className="h-4 w-4 text-secondary-label" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -161,7 +161,7 @@ export const ReferralLeaderboard = () => {
                 ? (leaderboard.reduce((sum, user) => sum + user.referral_count, 0) / leaderboard.length).toFixed(1)
                 : '0'}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-secondary-label">
               referrals per active user
             </p>
           </CardContent>

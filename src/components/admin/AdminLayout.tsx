@@ -68,7 +68,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           <Link to="/" className="text-xl font-bold">
             utm.one
           </Link>
-          <p className="text-xs text-muted-foreground mt-1">admin dashboard</p>
+          <p className="text-xs text-secondary-label mt-1">admin dashboard</p>
         </div>
 
         <nav className="px-3 space-y-1">
@@ -85,7 +85,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   transition-colors
                   ${isActive 
                     ? 'bg-primary text-primary-foreground font-medium' 
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    : 'text-secondary-label hover:bg-muted hover:text-foreground'
                   }
                 `}
               >
@@ -100,7 +100,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <div className="absolute bottom-6 left-3 right-3">
           <Button
             variant="ghost"
-            className="w-full justify-start text-muted-foreground"
+            className="w-full justify-start text-secondary-label"
             onClick={handleSignOut}
           >
             <LogOut className="w-4 h-4 mr-3" />

@@ -153,12 +153,12 @@ export function FlagRecommendations() {
       
       <CardContent>
         {isLoading ? (
-          <div className="text-center py-8 text-muted-foreground">analyzing system...</div>
+          <div className="text-center py-8 text-secondary-label">analyzing system...</div>
         ) : !recommendations || recommendations.length === 0 ? (
           <div className="text-center py-12">
             <Lightbulb className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p className="text-muted-foreground">no recommendations at this time</p>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-secondary-label">no recommendations at this time</p>
+            <p className="text-xs text-secondary-label mt-2">
               system is running optimally with current configuration
             </p>
           </div>
@@ -178,7 +178,7 @@ export function FlagRecommendations() {
                           {Math.round(rec.confidence_score * 100)}% {getConfidenceLabel(rec.confidence_score)}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-secondary-label">
                         {formatDistanceToNow(new Date(rec.created_at))} ago
                       </p>
                     </div>
@@ -191,7 +191,7 @@ export function FlagRecommendations() {
                   <div className="grid grid-cols-3 gap-4 p-3 rounded bg-white/50 border">
                     {rec.expected_impact.latency_change !== undefined && (
                       <div>
-                        <p className="text-xs text-muted-foreground">latency impact</p>
+                        <p className="text-xs text-secondary-label">latency impact</p>
                         <div className="flex items-center gap-1 mt-1">
                           {rec.expected_impact.latency_change < 0 ? (
                             <TrendingDown className="w-4 h-4 text-green-600" />
@@ -207,7 +207,7 @@ export function FlagRecommendations() {
                     
                     {rec.expected_impact.error_rate_change !== undefined && (
                       <div>
-                        <p className="text-xs text-muted-foreground">error rate impact</p>
+                        <p className="text-xs text-secondary-label">error rate impact</p>
                         <div className="flex items-center gap-1 mt-1">
                           {rec.expected_impact.error_rate_change < 0 ? (
                             <TrendingDown className="w-4 h-4 text-green-600" />
@@ -223,7 +223,7 @@ export function FlagRecommendations() {
                     
                     {rec.expected_impact.cache_hit_rate_change !== undefined && (
                       <div>
-                        <p className="text-xs text-muted-foreground">cache impact</p>
+                        <p className="text-xs text-secondary-label">cache impact</p>
                         <div className="flex items-center gap-1 mt-1">
                           {rec.expected_impact.cache_hit_rate_change > 0 ? (
                             <TrendingUp className="w-4 h-4 text-green-600" />
@@ -242,7 +242,7 @@ export function FlagRecommendations() {
                   <div className="flex items-center gap-2 text-xs">
                     <Badge variant="outline">{rec.current_system_load} load</Badge>
                     <Badge variant="outline">{rec.current_traffic_pattern} traffic</Badge>
-                    <span className="text-muted-foreground">
+                    <span className="text-secondary-label">
                       expires {formatDistanceToNow(new Date(rec.expires_at), { addSuffix: true })}
                     </span>
                   </div>
