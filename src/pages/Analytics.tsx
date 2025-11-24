@@ -76,8 +76,8 @@ const Analytics = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="h-[72px] border-b border-border bg-white/80 backdrop-blur-xl sticky top-0 z-50">
+    <div className="min-h-screen bg-grouped-background">
+      <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-8 h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex items-center gap-8">
@@ -89,23 +89,23 @@ const Analytics = () => {
                 />
               </div>
               <nav className="hidden md:flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/dashboard")}>
+                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
                   dashboard
                 </Button>
-                <Button variant="ghost" size="sm" className="h-9" onClick={() => navigate("/links")}>
+                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/links")}>
                   links
                 </Button>
-                <Button variant="default" size="sm" className="h-9">
+                <Button variant="system" size="sm">
                   <TrendingUp className="h-4 w-4 mr-2" />
                   analytics
                 </Button>
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-small-text text-muted-foreground hidden md:block">
+              <span className="text-footnote text-secondary-label hidden md:block">
                 {user?.email}
               </span>
-              <Button variant="ghost" size="icon" className="h-9 w-9" onClick={handleSignOut}>
+              <Button variant="system-tertiary" size="icon" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4" />
               </Button>
             </div>
@@ -115,8 +115,8 @@ const Analytics = () => {
 
       <main className="container mx-auto px-8 py-group">
         <div className="mb-content">
-          <h1 className="text-heading-3 font-display font-bold mb-2 bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent">analytics</h1>
-          <p className="text-body-text text-muted-foreground">
+          <h1 className="text-large-title font-bold text-label mb-2">analytics</h1>
+          <p className="text-body-apple text-secondary-label">
             analytics appear once your links get clicks.
           </p>
         </div>
@@ -131,7 +131,7 @@ const Analytics = () => {
             {/* Anomalies */}
             {anomalies && anomalies.length > 0 && (
               <div className="space-y-4 mb-content">
-                <h2 className="text-xl font-display font-semibold">anomalies detected</h2>
+                <h2 className="text-title-2 font-semibold text-label">anomalies detected</h2>
                 {anomalies.slice(0, 3).map((anomaly) => (
                   <AnomalyAlert 
                     key={anomaly.id} 
