@@ -45,16 +45,16 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 what is utm.one
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     utm.one is the simplest way to make your links smarter.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-foreground font-medium">
+                <p className="text-headline text-label font-medium">
                   not longer. not louder. just smarter.
                 </p>
                 <ProgressiveReveal>
@@ -74,10 +74,10 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 the idea behind it
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     marketing today is two battles happening at the same time:
@@ -104,7 +104,7 @@ const About = () => {
                     no clutter. no tracking creep. no messy spreadsheets.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-foreground font-medium">
+                <p className="text-headline text-label font-medium">
                   just a single source of truth for your distribution.
                 </p>
               </div>
@@ -118,55 +118,55 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 what makes utm.one different
               </h2>
               <ProgressiveReveal>
-                <p className="text-body-text italic">
+                <p className="text-body-apple text-secondary-label italic">
                   minimal on the outside. structured to perfection inside.
                 </p>
               </ProgressiveReveal>
               <ProgressiveReveal>
-                <ul className="space-y-4 text-body-text leading-[1.75]">
+                <ul className="space-y-4 text-body-apple text-secondary-label leading-[1.75]">
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>ultra-clean URLs</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>human-readable naming</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>ai-readable metadata</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>consistent taxonomy</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>built-in campaign governance</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>&quot;memory-safe&quot; tagging for future LLM crawlers</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>instant share-ready format for teams</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>one-click analytics setup</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-primary font-bold mt-1">•</span>
+                    <span className="text-system-blue font-bold mt-1">•</span>
                     <span>templates inspired by apple&apos;s simplicity & google&apos;s information architecture</span>
                   </li>
                 </ul>
               </ProgressiveReveal>
-              <p className="text-foreground font-medium pt-4">
+              <p className="text-headline text-label font-medium pt-4">
                 it&apos;s the closest version of &quot;UTMs that think.&quot;
               </p>
             </div>
@@ -179,10 +179,10 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 why it matters
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     every link you create is a ranking signal.<br />
@@ -190,13 +190,13 @@ const About = () => {
                     every link your team uses is a consistency signal.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-foreground font-medium">
+                <p className="text-headline text-label font-medium">
                   utm.one ensures all three work in your favour — not against you.
                 </p>
                 <ProgressiveReveal>
                   <p className="pt-4">
                     this is not a link-shortener.<br />
-                    <span className="text-foreground font-semibold">it&apos;s a context engine.</span>
+                    <span className="text-label font-semibold">it&apos;s a context engine.</span>
                   </p>
                 </ProgressiveReveal>
               </div>
@@ -210,16 +210,16 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 the philosophy
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     when we designed utm.one, we asked a simple question:
                   </p>
                 </ProgressiveReveal>
-                <p className="text-foreground font-medium text-xl">
+                <p className="text-headline text-label font-medium">
                   &quot;if apple built a link system, how would it feel?&quot;
                 </p>
                 <ProgressiveReveal>
@@ -231,7 +231,7 @@ const About = () => {
                     <p>functionally brilliant.</p>
                   </div>
                 </ProgressiveReveal>
-                <p className="pt-4 text-foreground font-medium">
+                <p className="pt-4 text-headline text-label font-medium">
                   that&apos;s the design north star.
                 </p>
               </div>
@@ -245,10 +245,10 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 who is it for
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     creators, marketers, founders, product teams, community builders, growth leaders — anyone who wants:
@@ -274,10 +274,10 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-heading-2 font-display font-bold">
+              <h2 className="text-title-1 font-display font-bold text-label">
                 the promise
               </h2>
-              <div className="space-y-6 text-body-text leading-[1.75]">
+              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
                     you&apos;ll spend less time fixing broken tracking,<br />
@@ -287,10 +287,10 @@ const About = () => {
                 <ProgressiveReveal>
                   <p>
                     because distribution shouldn&apos;t feel like a chore.<br />
-                    <span className="text-foreground font-semibold">it should feel like a design choice.</span>
+                    <span className="text-label font-semibold">it should feel like a design choice.</span>
                   </p>
                 </ProgressiveReveal>
-                <p className="text-foreground font-bold text-xl pt-6">
+                <p className="text-headline text-label font-bold pt-6">
                   utm.one is that choice.
                 </p>
               </div>

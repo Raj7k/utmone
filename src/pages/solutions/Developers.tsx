@@ -21,12 +21,12 @@ const Developers = () => {
                 A clean API for a cleaner stack.
               </h1>
             </div>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto text-balance">
+            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto text-balance">
               utm.one integrates your links, analytics, and events into any system you already use.
             </p>
             <div className="pt-4">
               <Link to="/pricing">
-                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
                   get early access
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
@@ -45,9 +45,9 @@ const Developers = () => {
                 Complex link systems break silently.
               </h2>
             </AnimatedHeadline>
-            <div className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mx-auto leading-relaxed space-y-6">
+            <div className="text-title-2 text-secondary-label max-w-[800px] mx-auto leading-relaxed space-y-6">
               <p>APIs differ. Redirects slow. Analytics drift.</p>
-              <p className="text-foreground font-medium">utm.one gives you a single, reliable foundation.</p>
+              <p className="text-label font-medium">utm.one gives you a single, reliable foundation.</p>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ const Developers = () => {
       {/* Why Developers Choose utm.one */}
       <section className="py-24 bg-gradient-to-b from-background to-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl md:text-5xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
             Why developers choose utm.one
           </h2>
           
@@ -95,7 +95,7 @@ const Developers = () => {
       {/* Integration Section */}
       <section className="py-24 bg-muted/30">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-3xl md:text-4xl font-display text-foreground font-bold tracking-tight text-center mb-16">
+          <h2 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
             Built for integration
           </h2>
           
@@ -106,8 +106,8 @@ const Developers = () => {
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-foreground/5 flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-105">
                 <Box className="w-10 h-10 md:w-12 md:h-12 text-foreground" strokeWidth={2} />
               </div>
-              <h3 className="text-xl font-display font-semibold text-foreground mb-2">utm.one API</h3>
-              <p className="text-sm text-muted-foreground">Clean API foundation</p>
+              <h3 className="text-headline font-display font-semibold text-label mb-2">utm.one API</h3>
+              <p className="text-subheadline text-secondary-label">Clean API foundation</p>
             </div>
             
             {/* Connected Systems */}
@@ -151,7 +151,7 @@ const Developers = () => {
           </div>
           
           {/* Supporting Text */}
-          <p className="text-center text-body text-muted-foreground max-w-[640px] mx-auto">
+          <p className="text-center text-body-apple text-secondary-label max-w-[640px] mx-auto">
             everything works because the data is clean from the start.
           </p>
         </div>
@@ -168,7 +168,7 @@ const Developers = () => {
             </AnimatedHeadline>
             <div className="pt-4">
               <Link to="/auth">
-                <Button size="lg" className="bg-foreground text-background text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
+                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
                   view developer docs
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
@@ -182,9 +182,9 @@ const Developers = () => {
       <section className="py-16 bg-muted/30">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center">
-            <p className="text-body text-muted-foreground">
-              <Link to="/solutions/marketers" className="text-foreground hover:underline">
-                see how <Link to="/solutions/marketing-ops" className="text-foreground hover:underline">ops</Link> governs domains and roles →
+            <p className="text-body-apple text-secondary-label">
+              <Link to="/solutions/marketers" className="text-label hover:underline">
+                see how <Link to="/solutions/marketing-ops" className="text-label hover:underline">ops</Link> governs domains and roles →
               </Link>
             </p>
           </div>
