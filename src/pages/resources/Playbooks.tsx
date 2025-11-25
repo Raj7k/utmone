@@ -9,11 +9,17 @@ import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup"
 const Playbooks = () => {
   const playbooks = [
     {
+      slug: "llm-ranking",
+      title: "LLM Ranking Playbook — The Complete Implementation Guide",
+      description: "90-day step-by-step roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools, 50+ optimization tactics, and real-world case studies.",
+      readTime: "45 min read",
+      badge: "NEW"
+    },
+    {
       slug: "ai-marketing",
       title: "AI Marketing Playbook — Content Creation in the AI Era",
       description: "Master AI-driven content marketing with 8-step workflow, 30+ tools, interactive examples, and proven strategies for thought leadership.",
-      readTime: "22 min read",
-      badge: "NEW"
+      readTime: "22 min read"
     },
     {
       slug: "utm-governance-playbook",

@@ -16,6 +16,7 @@ import TrackingArchitecture from "./pages/resources/guides/TrackingArchitecture"
 import SimpleAnalytics from "./pages/resources/guides/SimpleAnalytics";
 import GrowthAnalytics from "./pages/resources/guides/GrowthAnalytics";
 import LLMSeo from "./pages/resources/guides/LLMSeo";
+import LLMRanking from "./pages/resources/playbooks/LLMRanking";
 import UTMGovernancePlaybook from "./pages/resources/playbooks/UTMGovernancePlaybook";
 import StartupAnalyticsPlaybook from "./pages/resources/playbooks/StartupAnalyticsPlaybook";
 import EventLedGrowthPlaybook from "./pages/resources/playbooks/EventLedGrowthPlaybook";
@@ -227,6 +228,7 @@ const App = () => (
           <Route path="/resources/guides/llm-seo" element={<LLMSeo />} />
           
           {/* Playbook Routes */}
+          <Route path="/resources/playbooks/llm-ranking" element={<LLMRanking />} />
           <Route path="/resources/playbooks/utm-governance-playbook" element={<UTMGovernancePlaybook />} />
           <Route path="/resources/playbooks/startup-analytics-playbook" element={<StartupAnalyticsPlaybook />} />
           <Route path="/resources/playbooks/event-led-growth-playbook" element={<EventLedGrowthPlaybook />} />
