@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
@@ -37,6 +38,7 @@ export const Step2Shortener = ({
   onBack,
 }: Step2ShortenerProps) => {
   const { toast } = useToast();
+  const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
@@ -127,6 +129,20 @@ export const Step2Shortener = ({
         .single();
 
       if (error) throw error;
+      
+      // Trigger webhook for link.created
+      try {
+        await triggerWebhook('link.created', {
+          link_id: link.id,
+          title: link.title,
+          short_url: `https://${link.domain}/${link.slug}`,
+          destination_url: link.destination_url,
+          created_at: link.created_at,
+        });
+      } catch (webhookError) {
+        console.error('Webhook trigger failed:', webhookError);
+      }
+      
       return link;
     },
     onSuccess: (link) => {

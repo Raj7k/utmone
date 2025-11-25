@@ -60,6 +60,7 @@ const linkFormSchema = z.object({
   og_image: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   password: z.string().min(6).optional().or(z.literal("")),
   password_hint: z.string().max(100).optional(),
+  enable_cloaking: z.boolean().default(true),
 });
 
 type LinkFormData = z.infer<typeof linkFormSchema>;
@@ -99,6 +100,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       utm_campaign: preferences?.last_utm_campaign || "",
       utm_term: "",
       utm_content: "",
+      enable_cloaking: true,
       redirect_type: (preferences?.default_redirect_type as "301" | "302") || "302",
     },
   });
@@ -344,6 +346,20 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         .single();
 
       if (error) throw error;
+      
+      // Trigger webhook for link.created
+      try {
+        await triggerWebhook('link.created', {
+          link_id: link.id,
+          title: link.title,
+          short_url: link.short_url,
+          destination_url: link.destination_url,
+          created_at: link.created_at,
+        });
+      } catch (webhookError) {
+        console.error('Webhook trigger failed:', webhookError);
+      }
+      
       return link;
     },
     onSuccess: async (link) => {
@@ -791,6 +807,34 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
               <Separator />
 
               <div className="space-y-4">
+                <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <Eye className="h-4 w-4 text-secondary-label" />
+                      <Label className="text-sm font-medium">Link Cloaking</Label>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Mask destination URL in address bar (visitors only see short link)
+                    </p>
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="enable_cloaking"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <Separator />
+                
                 <div className="flex items-center gap-2">
                   <Lock className="h-4 w-4 text-secondary-label" />
                   <Label className="text-sm font-medium">Password Protection</Label>
