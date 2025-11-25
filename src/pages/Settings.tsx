@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings as SettingsIcon, Globe, ArrowLeft, Key, Webhook, Shield, Palette } from "lucide-react";
+import { Settings as SettingsIcon, Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
@@ -12,6 +12,7 @@ import { NavLink } from "@/components/NavLink";
 import { supabase } from "@/integrations/supabase/client";
 import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 import { WorkspaceBranding } from "@/components/settings/WorkspaceBranding";
+import { TeamMembers } from "@/components/settings/TeamMembers";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -110,6 +111,10 @@ export default function Settings() {
                 <Palette className="w-4 h-4" />
                 Branding
               </TabsTrigger>
+              <TabsTrigger value="team" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+                <Users className="w-4 h-4" />
+                Team
+              </TabsTrigger>
               <TabsTrigger value="api" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
                 <Key className="w-4 h-4" />
                 API Keys
@@ -130,6 +135,10 @@ export default function Settings() {
 
             <TabsContent value="branding" className="space-y-6">
               {currentWorkspace && <WorkspaceBranding workspaceId={currentWorkspace.id} />}
+            </TabsContent>
+
+            <TabsContent value="team" className="space-y-6">
+              {currentWorkspace && <TeamMembers workspaceId={currentWorkspace.id} />}
             </TabsContent>
 
             <TabsContent value="api" className="space-y-6">

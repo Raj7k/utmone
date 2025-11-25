@@ -275,6 +275,53 @@ export type Database = {
           },
         ]
       }
+      analytics_share_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          show_campaigns: boolean | null
+          show_clicks: boolean | null
+          show_devices: boolean | null
+          show_geography: boolean | null
+          token: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          show_campaigns?: boolean | null
+          show_clicks?: boolean | null
+          show_devices?: boolean | null
+          show_geography?: boolean | null
+          token?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          show_campaigns?: boolean | null
+          show_clicks?: boolean | null
+          show_devices?: boolean | null
+          show_geography?: boolean | null
+          token?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_share_links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       announcement_clicks: {
         Row: {
           announcement_id: string
@@ -2882,6 +2929,50 @@ export type Database = {
           },
         ]
       }
+      workspace_invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          token: string
+          workspace_id: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          token?: string
+          workspace_id: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          token?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_invitations_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workspace_members: {
         Row: {
           created_at: string | null
@@ -2971,12 +3062,14 @@ export type Database = {
           default_path: string | null
           description: string | null
           id: string
+          is_client_workspace: boolean | null
           monthly_clicks_limit: number | null
           monthly_link_count: number | null
           monthly_link_limit: number | null
           name: string
           onboarding_completed: boolean | null
           owner_id: string
+          parent_workspace_id: string | null
           plan_expires_at: string | null
           plan_started_at: string | null
           plan_tier: Database["public"]["Enums"]["plan_tier"] | null
@@ -2992,12 +3085,14 @@ export type Database = {
           default_path?: string | null
           description?: string | null
           id?: string
+          is_client_workspace?: boolean | null
           monthly_clicks_limit?: number | null
           monthly_link_count?: number | null
           monthly_link_limit?: number | null
           name: string
           onboarding_completed?: boolean | null
           owner_id: string
+          parent_workspace_id?: string | null
           plan_expires_at?: string | null
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
@@ -3013,12 +3108,14 @@ export type Database = {
           default_path?: string | null
           description?: string | null
           id?: string
+          is_client_workspace?: boolean | null
           monthly_clicks_limit?: number | null
           monthly_link_count?: number | null
           monthly_link_limit?: number | null
           name?: string
           onboarding_completed?: boolean | null
           owner_id?: string
+          parent_workspace_id?: string | null
           plan_expires_at?: string | null
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
@@ -3032,6 +3129,13 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workspaces_parent_workspace_id_fkey"
+            columns: ["parent_workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
             referencedColumns: ["id"]
           },
         ]
