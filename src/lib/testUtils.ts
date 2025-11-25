@@ -79,8 +79,8 @@ export async function testLinkCreation(workspaceId: string): Promise<TestResult>
       destination_url: "https://example.com",
       final_url: "https://example.com",
       slug: `test-${Date.now()}`,
-      domain: "utm.one",
-      path: "go",
+      domain: "go.utm.one",
+      path: "",
       status: "active" as const
     };
 
