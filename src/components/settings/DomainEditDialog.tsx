@@ -53,12 +53,17 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
     txtValue: false,
     cnameName: false,
     cnameValue: false,
-    aRecordName: false,
-    aRecordValue: false,
-    cnameRecordName: false,
-    cnameRecordValue: false,
+    subdomainCname: false,
+    nginxProxy: false,
+    apacheProxy: false,
+    cloudflareTransform: false,
+    vercelRewrite: false,
   });
   const [dnsOpen, setDnsOpen] = useState(!domain?.is_verified); // Open by default for unverified
+  const [routingOption, setRoutingOption] = useState<'subdomain' | 'cloudflare' | 'proxy' | null>(null);
+  const [cloudflareGuideOpen, setCloudflareGuideOpen] = useState(false);
+  const [proxyExamplesOpen, setProxyExamplesOpen] = useState(false);
+  const [subdomainPrefix, setSubdomainPrefix] = useState("go");
 
   // Parse existing domain_settings or use defaults
   const settings = domain?.domain_settings || {};
@@ -72,7 +77,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const isVerified = domain?.is_verified;
   const verificationCode = domain?.verification_code;
 
-  const handleCopy = async (text: string, type: 'txtName' | 'txtNameFull' | 'txtValue' | 'cnameName' | 'cnameValue' | 'aRecordName' | 'aRecordValue' | 'cnameRecordName' | 'cnameRecordValue') => {
+  const handleCopy = async (text: string, type: keyof typeof copiedFields) => {
     await navigator.clipboard.writeText(text);
     setCopiedFields(prev => ({ ...prev, [type]: true }));
     setTimeout(() => {
@@ -346,158 +351,418 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   {domain?.is_verified 
-                    ? "domain verified! now add A/CNAME records to route traffic to your short links."
-                    : "complete step 1 first, then configure routing records."}
+                    ? "domain verified! choose how to route traffic to your short links."
+                    : "complete step 1 first, then configure routing."}
                 </p>
               </div>
             </div>
 
             {domain?.is_verified && (
               <div className="ml-11 space-y-4">
-                <Alert className="bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-900">
-                  <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
-                  <AlertDescription className="text-sm text-foreground">
-                    your domain is verified but traffic routing is not configured. short links won't work until you add the A or CNAME record below.
+                <Alert className="bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900">
+                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <AlertDescription className="text-sm">
+                    <strong>not ready for custom domain setup?</strong> use <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">go.utm.one</code> for now - it works immediately with zero configuration.
                   </AlertDescription>
                 </Alert>
 
                 <div className="space-y-3">
-                  <div className="text-sm font-medium text-foreground">
-                    choose one routing method:
+                  <div className="text-sm font-medium text-foreground mb-2">
+                    choose your setup method:
                   </div>
 
-                  {/* Option A: A Record (Recommended) */}
-                  <div className="p-4 rounded-lg border border-border bg-card">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-semibold text-foreground">option a: a record</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">recommended</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      routes traffic via cloudflare for better performance and ddos protection
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
+                  {/* Option 1: Subdomain (Easiest) */}
+                  <div className="border border-border rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setRoutingOption(routingOption === 'subdomain' ? null : 'subdomain')}
+                      className="w-full p-4 text-left hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <label className="text-xs text-muted-foreground block mb-1">type</label>
-                          <div className="px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
-                            A
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold text-foreground">option 1: subdomain</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 font-medium">
+                              🏆 easiest • recommended for marketers
+                            </span>
                           </div>
+                          <p className="text-xs text-muted-foreground">
+                            create a subdomain like <code className="bg-muted px-1 py-0.5 rounded">go.{domain?.domain}</code> and point it to go.utm.one
+                          </p>
                         </div>
-                        <div className="flex-1">
-                          <label className="text-xs text-muted-foreground block mb-1">name</label>
+                        <ChevronDown className={cn(
+                          "w-4 h-4 text-muted-foreground transition-transform flex-shrink-0 ml-2",
+                          routingOption === 'subdomain' && "rotate-180"
+                        )} />
+                      </div>
+                    </button>
+
+                    {routingOption === 'subdomain' && (
+                      <div className="p-4 pt-0 space-y-3">
+                        <div className="rounded-md bg-muted/30 p-3 space-y-3">
+                          <p className="text-xs text-muted-foreground">
+                            <strong>why this works:</strong> CNAME to go.utm.one works because Cloudflare automatically handles SSL for go.utm.one
+                          </p>
+                          <p className="text-xs text-foreground font-medium">
+                            ✓ no server setup • works in minutes • perfect for non-technical users
+                          </p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-xs text-muted-foreground">1. choose your subdomain prefix</Label>
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
-                              @
+                            <Input
+                              value={subdomainPrefix}
+                              onChange={(e) => setSubdomainPrefix(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                              placeholder="go"
+                              className="flex-none w-24 font-mono text-sm"
+                            />
+                            <span className="text-sm text-muted-foreground">.</span>
+                            <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono">
+                              {domain?.domain}
                             </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleCopy('@', 'aRecordName')}
-                              className="shrink-0"
-                            >
-                              {copiedFields.aRecordName ? (
-                                <Check className="h-4 w-4 text-green-600" />
-                              ) : (
-                                <Copy className="h-4 w-4" />
-                              )}
-                            </Button>
                           </div>
+                          <p className="text-xs text-muted-foreground">
+                            popular choices: go, links, l, track
+                          </p>
                         </div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs text-muted-foreground block mb-1">value (ip address)</label>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
-                            185.158.133.1
+
+                        <div className="space-y-2">
+                          <Label className="text-xs text-muted-foreground">2. add this CNAME record to your DNS</Label>
+                          <div className="rounded-lg border border-border bg-card p-3 space-y-2">
+                            <div className="grid grid-cols-3 gap-2 text-xs font-medium text-muted-foreground">
+                              <div>type</div>
+                              <div>name</div>
+                              <div>value</div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                              <div className="px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">CNAME</div>
+                              <div className="px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">{subdomainPrefix}</div>
+                              <div className="flex items-center gap-1">
+                                <div className="flex-1 px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">go.utm.one</div>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleCopy('go.utm.one', 'subdomainCname')}
+                                  className="h-7 w-7 p-0"
+                                >
+                                  {copiedFields.subdomainCname ? (
+                                    <Check className="h-3 w-3 text-green-600" />
+                                  ) : (
+                                    <Copy className="h-3 w-3" />
+                                  )}
+                                </Button>
+                              </div>
+                            </div>
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleCopy('185.158.133.1', 'aRecordValue')}
-                            className="shrink-0"
-                          >
-                            {copiedFields.aRecordValue ? (
-                              <Check className="h-4 w-4 text-green-600" />
-                            ) : (
-                              <Copy className="h-4 w-4" />
-                            )}
-                          </Button>
+                          <p className="text-xs text-muted-foreground">
+                            💡 changes typically propagate in 5-30 minutes
+                          </p>
                         </div>
+
+                        <Alert className="bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-900">
+                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <AlertDescription className="text-xs">
+                            <strong>your links will work at:</strong> <code className="bg-background px-1 py-0.5 rounded font-mono">{subdomainPrefix}.{domain?.domain}/slug</code>
+                          </AlertDescription>
+                        </Alert>
                       </div>
-                    </div>
+                    )}
                   </div>
 
-                  {/* Option B: CNAME Record */}
-                  <div className="p-4 rounded-lg border border-border bg-card">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm font-semibold text-foreground">option b: cname record</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      direct route to supabase (simpler, but less performance optimization)
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
+                  {/* Option 2: Root Domain via Cloudflare */}
+                  <div className="border border-border rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setRoutingOption(routingOption === 'cloudflare' ? null : 'cloudflare')}
+                      className="w-full p-4 text-left hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <label className="text-xs text-muted-foreground block mb-1">type</label>
-                          <div className="px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
-                            CNAME
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold text-foreground">option 2: root domain via cloudflare</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 font-medium">
+                              ⚠️ advanced • requires cloudflare account
+                            </span>
                           </div>
+                          <p className="text-xs text-muted-foreground">
+                            for using <code className="bg-muted px-1 py-0.5 rounded">{domain?.domain}</code> directly (no subdomain) • requires DNS transfer to Cloudflare
+                          </p>
                         </div>
-                        <div className="flex-1">
-                          <label className="text-xs text-muted-foreground block mb-1">name</label>
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
-                              @
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleCopy('@', 'cnameRecordName')}
-                              className="shrink-0"
-                            >
-                              {copiedFields.cnameRecordName ? (
-                                <Check className="h-4 w-4 text-green-600" />
-                              ) : (
-                                <Copy className="h-4 w-4" />
-                              )}
+                        <ChevronDown className={cn(
+                          "w-4 h-4 text-muted-foreground transition-transform flex-shrink-0 ml-2",
+                          routingOption === 'cloudflare' && "rotate-180"
+                        )} />
+                      </div>
+                    </button>
+
+                    {routingOption === 'cloudflare' && (
+                      <div className="p-4 pt-0 space-y-4">
+                        <Alert className="bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-900">
+                          <AlertTriangle className="h-4 w-4 text-orange-600" />
+                          <AlertDescription className="text-xs">
+                            <strong>requirements:</strong> free Cloudflare account • DNS nameserver change at your registrar • 24-48hr DNS propagation
+                          </AlertDescription>
+                        </Alert>
+
+                        <Collapsible open={cloudflareGuideOpen} onOpenChange={setCloudflareGuideOpen}>
+                          <CollapsibleTrigger asChild>
+                            <Button variant="outline" size="sm" className="w-full">
+                              <span className="text-xs">step-by-step cloudflare setup guide</span>
+                              <ChevronDown className={cn(
+                                "w-3 h-3 ml-2 transition-transform",
+                                cloudflareGuideOpen && "rotate-180"
+                              )} />
                             </Button>
-                          </div>
-                        </div>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="mt-3 space-y-4">
+                            <div className="space-y-3">
+                              {[
+                                {
+                                  step: "1. create cloudflare account",
+                                  description: "sign up at cloudflare.com (free plan works)",
+                                  link: "https://dash.cloudflare.com/sign-up"
+                                },
+                                {
+                                  step: "2. add your domain to cloudflare",
+                                  description: "click 'Add a Site' → enter your domain → select Free plan",
+                                  link: null
+                                },
+                                {
+                                  step: "3. update nameservers at your registrar",
+                                  description: "cloudflare will show you 2 nameservers. go to your domain registrar (godaddy, namecheap, etc.) and replace existing nameservers with cloudflare's.",
+                                  providers: [
+                                    { name: "GoDaddy", hint: "DNS Management → Nameservers → Change → Custom" },
+                                    { name: "Namecheap", hint: "Domain List → Manage → Nameservers → Custom DNS" },
+                                    { name: "Google Domains", hint: "DNS → Name servers → Use custom name servers" },
+                                    { name: "Route53", hint: "Registered domains → Update name servers" }
+                                  ]
+                                },
+                                {
+                                  step: "4. wait for dns propagation",
+                                  description: "cloudflare will verify nameserver change (5min - 48hrs). you'll get an email when active.",
+                                  link: null
+                                },
+                                {
+                                  step: "5. create worker route",
+                                  description: "in cloudflare dashboard: Workers & Pages → Create Worker → paste code below → Deploy → add route: yourdomain.com/*",
+                                  code: `// Cloudflare Worker for ${domain?.domain}
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    const targetUrl = \`https://go.utm.one\${url.pathname}\${url.search}\`;
+    
+    return fetch(targetUrl, {
+      method: request.method,
+      headers: {
+        ...Object.fromEntries(request.headers),
+        'X-Original-Host': url.hostname,
+      },
+      redirect: 'manual'
+    });
+  }
+}`
+                                },
+                                {
+                                  step: "6. configure ssl",
+                                  description: "SSL/TLS → Overview → set to 'Full' mode (not Flexible, not Strict)",
+                                  link: null
+                                }
+                              ].map((item, idx) => (
+                                <div key={idx} className="rounded-lg border border-border bg-card p-3 space-y-2">
+                                  <div className="font-medium text-sm text-foreground">{item.step}</div>
+                                  <p className="text-xs text-muted-foreground">{item.description}</p>
+                                  {item.link && (
+                                    <a 
+                                      href={item.link} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                      className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                                    >
+                                      open cloudflare →
+                                    </a>
+                                  )}
+                                  {item.providers && (
+                                    <div className="mt-2 space-y-1">
+                                      {item.providers.map((provider, pidx) => (
+                                        <div key={pidx} className="text-xs">
+                                          <span className="font-medium">{provider.name}:</span> <span className="text-muted-foreground">{provider.hint}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {item.code && (
+                                    <div className="relative">
+                                      <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
+                                        <code>{item.code}</code>
+                                      </pre>
+                                      <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleCopy(item.code, 'nginxProxy')}
+                                        className="absolute top-2 right-2 h-6 w-6 p-0"
+                                      >
+                                        {copiedFields.nginxProxy ? (
+                                          <Check className="h-3 w-3 text-green-600" />
+                                        ) : (
+                                          <Copy className="h-3 w-3" />
+                                        )}
+                                      </Button>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+
+                        <Alert className="bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900">
+                          <Info className="h-4 w-4 text-blue-600" />
+                          <AlertDescription className="text-xs">
+                            <strong>estimated time:</strong> 30-60 minutes (mostly waiting for DNS propagation)
+                          </AlertDescription>
+                        </Alert>
                       </div>
-                      
-                      <div>
-                        <label className="text-xs text-muted-foreground block mb-1">value (target)</label>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground break-all">
-                            whgnsmjdubnvbmarnjfx.supabase.co
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleCopy('whgnsmjdubnvbmarnjfx.supabase.co', 'cnameRecordValue')}
-                            className="shrink-0"
-                          >
-                            {copiedFields.cnameRecordValue ? (
-                              <Check className="h-4 w-4 text-green-600" />
-                            ) : (
-                              <Copy className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
 
-                  <Alert>
-                    <Info className="h-4 w-4" />
-                    <AlertDescription className="text-sm">
-                      <strong>note:</strong> dns propagation can take 1-72 hours. most providers propagate within minutes, but some take longer.
-                    </AlertDescription>
-                  </Alert>
+                  {/* Option 3: Reverse Proxy */}
+                  <div className="border border-border rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setRoutingOption(routingOption === 'proxy' ? null : 'proxy')}
+                      className="w-full p-4 text-left hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold text-foreground">option 3: reverse proxy</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 font-medium">
+                              🔧 for technical teams • requires server access
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            if you already have a website with SSL, configure your server to proxy requests to go.utm.one
+                          </p>
+                        </div>
+                        <ChevronDown className={cn(
+                          "w-4 h-4 text-muted-foreground transition-transform flex-shrink-0 ml-2",
+                          routingOption === 'proxy' && "rotate-180"
+                        )} />
+                      </div>
+                    </button>
+
+                    {routingOption === 'proxy' && (
+                      <div className="p-4 pt-0 space-y-3">
+                        <div className="rounded-md bg-muted/30 p-3">
+                          <p className="text-xs text-foreground">
+                            <strong>how it works:</strong> your existing SSL certificate handles encryption, your server forwards short link requests to go.utm.one
+                          </p>
+                        </div>
+
+                        <Collapsible open={proxyExamplesOpen} onOpenChange={setProxyExamplesOpen}>
+                          <CollapsibleTrigger asChild>
+                            <Button variant="outline" size="sm" className="w-full">
+                              <span className="text-xs">view configuration examples</span>
+                              <ChevronDown className={cn(
+                                "w-3 h-3 ml-2 transition-transform",
+                                proxyExamplesOpen && "rotate-180"
+                              )} />
+                            </Button>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="mt-3 space-y-3">
+                            {[
+                              {
+                                name: "nginx",
+                                code: `# Add to your nginx config
+location / {
+    proxy_pass https://go.utm.one;
+    proxy_set_header Host go.utm.one;
+    proxy_set_header X-Original-Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_redirect off;
+}`,
+                                copyKey: 'nginxProxy' as const
+                              },
+                              {
+                                name: "Apache",
+                                code: `# Add to your .htaccess or Apache config
+<IfModule mod_proxy.c>
+    ProxyPreserveHost Off
+    ProxyPass / https://go.utm.one/
+    ProxyPassReverse / https://go.utm.one/
+    RequestHeader set X-Original-Host "${domain?.domain}"
+</IfModule>`,
+                                copyKey: 'apacheProxy' as const
+                              },
+                              {
+                                name: "Cloudflare Transform Rules",
+                                code: `# Cloudflare Dashboard → Rules → Transform Rules
+# Create HTTP Request Header Modification
+When: hostname equals "${domain?.domain}"
+Then: Set dynamic header "Host" = "go.utm.one"
+      Set static header "X-Original-Host" = "${domain?.domain}"
+      
+# Then create a Redirect Rule
+When: hostname equals "${domain?.domain}"
+Then: Dynamic URL Redirect to concat("https://go.utm.one", http.request.uri.path)`,
+                                copyKey: 'cloudflareTransform' as const
+                              },
+                              {
+                                name: "Vercel",
+                                code: `// vercel.json
+{
+  "rewrites": [
+    {
+      "source": "/:slug",
+      "destination": "https://go.utm.one/:slug",
+      "headers": {
+        "X-Original-Host": "${domain?.domain}"
+      }
+    }
+  ]
+}`,
+                                copyKey: 'vercelRewrite' as const
+                              }
+                            ].map((example, idx) => (
+                              <div key={idx} className="space-y-2">
+                                <div className="text-xs font-medium text-foreground">{example.name}</div>
+                                <div className="relative">
+                                  <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
+                                    <code>{example.code}</code>
+                                  </pre>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleCopy(example.code, example.copyKey)}
+                                    className="absolute top-2 right-2 h-6 w-6 p-0"
+                                  >
+                                    {copiedFields[example.copyKey] ? (
+                                      <Check className="h-3 w-3 text-green-600" />
+                                    ) : (
+                                      <Copy className="h-3 w-3" />
+                                    )}
+                                  </Button>
+                                </div>
+                              </div>
+                            ))}
+                          </CollapsibleContent>
+                        </Collapsible>
+
+                        <Alert>
+                          <Info className="h-4 w-4" />
+                          <AlertDescription className="text-xs">
+                            <strong>important:</strong> make sure to pass the <code className="bg-background px-1 py-0.5 rounded font-mono">X-Original-Host</code> header so our system knows which domain the request came from
+                          </AlertDescription>
+                        </Alert>
+                      </div>
+                    )}
+                  </div>
                 </div>
+
+                <Alert className="mt-4">
+                  <Info className="h-4 w-4" />
+                  <AlertDescription className="text-sm">
+                    <strong>note:</strong> dns propagation can take 5 minutes to 72 hours depending on your provider and configuration method
+                  </AlertDescription>
+                </Alert>
               </div>
             )}
           </div>
