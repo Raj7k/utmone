@@ -7,10 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link2, Shuffle, CheckCircle2, AlertCircle, Copy, QrCode } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 
 const shortenerSchema = z.object({
@@ -34,6 +35,23 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const { toast } = useToast();
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
+  const [selectedDomain, setSelectedDomain] = useState<string>("go.utm.one");
+
+  // Fetch verified domains for the workspace
+  const { data: verifiedDomains } = useQuery({
+    queryKey: ["verified-domains", workspaceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("domains")
+        .select("id, domain")
+        .eq("workspace_id", workspaceId)
+        .eq("is_verified", true)
+        .order("is_primary", { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    },
+  });
 
   const form = useForm<ShortenerFormData>({
     resolver: zodResolver(shortenerSchema),
@@ -64,7 +82,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         const { data } = await supabase
           .from("links")
           .select("id")
-          .eq("domain", "go.utm.one")
+          .eq("domain", selectedDomain)
           .eq("path", "")
           .eq("slug", values.slug)
           .maybeSingle();
@@ -75,7 +93,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
     const timeoutId = setTimeout(checkSlug, 500);
     return () => clearTimeout(timeoutId);
-  }, [values.slug]);
+  }, [values.slug, selectedDomain]);
 
   const generateRandomSlug = () => {
     const randomSlug = Math.random().toString(36).substring(2, 10);
@@ -96,7 +114,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           slug: data.slug,
           destination_url: data.url,
           final_url: data.url,
-          domain: "go.utm.one",
+          domain: selectedDomain,
           path: "",
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
@@ -109,7 +127,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       return link;
     },
     onSuccess: (link) => {
-      const url = `https://go.utm.one/${link.slug}`;
+      const url = `https://${link.domain}/${link.slug}`;
       setShortURL(url);
       toast({
         title: "link created",
@@ -182,9 +200,29 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           </div>
 
           <div>
+            <Label htmlFor="domain">Domain</Label>
+            <Select value={selectedDomain} onValueChange={setSelectedDomain}>
+              <SelectTrigger className="mt-1.5">
+                <SelectValue placeholder="Select domain" />
+              </SelectTrigger>
+              <SelectContent>
+                {verifiedDomains && verifiedDomains.length > 0 ? (
+                  verifiedDomains.map((d) => (
+                    <SelectItem key={d.id} value={d.domain}>
+                      {d.domain}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="go.utm.one">go.utm.one</SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label htmlFor="slug">Custom Slug *</Label>
             <div className="flex items-center gap-2 mt-1.5">
-              <span className="text-body-apple text-secondary-label whitespace-nowrap">go.utm.one/</span>
+              <span className="text-body-apple text-secondary-label whitespace-nowrap">{selectedDomain}/</span>
               <div className="flex-1 relative">
                 <Input
                   id="slug"

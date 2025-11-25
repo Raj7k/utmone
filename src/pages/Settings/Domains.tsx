@@ -116,11 +116,22 @@ export default function Domains({ workspaceId }: DomainsProps) {
 
   const handleVerify = async (domainId: string) => {
     try {
-      await verifyMutation.mutateAsync(domainId);
-      toast({
-        title: "Domain verified",
-        description: "Your domain is now ready to use.",
-      });
+      const result = await verifyMutation.mutateAsync(domainId);
+      
+      // Check if verification succeeded
+      if (result && (result as any).is_verified) {
+        toast({
+          title: "Domain verified!",
+          description: "You can now use this domain when creating short links.",
+        });
+        // Auto-close DNS dialog after successful verification
+        setIsDNSDialogOpen(false);
+      } else {
+        toast({
+          title: "Verification pending",
+          description: "DNS records not found yet. It can take up to 72 hours for DNS changes to propagate.",
+        });
+      }
     } catch (error) {
       toast({
         title: "Verification failed",

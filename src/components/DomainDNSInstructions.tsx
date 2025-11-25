@@ -30,20 +30,14 @@ export const DomainDNSInstructions = ({
 
   const dnsRecords: DNSRecord[] = [
     {
-      type: "A",
+      type: "CNAME",
       name: "@",
-      value: "185.158.133.1",
-      ttl: "3600",
-    },
-    {
-      type: "A",
-      name: "www",
-      value: "185.158.133.1",
+      value: "go.utm.one",
       ttl: "3600",
     },
     {
       type: "TXT",
-      name: `_utm-verification.${domain}`,
+      name: "_utm-verification",
       value: verificationCode,
       ttl: "3600",
     },
@@ -66,6 +60,12 @@ export const DomainDNSInstructions = ({
         <AlertDescription>
           Add these DNS records to your domain registrar to verify ownership and enable URL
           shortening. DNS changes can take up to 72 hours to propagate.
+          <br />
+          <strong>Note:</strong> For the TXT record, enter "_utm-verification" without your domain name - 
+          your registrar will automatically append ".{domain}" to it.
+          <br />
+          <strong>CNAME for root domain:</strong> Some registrars don't support CNAME for root domains (@). 
+          In that case, use ALIAS or ANAME record if available, or contact support.
         </AlertDescription>
       </Alert>
 
