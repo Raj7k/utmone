@@ -16,6 +16,7 @@ import { LLMCitationChecklist } from "@/components/resources/llm/LLMCitationChec
 import { PromptOptimizationTool } from "@/components/resources/llm/PromptOptimizationTool";
 import { AIAnswerEngineTracker } from "@/components/resources/llm/AIAnswerEngineTracker";
 import { RoadmapTimeline } from "@/components/resources/utm/RoadmapTimeline";
+import { Link } from "react-router-dom";
 
 const LLMSeo = () => {
   const breadcrumbs = [
@@ -25,6 +26,7 @@ const LLMSeo = () => {
   ];
 
   const relatedResources = [
+    { title: "LLM Ranking Playbook", href: "/resources/playbooks/llm-ranking", description: "90-day step-by-step implementation roadmap" },
     { title: "UTM Guide", href: "/resources/guides/utm-guide", description: "Track AI referral traffic with proper UTM parameters" },
     { title: "Clean-Track Framework", href: "/resources/frameworks", description: "Semantic content architecture example" },
     { title: "Analytics Dashboard", href: "/features/analytics", description: "Measure LLM optimization performance" },
@@ -178,6 +180,10 @@ const LLMSeo = () => {
 
         <p className="text-lg text-muted-foreground leading-relaxed">
           This guide explains the 7 principles of LLM-SEO and how to structure content so AI systems surface your brand as the authoritative source.
+        </p>
+
+        <p className="text-lg text-foreground leading-relaxed">
+          For a complete 90-day implementation roadmap with embedded tools and real-world case studies, see our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline font-semibold">LLM Ranking Playbook</Link>.
         </p>
       </section>
 

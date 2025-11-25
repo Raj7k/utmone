@@ -1758,7 +1758,7 @@ utm_content = {citation-position} (optional)`}
           {/* Related Resources */}
           <section className="pt-12 border-t border-separator">
             <h2 className="text-2xl font-semibold text-foreground mb-6">Related Resources</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link
                 to="/resources/guides/llm-seo"
                 className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
@@ -1780,6 +1780,18 @@ utm_content = {citation-position} (optional)`}
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   Set up proper tracking for AI platform referral traffic
+                </p>
+              </Link>
+              
+              <Link
+                to="/resources/frameworks/clean-track-model"
+                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+              >
+                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                  Clean-Track Framework
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Semantic content architecture for knowledge graphs
                 </p>
               </Link>
               

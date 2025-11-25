@@ -20,6 +20,7 @@ import { DataFragmentationCalculator } from "@/components/resources/utm/DataFrag
 import { MultiTouchAttributionSimulator } from "@/components/resources/utm/MultiTouchAttributionSimulator";
 import { CaseStudyExplorer } from "@/components/resources/utm/CaseStudyExplorer";
 import { TeamRACIMatrix } from "@/components/resources/utm/TeamRACIMatrix";
+import { Link } from "react-router-dom";
 
 const UTMGuide = () => {
   const breadcrumbs = [
@@ -31,6 +32,7 @@ const UTMGuide = () => {
 
   const relatedResources = [
     { title: "LLM-First SEO Guide", href: "/resources/guides/llm-seo", description: "Optimize UTM-tracked pages for AI discovery" },
+    { title: "LLM Ranking Playbook", href: "/resources/playbooks/llm-ranking", description: "90-day roadmap to rank in ChatGPT and Claude" },
     { title: "UTM Template", href: "/resources/templates", description: "Copy/paste UTM templates for common campaigns" },
     { title: "Clean-Track Framework", href: "/resources/frameworks", description: "4-layer architecture for tracking at scale" },
     { title: "Partner Program", href: "/features/partner-program", description: "Track affiliate UTMs and referral campaigns" },
@@ -230,7 +232,7 @@ const UTMGuide = () => {
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Even with perfect governance, mistakes happen. The UTM Debugger identifies issues and provides corrected versions automatically.</p>
-            <p>Once your UTMs are clean and consistent, make sure your landing pages are discoverable by AI systems. See our <a href="/resources/guides/llm-seo" className="text-primary hover:underline">LLM-First SEO Guide</a> for schema markup and content structure optimization.</p>
+            <p>Once your UTMs are clean and consistent, make sure your landing pages are discoverable by AI systems. See our <Link to="/resources/guides/llm-seo" className="text-primary hover:underline">LLM-First SEO Guide</Link> or follow our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline">90-day LLM Ranking Playbook</Link> for complete implementation guidance.</p>
           </div>
 
           <UTMDebugger />

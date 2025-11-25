@@ -112,6 +112,48 @@ const Resources = () => {
         </div>
       </section>
 
+      {/* Featured Resources */}
+      <section className="py-12 bg-muted/20">
+        <div className="max-w-[1280px] mx-auto px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl font-display font-semibold text-foreground">Featured Resources</h2>
+            <p className="text-sm text-secondary-label mt-2">New and flagship content</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* 2026 Salary Benchmark Report */}
+            <Link
+              to="/resources/reports/salary-benchmark-2026"
+              className="group block p-8 rounded-2xl border-2 border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-white"
+            >
+              <Badge className="mb-4">FEATURED</Badge>
+              <h3 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                2026 Global Salary Benchmark Report
+              </h3>
+              <p className="text-base text-secondary-label mb-4 leading-relaxed">
+                Complete salary data across 15+ countries, 50+ roles, with 10 interactive tools and regional deep dives.
+              </p>
+              <div className="text-xs text-secondary-label">65 min read</div>
+            </Link>
+
+            {/* LLM Ranking Playbook */}
+            <Link
+              to="/resources/playbooks/llm-ranking"
+              className="group block p-8 rounded-2xl border-2 border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-primary/5 to-white"
+            >
+              <Badge className="mb-4 animate-pulse">NEW</Badge>
+              <h3 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                LLM Ranking Playbook — The Complete Implementation Guide
+              </h3>
+              <p className="text-base text-secondary-label mb-4 leading-relaxed">
+                90-day roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools and real-world case studies.
+              </p>
+              <div className="text-xs text-secondary-label">45 min read</div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Grid */}
       <section className="py-16 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
