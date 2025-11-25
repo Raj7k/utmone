@@ -100,6 +100,20 @@ export default function EarlyAccess() {
       how_heard: data.how_heard,
     });
 
+    // Check rate limit before proceeding
+    try {
+      const { data: rateLimitData } = await supabase.functions.invoke('check-early-access-rate-limit');
+      
+      if (rateLimitData && !rateLimitData.allowed) {
+        toast.error("too many requests. please try again in an hour.");
+        setIsSubmitting(false);
+        return;
+      }
+    } catch (rateLimitError) {
+      console.error('Rate limit check failed:', rateLimitError);
+      // Continue with submission if rate limit check fails (fail open)
+    }
+
     // Get referral code from URL if present
     const params = new URLSearchParams(window.location.search);
     const referralCode = params.get('ref');

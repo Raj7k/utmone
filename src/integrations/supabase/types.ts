@@ -2351,6 +2351,33 @@ export type Database = {
           },
         ]
       }
+      rate_limit_log: {
+        Row: {
+          attempt_count: number | null
+          created_at: string | null
+          endpoint: string
+          id: string
+          ip_address: string
+          window_start: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          created_at?: string | null
+          endpoint: string
+          id?: string
+          ip_address: string
+          window_start?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          created_at?: string | null
+          endpoint?: string
+          id?: string
+          ip_address?: string
+          window_start?: string | null
+        }
+        Relationships: []
+      }
       report_downloads: {
         Row: {
           company: string | null
@@ -3160,6 +3187,15 @@ export type Database = {
       }
     }
     Functions: {
+      check_rate_limit: {
+        Args: {
+          p_endpoint: string
+          p_ip_address: string
+          p_max_requests?: number
+          p_window_minutes?: number
+        }
+        Returns: boolean
+      }
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
@@ -3264,6 +3300,16 @@ export type Database = {
           p_resource_id: string
           p_resource_type: string
           p_user_agent?: string
+        }
+        Returns: string
+      }
+      log_security_event: {
+        Args: {
+          p_event_type: string
+          p_ip_address?: string
+          p_metadata?: Json
+          p_user_agent?: string
+          p_user_id?: string
         }
         Returns: string
       }
