@@ -31,6 +31,7 @@ export const useEnhancedLinks = ({
 }: UseEnhancedLinksParams) => {
   return useQuery({
     queryKey: ["enhanced-links", workspaceId, searchQuery, statusFilter, sortBy, sortOrder, page, pageSize],
+    enabled: !!workspaceId,
     queryFn: async () => {
       let query = supabase
         .from("links")
