@@ -15,12 +15,14 @@ import { RecentLinksWidget } from "@/components/dashboard/RecentLinksWidget";
 import { TransparencyCard } from "@/components/dashboard/TransparencyCard";
 import { SecurityOverviewWidget } from "@/components/dashboard/SecurityOverviewWidget";
 import { QuickActions } from "@/components/dashboard/QuickActions";
-import { GlanceableStats } from "@/components/dashboard/GlanceableStats";
 import { MobileNav } from "@/components/mobile/MobileNav";
-import { useGesture } from "@use-gesture/react";
 import { AIRecommendationsWidget } from "@/components/dashboard/AIRecommendationsWidget";
 import { PerformanceMetrics } from "@/components/dashboard/PerformanceMetrics";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
+import { GlanceableMetrics } from "@/components/dashboard/GlanceableMetrics";
+import { AIInsights } from "@/components/dashboard/AIInsights";
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
+import { CreateLinkInline } from "@/components/link/CreateLinkInline";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -186,14 +188,29 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Glanceable Stats */}
+        {/* Glanceable Metrics - New Redesigned Component */}
         {currentWorkspace && (
           <div className="mb-content">
-            <GlanceableStats workspaceId={currentWorkspace.id} />
+            <GlanceableMetrics />
           </div>
         )}
 
-        {/* Quick Actions */}
+        {/* Create Link Inline - Optimized Flow */}
+        {currentWorkspace && (
+          <div className="mb-content">
+            <CreateLinkInline workspaceId={currentWorkspace.id} />
+          </div>
+        )}
+
+        {/* AI Insights & Recent Activity Side by Side */}
+        {currentWorkspace && (
+          <div className="grid md:grid-cols-2 gap-card mb-content">
+            <AIInsights />
+            <RecentActivity />
+          </div>
+        )}
+
+        {/* Quick Actions - Keep existing for keyboard shortcuts */}
         {currentWorkspace && (
           <div className="mb-content">
             <QuickActions 
