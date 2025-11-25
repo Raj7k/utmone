@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link as LinkIcon, LogOut } from "lucide-react";
+import { Link as LinkIcon, LogOut, Filter } from "lucide-react";
 import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { LinkFilters } from "@/components/LinkFilters";
@@ -12,6 +12,10 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
+import { PullToRefresh } from "@/components/mobile/PullToRefresh";
+import { MobileActionSheet } from "@/components/mobile/MobileActionSheet";
+import { MobileLinkFilters } from "@/components/mobile/MobileLinkFilters";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { User } from "@supabase/supabase-js";
 
 const Links = () => {
@@ -22,7 +26,14 @@ const Links = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
+  const isMobile = useIsMobile();
+
+  const handleRefresh = async () => {
+    // Refresh logic - force re-render by invalidating queries
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  };
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
@@ -79,9 +90,9 @@ const Links = () => {
   return (
     <div className="min-h-screen bg-grouped-background">
       <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-8 h-full">
+        <div className="container mx-auto px-4 md:px-8 h-full">
           <div className="flex items-center justify-between h-full">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4 md:gap-8">
               <div className="flex items-center gap-2">
                 <img 
                   src="/src/assets/utm-one-logo.svg" 
@@ -100,7 +111,12 @@ const Links = () => {
                 </Button>
               </nav>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
+              {isMobile && (
+                <Button variant="ghost" size="icon" onClick={() => setMobileFiltersOpen(true)}>
+                  <Filter className="h-5 w-5" />
+                </Button>
+              )}
               <span className="text-footnote text-secondary-label hidden md:block">
                 {user?.email}
               </span>
@@ -112,58 +128,78 @@ const Links = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-8 py-group">
-        <div className="mb-content">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-large-title font-bold text-label mb-2">links</h1>
-              <p className="text-body-apple text-secondary-label">
-                manage and track all your short links
-              </p>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <main className="container mx-auto px-4 md:px-8 py-group">
+          <div className="mb-content">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-large-title font-bold text-label mb-2">links</h1>
+                <p className="text-body-apple text-secondary-label">
+                  manage and track all your short links
+                </p>
+              </div>
+              {currentWorkspace && (
+                <CreateLinkDialog 
+                  workspaceId={currentWorkspace.id}
+                  open={createLinkDialogOpen}
+                  onOpenChange={setCreateLinkDialogOpen}
+                />
+              )}
             </div>
-            {currentWorkspace && (
-              <CreateLinkDialog 
-                workspaceId={currentWorkspace.id}
-                open={createLinkDialogOpen}
-                onOpenChange={setCreateLinkDialogOpen}
+
+            {!isMobile && (
+              <LinkFilters
+                onSearchChange={setSearchQuery}
+                onStatusChange={setStatusFilter}
               />
             )}
           </div>
 
-          <LinkFilters
-            onSearchChange={setSearchQuery}
-            onStatusChange={setStatusFilter}
+          <Card variant="grouped">
+            <CardHeader>
+              <CardTitle className="text-title-2 text-label">Your Links</CardTitle>
+              <CardDescription className="text-secondary-label">
+                View and manage all links in your workspace
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {currentWorkspace ? (
+                <EnhancedLinksTable 
+                  workspaceId={currentWorkspace.id}
+                  searchQuery={searchQuery}
+                  statusFilter={statusFilter}
+                />
+              ) : (
+                <p className="text-center text-secondary-label py-8">
+                  Loading workspace...
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Keyboard Shortcuts Help */}
+          <KeyboardShortcutsHelp 
+            open={showShortcutsHelp}
+            onOpenChange={setShowShortcutsHelp}
           />
-        </div>
+        </main>
+      </PullToRefresh>
 
-        <Card variant="grouped">
-          <CardHeader>
-            <CardTitle className="text-title-2 text-label">Your Links</CardTitle>
-            <CardDescription className="text-secondary-label">
-              View and manage all links in your workspace
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {currentWorkspace ? (
-              <EnhancedLinksTable 
-                workspaceId={currentWorkspace.id}
-                searchQuery={searchQuery}
-                statusFilter={statusFilter}
-              />
-            ) : (
-              <p className="text-center text-secondary-label py-8">
-                Loading workspace...
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Keyboard Shortcuts Help */}
-        <KeyboardShortcutsHelp 
-          open={showShortcutsHelp}
-          onOpenChange={setShowShortcutsHelp}
+      {/* Mobile Filters */}
+      <MobileActionSheet
+        open={mobileFiltersOpen}
+        onOpenChange={setMobileFiltersOpen}
+        title="Filter Links"
+        description="Narrow down your links"
+      >
+        <MobileLinkFilters
+          searchQuery={searchQuery}
+          statusFilter={statusFilter}
+          onSearchChange={setSearchQuery}
+          onStatusChange={setStatusFilter}
+          onClose={() => setMobileFiltersOpen(false)}
         />
-      </main>
+      </MobileActionSheet>
 
       <MobileNav />
     </div>

@@ -22,6 +22,9 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { useAnomalies } from "@/hooks/useAnomalies";
 import { MobileNav } from "@/components/mobile/MobileNav";
+import { SwipeableTabs } from "@/components/mobile/SwipeableTabs";
+import { PullToRefresh } from "@/components/mobile/PullToRefresh";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -32,6 +35,12 @@ const Analytics = () => {
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
+  const isMobile = useIsMobile();
+
+  const handleRefresh = async () => {
+    invalidateAnomalies();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  };
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
@@ -83,9 +92,9 @@ const Analytics = () => {
   return (
     <div className="min-h-screen bg-grouped-background">
       <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-8 h-full">
+        <div className="container mx-auto px-4 md:px-8 h-full">
           <div className="flex items-center justify-between h-full">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4 md:gap-8">
               <div className="flex items-center gap-2">
                 <img 
                   src="/src/assets/utm-one-logo.svg" 
@@ -107,7 +116,7 @@ const Analytics = () => {
                 </Button>
               </nav>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               <span className="text-footnote text-secondary-label hidden md:block">
                 {user?.email}
               </span>
@@ -119,136 +128,180 @@ const Analytics = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-8 py-group pb-20 md:pb-group">
-        {currentWorkspace && (
-          <>
-            {/* Hero Section with Glanceable Metrics */}
-            <div className="mb-content">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h1 className="text-large-title font-bold text-label mb-2">Analytics</h1>
-                  <p className="text-body-apple text-secondary-label">
-                    Real-time insights into your link performance
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    Export PDF
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setShareDialogOpen(true)}
-                  >
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share Dashboard
-                  </Button>
-                </div>
-              </div>
-
-              {/* Hero Metrics */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <Card className="p-6">
-                  <div className="text-sm text-secondary-label mb-2">Total Clicks</div>
-                  <div className="text-4xl font-bold text-label mb-2">12,847</div>
-                  <div className="flex items-center gap-2 text-xs text-system-green">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>↑ 23% vs last week</span>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <main className="container mx-auto px-4 md:px-8 py-group pb-20 md:pb-group">
+          {currentWorkspace && (
+            <>
+              {/* Hero Section with Glanceable Metrics */}
+              <div className="mb-content">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                  <div>
+                    <h1 className="text-large-title font-bold text-label mb-2">Analytics</h1>
+                    <p className="text-body-apple text-secondary-label">
+                      Real-time insights into your link performance
+                    </p>
                   </div>
-                </Card>
-                <Card className="p-6">
-                  <div className="text-sm text-secondary-label mb-2">Click-through Rate</div>
-                  <div className="text-4xl font-bold text-label mb-2">4.2%</div>
-                  <div className="flex items-center gap-2 text-xs text-system-green">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>↑ 0.5% improvement</span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="hidden md:flex">
+                      Export PDF
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setShareDialogOpen(true)}
+                      className="hidden md:flex"
+                    >
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share Dashboard
+                    </Button>
                   </div>
-                </Card>
-                <Card className="p-6">
-                  <div className="text-sm text-secondary-label mb-2">Top Performing Link</div>
-                  <div className="text-lg font-semibold text-label mb-1">Summer Sale 2025</div>
-                  <div className="text-xs text-secondary-label">3,421 clicks this week</div>
-                </Card>
+                </div>
+
+                {/* Hero Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <Card className="p-4 md:p-6">
+                    <div className="text-sm text-secondary-label mb-2">Total Clicks</div>
+                    <div className="text-3xl md:text-4xl font-bold text-label mb-2">12,847</div>
+                    <div className="flex items-center gap-2 text-xs text-system-green">
+                      <TrendingUp className="h-3 w-3" />
+                      <span>↑ 23% vs last week</span>
+                    </div>
+                  </Card>
+                  <Card className="p-4 md:p-6">
+                    <div className="text-sm text-secondary-label mb-2">Click-through Rate</div>
+                    <div className="text-3xl md:text-4xl font-bold text-label mb-2">4.2%</div>
+                    <div className="flex items-center gap-2 text-xs text-system-green">
+                      <TrendingUp className="h-3 w-3" />
+                      <span>↑ 0.5% improvement</span>
+                    </div>
+                  </Card>
+                  <Card className="p-4 md:p-6">
+                    <div className="text-sm text-secondary-label mb-2">Top Performing Link</div>
+                    <div className="text-base md:text-lg font-semibold text-label mb-1">Summer Sale 2025</div>
+                    <div className="text-xs text-secondary-label">3,421 clicks this week</div>
+                  </Card>
+                </div>
               </div>
-            </div>
 
-            {/* AI Insights */}
-            <div className="mb-content">
-              <AIInsightCard workspaceId={currentWorkspace.id} />
-            </div>
-
-            {/* Anomalies */}
-            {anomalies && anomalies.length > 0 && (
-              <div className="space-y-4 mb-content">
-                <h2 className="text-title-2 font-semibold text-label">anomalies detected</h2>
-                {anomalies.slice(0, 3).map((anomaly) => (
-                  <AnomalyAlert 
-                    key={anomaly.id} 
-                    anomaly={anomaly as any}
-                    onDismiss={invalidateAnomalies}
-                  />
-                ))}
+              {/* AI Insights */}
+              <div className="mb-content">
+                <AIInsightCard workspaceId={currentWorkspace.id} />
               </div>
-            )}
 
-            <Tabs defaultValue="overview" className="space-y-6">
-              <TabsList>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="conversions">Conversions</TabsTrigger>
-                <TabsTrigger value="devices">Devices</TabsTrigger>
-                <TabsTrigger value="geography">Geography</TabsTrigger>
-                <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
-                <TabsTrigger value="reports">Reports</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="overview">
-                <AnalyticsOverview workspaceId={currentWorkspace.id} />
-              </TabsContent>
-
-            <TabsContent value="conversions" className="space-y-6">
-              {conversionMetrics.data && (
-                <ConversionFunnel
-                  clicks={conversionMetrics.data.totalClicks}
-                  leads={conversionMetrics.data.leads}
-                  signups={conversionMetrics.data.signups}
-                  purchases={conversionMetrics.data.purchases}
-                  revenue={conversionMetrics.data.totalRevenue}
-                />
+              {/* Anomalies */}
+              {anomalies && anomalies.length > 0 && (
+                <div className="space-y-4 mb-content">
+                  <h2 className="text-title-2 font-semibold text-label">anomalies detected</h2>
+                  {anomalies.slice(0, 3).map((anomaly) => (
+                    <AnomalyAlert 
+                      key={anomaly.id} 
+                      anomaly={anomaly as any}
+                      onDismiss={invalidateAnomalies}
+                    />
+                  ))}
+                </div>
               )}
-            </TabsContent>
 
-            <TabsContent value="devices">
-              <DeviceBreakdown workspaceId={currentWorkspace.id} />
-            </TabsContent>
+              {isMobile ? (
+                <SwipeableTabs
+                  defaultTab="overview"
+                  tabs={[
+                    {
+                      id: "overview",
+                      label: "Overview",
+                      content: <AnalyticsOverview workspaceId={currentWorkspace.id} />,
+                    },
+                    {
+                      id: "conversions",
+                      label: "Conversions",
+                      content: conversionMetrics.data ? (
+                        <ConversionFunnel
+                          clicks={conversionMetrics.data.totalClicks}
+                          leads={conversionMetrics.data.leads}
+                          signups={conversionMetrics.data.signups}
+                          purchases={conversionMetrics.data.purchases}
+                          revenue={conversionMetrics.data.totalRevenue}
+                        />
+                      ) : null,
+                    },
+                    {
+                      id: "devices",
+                      label: "Devices",
+                      content: <DeviceBreakdown workspaceId={currentWorkspace.id} />,
+                    },
+                    {
+                      id: "geography",
+                      label: "Geography",
+                      content: <GeolocationMap workspaceId={currentWorkspace.id} />,
+                    },
+                    {
+                      id: "campaigns",
+                      label: "Campaigns",
+                      content: <UTMCampaignRollups workspaceId={currentWorkspace.id} />,
+                    },
+                  ]}
+                />
+              ) : (
+                <Tabs defaultValue="overview" className="space-y-6">
+                  <TabsList>
+                    <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="conversions">Conversions</TabsTrigger>
+                    <TabsTrigger value="devices">Devices</TabsTrigger>
+                    <TabsTrigger value="geography">Geography</TabsTrigger>
+                    <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+                    <TabsTrigger value="reports">Reports</TabsTrigger>
+                  </TabsList>
 
-            <TabsContent value="geography">
-              <GeolocationMap workspaceId={currentWorkspace.id} />
-            </TabsContent>
+                  <TabsContent value="overview">
+                    <AnalyticsOverview workspaceId={currentWorkspace.id} />
+                  </TabsContent>
 
-            <TabsContent value="campaigns">
-              <UTMCampaignRollups workspaceId={currentWorkspace.id} />
-            </TabsContent>
+                  <TabsContent value="conversions" className="space-y-6">
+                    {conversionMetrics.data && (
+                      <ConversionFunnel
+                        clicks={conversionMetrics.data.totalClicks}
+                        leads={conversionMetrics.data.leads}
+                        signups={conversionMetrics.data.signups}
+                        purchases={conversionMetrics.data.purchases}
+                        revenue={conversionMetrics.data.totalRevenue}
+                      />
+                    )}
+                  </TabsContent>
 
-            <TabsContent value="reports">
-              <ReportScheduler workspaceId={currentWorkspace.id} />
-            </TabsContent>
-          </Tabs>
+                  <TabsContent value="devices">
+                    <DeviceBreakdown workspaceId={currentWorkspace.id} />
+                  </TabsContent>
 
-          {/* Keyboard Shortcuts Help */}
-          <KeyboardShortcutsHelp 
-            open={showShortcutsHelp}
-            onOpenChange={setShowShortcutsHelp}
-          />
+                  <TabsContent value="geography">
+                    <GeolocationMap workspaceId={currentWorkspace.id} />
+                  </TabsContent>
 
-          {/* Analytics Share Dialog */}
-          <AnalyticsShareDialog
-            open={shareDialogOpen}
-            onOpenChange={setShareDialogOpen}
-            workspaceId={currentWorkspace.id}
-          />
-        </>
-        )}
-      </main>
+                  <TabsContent value="campaigns">
+                    <UTMCampaignRollups workspaceId={currentWorkspace.id} />
+                  </TabsContent>
+
+                  <TabsContent value="reports">
+                    <ReportScheduler workspaceId={currentWorkspace.id} />
+                  </TabsContent>
+                </Tabs>
+              )}
+
+              {/* Keyboard Shortcuts Help */}
+              <KeyboardShortcutsHelp 
+                open={showShortcutsHelp}
+                onOpenChange={setShowShortcutsHelp}
+              />
+
+              {/* Analytics Share Dialog */}
+              <AnalyticsShareDialog
+                open={shareDialogOpen}
+                onOpenChange={setShareDialogOpen}
+                workspaceId={currentWorkspace.id}
+              />
+            </>
+          )}
+        </main>
+      </PullToRefresh>
 
       <MobileNav />
     </div>

@@ -13,6 +13,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 import { WorkspaceBranding } from "@/components/settings/WorkspaceBranding";
 import { TeamMembers } from "@/components/settings/TeamMembers";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileNav } from "@/components/mobile/MobileNav";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function Settings() {
   const { currentWorkspace } = useWorkspace();
   const [user, setUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("domains");
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -58,11 +61,11 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-grouped-background">
+    <div className="min-h-screen bg-grouped-background pb-20 md:pb-0">
       <header className="border-b border-separator bg-system-background/80 backdrop-blur-xl">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-4 md:gap-8">
               <img 
                 src="/src/assets/utm-one-logo.svg" 
                 alt="utm.one" 
@@ -76,8 +79,8 @@ export default function Settings() {
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-subheadline text-secondary-label">{user.email}</span>
-              <Button variant="system-secondary" onClick={handleSignOut}>
+              <span className="text-subheadline text-secondary-label hidden md:block">{user.email}</span>
+              <Button variant="system-secondary" onClick={handleSignOut} size={isMobile ? "sm" : "default"}>
                 Logout
               </Button>
             </div>
@@ -102,28 +105,28 @@ export default function Settings() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="bg-fill-tertiary">
-              <TabsTrigger value="domains" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+            <TabsList className={`bg-fill-tertiary ${isMobile ? 'flex flex-col w-full h-auto' : ''}`}>
+              <TabsTrigger value="domains" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Globe className="w-4 h-4" />
                 Domains
               </TabsTrigger>
-              <TabsTrigger value="branding" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+              <TabsTrigger value="branding" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Palette className="w-4 h-4" />
                 Branding
               </TabsTrigger>
-              <TabsTrigger value="team" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+              <TabsTrigger value="team" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Users className="w-4 h-4" />
                 Team
               </TabsTrigger>
-              <TabsTrigger value="api" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+              <TabsTrigger value="api" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Key className="w-4 h-4" />
                 API Keys
               </TabsTrigger>
-              <TabsTrigger value="integrations" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+              <TabsTrigger value="integrations" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Webhook className="w-4 h-4" />
                 Integrations
               </TabsTrigger>
-              <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue">
+              <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Shield className="w-4 h-4" />
                 Data & Privacy
               </TabsTrigger>
@@ -160,6 +163,8 @@ export default function Settings() {
           </Tabs>
         </div>
       </main>
+      
+      <MobileNav />
     </div>
   );
 }
