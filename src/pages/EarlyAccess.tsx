@@ -13,10 +13,12 @@ import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { WhitespaceAdvantageCard } from "@/components/early-access/WhitespaceAdvantageCard";
 import { OnboardingTimeline } from "@/components/early-access/OnboardingTimeline";
 import { TrustNarrativeCard } from "@/components/early-access/TrustNarrativeCard";
+import { PublicLeaderboard } from "@/components/early-access/PublicLeaderboard";
+import { SocialProofStats } from "@/components/early-access/SocialProofStats";
 import { DiagonalLines, FloatingShapes, GridOverlay, GradientDivider } from "@/components/early-access/EarlyAccessDecorations";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2 } from "lucide-react";
+import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock } from "lucide-react";
 import { useTrackPageView, useTrackFormStart, useTrackFormSubmit } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
 
@@ -56,18 +58,35 @@ const BenefitItem = ({ icon: Icon, title, description, delay = 0 }: {
   </AnimatedHeadline>
 );
 
-const AudienceItem = ({ icon: Icon, label, delay = 0 }: { 
+const AudienceItem = ({ icon: Icon, label, delay = 0, color = "primary" }: { 
   icon: any; 
   label: string; 
   delay?: number;
-}) => (
-  <AnimatedHeadline delay={delay}>
-    <div className="flex items-center gap-3 text-lg text-label">
-      <Icon className="w-5 h-5 text-primary flex-shrink-0" />
-      <span>{label}</span>
-    </div>
-  </AnimatedHeadline>
-);
+  color?: string;
+}) => {
+  const colorClasses = {
+    primary: "bg-primary/10 text-primary hover:border-primary/30",
+    blazeOrange: "bg-blazeOrange/10 text-blazeOrange hover:border-blazeOrange/30",
+    deepSea: "bg-deepSea/10 text-deepSea hover:border-deepSea/30",
+  };
+
+  const iconColorClasses = {
+    primary: "text-primary",
+    blazeOrange: "text-blazeOrange",
+    deepSea: "text-deepSea",
+  };
+
+  return (
+    <AnimatedHeadline delay={delay}>
+      <div className={`flex items-center gap-3 p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-border/50 hover:shadow-md transition-all duration-300 group ${colorClasses[color as keyof typeof colorClasses]}`}>
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${colorClasses[color as keyof typeof colorClasses]}`}>
+          <Icon className={`w-6 h-6 ${iconColorClasses[color as keyof typeof iconColorClasses]}`} />
+        </div>
+        <span className="text-base font-medium text-foreground">{label}</span>
+      </div>
+    </AnimatedHeadline>
+  );
+};
 
 export default function EarlyAccess() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -175,52 +194,64 @@ export default function EarlyAccess() {
     <div className="min-h-screen bg-white">
       <Navigation />
       {/* FOLD 1 - Hero (A/B tested) */}
-      <section className="relative bg-white py-32 md:py-40 px-6 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-background via-wildSand/30 to-background py-32 md:py-40 px-6 overflow-hidden">
         <FloatingShapes />
         <DiagonalLines />
         <div className="hero-glow" />
         <div className="max-w-[900px] mx-auto text-center relative z-10">
           <AnimatedHeadline>
-            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tight bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
+            <h1 className="font-display font-extrabold text-7xl md:text-8xl lg:text-9xl mb-8 tracking-tighter bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent leading-[1.05]">
               {heroVariant.headline}
             </h1>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
-            <p className="text-xl md:text-2xl text-secondary-label leading-relaxed mb-12">
+            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12">
               {heroVariant.subheadline}
             </p>
           </AnimatedHeadline>
           <AnimatedHeadline delay={300}>
             <Button 
               size="lg" 
-              className="rounded-full px-8 py-6 text-base"
+              className="rounded-full px-10 py-7 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
               onClick={() => {
                 document.getElementById('early-access-form')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
               {heroVariant.cta}
             </Button>
-            <p className="text-sm text-tertiary-label mt-4">
+            <p className="text-sm text-muted-foreground/70 mt-4">
               {heroVariant.microcopy}
             </p>
           </AnimatedHeadline>
         </div>
+        {/* Hero glow effect - brand colors */}
+        <div className="absolute inset-0 bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent opacity-30 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-wildSand to-transparent pointer-events-none" />
       </section>
+
+      {/* Stats Bar */}
+      <SocialProofStats />
 
       <GradientDivider />
 
       {/* FOLD 2 - Why Early Access Exists */}
-      <section className="bg-muted/20 py-32 md:py-40 px-6 relative overflow-hidden">
+      <section className="bg-wildSand py-32 md:py-40 px-6 relative overflow-hidden">
         <GridOverlay />
         <div className="max-w-[1200px] mx-auto relative z-10">
-          <AnimatedHeadline>
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
-              we want the right people in first
-            </h2>
-          </AnimatedHeadline>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-deepSea/10 text-deepSea text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4" />
+              limited availability
+            </div>
+            <AnimatedHeadline>
+              <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter">
+                we want the right people in first
+              </h2>
+            </AnimatedHeadline>
+          </div>
           
           <AnimatedHeadline delay={100}>
-            <p className="text-xl md:text-2xl text-secondary-label text-center mb-12">
+            <p className="text-xl md:text-2xl text-muted-foreground text-center mb-12">
               utm.one is built for teams who
             </p>
           </AnimatedHeadline>
@@ -304,29 +335,67 @@ export default function EarlyAccess() {
       {/* FOLD 6 - Trust Narrative (soft gradient card) */}
       <TrustNarrativeCard />
 
+      <GradientDivider />
+
+      {/* Referral Leaderboard */}
+      <PublicLeaderboard />
+
+      <GradientDivider />
+
       {/* FOLD 7 - Who This Is For (audience grid) */}
-      <section className="bg-muted/20 py-32 md:py-40 px-6">
-        <div className="max-w-[800px] mx-auto">
+      <section className="bg-gradient-to-br from-background to-wildSand/50 py-32 md:py-40 px-6 relative overflow-hidden">
+        <FloatingShapes />
+        <div className="max-w-[800px] mx-auto relative z-10">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center">
-              who early access is perfect for
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tighter">
+              who this is for
             </h2>
           </AnimatedHeadline>
           
           <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <AudienceItem icon={Users} label="marketing teams" delay={0} />
-            <AudienceItem icon={Users} label="sales teams" delay={50} />
-            <AudienceItem icon={Shield} label="marketing ops" delay={100} />
-            <AudienceItem icon={Code} label="developers" delay={150} />
-            <AudienceItem icon={Building2} label="partner managers" delay={200} />
-            <AudienceItem icon={Building2} label="agencies" delay={250} />
+            <AudienceItem 
+              icon={Users} 
+              label="marketing teams who need governance" 
+              delay={0}
+              color="blazeOrange"
+            />
+            <AudienceItem 
+              icon={Zap} 
+              label="sales teams who need speed" 
+              delay={50}
+              color="deepSea"
+            />
+            <AudienceItem 
+              icon={Shield} 
+              label="compliance-focused organizations" 
+              delay={100}
+              color="primary"
+            />
+            <AudienceItem 
+              icon={BarChart3} 
+              label="data teams who need clean UTMs" 
+              delay={150}
+              color="blazeOrange"
+            />
+            <AudienceItem 
+              icon={CheckCircle2} 
+              label="agencies managing multiple clients" 
+              delay={200}
+              color="deepSea"
+            />
+            <AudienceItem 
+              icon={Clock} 
+              label="teams tired of broken links" 
+              delay={250}
+              color="primary"
+            />
           </div>
           
           <AnimatedHeadline delay={350}>
-            <p className="text-lg text-secondary-label text-center mb-4">
+            <p className="text-lg text-muted-foreground text-center mb-4">
               anyone who is tired of cleaning data at the end
             </p>
-            <p className="text-xl text-label text-center font-medium">
+            <p className="text-xl text-foreground text-center font-semibold">
               if you care about clarity, you'll feel at home here.
             </p>
           </AnimatedHeadline>
@@ -334,7 +403,9 @@ export default function EarlyAccess() {
       </section>
 
       {/* FOLD 8 - Final CTA with Simplified Form */}
-      <section id="early-access-form" className="bg-white py-32 md:py-40 px-6">
+      <section id="early-access-form" className="bg-gradient-to-br from-wildSand to-background py-32 md:py-40 px-6 relative overflow-hidden">
+        <GridOverlay />
+        <FloatingShapes />
         <div className="max-w-[600px] mx-auto">
           {!isSubmitted ? (
             <>
@@ -435,7 +506,7 @@ export default function EarlyAccess() {
 
                     <Button 
                       type="submit" 
-                      className="w-full h-12 rounded-lg text-base"
+                      className="w-full h-12 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? "submitting..." : "request early access"}

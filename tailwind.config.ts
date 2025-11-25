@@ -266,10 +266,24 @@ export default {
 				'4': 'hsl(var(--chart-4))',
 				'5': 'hsl(var(--chart-5))'
 			},
-			mirage: 'hsl(var(--mirage))',
-			blazeOrange: 'hsl(var(--blaze-orange))',
-			deepSea: 'hsl(var(--deep-sea))',
-			wildSand: 'hsl(var(--wild-sand))'
+			mirage: {
+				DEFAULT: 'hsl(var(--mirage))',
+				foreground: 'hsl(var(--mirage) / 0.9)'
+			},
+			blazeOrange: {
+				DEFAULT: 'hsl(var(--blaze-orange))',
+				light: 'hsl(var(--blaze-orange) / 0.1)',
+				medium: 'hsl(var(--blaze-orange) / 0.2)'
+			},
+			deepSea: {
+				DEFAULT: 'hsl(var(--deep-sea))',
+				light: 'hsl(var(--deep-sea) / 0.1)',
+				medium: 'hsl(var(--deep-sea) / 0.2)'
+			},
+			wildSand: {
+				DEFAULT: 'hsl(var(--wild-sand))',
+				dark: 'hsl(var(--wild-sand) / 0.5)'
+			}
 		},
   		backgroundImage: {
   			'gradient-primary': 'var(--gradient-primary)',
