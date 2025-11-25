@@ -10,6 +10,7 @@ import { Palette, Upload, Save } from "lucide-react";
 
 interface BrandingSettings {
   logo_url: string | null;
+  favicon_url: string | null;
   primary_color: string;
   secondary_color: string;
   company_name: string | null;
@@ -25,6 +26,7 @@ interface WorkspaceBrandingProps {
 export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
   const [settings, setSettings] = useState<BrandingSettings>({
     logo_url: null,
+    favicon_url: null,
     primary_color: "#217BF6",
     secondary_color: "#16232A",
     company_name: null,
@@ -33,6 +35,7 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
     custom_footer_text: null,
   });
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -47,8 +50,46 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
       .single();
 
     if (!error && data) {
-      setSettings(data);
+      setSettings({
+        ...data,
+        favicon_url: data.favicon_url || null,
+      });
     }
+  };
+
+  const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${workspaceId}/logo-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError, data } = await supabase.storage
+      .from('qr-codes')
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) {
+      toast({
+        title: "Upload Failed",
+        description: uploadError.message,
+        variant: "destructive",
+      });
+      setIsUploading(false);
+      return;
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('qr-codes')
+      .getPublicUrl(fileName);
+
+    setSettings({ ...settings, logo_url: publicUrl });
+    setIsUploading(false);
+    
+    toast({
+      title: "Logo Uploaded",
+      description: "Logo has been uploaded successfully",
+    });
   };
 
   const handleSave = async () => {
@@ -95,23 +136,48 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="logo_url">Logo URL</Label>
+          <Label htmlFor="logo_url">Logo</Label>
           <div className="flex gap-2">
             <Input
               id="logo_url"
               value={settings.logo_url || ""}
               onChange={(e) => setSettings({ ...settings, logo_url: e.target.value })}
-              placeholder="https://example.com/logo.png"
+              placeholder="https://example.com/logo.png or upload below"
             />
-            <Button variant="outline" size="icon">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={() => document.getElementById('logo-upload')?.click()}
+              disabled={isUploading}
+            >
               <Upload className="h-4 w-4" />
             </Button>
+            <input
+              id="logo-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleLogoUpload}
+            />
           </div>
           {settings.logo_url && (
             <div className="mt-2 p-4 border rounded-lg bg-muted/50">
               <img src={settings.logo_url} alt="Logo preview" className="h-12 object-contain" />
             </div>
           )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="favicon_url">Favicon URL</Label>
+          <Input
+            id="favicon_url"
+            value={settings.favicon_url || ""}
+            onChange={(e) => setSettings({ ...settings, favicon_url: e.target.value })}
+            placeholder="https://example.com/favicon.ico"
+          />
+          <p className="text-sm text-muted-foreground">
+            Icon displayed in browser tabs (16x16 or 32x32 pixels recommended)
+          </p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
