@@ -91,6 +91,56 @@ export type Database = {
           },
         ]
       }
+      ai_recommendations: {
+        Row: {
+          action_label: string | null
+          action_url: string | null
+          created_at: string | null
+          description: string
+          dismissed: boolean | null
+          dismissed_at: string | null
+          dismissed_by: string | null
+          id: string
+          recommendation_type: string
+          title: string
+          workspace_id: string | null
+        }
+        Insert: {
+          action_label?: string | null
+          action_url?: string | null
+          created_at?: string | null
+          description: string
+          dismissed?: boolean | null
+          dismissed_at?: string | null
+          dismissed_by?: string | null
+          id?: string
+          recommendation_type: string
+          title: string
+          workspace_id?: string | null
+        }
+        Update: {
+          action_label?: string | null
+          action_url?: string | null
+          created_at?: string | null
+          description?: string
+          dismissed?: boolean | null
+          dismissed_at?: string | null
+          dismissed_by?: string | null
+          id?: string
+          recommendation_type?: string
+          title?: string
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_recommendations_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alert_configurations: {
         Row: {
           alert_name: string
@@ -2205,6 +2255,36 @@ export type Database = {
             referencedColumns: ["link_id"]
           },
         ]
+      }
+      user_dashboard_preferences: {
+        Row: {
+          created_at: string | null
+          hidden_widgets: Json | null
+          id: string
+          layout_preset: string | null
+          updated_at: string | null
+          user_id: string | null
+          widget_order: Json | null
+        }
+        Insert: {
+          created_at?: string | null
+          hidden_widgets?: Json | null
+          id?: string
+          layout_preset?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          widget_order?: Json | null
+        }
+        Update: {
+          created_at?: string | null
+          hidden_widgets?: Json | null
+          id?: string
+          layout_preset?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          widget_order?: Json | null
+        }
+        Relationships: []
       }
       user_notifications: {
         Row: {
