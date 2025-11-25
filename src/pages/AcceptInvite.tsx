@@ -28,6 +28,20 @@ export default function AcceptInvite() {
 
   const loadInvitation = async (token: string) => {
     try {
+      // First check if invitation exists (including accepted ones)
+      const { data: anyInvitation } = await supabase
+        .from("workspace_invitations")
+        .select("accepted_at, expires_at")
+        .eq("token", token)
+        .single();
+
+      if (anyInvitation?.accepted_at) {
+        setError("This invitation has already been accepted");
+        setLoading(false);
+        return;
+      }
+
+      // Now get the full invitation data
       const { data, error } = await supabase
         .from("workspace_invitations")
         .select(`
@@ -58,7 +72,7 @@ export default function AcceptInvite() {
       setLoading(false);
     } catch (err) {
       console.error("Error loading invitation:", err);
-      setError("Invalid or expired invitation");
+      setError("Invalid invitation link");
       setLoading(false);
     }
   };
