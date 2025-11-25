@@ -52,6 +52,15 @@ serve(async (req) => {
       throw new Error("Insufficient permissions");
     }
 
+    // Get inviter's name for denormalization
+    const { data: inviterProfile } = await supabase
+      .from("profiles")
+      .select("full_name, email")
+      .eq("id", user.id)
+      .single();
+    
+    const inviterName = inviterProfile?.full_name || inviterProfile?.email || user.email || "A team member";
+
     // Create invitation
     const { data: invitation, error: inviteError } = await supabase
       .from("workspace_invitations")
@@ -60,6 +69,7 @@ serve(async (req) => {
         email,
         role,
         invited_by: user.id,
+        invited_by_name: inviterName,
       })
       .select()
       .single();
