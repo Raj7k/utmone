@@ -162,6 +162,10 @@ import PartnersManagement from "./pages/admin/PartnersManagement";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import PartnerApply from "./pages/Partners/Apply";
 import PartnerDashboard from "./pages/Partners/Dashboard";
+import PartnerTerms from "./pages/Partners/Terms";
+import ZapierIntegration from "./pages/integrations/Zapier";
+import SlackIntegration from "./pages/integrations/Slack";
+import IntegrationsSettings from "./pages/settings/Integrations";
 import PasswordProtected from "./pages/PasswordProtected";
 import APIDocumentation from "./pages/Docs/API";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -381,6 +385,10 @@ const App = () => (
           <Route path="/claim-access" element={<ClaimAccess />} />
           <Route path="/partners/apply" element={<PartnerApply />} />
           <Route path="/partners/dashboard" element={<PartnerDashboard />} />
+          <Route path="/partners/terms" element={<PartnerTerms />} />
+          <Route path="/integrations/zapier" element={<ZapierIntegration />} />
+          <Route path="/integrations/slack" element={<SlackIntegration />} />
+          <Route path="/settings/integrations" element={<IntegrationsSettings />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/workspaces" element={<ClientWorkspaces />} />
           <Route path="/analytics/share/:token" element={<AnalyticsShare />} />

@@ -131,9 +131,9 @@ export default function PartnerDashboard() {
 
       <Card>
         <CardHeader>
-          <CardTitle>your referral link</CardTitle>
+          <CardTitle>Your Referral Link</CardTitle>
           <CardDescription>
-            share this link to start earning commissions
+            Share this link to start earning commissions
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -145,11 +145,11 @@ export default function PartnerDashboard() {
             />
             <Button onClick={handleCopyLink}>
               <Copy className="w-4 h-4 mr-2" />
-              copy
+              Copy
             </Button>
             <Button variant="outline" onClick={() => setShowQR(!showQR)}>
               <QrCode className="w-4 h-4 mr-2" />
-              qr code
+              QR Code
             </Button>
           </div>
           {showQR && partner.referral_url && (
@@ -157,6 +157,53 @@ export default function PartnerDashboard() {
               <QRCode value={partner.referral_url} size={200} />
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Marketing Assets</CardTitle>
+          <CardDescription>
+            Download promotional materials to share utm.one
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="p-4 border rounded-lg space-y-2">
+              <h4 className="font-medium">Logo Pack</h4>
+              <p className="text-sm text-secondary-label">SVG and PNG logos in various sizes</p>
+              <Button variant="outline" size="sm">Download</Button>
+            </div>
+            <div className="p-4 border rounded-lg space-y-2">
+              <h4 className="font-medium">Banner Images</h4>
+              <p className="text-sm text-secondary-label">Social media and website banners</p>
+              <Button variant="outline" size="sm">Download</Button>
+            </div>
+            <div className="p-4 border rounded-lg space-y-2">
+              <h4 className="font-medium">Email Templates</h4>
+              <p className="text-sm text-secondary-label">Pre-written email copy</p>
+              <Button variant="outline" size="sm">View Templates</Button>
+            </div>
+            <div className="p-4 border rounded-lg space-y-2">
+              <h4 className="font-medium">Social Posts</h4>
+              <p className="text-sm text-secondary-label">Ready-to-share social media content</p>
+              <Button variant="outline" size="sm">View Posts</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Performance Chart</CardTitle>
+          <CardDescription>
+            Referrals and conversions over time
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64 flex items-center justify-center text-secondary-label">
+            <p>Chart visualization coming soon</p>
+          </div>
         </CardContent>
       </Card>
 
