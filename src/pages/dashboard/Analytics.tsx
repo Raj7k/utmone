@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { AnalyticsOverview } from "@/components/analytics/AnalyticsOverview";
 import { DeviceBreakdown } from "@/components/analytics/DeviceBreakdown";
 import { GeolocationMap } from "@/components/analytics/GeolocationMap";
@@ -25,10 +26,15 @@ import { FeatureHint } from "@/components/FeatureHint";
 
 export default function Analytics() {
   const { currentWorkspace } = useWorkspace();
+  const { trackFirstAnalyticsView } = useActivationTracking();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
   const { data: comparisonMetrics } = useComparisonMetrics({ workspaceId: currentWorkspace?.id || '', period: 'month' });
   const { recentClick, liveCount, isLive } = useRealtimeClicks(currentWorkspace?.id || '');
+
+  useEffect(() => {
+    trackFirstAnalyticsView();
+  }, [trackFirstAnalyticsView]);
 
   if (!currentWorkspace) {
     return (
