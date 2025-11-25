@@ -1,12 +1,14 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { LinkForm } from "./LinkForm";
-import { Plus, Copy, QrCode, BarChart3, CheckCircle2 } from "lucide-react";
+import { Plus, Copy, QrCode, BarChart3, CheckCircle2, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { QRCodeDialog } from "./QRCodeDialog";
 import { useNavigate } from "react-router-dom";
+import { LinkPreviewCard } from "./LinkPreviewCard";
+import { TrustBadge } from "./TrustBadge";
 
 interface CreateLinkDialogProps {
   workspaceId: string;
@@ -99,7 +101,7 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
               <label className="text-sm font-medium text-secondary-label block mb-2">
                 Short URL
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mb-3">
                 <div className="flex-1 px-3 py-2 bg-background rounded-md border font-mono text-sm truncate">
                   {createdShortUrl}
                 </div>
@@ -111,7 +113,32 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => window.open(createdShortUrl, '_blank')}
+                  title="Open in new tab"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
               </div>
+              
+              {/* Link Preview with Trust Indicators */}
+              {createdLinkId && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-secondary-label block">
+                    Link Preview & Security
+                  </label>
+                  <LinkPreviewCard 
+                    linkId={createdLinkId}
+                    destinationUrl={createdShortUrl}
+                  >
+                    <div className="text-xs text-secondary-label hover:underline cursor-help">
+                      hover to preview destination & security status
+                    </div>
+                  </LinkPreviewCard>
+                </div>
+              )}
             </Card>
 
             <div className="space-y-3">

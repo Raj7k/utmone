@@ -123,9 +123,18 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             </div>
             
             {/* Trust Badges */}
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-3 flex-wrap">
               {link.destination_url?.startsWith('https://') && (
                 <TrustBadge variant="ssl-secure" size="sm" />
+              )}
+              {link.security_status === 'safe' && (
+                <TrustBadge variant="scanned-safe" size="sm" />
+              )}
+              {link.security_status === 'threats_detected' && (
+                <TrustBadge variant="threats-detected" size="sm" />
+              )}
+              {link.security_status === 'not_scanned' && (
+                <TrustBadge variant="not-scanned" size="sm" />
               )}
               <TrustBadge variant="utm-verified" size="sm" />
             </div>
