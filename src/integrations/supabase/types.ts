@@ -2309,12 +2309,16 @@ export type Database = {
           first_link_created_at: string | null
           first_qr_generated_at: string | null
           full_name: string | null
+          icp_role: string | null
           id: string
           is_super_admin: boolean | null
           onboarding_completed: boolean | null
+          primary_use_case: string | null
           team_members_invited_count: number | null
+          team_size: string | null
           tracking_consent: boolean | null
           updated_at: string | null
+          user_type: string | null
         }
         Insert: {
           access_level?: number | null
@@ -2327,12 +2331,16 @@ export type Database = {
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null
           full_name?: string | null
+          icp_role?: string | null
           id: string
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
+          primary_use_case?: string | null
           team_members_invited_count?: number | null
+          team_size?: string | null
           tracking_consent?: boolean | null
           updated_at?: string | null
+          user_type?: string | null
         }
         Update: {
           access_level?: number | null
@@ -2345,12 +2353,16 @@ export type Database = {
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null
           full_name?: string | null
+          icp_role?: string | null
           id?: string
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
+          primary_use_case?: string | null
           team_members_invited_count?: number | null
+          team_size?: string | null
           tracking_consent?: boolean | null
           updated_at?: string | null
+          user_type?: string | null
         }
         Relationships: []
       }
