@@ -53,17 +53,6 @@ export default function QRCodes() {
     enabled: !!currentWorkspace,
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-body-apple text-secondary-label">loading QR Codes…</p>
-        </div>
-      </div>
-    );
-  }
-
   // Get all workspace links for QR generation
   const { data: workspaceLinks } = useQuery({
     queryKey: ["workspace-links", currentWorkspace?.id],
@@ -79,6 +68,17 @@ export default function QRCodes() {
     },
     enabled: !!currentWorkspace,
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <p className="text-body-apple text-secondary-label">loading QR Codes…</p>
+        </div>
+      </div>
+    );
+  }
 
   const filteredQRCodes = qrCodes?.filter((qr) =>
     qr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
