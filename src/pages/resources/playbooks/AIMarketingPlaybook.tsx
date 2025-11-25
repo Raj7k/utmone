@@ -200,6 +200,10 @@ const AIMarketingPlaybook = () => {
             the content flood: everyone can create, few can stand out
           </h2>
           
+          <p className="text-lg text-foreground max-w-[720px] mx-auto">
+            Once your AI-generated content is created, make sure it's discoverable by AI search engines. See our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline font-semibold">LLM Ranking Playbook</Link> for a complete 90-day implementation guide to rank in ChatGPT, Claude, and Perplexity.
+          </p>
+          
           <div className="grid md:grid-cols-3 gap-8 pt-8">
             <Card className="p-6 text-center space-y-2">
               <p className="text-3xl font-bold text-primary">0 hours</p>
@@ -402,6 +406,16 @@ const AIMarketingPlaybook = () => {
                 <h3 className="font-semibold">UTM Governance Playbook</h3>
                 <p className="text-sm text-muted-foreground">
                   Track campaign performance with consistent naming
+                </p>
+              </Card>
+            </Link>
+
+            <Link to="/resources/playbooks/llm-ranking">
+              <Card className="p-6 space-y-3 hover:shadow-lg transition-all">
+                <Sparkles className="w-10 h-10 text-primary" />
+                <h3 className="font-semibold">LLM Ranking Playbook</h3>
+                <p className="text-sm text-muted-foreground">
+                  Optimize your AI content for ChatGPT and Claude discovery
                 </p>
               </Card>
             </Link>
