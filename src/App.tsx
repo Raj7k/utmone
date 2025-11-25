@@ -15,9 +15,14 @@ import { AppWithHelp } from "./components/AppWithHelp";
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import Dashboard from "./pages/Dashboard";
 
 // Lazy-loaded pages for code splitting
+// Lazy-loaded pages for code splitting
+const Dashboard = lazy(() => import("./pages/dashboard/Overview"));
+const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
+const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
+const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
+const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -248,7 +253,12 @@ const App = () => (
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              
+              {/* Dashboard Routes with DashboardLayout */}
+              <Route path="/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Dashboard /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/links" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/analytics" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
