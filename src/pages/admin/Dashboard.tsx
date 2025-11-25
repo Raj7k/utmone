@@ -169,6 +169,23 @@ export default function AdminDashboard() {
             </Card>
           </div>
         </div>
+
+        {/* Analytics Cleanup Section */}
+        <div className="mt-8">
+          <h2 className="text-xl font-display font-semibold mb-4">analytics maintenance</h2>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardDescription>retention cleanup</CardDescription>
+              <CardTitle>automated daily at 3am utc</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                old analytics data is automatically cleaned based on workspace retention policies. 
+                free tier keeps 90 days, paid plans keep 1-5 years.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </AdminLayout>
   );
