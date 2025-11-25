@@ -34,7 +34,7 @@ serve(async (req) => {
     // Check if user is workspace owner or admin
     const { data: workspace } = await supabase
       .from("workspaces")
-      .select("owner_id")
+      .select("owner_id, name")
       .eq("id", workspaceId)
       .single();
 
@@ -66,7 +66,73 @@ serve(async (req) => {
 
     if (inviteError) throw inviteError;
 
-    // In production, send email here using Resend or similar service
+    // Send invitation email using fetch to Resend API
+    try {
+      const inviteUrl = `${req.headers.get("origin") || "https://utm.one"}/accept-invite?token=${invitation.token}`;
+      const inviterName = user.email?.split("@")[0] || "A team member";
+      const resendApiKey = Deno.env.get("RESEND_API_KEY");
+      
+      if (resendApiKey) {
+        const emailResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${resendApiKey}`,
+          },
+          body: JSON.stringify({
+            from: "utm.one <invites@utm.one>",
+            to: [email],
+            subject: `You're invited to join ${workspace?.name || "a workspace"} on utm.one`,
+            html: `
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta charset="utf-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
+                </head>
+                <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
+                  <div style="background: #f5f5f7; padding: 40px 20px; border-radius: 12px; text-align: center;">
+                    <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 8px 0;">You're invited!</h1>
+                    <p style="font-size: 16px; color: #666; margin: 0;">${inviterName} invited you to collaborate</p>
+                  </div>
+                  
+                  <div style="padding: 32px 0;">
+                    <p style="font-size: 16px; margin: 0 0 16px 0;">Hi there,</p>
+                    <p style="font-size: 16px; margin: 0 0 16px 0;">${inviterName} has invited you to join <strong>${workspace?.name || "their workspace"}</strong> on utm.one.</p>
+                    <p style="font-size: 16px; margin: 0 0 24px 0;">Your role: <strong>${role}</strong></p>
+                    
+                    <div style="text-align: center; margin: 32px 0;">
+                      <a href="${inviteUrl}" style="display: inline-block; background: #007aff; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Accept Invitation →</a>
+                    </div>
+                    
+                    <p style="font-size: 14px; color: #666; margin: 24px 0 0 0;">This invitation expires in 7 days.</p>
+                    <p style="font-size: 14px; color: #666; margin: 8px 0 0 0;">If the button doesn't work, copy and paste this link:</p>
+                    <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0;">${inviteUrl}</p>
+                  </div>
+                  
+                  <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; text-align: center;">
+                    <p style="font-size: 14px; color: #999; margin: 0;">utm.one – clarity creates confidence</p>
+                  </div>
+                </body>
+              </html>
+            `,
+          }),
+        });
+
+        if (emailResponse.ok) {
+          console.log(`✅ Email sent successfully to ${email}`);
+        } else {
+          const errorData = await emailResponse.json();
+          console.error("⚠️ Email sending failed:", errorData);
+        }
+      } else {
+        console.warn("⚠️ RESEND_API_KEY not configured, skipping email");
+      }
+    } catch (emailError) {
+      console.error("⚠️ Email sending failed:", emailError);
+      // Don't throw - invitation is created, email is bonus
+    }
+
     console.log(`Invitation created for ${email} to workspace ${workspaceId}`);
     console.log(`Invitation token: ${invitation.token}`);
 

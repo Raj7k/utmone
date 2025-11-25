@@ -50,6 +50,13 @@ export default function Settings() {
     if (location.pathname.includes("/domains")) {
       setActiveTab("domains");
     }
+
+    // Handle URL params for tab switching
+    const searchParams = new URLSearchParams(location.search);
+    const tabParam = searchParams.get("tab");
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
   }, [location]);
 
   if (!user) {
