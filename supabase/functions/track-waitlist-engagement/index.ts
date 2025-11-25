@@ -169,6 +169,20 @@ const handler = async (req: Request): Promise<Response> => {
 
       if (updateError) {
         console.error('Error updating engagement score:', updateError);
+      } else {
+        // Trigger milestone check after score update
+        try {
+          await fetch(`${Deno.env.get('SUPABASE_URL')}/functions/v1/check-milestones`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${Deno.env.get('SUPABASE_ANON_KEY')}`,
+            },
+            body: JSON.stringify({ userId: waitlistUserId, email: '' }),
+          });
+        } catch (milestoneError) {
+          console.error('Error checking milestones:', milestoneError);
+        }
       }
     }
 

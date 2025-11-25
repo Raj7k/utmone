@@ -141,6 +141,12 @@ verify_jwt = false
 [functions.cleanup-old-analytics]
 verify_jwt = false
 
+[functions.check-milestones]
+verify_jwt = false
+
+[functions.schedule-drip-emails]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
@@ -176,3 +182,13 @@ schedule = "0 * * * *"
 [[edge_runtime.scheduler]]
 function = "cleanup-old-analytics"
 schedule = "0 3 * * *"
+
+# Schedule drip emails - runs every hour
+[[edge_runtime.scheduler]]
+function = "schedule-drip-emails"
+schedule = "0 * * * *"
+
+# Check milestones and award badges - runs every 30 minutes
+[[edge_runtime.scheduler]]
+function = "check-milestones"
+schedule = "*/30 * * * *"

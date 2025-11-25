@@ -872,6 +872,44 @@ export type Database = {
           },
         ]
       }
+      drip_campaign_schedules: {
+        Row: {
+          campaign_id: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          trigger_milestone: string | null
+          trigger_type: string
+          trigger_value: number | null
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          trigger_milestone?: string | null
+          trigger_type: string
+          trigger_value?: number | null
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          trigger_milestone?: string | null
+          trigger_type?: string
+          trigger_value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drip_campaign_schedules_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "email_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       early_access_invites: {
         Row: {
           access_level: number
@@ -2559,6 +2597,42 @@ export type Database = {
           },
         ]
       }
+      user_badges: {
+        Row: {
+          awarded_at: string | null
+          badge_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string | null
+          badge_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string | null
+          badge_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "waitlist_badges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_badges_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_dashboard_preferences: {
         Row: {
           created_at: string | null
@@ -2776,6 +2850,42 @@ export type Database = {
           },
         ]
       }
+      waitlist_badges: {
+        Row: {
+          badge_key: string
+          color: string
+          created_at: string | null
+          description: string
+          icon: string
+          id: string
+          name: string
+          points_required: number | null
+          tier: string
+        }
+        Insert: {
+          badge_key: string
+          color: string
+          created_at?: string | null
+          description: string
+          icon: string
+          id?: string
+          name: string
+          points_required?: number | null
+          tier?: string
+        }
+        Update: {
+          badge_key?: string
+          color?: string
+          created_at?: string | null
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          points_required?: number | null
+          tier?: string
+        }
+        Relationships: []
+      }
       waitlist_engagement_events: {
         Row: {
           created_at: string | null
@@ -2817,6 +2927,38 @@ export type Database = {
           {
             foreignKeyName: "waitlist_engagement_events_waitlist_user_id_fkey"
             columns: ["waitlist_user_id"]
+            isOneToOne: false
+            referencedRelation: "early_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      waitlist_milestones: {
+        Row: {
+          achieved_at: string | null
+          id: string
+          metadata: Json | null
+          milestone_type: string
+          user_id: string
+        }
+        Insert: {
+          achieved_at?: string | null
+          id?: string
+          metadata?: Json | null
+          milestone_type: string
+          user_id: string
+        }
+        Update: {
+          achieved_at?: string | null
+          id?: string
+          metadata?: Json | null
+          milestone_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waitlist_milestones_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "early_access_requests"
             referencedColumns: ["id"]

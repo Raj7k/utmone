@@ -198,6 +198,7 @@ const GlossaryValueMoments = lazy(() => import("./pages/resources/glossary/value
 const GlossaryFunnelMath = lazy(() => import("./pages/resources/glossary/funnel-math"));
 const GlossaryLeadVelocityRate = lazy(() => import("./pages/resources/glossary/lead-velocity-rate"));
 const GlossaryConversionWaterfall = lazy(() => import("./pages/resources/glossary/conversion-waterfall"));
+const WaitlistStatus = lazy(() => import("./pages/WaitlistStatus"));
 const GlossaryCommitForecast = lazy(() => import("./pages/resources/glossary/commit-forecast"));
 const GlossaryPipelineCoverageRatio = lazy(() => import("./pages/resources/glossary/pipeline-coverage-ratio"));
 const GlossaryRunRate = lazy(() => import("./pages/resources/glossary/run-rate"));
@@ -454,6 +455,7 @@ const App = () => (
               <Route path="/solutions/marketing-ops" element={<Suspense fallback={<DashboardSkeleton />}><MarketingOps /></Suspense>} />
               <Route path="/solutions/developers" element={<Suspense fallback={<DashboardSkeleton />}><Developers /></Suspense>} />
               <Route path="/early-access" element={<Suspense fallback={<DashboardSkeleton />}><EarlyAccess /></Suspense>} />
+              <Route path="/waitlist-status" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistStatus /></Suspense>} />
               <Route path="/invite/:code" element={<Suspense fallback={<DashboardSkeleton />}><Invite /></Suspense>} />
               <Route path="/claim-access" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAccess /></Suspense>} />
               <Route path="/partners/apply" element={<Suspense fallback={<DashboardSkeleton />}><PartnerApply /></Suspense>} />
