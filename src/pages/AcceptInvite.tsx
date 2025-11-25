@@ -30,10 +30,10 @@ export default function AcceptInvite() {
     try {
       console.log("🔍 Loading invitation with token:", token);
       
-      // Simple query - no JOINs
+      // Simple query - no JOINs, uses denormalized invited_by_name
       const { data, error } = await supabase
         .from("workspace_invitations")
-        .select("id, email, role, workspace_id, invited_by, token, accepted_at, expires_at")
+        .select("id, email, role, workspace_id, invited_by, invited_by_name, token, accepted_at, expires_at")
         .eq("token", token)
         .single();
 
@@ -67,7 +67,6 @@ export default function AcceptInvite() {
       // Try to get workspace name if possible
       const { data: { user } } = await supabase.auth.getUser();
       let workspaceName = "a workspace";
-      let inviterName = "A team member";
       
       if (user) {
         // Authenticated user might have access to workspace details
@@ -78,15 +77,10 @@ export default function AcceptInvite() {
           .single();
         
         if (workspace) workspaceName = workspace.name;
-
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("full_name, email")
-          .eq("id", data.invited_by)
-          .single();
-        
-        if (profile) inviterName = profile.full_name || profile.email;
       }
+
+      // Use denormalized inviter name from invitation record
+      const inviterName = data.invited_by_name || "A team member";
 
       setInvitation({
         ...data,

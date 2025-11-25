@@ -2928,6 +2928,7 @@ export type Database = {
           expires_at: string
           id: string
           invited_by: string | null
+          invited_by_name: string | null
           role: Database["public"]["Enums"]["user_role"]
           token: string
           workspace_id: string
@@ -2939,6 +2940,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by?: string | null
+          invited_by_name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           token?: string
           workspace_id: string
@@ -2950,6 +2952,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by?: string | null
+          invited_by_name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           token?: string
           workspace_id?: string
