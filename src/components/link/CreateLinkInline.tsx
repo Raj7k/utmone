@@ -95,8 +95,8 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
           slug,
           destination_url: data.destination,
           final_url: finalUrl,
-          domain: "utm.one",
-          path: "/",
+          domain: "go.utm.one",
+          path: "",
           utm_source: data.utm_source || null,
           utm_medium: data.utm_medium || null,
           utm_campaign: data.utm_campaign || null,
@@ -106,7 +106,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
 
       if (error) throw error;
 
-      const shortUrl = `https://utm.one/${slug}`;
+      const shortUrl = `https://go.utm.one/${slug}`;
       setCreatedLink(shortUrl);
       
       toast({
@@ -209,7 +209,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
             <div>
               <Label htmlFor="slug">Custom Slug (optional)</Label>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">utm.one/</span>
+                <span className="text-sm text-muted-foreground">go.utm.one/</span>
                 <Input
                   id="slug"
                   placeholder="my-link"
