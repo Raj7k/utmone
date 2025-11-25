@@ -45,7 +45,7 @@ export const GeographicHeatmap = () => {
             return (
               <div 
                 key={index}
-                className={`p-4 rounded-lg border-2 transition-all hover:shadow-md ${
+                className={`p-4 rounded-lg border-2 transition-apple hover:shadow-md ${
                   isRemote 
                     ? 'bg-blazeOrange/5 border-blazeOrange' 
                     : index < 3 

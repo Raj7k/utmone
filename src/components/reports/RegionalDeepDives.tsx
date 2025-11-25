@@ -306,7 +306,7 @@ export const RegionalDeepDives = () => {
                 <CardContent>
                   <div className="space-y-4">
                     {region.salaryHighlights.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
+                      <div key={idx} className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-apple">
                         <span className="font-medium">{item.role}</span>
                         <Badge className="bg-deepSea text-sm">{item.range}</Badge>
                       </div>
@@ -326,7 +326,7 @@ export const RegionalDeepDives = () => {
                 <CardContent>
                   <div className="grid md:grid-cols-3 gap-6">
                     {region.trends.map((trend, idx) => (
-                      <div key={idx} className="space-y-3 p-6 rounded-lg border-2 border-border/50 hover:border-deepSea/30 transition-colors">
+                      <div key={idx} className="space-y-3 p-6 rounded-lg border-2 border-border/50 hover:border-deepSea/30 transition-apple">
                         <div className="flex items-center justify-between">
                           <h4 className="font-display font-semibold text-lg">{trend.title}</h4>
                           <Badge variant="outline" className="text-blazeOrange border-blazeOrange">

@@ -105,7 +105,7 @@ export const ExperienceLevelProgression = () => {
           {experienceData.map((exp, idx) => (
             <div 
               key={exp.years}
-              className="p-5 rounded-lg border-2 border-blazeOrange/10 hover:border-blazeOrange/30 transition-all"
+              className="p-5 rounded-lg border-2 border-blazeOrange/10 hover:border-blazeOrange/30 transition-apple hover:scale-101"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>

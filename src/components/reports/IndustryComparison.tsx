@@ -32,7 +32,7 @@ export const IndustryComparison = () => {
             return (
               <div 
                 key={ind.industry}
-                className="p-5 rounded-lg border-2 hover:shadow-md transition-all"
+                className="p-5 rounded-lg border-2 hover:shadow-md transition-apple hover:scale-101"
                 style={{
                   borderColor: `hsl(var(--deepSea) / ${0.1 + (idx * 0.05)})`
                 }}

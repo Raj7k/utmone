@@ -227,7 +227,7 @@ export const MarketingSalarySection = () => {
           
           <div className="max-w-[900px] mx-auto space-y-8">
             <ScrollReveal delay={0}>
-              <Card className="hover:shadow-lg transition-all">
+              <Card className="hover:shadow-lg transition-apple hover:scale-101">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-2xl">
                     🇺🇸 United States
@@ -248,7 +248,7 @@ export const MarketingSalarySection = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={0.15}>
-              <Card className="hover:shadow-lg transition-all">
+              <Card className="hover:shadow-lg transition-apple hover:scale-101">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-2xl">
                     🇮🇳 India
@@ -269,7 +269,7 @@ export const MarketingSalarySection = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={0.3}>
-              <Card className="hover:shadow-lg transition-all">
+              <Card className="hover:shadow-lg transition-apple hover:scale-101">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-2xl">
                     🇬🇧 🇪🇺 UK & Europe
@@ -290,7 +290,7 @@ export const MarketingSalarySection = () => {
             </ScrollReveal>
 
             <ScrollReveal delay={0.45}>
-              <Card className="hover:shadow-lg transition-all">
+              <Card className="hover:shadow-lg transition-apple hover:scale-101">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-2xl">
                     🌏 APAC, LATAM, MENA

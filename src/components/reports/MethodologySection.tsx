@@ -91,7 +91,7 @@ export const MethodologySection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className={`p-6 border-2 border-${item.color}/20 hover:shadow-xl transition-all relative overflow-hidden group`}>
+                <Card className={`p-6 border-2 border-${item.color}/20 hover:shadow-xl transition-apple hover:scale-101 relative overflow-hidden group`}>
                   <div className="absolute top-4 right-4 text-6xl font-display font-extrabold opacity-5 group-hover:opacity-10 transition-opacity">
                     {item.step}
                   </div>
@@ -133,7 +133,7 @@ export const MethodologySection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <Card className="p-6 text-center border-2 border-deepSea/10 hover:border-deepSea/30 hover:shadow-lg transition-all">
+                <Card className="p-6 text-center border-2 border-deepSea/10 hover:border-deepSea/30 hover:shadow-lg transition-apple hover:scale-101">
                   <div className="text-4xl mb-3">{source.logo}</div>
                   <h4 className="font-semibold mb-1">{source.name}</h4>
                   <p className="text-sm text-deepSea font-bold">{source.dataPoints}</p>

@@ -114,7 +114,7 @@ export const GenderPayGapDashboard = () => {
         <CardContent>
           <div className="space-y-3">
             {genderPayGapByIndustry.map(ind => (
-              <div key={ind.industry} className="flex items-center justify-between p-4 rounded-lg bg-wildSand/50 hover:bg-wildSand transition-colors">
+              <div key={ind.industry} className="flex items-center justify-between p-4 rounded-lg bg-wildSand/50 hover:bg-wildSand transition-apple">
                 <div className="space-y-1">
                   <div className="font-medium">{ind.industry}</div>
                   <div className="text-sm text-muted-foreground">

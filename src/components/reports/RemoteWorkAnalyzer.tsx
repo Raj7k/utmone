@@ -85,7 +85,7 @@ export const RemoteWorkAnalyzer = () => {
 
           <div className="grid md:grid-cols-2 gap-4">
             {remoteData.map(item => (
-              <div key={item.arrangement} className="p-5 rounded-lg border-2 border-deepSea/10 hover:border-deepSea/30 transition-all">
+              <div key={item.arrangement} className="p-5 rounded-lg border-2 border-deepSea/10 hover:border-deepSea/30 transition-apple hover:scale-101">
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <h3 className="font-display font-bold text-lg">{item.arrangement}</h3>
@@ -123,7 +123,7 @@ export const RemoteWorkAnalyzer = () => {
         <CardContent>
           <div className="space-y-4">
             {geographicArbitrage.map(arb => (
-              <div key={arb.fromCity} className="p-5 rounded-lg bg-wildSand/50 hover:bg-wildSand transition-colors">
+              <div key={arb.fromCity} className="p-5 rounded-lg bg-wildSand/50 hover:bg-wildSand transition-apple">
                 <div className="flex items-center justify-between mb-3">
                   <div className="space-y-1">
                     <div className="font-medium">{arb.fromCity} → {arb.toCity}</div>

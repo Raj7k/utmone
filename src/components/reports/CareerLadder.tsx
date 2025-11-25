@@ -84,7 +84,7 @@ export const CareerLadder = () => {
             transition={{ delay: index * 0.1 }}
           >
             <Card 
-              className={`cursor-pointer transition-all hover:shadow-lg ${
+              className={`cursor-pointer transition-apple hover:shadow-lg hover:scale-101 ${
                 isExpanded ? 'border-2 border-blazeOrange' : ''
               }`}
               onClick={() => setExpandedLevel(isExpanded ? null : rung.level)}

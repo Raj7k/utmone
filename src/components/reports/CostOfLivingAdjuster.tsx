@@ -102,7 +102,7 @@ export const CostOfLivingAdjuster = () => {
             .map((city, idx) => (
               <div 
                 key={city.name}
-                className={`p-4 rounded-lg border-2 transition-all ${
+                className={`p-4 rounded-lg border-2 transition-apple ${
                   city.name === selectedCity 
                     ? 'border-deepSea bg-deepSea/5' 
                     : 'border-border hover:border-deepSea/30'
