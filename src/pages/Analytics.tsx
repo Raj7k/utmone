@@ -29,6 +29,10 @@ import { OwnerPerformance } from "@/components/analytics/OwnerPerformance";
 import { ClickHeatmap } from "@/components/analytics/ClickHeatmap";
 import { BestTimeCard } from "@/components/analytics/BestTimeCard";
 import { DayOfWeekChart } from "@/components/analytics/DayOfWeekChart";
+import { ComparisonDashboard } from "@/components/analytics/ComparisonDashboard";
+import { useComparisonMetrics } from "@/hooks/useComparisonMetrics";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -39,6 +43,7 @@ const Analytics = () => {
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
+  const { data: comparisonMetrics } = useComparisonMetrics({ workspaceId: currentWorkspace?.id || '', period: 'month' });
   const isMobile = useIsMobile();
 
   const handleRefresh = async () => {
@@ -165,24 +170,75 @@ const Analytics = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <Card className="p-4 md:p-6">
                     <div className="text-sm text-secondary-label mb-2">Total Clicks</div>
-                    <div className="text-3xl md:text-4xl font-bold text-label mb-2">12,847</div>
-                    <div className="flex items-center gap-2 text-xs text-system-green">
-                      <TrendingUp className="h-3 w-3" />
-                      <span>↑ 23% vs last week</span>
-                    </div>
+                    {comparisonMetrics ? (
+                      <>
+                        <div className="text-3xl md:text-4xl font-bold text-label mb-2">
+                          {comparisonMetrics.clicks.current.toLocaleString()}
+                        </div>
+                        <div className={cn(
+                          "flex items-center gap-2 text-xs",
+                          comparisonMetrics.clicks.change > 0 ? "text-system-green" : "text-system-red"
+                        )}>
+                          <TrendingUp className="h-3 w-3" />
+                          <span>
+                            {comparisonMetrics.clicks.change > 0 ? '↑' : '↓'} {Math.abs(comparisonMetrics.clicks.change).toFixed(1)}% vs last month
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Skeleton className="h-10 w-32 mb-2" />
+                        <Skeleton className="h-4 w-24" />
+                      </>
+                    )}
                   </Card>
                   <Card className="p-4 md:p-6">
-                    <div className="text-sm text-secondary-label mb-2">Click-through Rate</div>
-                    <div className="text-3xl md:text-4xl font-bold text-label mb-2">4.2%</div>
-                    <div className="flex items-center gap-2 text-xs text-system-green">
-                      <TrendingUp className="h-3 w-3" />
-                      <span>↑ 0.5% improvement</span>
-                    </div>
+                    <div className="text-sm text-secondary-label mb-2">Click Rate</div>
+                    {comparisonMetrics ? (
+                      <>
+                        <div className="text-3xl md:text-4xl font-bold text-label mb-2">
+                          {comparisonMetrics.clickRate.current.toFixed(1)}
+                        </div>
+                        <div className={cn(
+                          "flex items-center gap-2 text-xs",
+                          comparisonMetrics.clickRate.change > 0 ? "text-system-green" : "text-system-red"
+                        )}>
+                          <TrendingUp className="h-3 w-3" />
+                          <span>
+                            {comparisonMetrics.clickRate.change > 0 ? '↑' : '↓'} {Math.abs(comparisonMetrics.clickRate.change).toFixed(1)}% vs last month
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Skeleton className="h-10 w-20 mb-2" />
+                        <Skeleton className="h-4 w-24" />
+                      </>
+                    )}
                   </Card>
                   <Card className="p-4 md:p-6">
-                    <div className="text-sm text-secondary-label mb-2">Top Performing Link</div>
-                    <div className="text-base md:text-lg font-semibold text-label mb-1">Summer Sale 2025</div>
-                    <div className="text-xs text-secondary-label">3,421 clicks this week</div>
+                    <div className="text-sm text-secondary-label mb-2">Unique Visitors</div>
+                    {comparisonMetrics ? (
+                      <>
+                        <div className="text-3xl md:text-4xl font-bold text-label mb-2">
+                          {comparisonMetrics.uniqueClicks.current.toLocaleString()}
+                        </div>
+                        <div className={cn(
+                          "flex items-center gap-2 text-xs",
+                          comparisonMetrics.uniqueClicks.change > 0 ? "text-system-green" : "text-system-red"
+                        )}>
+                          <TrendingUp className="h-3 w-3" />
+                          <span>
+                            {comparisonMetrics.uniqueClicks.change > 0 ? '↑' : '↓'} {Math.abs(comparisonMetrics.uniqueClicks.change).toFixed(1)}% vs last month
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Skeleton className="h-10 w-32 mb-2" />
+                        <Skeleton className="h-4 w-24" />
+                      </>
+                    )}
                   </Card>
                 </div>
               </div>
@@ -261,6 +317,11 @@ const Analytics = () => {
                         </div>
                       ),
                     },
+                    {
+                      id: "compare",
+                      label: "Compare",
+                      content: <ComparisonDashboard workspaceId={currentWorkspace.id} />,
+                    },
                   ]}
                 />
               ) : (
@@ -273,6 +334,7 @@ const Analytics = () => {
                     <TabsTrigger value="geography">Geography</TabsTrigger>
                     <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
                     <TabsTrigger value="timing">Timing</TabsTrigger>
+                    <TabsTrigger value="compare">Compare</TabsTrigger>
                     <TabsTrigger value="reports">Reports</TabsTrigger>
                   </TabsList>
 
@@ -314,6 +376,10 @@ const Analytics = () => {
                       <BestTimeCard workspaceId={currentWorkspace.id} />
                       <DayOfWeekChart workspaceId={currentWorkspace.id} />
                     </div>
+                  </TabsContent>
+
+                  <TabsContent value="compare">
+                    <ComparisonDashboard workspaceId={currentWorkspace.id} />
                   </TabsContent>
 
                   <TabsContent value="reports">
