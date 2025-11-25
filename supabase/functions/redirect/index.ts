@@ -270,7 +270,8 @@ Deno.serve(async (req) => {
       });
     }
     
-    let domain = url.hostname;
+    // Get domain from X-Original-Domain header (set by Cloudflare Worker) or url.hostname
+    let domain = req.headers.get('X-Original-Domain') || url.hostname;
     
     // Normalize domain (remove www if present)
     domain = domain.replace(/^www\./, '');
