@@ -36,6 +36,7 @@ import { cn } from "@/lib/utils";
 import { DashboardCustomizer } from "@/components/analytics/DashboardCustomizer";
 import { useRealtimeClicks } from "@/hooks/useRealtimeClicks";
 import { Activity } from "lucide-react";
+import { FeatureHint } from "@/components/FeatureHint";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -145,6 +146,14 @@ const Analytics = () => {
         <main className="container mx-auto px-4 md:px-8 py-group pb-20 md:pb-group">
           {currentWorkspace && (
             <>
+              {/* Feature Hint for Analytics */}
+              <FeatureHint
+                id="analytics-first-visit"
+                title="Your Analytics Dashboard"
+                description="Your click data will appear here once your links start getting traffic. Share your links to see real-time insights."
+                className="mb-content"
+              />
+              
               {/* Hero Section with Glanceable Metrics */}
               <div className="mb-content">
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
