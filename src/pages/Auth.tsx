@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,27 +7,52 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Link as LinkIcon } from "lucide-react";
+import { Link as LinkIcon, UserPlus } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const inviteToken = searchParams.get("invite");
+  
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [invitationContext, setInvitationContext] = useState<{
+    email: string;
+    workspaceName: string;
+    inviterName: string;
+    role: string;
+  } | null>(null);
 
   useEffect(() => {
+    // Load invitation context if invite token present
+    if (inviteToken) {
+      loadInvitationContext(inviteToken);
+    }
+
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate("/dashboard");
+        // If has invite token, redirect to accept-invite
+        if (inviteToken) {
+          navigate(`/accept-invite?token=${inviteToken}`);
+        } else {
+          navigate("/dashboard");
+        }
       }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
+        // If invite token exists, redirect back to accept-invite
+        if (inviteToken) {
+          navigate(`/accept-invite?token=${inviteToken}`);
+          return;
+        }
+
         // Check if user has any workspaces
         const { data: workspaces } = await supabase
           .from("workspaces")
@@ -44,7 +69,41 @@ const Auth = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, inviteToken]);
+
+  const loadInvitationContext = async (token: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("workspace_invitations")
+        .select("email, role, workspace_id, invited_by_name")
+        .eq("token", token)
+        .single();
+
+      if (error || !data) {
+        console.error("Error loading invitation:", error);
+        return;
+      }
+
+      // Try to get workspace name
+      const { data: workspace } = await supabase
+        .from("workspaces")
+        .select("name")
+        .eq("id", data.workspace_id)
+        .single();
+
+      setInvitationContext({
+        email: data.email,
+        workspaceName: workspace?.name || "a workspace",
+        inviterName: data.invited_by_name || "A team member",
+        role: data.role,
+      });
+
+      // Pre-fill email from invitation
+      setEmail(data.email);
+    } catch (err) {
+      console.error("Error loading invitation context:", err);
+    }
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,7 +216,31 @@ const Auth = () => {
           />
         </div>
 
-        <Tabs defaultValue="signin" className="w-full">
+        {invitationContext && (
+          <Card variant="grouped" className="mb-4 bg-system-blue/5 border-system-blue/20">
+            <CardContent className="py-4">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-lg bg-system-blue/10">
+                  <UserPlus className="h-5 w-5 text-system-blue" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-body-apple font-medium text-label mb-1">
+                    You've been invited to join {invitationContext.workspaceName}
+                  </p>
+                  <p className="text-footnote-apple text-secondary-label">
+                    <span className="font-medium">{invitationContext.inviterName}</span> invited you as{" "}
+                    <span className="font-medium">{invitationContext.role}</span>
+                  </p>
+                  <p className="text-footnote-apple text-tertiary-label mt-1">
+                    Create an account with <span className="font-medium text-secondary-label">{invitationContext.email}</span> to accept
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        <Tabs defaultValue={inviteToken ? "signup" : "signin"} className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-fill-tertiary">
             <TabsTrigger value="signin" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign In</TabsTrigger>
             <TabsTrigger value="signup" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign Up</TabsTrigger>
@@ -189,6 +272,7 @@ const Auth = () => {
                       variant="system"
                       id="signin-password"
                       type="password"
+                      placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
@@ -197,7 +281,7 @@ const Auth = () => {
                 </CardContent>
                 <CardFooter>
                   <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "signing in…" : "sign in"}
+                    {isLoading ? "Signing in..." : "Sign in"}
                   </Button>
                 </CardFooter>
               </form>
@@ -234,7 +318,11 @@ const Auth = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      disabled={!!invitationContext}
                     />
+                    {invitationContext && (
+                      <p className="text-footnote-apple text-tertiary-label">Email from invitation</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="signup-password" className="text-subheadline text-label">Password</Label>
@@ -242,16 +330,18 @@ const Auth = () => {
                       variant="system"
                       id="signup-password"
                       type="password"
+                      placeholder="Enter your password (min 6 characters)"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       minLength={6}
                     />
+                    <p className="text-footnote-apple text-tertiary-label">Minimum 6 characters</p>
                   </div>
                 </CardContent>
                 <CardFooter>
                   <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "creating account…" : "sign up"}
+                    {isLoading ? "Creating account..." : invitationContext ? "Create account & join →" : "Sign up"}
                   </Button>
                 </CardFooter>
               </form>
