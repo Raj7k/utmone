@@ -772,6 +772,7 @@ export type Database = {
           health_status: string | null
           id: string
           is_primary: boolean | null
+          is_system_domain: boolean | null
           is_verified: boolean | null
           last_health_check: string | null
           ssl_expires_at: string | null
@@ -789,6 +790,7 @@ export type Database = {
           health_status?: string | null
           id?: string
           is_primary?: boolean | null
+          is_system_domain?: boolean | null
           is_verified?: boolean | null
           last_health_check?: string | null
           ssl_expires_at?: string | null
@@ -806,6 +808,7 @@ export type Database = {
           health_status?: string | null
           id?: string
           is_primary?: boolean | null
+          is_system_domain?: boolean | null
           is_verified?: boolean | null
           last_health_check?: string | null
           ssl_expires_at?: string | null

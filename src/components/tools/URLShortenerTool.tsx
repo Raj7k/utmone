@@ -37,14 +37,15 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [shortURL, setShortURL] = useState<string>("");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
-  // Fetch all verified shortener domains (excluding utm.one which is the main website)
+  // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
     queryKey: ["verified-domains", workspaceId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("domains")
-        .select("id, domain")
+        .select("id, domain, workspace_id")
         .eq("is_verified", true)
+        .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)
         .order("is_primary", { ascending: false });
 
       if (error) throw error;
