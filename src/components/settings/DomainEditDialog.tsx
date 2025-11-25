@@ -17,10 +17,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { useVerifyDomain } from "@/hooks/useVerifyDomain";
+import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle } from "lucide-react";
 
 interface DomainEditDialogProps {
   domain: any;
@@ -31,7 +38,10 @@ interface DomainEditDialogProps {
 export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialogProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const verifyDomainMutation = useVerifyDomain();
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedTxt, setCopiedTxt] = useState(false);
+  const [copiedCname, setCopiedCname] = useState(false);
 
   // Parse existing domain_settings or use defaults
   const settings = domain?.domain_settings || {};
@@ -41,6 +51,24 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const [defaultUtmSource, setDefaultUtmSource] = useState(settings.default_utm_source || "");
   const [defaultUtmMedium, setDefaultUtmMedium] = useState(settings.default_utm_medium || "");
   const [defaultUtmCampaign, setDefaultUtmCampaign] = useState(settings.default_utm_campaign || "");
+
+  const isVerified = domain?.is_verified;
+  const verificationCode = domain?.verification_code;
+
+  const handleCopy = async (text: string, type: 'txt' | 'cname') => {
+    await navigator.clipboard.writeText(text);
+    if (type === 'txt') {
+      setCopiedTxt(true);
+      setTimeout(() => setCopiedTxt(false), 2000);
+    } else {
+      setCopiedCname(true);
+      setTimeout(() => setCopiedCname(false), 2000);
+    }
+  };
+
+  const handleVerify = () => {
+    verifyDomainMutation.mutate(domain.id);
+  };
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -81,7 +109,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>edit domain settings</DialogTitle>
           <DialogDescription>
@@ -90,9 +118,144 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
         </DialogHeader>
 
         <div className="space-y-6 py-4">
+          {/* DNS Verification Section - Only show for unverified domains */}
+          {!isVerified && (
+            <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-destructive" />
+                <span className="text-sm font-medium text-destructive">domain not verified</span>
+              </div>
+
+              <p className="text-sm text-muted-foreground">
+                add these DNS records to your domain registrar to verify ownership:
+              </p>
+
+              {/* TXT Record */}
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold uppercase tracking-wide">TXT Record</Label>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Label className="text-xs text-muted-foreground">Name</Label>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Input
+                          value={`_utm-verification.${domain?.domain}`}
+                          readOnly
+                          className="font-mono text-xs"
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopy(`_utm-verification.${domain?.domain}`, 'txt')}
+                        >
+                          {copiedTxt ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Label className="text-xs text-muted-foreground">Value</Label>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Input
+                          value={verificationCode || ""}
+                          readOnly
+                          className="font-mono text-xs"
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopy(verificationCode || "", 'txt')}
+                        >
+                          {copiedTxt ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CNAME Record */}
+              <div className="space-y-2">
+                <Label className="text-xs font-semibold uppercase tracking-wide">CNAME Record (optional for go.utm.one)</Label>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Label className="text-xs text-muted-foreground">Name</Label>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Input
+                          value="@"
+                          readOnly
+                          className="font-mono text-xs"
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopy("@", 'cname')}
+                        >
+                          {copiedCname ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Label className="text-xs text-muted-foreground">Value</Label>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Input
+                          value="go.utm.one"
+                          readOnly
+                          className="font-mono text-xs"
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopy("go.utm.one", 'cname')}
+                        >
+                          {copiedCname ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleVerify}
+                disabled={verifyDomainMutation.isPending}
+                className="w-full"
+              >
+                {verifyDomainMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                verify domain
+              </Button>
+            </div>
+          )}
+
+          {/* Verified Badge */}
+          {isVerified && (
+            <div className="flex items-center gap-2 p-3 border border-green-500/20 rounded-lg bg-green-500/10">
+              <CheckCircle2 className="w-4 h-4 text-green-600" />
+              <span className="text-sm font-medium text-green-600">domain verified ✓</span>
+            </div>
+          )}
           {/* Path Prefix */}
           <div className="space-y-2">
-            <Label htmlFor="pathPrefix">path prefix (optional)</Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="pathPrefix">path prefix (optional)</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="text-xs">
+                      adds a path segment before the slug. useful for organizing links by category or team.
+                      example: domain.com/go/slug or domain.com/team/slug
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Input
               id="pathPrefix"
               placeholder="e.g., /go/ or /u/"
@@ -106,7 +269,22 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
           {/* Fallback URL */}
           <div className="space-y-2">
-            <Label htmlFor="fallbackUrl">fallback url (optional)</Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="fallbackUrl">fallback url (optional)</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="text-xs">
+                      when someone visits a short link that doesn't exist (404), redirect them here instead.
+                      great for sending users to your homepage or a custom 404 page instead of showing an error.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Input
               id="fallbackUrl"
               placeholder="https://yourdomain.com"
@@ -120,7 +298,23 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
           {/* Redirect Type */}
           <div className="space-y-2">
-            <Label htmlFor="redirectType">redirect type</Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="redirectType">redirect type</Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="text-xs">
+                      <strong>302 (temporary):</strong> recommended for most cases. allows analytics tracking and lets you change destinations later.
+                      <br/><br/>
+                      <strong>301 (permanent):</strong> better for SEO if the destination never changes. browsers cache it, so analytics may be incomplete.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Select value={redirectType} onValueChange={setRedirectType}>
               <SelectTrigger id="redirectType">
                 <SelectValue />
@@ -137,12 +331,25 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
           {/* Default UTM Parameters */}
           <div className="space-y-4">
-            <div>
+            <div className="flex items-center gap-2">
               <Label className="text-base">default utm parameters (optional)</Label>
-              <p className="text-xs text-muted-foreground mt-1">
-                these values will be pre-filled when creating links with this domain
-              </p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="w-4 h-4 text-muted-foreground cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="max-w-xs">
+                    <p className="text-xs">
+                      set default UTM values for this domain. they'll automatically pre-fill when creating new links,
+                      saving time and ensuring consistency across your team's campaigns.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
+            <p className="text-xs text-muted-foreground">
+              these values will be pre-filled when creating links with this domain
+            </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
