@@ -16,6 +16,8 @@ import { TransparencyCard } from "@/components/dashboard/TransparencyCard";
 import { SecurityOverviewWidget } from "@/components/dashboard/SecurityOverviewWidget";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { GlanceableStats } from "@/components/dashboard/GlanceableStats";
+import { MobileNav } from "@/components/mobile/MobileNav";
+import { useGesture } from "@use-gesture/react";
 import { AIRecommendationsWidget } from "@/components/dashboard/AIRecommendationsWidget";
 import { PerformanceMetrics } from "@/components/dashboard/PerformanceMetrics";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
@@ -229,6 +231,9 @@ const Dashboard = () => {
           onOpenChange={setShowShortcutsHelp}
         />
       </main>
+
+      {/* Mobile Navigation */}
+      <MobileNav />
     </div>
   );
 };
