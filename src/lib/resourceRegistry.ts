@@ -21,7 +21,8 @@ export const resourceRegistry = {
     { slug: 'event-led-growth-playbook', title: 'Event-Led Growth' },
     { slug: 'naming-convention-playbook', title: 'Naming Convention' },
     { slug: 'sales-marketing-alignment', title: 'Sales & Marketing Alignment' },
-    { slug: 'ai-marketing', title: 'AI Marketing', badge: 'NEW' as const }
+    { slug: 'ai-marketing', title: 'AI Marketing', badge: 'NEW' as const },
+    { slug: 'llm-ranking', title: 'LLM Ranking Playbook', badge: 'NEW' as const }
   ],
   templates: [
     { slug: 'utm-template', title: 'UTM Template' },
