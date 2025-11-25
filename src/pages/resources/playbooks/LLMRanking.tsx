@@ -5,8 +5,8 @@ import { ArrowLeft, Sparkles, Target, Search, FileCode, Shield, TrendingUp, User
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/seo/SEO";
 import { HowToSchema, ArticleSchema, BreadcrumbSchema, ItemListSchema } from "@/components/seo/SchemaMarkup";
-import { LLMReadinessScorer } from "@/components/resources/llm/LLMReadinessScorer";
-import { SchemaGenerator } from "@/components/resources/llm/SchemaGenerator";
+import { LLMReadinessScorer } from "@/components/resources/utm/LLMReadinessScorer";
+import { SchemaGenerator } from "@/components/resources/utm/SchemaGenerator";
 import { ContentStructureAnalyzer } from "@/components/resources/llm/ContentStructureAnalyzer";
 import { QueryIntentMatcher } from "@/components/resources/llm/QueryIntentMatcher";
 import { EATSignalChecker } from "@/components/resources/llm/EATSignalChecker";
