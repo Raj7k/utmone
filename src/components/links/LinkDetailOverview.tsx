@@ -7,12 +7,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag } from "lucide-react";
+import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag, RefreshCw } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useState as useReactState } from "react";
 import { LinkDetail } from "@/hooks/useLinkDetail";
 import { useUpdateLink } from "@/hooks/useUpdateLink";
 import { format } from "date-fns";
 import { TrustBadge } from "@/components/TrustBadge";
 import { generateFieldAriaLabel } from "@/lib/accessibility";
+import { cn } from "@/lib/utils";
 
 interface LinkDetailOverviewProps {
   link: LinkDetail;
@@ -20,7 +24,9 @@ interface LinkDetailOverviewProps {
 
 export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
+  const [isRescanning, setIsRescanning] = useReactState(false);
   const updateLink = useUpdateLink();
+  const { toast } = useToast();
 
   const { register, handleSubmit, watch, setValue, formState: { isDirty } } = useForm({
     defaultValues: {
@@ -53,6 +59,38 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
     await navigator.clipboard.writeText(text);
     setCopiedUrl(label);
     setTimeout(() => setCopiedUrl(null), 2000);
+  };
+
+  const handleRescan = async () => {
+    setIsRescanning(true);
+    try {
+      const { data: scanResult } = await supabase.functions.invoke("scan-url", {
+        body: { url: link.destination_url },
+        headers: { 'x-link-id': link.id }
+      });
+
+      await supabase.functions.invoke("check-blacklist", {
+        body: { url: link.destination_url },
+        headers: { 'x-link-id': link.id }
+      });
+
+      toast({
+        title: "re-scan complete",
+        description: scanResult?.safe ? "destination is safe ✓" : "potential threats detected",
+        variant: scanResult?.safe ? "default" : "destructive",
+      });
+
+      // Refresh the page data
+      window.location.reload();
+    } catch (error) {
+      toast({
+        title: "re-scan failed",
+        description: "please try again later",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRescanning(false);
+    }
   };
 
   const onSubmit = (data: any) => {
@@ -123,7 +161,7 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
             </div>
             
             {/* Trust Badges */}
-            <div className="flex gap-2 mt-3 flex-wrap">
+            <div className="flex gap-2 mt-3 flex-wrap items-center">
               {link.destination_url?.startsWith('https://') && (
                 <TrustBadge variant="ssl-secure" size="sm" />
               )}
@@ -137,6 +175,18 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
                 <TrustBadge variant="not-scanned" size="sm" />
               )}
               <TrustBadge variant="utm-verified" size="sm" />
+              
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRescan}
+                disabled={isRescanning}
+                className="ml-auto"
+              >
+                <RefreshCw className={cn("h-3 w-3 mr-1", isRescanning && "animate-spin")} />
+                {isRescanning ? "scanning…" : "re-scan"}
+              </Button>
             </div>
           </div>
 

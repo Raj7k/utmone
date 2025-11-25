@@ -15,6 +15,8 @@ import { AIInsightCard } from "@/components/analytics/AIInsightCard";
 import { useAnomalies } from "@/hooks/useAnomalies";
 import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
 import { RecentLinksWidget } from "@/components/dashboard/RecentLinksWidget";
+import { TransparencyCard } from "@/components/dashboard/TransparencyCard";
+import { SecurityOverviewWidget } from "@/components/dashboard/SecurityOverviewWidget";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -144,6 +146,14 @@ const Dashboard = () => {
           <h1 className="text-large-title font-bold text-label mb-2">welcome back</h1>
           <p className="text-body-apple text-secondary-label">here's what's happening with your links today.</p>
         </div>
+
+        {/* Transparency & Security */}
+        {currentWorkspace && (
+          <div className="grid md:grid-cols-2 gap-card mb-content">
+            <TransparencyCard />
+            <SecurityOverviewWidget workspaceId={currentWorkspace.id} />
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-3 gap-card mb-content">

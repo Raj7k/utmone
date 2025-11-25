@@ -355,6 +355,40 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
       // Reset CAPTCHA for next link creation
       setCaptchaToken(null);
       
+      // Trigger security scan after link creation
+      toast({
+        title: "link created",
+        description: "security scan in progress…",
+      });
+
+      try {
+        const { data: scanResult } = await supabase.functions.invoke("scan-url", {
+          body: { url: link.destination_url },
+          headers: { 'x-link-id': link.id }
+        });
+
+        // Also trigger blacklist check
+        await supabase.functions.invoke("check-blacklist", {
+          body: { url: link.destination_url },
+          headers: { 'x-link-id': link.id }
+        });
+
+        if (scanResult?.safe) {
+          toast({
+            title: "link created & scanned",
+            description: "destination is safe ✓",
+          });
+        } else if (scanResult?.threats && scanResult.threats.length > 0) {
+          toast({
+            title: "warning: security threat detected",
+            description: `flagged by ${scanResult.threats.length} security vendors`,
+            variant: "destructive",
+          });
+        }
+      } catch (scanError) {
+        console.error("Security scan failed:", scanError);
+      }
+      
       // Trigger webhook
       await triggerWebhook("link.created", {
         link_id: link.id,
