@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
+import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -33,6 +34,7 @@ interface URLShortenerToolProps {
 
 export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLShortenerToolProps) => {
   const { toast } = useToast();
+  const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
@@ -125,6 +127,20 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         .single();
 
       if (error) throw error;
+      
+      // Trigger webhook for link.created
+      try {
+        await triggerWebhook('link.created', {
+          link_id: link.id,
+          title: link.title,
+          short_url: `https://${link.domain}/${link.slug}`,
+          destination_url: link.destination_url,
+          created_at: link.created_at,
+        });
+      } catch (webhookError) {
+        console.error('Webhook trigger failed:', webhookError);
+      }
+      
       return link;
     },
     onSuccess: (link) => {

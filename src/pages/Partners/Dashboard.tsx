@@ -172,22 +172,156 @@ export default function PartnerDashboard() {
             <div className="p-4 border rounded-lg space-y-2">
               <h4 className="font-medium">Logo Pack</h4>
               <p className="text-sm text-secondary-label">SVG and PNG logos in various sizes</p>
-              <Button variant="outline" size="sm">Download</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/assets/utm-one-logos.zip';
+                  link.download = 'utm-one-logos.zip';
+                  link.click();
+                }}
+              >
+                Download
+              </Button>
             </div>
             <div className="p-4 border rounded-lg space-y-2">
               <h4 className="font-medium">Banner Images</h4>
               <p className="text-sm text-secondary-label">Social media and website banners</p>
-              <Button variant="outline" size="sm">Download</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/assets/utm-one-banners.zip';
+                  link.download = 'utm-one-banners.zip';
+                  link.click();
+                }}
+              >
+                Download
+              </Button>
             </div>
             <div className="p-4 border rounded-lg space-y-2">
               <h4 className="font-medium">Email Templates</h4>
               <p className="text-sm text-secondary-label">Pre-written email copy</p>
-              <Button variant="outline" size="sm">View Templates</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  const templates = `
+Subject: Simplify Your Link Management with utm.one
+
+Hi [Name],
+
+I've been using utm.one for my link management and thought you might find it useful too.
+
+utm.one makes it easy to:
+- Create short, branded links
+- Track clicks and conversions
+- Generate QR codes instantly
+- Build UTM parameters the right way
+
+Check it out: ${partner?.referral_url || 'https://utm.one'}
+
+Best,
+[Your Name]
+
+---
+
+Subject: Better Link Analytics for Your Campaigns
+
+Hey [Name],
+
+Quick recommendation: utm.one for link management.
+
+It's helped me get better analytics on my campaigns with:
+→ Real-time click tracking
+→ Device & location breakdowns
+→ Conversion attribution
+→ Clean, shareable reports
+
+Worth a look: ${partner?.referral_url || 'https://utm.one'}
+
+Cheers,
+[Your Name]
+                  `.trim();
+                  
+                  const blob = new Blob([templates], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'utm-one-email-templates.txt';
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                Download Templates
+              </Button>
             </div>
             <div className="p-4 border rounded-lg space-y-2">
               <h4 className="font-medium">Social Posts</h4>
               <p className="text-sm text-secondary-label">Ready-to-share social media content</p>
-              <Button variant="outline" size="sm">View Posts</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  const posts = `
+🔗 LINKEDIN POST
+---
+Stop wasting time on scattered link management.
+
+utm.one brings everything together:
+→ Short links with your brand
+→ Automatic UTM tracking
+→ Real-time analytics
+→ QR code generation
+
+Clean links. Clear data. Better campaigns.
+
+Try it: ${partner?.referral_url || 'https://utm.one'}
+
+---
+
+📱 TWITTER POST
+---
+Finally found a link shortener that doesn't suck
+
+utm.one gives you:
+• Branded short links
+• Click analytics that actually work
+• QR codes in one click
+• UTM builder built-in
+
+Check it out → ${partner?.referral_url || 'https://utm.one'}
+
+---
+
+📸 INSTAGRAM CAPTION
+---
+Link management doesn't have to be complicated 🔗
+
+utm.one makes it simple:
+✓ Create branded short links
+✓ Track every click
+✓ Generate QR codes instantly
+✓ Build UTMs the right way
+
+Link in bio to learn more ↗️
+
+#marketing #analytics #linkmanagement #utm
+                  `.trim();
+                  
+                  const blob = new Blob([posts], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'utm-one-social-posts.txt';
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                Download Posts
+              </Button>
             </div>
           </div>
         </CardContent>
