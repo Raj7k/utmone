@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { UsageLimitBanner } from "@/components/UsageLimitBanner";
@@ -23,12 +20,11 @@ import { GlanceableMetrics } from "@/components/dashboard/GlanceableMetrics";
 import { AIInsights } from "@/components/dashboard/AIInsights";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CreateLinkInline } from "@/components/link/CreateLinkInline";
-import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { FeatureHint } from "@/components/FeatureHint";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
@@ -103,14 +99,6 @@ const Dashboard = () => {
     initWorkspace();
   }, [workspaceLoading, currentWorkspace, user, createWorkspace]);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Signed out",
-      description: "You have been signed out successfully",
-    });
-  };
-
   if (isLoading || workspaceLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-grouped-background">
@@ -124,38 +112,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-4 md:px-8 h-full">
-          <div className="flex items-center justify-between h-full">
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-2">
-                <img 
-                  src="/src/assets/utm-one-logo.svg" 
-                  alt="utm.one" 
-                  className="h-7 w-auto"
-                />
-              </div>
-              <WorkspaceSwitcher />
-              <nav className="hidden md:flex items-center gap-2">
-                <Button variant="system" size="sm">dashboard</Button>
-                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/links")}>
-                  links
-                </Button>
-                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/analytics")}>
-                  analytics
-                </Button>
-              </nav>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-footnote text-secondary-label hidden md:block">{user?.email}</span>
-              <Button variant="system-tertiary" size="icon" onClick={handleSignOut}>
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 md:px-8 py-group bg-grouped-background min-h-screen">

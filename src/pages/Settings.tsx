@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings as SettingsIcon, Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users } from "lucide-react";
+import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
 import { WebhookManager } from "@/components/WebhookManager";
 import { IntegrationsManager } from "@/components/IntegrationsManager";
-import { NavLink } from "@/components/NavLink";
 import { supabase } from "@/integrations/supabase/client";
 import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 import { WorkspaceBranding } from "@/components/settings/WorkspaceBranding";
 import { TeamMembers } from "@/components/settings/TeamMembers";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -52,41 +52,13 @@ export default function Settings() {
     }
   }, [location]);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-  };
-
   if (!user) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="min-h-screen bg-grouped-background pb-20 md:pb-0">
-      <header className="border-b border-separator bg-system-background/80 backdrop-blur-xl">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 md:gap-8">
-              <img 
-                src="/src/assets/utm-one-logo.svg" 
-                alt="utm.one" 
-                className="h-7 w-auto"
-              />
-              <nav className="hidden md:flex gap-6">
-                <NavLink to="/dashboard">Dashboard</NavLink>
-                <NavLink to="/links">Links</NavLink>
-                <NavLink to="/analytics">Analytics</NavLink>
-                <NavLink to="/settings">Settings</NavLink>
-              </nav>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-subheadline text-secondary-label hidden md:block">{user.email}</span>
-              <Button variant="system-secondary" onClick={handleSignOut} size={isMobile ? "sm" : "default"}>
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-5xl mx-auto space-y-6">
