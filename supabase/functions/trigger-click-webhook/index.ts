@@ -46,7 +46,71 @@ serve(async (req) => {
     // Filter webhooks that listen to link.clicked
     const clickWebhooks = webhooks.filter(w => w.event_type.split(',').includes('link.clicked'));
 
-    // Trigger all matching webhooks
+    // Check for milestone events
+    const totalClicks = link.total_clicks || 0;
+    const milestones = [100, 1000, 10000, 50000, 100000];
+    const milestoneWebhooks = webhooks.filter(w => w.event_type.split(',').includes('analytics.milestone'));
+    
+    if (milestones.includes(totalClicks) && milestoneWebhooks.length > 0) {
+      for (const webhook of milestoneWebhooks) {
+        try {
+          await supabase.functions.invoke('send-webhook', {
+            body: {
+              event: 'analytics.milestone',
+              data: {
+                link_id: linkId,
+                title: link.title,
+                short_url: `https://${link.domain}/${link.path}/${link.slug}`,
+                milestone: totalClicks,
+                reached_at: new Date().toISOString(),
+              },
+              webhookUrl: webhook.webhook_url,
+              secret: webhook.secret,
+            },
+          });
+        } catch (error) {
+          console.error('Milestone webhook failed:', error);
+        }
+      }
+    }
+
+    // Check for anomaly webhooks
+    const { data: anomalies } = await supabase
+      .from('analytics_anomalies')
+      .select('*')
+      .eq('link_id', linkId)
+      .eq('is_dismissed', false)
+      .order('detected_at', { ascending: false })
+      .limit(1);
+
+    const anomalyWebhooks = webhooks.filter(w => w.event_type.split(',').includes('analytics.anomaly'));
+    
+    if (anomalies && anomalies.length > 0 && anomalyWebhooks.length > 0) {
+      const anomaly = anomalies[0];
+      for (const webhook of anomalyWebhooks) {
+        try {
+          await supabase.functions.invoke('send-webhook', {
+            body: {
+              event: 'analytics.anomaly',
+              data: {
+                link_id: linkId,
+                anomaly_type: anomaly.anomaly_type,
+                severity: anomaly.severity,
+                title: anomaly.title,
+                description: anomaly.description,
+                detected_at: anomaly.detected_at,
+              },
+              webhookUrl: webhook.webhook_url,
+              secret: webhook.secret,
+            },
+          });
+        } catch (error) {
+          console.error('Anomaly webhook failed:', error);
+        }
+      }
+    }
+
+    // Trigger all matching click webhooks
     for (const webhook of clickWebhooks) {
       try {
         await supabase.functions.invoke('send-webhook', {

@@ -287,6 +287,154 @@ async function handleAnalyticsEndpoint(req: Request, supabase: any, keyData: any
     );
   }
 
+  const url = new URL(req.url);
+
+  // GET /api/analytics/summary - Workspace-wide metrics
+  if (method === 'GET' && path === 'analytics/summary') {
+    const { data: links, error: linksError } = await supabase
+      .from('links')
+      .select('id, title, short_url, total_clicks, unique_clicks')
+      .eq('workspace_id', workspace_id)
+      .order('total_clicks', { ascending: false })
+      .limit(5);
+
+    const { count: totalLinks } = await supabase
+      .from('links')
+      .select('*', { count: 'exact', head: true })
+      .eq('workspace_id', workspace_id);
+
+    const { data: clicksData } = await supabase
+      .from('link_clicks')
+      .select('id, is_unique')
+      .in('link_id', (await supabase.from('links').select('id').eq('workspace_id', workspace_id)).data?.map((l: any) => l.id) || []);
+
+    const totalClicks = clicksData?.length || 0;
+    const uniqueVisitors = clicksData?.filter((c: any) => c.is_unique).length || 0;
+
+    return new Response(
+      JSON.stringify({
+        data: {
+          total_links: totalLinks || 0,
+          total_clicks: totalClicks,
+          unique_visitors: uniqueVisitors,
+          top_links: links || [],
+        },
+      }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // GET /api/analytics/trends?period=7d|30d|90d - Time-series click data
+  if (method === 'GET' && path === 'analytics/trends') {
+    const period = url.searchParams.get('period') || '7d';
+    const days = period === '7d' ? 7 : period === '30d' ? 30 : 90;
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+
+    const { data, error } = await supabase.rpc('get_time_series_analytics', {
+      p_workspace_id: workspace_id,
+      p_days: days,
+    });
+
+    if (error) {
+      return new Response(
+        JSON.stringify({ error: { code: 'query_failed', message: error.message } }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ data }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // GET /api/analytics/devices - Device/browser/OS breakdown
+  if (method === 'GET' && path === 'analytics/devices') {
+    const { data, error } = await supabase.rpc('get_device_analytics', {
+      p_workspace_id: workspace_id,
+    });
+
+    if (error) {
+      return new Response(
+        JSON.stringify({ error: { code: 'query_failed', message: error.message } }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ data }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // GET /api/analytics/geography - Country/city click distribution
+  if (method === 'GET' && path === 'analytics/geography') {
+    const { data, error } = await supabase.rpc('get_geolocation_analytics', {
+      p_workspace_id: workspace_id,
+    });
+
+    if (error) {
+      return new Response(
+        JSON.stringify({ error: { code: 'query_failed', message: error.message } }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ data }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // GET /api/analytics/campaigns - UTM campaign performance rollups
+  if (method === 'GET' && path === 'analytics/campaigns') {
+    const { data, error } = await supabase.rpc('get_utm_analytics', {
+      p_workspace_id: workspace_id,
+    });
+
+    if (error) {
+      return new Response(
+        JSON.stringify({ error: { code: 'query_failed', message: error.message } }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ data }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // GET /api/analytics/heatmap - Hour/day click distribution
+  if (method === 'GET' && path === 'analytics/heatmap') {
+    const { data: clicks, error } = await supabase
+      .from('link_clicks')
+      .select('clicked_at')
+      .in('link_id', (await supabase.from('links').select('id').eq('workspace_id', workspace_id)).data?.map((l: any) => l.id) || []);
+
+    if (error) {
+      return new Response(
+        JSON.stringify({ error: { code: 'query_failed', message: error.message } }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Group by hour and day of week
+    const heatmap = Array.from({ length: 7 }, () => Array(24).fill(0));
+    clicks?.forEach((click: any) => {
+      const date = new Date(click.clicked_at);
+      const day = date.getDay();
+      const hour = date.getHours();
+      heatmap[day][hour]++;
+    });
+
+    return new Response(
+      JSON.stringify({ data: heatmap }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
   // GET /api/analytics/links/:id - Get link analytics
   const linkAnalyticsMatch = path.match(/^analytics\/links\/([a-zA-Z0-9-]+)$/);
   if (method === 'GET' && linkAnalyticsMatch) {
