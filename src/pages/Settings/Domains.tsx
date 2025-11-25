@@ -48,10 +48,12 @@ import {
 import { DomainBadge } from "@/components/DomainBadge";
 import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
 import { DomainHealthDashboard } from "@/components/settings/DomainHealthDashboard";
+import { DomainHealthOverview } from "@/components/settings/DomainHealthOverview";
+import { DomainHealthDetails } from "@/components/settings/DomainHealthDetails";
 import { DomainSettings } from "@/components/settings/DomainSettings";
 import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
 import { DomainEditDialog } from "@/components/settings/DomainEditDialog";
-import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit } from "lucide-react";
+import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -73,6 +75,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
   const [isDNSDialogOpen, setIsDNSDialogOpen] = useState(false);
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [showHealthDetails, setShowHealthDetails] = useState<string | null>(null);
 
   const handleAddDomain = async () => {
     if (!newDomain.trim()) {
@@ -153,6 +156,22 @@ export default function Domains({ workspaceId }: DomainsProps) {
 
   return (
     <div className="space-y-6">
+      {/* Domain Health Overview */}
+      {domains && domains.length > 0 && (
+        <DomainHealthOverview 
+          domains={domains} 
+          workspaceId={workspaceId}
+        />
+      )}
+
+      {/* Show health details if a domain is selected */}
+      {showHealthDetails && domains && (
+        <DomainHealthDetails
+          domainId={showHealthDetails}
+          domainName={domains.find(d => d.id === showHealthDetails)?.domain || ''}
+        />
+      )}
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -316,6 +335,23 @@ export default function Domains({ workspaceId }: DomainsProps) {
                               <Button
                                 variant="ghost"
                                 size="sm"
+                                onClick={() => setShowHealthDetails(showHealthDetails === domain.id ? null : domain.id)}
+                              >
+                                <Activity className="w-4 h-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-popover border border-border">
+                              <p className="text-sm">{showHealthDetails === domain.id ? 'hide' : 'show'} health</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={() => {
                                   setSelectedDomain(domain);
                                   setIsDetailsDialogOpen(true);
@@ -325,7 +361,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent className="bg-popover border border-border">
-                              <p className="text-sm">domain details & health</p>
+                              <p className="text-sm">domain settings</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
