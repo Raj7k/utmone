@@ -325,21 +325,44 @@ export const EnhancedLinksTable = ({
                   </div>
                 </TableCell>
                 <TableCell role="cell">
-                  <div className="flex gap-1 flex-wrap">
-                    {link.destination_url?.startsWith('https://') && (
-                      <TrustBadge variant="ssl-secure" size="sm" />
-                    )}
-                    {link.security_status === 'safe' && (
-                      <TrustBadge variant="scanned-safe" size="sm" />
-                    )}
-                    {link.security_status === 'threats_detected' && (
-                      <TrustBadge variant="threats-detected" size="sm" />
-                    )}
-                    {link.security_status === 'not_scanned' && (
-                      <TrustBadge variant="not-scanned" size="sm" />
-                    )}
-                    <TrustBadge variant="utm-verified" size="sm" />
-                  </div>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="flex gap-1 flex-wrap">
+                          {link.destination_url?.startsWith('https://') && (
+                            <TrustBadge variant="ssl-secure" size="sm" />
+                          )}
+                          {link.security_status === 'safe' && (
+                            <TrustBadge variant="scanned-safe" size="sm" />
+                          )}
+                          {link.security_status === 'threats_detected' && (
+                            <TrustBadge variant="threats-detected" size="sm" />
+                          )}
+                          {link.security_status === 'not_scanned' && (
+                            <TrustBadge variant="not-scanned" size="sm" />
+                          )}
+                          <TrustBadge variant="utm-verified" size="sm" />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="text-xs space-y-1">
+                          <p className="font-semibold">Security Status</p>
+                          {link.security_status === 'safe' && (
+                            <>
+                              <p>Scanned by VirusTotal</p>
+                              <p className="text-system-green">0/72 engines flagged</p>
+                            </>
+                          )}
+                          {link.security_status === 'threats_detected' && (
+                            <p className="text-destructive">Potential threats detected</p>
+                          )}
+                          {link.security_status === 'not_scanned' && (
+                            <p className="text-tertiary-label">Scan pending</p>
+                          )}
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </TableCell>
                 <TableCell role="cell">
                   <span className="text-sm text-secondary-label">

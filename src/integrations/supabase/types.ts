@@ -1401,6 +1401,7 @@ export type Database = {
           ab_test_started_at: string | null
           ab_test_status: string | null
           ab_test_winner_id: string | null
+          blacklist_status: string | null
           conversion_rate: number | null
           created_at: string | null
           created_by: string
@@ -1446,6 +1447,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          blacklist_status?: string | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by: string
@@ -1493,6 +1495,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          blacklist_status?: string | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by?: string
