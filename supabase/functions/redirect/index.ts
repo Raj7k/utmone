@@ -752,7 +752,15 @@ Deno.serve(async (req) => {
     const endTime = performance.now();
     console.log(`Redirecting to: ${finalRedirectUrl} (${redirectStatus}) - Total time: ${(endTime - startTime).toFixed(2)}ms`);
     
-    return Response.redirect(finalRedirectUrl, redirectStatus);
+    return new Response(null, {
+      status: redirectStatus,
+      headers: {
+        'Location': finalRedirectUrl,
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
+    });
     
   } catch (error) {
     console.error('Redirect error:', error);
