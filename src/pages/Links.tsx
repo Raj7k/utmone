@@ -81,8 +81,11 @@ const Links = () => {
 
   if (isLoading || workspaceLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-grouped-background">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <p className="text-body-apple text-secondary-label">loading your links…</p>
+        </div>
       </div>
     );
   }
