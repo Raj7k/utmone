@@ -20,6 +20,7 @@ import FraudAlerts from "@/components/admin/FraudAlerts";
 import { BatchInviteModal } from "@/components/admin/BatchInviteModal";
 import { BatchActionBar } from "@/components/admin/BatchActionBar";
 import { InviteTrackingDashboard } from "@/components/admin/InviteTrackingDashboard";
+import { DripCampaignManager } from "@/components/admin/DripCampaignManager";
 
 type EarlyAccessRequest = {
   id: string;
@@ -228,6 +229,10 @@ export default function WaitlistManagement() {
               <BarChart3 className="h-4 w-4 mr-2" />
               analytics
             </TabsTrigger>
+            <TabsTrigger value="campaigns">
+              <Mail className="h-4 w-4 mr-2" />
+              drip campaigns
+            </TabsTrigger>
             <TabsTrigger value="fraud">fraud alerts</TabsTrigger>
           </TabsList>
 
@@ -372,6 +377,11 @@ export default function WaitlistManagement() {
           {/* Fraud Alerts Tab */}
           <TabsContent value="fraud">
             <FraudAlerts />
+          </TabsContent>
+
+          {/* Drip Campaigns Tab */}
+          <TabsContent value="campaigns">
+            <DripCampaignManager />
           </TabsContent>
         </Tabs>
 
