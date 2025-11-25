@@ -430,7 +430,7 @@ export const EnhancedLinksTable = ({
                         trigger={
                           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <QrCode className="mr-2 h-4 w-4" />
-                            generate qr
+                            Generate QR
                           </DropdownMenuItem>
                         }
                       />

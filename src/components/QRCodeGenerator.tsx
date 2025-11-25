@@ -12,7 +12,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, CheckCircle2 } from "lucide-react";
+import { QRDownloadOptions } from "./qr/QRDownloadOptions";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -38,6 +39,8 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [generatedQRCode, setGeneratedQRCode] = useState<{ png_url: string; svg_url: string } | null>(null);
 
   const form = useForm<QRFormData>({
     resolver: zodResolver(qrFormSchema),
@@ -50,7 +53,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
     },
   });
 
-  const { register, watch, setValue } = form;
+  const { register, watch, setValue, reset } = form;
   const formValues = watch();
 
   const generateQRMutation = useMutation({
@@ -187,14 +190,15 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         throw error;
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "QR Code Generated",
-        description: "Your branded QR code has been created successfully.",
+        description: "Your branded QR Code has been created successfully.",
       });
       queryClient.invalidateQueries({ queryKey: ["qr-codes", linkId] });
       setIsGenerating(false);
-      onSuccess?.();
+      setGeneratedQRCode({ png_url: data.png_url, svg_url: data.svg_url });
+      setShowSuccess(true);
     },
     onError: (error: Error) => {
       console.error("❌ [QR Generation] Mutation error:", error);
@@ -268,6 +272,89 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
   const onSubmit = form.handleSubmit((data) => {
     generateQRMutation.mutate(data);
   });
+
+  const handleCreateAnother = () => {
+    setShowSuccess(false);
+    setGeneratedQRCode(null);
+    reset();
+  };
+
+  const handleViewGallery = () => {
+    onSuccess?.();
+  };
+
+  const downloadFromUrl = async (url: string, filename: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = filename;
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+      toast({
+        title: "Downloaded",
+        description: `${filename} downloaded successfully`,
+      });
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Could not download file",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (showSuccess && generatedQRCode) {
+    return (
+      <div className="space-y-6 text-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="p-3 bg-system-green/10 rounded-full">
+            <CheckCircle2 className="h-12 w-12 text-system-green" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-semibold text-label">QR Code Generated Successfully!</h3>
+            <p className="text-secondary-label mt-2">Your QR Code is ready to download and use</p>
+          </div>
+        </div>
+
+        <Card className="p-6 flex flex-col items-center gap-4">
+          <div className="bg-white p-4 rounded-lg">
+            <QRCode
+              value={(() => {
+                const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
+                if (match) {
+                  const [, path, slug] = match;
+                  return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
+                }
+                return shortUrl;
+              })()}
+              size={256}
+              fgColor={formValues.primaryColor}
+              bgColor="#FFFFFF"
+              level="H"
+            />
+          </div>
+          
+          <QRDownloadOptions
+            onDownloadPNG={() => downloadFromUrl(generatedQRCode.png_url, `qr-${formValues.name.replace(/\s+/g, "-")}.png`)}
+            onDownloadSVG={() => downloadFromUrl(generatedQRCode.svg_url, `qr-${formValues.name.replace(/\s+/g, "-")}.svg`)}
+            onDownloadPDF={() => toast({ title: "PDF Export", description: "PDF export coming soon", variant: "default" })}
+          />
+        </Card>
+
+        <div className="flex gap-3 justify-center">
+          <Button variant="outline" onClick={handleCreateAnother}>
+            Create Another
+          </Button>
+          <Button onClick={handleViewGallery}>
+            View in Gallery
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

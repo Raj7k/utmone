@@ -58,7 +58,7 @@ export default function QRCodes() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-body-apple text-secondary-label">loading qr codes…</p>
+          <p className="text-body-apple text-secondary-label">loading QR Codes…</p>
         </div>
       </div>
     );
@@ -89,25 +89,25 @@ export default function QRCodes() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-large-title font-bold text-label mb-2 heading">qr codes</h1>
+          <h1 className="text-large-title font-bold text-label mb-2 heading">QR Codes</h1>
           <p className="text-body-apple text-secondary-label">
-            create and manage branded qr codes
+            Create and manage branded QR Codes
           </p>
         </div>
         <Button onClick={() => setShowCreateDialog(true)} size="lg">
           <Plus className="h-4 w-4 mr-2" />
-          create qr code
+          Create QR Code
         </Button>
       </div>
 
       <Tabs defaultValue="all" className="w-full">
         <div className="flex items-center justify-between mb-6">
           <TabsList>
-            <TabsTrigger value="all">all qr codes</TabsTrigger>
-            <TabsTrigger value="create">create new</TabsTrigger>
+            <TabsTrigger value="all">All QR Codes</TabsTrigger>
+            <TabsTrigger value="create">Create New</TabsTrigger>
           </TabsList>
           <Input
-            placeholder="search qr codes..."
+            placeholder="Search QR Codes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="max-w-xs"
@@ -118,7 +118,7 @@ export default function QRCodes() {
           {qrCodes && qrCodes.length > 0 ? (
             <>
               <div className="flex items-center gap-4 text-sm text-secondary-label">
-                <span>{qrCodes.length} qr codes</span>
+                <span>{qrCodes.length} QR Codes</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {(filteredQRCodes || qrCodes).map((qr) => (
@@ -140,7 +140,7 @@ export default function QRCodes() {
                 <div className="flex justify-center p-4 bg-white rounded-lg">
                   <img
                     src={qr.png_url || qr.svg_url || ""}
-                    alt={`qr code for ${qr.links?.title}`}
+                    alt={`QR Code for ${qr.links?.title}`}
                     className="w-32 h-32"
                   />
                 </div>
@@ -158,7 +158,7 @@ export default function QRCodes() {
                   >
                     <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>
                       <Download className="h-4 w-4 mr-2" />
-                      download
+                      Download
                     </a>
                   </Button>
                   <Button
@@ -173,7 +173,7 @@ export default function QRCodes() {
                       rel="noopener noreferrer"
                     >
                       <ExternalLink className="h-4 w-4 mr-2" />
-                      open
+                      Open
                     </a>
                   </Button>
                 </div>
@@ -187,11 +187,11 @@ export default function QRCodes() {
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <QrCode className="h-12 w-12 text-muted-foreground mb-4" />
                 <p className="text-body-apple text-secondary-label text-center mb-4">
-                  no qr codes yet. create your first branded qr code.
+                  No QR Codes yet. Create your first branded QR Code.
                 </p>
                 <Button onClick={() => setShowCreateDialog(true)}>
                   <Plus className="h-4 w-4 mr-2" />
-                  create qr code
+                  Create QR Code
                 </Button>
               </CardContent>
             </Card>
@@ -202,9 +202,9 @@ export default function QRCodes() {
           <Card className="p-8">
             <div className="max-w-4xl mx-auto space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">create qr code</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-2">Create QR Code</h2>
                 <p className="text-secondary-label">
-                  select a link and customize your branded qr code
+                  Select a link and customize your branded QR Code
                 </p>
               </div>
 
@@ -222,7 +222,7 @@ export default function QRCodes() {
                           <p className="text-sm text-secondary-label">{link.short_url}</p>
                         </div>
                         <Button size="sm">
-                          select
+                          Select
                         </Button>
                       </div>
                     </Card>
@@ -231,10 +231,10 @@ export default function QRCodes() {
               ) : (
                 <Card className="p-12 text-center">
                   <p className="text-secondary-label mb-4">
-                    you need to create a short link first before generating qr codes
+                    You need to create a short link first before generating QR Codes
                   </p>
                   <Button onClick={() => window.location.href = "/dashboard/links"}>
-                    create link
+                    Create Link
                   </Button>
                 </Card>
               )}
@@ -247,9 +247,9 @@ export default function QRCodes() {
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>create qr code</DialogTitle>
+            <DialogTitle>Create QR Code</DialogTitle>
             <DialogDescription>
-              select a link to generate a branded qr code
+              Select a link to generate a branded QR Code
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
@@ -268,13 +268,13 @@ export default function QRCodes() {
                       <p className="font-medium text-foreground">{link.title}</p>
                       <p className="text-sm text-secondary-label">{link.short_url}</p>
                     </div>
-                    <Button size="sm">select</Button>
+                    <Button size="sm">Select</Button>
                   </div>
                 </Card>
               ))
             ) : (
               <p className="text-secondary-label text-center py-4">
-                no links available. create a link first.
+                No links available. Create a link first.
               </p>
             )}
           </div>
@@ -286,9 +286,9 @@ export default function QRCodes() {
         <Dialog open={!!selectedLink} onOpenChange={() => setSelectedLink(null)}>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>generate branded qr code</DialogTitle>
+              <DialogTitle>Generate Branded QR Code</DialogTitle>
               <DialogDescription>
-                customize your qr code with brand colors and styles
+                Customize your QR Code with brand colors and styles
               </DialogDescription>
             </DialogHeader>
             <QRCodeGenerator
