@@ -1,14 +1,22 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWorkspace } from "@/hooks/useWorkspace";
-import { Download, ExternalLink, QrCode } from "lucide-react";
+import { Download, ExternalLink, QrCode, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDistance } from "date-fns";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { QRCodeGenerator } from "@/components/QRCodeGenerator";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [selectedLink, setSelectedLink] = useState<{ id: string; shortUrl: string } | null>(null);
 
   const { data: qrCodes, isLoading } = useQuery({
     queryKey: ["qr-codes", currentWorkspace?.id],
@@ -56,18 +64,64 @@ export default function QRCodes() {
     );
   }
 
+  // Get all workspace links for QR generation
+  const { data: workspaceLinks } = useQuery({
+    queryKey: ["workspace-links", currentWorkspace?.id],
+    queryFn: async () => {
+      if (!currentWorkspace) return [];
+      const { data } = await supabase
+        .from("links")
+        .select("id, title, slug, domain, path, short_url")
+        .eq("workspace_id", currentWorkspace.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      return data || [];
+    },
+    enabled: !!currentWorkspace,
+  });
+
+  const filteredQRCodes = qrCodes?.filter((qr) =>
+    qr.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    qr.links?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-large-title font-bold text-label mb-2 heading">qr codes</h1>
-        <p className="text-body-apple text-secondary-label">
-          manage all your generated qr codes
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-large-title font-bold text-label mb-2 heading">qr codes</h1>
+          <p className="text-body-apple text-secondary-label">
+            create and manage branded qr codes
+          </p>
+        </div>
+        <Button onClick={() => setShowCreateDialog(true)} size="lg">
+          <Plus className="h-4 w-4 mr-2" />
+          create qr code
+        </Button>
       </div>
 
-      {qrCodes && qrCodes.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {qrCodes.map((qr) => (
+      <Tabs defaultValue="all" className="w-full">
+        <div className="flex items-center justify-between mb-6">
+          <TabsList>
+            <TabsTrigger value="all">all qr codes</TabsTrigger>
+            <TabsTrigger value="create">create new</TabsTrigger>
+          </TabsList>
+          <Input
+            placeholder="search qr codes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-xs"
+          />
+        </div>
+
+        <TabsContent value="all" className="space-y-6">
+          {qrCodes && qrCodes.length > 0 ? (
+            <>
+              <div className="flex items-center gap-4 text-sm text-secondary-label">
+                <span>{qrCodes.length} qr codes</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {(filteredQRCodes || qrCodes).map((qr) => (
             <Card key={qr.id}>
               <CardHeader>
                 <div className="flex items-start justify-between">
@@ -124,18 +178,126 @@ export default function QRCodes() {
                   </Button>
                 </div>
               </CardContent>
+                </Card>
+              ))}
+              </div>
+            </>
+          ) : (
+            <Card>
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <QrCode className="h-12 w-12 text-muted-foreground mb-4" />
+                <p className="text-body-apple text-secondary-label text-center mb-4">
+                  no qr codes yet. create your first branded qr code.
+                </p>
+                <Button onClick={() => setShowCreateDialog(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  create qr code
+                </Button>
+              </CardContent>
             </Card>
-          ))}
-        </div>
-      ) : (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <QrCode className="h-12 w-12 text-muted-foreground mb-4" />
-            <p className="text-body-apple text-secondary-label text-center">
-              no qr codes yet. create a link and generate a qr code to get started.
-            </p>
-          </CardContent>
-        </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="create" className="space-y-6">
+          <Card className="p-8">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-foreground mb-2">create qr code</h2>
+                <p className="text-secondary-label">
+                  select a link and customize your branded qr code
+                </p>
+              </div>
+
+              {workspaceLinks && workspaceLinks.length > 0 ? (
+                <div className="grid gap-3">
+                  {workspaceLinks.map((link) => (
+                    <Card
+                      key={link.id}
+                      className="p-4 cursor-pointer hover:border-primary transition-colors"
+                      onClick={() => setSelectedLink({ id: link.id, shortUrl: link.short_url || "" })}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-foreground">{link.title}</p>
+                          <p className="text-sm text-secondary-label">{link.short_url}</p>
+                        </div>
+                        <Button size="sm">
+                          select
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card className="p-12 text-center">
+                  <p className="text-secondary-label mb-4">
+                    you need to create a short link first before generating qr codes
+                  </p>
+                  <Button onClick={() => window.location.href = "/dashboard/links"}>
+                    create link
+                  </Button>
+                </Card>
+              )}
+            </div>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      {/* Create QR Dialog */}
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>create qr code</DialogTitle>
+            <DialogDescription>
+              select a link to generate a branded qr code
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            {workspaceLinks && workspaceLinks.length > 0 ? (
+              workspaceLinks.map((link) => (
+                <Card
+                  key={link.id}
+                  className="p-4 cursor-pointer hover:border-primary transition-colors"
+                  onClick={() => {
+                    setSelectedLink({ id: link.id, shortUrl: link.short_url || "" });
+                    setShowCreateDialog(false);
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-foreground">{link.title}</p>
+                      <p className="text-sm text-secondary-label">{link.short_url}</p>
+                    </div>
+                    <Button size="sm">select</Button>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <p className="text-secondary-label text-center py-4">
+                no links available. create a link first.
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* QR Generator Dialog */}
+      {selectedLink && (
+        <Dialog open={!!selectedLink} onOpenChange={() => setSelectedLink(null)}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>generate branded qr code</DialogTitle>
+              <DialogDescription>
+                customize your qr code with brand colors and styles
+              </DialogDescription>
+            </DialogHeader>
+            <QRCodeGenerator
+              linkId={selectedLink.id}
+              shortUrl={selectedLink.shortUrl}
+              onSuccess={() => setSelectedLink(null)}
+            />
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );

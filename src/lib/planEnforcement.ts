@@ -5,6 +5,7 @@ export interface PlanLimits {
   canCreateLink: boolean;
   canAddDomain: boolean;
   reason?: string;
+  planTier: PlanTier;
   currentUsage: {
     linksThisMonth: number;
     clicksThisMonth: number;
@@ -90,6 +91,7 @@ export async function checkPlanLimits(workspaceId: string): Promise<PlanLimits> 
     canCreateLink,
     canAddDomain,
     reason,
+    planTier,
     currentUsage: {
       linksThisMonth,
       clicksThisMonth,
