@@ -51,7 +51,7 @@ export const LinkedInPostCard4 = () => {
                 RevOps salaries grew 32% YoY in India, 22% in US, 18% in Europe. Demand &gt; Supply
                 = salary inflation.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 RevOps is the fastest-growing GTM role globally. India leads growth (32% YoY),
                 followed by US (22%) and Europe (18%). Companies are desperate for talent that can
                 unify sales, marketing, and customer success operations.

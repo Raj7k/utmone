@@ -128,7 +128,7 @@ export const RetentionRiskCalculator = () => {
             <div className={`p-6 ${riskScore.bgColor} dark:bg-opacity-20 rounded-lg`}>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Flight Risk Score</p>
+                  <p className="text-sm text-secondary-label">Flight Risk Score</p>
                   <p className={`text-4xl font-bold ${riskScore.color}`}>
                     {riskScore.score}/100
                   </p>
@@ -141,8 +141,8 @@ export const RetentionRiskCalculator = () => {
 
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <DollarSign className="w-5 h-5 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">Estimated Replacement Cost</p>
+                  <DollarSign className="w-5 h-5 text-secondary-label" />
+                  <p className="text-sm text-secondary-label">Estimated Replacement Cost</p>
                 </div>
                 <p className="text-2xl font-bold">
                   ${riskScore.replacementCost.toLocaleString()}

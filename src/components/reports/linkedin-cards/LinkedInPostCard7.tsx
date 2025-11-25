@@ -28,11 +28,11 @@ export const LinkedInPostCard7 = () => {
               <div className="space-y-4">
                 <div>
                   <p className="text-4xl font-bold text-blazeOrange">$8-15K</p>
-                  <p className="text-sm text-muted-foreground mt-1">Average Increase From Negotiating</p>
+                  <p className="text-sm text-secondary-label mt-1">Average Increase From Negotiating</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
                   <p className="text-4xl font-bold text-mirage">63%</p>
-                  <p className="text-sm text-muted-foreground mt-1">Don't Negotiate At All</p>
+                  <p className="text-sm text-secondary-label mt-1">Don't Negotiate At All</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
                   <p className="text-lg font-bold text-deepSea">Don't Leave Money on the Table</p>
@@ -46,7 +46,7 @@ export const LinkedInPostCard7 = () => {
                 The average negotiation adds $8K-$15K to offers. But 63% of people don't negotiate.
                 Don't leave money on the table.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 Most companies expect you to negotiate—the first offer is rarely the best offer.
                 Even a 5-minute counter-offer email can add $8-15K in base salary, which compounds
                 over your career. Over 10 years, that's $80-150K+ you're giving up by not asking.

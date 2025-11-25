@@ -54,7 +54,7 @@ export const LinkedInPostCard6 = () => {
                 AI/ML expertise = +58% salary premium. SQL/Data = +28%. Basic content writing =
                 -5%. Skills determine pay more than titles.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 Category A skills (AI/ML, GTM Strategy, Attribution Modeling) command 40-58%
                 premiums. Category B skills (SQL, Salesforce) add 20-30%. Category C skills (basic
                 content, social media) actually reduce pay. Learn strategically.

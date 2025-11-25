@@ -50,7 +50,7 @@ export const RevOpsGrowthChart = () => {
           </AreaChart>
         </ResponsiveContainer>
         <div className="mt-4 p-4 bg-[hsl(18,100%,51%)]/10 rounded-lg border border-[hsl(18,100%,51%)]/20">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             <strong className="text-foreground">+{growthPercent}% growth</strong> for RevOps from 2020-2026, outpacing all other GTM roles
           </p>
         </div>

@@ -136,7 +136,7 @@ export const TeamSkillsGapAnalyzer = () => {
               <div className="p-4 bg-muted/20 rounded-lg text-center">
                 <Target className="w-6 h-6 mx-auto mb-2 text-primary" />
                 <p className="text-2xl font-bold">{analysis.totalRequired}</p>
-                <p className="text-sm text-muted-foreground">Required</p>
+                <p className="text-sm text-secondary-label">Required</p>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg text-center">
                 <TrendingUp className="w-6 h-6 mx-auto mb-2 text-green-600" />
@@ -151,7 +151,7 @@ export const TeamSkillsGapAnalyzer = () => {
             </div>
 
             <div className="p-4 bg-primary/10 rounded-lg">
-              <p className="text-sm text-muted-foreground">Skills Coverage</p>
+              <p className="text-sm text-secondary-label">Skills Coverage</p>
               <p className="text-3xl font-bold text-primary">{analysis.coveragePercent}%</p>
             </div>
 
@@ -173,11 +173,11 @@ export const TeamSkillsGapAnalyzer = () => {
                       </div>
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <p className="text-muted-foreground">Estimated Cost</p>
+                          <p className="text-secondary-label">Estimated Cost</p>
                           <p className="font-medium">{rec.estimatedCost}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">Timeframe</p>
+                          <p className="text-secondary-label">Timeframe</p>
                           <p className="font-medium">{rec.timeframe}</p>
                         </div>
                       </div>

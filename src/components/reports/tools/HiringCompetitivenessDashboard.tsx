@@ -59,12 +59,12 @@ export const HiringCompetitivenessDashboard = () => {
                   Upload
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-secondary-label">
                 CSV format: Role, Current Salary, Location
               </p>
             </div>
 
-            <div className="p-6 border-2 border-dashed rounded-lg text-center text-muted-foreground">
+            <div className="p-6 border-2 border-dashed rounded-lg text-center text-secondary-label">
               <Upload className="w-12 h-12 mx-auto mb-4 opacity-40" />
               <p>Upload your current salary bands to see competitiveness analysis</p>
               <p className="text-sm mt-2">Or manually enter roles below</p>
@@ -106,15 +106,15 @@ export const HiringCompetitivenessDashboard = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <p className="text-muted-foreground">Current</p>
+                        <p className="text-secondary-label">Current</p>
                         <p className="font-semibold">${risk.current.toLocaleString()}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Market Median</p>
+                        <p className="text-secondary-label">Market Median</p>
                         <p className="font-semibold">${risk.market.toLocaleString()}</p>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-secondary-label mt-2">
                       Recommended adjustment: +${(risk.market - risk.current).toLocaleString()}
                     </p>
                   </div>

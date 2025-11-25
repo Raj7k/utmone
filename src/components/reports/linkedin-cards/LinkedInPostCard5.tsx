@@ -38,7 +38,7 @@ export const LinkedInPostCard5 = () => {
                   <div key={index} className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-semibold text-mirage">{city.city}</p>
-                      <p className="text-xs text-muted-foreground">{city.multiplier} baseline</p>
+                      <p className="text-xs text-secondary-label">{city.multiplier} baseline</p>
                     </div>
                     <p className="text-base font-bold text-deepSea">{city.salary}</p>
                   </div>
@@ -52,7 +52,7 @@ export const LinkedInPostCard5 = () => {
                 San Francisco PMM: $135K. Bangalore PMM: $32K. Same company, same role, 4.2×
                 difference.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 Location is the single biggest factor in compensation. A Product Marketing Manager
                 role varies by 420% depending on geography—even within the same company. Remote
                 work hasn't eliminated this gap; it's just shifted negotiations.

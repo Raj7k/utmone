@@ -28,11 +28,11 @@ export const LinkedInPostCard3 = () => {
               <div className="space-y-4">
                 <div>
                   <p className="text-3xl font-bold text-blazeOrange">$240-400K</p>
-                  <p className="text-xs text-muted-foreground">Enterprise AE OTE Range</p>
+                  <p className="text-xs text-secondary-label">Enterprise AE OTE Range</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
                   <p className="text-3xl font-bold text-mirage">71%</p>
-                  <p className="text-xs text-muted-foreground">Miss Their Quota</p>
+                  <p className="text-xs text-secondary-label">Miss Their Quota</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
                   <p className="text-xl font-bold text-deepSea">High Risk, High Reward</p>
@@ -46,7 +46,7 @@ export const LinkedInPostCard3 = () => {
                 Enterprise AEs can earn $240-400K OTE. But 71% miss quota. The comp ceiling is
                 high, but so is the risk.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 Sales roles promise life-changing money, but the volatility is extreme. Only 29%
                 of Enterprise AEs hit 100%+ quota. The median base is $120-180K—but most earn
                 below OTE. Know what you're signing up for.
