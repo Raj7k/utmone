@@ -13,6 +13,8 @@ interface ApprovalRequest {
   name: string;
   access_level: number;
   invite_token: string;
+  role?: string;
+  score?: number;
 }
 
 const getAccessLevelLabel = (level: number): string => {
@@ -26,17 +28,31 @@ const getAccessLevelLabel = (level: number): string => {
   return labels[level] || "Unknown";
 };
 
+const getRoleMessage = (role: string | undefined): string => {
+  const messages: Record<string, string> = {
+    'marketing': 'as a marketer, you know clean tracking wins campaigns. we built this for you.',
+    'sales': 'your team shares links everywhere. now every link tells a clear story.',
+    'ops': 'governance that doesn\'t slow anyone down. that\'s the dream, right?',
+    'developer': 'api-first. proper webhooks. full control. you\'ll feel right at home.',
+  };
+  return messages[role?.toLowerCase() || ''] || 'we built utm.one for teams like yours.';
+};
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { email, name, access_level, invite_token }: ApprovalRequest = await req.json();
+    const { email, name, access_level, invite_token, role, score }: ApprovalRequest = await req.json();
 
     const claimUrl = `${Deno.env.get("SUPABASE_URL")?.replace("https://", "https://app.")}/claim-access?token=${invite_token}`;
     
     const accessLabel = getAccessLevelLabel(access_level);
+    const roleMessage = getRoleMessage(role);
+    const scoreAcknowledgment = score && score > 0 
+      ? `<p class="highlight">your engagement score of <strong>${score}</strong> earned you early access.</p>` 
+      : '';
 
     const emailResponse = await resend.emails.send({
       from: "utm.one <onboarding@resend.dev>",
@@ -54,11 +70,14 @@ const handler = async (req: Request): Promise<Response> => {
               .subtitle { font-size: 16px; color: #666; }
               .content { background: #f8f9fa; border-radius: 12px; padding: 32px; margin: 24px 0; }
               .access-badge { display: inline-block; background: #EE3B3B; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; margin: 16px 0; }
+              .highlight { background: #fff7a8; padding: 12px; border-radius: 8px; margin: 16px 0; }
+              .role-message { font-style: italic; color: #555; margin: 16px 0; }
               .cta-button { display: inline-block; background: #EE3B3B; color: white; padding: 16px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 24px 0; }
               .footer { text-align: center; color: #999; font-size: 14px; margin-top: 40px; }
               .features { margin: 24px 0; }
               .feature { margin: 12px 0; padding-left: 24px; position: relative; }
               .feature:before { content: "✓"; position: absolute; left: 0; color: #EE3B3B; font-weight: bold; }
+              .urgency { background: #fff3cd; padding: 16px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; }
             </style>
           </head>
           <body>
@@ -72,6 +91,10 @@ const handler = async (req: Request): Promise<Response> => {
                 <p>hey ${name},</p>
                 <p>you're in. after reviewing hundreds of applications, we're excited to invite you to utm.one.</p>
                 
+                ${scoreAcknowledgment}
+                
+                <p class="role-message">${roleMessage}</p>
+                
                 <div class="access-badge">${accessLabel}</div>
                 
                 <div class="features">
@@ -83,14 +106,17 @@ const handler = async (req: Request): Promise<Response> => {
                   ${access_level >= 4 ? '<div class="feature">experimental features</div>' : ''}
                 </div>
                 
-                <p>your invite link expires in 7 days. claim your spot now:</p>
+                <div class="urgency">
+                  <strong>⏰ claim your spot in 7 days</strong><br>
+                  <span style="font-size: 14px;">if you don't claim it, we'll offer your spot to someone else.</span>
+                </div>
                 
                 <a href="${claimUrl}" class="cta-button">claim your access</a>
               </div>
               
               <div class="footer">
-                <p>this is a limited invite. if you don't claim it, we'll offer your spot to someone else.</p>
                 <p>have questions? just reply to this email.</p>
+                <p style="margin-top: 16px;">clarity creates confidence.</p>
               </div>
             </div>
           </body>
