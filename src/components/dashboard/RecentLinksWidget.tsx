@@ -45,7 +45,14 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
     return (
       <Card variant="grouped">
         <CardContent className="py-8">
-          <p className="text-secondary-label text-center">loading recent links…</p>
+          <div className="space-y-3">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="animate-pulse space-y-2">
+                <div className="h-4 bg-fill-tertiary rounded w-3/4" />
+                <div className="h-3 bg-fill-tertiary rounded w-1/2" />
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     );
@@ -65,15 +72,15 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
         <CardDescription>Your recently created short links</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {recentLinks.map((link) => (
             <div
               key={link.id}
-              className="flex items-start justify-between gap-4 p-3 rounded-lg border border-separator bg-system-background hover:bg-fill-tertiary transition-apple cursor-pointer"
+              className="flex flex-col sm:flex-row items-start justify-between gap-4 p-3 rounded-lg border border-separator bg-system-background hover:bg-fill-tertiary transition-apple cursor-pointer"
               onClick={() => navigate(`/links/${link.id}`)}
             >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+              <div className="flex-1 min-w-0 w-full">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <h4 className="text-body-apple font-medium text-label truncate">
                     {link.title}
                   </h4>
@@ -88,7 +95,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
                   </div>
                 </LinkPreviewCard>
 
-                <div className="flex items-center gap-1 mt-2">
+                <div className="flex items-center gap-1 mt-2 flex-wrap">
                   {link.destination_url?.startsWith('https://') && (
                     <TrustBadge variant="ssl-secure" size="sm" />
                   )}
@@ -110,7 +117,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 w-full sm:w-auto justify-end">
                 <Button
                   variant="ghost"
                   size="icon"

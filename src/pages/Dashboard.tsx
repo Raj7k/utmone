@@ -121,7 +121,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-8 h-full">
+        <div className="container mx-auto px-4 md:px-8 h-full">
           <div className="flex items-center justify-between h-full">
             <div className="flex items-center gap-8">
               <div className="flex items-center gap-2">
@@ -152,7 +152,7 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-8 py-group bg-grouped-background min-h-screen">
+      <main className="container mx-auto px-4 md:px-8 py-group bg-grouped-background min-h-screen">
         <UsageLimitBanner />
         
         {/* Welcome Section */}
@@ -204,7 +204,7 @@ const Dashboard = () => {
 
         {/* AI Insights & Recent Activity Side by Side */}
         {currentWorkspace && (
-          <div className="grid md:grid-cols-2 gap-card mb-content">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-card mb-content">
             <AIInsights />
             <RecentActivity />
           </div>
@@ -223,7 +223,7 @@ const Dashboard = () => {
 
         {/* AI Recommendations & Performance Side by Side */}
         {currentWorkspace && (
-          <div className="grid md:grid-cols-2 gap-card mb-content">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-card mb-content">
             <AIRecommendationsWidget workspaceId={currentWorkspace.id} />
             <PerformanceMetrics workspaceId={currentWorkspace.id} />
           </div>
@@ -231,7 +231,7 @@ const Dashboard = () => {
 
         {/* Transparency & Security */}
         {currentWorkspace && (
-          <div className="grid md:grid-cols-2 gap-card mb-content">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-card mb-content">
             <TransparencyCard />
             <SecurityOverviewWidget workspaceId={currentWorkspace.id} />
           </div>

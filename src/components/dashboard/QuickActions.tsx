@@ -26,9 +26,9 @@ export const QuickActions = ({ workspaceId, hasLinks, hasQrCodes }: QuickActions
   const recommendedAction = getRecommendedAction();
 
   return (
-    <div className="grid md:grid-cols-3 gap-card">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-card">
       {/* Create Short Link */}
-      <Card 
+      <Card
         variant="grouped" 
         className={`hover:shadow-lg transition-apple relative ${
           recommendedAction === "create-link" ? "ring-2 ring-system-blue" : ""
