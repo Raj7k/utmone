@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Copy, TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Copy, TrendingUp, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { LinkPreviewCard } from "../LinkPreviewCard";
 import { TrustBadge } from "../TrustBadge";
@@ -99,6 +100,12 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
                   )}
                   {link.security_status === 'not_scanned' && (
                     <TrustBadge variant="not-scanned" size="sm" />
+                  )}
+                  {!link.expires_at && (
+                    <Badge variant="outline" className="gap-1 text-xs">
+                      <Shield className="w-3 h-3" />
+                      Permanent
+                    </Badge>
                   )}
                 </div>
               </div>

@@ -472,6 +472,44 @@ export type Database = {
           },
         ]
       }
+      backup_logs: {
+        Row: {
+          backup_type: string
+          created_at: string
+          error_message: string | null
+          file_path: string | null
+          id: string
+          status: string
+          workspace_id: string
+        }
+        Insert: {
+          backup_type: string
+          created_at?: string
+          error_message?: string | null
+          file_path?: string | null
+          id?: string
+          status: string
+          workspace_id: string
+        }
+        Update: {
+          backup_type?: string
+          created_at?: string
+          error_message?: string | null
+          file_path?: string | null
+          id?: string
+          status?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backup_logs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversion_events: {
         Row: {
           attributed_at: string
