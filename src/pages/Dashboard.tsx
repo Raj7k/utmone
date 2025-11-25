@@ -14,6 +14,7 @@ import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { AIInsightCard } from "@/components/analytics/AIInsightCard";
 import { useAnomalies } from "@/hooks/useAnomalies";
 import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
+import { RecentLinksWidget } from "@/components/dashboard/RecentLinksWidget";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -245,20 +246,10 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Empty State */}
-        <Card variant="grouped">
-          <CardContent className="flex flex-col items-center justify-center py-16">
-            <LinkIcon className="h-16 w-16 text-tertiary-label mb-4" />
-            <h3 className="text-title-2 font-semibold text-label mb-2">you don't have any links yet.</h3>
-            <p className="text-secondary-label mb-6 text-center max-w-md">
-              start by creating your first one.
-            </p>
-            <Button variant="system">
-              <Plus className="h-4 w-4 mr-2" />
-              create link
-            </Button>
-          </CardContent>
-        </Card>
+        {/* Recent Links Widget */}
+        {currentWorkspace && (
+          <RecentLinksWidget workspaceId={currentWorkspace.id} />
+        )}
 
         {/* Keyboard Shortcuts Help */}
         <KeyboardShortcutsHelp 
