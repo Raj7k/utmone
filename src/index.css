@@ -72,6 +72,12 @@ All colors MUST be HSL.
     --utm-term: var(--system-green);
     --utm-content: var(--system-yellow);
 
+    /* Brand Colors 2025 - Color Palette */
+    --mirage: 205 29% 13%;        /* #16232A - Dark blue-grey */
+    --blaze-orange: 20 100% 51%;  /* #FF5B04 - Vibrant orange */
+    --deep-sea: 184 89% 18%;      /* #075056 - Deep teal-green */
+    --wild-sand: 194 25% 92%;     /* #E4EEF0 - Light beige */
+
     /* ============================================
        LEGACY TOKENS (Backward Compatibility)
        ============================================ */
