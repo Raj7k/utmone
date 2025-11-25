@@ -20,6 +20,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
 
   const { data: recentLinks, isLoading } = useQuery({
     queryKey: ["recent-links", workspaceId],
+    enabled: !!workspaceId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("links")

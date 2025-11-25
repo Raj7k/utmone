@@ -37,6 +37,7 @@ export const AIRecommendationsWidget = ({ workspaceId }: AIRecommendationsWidget
 
   const { data: recommendations, isLoading } = useQuery({
     queryKey: ['ai-recommendations', workspaceId],
+    enabled: !!workspaceId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('ai_recommendations')
