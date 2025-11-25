@@ -176,6 +176,7 @@ import ApprovalQueue from "./pages/ApprovalQueue";
 import DeveloperSettings from "./pages/DeveloperSettings";
 import Backup from "./pages/Settings/Backup";
 import { SkipToContent } from "@/components/SkipToContent";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Feature Pages
 import ShortLinks from "./pages/features/ShortLinks";
@@ -192,15 +193,16 @@ import Features from "./pages/Features";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <WorkspaceProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <SkipToContent />
-          <ScrollToTop />
-          <Routes>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WorkspaceProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <SkipToContent />
+            <ScrollToTop />
+            <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/onboarding" element={<OnboardingEnhanced />} />
@@ -394,11 +396,12 @@ const App = () => (
           <Route path="/analytics/share/:token" element={<AnalyticsShare />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
       </WorkspaceProvider>
     </TooltipProvider>
   </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
