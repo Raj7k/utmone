@@ -141,18 +141,33 @@ export default function AcceptInvite() {
 
       if (acceptError) throw acceptError;
 
+      // Store the workspace ID so WorkspaceContext switches to it
+      localStorage.setItem("currentWorkspaceId", invitation.workspace_id);
+
       toast({
-        title: "Invitation accepted",
-        description: `You've joined ${invitation.workspaces.name}`,
+        title: "Welcome to the team!",
+        description: `You've successfully joined ${invitation.workspaces.name}`,
       });
 
-      // Redirect to dashboard
-      navigate("/dashboard");
+      // Redirect to team settings so they see their new team
+      navigate("/settings?tab=team");
     } catch (err: any) {
       console.error("Error accepting invitation:", err);
+      
+      // Transform technical errors to user-friendly messages
+      let userMessage = "We couldn't complete your request. Please try again.";
+      
+      if (err.code === "23505") {
+        userMessage = "You're already a member of this workspace.";
+      } else if (err.code === "42501" || err.message?.includes("row-level security")) {
+        userMessage = "This invitation may have expired or already been used. Please request a new invitation.";
+      } else if (err.message?.includes("network") || err.message?.includes("fetch")) {
+        userMessage = "Connection issue. Please check your internet and try again.";
+      }
+      
       toast({
-        title: "Error",
-        description: err.message || "Failed to accept invitation",
+        title: "Couldn't join workspace",
+        description: userMessage,
         variant: "destructive",
       });
       setAccepting(false);
