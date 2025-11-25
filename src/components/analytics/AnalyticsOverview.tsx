@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,28 +7,53 @@ import { ExportButton } from "./ExportButton";
 import { ClicksOverTime } from "./ClicksOverTime";
 import { useComparisonMetrics } from "@/hooks/useComparisonMetrics";
 import { ComparisonCard } from "./ComparisonCard";
+import { MyLinksToggle } from "./MyLinksToggle";
+import { OwnerFilter } from "./OwnerFilter";
 
 interface AnalyticsOverviewProps {
   workspaceId: string;
 }
 
 export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
+  const [viewMode, setViewMode] = useState<"my" | "all">("all");
+  const [ownerFilter, setOwnerFilter] = useState<string>("all");
+  
   const { data: comparisonData } = useComparisonMetrics({ workspaceId });
   
   const { data: stats, isLoading } = useQuery({
-    queryKey: ["analytics-overview", workspaceId],
+    queryKey: ["analytics-overview", workspaceId, viewMode, ownerFilter],
     queryFn: async () => {
-      // Get total links
-      const { count: linksCount } = await supabase
+      // Get current user for "my links" mode
+      const { data: { user } } = await supabase.auth.getUser();
+      const currentUserId = user?.id;
+      // Build query with filters
+      let linksQuery = supabase
         .from("links")
         .select("*", { count: "exact", head: true })
         .eq("workspace_id", workspaceId);
 
-      // Get link IDs for this workspace
-      const { data: links } = await supabase
+      // Apply owner filter
+      if (viewMode === "my" && currentUserId) {
+        linksQuery = linksQuery.eq("created_by", currentUserId);
+      } else if (ownerFilter !== "all") {
+        linksQuery = linksQuery.eq("created_by", ownerFilter);
+      }
+
+      const { count: linksCount } = await linksQuery;
+
+      // Get link IDs with same filters
+      let dataQuery = supabase
         .from("links")
         .select("id")
         .eq("workspace_id", workspaceId);
+
+      if (viewMode === "my" && currentUserId) {
+        dataQuery = dataQuery.eq("created_by", currentUserId);
+      } else if (ownerFilter !== "all") {
+        dataQuery = dataQuery.eq("created_by", ownerFilter);
+      }
+
+      const { data: links } = await dataQuery;
 
       if (!links || links.length === 0) {
         return {
@@ -49,11 +75,19 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
       const totalClicks = clicksData?.length || 0;
       const uniqueClicks = clicksData?.filter(c => c.is_unique).length || 0;
 
-      // Get top performing links
-      const { data: topLinks } = await supabase
+      // Get top performing links with same filters
+      let topLinksQuery = supabase
         .from("links")
         .select("id, title, short_url, total_clicks")
-        .eq("workspace_id", workspaceId)
+        .eq("workspace_id", workspaceId);
+
+      if (viewMode === "my" && currentUserId) {
+        topLinksQuery = topLinksQuery.eq("created_by", currentUserId);
+      } else if (ownerFilter !== "all") {
+        topLinksQuery = topLinksQuery.eq("created_by", ownerFilter);
+      }
+
+      const { data: topLinks } = await topLinksQuery
         .order("total_clicks", { ascending: false })
         .limit(5);
 
@@ -70,7 +104,17 @@ export const AnalyticsOverview = ({ workspaceId }: AnalyticsOverviewProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
+      <div className="flex flex-col md:flex-row justify-between gap-4">
+        <div className="flex flex-col md:flex-row gap-3">
+          <MyLinksToggle value={viewMode} onChange={setViewMode} />
+          {viewMode === "all" && (
+            <OwnerFilter 
+              workspaceId={workspaceId} 
+              value={ownerFilter} 
+              onChange={setOwnerFilter} 
+            />
+          )}
+        </div>
         <ExportButton workspaceId={workspaceId} />
       </div>
 

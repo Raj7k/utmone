@@ -25,6 +25,7 @@ import { MobileNav } from "@/components/mobile/MobileNav";
 import { SwipeableTabs } from "@/components/mobile/SwipeableTabs";
 import { PullToRefresh } from "@/components/mobile/PullToRefresh";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { OwnerPerformance } from "@/components/analytics/OwnerPerformance";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -212,6 +213,11 @@ const Analytics = () => {
                       content: <AnalyticsOverview workspaceId={currentWorkspace.id} />,
                     },
                     {
+                      id: "team",
+                      label: "Team",
+                      content: <OwnerPerformance workspaceId={currentWorkspace.id} />,
+                    },
+                    {
                       id: "conversions",
                       label: "Conversions",
                       content: conversionMetrics.data ? (
@@ -245,6 +251,7 @@ const Analytics = () => {
                 <Tabs defaultValue="overview" className="space-y-6">
                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
+                    <TabsTrigger value="team">Team Performance</TabsTrigger>
                     <TabsTrigger value="conversions">Conversions</TabsTrigger>
                     <TabsTrigger value="devices">Devices</TabsTrigger>
                     <TabsTrigger value="geography">Geography</TabsTrigger>
@@ -254,6 +261,10 @@ const Analytics = () => {
 
                   <TabsContent value="overview">
                     <AnalyticsOverview workspaceId={currentWorkspace.id} />
+                  </TabsContent>
+
+                  <TabsContent value="team">
+                    <OwnerPerformance workspaceId={currentWorkspace.id} />
                   </TabsContent>
 
                   <TabsContent value="conversions" className="space-y-6">
