@@ -50,7 +50,7 @@ export default function Links() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full max-w-full overflow-hidden">
       <FeatureHint
         id="links-first-visit"
         title="Create Your First Short Link"
@@ -60,9 +60,9 @@ export default function Links() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-large-title font-bold text-label mb-2 heading">Links</h1>
+          <h1 className="text-large-title font-bold text-label mb-2 heading">links</h1>
           <p className="text-body-apple text-secondary-label">
-            Manage and track all your short links
+            manage and track all your short links
           </p>
         </div>
       </div>
