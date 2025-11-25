@@ -39,7 +39,7 @@ export const ModeToggle = () => {
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
       >
         {/* Label for Employee */}
-        <span className={`text-sm font-medium transition-colors ${isEmployeeMode ? 'text-blazeOrange' : 'text-mirage/40'}`}>
+        <span className={`text-sm font-medium transition-apple ${isEmployeeMode ? 'text-blazeOrange' : 'text-mirage/40'}`}>
           <User className="w-4 h-4 inline mr-1" />
           Employee
         </span>
@@ -47,7 +47,7 @@ export const ModeToggle = () => {
         {/* iOS Toggle Switch */}
         <button 
           onClick={toggleMode}
-          className={`relative w-12 h-6 rounded-full transition-all ${
+          className={`relative w-12 h-6 rounded-full transition-apple ${
             isEmployeeMode ? 'bg-blazeOrange' : 'bg-deepSea'
           }`}
           aria-label={`Switch to ${isEmployeeMode ? 'employer' : 'employee'} view`}
@@ -60,7 +60,7 @@ export const ModeToggle = () => {
         </button>
         
         {/* Label for Employer */}
-        <span className={`text-sm font-medium transition-colors ${isEmployerMode ? 'text-deepSea' : 'text-mirage/40'}`}>
+        <span className={`text-sm font-medium transition-apple ${isEmployerMode ? 'text-deepSea' : 'text-mirage/40'}`}>
           <Building2 className="w-4 h-4 inline mr-1" />
           Employer
         </span>

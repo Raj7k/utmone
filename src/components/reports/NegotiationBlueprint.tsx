@@ -191,7 +191,7 @@ export const NegotiationBlueprint = () => {
           <CardContent>
             <div className="space-y-6">
               {negotiationScripts.map((script) => (
-                <div key={script.id} className="p-6 bg-muted/30 rounded-lg border border-border/50 hover:border-[hsl(184,92%,18%)]/50 transition-colors">
+                <div key={script.id} className="p-6 bg-muted/30 rounded-lg border border-border/50 hover:border-[hsl(184,92%,18%)]/50 transition-apple">
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className="font-semibold text-lg">{script.title}</h3>

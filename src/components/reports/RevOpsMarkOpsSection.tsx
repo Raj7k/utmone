@@ -1,6 +1,7 @@
 import { RevOpsMarkOpsTables } from "./RevOpsMarkOpsTables";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Rocket, TrendingUp, ArrowRight } from "lucide-react";
 import { RevOpsGrowthChart } from "./visualizations/RevOpsGrowthChart";
 import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
@@ -414,9 +415,9 @@ export const RevOpsMarkOpsSection = () => {
           <p className="text-lg text-muted-foreground mb-6 max-w-[600px] mx-auto">
             See how your RevOps/MarkOps salary compares to the market. Identify skill gaps and certifications that command the highest premiums.
           </p>
-          <button className="bg-deepSea hover:bg-deepSea/90 text-white text-base px-6 py-3 rounded-lg font-semibold transition-apple hover:scale-105">
+          <Button className="bg-deepSea hover:bg-deepSea/90 text-white px-8 hover:scale-102" size="lg">
             Calculate My Ops Premium
-          </button>
+          </Button>
         </Card>
       </div>
     </section>

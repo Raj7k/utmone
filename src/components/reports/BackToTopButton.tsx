@@ -36,7 +36,7 @@ export const BackToTopButton = () => {
           <Button
             onClick={scrollToTop}
             size="icon"
-            className="h-12 w-12 rounded-full bg-mirage text-white hover:bg-mirage/90 shadow-lg hover:shadow-xl transition-all hover:scale-110"
+            className="h-12 w-12 rounded-full bg-mirage text-white hover:bg-mirage/90 shadow-lg hover:shadow-xl transition-apple hover:scale-102"
             aria-label="Back to top"
           >
             <ArrowUp className="h-5 w-5" />

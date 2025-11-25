@@ -26,7 +26,7 @@ export const ReportAnchorLink = ({
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className={`relative overflow-hidden rounded-lg border-l-4 border-deepSea bg-gradient-to-r from-deepSea/5 to-transparent p-6 transition-all hover:shadow-md ${
+      className={`relative overflow-hidden rounded-lg border-l-4 border-deepSea bg-gradient-to-r from-deepSea/5 to-transparent p-6 transition-apple hover:shadow-md ${
         comingSoon ? "opacity-60 cursor-not-allowed" : "hover:border-deepSea/80"
       }`}
     >

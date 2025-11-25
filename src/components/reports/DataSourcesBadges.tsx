@@ -53,7 +53,7 @@ export const DataSourcesBadges = () => {
       {dataSources.map((source, index) => {
         const Icon = source.icon;
         return (
-          <Card key={index} className="border-2 hover:shadow-lg transition-all">
+          <Card key={index} className="border-2 hover:shadow-lg transition-apple hover:scale-101">
             <CardContent className="pt-6">
               <div className="flex items-start gap-4">
                 <div className={`p-3 rounded-lg bg-${source.color}/10`}>

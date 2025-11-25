@@ -1,6 +1,7 @@
 import { SalesSalaryTables } from "./SalesSalaryTables";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { TrendingUp, AlertTriangle } from "lucide-react";
 import { SalesOTEHistogram } from "./visualizations/SalesOTEHistogram";
 import { CareerProgressionTimeline } from "./tools/CareerProgressionTimeline";
@@ -286,9 +287,9 @@ export const SalesSalarySection = () => {
           <p className="text-lg text-muted-foreground mb-6 max-w-[600px] mx-auto">
             Compare your base vs. variable comp split against industry benchmarks and optimize your compensation plan for quota attainment.
           </p>
-          <button className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-base px-6 py-3 rounded-lg font-semibold transition-apple hover:scale-105">
+          <Button className="bg-blazeOrange hover:bg-blazeOrange/90 text-white px-8 hover:scale-102" size="lg">
             Compare My OTE Structure
-          </button>
+          </Button>
         </Card>
       </div>
     </section>
