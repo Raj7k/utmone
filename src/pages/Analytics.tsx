@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Link as LinkIcon, LogOut, TrendingUp } from "lucide-react";
+import { Link as LinkIcon, LogOut, TrendingUp, Share2 } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import type { User } from "@supabase/supabase-js";
 import { AnalyticsOverview } from "@/components/analytics/AnalyticsOverview";
@@ -16,6 +16,8 @@ import { useConversionMetrics } from "@/hooks/useConversionMetrics";
 import { AIInsightCard } from "@/components/analytics/AIInsightCard";
 import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
 import { ReportScheduler } from "@/components/analytics/ReportScheduler";
+import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialog";
+import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { useAnomalies } from "@/hooks/useAnomalies";
@@ -26,6 +28,7 @@ const Analytics = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
@@ -90,6 +93,7 @@ const Analytics = () => {
                   className="h-7 w-auto"
                 />
               </div>
+              <WorkspaceSwitcher />
               <nav className="hidden md:flex items-center gap-2">
                 <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
                   dashboard
@@ -131,7 +135,12 @@ const Analytics = () => {
                   <Button variant="outline" size="sm">
                     Export PDF
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setShareDialogOpen(true)}
+                  >
+                    <Share2 className="h-4 w-4 mr-2" />
                     Share Dashboard
                   </Button>
                 </div>
@@ -229,6 +238,13 @@ const Analytics = () => {
           <KeyboardShortcutsHelp 
             open={showShortcutsHelp}
             onOpenChange={setShowShortcutsHelp}
+          />
+
+          {/* Analytics Share Dialog */}
+          <AnalyticsShareDialog
+            open={shareDialogOpen}
+            onOpenChange={setShareDialogOpen}
+            workspaceId={currentWorkspace.id}
           />
         </>
         )}

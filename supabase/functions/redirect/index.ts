@@ -362,15 +362,93 @@ Deno.serve(async (req) => {
       return Response.redirect(passwordPageUrl, 302);
     }
     
+    // Fetch workspace branding for error pages
+    const { data: branding } = await supabase
+      .from('workspace_branding')
+      .select('*')
+      .eq('workspace_id', linkRecord.workspace_id)
+      .single();
+    
     // Check if link is paused
     if (linkRecord.status === 'paused') {
-      return new Response(
-        `<html><body><h1>Link Paused</h1><p>This link has been temporarily paused.</p></body></html>`,
-        { 
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
-        }
-      );
+      const brandedHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Link Paused</title>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { 
+              font-family: system-ui, -apple-system, sans-serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center; 
+              min-height: 100vh; 
+              margin: 0; 
+              background: #f9fafb; 
+            }
+            .container { 
+              text-align: center; 
+              padding: 2rem;
+              max-width: 500px;
+            }
+            .logo { 
+              height: 48px; 
+              margin-bottom: 2rem; 
+            }
+            .icon { 
+              width: 96px; 
+              height: 96px; 
+              margin: 0 auto 2rem; 
+              border-radius: 50%; 
+              background: #f3f4f6; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;
+              font-size: 48px;
+            }
+            h1 { 
+              font-size: 2rem; 
+              margin-bottom: 1rem; 
+              color: #1f2937; 
+            }
+            p { 
+              color: #6b7280; 
+              margin: 0.5rem 0; 
+              line-height: 1.6;
+            }
+            .footer { 
+              margin-top: 3rem; 
+              font-size: 0.875rem; 
+              color: #9ca3af; 
+            }
+            .footer a { 
+              color: ${branding?.primary_color || '#217BF4'}; 
+              text-decoration: none; 
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            ${branding?.logo_url ? `<img src="${branding.logo_url}" alt="${branding.company_name || 'Company'}" class="logo">` : ''}
+            <div class="icon" style="color: ${branding?.primary_color || '#217BF4'}">⏸️</div>
+            <h1>Link Paused</h1>
+            <p>This link has been temporarily paused and is not currently active.</p>
+            ${!branding?.hide_branding ? `
+              <div class="footer">
+                <p>Links powered by <a href="https://utm.one">utm.one</a></p>
+              </div>
+            ` : ''}
+          </div>
+        </body>
+        </html>
+      `;
+      
+      return new Response(brandedHtml, { 
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+      });
     }
     
     // Check if link is archived
@@ -390,13 +468,85 @@ Deno.serve(async (req) => {
           return Response.redirect(linkRecord.fallback_url, 302);
         }
         const message = linkRecord.custom_expiry_message || 'This link has expired.';
-        return new Response(
-          `<html><body><h1>Link Expired</h1><p>${message}</p></body></html>`,
-          { 
-            status: 200,
-            headers: { ...corsHeaders, 'Content-Type': 'text/html' }
-          }
-        );
+        
+        const brandedHtml = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Link Expired</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              body { 
+                font-family: system-ui, -apple-system, sans-serif; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                min-height: 100vh; 
+                margin: 0; 
+                background: #f9fafb; 
+              }
+              .container { 
+                text-align: center; 
+                padding: 2rem;
+                max-width: 500px;
+              }
+              .logo { 
+                height: 48px; 
+                margin-bottom: 2rem; 
+              }
+              .icon { 
+                width: 96px; 
+                height: 96px; 
+                margin: 0 auto 2rem; 
+                border-radius: 50%; 
+                background: #f3f4f6; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                font-size: 48px;
+              }
+              h1 { 
+                font-size: 2rem; 
+                margin-bottom: 1rem; 
+                color: #1f2937; 
+              }
+              p { 
+                color: #6b7280; 
+                margin: 0.5rem 0; 
+                line-height: 1.6;
+              }
+              .footer { 
+                margin-top: 3rem; 
+                font-size: 0.875rem; 
+                color: #9ca3af; 
+              }
+              .footer a { 
+                color: ${branding?.primary_color || '#217BF4'}; 
+                text-decoration: none; 
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              ${branding?.logo_url ? `<img src="${branding.logo_url}" alt="${branding.company_name || 'Company'}" class="logo">` : ''}
+              <div class="icon" style="color: ${branding?.primary_color || '#217BF4'}">⚠️</div>
+              <h1>Link Expired</h1>
+              <p>${message}</p>
+              ${!branding?.hide_branding ? `
+                <div class="footer">
+                  <p>Links powered by <a href="https://utm.one">utm.one</a></p>
+                </div>
+              ` : ''}
+            </div>
+          </body>
+          </html>
+        `;
+        
+        return new Response(brandedHtml, { 
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+        });
       }
     }
     
@@ -407,13 +557,85 @@ Deno.serve(async (req) => {
         return Response.redirect(linkRecord.fallback_url, 302);
       }
       const message = linkRecord.custom_expiry_message || 'This link has expired.';
-      return new Response(
-        `<html><body><h1>Link Expired</h1><p>${message}</p></body></html>`,
-        { 
-          status: 200,
-          headers: { ...corsHeaders, 'Content-Type': 'text/html' }
-        }
-      );
+      
+      const brandedHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Link Expired</title>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { 
+              font-family: system-ui, -apple-system, sans-serif; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center; 
+              min-height: 100vh; 
+              margin: 0; 
+              background: #f9fafb; 
+            }
+            .container { 
+              text-align: center; 
+              padding: 2rem;
+              max-width: 500px;
+            }
+            .logo { 
+              height: 48px; 
+              margin-bottom: 2rem; 
+            }
+            .icon { 
+              width: 96px; 
+              height: 96px; 
+              margin: 0 auto 2rem; 
+              border-radius: 50%; 
+              background: #f3f4f6; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;
+              font-size: 48px;
+            }
+            h1 { 
+              font-size: 2rem; 
+              margin-bottom: 1rem; 
+              color: #1f2937; 
+            }
+            p { 
+              color: #6b7280; 
+              margin: 0.5rem 0; 
+              line-height: 1.6;
+            }
+            .footer { 
+              margin-top: 3rem; 
+              font-size: 0.875rem; 
+              color: #9ca3af; 
+            }
+            .footer a { 
+              color: ${branding?.primary_color || '#217BF4'}; 
+              text-decoration: none; 
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            ${branding?.logo_url ? `<img src="${branding.logo_url}" alt="${branding.company_name || 'Company'}" class="logo">` : ''}
+            <div class="icon" style="color: ${branding?.primary_color || '#217BF4'}">⚠️</div>
+            <h1>Link Expired</h1>
+            <p>${message}</p>
+            ${!branding?.hide_branding ? `
+              <div class="footer">
+                <p>Links powered by <a href="https://utm.one">utm.one</a></p>
+              </div>
+            ` : ''}
+          </div>
+        </body>
+        </html>
+      `;
+      
+      return new Response(brandedHtml, { 
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+      });
     }
     
     // Extract request metadata

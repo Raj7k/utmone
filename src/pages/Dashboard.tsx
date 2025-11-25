@@ -132,6 +132,7 @@ const Dashboard = () => {
                   className="h-7 w-auto"
                 />
               </div>
+              <WorkspaceSwitcher />
               <nav className="hidden md:flex items-center gap-2">
                 <Button variant="system" size="sm">dashboard</Button>
                 <Button variant="system-tertiary" size="sm" onClick={() => navigate("/links")}>
