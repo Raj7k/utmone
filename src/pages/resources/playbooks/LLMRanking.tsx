@@ -173,7 +173,7 @@ const LLMRanking = () => {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-foreground">
-                The way people find information is shifting from traditional search engines to conversational AI platforms like ChatGPT, Claude, and Google's Gemini. Unlike a Google search results page with ten blue links, these large language models (LLMs) deliver direct answers and recommendations in a conversational format.
+                The way people find information is shifting from traditional <Link to="/resources/glossary/seo" className="text-primary hover:underline">search engines</Link> to conversational AI platforms like ChatGPT, Claude, and Google's Gemini. Unlike a Google search results page with ten blue links, these large language models (LLMs) deliver direct answers and recommendations in a conversational format.
               </p>
 
               <div className="my-8 p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
@@ -281,7 +281,7 @@ const LLMRanking = () => {
                   
                   <div>
                     <h4 className="font-semibold text-foreground mb-2">Authority Signaling</h4>
-                    <p className="text-foreground">High-authority domains get a slight boost, but semantic relevance overrides domain authority. Update evergreen content quarterly for freshness signals. Highly-cited content performs better.</p>
+                    <p className="text-foreground">High-authority <Link to="/resources/glossary/custom-domain" className="text-primary hover:underline">domains</Link> get a slight boost, but semantic relevance overrides domain authority. Update evergreen content quarterly for freshness signals. Highly-cited content performs better.</p>
                   </div>
                 </div>
               </div>
@@ -538,10 +538,10 @@ Allow: /`}
                     <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                     <span><strong>Paragraph length:</strong> 2-5 sentences each for scannability</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
-                    <span><strong>Internal linking:</strong> 3-5 contextual links per 1000 words with descriptive anchors</span>
-                  </li>
+                    <li className="flex items-start gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
+                      <span><strong><Link to="/resources/glossary/referral" className="text-primary hover:underline">Internal linking</Link>:</strong> 3-5 contextual links per 1000 words with descriptive anchors</span>
+                    </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
                     <span><strong>Schema markup:</strong> Article, FAQ, HowTo, DefinedTerm where appropriate</span>
@@ -581,13 +581,13 @@ Allow: /`}
               </p>
             </div>
 
-            <div className="prose prose-lg max-w-none space-y-8">
-              <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
-                <h3 className="text-lg font-semibold text-foreground mb-3">Go Deep Rather Than Wide</h3>
-                <p className="text-foreground">
-                  LLMs reward topic authority. Instead of covering 50 topics shallowly, master 5-10 topics deeply. This builds semantic authority and increases citation probability.
-                </p>
-              </div>
+              <div className="prose prose-lg max-w-none space-y-8">
+                <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+                  <h3 className="text-lg font-semibold text-foreground mb-3">Go Deep Rather Than Wide</h3>
+                  <p className="text-foreground">
+                    LLMs reward <Link to="/resources/glossary/taxonomy" className="text-primary hover:underline">topic authority</Link>. Instead of covering 50 topics shallowly, master 5-10 topics deeply. This builds semantic authority and increases citation probability.
+                  </p>
+                </div>
 
               <h3 className="text-2xl font-semibold text-foreground mb-6">High-Priority Content Types</h3>
               
@@ -952,7 +952,7 @@ Allow: /`}
 
             <div className="prose prose-lg max-w-none space-y-8">
               <p className="text-lg text-foreground">
-                E-A-T (Expertise, Authoritativeness, Trustworthiness) is Google's content quality framework that LLMs have adopted. High E-A-T signals dramatically increase citation probability.
+                E-A-T (Expertise, Authoritativeness, Trustworthiness) is Google's <Link to="/resources/glossary/quality-score" className="text-primary hover:underline">content quality</Link> framework that LLMs have adopted. High E-A-T signals dramatically increase citation probability.
               </p>
 
               <div className="p-8 bg-card border border-border rounded-2xl">
@@ -977,7 +977,7 @@ Allow: /`}
                   
                   <div className="p-4 bg-muted/30 rounded-lg">
                     <h4 className="font-semibold text-foreground mb-2">Track Record</h4>
-                    <p className="text-foreground">Reference previous accurate predictions, published research, or cited work. Link to your author profile with publication history.</p>
+                    <p className="text-foreground">Reference previous accurate predictions, published research, or cited work. Link to your author profile with publication history and credentials.</p>
                   </div>
                   
                   <div className="p-4 bg-muted/30 rounded-lg">
@@ -1759,6 +1759,18 @@ utm_content = {citation-position} (optional)`}
           <section className="pt-12 border-t border-separator">
             <h2 className="text-2xl font-semibold text-foreground mb-6">Related Resources</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link
+                to="/resources/playbooks/ai-marketing"
+                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+              >
+                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                  AI Marketing Playbook
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Content creation workflow combining human creativity with AI efficiency
+                </p>
+              </Link>
+              
               <Link
                 to="/resources/guides/llm-seo"
                 className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
