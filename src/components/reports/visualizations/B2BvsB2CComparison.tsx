@@ -33,8 +33,8 @@ export const B2BvsB2CComparison = () => {
                   return (
                     <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
                       <p className="font-semibold mb-2">{data.role}</p>
-                      <p className="text-sm text-muted-foreground">B2B: ${data.b2b}K</p>
-                      <p className="text-sm text-muted-foreground">B2C: ${data.b2c}K</p>
+                      <p className="text-sm text-secondary-label">B2B: ${data.b2b}K</p>
+                      <p className="text-sm text-secondary-label">B2C: ${data.b2c}K</p>
                       <p className="text-sm font-semibold mt-1">
                         Gap: {data.gap > 0 ? '+' : ''}{data.gap}%
                       </p>
@@ -50,7 +50,7 @@ export const B2BvsB2CComparison = () => {
           </BarChart>
         </ResponsiveContainer>
         <div className="mt-4 p-4 bg-muted/30 rounded-lg">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-secondary-label">
             <strong className="text-foreground">B2B pays 10-30% more</strong> for most roles. 
             Exceptions: Content, Brand, and Social Media where B2C slightly leads due to consumer focus.
           </p>

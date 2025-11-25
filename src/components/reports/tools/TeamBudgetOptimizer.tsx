@@ -135,7 +135,7 @@ export const TeamBudgetOptimizer = () => {
           <div className="mt-6 space-y-4 p-6 bg-muted/20 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Annual Budget</p>
+                <p className="text-sm text-secondary-label">Total Annual Budget</p>
                 <p className="text-3xl font-bold text-primary">
                   ${results.totalBudget.toLocaleString()}
                 </p>
@@ -145,15 +145,15 @@ export const TeamBudgetOptimizer = () => {
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground">Junior</p>
+                <p className="text-sm text-secondary-label">Junior</p>
                 <p className="text-xl font-semibold">{results.juniorCount} roles</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Mid-Level</p>
+                <p className="text-sm text-secondary-label">Mid-Level</p>
                 <p className="text-xl font-semibold">{results.midCount} roles</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Senior</p>
+                <p className="text-sm text-secondary-label">Senior</p>
                 <p className="text-xl font-semibold">{results.seniorCount} roles</p>
               </div>
             </div>

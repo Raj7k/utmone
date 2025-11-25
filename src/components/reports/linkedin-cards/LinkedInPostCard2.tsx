@@ -50,7 +50,7 @@ export const LinkedInPostCard2 = () => {
                 B2B Product Marketers earn $125K median. B2C? $95K. Same title, 24% pay gap. The
                 industry you choose matters more than your skills.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 B2B SaaS companies pay premium salaries for roles like Product Marketing, Demand
                 Generation, and Marketing Ops. B2C excels in Content and Brand. Choose your
                 specialization wisely.

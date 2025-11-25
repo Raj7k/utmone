@@ -50,7 +50,7 @@ export const LinkedInPostCard1 = () => {
                 Marketing Managers earn 4.8× more in California than Mexico—despite identical
                 responsibilities. Geographic fragmentation is accelerating.
               </p>
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-secondary-label mb-6">
                 The same Product Marketing Manager role pays $135K in San Francisco and $28K in
                 Mexico City. This isn't about cost of living—it's about where companies choose to
                 hire and how they value global talent.

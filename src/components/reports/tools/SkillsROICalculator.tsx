@@ -44,13 +44,13 @@ export const SkillsROICalculator = () => {
           <Zap className="h-6 w-6 text-blazeOrange" />
           Skills ROI Calculator
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           Calculate return on investment for learning new skills
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="bg-wildSand/30 rounded-lg p-4">
-          <p className="text-sm text-muted-foreground mb-1">Your Current Salary</p>
+          <p className="text-sm text-secondary-label mb-1">Your Current Salary</p>
           <p className="text-3xl font-bold text-deepSea">${currentSalary.toLocaleString()}</p>
         </div>
 
@@ -82,7 +82,7 @@ export const SkillsROICalculator = () => {
                       Category {skill.category}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-4 text-xs text-secondary-label">
                     <span>+{skill.premium}% salary premium</span>
                     <span>•</span>
                     <span>{skill.learningHours} hours to learn</span>
@@ -97,16 +97,16 @@ export const SkillsROICalculator = () => {
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-gradient-to-br from-blazeOrange/10 to-deepSea/10 rounded-xl p-6">
-                <p className="text-sm text-muted-foreground mb-2">Total Salary Increase</p>
+                <p className="text-sm text-secondary-label mb-2">Total Salary Increase</p>
                 <p className="text-3xl font-bold text-blazeOrange">
                   +${salaryIncrease.toLocaleString()}
                 </p>
-                <p className="text-sm text-muted-foreground mt-2">+{totalPremium}% premium</p>
+                <p className="text-sm text-secondary-label mt-2">+{totalPremium}% premium</p>
               </div>
               <div className="bg-gradient-to-br from-deepSea/10 to-wildSand/50 rounded-xl p-6">
-                <p className="text-sm text-muted-foreground mb-2">Total Learning Investment</p>
+                <p className="text-sm text-secondary-label mb-2">Total Learning Investment</p>
                 <p className="text-3xl font-bold text-deepSea">{totalHours} hours</p>
-                <p className="text-sm text-muted-foreground mt-2">
+                <p className="text-sm text-secondary-label mt-2">
                   ≈ {Math.round(totalHours / 10)} weeks at 10hrs/week
                 </p>
               </div>
@@ -120,7 +120,7 @@ export const SkillsROICalculator = () => {
               <p className="text-4xl font-bold text-blazeOrange mb-2">
                 ${Math.round(roi).toLocaleString()}/hour
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-secondary-label">
                 Every hour you invest in learning yields ${Math.round(roi)} in annual salary
                 increase
               </p>
@@ -137,7 +137,7 @@ export const SkillsROICalculator = () => {
                         {index + 1}
                       </span>
                       <span className="flex-1">{skill.name}</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-secondary-label">
                         ${Math.round((currentSalary * skill.premium) / 100 / skill.learningHours)}/hr ROI
                       </span>
                     </li>

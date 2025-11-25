@@ -71,7 +71,7 @@ export const CareerProgressionTimeline = () => {
           <Rocket className="h-6 w-6 text-blazeOrange" />
           Career Progression Timeline
         </CardTitle>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-secondary-label">
           Visualize your career path with salary progression over 10 years
         </p>
       </CardHeader>
@@ -135,7 +135,7 @@ export const CareerProgressionTimeline = () => {
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <p className="font-bold text-lg text-mirage">{stage.role}</p>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
+                          <div className="flex items-center gap-2 text-xs text-secondary-label mt-1">
                             <Clock className="h-3 w-3" />
                             <span>Year {stage.years}</span>
                             <span>•</span>
@@ -146,7 +146,7 @@ export const CareerProgressionTimeline = () => {
                           <p className="text-2xl font-bold text-blazeOrange">
                             ${stage.salary}K
                           </p>
-                          <p className="text-xs text-muted-foreground mt-1">
+                          <p className="text-xs text-secondary-label mt-1">
                             ${Math.round(stage.salary / 12)}K/month
                           </p>
                         </div>
@@ -169,16 +169,16 @@ export const CareerProgressionTimeline = () => {
 
         <div className="grid md:grid-cols-2 gap-4 mt-8">
           <div className="bg-gradient-to-br from-blazeOrange/10 to-deepSea/10 rounded-xl p-6">
-            <p className="text-sm text-muted-foreground mb-2">Total Career Earnings</p>
+            <p className="text-sm text-secondary-label mb-2">Total Career Earnings</p>
             <p className="text-4xl font-bold text-blazeOrange">${totalEarnings}K</p>
-            <p className="text-sm text-muted-foreground mt-2">Over {totalYears} years</p>
+            <p className="text-sm text-secondary-label mt-2">Over {totalYears} years</p>
           </div>
           <div className="bg-gradient-to-br from-deepSea/10 to-wildSand/50 rounded-xl p-6">
-            <p className="text-sm text-muted-foreground mb-2">Average Annual Salary</p>
+            <p className="text-sm text-secondary-label mb-2">Average Annual Salary</p>
             <p className="text-4xl font-bold text-deepSea">
               ${Math.round(totalEarnings / totalYears)}K
             </p>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm text-secondary-label mt-2">
               Across all progression stages
             </p>
           </div>

@@ -164,7 +164,7 @@ export const PersonalizedReportModal = ({ open, onOpenChange }: PersonalizedRepo
             )}
           </Button>
           
-          <p className="text-xs text-muted-foreground text-center">
+          <p className="text-xs text-secondary-label text-center">
             Used by 10,000+ GTM professionals to negotiate higher salaries
           </p>
         </form>

@@ -40,8 +40,8 @@ export const MegaTrendsTimeline = () => {
                   return (
                     <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
                       <p className="font-semibold">{data.trend}</p>
-                      <p className="text-sm text-muted-foreground">Year: {data.year}</p>
-                      <p className="text-sm text-muted-foreground">Impact: {data.impact}/100</p>
+                      <p className="text-sm text-secondary-label">Year: {data.year}</p>
+                      <p className="text-sm text-secondary-label">Impact: {data.impact}/100</p>
                     </div>
                   );
                 }

@@ -46,7 +46,7 @@ export const AIPremiumComparison = () => {
             </Bar>
           </BarChart>
         </ResponsiveContainer>
-        <p className="text-sm text-muted-foreground text-center mt-4">
+        <p className="text-sm text-secondary-label text-center mt-4">
           AI-enabled professionals command 16-35% salary premiums
         </p>
       </CardContent>
