@@ -53,8 +53,8 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     const checkWorkspaces = async () => {
       if (isLoading) return;
       
-      // Don't redirect if already on auth or onboarding pages
-      if (location.pathname === "/auth" || location.pathname === "/onboarding") return;
+      // Don't redirect if already on auth, onboarding, or accept-invite pages
+      if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
       
       const { data: { user } } = await supabase.auth.getUser();
       

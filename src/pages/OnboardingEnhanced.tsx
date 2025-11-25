@@ -137,7 +137,18 @@ export default function OnboardingEnhanced() {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        // Check for duplicate slug error (Postgres error code 23505)
+        if (error.code === "23505") {
+          toast({
+            title: "Workspace name unavailable",
+            description: "A workspace with this name already exists. Please try a different name.",
+            variant: "destructive",
+          });
+          return;
+        }
+        throw error;
+      }
       
       // Store created workspace ID
       setCreatedWorkspaceId(data.id);
