@@ -26,6 +26,9 @@ import { SwipeableTabs } from "@/components/mobile/SwipeableTabs";
 import { PullToRefresh } from "@/components/mobile/PullToRefresh";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { OwnerPerformance } from "@/components/analytics/OwnerPerformance";
+import { ClickHeatmap } from "@/components/analytics/ClickHeatmap";
+import { BestTimeCard } from "@/components/analytics/BestTimeCard";
+import { DayOfWeekChart } from "@/components/analytics/DayOfWeekChart";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -245,6 +248,19 @@ const Analytics = () => {
                       label: "Campaigns",
                       content: <UTMCampaignRollups workspaceId={currentWorkspace.id} />,
                     },
+                    {
+                      id: "timing",
+                      label: "Timing",
+                      content: (
+                        <div className="space-y-6">
+                          <ClickHeatmap workspaceId={currentWorkspace.id} />
+                          <div className="grid gap-6 md:grid-cols-2">
+                            <BestTimeCard workspaceId={currentWorkspace.id} />
+                            <DayOfWeekChart workspaceId={currentWorkspace.id} />
+                          </div>
+                        </div>
+                      ),
+                    },
                   ]}
                 />
               ) : (
@@ -256,6 +272,7 @@ const Analytics = () => {
                     <TabsTrigger value="devices">Devices</TabsTrigger>
                     <TabsTrigger value="geography">Geography</TabsTrigger>
                     <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+                    <TabsTrigger value="timing">Timing</TabsTrigger>
                     <TabsTrigger value="reports">Reports</TabsTrigger>
                   </TabsList>
 
@@ -289,6 +306,14 @@ const Analytics = () => {
 
                   <TabsContent value="campaigns">
                     <UTMCampaignRollups workspaceId={currentWorkspace.id} />
+                  </TabsContent>
+
+                  <TabsContent value="timing" className="space-y-6">
+                    <ClickHeatmap workspaceId={currentWorkspace.id} />
+                    <div className="grid gap-6 md:grid-cols-2">
+                      <BestTimeCard workspaceId={currentWorkspace.id} />
+                      <DayOfWeekChart workspaceId={currentWorkspace.id} />
+                    </div>
                   </TabsContent>
 
                   <TabsContent value="reports">
