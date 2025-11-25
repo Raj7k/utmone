@@ -31,7 +31,7 @@ export const RevOpsMarkOpsSection = () => {
         {/* Opening Narrative */}
         <div className="prose prose-lg max-w-[750px] mx-auto mb-16">
           
-          <div className="text-lg text-secondary-label space-y-4 mb-12">
+          <div className="text-lg text-foreground space-y-4 mb-12">
             <p className="lead text-xl">
               <strong className="text-foreground">Revenue Operations (RevOps)</strong> and <strong className="text-foreground">Marketing Operations (MarkOps)</strong> have transitioned from niche back-office functions to strategic revenue drivers. Ten years ago, these roles barely existed. Today, they command some of the highest salaries in GTM.
             </p>
