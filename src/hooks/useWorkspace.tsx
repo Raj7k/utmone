@@ -29,7 +29,7 @@ export const useWorkspace = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
       toast({
         title: "Workspace created",
         description: "Your workspace has been created successfully.",
@@ -56,7 +56,7 @@ export const useWorkspace = () => {
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
     },
     onError: (error: Error) => {
       toast({

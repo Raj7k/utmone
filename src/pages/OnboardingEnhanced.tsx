@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,6 +24,7 @@ const ONBOARDING_STORAGE_KEY = "utm-one-onboarding-progress";
 export default function OnboardingEnhanced() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const { currentWorkspace, createWorkspace, isLoading: workspaceLoading } = useWorkspace();
   
   const [step, setStep] = useState<OnboardingStep>("user-type");
@@ -31,6 +33,7 @@ export default function OnboardingEnhanced() {
   const [teamSize, setTeamSize] = useState("");
   const [primaryUseCase, setPrimaryUseCase] = useState("");
   const [workspaceName, setWorkspaceName] = useState("");
+  const [createdWorkspaceId, setCreatedWorkspaceId] = useState<string | null>(null);
 
   const steps: OnboardingStep[] = ["user-type", "icp-questions", "workspace-create", "complete"];
   const currentStepIndex = steps.indexOf(step);
@@ -122,7 +125,26 @@ export default function OnboardingEnhanced() {
     }
 
     try {
-      await createWorkspace(workspaceName);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const slug = workspaceName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      
+      // Create workspace directly
+      const { data, error } = await supabase
+        .from("workspaces")
+        .insert({ name: workspaceName, slug, owner_id: user.id })
+        .select()
+        .single();
+
+      if (error) throw error;
+      
+      // Store created workspace ID
+      setCreatedWorkspaceId(data.id);
+      
+      // Invalidate queries to refresh context
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+      
       setStep("complete");
     } catch (error: any) {
       toast({
@@ -134,17 +156,26 @@ export default function OnboardingEnhanced() {
   };
 
   const handleComplete = async () => {
-    if (!currentWorkspace) return;
+    const workspaceId = currentWorkspace?.id || createdWorkspaceId;
+    if (!workspaceId) {
+      toast({
+        title: "error",
+        description: "workspace not found. please refresh and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
       const { error } = await supabase
         .from("workspaces")
         .update({ onboarding_completed: true })
-        .eq("id", currentWorkspace.id);
+        .eq("id", workspaceId);
 
       if (error) throw error;
 
       localStorage.removeItem(ONBOARDING_STORAGE_KEY);
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
 
       toast({
         title: "welcome to utm.one",
