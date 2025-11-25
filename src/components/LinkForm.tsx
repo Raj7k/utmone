@@ -22,7 +22,7 @@ import { AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OGVariantManager } from "./OGVariantManager";
 import { OGVariantAnalytics } from "./OGVariantAnalytics";
-import { TargetingRulesManager } from "./links/TargetingRulesManager";
+import { EnhancedTargetingRulesManager } from "./links/EnhancedTargetingRulesManager";
 import { Link2, Copy, ExternalLink, AlertCircle as AlertCircleIcon, Shuffle, BarChart3, Eye, Settings, Sparkles, Target, Lock } from "lucide-react";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -840,7 +840,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Redirect users to different URLs based on their location or device
                 </p>
-                <TargetingRulesManager linkId={createdLinkId} />
+                <EnhancedTargetingRulesManager linkId={createdLinkId} />
               </AccordionContent>
             </AccordionItem>
           )}
