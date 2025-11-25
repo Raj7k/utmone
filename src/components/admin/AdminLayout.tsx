@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { 
   LayoutDashboard, 
   Users, 
@@ -32,28 +32,22 @@ const navItems = [
 export function AdminLayout({ children }: AdminLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAdmin, isLoading } = useAdminAuth();
 
-  // Check admin role
-  const { data: userRoles } = useQuery({
-    queryKey: ['admin-auth'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+  // Show loading state while checking authorization
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-muted/20">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-secondary-label">Verifying authorization...</p>
+        </div>
+      </div>
+    );
+  }
 
-      const { data, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', user.id)
-        .single();
-
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  // Redirect if not admin
-  if (userRoles && userRoles.role !== 'admin') {
-    navigate('/');
+  // Don't render if not admin (redirect handled by hook)
+  if (!isAdmin) {
     return null;
   }
 

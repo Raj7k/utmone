@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Activity, Database, Zap, AlertTriangle, Clock, TrendingUp, CheckCircle2, Flag } from "lucide-react";
+import { Activity, Database, Zap, AlertTriangle, Clock, TrendingUp, CheckCircle2, Flag, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFeatureFlags } from "@/hooks/useFeatureFlags";
@@ -12,6 +12,7 @@ import { FeatureFlagsPanel } from "@/components/admin/FeatureFlagsPanel";
 import { FlagImpactMonitoring } from "@/components/admin/FlagImpactMonitoring";
 import { FlagRecommendations } from "@/components/admin/FlagRecommendations";
 import { AlertConfigurations } from "@/components/admin/AlertConfigurations";
+import { SecurityOverview } from "@/components/admin/SecurityOverview";
 
 export default function SystemMonitoring() {
   const navigate = useNavigate();
@@ -165,6 +166,10 @@ export default function SystemMonitoring() {
           <TabsTrigger value="database" className="gap-2">
             <Database className="w-4 h-4" />
             Database
+          </TabsTrigger>
+          <TabsTrigger value="security" className="gap-2">
+            <Shield className="w-4 h-4" />
+            Security
           </TabsTrigger>
           <TabsTrigger value="feature-flags" className="gap-2">
             <Flag className="w-4 h-4" />
@@ -568,6 +573,10 @@ export default function SystemMonitoring() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="security" className="space-y-6">
+          <SecurityOverview />
         </TabsContent>
 
         <TabsContent value="audit" className="space-y-6">
