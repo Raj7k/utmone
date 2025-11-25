@@ -90,6 +90,13 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
     priority: 0,
   });
   const [countrySearch, setCountrySearch] = useState('');
+  const [testData, setTestData] = useState({
+    country: 'US',
+    device: 'desktop',
+    os: 'Windows',
+    browser: 'Chrome',
+    language: 'en'
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -154,6 +161,21 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
       case 'browser': return browserPresets;
       case 'language': return languagePresets;
       default: return [];
+    }
+  };
+
+  // Helper function for test simulator
+  const evaluateCondition = (actual: string, condition: string, expected: string[]): boolean => {
+    switch (condition) {
+      case 'equals':
+      case 'in':
+        return expected.includes(actual);
+      case 'not_in':
+        return !expected.includes(actual);
+      case 'contains':
+        return expected.some(val => actual.toLowerCase().includes(val.toLowerCase()));
+      default:
+        return false;
     }
   };
 
@@ -330,7 +352,7 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
       )}
 
       <Dialog open={isTestDialogOpen} onOpenChange={setIsTestDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Test Targeting Rules</DialogTitle>
             <DialogDescription>
@@ -338,9 +360,123 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <p className="text-sm text-secondary-label">
-              Testing feature coming soon. You can test rules by clicking your short link from different devices and locations.
-            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="test-country">Country</Label>
+                <Select value={testData.country} onValueChange={(value) => setTestData({ ...testData, country: value })}>
+                  <SelectTrigger id="test-country">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countries.slice(0, 20).map(c => (
+                      <SelectItem key={c.code} value={c.code}>{c.name} ({c.code})</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="test-device">Device</Label>
+                <Select value={testData.device} onValueChange={(value) => setTestData({ ...testData, device: value })}>
+                  <SelectTrigger id="test-device">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {devicePresets.map(d => (
+                      <SelectItem key={d} value={d}>{d}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="test-os">Operating System</Label>
+                <Select value={testData.os} onValueChange={(value) => setTestData({ ...testData, os: value })}>
+                  <SelectTrigger id="test-os">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {osPresets.map(os => (
+                      <SelectItem key={os} value={os}>{os}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="test-browser">Browser</Label>
+                <Select value={testData.browser} onValueChange={(value) => setTestData({ ...testData, browser: value })}>
+                  <SelectTrigger id="test-browser">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {browserPresets.map(b => (
+                      <SelectItem key={b} value={b}>{b}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="test-language">Language</Label>
+                <Select value={testData.language} onValueChange={(value) => setTestData({ ...testData, language: value })}>
+                  <SelectTrigger id="test-language">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languagePresets.map(lang => (
+                      <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {rules && rules.length > 0 && (() => {
+              const matchingRule = rules.find(rule => {
+                if (!rule.is_active) return false;
+                let matches = false;
+                switch (rule.rule_type) {
+                  case 'country':
+                    matches = evaluateCondition(testData.country, rule.condition, rule.value);
+                    break;
+                  case 'device':
+                    matches = evaluateCondition(testData.device, rule.condition, rule.value);
+                    break;
+                  case 'os':
+                    matches = evaluateCondition(testData.os, rule.condition, rule.value);
+                    break;
+                  case 'browser':
+                    matches = evaluateCondition(testData.browser, rule.condition, rule.value);
+                    break;
+                  case 'language':
+                    matches = evaluateCondition(testData.language, rule.condition, rule.value);
+                    break;
+                }
+                return matches;
+              });
+
+              return (
+                <Card className={matchingRule ? 'border-primary' : ''}>
+                  <CardContent className="p-4">
+                    {matchingRule ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="default">Match Found</Badge>
+                          <span className="font-medium">{matchingRule.rule_name}</span>
+                        </div>
+                        <div className="text-sm text-secondary-label">
+                          User would be redirected to:
+                        </div>
+                        <div className="text-sm font-mono text-primary break-all">
+                          {matchingRule.redirect_url}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-sm text-secondary-label">
+                        No rules match these conditions. User would see the default link destination.
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })()}
           </div>
         </DialogContent>
       </Dialog>
