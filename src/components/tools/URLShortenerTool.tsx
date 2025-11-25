@@ -37,19 +37,19 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [shortURL, setShortURL] = useState<string>("");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
-  // Fetch verified domains for the workspace
+  // Fetch all verified shortener domains (excluding utm.one which is the main website)
   const { data: verifiedDomains } = useQuery({
     queryKey: ["verified-domains", workspaceId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("domains")
         .select("id, domain")
-        .eq("workspace_id", workspaceId)
         .eq("is_verified", true)
         .order("is_primary", { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      // Filter out utm.one (main website) and return only shortener domains
+      return (data || []).filter(d => d.domain !== 'utm.one');
     },
   });
 
@@ -206,15 +206,11 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                 <SelectValue placeholder="Select domain" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="utm.click">utm.click</SelectItem>
-                <SelectItem value="go.utm.one">go.utm.one</SelectItem>
-                {verifiedDomains && verifiedDomains.length > 0 && (
-                  verifiedDomains.map((d) => (
-                    <SelectItem key={d.id} value={d.domain}>
-                      {d.domain}
-                    </SelectItem>
-                  ))
-                )}
+                {verifiedDomains?.map((d) => (
+                  <SelectItem key={d.id} value={d.domain}>
+                    {d.domain}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

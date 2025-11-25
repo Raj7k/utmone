@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -39,6 +39,22 @@ export const Step2Shortener = ({
   const { toast } = useToast();
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
+
+  // Fetch all verified shortener domains (excluding utm.one which is the main website)
+  const { data: verifiedDomains } = useQuery({
+    queryKey: ["verified-domains", workspaceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("domains")
+        .select("id, domain")
+        .eq("is_verified", true)
+        .order("is_primary", { ascending: false });
+
+      if (error) throw error;
+      // Filter out utm.one (main website) and return only shortener domains
+      return (data || []).filter(d => d.domain !== 'utm.one');
+    },
+  });
 
   const form = useForm<ShortenerFormData>({
     resolver: zodResolver(shortenerSchema),
@@ -176,8 +192,11 @@ export const Step2Shortener = ({
             onChange={(e) => setSelectedDomain(e.target.value)}
             className="w-full mt-1.5 h-10 px-3 rounded-md border border-input bg-background"
           >
-            <option value="utm.click">utm.click</option>
-            <option value="go.utm.one">go.utm.one</option>
+            {verifiedDomains?.map((d) => (
+              <option key={d.id} value={d.domain}>
+                {d.domain}
+              </option>
+            ))}
           </select>
         </div>
 
