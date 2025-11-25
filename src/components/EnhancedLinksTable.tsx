@@ -45,6 +45,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { LinkPreviewCard } from "./LinkPreviewCard";
 import { TrustBadge } from "./TrustBadge";
 import { generateLinkAriaLabel, generateTableRowAriaLabel, generateDropdownAriaLabel, generateStatusAriaLabel } from "@/lib/accessibility";
+import { Shield } from "lucide-react";
 
 type LinkStatus = Database["public"]["Enums"]["link_status"];
 
@@ -342,6 +343,12 @@ export const EnhancedLinksTable = ({
                             <TrustBadge variant="not-scanned" size="sm" />
                           )}
                           <TrustBadge variant="utm-verified" size="sm" />
+                          {!link.expires_at && (
+                            <Badge variant="outline" className="gap-1 text-xs">
+                              <Shield className="w-3 h-3" />
+                              Permanent
+                            </Badge>
+                          )}
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>

@@ -3,6 +3,9 @@ project_id = "whgnsmjdubnvbmarnjfx"
 [functions.redirect]
 verify_jwt = false
 
+[functions.github-backup-cron]
+verify_jwt = false
+
 [functions.process-geolocation]
 verify_jwt = false
 
@@ -130,3 +133,8 @@ schedule = "0 */6 * * *"
 [[edge_runtime.scheduler]]
 function = "check-metric-alerts"
 schedule = "*/5 * * * *"
+
+# GitHub backup cron - runs nightly at 2 AM UTC
+[[edge_runtime.scheduler]]
+function = "github-backup-cron"
+schedule = "0 2 * * *"

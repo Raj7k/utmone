@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag, RefreshCw } from "lucide-react";
+import { Copy, ExternalLink, Check, Calendar, Settings, FolderTree, Tag, RefreshCw, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState as useReactState } from "react";
@@ -175,6 +175,13 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
                 <TrustBadge variant="not-scanned" size="sm" />
               )}
               <TrustBadge variant="utm-verified" size="sm" />
+              
+              {!link.expires_at && (
+                <Badge variant="outline" className="gap-1">
+                  <Shield className="w-3 h-3" />
+                  Permanent Link
+                </Badge>
+              )}
               
               <Button
                 type="button"
