@@ -47,7 +47,7 @@ export const showErrorToast = (error: AppError | Error | string) => {
     : handleSupabaseError(error as Error);
 
   toast({
-    title: "error",
+    title: "Error",
     description: appError.message,
     variant: "destructive",
   });
