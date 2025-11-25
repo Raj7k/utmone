@@ -45,10 +45,13 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const queryClient = useQueryClient();
   const verifyDomainMutation = useVerifyDomain();
   const [isLoading, setIsLoading] = useState(false);
-  const [copiedTxtName, setCopiedTxtName] = useState(false);
-  const [copiedTxtValue, setCopiedTxtValue] = useState(false);
-  const [copiedCnameName, setCopiedCnameName] = useState(false);
-  const [copiedCnameValue, setCopiedCnameValue] = useState(false);
+  const [copiedFields, setCopiedFields] = useState({
+    txtName: false,
+    txtNameFull: false,
+    txtValue: false,
+    cnameName: false,
+    cnameValue: false,
+  });
   const [dnsOpen, setDnsOpen] = useState(!domain?.is_verified); // Open by default for unverified
 
   // Parse existing domain_settings or use defaults
@@ -63,21 +66,12 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const isVerified = domain?.is_verified;
   const verificationCode = domain?.verification_code;
 
-  const handleCopy = async (text: string, type: 'txtName' | 'txtValue' | 'cnameName' | 'cnameValue') => {
+  const handleCopy = async (text: string, type: 'txtName' | 'txtNameFull' | 'txtValue' | 'cnameName' | 'cnameValue') => {
     await navigator.clipboard.writeText(text);
-    if (type === 'txtName') {
-      setCopiedTxtName(true);
-      setTimeout(() => setCopiedTxtName(false), 2000);
-    } else if (type === 'txtValue') {
-      setCopiedTxtValue(true);
-      setTimeout(() => setCopiedTxtValue(false), 2000);
-    } else if (type === 'cnameName') {
-      setCopiedCnameName(true);
-      setTimeout(() => setCopiedCnameName(false), 2000);
-    } else {
-      setCopiedCnameValue(true);
-      setTimeout(() => setCopiedCnameValue(false), 2000);
-    }
+    setCopiedFields(prev => ({ ...prev, [type]: true }));
+    setTimeout(() => {
+      setCopiedFields(prev => ({ ...prev, [type]: false }));
+    }, 2000);
   };
 
   const handleVerify = () => {
@@ -181,46 +175,75 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                   )}
 
                   {/* TXT Record */}
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <Label className="text-xs font-semibold uppercase tracking-wide">TXT Record</Label>
-                    <div className="space-y-2">
+                    
+                    {/* Provider-specific guidance */}
+                    <div className="rounded-md bg-muted/50 p-3 space-y-2">
+                      <p className="text-xs text-muted-foreground">
+                        <strong>For most DNS providers</strong> (GoDaddy, Cloudflare, Namecheap, etc.):
+                      </p>
                       <div className="flex items-center gap-2">
-                        <div className="flex-1">
-                          <Label className="text-xs text-muted-foreground">Name</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Input
-                              value={`_utm-verification.${domain?.domain}`}
-                              readOnly
-                              className="font-mono text-xs"
-                            />
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleCopy(`_utm-verification.${domain?.domain}`, 'txtName')}
-                            >
-                              {copiedTxtName ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
-                            </Button>
-                          </div>
-                        </div>
+                        <Input 
+                          value="_utm-verification" 
+                          readOnly 
+                          className="font-mono text-xs bg-background"
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleCopy('_utm-verification', 'txtName')}
+                        >
+                          {copiedFields.txtName ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                        </Button>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1">
-                          <Label className="text-xs text-muted-foreground">Value</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Input
-                              value={verificationCode || ""}
-                              readOnly
-                              className="font-mono text-xs"
-                            />
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleCopy(verificationCode || "", 'txtValue')}
-                            >
-                              {copiedTxtValue ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
-                            </Button>
-                          </div>
+                      <p className="text-xs text-muted-foreground italic">
+                        Enter just <code className="bg-background px-1 rounded">_utm-verification</code> - your provider will automatically append <code className="bg-background px-1 rounded">.{domain?.domain}</code>
+                      </p>
+                    </div>
+
+                    {/* Advanced users / Route53 */}
+                    <Collapsible>
+                      <CollapsibleTrigger className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                        Advanced: Full FQDN for Route53/Advanced DNS <ChevronDown className="h-3 w-3" />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-2">
+                        <div className="flex items-center gap-2">
+                          <Input 
+                            value={`_utm-verification.${domain?.domain}`} 
+                            readOnly 
+                            className="font-mono text-xs"
+                          />
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleCopy(`_utm-verification.${domain?.domain}`, 'txtNameFull')}
+                          >
+                            {copiedFields.txtNameFull ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                          </Button>
                         </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Only use this format if your DNS provider requires full FQDN (like AWS Route53)
+                        </p>
+                      </CollapsibleContent>
+                    </Collapsible>
+
+                    {/* TXT Value */}
+                    <div className="space-y-1">
+                      <Label className="text-xs text-muted-foreground">Value</Label>
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          value={verificationCode || ''} 
+                          readOnly 
+                          className="font-mono text-xs"
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleCopy(verificationCode || '', 'txtValue')}
+                        >
+                          {copiedFields.txtValue ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -243,7 +266,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                               variant="outline"
                               onClick={() => handleCopy("@", 'cnameName')}
                             >
-                              {copiedCnameName ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                              {copiedFields.cnameName ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                             </Button>
                           </div>
                         </div>
@@ -262,12 +285,22 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                               variant="outline"
                               onClick={() => handleCopy("go.utm.one", 'cnameValue')}
                             >
-                              {copiedCnameValue ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                              {copiedFields.cnameValue ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                             </Button>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Troubleshooting Section */}
+                  <div className="rounded-md border border-muted bg-muted/20 p-3 space-y-2">
+                    <p className="text-xs font-medium">Troubleshooting</p>
+                    <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                      <li>DNS changes can take 24-72 hours to propagate globally</li>
+                      <li>Check propagation status at <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" className="text-primary underline">dnschecker.org</a></li>
+                      <li>Common mistake: entering <code className="bg-background px-1 rounded">_utm-verification.{domain?.domain}</code> creates <code className="bg-background px-1 rounded">_utm-verification.{domain?.domain}.{domain?.domain}</code></li>
+                    </ul>
                   </div>
 
                   {!isVerified && (
