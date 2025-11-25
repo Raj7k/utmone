@@ -1,26 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 export const useWorkspace = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
-  const { data: workspaces, isLoading } = useQuery({
-    queryKey: ["workspaces"],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data, error } = await supabase
-        .from("workspaces")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      return data;
-    },
-  });
+  const { currentWorkspace, workspaces, isLoading, switchWorkspace } = useWorkspaceContext();
 
   const createWorkspaceMutation = useMutation({
     mutationFn: async (name: string) => {
@@ -58,7 +44,6 @@ export const useWorkspace = () => {
     },
   });
 
-  const currentWorkspace = workspaces?.[0];
   const needsOnboarding = currentWorkspace && !currentWorkspace.onboarding_completed;
 
   const completeOnboardingMutation = useMutation({
@@ -89,5 +74,6 @@ export const useWorkspace = () => {
     isLoading,
     createWorkspace: createWorkspaceMutation.mutate,
     completeOnboarding: completeOnboardingMutation.mutate,
+    switchWorkspace,
   };
 };

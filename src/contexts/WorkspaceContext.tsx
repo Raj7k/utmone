@@ -9,6 +9,7 @@ interface Workspace {
   is_client_workspace?: boolean;
   parent_workspace_id?: string;
   created_at?: string;
+  onboarding_completed?: boolean;
 }
 
 interface WorkspaceContextType {
@@ -30,11 +31,15 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
       const savedWorkspaceId = localStorage.getItem("currentWorkspaceId");
       const workspace = savedWorkspaceId
         ? workspaces.find((w) => w.id === savedWorkspaceId)
-        : workspaces[0];
+        : null;
       
-      if (workspace) {
+      // If saved workspace not found, default to first and clear invalid localStorage
+      if (!workspace) {
+        localStorage.removeItem("currentWorkspaceId");
+        setCurrentWorkspace(workspaces[0]);
+        localStorage.setItem("currentWorkspaceId", workspaces[0].id);
+      } else {
         setCurrentWorkspace(workspace);
-        localStorage.setItem("currentWorkspaceId", workspace.id);
       }
     }
   }, [workspaces, currentWorkspace]);
