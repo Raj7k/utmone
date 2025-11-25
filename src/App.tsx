@@ -32,6 +32,9 @@ const Pricing = lazy(() => import("./pages/Pricing"));
 const LifetimeDeal = lazy(() => import("./pages/LifetimeDeal"));
 const About = lazy(() => import("./pages/About"));
 const Docs = lazy(() => import("./pages/Docs"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Changelog = lazy(() => import("./pages/Changelog"));
+const Support = lazy(() => import("./pages/Support"));
 const APIDocumentation = lazy(() => import("./pages/Docs/API"));
 const APIPlayground = lazy(() => import("./pages/Docs/APIPlayground"));
 const SDKs = lazy(() => import("./pages/Docs/SDKs"));
@@ -271,6 +274,9 @@ const App = () => (
               <Route path="/lifetime-deal" element={<Suspense fallback={<DashboardSkeleton />}><LifetimeDeal /></Suspense>} />
               <Route path="/about" element={<Suspense fallback={<DashboardSkeleton />}><About /></Suspense>} />
               <Route path="/docs" element={<Suspense fallback={<DashboardSkeleton />}><Docs /></Suspense>} />
+              <Route path="/faq" element={<Suspense fallback={<DashboardSkeleton />}><FAQ /></Suspense>} />
+              <Route path="/changelog" element={<Suspense fallback={<DashboardSkeleton />}><Changelog /></Suspense>} />
+              <Route path="/support" element={<Suspense fallback={<DashboardSkeleton />}><Support /></Suspense>} />
               <Route path="/docs/api" element={<Suspense fallback={<DashboardSkeleton />}><APIDocumentation /></Suspense>} />
               <Route path="/docs/playground" element={<Suspense fallback={<DashboardSkeleton />}><APIPlayground /></Suspense>} />
               <Route path="/docs/sdks" element={<Suspense fallback={<DashboardSkeleton />}><SDKs /></Suspense>} />
