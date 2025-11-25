@@ -104,7 +104,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/short-links"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Short Links</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -115,7 +115,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/utm-builder"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">UTM Builder</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -126,7 +126,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/qr-generator"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">QR Generator</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -137,7 +137,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/analytics"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Analytics</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -148,7 +148,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/governance"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Enterprise Control</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -159,7 +159,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/clean-track"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Clean-Track</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -170,7 +170,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/features/partner-program"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Partner Program</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -181,7 +181,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/permanence"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Permanence</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -204,8 +204,8 @@ export const Navigation = () => {
                         <Link
                           to="/solutions/marketers"
                           className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            location.pathname === "/solutions/marketers" && "bg-accent"
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/marketers" && "bg-primary/10"
                           )}
                         >
                           <div className="text-sm font-medium leading-none">For Marketing Teams</div>
@@ -218,8 +218,8 @@ export const Navigation = () => {
                         <Link
                           to="/solutions/sales"
                           className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            location.pathname === "/solutions/sales" && "bg-accent"
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/sales" && "bg-primary/10"
                           )}
                         >
                           <div className="text-sm font-medium leading-none">For Sales Teams</div>
@@ -232,8 +232,8 @@ export const Navigation = () => {
                         <Link
                           to="/solutions/marketing-ops"
                           className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            location.pathname === "/solutions/marketing-ops" && "bg-accent"
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/marketing-ops" && "bg-primary/10"
                           )}
                         >
                           <div className="text-sm font-medium leading-none">For Marketing Ops</div>
@@ -246,8 +246,8 @@ export const Navigation = () => {
                         <Link
                           to="/solutions/developers"
                           className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                            location.pathname === "/solutions/developers" && "bg-accent"
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/developers" && "bg-primary/10"
                           )}
                         >
                           <div className="text-sm font-medium leading-none">For Developers</div>
@@ -270,7 +270,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/guides"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Guides</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -281,7 +281,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/playbooks"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Playbooks</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -292,7 +292,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/templates"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Templates</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -303,7 +303,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/frameworks"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Frameworks</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -314,7 +314,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/examples"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Examples</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -325,7 +325,7 @@ export const Navigation = () => {
                       <li>
                         <Link
                           to="/resources/glossary"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
                           <div className="text-sm font-medium leading-none">Glossary</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
