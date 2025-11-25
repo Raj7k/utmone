@@ -1,12 +1,18 @@
 User-agent: *
 Allow: /
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Sitemap: https://utm.one/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 
 User-agent: Bingbot
 Allow: /
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 
 User-agent: Twitterbot
 Allow: /
@@ -14,17 +20,48 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# Block AI crawlers from salary report
 User-agent: GPTBot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Allow: /
 
 User-agent: ChatGPT-User
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Allow: /
 
 User-agent: PerplexityBot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Allow: /
 
 User-agent: ClaudeBot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Allow: /
 
 User-agent: Google-Extended
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
+Allow: /
+
+User-agent: CCBot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
+Allow: /
+
+User-agent: anthropic-ai
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
+Allow: /
+
+User-agent: Omgilibot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
+Allow: /
+
+User-agent: FacebookBot
+Disallow: /resources/reports/salary-benchmark-2026
+Disallow: /resources/reports/salary-benchmark
 Allow: /

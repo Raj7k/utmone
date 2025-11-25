@@ -105,11 +105,57 @@ const Auth = () => {
     }
   };
 
+  const checkEmailAllowed = async (email: string): Promise<{allowed: boolean; reason: string; message?: string}> => {
+    // Check early_access_requests for approved status
+    const { data: request } = await supabase
+      .from("early_access_requests")
+      .select("status")
+      .eq("email", email.toLowerCase())
+      .single();
+
+    if (request?.status === "approved") {
+      return { allowed: true, reason: "approved" };
+    }
+
+    // Check early_access_invites for valid invite
+    const { data: invite } = await supabase
+      .from("early_access_invites")
+      .select("id, claimed_at, expires_at")
+      .eq("email", email.toLowerCase())
+      .is("claimed_at", null)
+      .gt("expires_at", new Date().toISOString())
+      .single();
+
+    if (invite) {
+      return { allowed: true, reason: "invited" };
+    }
+
+    return { 
+      allowed: false, 
+      reason: "not_approved",
+      message: "Your email hasn't been approved yet. Request early access to join the waitlist." 
+    };
+  };
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
+      // Check if email is allowed
+      const emailCheck = await checkEmailAllowed(email);
+      if (!emailCheck.allowed) {
+        toast({
+          title: "Access restricted",
+          description: emailCheck.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        // Redirect to early access page
+        setTimeout(() => navigate("/early-access"), 2000);
+        return;
+      }
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -182,6 +228,20 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
+      // Check if email is allowed
+      const emailCheck = await checkEmailAllowed(email);
+      if (!emailCheck.allowed) {
+        toast({
+          title: "Access restricted",
+          description: emailCheck.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        // Redirect to early access page
+        setTimeout(() => navigate("/early-access"), 2000);
+        return;
+      }
+
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

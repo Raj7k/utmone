@@ -334,18 +334,15 @@ export const Navigation = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          to="/resources/reports/salary-benchmark-2026"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                        >
+                        <span className="block select-none space-y-1 rounded-md p-3 leading-none opacity-50 pointer-events-none">
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-medium leading-none">2026 Salary Report</span>
-                            <span className="px-2 py-0.5 text-xs font-medium bg-primary text-primary-foreground rounded-full animate-pulse">NEW</span>
+                            <span className="px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground border border-border rounded">Coming Soon</span>
                           </div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             comprehensive salary benchmarks
                           </p>
-                        </Link>
+                        </span>
                       </li>
                       <li>
                         <Link
@@ -478,13 +475,12 @@ export const Navigation = () => {
                       <span>Salary Tools</span>
                       <ChevronRight className="h-4 w-4" />
                     </Link>
-                    <Link to="/resources/reports/salary-benchmark-2025" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                    <span className="flex items-center justify-between px-3 py-2 text-sm rounded-md opacity-50 pointer-events-none">
                       <div className="flex items-center gap-2">
-                        <span>2025 Salary Report</span>
-                        <Badge className="bg-primary text-primary-foreground text-xs">NEW</Badge>
+                        <span>2026 Salary Report</span>
+                        <Badge className="bg-muted text-muted-foreground text-xs border border-border">Coming Soon</Badge>
                       </div>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
+                    </span>
                     <Link to="/resources" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>All Resources</span>
                       <ChevronRight className="h-4 w-4" />

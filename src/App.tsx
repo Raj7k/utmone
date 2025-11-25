@@ -15,6 +15,7 @@ import { AppWithHelp } from "./components/AppWithHelp";
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ComingSoonPage from "./pages/ComingSoon";
 
 // Lazy-loaded pages for code splitting
 // Lazy-loaded pages for code splitting
@@ -358,8 +359,28 @@ const App = () => (
               
               {/* Reports Routes */}
               <Route path="/resources/reports" element={<Suspense fallback={<DashboardSkeleton />}><Reports /></Suspense>} />
-              <Route path="/resources/reports/salary-benchmark-2026" element={<Suspense fallback={<DashboardSkeleton />}><SalaryBenchmark2026 /></Suspense>} />
-              <Route path="/resources/reports/salary-benchmark-2025" element={<Suspense fallback={<DashboardSkeleton />}><SalaryBenchmark2026 /></Suspense>} />
+              <Route 
+                path="/resources/reports/salary-benchmark-2026" 
+                element={
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <ComingSoonPage 
+                      title="2026 Global Salary Benchmark Report"
+                      description="We're putting the finishing touches on this comprehensive report covering 15+ countries, 50+ roles, and 10 interactive tools. Join the waitlist to be notified when it launches."
+                    />
+                  </Suspense>
+                } 
+              />
+              <Route 
+                path="/resources/reports/salary-benchmark-2025" 
+                element={
+                  <Suspense fallback={<DashboardSkeleton />}>
+                    <ComingSoonPage 
+                      title="2025 Global Salary Benchmark Report"
+                      description="We're putting the finishing touches on this comprehensive report. Join the waitlist to be notified when it launches."
+                    />
+                  </Suspense>
+                } 
+              />
               
               {/* Framework Routes */}
               <Route path="/resources/frameworks/clean-track-model" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrackModel /></Suspense>} />

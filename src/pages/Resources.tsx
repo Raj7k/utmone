@@ -121,20 +121,17 @@ const Resources = () => {
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
-            {/* 2026 Salary Benchmark Report */}
-            <Link
-              to="/resources/reports/salary-benchmark-2026"
-              className="group block p-8 rounded-2xl border-2 border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-[hsl(184,92%,18%)]/5 to-white"
-            >
-              <Badge className="mb-4">FEATURED</Badge>
-              <h3 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+            {/* 2026 Salary Benchmark Report - Coming Soon */}
+            <div className="group block p-8 rounded-2xl border-2 border-border/50 bg-gradient-to-br from-muted/30 to-white opacity-60 pointer-events-none relative">
+              <Badge className="mb-4 bg-muted text-muted-foreground border border-border">Coming Soon</Badge>
+              <h3 className="text-2xl font-display font-bold text-foreground mb-3">
                 2026 Global Salary Benchmark Report
               </h3>
               <p className="text-base text-secondary-label mb-4 leading-relaxed">
                 Complete salary data across 15+ countries, 50+ roles, with 10 interactive tools and regional deep dives.
               </p>
               <div className="text-xs text-secondary-label">65 min read</div>
-            </Link>
+            </div>
 
             {/* LLM Ranking Playbook */}
             <Link

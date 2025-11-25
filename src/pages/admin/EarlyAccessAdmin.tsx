@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import { Search, CheckCircle2, XCircle, Clock, ArrowLeft, Eye, Mail, Building2, Users, Trophy, UserCheck, RefreshCw, TrendingUp } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
+import { AdminDirectInvite } from "@/components/admin/AdminDirectInvite";
 
 type EarlyAccessRequest = {
   id: string;
@@ -306,6 +307,9 @@ export default function EarlyAccessAdmin() {
           </div>
 
           <TabsContent value="requests" className="space-y-6">
+            {/* Direct Invite Card */}
+            <AdminDirectInvite />
+
             {/* Filters */}
             <div className="bg-white rounded-xl border p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
