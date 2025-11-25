@@ -6,7 +6,7 @@ import { AlertTriangle, XCircle, AlertCircle, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
 
-export const ErrorMonitoring = () => {
+const ErrorMonitoring = () => {
   // Fetch recent error events from audit logs
   const { data: errorEvents, isLoading } = useQuery({
     queryKey: ['error-events'],
@@ -167,3 +167,5 @@ export const ErrorMonitoring = () => {
     </div>
   );
 };
+
+export default ErrorMonitoring;

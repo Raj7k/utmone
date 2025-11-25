@@ -13,6 +13,7 @@ import { FlagImpactMonitoring } from "@/components/admin/FlagImpactMonitoring";
 import { FlagRecommendations } from "@/components/admin/FlagRecommendations";
 import { AlertConfigurations } from "@/components/admin/AlertConfigurations";
 import { SecurityOverview } from "@/components/admin/SecurityOverview";
+import ErrorMonitoring from "@/components/admin/ErrorMonitoring";
 
 export default function SystemMonitoring() {
   const navigate = useNavigate();

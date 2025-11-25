@@ -2,10 +2,6 @@ import { toast } from '@/hooks/use-toast';
 
 interface ToastOptions {
   duration?: number;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
 }
 
 export const showSuccessToast = (message: string, options?: ToastOptions) => {
@@ -13,7 +9,6 @@ export const showSuccessToast = (message: string, options?: ToastOptions) => {
     title: 'Success',
     description: message,
     duration: options?.duration || 3000,
-    action: options?.action,
   });
 };
 
@@ -22,13 +17,10 @@ export const showErrorToast = (error: Error | string, retryFn?: () => void) => {
   
   toast({
     title: 'Error',
-    description: message,
+    description: retryFn ? `${message} Click to retry.` : message,
     variant: 'destructive',
     duration: 5000,
-    action: retryFn ? {
-      label: 'Retry',
-      onClick: retryFn,
-    } : undefined,
+    onClick: retryFn,
   });
 };
 
@@ -37,7 +29,6 @@ export const showWarningToast = (message: string, options?: ToastOptions) => {
     title: 'Warning',
     description: message,
     duration: options?.duration || 4000,
-    action: options?.action,
   });
 };
 
