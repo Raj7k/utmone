@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -103,13 +103,13 @@ export const EnhancedLinksTable = ({
     },
   });
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = useCallback((text: string) => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied",
       description: "URL copied to clipboard",
     });
-  };
+  }, [toast]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -126,7 +126,7 @@ export const EnhancedLinksTable = ({
     }
   };
 
-  const handleSort = (column: string) => {
+  const handleSort = useCallback((column: string) => {
     if (sortBy === column) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
@@ -134,7 +134,7 @@ export const EnhancedLinksTable = ({
       setSortOrder("desc");
     }
     setPage(1);
-  };
+  }, [sortBy, sortOrder]);
 
   const SortIcon = ({ column }: { column: string }) => {
     if (sortBy !== column) return <ArrowUpDown className="ml-2 h-4 w-4" />;

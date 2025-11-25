@@ -1,10 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useClickTimeSeries, TimeSeriesGranularity } from "@/hooks/useClickTimeSeries";
-import { useState } from "react";
+import { useState, useMemo, memo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp } from "lucide-react";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
 
 interface ClicksOverTimeProps {
   workspaceId: string;
@@ -12,7 +13,7 @@ interface ClicksOverTimeProps {
   campaignName?: string;
 }
 
-export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOverTimeProps) => {
+const ClicksOverTimeComponent = ({ workspaceId, linkId, campaignName }: ClicksOverTimeProps) => {
   const [days, setDays] = useState<number>(30);
   const [granularity, setGranularity] = useState<TimeSeriesGranularity>("daily");
 
@@ -24,7 +25,14 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
     granularity
   });
 
+  const chartData = useMemo(() => data?.timeSeries || [], [data?.timeSeries]);
+  const velocityLabel = useMemo(() => 
+    granularity === "daily" ? "per day" : granularity === "weekly" ? "per week" : "per month",
+    [granularity]
+  );
+
   if (isLoading) {
+    return (
       <Card>
         <CardHeader>
           <Skeleton className="h-6 w-48" />
@@ -34,9 +42,8 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
           <div className="text-center text-secondary-label">loading chart data…</div>
         </CardContent>
       </Card>
+    );
   }
-
-  const velocityLabel = granularity === "daily" ? "per day" : granularity === "weekly" ? "per week" : "per month";
 
   return (
     <Card>
@@ -77,9 +84,10 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
         </div>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={data?.timeSeries || []}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+        <ChartWrapper height={300}>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
             <XAxis 
               dataKey="date" 
               className="text-xs"
@@ -115,7 +123,10 @@ export const ClicksOverTime = ({ workspaceId, linkId, campaignName }: ClicksOver
             />
           </LineChart>
         </ResponsiveContainer>
+        </ChartWrapper>
       </CardContent>
     </Card>
   );
 };
+
+export const ClicksOverTime = memo(ClicksOverTimeComponent);
