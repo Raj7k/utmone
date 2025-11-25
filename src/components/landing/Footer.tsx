@@ -105,6 +105,11 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/resources/playbooks/llm-ranking" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  LLM Ranking Playbook →
+                </Link>
+              </li>
+              <li>
                 <Link to="/resources/templates" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Templates
                 </Link>
