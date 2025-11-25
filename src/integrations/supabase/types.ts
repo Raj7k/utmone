@@ -441,7 +441,9 @@ export type Database = {
           last_used_at: string | null
           rate_limit: number | null
           rate_limit_window: string | null
+          requests_this_window: number | null
           scopes: string[] | null
+          window_reset_at: string | null
           workspace_id: string
         }
         Insert: {
@@ -456,7 +458,9 @@ export type Database = {
           last_used_at?: string | null
           rate_limit?: number | null
           rate_limit_window?: string | null
+          requests_this_window?: number | null
           scopes?: string[] | null
+          window_reset_at?: string | null
           workspace_id: string
         }
         Update: {
@@ -471,7 +475,9 @@ export type Database = {
           last_used_at?: string | null
           rate_limit?: number | null
           rate_limit_window?: string | null
+          requests_this_window?: number | null
           scopes?: string[] | null
+          window_reset_at?: string | null
           workspace_id?: string
         }
         Relationships: [
