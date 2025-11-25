@@ -163,3 +163,8 @@ schedule = "0 */6 * * *"
 [[edge_runtime.scheduler]]
 function = "generate-ai-recommendations"
 schedule = "0 * * * *"
+
+# Send scheduled reports - runs every hour
+[[edge_runtime.scheduler]]
+function = "send-scheduled-report"
+schedule = "0 * * * *"
