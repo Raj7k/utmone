@@ -73,7 +73,8 @@ async function evaluateTargetingRules(
   country: string,
   deviceType: string,
   os: string,
-  browser: string
+  browser: string,
+  language: string
 ): Promise<string | null> {
   const { data: rules, error } = await supabase
     .from('targeting_rules')
@@ -102,6 +103,9 @@ async function evaluateTargetingRules(
         break;
       case 'browser':
         matches = evaluateCondition(browser, rule.condition, value);
+        break;
+      case 'language':
+        matches = evaluateCondition(language, rule.condition, value);
         break;
     }
 
@@ -585,6 +589,10 @@ Deno.serve(async (req) => {
     // Parse user agent
     const { deviceType, browser, os } = parseUserAgent(userAgent);
     
+    // Parse Accept-Language header
+    const acceptLanguage = req.headers.get('accept-language') || '';
+    const language = acceptLanguage.split(',')[0].split('-')[0] || 'en'; // e.g., "en-US,en" → "en"
+    
     // Get geolocation for targeting rules
     let country = 'unknown';
     try {
@@ -604,7 +612,8 @@ Deno.serve(async (req) => {
       country, 
       deviceType, 
       os, 
-      browser
+      browser,
+      language
     );
     
     const finalRedirectUrl = targetedUrl || linkRecord.final_url;

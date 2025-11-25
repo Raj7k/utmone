@@ -24,6 +24,7 @@ import {
   ArrowUp,
   ArrowDown,
   Eye,
+  Target,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -418,6 +419,10 @@ export const EnhancedLinksTable = ({
                       <DropdownMenuItem onClick={() => navigate(`/links/${link.id}`)}>
                         <Eye className="mr-2 h-4 w-4" />
                         view analytics
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate(`/dashboard/targeting/${link.id}`)}>
+                        <Target className="mr-2 h-4 w-4" />
+                        manage targeting
                       </DropdownMenuItem>
                       <QRCodeDialog 
                         linkId={link.id} 
