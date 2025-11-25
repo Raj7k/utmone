@@ -43,7 +43,7 @@ export const DomainDNSInstructions = ({
     },
     {
       type: "TXT",
-      name: "_verification",
+      name: `_utm-verification.${domain}`,
       value: verificationCode,
       ttl: "3600",
     },
