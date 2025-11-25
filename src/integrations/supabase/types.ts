@@ -2832,6 +2832,7 @@ export type Database = {
           created_at: string | null
           custom_domain: string | null
           custom_footer_text: string | null
+          favicon_url: string | null
           hide_utm_one_branding: boolean | null
           id: string
           logo_url: string | null
@@ -2846,6 +2847,7 @@ export type Database = {
           created_at?: string | null
           custom_domain?: string | null
           custom_footer_text?: string | null
+          favicon_url?: string | null
           hide_utm_one_branding?: boolean | null
           id?: string
           logo_url?: string | null
@@ -2860,6 +2862,7 @@ export type Database = {
           created_at?: string | null
           custom_domain?: string | null
           custom_footer_text?: string | null
+          favicon_url?: string | null
           hide_utm_one_branding?: boolean | null
           id?: string
           logo_url?: string | null
