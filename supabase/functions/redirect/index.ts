@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { getSecureCorsHeaders } from '../_shared/security-headers.ts';
+import { ApiError, ErrorCode, handleEdgeFunctionError } from '../_shared/error-handler.ts';
 
 const corsHeaders = getSecureCorsHeaders();
 
@@ -746,9 +747,6 @@ Deno.serve(async (req) => {
     
   } catch (error) {
     console.error('Redirect error:', error);
-    return new Response('Internal server error', { 
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'text/plain' }
-    });
+    return handleEdgeFunctionError(error);
   }
 });

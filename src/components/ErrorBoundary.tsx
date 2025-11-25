@@ -2,33 +2,69 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  section?: string; // For tracking which section errored
+  onError?: (error: Error, errorInfo: ErrorInfo) => void;
 }
 
 interface State {
   hasError: boolean;
   error: Error | null;
+  errorCount: number;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
     error: null,
+    errorCount: 0,
   };
 
-  public static getDerivedStateFromError(error: Error): State {
+  public static getDerivedStateFromError(error: Error): Partial<State> {
     return { hasError: true, error };
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  public async componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
+
+    // Log to admin audit logs
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      const { error: logError } = await supabase.rpc('log_security_event', {
+        p_event_type: 'error_boundary',
+        p_user_id: user?.id || null,
+        p_metadata: {
+          section: this.props.section || 'unknown',
+          error: error.message,
+          stack: error.stack,
+          componentStack: errorInfo.componentStack,
+          timestamp: new Date().toISOString()
+        }
+      });
+      
+      if (logError) {
+        console.error('Failed to log error:', logError);
+      }
+    } catch (logError) {
+      console.error('Failed to log error:', logError);
+    }
+
+    // Call custom error handler if provided
+    this.props.onError?.(error, errorInfo);
+
+    // Update error count for tracking repeated failures
+    this.setState(prev => ({ errorCount: prev.errorCount + 1 }));
   }
 
   private handleReset = () => {
-    this.setState({ hasError: false, error: null });
+    this.setState({ hasError: false, error: null, errorCount: 0 });
+  };
+
+  private handleReload = () => {
     window.location.reload();
   };
 
@@ -60,9 +96,19 @@ export class ErrorBoundary extends Component<Props, State> {
                   </p>
                 </div>
               )}
-              <Button onClick={this.handleReset} className="w-full">
-                refresh page
-              </Button>
+              {this.state.errorCount > 1 && (
+                <p className="text-xs text-secondary-label">
+                  This error has occurred {this.state.errorCount} times. Consider refreshing the page.
+                </p>
+              )}
+              <div className="flex gap-2">
+                <Button onClick={this.handleReset} variant="outline" className="flex-1">
+                  Try Again
+                </Button>
+                <Button onClick={this.handleReload} className="flex-1">
+                  Refresh Page
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>

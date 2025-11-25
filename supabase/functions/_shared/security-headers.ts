@@ -5,6 +5,12 @@
  * to protect against common web vulnerabilities.
  */
 
+// CORS headers for cross-origin requests
+export const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
 export const securityHeaders = {
   // Content Security Policy - Prevent XSS and injection attacks
   'Content-Security-Policy': [
@@ -57,8 +63,7 @@ export function getResponseHeaders(additionalHeaders: Record<string, string> = {
  */
 export function getSecureCorsHeaders(additionalHeaders: Record<string, string> = {}): Record<string, string> {
   return {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    ...corsHeaders,
     ...securityHeaders,
     ...additionalHeaders,
   };
