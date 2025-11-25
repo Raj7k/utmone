@@ -10,12 +10,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
-import { Search, Eye, UserCheck, RefreshCw, Trophy, BarChart3 } from "lucide-react";
+import { Search, Eye, UserCheck, RefreshCw, Trophy, BarChart3, Mail } from "lucide-react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import FraudAlerts from "@/components/admin/FraudAlerts";
+import { BatchInviteModal } from "@/components/admin/BatchInviteModal";
+import { BatchActionBar } from "@/components/admin/BatchActionBar";
+import { InviteTrackingDashboard } from "@/components/admin/InviteTrackingDashboard";
 
 type EarlyAccessRequest = {
   id: string;
@@ -42,6 +46,8 @@ export default function WaitlistManagement() {
   const [detailDialogOpen, setDetailDialogOpen] = useState(false);
   const [approveDialogOpen, setApproveDialogOpen] = useState(false);
   const [selectedAccessLevel, setSelectedAccessLevel] = useState<number>(2);
+  const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
+  const [batchInviteOpen, setBatchInviteOpen] = useState(false);
 
   const updateScoresMutation = useMutation({
     mutationFn: async () => {
@@ -117,6 +123,32 @@ export default function WaitlistManagement() {
     },
   });
 
+  const batchInviteMutation = useMutation({
+    mutationFn: async ({ userIds, accessLevel }: { userIds: string[]; accessLevel: number }) => {
+      const { data, error } = await supabase.functions.invoke("batch-send-invites", {
+        body: { user_ids: userIds, access_level: accessLevel },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
+      setSelectedUserIds([]);
+      toast({ 
+        title: "invitations sent", 
+        description: `${data.success_count} users invited successfully` 
+      });
+    },
+    onError: (error) => {
+      toast({ 
+        title: "error sending invitations", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
   const filteredRequests = requests?.filter(request => {
     const searchLower = searchQuery.toLowerCase();
     return (
@@ -124,6 +156,42 @@ export default function WaitlistManagement() {
       request.email.toLowerCase().includes(searchLower)
     );
   });
+
+  const handleBatchInvite = async (accessLevel: number) => {
+    await batchInviteMutation.mutateAsync({ 
+      userIds: selectedUserIds, 
+      accessLevel 
+    });
+  };
+
+  const handleSelectUser = (userId: string, checked: boolean) => {
+    setSelectedUserIds(prev => 
+      checked ? [...prev, userId] : prev.filter(id => id !== userId)
+    );
+  };
+
+  const handleSelectTopN = (count: number) => {
+    const topUsers = filteredRequests
+      ?.filter(r => r.status === 'pending')
+      .slice(0, count)
+      .map(r => r.id) || [];
+    setSelectedUserIds(topUsers);
+  };
+
+  const handleSelectAll = () => {
+    const allPending = filteredRequests
+      ?.filter(r => r.status === 'pending')
+      .map(r => r.id) || [];
+    setSelectedUserIds(allPending);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedUserIds([]);
+  };
+
+  const selectedUsers = filteredRequests?.filter(r => 
+    selectedUserIds.includes(r.id)
+  ) || [];
 
   return (
     <AdminLayout>
@@ -148,6 +216,10 @@ export default function WaitlistManagement() {
         <Tabs defaultValue="requests" className="space-y-6">
           <TabsList>
             <TabsTrigger value="requests">applications</TabsTrigger>
+            <TabsTrigger value="invites">
+              <Mail className="h-4 w-4 mr-2" />
+              invite tracking
+            </TabsTrigger>
             <TabsTrigger value="leaderboard">
               <Trophy className="h-4 w-4 mr-2" />
               referral leaderboard
@@ -162,26 +234,45 @@ export default function WaitlistManagement() {
           {/* Applications Tab */}
           <TabsContent value="requests" className="space-y-4">
             <div className="bg-white rounded-xl border p-4">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
-                  <Input
-                    placeholder="search by name or email..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
+              <div className="flex items-center justify-between gap-4">
+                <div className="grid grid-cols-3 gap-4 flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
+                    <Input
+                      placeholder="search by name or email..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">all statuses</SelectItem>
+                      <SelectItem value="pending">pending</SelectItem>
+                      <SelectItem value="approved">approved</SelectItem>
+                      <SelectItem value="rejected">rejected</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger>
-                    <SelectValue />
+                {/* Quick Select Dropdown */}
+                <Select onValueChange={(value) => {
+                  if (value === 'all') handleSelectAll();
+                  else handleSelectTopN(parseInt(value));
+                }}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="quick select" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">all statuses</SelectItem>
-                    <SelectItem value="pending">pending</SelectItem>
-                    <SelectItem value="approved">approved</SelectItem>
-                    <SelectItem value="rejected">rejected</SelectItem>
+                    <SelectItem value="10">top 10 by score</SelectItem>
+                    <SelectItem value="25">top 25 by score</SelectItem>
+                    <SelectItem value="50">top 50 by score</SelectItem>
+                    <SelectItem value="100">top 100 by score</SelectItem>
+                    <SelectItem value="all">select all pending</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -194,6 +285,15 @@ export default function WaitlistManagement() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-12">
+                        <Checkbox 
+                          checked={selectedUserIds.length > 0 && selectedUserIds.length === filteredRequests?.filter(r => r.status === 'pending').length}
+                          onCheckedChange={(checked) => {
+                            if (checked) handleSelectAll();
+                            else handleClearSelection();
+                          }}
+                        />
+                      </TableHead>
                       <TableHead>queue</TableHead>
                       <TableHead>status</TableHead>
                       <TableHead>name</TableHead>
@@ -206,6 +306,13 @@ export default function WaitlistManagement() {
                   <TableBody>
                     {filteredRequests?.map((request, index) => (
                       <TableRow key={request.id}>
+                        <TableCell>
+                          <Checkbox 
+                            checked={selectedUserIds.includes(request.id)}
+                            onCheckedChange={(checked) => handleSelectUser(request.id, checked as boolean)}
+                            disabled={request.status !== 'pending'}
+                          />
+                        </TableCell>
                         <TableCell>#{index + 1}</TableCell>
                         <TableCell>
                           <Badge variant={request.status === 'approved' ? 'default' : 'secondary'}>
@@ -245,6 +352,11 @@ export default function WaitlistManagement() {
                 </Table>
               )}
             </div>
+          </TabsContent>
+
+          {/* Invite Tracking Tab */}
+          <TabsContent value="invites">
+            <InviteTrackingDashboard />
           </TabsContent>
 
           {/* Referral Leaderboard Tab */}
@@ -320,6 +432,21 @@ export default function WaitlistManagement() {
             )}
           </DialogContent>
         </Dialog>
+
+        {/* Batch Invite Modal */}
+        <BatchInviteModal 
+          open={batchInviteOpen}
+          onOpenChange={setBatchInviteOpen}
+          selectedUsers={selectedUsers}
+          onConfirm={handleBatchInvite}
+        />
+
+        {/* Batch Action Bar */}
+        <BatchActionBar 
+          selectedCount={selectedUserIds.length}
+          onClearSelection={handleClearSelection}
+          onSendInvites={() => setBatchInviteOpen(true)}
+        />
       </div>
     </AdminLayout>
   );
