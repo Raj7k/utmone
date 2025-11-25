@@ -9,6 +9,9 @@ verify_jwt = false
 [functions.domain-health-check]
 verify_jwt = false
 
+[functions.github-backup]
+verify_jwt = false
+
 [functions.github-backup-cron]
 verify_jwt = false
 
