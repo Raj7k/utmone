@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -5,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 export const useTeamMembers = (workspaceId: string | undefined) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [lastInvitation, setLastInvitation] = useState<any>(null);
 
   const { data: members, isLoading: membersLoading } = useQuery({
     queryKey: ["team-members", workspaceId],
@@ -57,10 +59,12 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
       });
 
       if (error) throw error;
-      return data;
+      return data; // Now returns full invitation object with token
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["workspace-invitations", workspaceId] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] }); // Update onboarding checklist
+      setLastInvitation(data.invitation); // Store for copy link feature
       toast({
         title: "Invitation sent",
         description: "Team member invitation has been sent successfully.",
@@ -158,5 +162,7 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     updateRole: updateRoleMutation.mutate,
     removeMember: removeMemberMutation.mutate,
     cancelInvitation: cancelInvitationMutation.mutate,
+    lastInvitation,
+    clearLastInvitation: () => setLastInvitation(null),
   };
 };

@@ -47,6 +47,7 @@ const APIDocumentation = lazy(() => import("./pages/Docs/API"));
 const APIPlayground = lazy(() => import("./pages/Docs/APIPlayground"));
 const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
+const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
@@ -255,9 +256,12 @@ const App = () => (
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
-              
-              {/* Public Tools */}
-              <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
+               
+               {/* Public Tools */}
+               <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
+               
+               {/* Invitation Acceptance */}
+               <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
               
               {/* Dashboard Routes with DashboardLayout */}
               <Route path="/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Dashboard /></DashboardLayout></Suspense>} />

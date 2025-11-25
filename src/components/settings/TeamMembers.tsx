@@ -1,72 +1,72 @@
 import { useState } from "react";
-import { useTeamMembers } from "@/hooks/useTeamMembers";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { UserPlus, Trash2, Clock } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useTeamMembers } from "@/hooks/useTeamMembers";
+import { Trash2, Copy, CheckCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface TeamMembersProps {
   workspaceId: string;
 }
 
-export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
+export function TeamMembers({ workspaceId }: TeamMembersProps) {
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("editor");
-  const { members, invitations, isLoading, inviteTeamMember, updateRole, removeMember, cancelInvitation } = useTeamMembers(workspaceId);
+  const [role, setRole] = useState("viewer");
+  const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  const { toast } = useToast();
+  
+  const {
+    members,
+    invitations,
+    isLoading,
+    inviteTeamMember,
+    updateRole,
+    removeMember,
+    cancelInvitation,
+    lastInvitation,
+    clearLastInvitation,
+  } = useTeamMembers(workspaceId);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
     inviteTeamMember({ email, role });
     setEmail("");
-    setRole("editor");
+    setRole("viewer");
   };
 
-  if (isLoading) {
-    return <div>Loading team members...</div>;
-  }
+  const copyInviteLink = (token: string) => {
+    const inviteUrl = `${window.location.origin}/accept-invite?token=${token}`;
+    navigator.clipboard.writeText(inviteUrl);
+    setCopiedToken(token);
+    toast({
+      title: "Link copied",
+      description: "Invitation link copied to clipboard",
+    });
+    setTimeout(() => setCopiedToken(null), 2000);
+  };
 
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Invite Team Member</CardTitle>
+          <CardTitle>invite team member</CardTitle>
           <CardDescription>
-            Send an invitation to add a new member to your workspace
+            send an invitation to add a new member to your workspace
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <form onSubmit={handleInvite} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <label htmlFor="email" className="text-callout text-label">email address</label>
                 <Input
                   id="email"
                   type="email"
@@ -77,80 +77,124 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
+                <label htmlFor="role" className="text-callout text-label">role</label>
                 <Select value={role} onValueChange={setRole}>
                   <SelectTrigger id="role">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="viewer">Viewer</SelectItem>
-                    <SelectItem value="editor">Editor</SelectItem>
-                    <SelectItem value="workspace_admin">Admin</SelectItem>
+                    <SelectItem value="viewer">viewer</SelectItem>
+                    <SelectItem value="editor">editor</SelectItem>
+                    <SelectItem value="workspace_admin">admin</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
-            <Button type="submit">
-              <UserPlus className="mr-2 h-4 w-4" />
-              Send Invitation
-            </Button>
+            <Button type="submit">Send Invitation</Button>
           </form>
+
+          {lastInvitation && (
+            <div className="mt-4 p-4 bg-system-green/10 border border-system-green/20 rounded-lg space-y-3">
+              <div className="flex items-start gap-2">
+                <CheckCircle className="h-5 w-5 text-system-green mt-0.5 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-callout font-medium text-label">invitation sent!</p>
+                  <p className="text-footnote text-secondary-label mt-0.5">
+                    email sent to {lastInvitation.email}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <p className="text-footnote text-secondary-label">or share this link directly:</p>
+                <div className="flex gap-2">
+                  <Input
+                    readOnly
+                    value={`${window.location.origin}/accept-invite?token=${lastInvitation.token}`}
+                    className="text-footnote font-mono"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyInviteLink(lastInvitation.token)}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearLastInvitation}
+                className="text-footnote"
+              >
+                dismiss
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
       {invitations && invitations.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Pending Invitations</CardTitle>
+            <CardTitle>pending invitations</CardTitle>
             <CardDescription>
-              Invitations that haven't been accepted yet
+              invitations that haven't been accepted yet
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Expires</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>email</TableHead>
+                  <TableHead>role</TableHead>
+                  <TableHead>expires</TableHead>
+                  <TableHead>actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invitations.map((invitation) => (
                   <TableRow key={invitation.id}>
                     <TableCell>{invitation.email}</TableCell>
+                    <TableCell>{invitation.role}</TableCell>
+                    <TableCell>{new Date(invitation.expires_at).toLocaleDateString()}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{invitation.role}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-muted-foreground" />
-                        {new Date(invitation.expires_at).toLocaleDateString()}
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => copyInviteLink(invitation.token)}
+                        >
+                          {copiedToken === invitation.token ? (
+                            <CheckCircle className="h-4 w-4 text-system-green" />
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>cancel invitation</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                are you sure you want to cancel this invitation? the link will no longer work.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => cancelInvitation(invitation.id)}>
+                                cancel invitation
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Cancel invitation?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This will cancel the invitation sent to {invitation.email}.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => cancelInvitation(invitation.id)}>
-                              Confirm
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -162,19 +206,19 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Team Members</CardTitle>
+          <CardTitle>team members</CardTitle>
           <CardDescription>
-            Manage your workspace team members and their roles
+            manage your workspace team members and their roles
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Member</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>member</TableHead>
+                <TableHead>email</TableHead>
+                <TableHead>role</TableHead>
+                <TableHead>actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -182,7 +226,7 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
                 <TableRow key={member.id}>
                   <TableCell>
                     <div className="font-medium">
-                      {member.profiles?.full_name || "Unknown"}
+                      {member.profiles?.full_name || "unknown"}
                     </div>
                   </TableCell>
                   <TableCell>{member.profiles?.email}</TableCell>
@@ -195,9 +239,9 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="viewer">Viewer</SelectItem>
-                        <SelectItem value="editor">Editor</SelectItem>
-                        <SelectItem value="workspace_admin">Admin</SelectItem>
+                        <SelectItem value="viewer">viewer</SelectItem>
+                        <SelectItem value="editor">editor</SelectItem>
+                        <SelectItem value="workspace_admin">admin</SelectItem>
                       </SelectContent>
                     </Select>
                   </TableCell>
@@ -205,20 +249,20 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="sm">
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="h-4 w-4 text-system-red" />
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Remove team member?</AlertDialogTitle>
+                          <AlertDialogTitle>remove team member?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This will remove {member.profiles?.email} from the workspace.
+                            this will remove {member.profiles?.email} from the workspace.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>cancel</AlertDialogCancel>
                           <AlertDialogAction onClick={() => removeMember(member.id)}>
-                            Remove
+                            remove
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -232,4 +276,4 @@ export const TeamMembers = ({ workspaceId }: TeamMembersProps) => {
       </Card>
     </div>
   );
-};
+}

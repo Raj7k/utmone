@@ -63,7 +63,7 @@ export const OnboardingChecklist = () => {
       label: 'invite team member',
       description: 'collaborate with your team',
       completed: hasInvitedTeam,
-      action: () => navigate('/settings/people'),
+      action: () => navigate('/settings?tab=team&action=invite'),
       buttonLabel: 'Invite →',
     },
     {
