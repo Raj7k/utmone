@@ -30,11 +30,11 @@ const UTMGuide = () => {
   ];
 
   const relatedResources = [
+    { title: "LLM-First SEO Guide", href: "/resources/guides/llm-seo", description: "Optimize UTM-tracked pages for AI discovery" },
     { title: "UTM Template", href: "/resources/templates", description: "Copy/paste UTM templates for common campaigns" },
     { title: "Clean-Track Framework", href: "/resources/frameworks", description: "4-layer architecture for tracking at scale" },
-    { title: "UTM Examples", href: "/resources/examples", description: "Real-world UTM naming patterns" },
-    { title: "UTM Audit Checklist", href: "/resources/checklists", description: "Pre-launch checklist for campaign tracking" },
-    { title: "Glossary: UTM Parameters", href: "/resources/glossary", description: "Canonical definitions for all 5 UTM fields" }
+    { title: "Partner Program", href: "/features/partner-program", description: "Track affiliate UTMs and referral campaigns" },
+    { title: "Analytics Dashboard", href: "/features/analytics", description: "Visualize UTM campaign performance" }
   ];
 
   return (
@@ -50,27 +50,27 @@ const UTMGuide = () => {
       />
       <ArticleSchema
         headline="The UTM Guide (2025 Edition)"
-        description="The definitive guide to UTM tracking, naming conventions, governance, and LLM optimization with 17 interactive tools"
+        description="The definitive guide to UTM tracking, naming conventions, and governance with 11 interactive tools"
         author="utm.one"
         datePublished="2025-01-01"
         dateModified="2025-01-23"
       />
       <HowToSchema
-        name="How to Implement UTM Tracking and LLM Optimization"
-        description="Complete implementation guide for UTM tracking governance and AI-first content optimization"
+        name="How to Implement UTM Tracking and Governance"
+        description="Complete implementation guide for UTM tracking governance across marketing teams"
         steps={[
-          { name: "Define naming conventions", text: "Establish lowercase, hyphen-separated UTM standards" },
-          { name: "Create templates", text: "Build pre-approved templates for all campaign types" },
-          { name: "Implement Schema markup", text: "Add structured data for LLM discoverability" },
-          { name: "Optimize content structure", text: "Format content for AI answer engines" },
-          { name: "Set up governance", text: "Establish workflows and approval processes" }
+          { name: "Define naming conventions", text: "Establish lowercase, hyphen-separated UTM standards across all campaigns" },
+          { name: "Create templates", text: "Build pre-approved UTM templates for all campaign types" },
+          { name: "Set up governance", text: "Establish workflows and approval processes for link creation" },
+          { name: "Audit existing UTMs", text: "Identify and fix inconsistent UTM values in existing campaigns" },
+          { name: "Train your team", text: "Document standards and onboard team members on UTM best practices" }
         ]}
       />
       <BreadcrumbSchema items={breadcrumbs.map(b => ({ name: b.label, url: `https://utm.one${b.href}` }))} />
       
       <GuideLayout
         title="The UTM Guide (2025 Edition)"
-        subtitle="The definitive guide to UTM tracking, naming conventions, governance, and LLM optimization. Built for marketers who want clean data and AI discoverability."
+        subtitle="The definitive guide to UTM tracking, naming conventions, and governance. Built for marketers who want clean data and reliable campaign attribution."
         readTime="45 min read"
         lastUpdated="January 2025"
         breadcrumbs={breadcrumbs}
@@ -93,7 +93,7 @@ const UTMGuide = () => {
             <p>Marketing breaks when links break. And links break when UTMs are inconsistent, incomplete, or forgotten entirely.</p>
             <p>You've seen it happen: campaigns launch with mismatched UTM values. Some links use "linkedin", others use "LinkedIn". Some use underscores, others use hyphens. By the time you open Google Analytics, your data is fragmented across dozens of inconsistent sources.</p>
             <p>This isn't a tracking problem. It's a governance problem. And it compounds over time.</p>
-            <p>This guide explains how to build a UTM system that scales—one that works for small teams launching their first campaign, and for enterprises running hundreds of campaigns across dozens of channels. It also shows you how to optimize your UTM-tracked content for discovery by AI answer engines, ensuring your campaigns are visible not just in analytics, but in the future of search.</p>
+            <p>This guide explains how to build a UTM system that scales—one that works for small teams launching their first campaign, and for enterprises running hundreds of campaigns across dozens of channels. <a href="/resources/guides/llm-seo" className="text-primary hover:underline">Learn how to optimize your UTM-tracked content for discovery by AI systems</a> to ensure your campaigns are visible not just in analytics, but in AI-powered search.</p>
           </div>
         </section>
       </ProgressiveReveal>
@@ -230,6 +230,7 @@ const UTMGuide = () => {
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Even with perfect governance, mistakes happen. The UTM Debugger identifies issues and provides corrected versions automatically.</p>
+            <p>Once your UTMs are clean and consistent, make sure your landing pages are discoverable by AI systems. See our <a href="/resources/guides/llm-seo" className="text-primary hover:underline">LLM-First SEO Guide</a> for schema markup and content structure optimization.</p>
           </div>
 
           <UTMDebugger />
@@ -242,7 +243,8 @@ const UTMGuide = () => {
           <h2 className="text-3xl font-display font-bold text-foreground mb-6">90-Day Implementation Roadmap</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
-            <p>Implementing UTM governance and LLM optimization takes time. This 90-day roadmap breaks the work into manageable phases with specific tasks and milestones.</p>
+            <p>Implementing UTM governance takes time. This 90-day roadmap breaks the work into manageable phases with specific tasks and milestones.</p>
+            <p>Phase 2 includes optimizing your campaign landing pages for discoverability. Use our <a href="/resources/guides/llm-seo#schema-generator" className="text-primary hover:underline">Schema Generator</a> and <a href="/resources/guides/llm-seo#readiness-scorer" className="text-primary hover:underline">LLM Readiness Scorer</a> to make your content AI-discoverable.</p>
           </div>
 
           <RoadmapTimeline />
@@ -251,7 +253,7 @@ const UTMGuide = () => {
 
       <CTABanner
         title="Ready to Implement Clean UTM Tracking?"
-        description="utm.one provides all the tools you need for UTM governance and LLM optimization"
+        description="utm.one provides all the tools you need for UTM governance at scale"
         buttonText="Get Early Access"
         buttonHref="/early-access"
         variant="primary"
@@ -267,7 +269,11 @@ const UTMGuide = () => {
             { question: "Do I need all 5 UTM parameters?", answer: <p>Only utm_source, utm_medium, and utm_campaign are required. However, using all 5 parameters gives you much more granular insights into campaign performance.</p> },
             { question: "Should UTMs be lowercase or mixed case?", answer: <p>Always use lowercase. Google Analytics treats "LinkedIn" and "linkedin" as different sources, which fragments your data. Standardizing on lowercase prevents this issue.</p> },
             { question: "How do UTMs affect SEO?", answer: <p>UTM parameters don't directly hurt SEO, but they can cause duplicate content issues if not handled properly. Use canonical tags to tell search engines which version of a page is the original.</p> },
-            { question: "Can I change UTM values after launching a campaign?", answer: <p>You can, but it will split your reporting. Analytics tools treat the old and new UTM values as separate campaigns, making it harder to see total performance.</p> }
+            { question: "Can I change UTM values after launching a campaign?", answer: <p>You can, but it will split your reporting. Analytics tools treat the old and new UTM values as separate campaigns, making it harder to see total performance.</p> },
+            { question: "How long should my UTM values be?", answer: <p>Keep UTM values concise but descriptive. Aim for 3-20 characters per parameter. "q1-product-launch" is better than "q1-2025-new-product-launch-campaign-january". Shorter values are easier to read in reports and less prone to truncation.</p> },
+            { question: "Can I use UTMs for internal links?", answer: <p>Technically yes, but it's not recommended. UTMs are designed for external campaign tracking. Using them on internal links can inflate your analytics data and misattribute conversions. Use event tracking or custom dimensions for internal navigation instead.</p> },
+            { question: "What's the difference between utm_term and utm_content?", answer: <p>utm_term identifies paid search keywords (originally for Google Ads). utm_content differentiates similar content or links in the same ad (e.g., "cta-top" vs "cta-bottom"). In practice, utm_content is more versatile and used for A/B testing ad variants.</p> },
+            { question: "How do I track offline campaigns with UTMs?", answer: <p>Use QR codes or vanity URLs with pre-populated UTMs. For example, a billboard QR code links to utm.one/go/billboard-campaign with utm_source=billboard, utm_medium=offline, utm_campaign=q1-awareness. Track QR scans to measure offline campaign performance.</p> }
           ]} />
         </section>
       </ProgressiveReveal>
