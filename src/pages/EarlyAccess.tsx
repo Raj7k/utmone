@@ -7,11 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { WhitespaceAdvantageCard } from "@/components/early-access/WhitespaceAdvantageCard";
 import { OnboardingTimeline } from "@/components/early-access/OnboardingTimeline";
 import { TrustNarrativeCard } from "@/components/early-access/TrustNarrativeCard";
+import { DiagonalLines, FloatingShapes, GridOverlay, GradientDivider } from "@/components/early-access/EarlyAccessDecorations";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2 } from "lucide-react";
@@ -171,15 +173,17 @@ export default function EarlyAccess() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navigation />
       {/* FOLD 1 - Hero (A/B tested) */}
-      <section className="bg-white py-32 md:py-40 px-6">
-        <div className="max-w-[900px] mx-auto text-center">
+      <section className="relative bg-white py-32 md:py-40 px-6 overflow-hidden">
+        <FloatingShapes />
+        <DiagonalLines />
+        <div className="hero-glow" />
+        <div className="max-w-[900px] mx-auto text-center relative z-10">
           <AnimatedHeadline>
-            <div className="hero-glow">
-              <h1 className="hero-gradient text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-8 leading-tight">
-                {heroVariant.headline}
-              </h1>
-            </div>
+            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tight bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
+              {heroVariant.headline}
+            </h1>
           </AnimatedHeadline>
           <AnimatedHeadline delay={200}>
             <p className="text-xl md:text-2xl text-secondary-label leading-relaxed mb-12">
@@ -203,11 +207,14 @@ export default function EarlyAccess() {
         </div>
       </section>
 
+      <GradientDivider />
+
       {/* FOLD 2 - Why Early Access Exists */}
-      <section className="bg-muted/20 py-32 md:py-40 px-6">
-        <div className="max-w-[1200px] mx-auto">
+      <section className="bg-muted/20 py-32 md:py-40 px-6 relative overflow-hidden">
+        <GridOverlay />
+        <div className="max-w-[1200px] mx-auto relative z-10">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center">
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
               we want the right people in first
             </h2>
           </AnimatedHeadline>
@@ -242,11 +249,13 @@ export default function EarlyAccess() {
         </div>
       </section>
 
+      <GradientDivider />
+
       {/* FOLD 3 - What You Get (gray background with icons) */}
       <section className="bg-white py-32 md:py-40 px-6">
         <div className="max-w-[1000px] mx-auto">
           <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center">
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
               you get more than a login
             </h2>
           </AnimatedHeadline>

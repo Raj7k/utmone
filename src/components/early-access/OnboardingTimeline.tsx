@@ -1,4 +1,5 @@
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { GridOverlay } from "./EarlyAccessDecorations";
 
 const steps = [
   "you sign up",
@@ -10,46 +11,41 @@ const steps = [
 
 export const OnboardingTimeline = () => {
   return (
-    <section className="bg-muted/20 py-32 md:py-40 px-6">
-      <div className="max-w-[800px] mx-auto">
+    <section className="bg-muted/20 py-32 md:py-40 px-6 relative overflow-hidden">
+      <GridOverlay />
+      <div className="max-w-[900px] mx-auto relative z-10">
         <AnimatedHeadline>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center">
+          <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
             a calm, simple onboarding flow
           </h2>
         </AnimatedHeadline>
         
-        <div className="space-y-8 md:space-y-12">
+        <div className="relative">
+          {/* Gradient vertical line */}
+          <div className="absolute left-6 top-8 bottom-8 w-1 bg-gradient-to-b from-primary via-accent-teal to-primary rounded-full" />
+          
           {steps.map((step, index) => (
             <AnimatedHeadline key={index} delay={index * 100}>
-              <div className="flex items-start gap-6">
-                {/* Step number */}
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-lg font-display font-semibold text-primary">
-                    {index + 1}
-                  </span>
+              <div className="flex items-start gap-6 mb-8 relative group">
+                {/* Step number with glow */}
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold z-10 transition-all group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                  {index + 1}
                 </div>
                 
                 {/* Step text */}
                 <div className="flex-1 pt-2">
-                  <p className="text-xl md:text-2xl text-label">
+                  <p className="text-xl md:text-2xl text-label font-medium">
                     {step}
                   </p>
                 </div>
               </div>
-              
-              {/* Connector line */}
-              {index < steps.length - 1 && (
-                <div className="ml-6 h-12 w-0.5 bg-border" />
-              )}
             </AnimatedHeadline>
           ))}
         </div>
         
         <AnimatedHeadline delay={600}>
           <div className="mt-16 text-center space-y-2">
-            <p className="text-lg text-secondary-label">no rush</p>
-            <p className="text-lg text-secondary-label">no complexity</p>
-            <p className="text-lg text-secondary-label">no overwhelming dashboards</p>
+            <p className="text-lg text-secondary-label">no rush. no complexity. no overwhelming dashboards.</p>
           </div>
         </AnimatedHeadline>
       </div>

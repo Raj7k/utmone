@@ -1,4 +1,5 @@
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { CornerBrackets } from "./EarlyAccessDecorations";
 
 const problems = [
   "people hesitate to click shortened links",
@@ -14,8 +15,9 @@ export const TrustNarrativeCard = () => {
     <section className="bg-white py-32 md:py-40 px-6">
       <div className="max-w-[1000px] mx-auto">
         <AnimatedHeadline>
-          <div className="bg-gradient-to-br from-background via-muted/30 to-background rounded-3xl p-12 md:p-16 shadow-[0_8px_32px_rgba(0,0,0,0.06)]">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-center">
+          <div className="bg-gradient-to-br from-background via-muted/30 to-background rounded-3xl p-12 md:p-16 shadow-[0_8px_32px_rgba(0,0,0,0.06)] relative">
+            <CornerBrackets />
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-12 text-center tracking-tight">
               your links will be safe here
             </h2>
             
