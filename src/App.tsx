@@ -161,6 +161,10 @@ import PartnerDashboard from "./pages/Partners/Dashboard";
 import PasswordProtected from "./pages/PasswordProtected";
 import APIDocumentation from "./pages/Docs/API";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Accessibility from "@/pages/Accessibility";
+import Permanence from "@/pages/Permanence";
+import Backups from "@/pages/settings/Backups";
+import { SkipToContent } from "@/components/SkipToContent";
 
 // Feature Pages
 import ShortLinks from "./pages/features/ShortLinks";
@@ -180,6 +184,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <SkipToContent />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
@@ -202,7 +207,10 @@ const App = () => (
           
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
+          <Route path="/settings/backups" element={<Backups />} />
           <Route path="/password-protected" element={<PasswordProtected />} />
+          <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/permanence" element={<Permanence />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/lifetime-deal" element={<LifetimeDeal />} />
           <Route path="/about" element={<About />} />
