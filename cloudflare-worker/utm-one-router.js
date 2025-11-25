@@ -19,8 +19,8 @@ async function handleRequest(request) {
   
   // If no path (root domain), handle appropriately
   if (!pathname || pathname === '/') {
-    // utm.one and go.utm.one redirect to main site
-    if (url.hostname === 'utm.one' || url.hostname === 'go.utm.one') {
+    // utm.one, go.utm.one, and utm.click redirect to main site
+    if (url.hostname === 'utm.one' || url.hostname === 'go.utm.one' || url.hostname === 'utm.click') {
       return Response.redirect('https://utm.one', 302);
     }
     // Custom domains show 404 at root (short links require a slug)

@@ -38,7 +38,7 @@ const link = await client.links.create({
 });
 
 console.log(link.short_url);
-// https://go.utm.one/summer-2024`}</code>
+// https://utm.click/summer-2024`}</code>
               </pre>
             </TabsContent>
 
@@ -58,7 +58,7 @@ link = client.links.create(
 )
 
 print(link.short_url)
-# https://go.utm.one/summer-2024`}</code>
+# https://utm.click/summer-2024`}</code>
               </pre>
             </TabsContent>
 

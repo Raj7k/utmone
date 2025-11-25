@@ -35,7 +35,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const { toast } = useToast();
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
-  const [selectedDomain, setSelectedDomain] = useState<string>("go.utm.one");
+  const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
   // Fetch verified domains for the workspace
   const { data: verifiedDomains } = useQuery({
@@ -206,14 +206,14 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                 <SelectValue placeholder="Select domain" />
               </SelectTrigger>
               <SelectContent>
-                {verifiedDomains && verifiedDomains.length > 0 ? (
+                <SelectItem value="utm.click">utm.click</SelectItem>
+                <SelectItem value="go.utm.one">go.utm.one</SelectItem>
+                {verifiedDomains && verifiedDomains.length > 0 && (
                   verifiedDomains.map((d) => (
                     <SelectItem key={d.id} value={d.domain}>
                       {d.domain}
                     </SelectItem>
                   ))
-                ) : (
-                  <SelectItem value="go.utm.one">go.utm.one</SelectItem>
                 )}
               </SelectContent>
             </Select>

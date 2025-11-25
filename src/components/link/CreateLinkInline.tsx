@@ -32,6 +32,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
   const [isCreating, setIsCreating] = useState(false);
   const [createdLink, setCreatedLink] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"simple" | "advanced">("simple");
+  const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
@@ -95,7 +96,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
           slug,
           destination_url: data.destination,
           final_url: finalUrl,
-          domain: "go.utm.one",
+          domain: selectedDomain,
           path: "",
           utm_source: data.utm_source || null,
           utm_medium: data.utm_medium || null,
@@ -106,7 +107,7 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
 
       if (error) throw error;
 
-      const shortUrl = `https://go.utm.one/${slug}`;
+      const shortUrl = `https://${selectedDomain}/${slug}`;
       setCreatedLink(shortUrl);
       
       toast({
@@ -207,9 +208,21 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
             </div>
 
             <div>
+              <Label htmlFor="domain">Domain</Label>
+              <select
+                value={selectedDomain}
+                onChange={(e) => setSelectedDomain(e.target.value)}
+                className="w-full h-10 px-3 rounded-md border border-input bg-background"
+              >
+                <option value="utm.click">utm.click</option>
+                <option value="go.utm.one">go.utm.one</option>
+              </select>
+            </div>
+
+            <div>
               <Label htmlFor="slug">Custom Slug (optional)</Label>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">go.utm.one/</span>
+                <span className="text-sm text-muted-foreground">{selectedDomain}/</span>
                 <Input
                   id="slug"
                   placeholder="my-link"
