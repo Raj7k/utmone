@@ -38,6 +38,7 @@ export const Step2Shortener = ({
 }: Step2ShortenerProps) => {
   const { toast } = useToast();
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
+  const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
   const form = useForm<ShortenerFormData>({
     resolver: zodResolver(shortenerSchema),
@@ -67,7 +68,7 @@ export const Step2Shortener = ({
         const { data } = await supabase
           .from("links")
           .select("id")
-          .eq("domain", "go.utm.one")
+          .eq("domain", selectedDomain)
           .eq("path", "")
           .eq("slug", values.slug)
           .maybeSingle();
@@ -78,7 +79,7 @@ export const Step2Shortener = ({
 
     const timeoutId = setTimeout(checkSlug, 500);
     return () => clearTimeout(timeoutId);
-  }, [values.slug]);
+  }, [values.slug, selectedDomain]);
 
   const generateRandomSlug = () => {
     const randomSlug = Math.random().toString(36).substring(2, 10);
@@ -99,7 +100,7 @@ export const Step2Shortener = ({
           slug: data.slug,
           destination_url: utmUrl,
           final_url: utmUrl,
-          domain: "go.utm.one",
+          domain: selectedDomain,
           path: "",
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
@@ -112,7 +113,7 @@ export const Step2Shortener = ({
       return link;
     },
     onSuccess: (link) => {
-      const shortUrl = `https://go.utm.one/${link.slug}`;
+      const shortUrl = `https://${link.domain}/${link.slug}`;
       toast({
         title: "link created",
         description: "your short link is ready",
@@ -169,9 +170,21 @@ export const Step2Shortener = ({
         </div>
 
         <div>
+          <Label htmlFor="domain">domain</Label>
+          <select
+            value={selectedDomain}
+            onChange={(e) => setSelectedDomain(e.target.value)}
+            className="w-full mt-1.5 h-10 px-3 rounded-md border border-input bg-background"
+          >
+            <option value="utm.click">utm.click</option>
+            <option value="go.utm.one">go.utm.one</option>
+          </select>
+        </div>
+
+        <div>
           <Label htmlFor="slug">custom slug *</Label>
           <div className="flex items-center gap-2 mt-1.5">
-            <span className="text-body-apple text-secondary-label">go.utm.one/</span>
+            <span className="text-body-apple text-secondary-label">{selectedDomain}/</span>
             <div className="flex-1 relative">
               <Input
                 id="slug"

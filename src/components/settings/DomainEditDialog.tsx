@@ -54,6 +54,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
     cnameName: false,
     cnameValue: false,
     subdomainCname: false,
+    subdomainCname2: false,
     nginxProxy: false,
     apacheProxy: false,
     cloudflareTransform: false,
@@ -362,7 +363,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                 <Alert className="bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900">
                   <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   <AlertDescription className="text-sm">
-                    <strong>not ready for custom domain setup?</strong> use <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">go.utm.one</code> for now - it works immediately with zero configuration.
+                    <strong>not ready for custom domain setup?</strong> use <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">utm.click</code> or <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">go.utm.one</code> for now - they work immediately with zero configuration.
                   </AlertDescription>
                 </Alert>
 
@@ -386,7 +387,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                             </span>
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            create a subdomain like <code className="bg-muted px-1 py-0.5 rounded">go.{domain?.domain}</code> and point it to go.utm.one
+                            create a subdomain like <code className="bg-muted px-1 py-0.5 rounded">go.{domain?.domain}</code> and point it to utm.click or go.utm.one
                           </p>
                         </div>
                         <ChevronDown className={cn(
@@ -400,7 +401,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                       <div className="p-4 pt-0 space-y-3">
                         <div className="rounded-md bg-muted/30 p-3 space-y-3">
                           <p className="text-xs text-muted-foreground">
-                            <strong>why this works:</strong> CNAME to go.utm.one works because Cloudflare automatically handles SSL for go.utm.one
+                            <strong>why this works:</strong> CNAME to utm.click or go.utm.one works because Cloudflare automatically handles SSL for both domains
                           </p>
                           <p className="text-xs text-foreground font-medium">
                             ✓ no server setup • works in minutes • perfect for non-technical users
@@ -428,29 +429,47 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
                         <div className="space-y-2">
                           <Label className="text-xs text-muted-foreground">2. add this CNAME record to your DNS</Label>
-                          <div className="rounded-lg border border-border bg-card p-3 space-y-2">
+                          <div className="rounded-lg border border-border bg-card p-3 space-y-3">
                             <div className="grid grid-cols-3 gap-2 text-xs font-medium text-muted-foreground">
                               <div>type</div>
                               <div>name</div>
-                              <div>value</div>
+                              <div>value (choose one)</div>
                             </div>
                             <div className="grid grid-cols-3 gap-2">
                               <div className="px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">CNAME</div>
                               <div className="px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">{subdomainPrefix}</div>
-                              <div className="flex items-center gap-1">
-                                <div className="flex-1 px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">go.utm.one</div>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => handleCopy('go.utm.one', 'subdomainCname')}
-                                  className="h-7 w-7 p-0"
-                                >
-                                  {copiedFields.subdomainCname ? (
-                                    <Check className="h-3 w-3 text-green-600" />
-                                  ) : (
-                                    <Copy className="h-3 w-3" />
-                                  )}
-                                </Button>
+                              <div className="space-y-2">
+                                <div className="flex items-center gap-1">
+                                  <div className="flex-1 px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">utm.click</div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleCopy('utm.click', 'subdomainCname')}
+                                    className="h-7 w-7 p-0"
+                                  >
+                                    {copiedFields.subdomainCname ? (
+                                      <Check className="h-3 w-3 text-green-600" />
+                                    ) : (
+                                      <Copy className="h-3 w-3" />
+                                    )}
+                                  </Button>
+                                </div>
+                                <div className="text-xs text-muted-foreground text-center">or</div>
+                                <div className="flex items-center gap-1">
+                                  <div className="flex-1 px-2 py-1.5 rounded bg-muted/50 text-xs font-mono">go.utm.one</div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleCopy('go.utm.one', 'subdomainCname2')}
+                                    className="h-7 w-7 p-0"
+                                  >
+                                    {copiedFields.subdomainCname2 ? (
+                                      <Check className="h-3 w-3 text-green-600" />
+                                    ) : (
+                                      <Copy className="h-3 w-3" />
+                                    )}
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </div>
