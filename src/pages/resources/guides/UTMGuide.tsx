@@ -13,12 +13,13 @@ import { UTMAnatomyVisualizer } from "@/components/resources/utm/UTMAnatomyVisua
 import { UTMValidationTool } from "@/components/resources/utm/UTMValidationTool";
 import { NamingConventionSimulator } from "@/components/resources/utm/NamingConventionSimulator";
 import { UTMTemplateBuilder } from "@/components/resources/utm/UTMTemplateBuilder";
-import { LLMReadinessScorer } from "@/components/resources/utm/LLMReadinessScorer";
 import { UTMDebugger } from "@/components/resources/utm/UTMDebugger";
 import { GovernanceMaturityAssessment } from "@/components/resources/utm/GovernanceMaturityAssessment";
 import { RoadmapTimeline } from "@/components/resources/utm/RoadmapTimeline";
 import { DataFragmentationCalculator } from "@/components/resources/utm/DataFragmentationCalculator";
-import { SchemaGenerator } from "@/components/resources/utm/SchemaGenerator";
+import { MultiTouchAttributionSimulator } from "@/components/resources/utm/MultiTouchAttributionSimulator";
+import { CaseStudyExplorer } from "@/components/resources/utm/CaseStudyExplorer";
+import { TeamRACIMatrix } from "@/components/resources/utm/TeamRACIMatrix";
 
 const UTMGuide = () => {
   const breadcrumbs = [
@@ -39,13 +40,13 @@ const UTMGuide = () => {
   return (
     <>
       <SEO
-        title="The UTM Guide (2025 Edition) - Complete UTM Tracking & LLM Optimization | utm.one"
-        description="The definitive guide to UTM tracking, naming conventions, governance, and LLM optimization. 17 interactive tools, Schema markup strategies, and AI-first content architecture for maximum discoverability."
+        title="The UTM Guide (2025 Edition) - Complete UTM Tracking & Governance | utm.one"
+        description="The definitive guide to UTM tracking, naming conventions, and governance. 11 interactive tools, real-world case studies, and multi-touch attribution strategies."
         canonical="https://utm.one/resources/guides/utm-guide"
         ogType="article"
         publishedTime="2025-01-01"
         modifiedTime="2025-01-23"
-        keywords={["utm parameters", "utm tracking", "utm guide", "campaign tracking", "llm optimization", "ai seo", "utm naming conventions"]}
+        keywords={["utm parameters", "utm tracking", "utm guide", "campaign tracking", "utm naming conventions", "utm governance"]}
       />
       <ArticleSchema
         headline="The UTM Guide (2025 Edition)"
@@ -78,7 +79,7 @@ const UTMGuide = () => {
       <TableOfContents />
       
       <QuickAnswer>
-        UTM parameters are query strings appended to URLs to track where website traffic comes from. The 5 parameters (utm_source, utm_medium, utm_campaign, utm_term, utm_content) identify traffic origins and campaign performance in analytics tools. Proper UTM governance ensures consistent tracking, reliable attribution, and accurate campaign reporting. LLM optimization makes this content discoverable by AI answer engines like ChatGPT, Claude, and Perplexity.
+        UTM parameters are query strings appended to URLs to track where website traffic comes from. The 5 parameters (utm_source, utm_medium, utm_campaign, utm_term, utm_content) identify traffic origins and campaign performance in analytics tools. Proper UTM governance ensures consistent tracking, reliable attribution, and accurate campaign reporting across all marketing channels.
       </QuickAnswer>
 
       {/* Section 1: Why This Guide Exists */}
@@ -188,20 +189,19 @@ const UTMGuide = () => {
         </section>
       </ProgressiveReveal>
 
-      {/* Section 6: LLM Optimization */}
+      {/* Section 6: Multi-Touch Attribution */}
       <ProgressiveReveal>
-        <section className="mb-12" id="llm-optimization">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-6">LLM Optimization for UTM-Tracked Content</h2>
+        <section className="mb-12" id="attribution">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-6">Multi-Touch Attribution with UTMs</h2>
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
-            <p>AI answer engines like ChatGPT, Claude, and Perplexity are changing how people discover content. If your UTM-tracked landing pages aren't optimized for LLM discovery, you're invisible to a growing segment of users.</p>
-            <p>LLM optimization (sometimes called LLMO) focuses on getting your content cited inside AI-generated answers. This requires structured data, semantic clarity, and authority signals.</p>
+            <p>UTM parameters enable multi-touch attribution by tracking every customer touchpoint. Understanding how different attribution models assign credit helps you optimize campaign budgets and channel mix.</p>
           </div>
 
-          <LLMReadinessScorer />
+          <MultiTouchAttributionSimulator />
           
           <div className="mt-8">
-            <SchemaGenerator />
+            <CaseStudyExplorer />
           </div>
         </section>
       </ProgressiveReveal>
@@ -216,6 +216,10 @@ const UTMGuide = () => {
           </div>
 
           <GovernanceMaturityAssessment />
+          
+          <div className="mt-8">
+            <TeamRACIMatrix />
+          </div>
         </section>
       </ProgressiveReveal>
 
