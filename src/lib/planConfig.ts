@@ -12,6 +12,17 @@ export interface PlanFeatures {
   sso?: boolean;
   sla?: boolean;
   dedicatedSupport?: boolean;
+  // QR Code Features
+  qrMonthlyLimit: number | 'unlimited';
+  canRemoveQRWatermark: boolean;
+  canExportSVG: boolean;
+  canExportPDF: boolean;
+  canUploadLogo: boolean;
+  canUseGradients: boolean;
+  canUseAdvancedShapes: boolean;
+  canBulkGenerateQR?: boolean;
+  canSaveQRTemplates?: boolean;
+  qrMaxResolution: number; // pixels
 }
 
 export interface PlanDetails {
@@ -40,6 +51,14 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       analyticsRetentionDays: 90,
       apiAccess: true,
       teamMembers: 'unlimited',
+      qrMonthlyLimit: 5,
+      canRemoveQRWatermark: false,
+      canExportSVG: false,
+      canExportPDF: false,
+      canUploadLogo: false,
+      canUseGradients: false,
+      canUseAdvancedShapes: false,
+      qrMaxResolution: 1024,
     },
     cta: 'get started free',
   },
@@ -57,6 +76,15 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       apiAccess: true,
       teamMembers: 'unlimited',
       prioritySupport: true,
+      qrMonthlyLimit: 100,
+      canRemoveQRWatermark: true,
+      canExportSVG: true,
+      canExportPDF: true,
+      canUploadLogo: true,
+      canUseGradients: true,
+      canUseAdvancedShapes: true,
+      canSaveQRTemplates: true,
+      qrMaxResolution: 4096,
     },
     cta: 'start pro trial',
     popular: true,
@@ -77,6 +105,15 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       teamMembers: 'unlimited',
       whiteLabel: true,
       prioritySupport: true,
+      qrMonthlyLimit: 500,
+      canRemoveQRWatermark: true,
+      canExportSVG: true,
+      canExportPDF: true,
+      canUploadLogo: true,
+      canUseGradients: true,
+      canUseAdvancedShapes: true,
+      canSaveQRTemplates: true,
+      qrMaxResolution: 4096,
     },
     cta: 'start business trial',
   },
@@ -96,6 +133,16 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       sso: true,
       sla: true,
       dedicatedSupport: true,
+      qrMonthlyLimit: 'unlimited',
+      canRemoveQRWatermark: true,
+      canExportSVG: true,
+      canExportPDF: true,
+      canUploadLogo: true,
+      canUseGradients: true,
+      canUseAdvancedShapes: true,
+      canBulkGenerateQR: true,
+      canSaveQRTemplates: true,
+      qrMaxResolution: 4096,
     },
     cta: 'contact sales',
   },
@@ -113,6 +160,15 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       apiAccess: true,
       teamMembers: 'unlimited',
       prioritySupport: true,
+      qrMonthlyLimit: 100,
+      canRemoveQRWatermark: true,
+      canExportSVG: true,
+      canExportPDF: true,
+      canUploadLogo: true,
+      canUseGradients: true,
+      canUseAdvancedShapes: true,
+      canSaveQRTemplates: true,
+      qrMaxResolution: 4096,
     },
     cta: 'claim lifetime deal',
     badge: 'limited time',
