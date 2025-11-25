@@ -249,6 +249,7 @@ export default function Onboarding() {
               <DomainDNSInstructions
                 domain={addedDomain.domain}
                 verificationCode={addedDomain.verification_code}
+                domainId={addedDomain.id}
               />
 
               <div className="flex gap-3">

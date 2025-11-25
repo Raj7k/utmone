@@ -47,7 +47,10 @@ import {
 } from "@/hooks/useDomains";
 import { DomainBadge } from "@/components/DomainBadge";
 import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
-import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star } from "lucide-react";
+import { DomainHealthDashboard } from "@/components/settings/DomainHealthDashboard";
+import { DomainSettings } from "@/components/settings/DomainSettings";
+import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
+import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -67,6 +70,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
   const [newDomain, setNewDomain] = useState("");
   const [selectedDomain, setSelectedDomain] = useState<any>(null);
   const [isDNSDialogOpen, setIsDNSDialogOpen] = useState(false);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
 
   const handleAddDomain = async () => {
     if (!newDomain.trim()) {
@@ -248,6 +252,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                                 </TooltipContent>
                               </Tooltip>
                             </TooltipProvider>
+
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -257,7 +262,11 @@ export default function Domains({ workspaceId }: DomainsProps) {
                                     onClick={() => handleVerify(domain.id)}
                                     disabled={verifyMutation.isPending}
                                   >
-                                    <CheckCircle2 className="w-4 h-4" />
+                                    {verifyMutation.isPending ? (
+                                      <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                      <CheckCircle2 className="w-4 h-4" />
+                                    )}
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent className="bg-popover border border-border">
@@ -267,6 +276,27 @@ export default function Domains({ workspaceId }: DomainsProps) {
                             </TooltipProvider>
                           </>
                         )}
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedDomain(domain);
+                                  setIsDetailsDialogOpen(true);
+                                }}
+                              >
+                                <Settings className="w-4 h-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-popover border border-border">
+                              <p className="text-sm">domain details & settings</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
                         {domain.is_verified && !domain.is_primary && (
                           <TooltipProvider>
                             <Tooltip>
@@ -343,6 +373,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
             <DomainDNSInstructions
               domain={selectedDomain.domain}
               verificationCode={selectedDomain.verification_code}
+              domainId={selectedDomain.id}
             />
           )}
           <DialogFooter>
@@ -356,6 +387,24 @@ export default function Domains({ workspaceId }: DomainsProps) {
               verify domain
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Domain Details & Settings</DialogTitle>
+            <DialogDescription>
+              Manage settings and view health status for {selectedDomain?.domain}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedDomain && (
+            <div className="space-y-6">
+              <DomainHealthDashboard domain={selectedDomain} />
+              <DomainUsageStats domainId={selectedDomain.id} domain={selectedDomain.domain} />
+              <DomainSettings domain={selectedDomain} />
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
