@@ -95,10 +95,10 @@ export const SkillDemandAnalysis = () => {
 
         {/* Opening Narrative */}
         <div className="prose prose-lg max-w-[900px] mx-auto mb-16">
-          <p className="text-lg text-secondary-label leading-relaxed">
+          <p className="text-lg text-foreground leading-relaxed">
             <strong className="text-foreground">The shift is already here:</strong> Companies no longer pay primarily for job titles. They pay for skills that drive measurable business outcomes. In 2026, a "Marketing Manager" with AI orchestration, SQL fluency, and attribution modeling skills earns 40-60% more than a "Marketing Manager" with only traditional campaign execution experience.
           </p>
-          <p className="text-lg text-muted-foreground leading-relaxed mt-4">
+          <p className="text-lg text-foreground leading-relaxed mt-4">
             This section breaks down exactly which skills command the highest premiums, which are declining in value due to AI commoditization or oversupply, and which will become most valuable by 2026-2028. Understanding this landscape is critical for career planning, salary negotiation, and professional development prioritization.
           </p>
         </div>

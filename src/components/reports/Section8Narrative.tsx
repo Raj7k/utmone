@@ -27,7 +27,7 @@ export const Section8Narrative = () => {
       <Card className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 border-2 border-blazeOrange/20 p-8">
         <h3 className="text-2xl font-bold text-mirage mb-4">The Formula</h3>
         <div className="bg-white rounded-xl p-6 border-2 border-deepSea/10">
-          <code className="text-base md:text-lg text-mirage font-mono block whitespace-pre-wrap break-words">
+          <code className="text-lg text-mirage font-mono block whitespace-pre-wrap break-words">
             Global Salary = Base_Global × Region_Multiplier × Experience_Multiplier ×
             Company_Size_Multiplier × Industry_Multiplier × (1 + Skill_Premiums)
           </code>
