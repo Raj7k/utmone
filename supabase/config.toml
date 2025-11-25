@@ -138,6 +138,9 @@ verify_jwt = false
 [functions.detect-location]
 verify_jwt = false
 
+[functions.cleanup-old-analytics]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
@@ -168,3 +171,8 @@ schedule = "0 * * * *"
 [[edge_runtime.scheduler]]
 function = "send-scheduled-report"
 schedule = "0 * * * *"
+
+# Analytics retention cleanup - runs daily at 3 AM UTC
+[[edge_runtime.scheduler]]
+function = "cleanup-old-analytics"
+schedule = "0 3 * * *"

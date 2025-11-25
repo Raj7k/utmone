@@ -1,11 +1,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Zap, MessageSquare, Boxes, BarChart3, Database } from 'lucide-react';
+import { ExternalLink, Zap, MessageSquare, Boxes, BarChart3, Database, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function IntegrationsSettings() {
   const integrations = [
+    {
+      name: 'Google Tag Manager',
+      icon: Code2,
+      description: 'Send events to GTM dataLayer for advanced tracking',
+      status: 'available',
+      setupUrl: '/integrations/gtm',
+    },
     {
       name: 'Zapier',
       icon: Zap,

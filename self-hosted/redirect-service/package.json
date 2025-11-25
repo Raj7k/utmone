@@ -1,0 +1,26 @@
+{
+  "name": "utm-one-redirect-service",
+  "version": "1.0.0",
+  "description": "Self-hosted redirect service for utm.one",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "redis": "^4.6.10",
+    "dotenv": "^16.3.1",
+    "ua-parser-js": "^1.0.37"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/pg": "^8.10.9",
+    "@types/ua-parser-js": "^0.7.39",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1"
+  }
+}

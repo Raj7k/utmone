@@ -3052,6 +3052,7 @@ export type Database = {
           default_domain: string | null
           default_path: string | null
           description: string | null
+          gtm_container_id: string | null
           id: string
           is_client_workspace: boolean | null
           monthly_clicks_limit: number | null
@@ -3075,6 +3076,7 @@ export type Database = {
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          gtm_container_id?: string | null
           id?: string
           is_client_workspace?: boolean | null
           monthly_clicks_limit?: number | null
@@ -3098,6 +3100,7 @@ export type Database = {
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          gtm_container_id?: string | null
           id?: string
           is_client_workspace?: boolean | null
           monthly_clicks_limit?: number | null

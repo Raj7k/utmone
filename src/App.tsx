@@ -223,6 +223,7 @@ const PartnerDashboard = lazy(() => import("./pages/Partners/Dashboard"));
 const PartnerTerms = lazy(() => import("./pages/Partners/Terms"));
 const ZapierIntegration = lazy(() => import("./pages/integrations/Zapier"));
 const SlackIntegration = lazy(() => import("./pages/integrations/Slack"));
+const GTMSettings = lazy(() => import("./pages/Integrations/GTMSettings"));
 const IntegrationsSettings = lazy(() => import("./pages/settings/Integrations"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ClientWorkspaces = lazy(() => import("./pages/ClientWorkspaces"));
@@ -460,6 +461,7 @@ const App = () => (
               <Route path="/partners/terms" element={<Suspense fallback={<DashboardSkeleton />}><PartnerTerms /></Suspense>} />
               <Route path="/integrations/zapier" element={<Suspense fallback={<DashboardSkeleton />}><ZapierIntegration /></Suspense>} />
               <Route path="/integrations/slack" element={<Suspense fallback={<DashboardSkeleton />}><SlackIntegration /></Suspense>} />
+              <Route path="/integrations/gtm" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><GTMSettings /></DashboardLayout></Suspense>} />
               <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
               <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
               <Route path="/workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
