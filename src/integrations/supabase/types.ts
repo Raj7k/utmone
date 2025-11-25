@@ -566,6 +566,53 @@ export type Database = {
           },
         ]
       }
+      backup_schedules: {
+        Row: {
+          backup_type: string
+          config: Json | null
+          created_at: string | null
+          frequency: string
+          id: string
+          is_enabled: boolean | null
+          last_backup_at: string | null
+          next_backup_at: string | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          backup_type?: string
+          config?: Json | null
+          created_at?: string | null
+          frequency?: string
+          id?: string
+          is_enabled?: boolean | null
+          last_backup_at?: string | null
+          next_backup_at?: string | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          backup_type?: string
+          config?: Json | null
+          created_at?: string | null
+          frequency?: string
+          id?: string
+          is_enabled?: boolean | null
+          last_backup_at?: string | null
+          next_backup_at?: string | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "backup_schedules_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversion_events: {
         Row: {
           attributed_at: string
