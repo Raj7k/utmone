@@ -80,7 +80,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   const [isScanning, setIsScanning] = useState(false);
   
   const verifiedDomains = domains?.filter(d => d.is_verified) || [];
-  const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "utm.one";
+  const defaultDomain = primaryDomain?.domain || verifiedDomains[0]?.domain || "go.utm.one";
   const [shortUrl, setShortUrl] = useState("");
   const [finalUrl, setFinalUrl] = useState("");
   const [createdLinkId, setCreatedLinkId] = useState<string | null>(null);

@@ -67,7 +67,7 @@ export const Step2Shortener = ({
         const { data } = await supabase
           .from("links")
           .select("id")
-          .eq("domain", "utm.one")
+          .eq("domain", "go.utm.one")
           .eq("path", "")
           .eq("slug", values.slug)
           .maybeSingle();
@@ -99,7 +99,7 @@ export const Step2Shortener = ({
           slug: data.slug,
           destination_url: utmUrl,
           final_url: utmUrl,
-          domain: "utm.one",
+          domain: "go.utm.one",
           path: "",
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
@@ -112,7 +112,7 @@ export const Step2Shortener = ({
       return link;
     },
     onSuccess: (link) => {
-      const shortUrl = `https://utm.one/${link.slug}`;
+      const shortUrl = `https://go.utm.one/${link.slug}`;
       toast({
         title: "link created",
         description: "your short link is ready",
@@ -171,7 +171,7 @@ export const Step2Shortener = ({
         <div>
           <Label htmlFor="slug">custom slug *</Label>
           <div className="flex items-center gap-2 mt-1.5">
-            <span className="text-body-apple text-secondary-label">utm.one/</span>
+            <span className="text-body-apple text-secondary-label">go.utm.one/</span>
             <div className="flex-1 relative">
               <Input
                 id="slug"
