@@ -24,6 +24,7 @@ import { AIInsights } from "@/components/dashboard/AIInsights";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CreateLinkInline } from "@/components/link/CreateLinkInline";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
+import { FeatureHint } from "@/components/FeatureHint";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -159,6 +160,14 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 md:px-8 py-group bg-grouped-background min-h-screen">
         <UsageLimitBanner />
+        
+        {/* Feature Hint for Dashboard */}
+        <FeatureHint
+          id="dashboard-welcome"
+          title="Welcome To Your Dashboard"
+          description="This is your quick overview of link performance and recent activity. Create your first link to get started."
+          className="mb-content"
+        />
         
         {/* Welcome Section */}
         <div className="mb-content">

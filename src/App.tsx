@@ -3,12 +3,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
+import { NetworkStatus } from "./components/ui/network-status";
+import { AppWithHelp } from "./components/AppWithHelp";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -240,7 +242,9 @@ const App = () => (
           <BrowserRouter>
             <SkipToContent />
             <ScrollToTop />
-            <Routes>
+            <NetworkStatus />
+            <AppWithHelp>
+              <Routes>
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -442,6 +446,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
             </Routes>
+            </AppWithHelp>
           </BrowserRouter>
         </WorkspaceProvider>
       </TooltipProvider>

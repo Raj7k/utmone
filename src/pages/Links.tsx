@@ -17,6 +17,7 @@ import { MobileActionSheet } from "@/components/mobile/MobileActionSheet";
 import { MobileLinkFilters } from "@/components/mobile/MobileLinkFilters";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { User } from "@supabase/supabase-js";
+import { FeatureHint } from "@/components/FeatureHint";
 
 const Links = () => {
   const navigate = useNavigate();
@@ -133,6 +134,14 @@ const Links = () => {
 
       <PullToRefresh onRefresh={handleRefresh}>
         <main className="container mx-auto px-4 md:px-8 py-group">
+          {/* Feature Hint for Links */}
+          <FeatureHint
+            id="links-first-visit"
+            title="Create Your First Short Link"
+            description="Add UTM parameters for better campaign tracking. Click the create button to get started."
+            className="mb-content"
+          />
+          
           <div className="mb-content">
             <div className="flex items-center justify-between mb-4">
               <div>

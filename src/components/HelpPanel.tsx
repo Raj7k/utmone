@@ -2,10 +2,16 @@ import { useState } from "react";
 import { X, HelpCircle, Book, MessageSquare, ExternalLink } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useHelpKeyboard } from "@/hooks/useHelpKeyboard";
 
 export const HelpPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+
+  // Add keyboard shortcut support
+  useHelpKeyboard({
+    onToggle: () => setIsOpen(prev => !prev),
+  });
 
   const getContextualHelp = () => {
     const path = location.pathname;
