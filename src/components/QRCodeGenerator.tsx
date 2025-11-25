@@ -16,6 +16,7 @@ import { Download, Loader2, CheckCircle2 } from "lucide-react";
 import { QRDownloadOptions } from "./qr/QRDownloadOptions";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useGTMEvents } from "./integrations/GTMProvider";
 
 const qrFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -38,6 +39,7 @@ interface QRCodeGeneratorProps {
 export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGeneratorProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { trackQRGeneration } = useGTMEvents();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [generatedQRCode, setGeneratedQRCode] = useState<{ png_url: string; svg_url: string } | null>(null);
@@ -182,6 +184,9 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           throw dbError;
         }
         console.log("✅ [QR Generation] QR code saved to database:", qrCode);
+
+        // Track QR generation in GTM
+        trackQRGeneration(linkId, data.name);
 
         return qrCode;
       } catch (error) {

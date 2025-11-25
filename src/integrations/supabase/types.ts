@@ -3209,6 +3209,8 @@ export type Database = {
           default_domain: string | null
           default_path: string | null
           description: string | null
+          ga4_api_secret: string | null
+          ga4_measurement_id: string | null
           gtm_container_id: string | null
           id: string
           is_client_workspace: boolean | null
@@ -3233,6 +3235,8 @@ export type Database = {
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          ga4_api_secret?: string | null
+          ga4_measurement_id?: string | null
           gtm_container_id?: string | null
           id?: string
           is_client_workspace?: boolean | null
@@ -3257,6 +3261,8 @@ export type Database = {
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          ga4_api_secret?: string | null
+          ga4_measurement_id?: string | null
           gtm_container_id?: string | null
           id?: string
           is_client_workspace?: boolean | null

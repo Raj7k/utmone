@@ -25,33 +25,33 @@ export function ICPQuestions({
       {userType === "individual" ? (
         <>
           <div className="space-y-2">
-            <Label className="text-subheadline text-label">what's your role?</Label>
+            <Label className="text-subheadline text-label">What's your role?</Label>
             <Select value={role} onValueChange={onRoleChange}>
               <SelectTrigger>
-                <SelectValue placeholder="select your role" />
+                <SelectValue placeholder="Select your role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="marketer">marketer</SelectItem>
-                <SelectItem value="developer">developer</SelectItem>
-                <SelectItem value="creator">creator/influencer</SelectItem>
-                <SelectItem value="sales">sales</SelectItem>
-                <SelectItem value="other">other</SelectItem>
+                <SelectItem value="marketer">Marketer</SelectItem>
+                <SelectItem value="developer">Developer</SelectItem>
+                <SelectItem value="creator">Creator/Influencer</SelectItem>
+                <SelectItem value="sales">Sales</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-subheadline text-label">primary use case</Label>
+            <Label className="text-subheadline text-label">Primary use case</Label>
             <Select value={primaryUseCase} onValueChange={onUseCaseChange}>
               <SelectTrigger>
-                <SelectValue placeholder="select use case" />
+                <SelectValue placeholder="Select use case" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="marketing">marketing campaigns</SelectItem>
-                <SelectItem value="social">social media</SelectItem>
-                <SelectItem value="portfolio">portfolio/website</SelectItem>
-                <SelectItem value="development">development/testing</SelectItem>
-                <SelectItem value="other">other</SelectItem>
+                <SelectItem value="marketing">Marketing campaigns</SelectItem>
+                <SelectItem value="social">Social media</SelectItem>
+                <SelectItem value="portfolio">Portfolio/Website</SelectItem>
+                <SelectItem value="development">Development/Testing</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -59,13 +59,13 @@ export function ICPQuestions({
       ) : (
         <>
           <div className="space-y-2">
-            <Label className="text-subheadline text-label">team size</Label>
+            <Label className="text-subheadline text-label">Team size</Label>
             <Select value={teamSize} onValueChange={onTeamSizeChange}>
               <SelectTrigger>
-                <SelectValue placeholder="select team size" />
+                <SelectValue placeholder="Select team size" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="1">just me</SelectItem>
+                <SelectItem value="1">Just me</SelectItem>
                 <SelectItem value="2-10">2-10 people</SelectItem>
                 <SelectItem value="11-50">11-50 people</SelectItem>
                 <SelectItem value="50+">50+ people</SelectItem>
@@ -74,35 +74,35 @@ export function ICPQuestions({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-subheadline text-label">primary use case</Label>
+            <Label className="text-subheadline text-label">Primary use case</Label>
             <Select value={primaryUseCase} onValueChange={onUseCaseChange}>
               <SelectTrigger>
-                <SelectValue placeholder="select primary use case" />
+                <SelectValue placeholder="Select primary use case" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="marketing">marketing campaigns</SelectItem>
-                <SelectItem value="sales">sales outreach</SelectItem>
-                <SelectItem value="events">events & conferences</SelectItem>
-                <SelectItem value="hr">hr & recruiting</SelectItem>
-                <SelectItem value="development">product development</SelectItem>
-                <SelectItem value="other">other</SelectItem>
+                <SelectItem value="marketing">Marketing campaigns</SelectItem>
+                <SelectItem value="sales">Sales outreach</SelectItem>
+                <SelectItem value="events">Events & conferences</SelectItem>
+                <SelectItem value="hr">HR & recruiting</SelectItem>
+                <SelectItem value="development">Product development</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label className="text-subheadline text-label">your role in the team</Label>
+            <Label className="text-subheadline text-label">Your role in the team</Label>
             <Select value={role} onValueChange={onRoleChange}>
               <SelectTrigger>
-                <SelectValue placeholder="select your role" />
+                <SelectValue placeholder="Select your role" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="marketer">marketer</SelectItem>
-                <SelectItem value="sales">sales</SelectItem>
-                <SelectItem value="marketing_ops">marketing ops</SelectItem>
-                <SelectItem value="developer">developer</SelectItem>
-                <SelectItem value="manager">manager/leader</SelectItem>
-                <SelectItem value="other">other</SelectItem>
+                <SelectItem value="marketer">Marketer</SelectItem>
+                <SelectItem value="sales">Sales</SelectItem>
+                <SelectItem value="marketing_ops">Marketing Ops</SelectItem>
+                <SelectItem value="developer">Developer</SelectItem>
+                <SelectItem value="manager">Manager/Leader</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>

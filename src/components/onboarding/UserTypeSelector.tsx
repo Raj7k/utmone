@@ -17,9 +17,9 @@ export function UserTypeSelector({ onSelect }: UserTypeSelectorProps) {
           <div className="w-16 h-16 rounded-2xl bg-system-blue/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-system-blue/20 transition-colors">
             <User className="w-8 h-8 text-system-blue" />
           </div>
-          <h3 className="text-title-3 text-label mb-2">individual</h3>
+          <h3 className="text-title-3 text-label mb-2">Individual</h3>
           <p className="text-body-apple text-secondary-label">
-            personal projects, freelancer, or creator
+            Personal projects, freelancer, or creator
           </p>
         </CardContent>
       </Card>
@@ -33,9 +33,9 @@ export function UserTypeSelector({ onSelect }: UserTypeSelectorProps) {
           <div className="w-16 h-16 rounded-2xl bg-system-blue/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-system-blue/20 transition-colors">
             <Building2 className="w-8 h-8 text-system-blue" />
           </div>
-          <h3 className="text-title-3 text-label mb-2">organization</h3>
+          <h3 className="text-title-3 text-label mb-2">Organization</h3>
           <p className="text-body-apple text-secondary-label">
-            team or company with multiple members
+            Team or company with multiple members
           </p>
         </CardContent>
       </Card>
