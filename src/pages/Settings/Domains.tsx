@@ -50,7 +50,8 @@ import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
 import { DomainHealthDashboard } from "@/components/settings/DomainHealthDashboard";
 import { DomainSettings } from "@/components/settings/DomainSettings";
 import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
-import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings } from "lucide-react";
+import { DomainEditDialog } from "@/components/settings/DomainEditDialog";
+import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -71,6 +72,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
   const [selectedDomain, setSelectedDomain] = useState<any>(null);
   const [isDNSDialogOpen, setIsDNSDialogOpen] = useState(false);
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const handleAddDomain = async () => {
     if (!newDomain.trim()) {
@@ -296,6 +298,26 @@ export default function Domains({ workspaceId }: DomainsProps) {
                                 size="sm"
                                 onClick={() => {
                                   setSelectedDomain(domain);
+                                  setIsEditDialogOpen(true);
+                                }}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-popover border border-border">
+                              <p className="text-sm">edit domain settings</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedDomain(domain);
                                   setIsDetailsDialogOpen(true);
                                 }}
                               >
@@ -303,7 +325,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
                               </Button>
                             </TooltipTrigger>
                             <TooltipContent className="bg-popover border border-border">
-                              <p className="text-sm">domain details & settings</p>
+                              <p className="text-sm">domain details & health</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
@@ -404,9 +426,9 @@ export default function Domains({ workspaceId }: DomainsProps) {
       <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Domain Details & Settings</DialogTitle>
+            <DialogTitle>Domain Details & Health</DialogTitle>
             <DialogDescription>
-              Manage settings and view health status for {selectedDomain?.domain}
+              View health status and usage for {selectedDomain?.domain}
             </DialogDescription>
           </DialogHeader>
           {selectedDomain && (
@@ -418,6 +440,14 @@ export default function Domains({ workspaceId }: DomainsProps) {
           )}
         </DialogContent>
       </Dialog>
+
+      {selectedDomain && (
+        <DomainEditDialog
+          domain={selectedDomain}
+          open={isEditDialogOpen}
+          onOpenChange={setIsEditDialogOpen}
+        />
+      )}
     </div>
   );
 }
