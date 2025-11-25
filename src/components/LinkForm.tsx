@@ -93,7 +93,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     resolver: zodResolver(linkFormSchema),
     defaultValues: {
       domain: preferences?.preferred_domain || preferences?.last_domain || defaultDomain,
-      path: preferences?.preferred_path || preferences?.last_path || "go",
+      path: preferences?.preferred_path || preferences?.last_path || "",
       utm_source: preferences?.last_utm_source || "",
       utm_medium: preferences?.last_utm_medium || "",
       utm_campaign: preferences?.last_utm_campaign || "",
@@ -108,7 +108,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
     if (preferences && !form.formState.isDirty) {
       form.reset({
         domain: preferences.preferred_domain || preferences.last_domain || defaultDomain,
-        path: preferences.preferred_path || preferences.last_path || "go",
+        path: preferences.preferred_path || preferences.last_path || "",
         utm_source: preferences.last_utm_source || "",
         utm_medium: preferences.last_utm_medium || "",
         utm_campaign: preferences.last_utm_campaign || "",

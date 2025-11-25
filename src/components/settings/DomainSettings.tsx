@@ -22,7 +22,7 @@ interface DomainSettingsProps {
 export const DomainSettings = ({ domain }: DomainSettingsProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [pathPrefix, setPathPrefix] = useState(domain.domain_settings?.path_prefix || "/go/");
+  const [pathPrefix, setPathPrefix] = useState(domain.domain_settings?.path_prefix || "/");
   const [redirectType, setRedirectType] = useState(domain.domain_settings?.redirect_type || "302");
   const [enabledForNewLinks, setEnabledForNewLinks] = useState(
     domain.domain_settings?.enabled_for_new_links !== false
