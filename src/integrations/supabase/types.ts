@@ -762,6 +762,44 @@ export type Database = {
           },
         ]
       }
+      domain_health_logs: {
+        Row: {
+          check_type: string
+          checked_at: string | null
+          details: Json | null
+          domain_id: string | null
+          id: string
+          response_time_ms: number | null
+          status: string
+        }
+        Insert: {
+          check_type: string
+          checked_at?: string | null
+          details?: Json | null
+          domain_id?: string | null
+          id?: string
+          response_time_ms?: number | null
+          status: string
+        }
+        Update: {
+          check_type?: string
+          checked_at?: string | null
+          details?: Json | null
+          domain_id?: string | null
+          id?: string
+          response_time_ms?: number | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "domain_health_logs_domain_id_fkey"
+            columns: ["domain_id"]
+            isOneToOne: false
+            referencedRelation: "domains"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       domains: {
         Row: {
           created_at: string | null

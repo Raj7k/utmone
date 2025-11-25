@@ -11,6 +11,8 @@ export interface Domain {
   verification_code: string;
   dns_verified_at: string | null;
   ssl_status: string;
+  health_status: string | null;
+  last_health_check: string | null;
   created_by: string;
   created_at: string;
   updated_at: string;
