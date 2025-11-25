@@ -28,14 +28,14 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-grouped-background flex">
+    <div className="min-h-screen bg-grouped-background flex w-full overflow-hidden">
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block flex-shrink-0">
         <DashboardSidebar />
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
         <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="h-full px-4 md:px-6 flex items-center justify-between">
@@ -76,7 +76,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-4 md:px-6 py-group">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-group w-full">
             {children}
           </div>
         </main>

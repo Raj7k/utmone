@@ -9,54 +9,50 @@ export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
   const tools = [
     {
       id: "utm" as const,
-      name: "UTM Builder",
-      description: "Build UTM parameters with quick templates",
+      name: "utm builder",
+      description: "build utm parameters with quick templates",
       icon: Sparkles,
-      color: "text-blue-600",
     },
     {
       id: "shortener" as const,
-      name: "URL Shortener",
-      description: "Create short, memorable links",
+      name: "url shortener",
+      description: "create short, memorable links",
       icon: Link2,
-      color: "text-green-600",
     },
     {
       id: "qr" as const,
-      name: "QR Generator",
-      description: "Generate branded QR codes",
+      name: "qr generator",
+      description: "generate branded qr codes",
       icon: QrCode,
-      color: "text-purple-600",
     },
     {
       id: "forge" as const,
-      name: "Link Forge",
-      description: "All-in-one: UTM + Shortener + QR",
+      name: "link forge",
+      description: "all-in-one: utm + shortener + qr",
       icon: Zap,
-      color: "text-primary",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
       {tools.map((tool) => {
         const Icon = tool.icon;
         return (
           <Card
             key={tool.id}
-            className="cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]"
+            className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] min-w-0 overflow-hidden"
             onClick={() => onSelectTool(tool.id)}
           >
-            <CardHeader>
+            <CardHeader className="p-6">
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg bg-muted ${tool.color}`}>
-                  <Icon className="h-5 w-5" />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <CardTitle className="text-lg">{tool.name}</CardTitle>
+                <CardTitle className="text-lg font-display font-semibold">{tool.name}</CardTitle>
               </div>
             </CardHeader>
-            <CardContent>
-              <CardDescription>{tool.description}</CardDescription>
+            <CardContent className="p-6 pt-0">
+              <CardDescription className="text-sm">{tool.description}</CardDescription>
             </CardContent>
           </Card>
         );
