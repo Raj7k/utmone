@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import About from "./pages/About";
 import Docs from "./pages/Docs";
+import APIPlayground from "./pages/Docs/APIPlayground";
+import SDKs from "./pages/Docs/SDKs";
 import Resources from "./pages/Resources";
 import Guides from "./pages/resources/Guides";
 import UTMGuide from "./pages/resources/guides/UTMGuide";
@@ -226,6 +228,8 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/docs/api" element={<APIDocumentation />} />
+          <Route path="/docs/playground" element={<APIPlayground />} />
+          <Route path="/docs/sdks" element={<SDKs />} />
           
           {/* Feature Pages */}
           <Route path="/features" element={<Features />} />
