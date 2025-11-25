@@ -71,25 +71,31 @@ export const useEnhancedLinks = ({
 
       if (error) throw error;
 
-      // Calculate clicks for last 30 days for each link
+      // Fix N+1 query: Fetch all click counts in a single query
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const enhancedLinks = await Promise.all(
-        (links || []).map(async (link) => {
-          const { count: clicksLast30Days } = await supabase
-            .from("link_clicks")
-            .select("*", { count: "exact", head: true })
-            .eq("link_id", link.id)
-            .gte("clicked_at", thirtyDaysAgo.toISOString());
+      const linkIds = (links || []).map(link => link.id);
+      
+      // Batch query for all click counts
+      const { data: clickCounts } = await supabase
+        .from("link_clicks")
+        .select("link_id")
+        .in("link_id", linkIds)
+        .gte("clicked_at", thirtyDaysAgo.toISOString());
 
-          return {
-            ...link,
-            owner: Array.isArray(link.owner) ? link.owner[0] : link.owner,
-            clicks_last_30_days: clicksLast30Days || 0,
-          } as EnhancedLink;
-        })
-      );
+      // Create a map of link_id -> click count
+      const clickCountMap = (clickCounts || []).reduce((acc, click) => {
+        acc[click.link_id] = (acc[click.link_id] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      // Enhance links with click data
+      const enhancedLinks = (links || []).map((link) => ({
+        ...link,
+        owner: Array.isArray(link.owner) ? link.owner[0] : link.owner,
+        clicks_last_30_days: clickCountMap[link.id] || 0,
+      })) as EnhancedLink[];
 
       return {
         links: enhancedLinks,

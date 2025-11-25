@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -28,7 +29,7 @@ interface LinksTableProps {
   workspaceId: string;
 }
 
-export const LinksTable = ({ workspaceId }: LinksTableProps) => {
+export const LinksTable = memo(({ workspaceId }: LinksTableProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -71,15 +72,15 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
     },
   });
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = useCallback((text: string) => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied",
       description: "URL copied to clipboard",
     });
-  };
+  }, [toast]);
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = useCallback((status: string) => {
     switch (status) {
       case "active":
         return <Badge variant="default" className="bg-success">Active</Badge>;
@@ -90,7 +91,7 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
       default:
         return <Badge>{status}</Badge>;
     }
-  };
+  }, []);
 
   if (isLoading) {
       <div className="flex items-center justify-center p-8">
@@ -246,4 +247,4 @@ export const LinksTable = ({ workspaceId }: LinksTableProps) => {
       </Table>
     </div>
   );
-};
+});
