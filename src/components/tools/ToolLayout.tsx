@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Info } from "lucide-react";
 import { Footer } from "@/components/landing/Footer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -104,19 +105,16 @@ export const ToolLayout = ({
                 </AlertDescription>
               </Alert>
 
-              <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+              <Card className="p-6 bg-muted/30 border-border/50 opacity-60 pointer-events-none">
                 <h3 className="text-lg font-display font-bold mb-2 text-foreground">
-                  2025 salary report
+                  2026 salary report
                 </h3>
                 <p className="text-sm text-secondary-label mb-4">
-                  explore comprehensive salary data across 20+ roles
+                  comprehensive salary data — coming soon
                 </p>
-                <Link to="/resources/reports/salary-benchmark-2025">
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Report
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <Badge className="bg-muted text-muted-foreground border border-border">
+                  Coming Soon
+                </Badge>
               </Card>
             </div>
           </div>

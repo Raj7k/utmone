@@ -130,9 +130,10 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/resources/reports/salary-benchmark-2026" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <span className="text-sm text-muted-foreground/50 cursor-not-allowed flex items-center gap-2">
                   2026 Salary Report
-                </Link>
+                  <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">Coming Soon</span>
+                </span>
               </li>
               <li>
                 <Link to="/resources/tools" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
