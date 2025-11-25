@@ -575,9 +575,13 @@ export default function SystemMonitoring() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="security" className="space-y-6">
-          <SecurityOverview />
-        </TabsContent>
+          <TabsContent value="security" className="space-y-6">
+            <SecurityOverview />
+          </TabsContent>
+
+          <TabsContent value="errors" className="space-y-6">
+            <ErrorMonitoring />
+          </TabsContent>
 
         <TabsContent value="audit" className="space-y-6">
           <Card>
