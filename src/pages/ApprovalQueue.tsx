@@ -5,8 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, XCircle, ExternalLink } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
 
 interface PendingLink {
   id: string;
@@ -105,90 +103,86 @@ export default function ApprovalQueue() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <main className="container max-w-6xl mx-auto px-6 pt-32 pb-20">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Approval Queue</h1>
-          <p className="text-lg text-muted-foreground">
-            Review and approve links submitted by your team
-          </p>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">approval queue</h1>
+        <p className="text-muted-foreground mt-2">
+          review and approve links submitted by your team
+        </p>
+      </div>
 
-        {isLoading ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
-        ) : pendingLinks.length === 0 ? (
-          <div className="text-center py-20 border-2 border-dashed rounded-lg">
-            <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-20" />
-            <h3 className="text-xl font-semibold mb-2">No Pending Approvals</h3>
-            <p className="text-muted-foreground">All links have been reviewed</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {pendingLinks.map((link) => (
-              <div
-                key={link.id}
-                className="p-6 border rounded-lg bg-card hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Badge variant="secondary" className="gap-1.5">
-                        <Clock className="h-3 w-3" />
-                        Pending
-                      </Badge>
-                      <span className="text-sm text-muted-foreground">
-                        Submitted {formatDistanceToNow(new Date(link.submitted_for_approval_at), { addSuffix: true })}
+      {isLoading ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">loading...</p>
+        </div>
+      ) : pendingLinks.length === 0 ? (
+        <div className="text-center py-20 border-2 border-dashed rounded-lg">
+          <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-20" />
+          <h3 className="text-xl font-semibold mb-2">no pending approvals</h3>
+          <p className="text-muted-foreground">all links have been reviewed</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {pendingLinks.map((link) => (
+            <div
+              key={link.id}
+              className="p-6 border rounded-lg bg-card hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Badge variant="secondary" className="gap-1.5">
+                      <Clock className="h-3 w-3" />
+                      pending
+                    </Badge>
+                    <span className="text-sm text-muted-foreground">
+                      submitted {formatDistanceToNow(new Date(link.submitted_for_approval_at), { addSuffix: true })}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">{link.title}</h3>
+                    <div className="flex items-center gap-2 text-sm">
+                      <code className="px-2 py-1 bg-muted rounded text-primary font-mono">
+                        {link.short_url}
+                      </code>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-muted-foreground truncate max-w-md">
+                        {link.destination_url}
                       </span>
                     </div>
-
-                    <div>
-                      <h3 className="font-semibold text-lg mb-1">{link.title}</h3>
-                      <div className="flex items-center gap-2 text-sm">
-                        <code className="px-2 py-1 bg-muted rounded text-primary font-mono">
-                          {link.short_url}
-                        </code>
-                        <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                        <span className="text-muted-foreground truncate max-w-md">
-                          {link.destination_url}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-muted-foreground">
-                      Requested by <span className="font-medium">{link.profiles?.full_name || link.profiles?.email}</span>
-                    </p>
                   </div>
 
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => handleApprove(link.id)}
-                      variant="default"
-                      size="sm"
-                      className="gap-1.5"
-                    >
-                      <CheckCircle className="h-4 w-4" />
-                      Approve
-                    </Button>
-                    <Button
-                      onClick={() => handleReject(link.id)}
-                      variant="destructive"
-                      size="sm"
-                      className="gap-1.5"
-                    >
-                      <XCircle className="h-4 w-4" />
-                      Reject
-                    </Button>
-                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    requested by <span className="font-medium">{link.profiles?.full_name || link.profiles?.email}</span>
+                  </p>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => handleApprove(link.id)}
+                    variant="default"
+                    size="sm"
+                    className="gap-1.5"
+                  >
+                    <CheckCircle className="h-4 w-4" />
+                    approve
+                  </Button>
+                  <Button
+                    onClick={() => handleReject(link.id)}
+                    variant="destructive"
+                    size="sm"
+                    className="gap-1.5"
+                  >
+                    <XCircle className="h-4 w-4" />
+                    reject
+                  </Button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </main>
-      <Footer />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

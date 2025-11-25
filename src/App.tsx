@@ -22,6 +22,7 @@ const Dashboard = lazy(() => import("./pages/dashboard/Overview"));
 const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
 const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
 const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
+const Targeting = lazy(() => import("./pages/dashboard/Targeting"));
 const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
@@ -259,6 +260,8 @@ const App = () => (
               <Route path="/dashboard/links" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/analytics" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/targeting" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/targeting/:linkId" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
@@ -282,7 +285,7 @@ const App = () => (
               <Route path="/settings/backups" element={<Suspense fallback={<DashboardSkeleton />}><Backups /></Suspense>} />
               <Route path="/settings/backup" element={<Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense>} />
               <Route path="/settings/developer" element={<Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense>} />
-              <Route path="/approval-queue" element={<Suspense fallback={<DashboardSkeleton />}><ApprovalQueue /></Suspense>} />
+              <Route path="/approval-queue" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense>} />
               <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
               <Route path="/accessibility" element={<Suspense fallback={<DashboardSkeleton />}><Accessibility /></Suspense>} />
               <Route path="/permanence" element={<Suspense fallback={<DashboardSkeleton />}><Permanence /></Suspense>} />
@@ -451,7 +454,7 @@ const App = () => (
               <Route path="/integrations/slack" element={<Suspense fallback={<DashboardSkeleton />}><SlackIntegration /></Suspense>} />
               <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
               <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
-              <Route path="/workspaces" element={<Suspense fallback={<DashboardSkeleton />}><ClientWorkspaces /></Suspense>} />
+              <Route path="/workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />

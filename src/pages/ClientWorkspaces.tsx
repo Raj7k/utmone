@@ -61,32 +61,32 @@ export default function ClientWorkspaces() {
   }
 
   return (
-    <div className="container max-w-6xl py-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Workspaces</h1>
+          <h1 className="text-3xl font-bold tracking-tight">workspaces</h1>
           <p className="text-muted-foreground mt-2">
-            Manage your workspaces and client workspaces
+            manage your workspaces and client workspaces
           </p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              New Workspace
+              new workspace
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Workspace</DialogTitle>
+              <DialogTitle>create new workspace</DialogTitle>
               <DialogDescription>
-                Create a new workspace for your team or a client
+                create a new workspace for your team or a client
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreate}>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Workspace Name</Label>
+                  <Label htmlFor="name">workspace name</Label>
                   <Input
                     id="name"
                     placeholder="My Company"
@@ -102,11 +102,11 @@ export default function ClientWorkspaces() {
                     checked={isClient}
                     onChange={(e) => setIsClient(e.target.checked)}
                   />
-                  <Label htmlFor="isClient">This is a client workspace</Label>
+                  <Label htmlFor="isClient">this is a client workspace</Label>
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Create Workspace</Button>
+                <Button type="submit">create workspace</Button>
               </DialogFooter>
             </form>
           </DialogContent>
@@ -123,7 +123,7 @@ export default function ClientWorkspaces() {
                   <CardTitle>{workspace.name}</CardTitle>
                 </div>
                 {workspace.is_client_workspace && (
-                  <Badge variant="secondary">Client</Badge>
+                  <Badge variant="secondary">client</Badge>
                 )}
               </div>
               <CardDescription>{workspace.slug}</CardDescription>
@@ -136,7 +136,7 @@ export default function ClientWorkspaces() {
                   onClick={() => handleSwitchAndNavigate(workspace.id)}
                   className="flex-1"
                 >
-                  {currentWorkspace?.id === workspace.id ? "Current" : "Switch"}
+                  {currentWorkspace?.id === workspace.id ? "current" : "switch"}
                 </Button>
                 <Button
                   variant="outline"
@@ -156,19 +156,19 @@ export default function ClientWorkspaces() {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete workspace?</AlertDialogTitle>
+                      <AlertDialogTitle>delete workspace?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This will permanently delete "{workspace.name}" and all its data.
-                        This action cannot be undone.
+                        this will permanently delete "{workspace.name}" and all its data.
+                        this action cannot be undone.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => deleteWorkspace(workspace.id)}
                         className="bg-destructive text-destructive-foreground"
                       >
-                        Delete
+                        delete
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
