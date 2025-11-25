@@ -6,6 +6,7 @@ export const useAnomalies = (workspaceId: string) => {
 
   const query = useQuery({
     queryKey: ['anomalies', workspaceId],
+    enabled: !!workspaceId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from('analytics_anomalies')

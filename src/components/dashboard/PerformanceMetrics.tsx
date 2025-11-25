@@ -12,6 +12,7 @@ interface PerformanceMetricsProps {
 export const PerformanceMetrics = ({ workspaceId }: PerformanceMetricsProps) => {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ['performance-metrics', workspaceId],
+    enabled: !!workspaceId,
     queryFn: async () => {
       // Fetch top performing links
       const { data: links } = await supabase

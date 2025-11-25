@@ -14,6 +14,7 @@ export const SecurityOverviewWidget = ({ workspaceId }: SecurityOverviewWidgetPr
 
   const { data: securityStats, isLoading } = useQuery({
     queryKey: ["security-stats", workspaceId],
+    enabled: !!workspaceId,
     queryFn: async () => {
       const { data: links, error } = await supabase
         .from("links")
