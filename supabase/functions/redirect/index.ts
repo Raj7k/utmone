@@ -201,14 +201,23 @@ Deno.serve(async (req) => {
     }
 
     const url = new URL(req.url);
-    const pathParts = url.pathname.split('/').filter(Boolean);
+    const allPathParts = url.pathname.split('/').filter(Boolean);
+    
+    // Skip the first segment which is the function name ("redirect")
+    const pathParts = allPathParts.slice(1);
     
     // Extract path and slug from URL
     // Support both formats: domain/slug OR domain/path/slug
     let path: string;
     let slug: string;
     
-    if (pathParts.length === 1) {
+    if (pathParts.length === 0) {
+      // No slug provided - root request
+      return new Response('Invalid URL format - no slug', { 
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+      });
+    } else if (pathParts.length === 1) {
       // Format: domain/slug (assume default path)
       path = '';
       slug = pathParts[0];
