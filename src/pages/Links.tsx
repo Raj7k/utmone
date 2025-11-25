@@ -11,6 +11,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { MobileNav } from "@/components/mobile/MobileNav";
+import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import type { User } from "@supabase/supabase-js";
 
 const Links = () => {
@@ -88,6 +89,7 @@ const Links = () => {
                   className="h-7 w-auto"
                 />
               </div>
+              <WorkspaceSwitcher />
               <nav className="hidden md:flex items-center gap-2">
                 <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
                   dashboard
