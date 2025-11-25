@@ -16,7 +16,7 @@ export const CalloutBox = ({ children, className }: CalloutBoxProps) => {
     >
       <div className="flex items-start gap-3">
         <span className="text-2xl">💡</span>
-        <div className="text-base font-semibold text-foreground">{children}</div>
+        <div className="text-lg font-semibold text-foreground">{children}</div>
       </div>
     </div>
   );

@@ -411,7 +411,7 @@ export const RevOpsMarkOpsSection = () => {
           <h3 className="text-2xl md:text-3xl font-display font-bold mb-4">
             Calculate Your Operations Premium
           </h3>
-          <p className="text-base text-muted-foreground mb-6 max-w-[600px] mx-auto">
+          <p className="text-lg text-muted-foreground mb-6 max-w-[600px] mx-auto">
             See how your RevOps/MarkOps salary compares to the market. Identify skill gaps and certifications that command the highest premiums.
           </p>
           <button className="bg-deepSea hover:bg-deepSea/90 text-white text-base px-6 py-3 rounded-lg font-semibold transition-apple hover:scale-105">
