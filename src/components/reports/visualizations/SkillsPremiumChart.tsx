@@ -33,6 +33,7 @@ export const SkillsPremiumChart = () => {
             <YAxis dataKey="skill" type="category" width={150} />
             <Tooltip 
               formatter={(value: number) => `${value > 0 ? '+' : ''}${value}%`}
+              contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
               labelStyle={{ color: 'hsl(var(--foreground))' }}
             />
             <Bar dataKey="premium" radius={[0, 8, 8, 0]}>

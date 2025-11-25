@@ -85,7 +85,7 @@ export const NegotiationBlueprint = () => {
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
             Salary Negotiation Blueprint + Scripts
           </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-[900px] mx-auto leading-[1.7]">
+          <p className="text-xl md:text-2xl text-secondary-label max-w-[900px] mx-auto leading-[1.7]">
             Everything you need to negotiate a higher salary — regardless of role, region, or seniority. Copy-paste scripts, proven frameworks, regional differences, and equity negotiation tactics.
           </p>
         </div>
@@ -117,7 +117,7 @@ export const NegotiationBlueprint = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg mb-2">Know Your Band</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-secondary-label">
                     Know: market average, your role's regional band, remote equivalent band, internal leveling, company's salary philosophy. Use this report as your baseline.
                   </p>
                 </div>

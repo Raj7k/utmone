@@ -25,7 +25,7 @@ export const SalesSalarySection = () => {
         {/* Opening Narrative */}
         <div className="prose prose-lg max-w-[750px] mx-auto mb-16">
           
-          <div className="text-lg text-muted-foreground space-y-4 mb-12">
+          <div className="text-lg text-secondary-label space-y-4 mb-12">
             <p className="lead text-xl">
               Sales compensation is the most volatile of any GTM function. <strong className="text-foreground">Winner-takes-most dynamics</strong> dominate: top performers earn 2-4× the median. Under-performers earn only base salary—or less, if companies claw back draws.
             </p>
