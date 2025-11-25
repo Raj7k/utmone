@@ -246,10 +246,10 @@ const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WorkspaceProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <WorkspaceProvider>
             <SkipToContent />
             <ScrollToTop />
             <NetworkStatus />
@@ -472,8 +472,8 @@ const App = () => (
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
             </Routes>
             </AppWithHelp>
-          </BrowserRouter>
-        </WorkspaceProvider>
+          </WorkspaceProvider>
+        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   </ErrorBoundary>
