@@ -30,31 +30,31 @@ export default function AcceptInvite() {
     try {
       console.log("🔍 Loading invitation with token:", token);
       
-      // First check if invitation exists (including accepted ones)
-      const { data: anyInvitation, error: checkError } = await supabase
+      // Simple query - no JOINs
+      const { data, error } = await supabase
         .from("workspace_invitations")
-        .select("accepted_at, expires_at")
+        .select("id, email, role, workspace_id, invited_by, token, accepted_at, expires_at")
         .eq("token", token)
         .single();
 
-      console.log("📋 Initial check result:", { anyInvitation, checkError });
+      console.log("📋 Invitation data:", { data, error });
 
-      if (checkError) {
-        console.error("❌ Error checking invitation:", checkError);
+      if (error) {
+        console.error("❌ Error fetching invitation:", error);
         setError("Invalid invitation link");
         setLoading(false);
         return;
       }
 
-      if (anyInvitation?.accepted_at) {
-        console.log("⚠️ Invitation already accepted at:", anyInvitation.accepted_at);
+      if (data?.accepted_at) {
+        console.log("⚠️ Invitation already accepted at:", data.accepted_at);
         setError("This invitation has already been accepted");
         setLoading(false);
         return;
       }
 
       // Check if expired
-      const expiryDate = new Date(anyInvitation.expires_at);
+      const expiryDate = new Date(data.expires_at);
       const now = new Date();
       console.log("⏰ Expiry check:", { expiryDate, now, isExpired: expiryDate < now });
       
@@ -64,29 +64,35 @@ export default function AcceptInvite() {
         return;
       }
 
-      // Now get the full invitation data
-      const { data, error } = await supabase
-        .from("workspace_invitations")
-        .select(`
-          *,
-          workspaces:workspace_id (
-            id,
-            name
-          ),
-          profiles:invited_by (
-            full_name,
-            email
-          )
-        `)
-        .eq("token", token)
-        .is("accepted_at", null)
-        .single();
+      // Try to get workspace name if possible
+      const { data: { user } } = await supabase.auth.getUser();
+      let workspaceName = "a workspace";
+      let inviterName = "A team member";
+      
+      if (user) {
+        // Authenticated user might have access to workspace details
+        const { data: workspace } = await supabase
+          .from("workspaces")
+          .select("name")
+          .eq("id", data.workspace_id)
+          .single();
+        
+        if (workspace) workspaceName = workspace.name;
 
-      console.log("📦 Full invitation data:", { data, error });
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name, email")
+          .eq("id", data.invited_by)
+          .single();
+        
+        if (profile) inviterName = profile.full_name || profile.email;
+      }
 
-      if (error) throw error;
-
-      setInvitation(data);
+      setInvitation({
+        ...data,
+        workspaces: { id: data.workspace_id, name: workspaceName },
+        profiles: { full_name: inviterName, email: data.email }
+      });
       setLoading(false);
       console.log("✅ Invitation loaded successfully");
     } catch (err) {
