@@ -67,12 +67,17 @@ serve(async (req) => {
     if (inviteError) throw inviteError;
 
     // Send invitation email using fetch to Resend API
+    console.log("📧 Starting email send process...");
     try {
       const inviteUrl = `${req.headers.get("origin") || "https://utm.one"}/accept-invite?token=${invitation.token}`;
       const inviterName = user.email?.split("@")[0] || "A team member";
       const resendApiKey = Deno.env.get("RESEND_API_KEY");
       
+      console.log(`Invite URL: ${inviteUrl}`);
+      console.log(`RESEND_API_KEY configured: ${!!resendApiKey}`);
+      
       if (resendApiKey) {
+        console.log(`Sending email to ${email}...`);
         const emailResponse = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -119,6 +124,8 @@ serve(async (req) => {
           }),
         });
 
+        console.log(`Email API response status: ${emailResponse.status}`);
+
         if (emailResponse.ok) {
           console.log(`✅ Email sent successfully to ${email}`);
         } else {
@@ -129,7 +136,7 @@ serve(async (req) => {
         console.warn("⚠️ RESEND_API_KEY not configured, skipping email");
       }
     } catch (emailError) {
-      console.error("⚠️ Email sending failed:", emailError);
+      console.error("⚠️ Email sending error:", emailError);
       // Don't throw - invitation is created, email is bonus
     }
 
