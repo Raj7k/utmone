@@ -464,7 +464,7 @@ const App = () => (
               <Route path="/integrations/gtm" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><GTMSettings /></DashboardLayout></Suspense>} />
               <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
               <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
-              <Route path="/workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
+              <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
