@@ -31,8 +31,8 @@ export function GlanceableMetrics() {
 
       const { data: qrData } = await db
         .from("qr_codes")
-        .select("id")
-        .eq("workspace_id", workspaceId);
+        .select("id, link_id")
+        .in("link_id", linksData?.map((l: any) => l.id) || []);
       
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
       const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString();
