@@ -35,11 +35,28 @@ export function GlanceableMetrics() {
         .eq("workspace_id", workspaceId);
       
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString();
+      
       const { data: recentLinksData } = await db
         .from("links")
         .select("id")
         .eq("workspace_id", workspaceId)
         .gte("created_at", thirtyDaysAgo);
+
+      // Fetch clicks from current period (last 30 days)
+      const { data: currentPeriodClicks } = await db
+        .from("link_clicks")
+        .select("id", { count: 'exact', head: true })
+        .in("link_id", linksData?.map((l: any) => l.id) || [])
+        .gte("clicked_at", thirtyDaysAgo);
+
+      // Fetch clicks from previous period (30-60 days ago)
+      const { data: previousPeriodClicks } = await db
+        .from("link_clicks")
+        .select("id", { count: 'exact', head: true })
+        .in("link_id", linksData?.map((l: any) => l.id) || [])
+        .gte("clicked_at", sixtyDaysAgo)
+        .lt("clicked_at", thirtyDaysAgo);
 
       const links = linksData || [];
       const totalLinks = links.length;
@@ -60,7 +77,13 @@ export function GlanceableMetrics() {
       }
 
       const avgConversionRate = links.length > 0 ? sumConversionRate / links.length : 0;
-      const clicksChange = totalClicks > 0 ? 15.2 : 0;
+      
+      // Calculate real growth percentage
+      const currentClicks = (currentPeriodClicks as any)?.count || 0;
+      const previousClicks = (previousPeriodClicks as any)?.count || 0;
+      const clicksChange = previousClicks > 0 
+        ? ((currentClicks - previousClicks) / previousClicks) * 100 
+        : 0;
 
       return {
         totalLinks,

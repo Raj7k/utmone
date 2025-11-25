@@ -21,17 +21,14 @@ export default function SystemMonitoring() {
   const { data: edgeFunctionMetrics, isLoading: loadingEdgeMetrics } = useQuery({
     queryKey: ["edge-function-metrics"],
     queryFn: async () => {
-      // Query edge function logs from Supabase analytics
-      // This is a placeholder - actual implementation depends on Supabase analytics API
-      return {
-        redirectLatencyP50: 45,
-        redirectLatencyP95: 78,
-        redirectLatencyP99: 120,
-        errorRate: 0.2,
-        totalRequests24h: 15234,
-        cacheHitRate: 87.5,
-        avgResponseTime: 52,
-      };
+      const { data, error } = await supabase.functions.invoke('get-edge-function-metrics');
+      
+      if (error) {
+        console.error('Error fetching edge metrics:', error);
+        throw error;
+      }
+      
+      return data;
     },
     refetchInterval: 30000, // Refresh every 30 seconds
   });
@@ -84,25 +81,33 @@ export default function SystemMonitoring() {
         totalLinks: linksCount || 0,
         totalClicks: clicksCount || 0,
         totalWaitlist: waitlistCount || 0,
-        connectionPoolUsage: 45, // Placeholder - would need actual connection pool metrics
-        slowQueries24h: 3, // Placeholder
+        connectionPoolUsage: null, // Not available via Supabase API
+        slowQueries24h: null, // Not available via Supabase API
       };
     },
     refetchInterval: 60000, // Refresh every minute
   });
 
-  // TODO: Analytics refresh metrics should be fetched via edge function
-  // Placeholder data for now
-  const analyticsRefreshMetrics: {
-    timestamp: string;
-    duration_ms: number;
-    status: string;
-    error?: string;
-  } = {
-    timestamp: new Date().toISOString(),
-    duration_ms: 450,
-    status: 'success'
-  };
+  // Fetch analytics refresh metrics from edge function
+  const { data: analyticsRefreshMetrics, isLoading: loadingRefreshMetrics } = useQuery({
+    queryKey: ["analytics-refresh-metrics"],
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke('get-analytics-refresh-status');
+      
+      if (error) {
+        console.error('Error fetching refresh metrics:', error);
+        throw error;
+      }
+      
+      return data as {
+        timestamp: string;
+        duration_ms?: number;
+        status: string;
+        error?: string;
+      };
+    },
+    refetchInterval: 60000, // Refresh every minute
+  });
 
   // Fetch recent audit logs
   const { data: recentAuditLogs, isLoading: loadingAuditLogs } = useQuery({
@@ -271,7 +276,7 @@ export default function SystemMonitoring() {
                     <Skeleton className="h-8 w-20" />
                   ) : (
                     <p className="text-2xl font-bold">
-                      ~{Math.floor(Math.random() * 50)}
+                      ~{Math.max(0, Math.floor((clickMetrics?.pendingGeolocation || 0) * 0.1))}
                     </p>
                   )}
                   <Badge variant="secondary">healthy</Badge>
@@ -518,14 +523,19 @@ export default function SystemMonitoring() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm">connection pool usage</span>
-                  <Badge variant="secondary">{dbMetrics?.connectionPoolUsage}%</Badge>
+                  <Badge variant="secondary">
+                    {dbMetrics?.connectionPoolUsage !== null ? `${dbMetrics?.connectionPoolUsage}%` : 'N/A'}
+                  </Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm">slow queries (24h)</span>
-                  <Badge variant={dbMetrics?.slowQueries24h && dbMetrics.slowQueries24h > 10 ? "destructive" : "secondary"}>
-                    {dbMetrics?.slowQueries24h}
+                  <Badge variant="secondary">
+                    {dbMetrics?.slowQueries24h !== null ? dbMetrics?.slowQueries24h : 'N/A'}
                   </Badge>
                 </div>
+                <p className="text-xs text-secondary-label mt-2">
+                  * Connection pool and query metrics not available via API
+                </p>
               </div>
             </CardContent>
           </Card>
