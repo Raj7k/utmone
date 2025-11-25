@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import logo from "@/assets/utm-one-logo.svg";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -53,7 +54,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
               <div className="flex items-center gap-2 lg:hidden">
                 <img 
-                  src="/src/assets/utm-one-logo.svg" 
+                  src={logo}
                   alt="utm.one" 
                   className="h-7 w-auto"
                 />
