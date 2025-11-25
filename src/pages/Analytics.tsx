@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Link as LinkIcon, LogOut, TrendingUp } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import type { User } from "@supabase/supabase-js";
@@ -18,6 +19,7 @@ import { ReportScheduler } from "@/components/analytics/ReportScheduler";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
 import { useAnomalies } from "@/hooks/useAnomalies";
+import { MobileNav } from "@/components/mobile/MobileNav";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -113,16 +115,54 @@ const Analytics = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-8 py-group">
-        <div className="mb-content">
-          <h1 className="text-large-title font-bold text-label mb-2">analytics</h1>
-          <p className="text-body-apple text-secondary-label">
-            analytics appear once your links get clicks.
-          </p>
-        </div>
-
+      <main className="container mx-auto px-8 py-group pb-20 md:pb-group">
         {currentWorkspace && (
           <>
+            {/* Hero Section with Glanceable Metrics */}
+            <div className="mb-content">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h1 className="text-large-title font-bold text-label mb-2">Analytics</h1>
+                  <p className="text-body-apple text-secondary-label">
+                    Real-time insights into your link performance
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    Export PDF
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Share Dashboard
+                  </Button>
+                </div>
+              </div>
+
+              {/* Hero Metrics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <Card className="p-6">
+                  <div className="text-sm text-secondary-label mb-2">Total Clicks</div>
+                  <div className="text-4xl font-bold text-label mb-2">12,847</div>
+                  <div className="flex items-center gap-2 text-xs text-system-green">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>↑ 23% vs last week</span>
+                  </div>
+                </Card>
+                <Card className="p-6">
+                  <div className="text-sm text-secondary-label mb-2">Click-through Rate</div>
+                  <div className="text-4xl font-bold text-label mb-2">4.2%</div>
+                  <div className="flex items-center gap-2 text-xs text-system-green">
+                    <TrendingUp className="h-3 w-3" />
+                    <span>↑ 0.5% improvement</span>
+                  </div>
+                </Card>
+                <Card className="p-6">
+                  <div className="text-sm text-secondary-label mb-2">Top Performing Link</div>
+                  <div className="text-lg font-semibold text-label mb-1">Summer Sale 2025</div>
+                  <div className="text-xs text-secondary-label">3,421 clicks this week</div>
+                </Card>
+              </div>
+            </div>
+
             {/* AI Insights */}
             <div className="mb-content">
               <AIInsightCard workspaceId={currentWorkspace.id} />
@@ -193,6 +233,8 @@ const Analytics = () => {
         </>
         )}
       </main>
+
+      <MobileNav />
     </div>
   );
 };

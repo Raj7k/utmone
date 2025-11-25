@@ -25,14 +25,47 @@ export function AnomalyAlert({ anomaly, onDismiss }: AnomalyAlertProps) {
     }
   };
 
-  const getSeverityColor = () => {
+  const getSeverityStyles = () => {
     switch (anomaly.severity) {
-      case 'critical': return 'text-red-600 bg-red-50';
-      case 'high': return 'text-orange-600 bg-orange-50';
-      case 'medium': return 'text-yellow-600 bg-yellow-50';
-      case 'low': return 'text-blue-600 bg-blue-50';
+      case 'critical': 
+        return {
+          bg: 'bg-red-50 dark:bg-red-950/20',
+          border: 'border-red-500 animate-pulse',
+          text: 'text-red-600 dark:text-red-400',
+          icon: '🔴'
+        };
+      case 'high': 
+        return {
+          bg: 'bg-orange-50 dark:bg-orange-950/20',
+          border: 'border-orange-500',
+          text: 'text-orange-600 dark:text-orange-400',
+          icon: '🟠'
+        };
+      case 'medium': 
+        return {
+          bg: 'bg-yellow-50 dark:bg-yellow-950/20',
+          border: 'border-yellow-500',
+          text: 'text-yellow-600 dark:text-yellow-400',
+          icon: '🟡'
+        };
+      case 'low': 
+        return {
+          bg: 'bg-blue-50 dark:bg-blue-950/20',
+          border: 'border-blue-500',
+          text: 'text-blue-600 dark:text-blue-400',
+          icon: '🔵'
+        };
+      default:
+        return {
+          bg: 'bg-muted/50',
+          border: 'border-border',
+          text: 'text-foreground',
+          icon: '⚪'
+        };
     }
   };
+
+  const severityStyles = getSeverityStyles();
 
   const handleDismiss = async () => {
     try {
@@ -60,46 +93,82 @@ export function AnomalyAlert({ anomaly, onDismiss }: AnomalyAlertProps) {
   };
 
   return (
-    <Card className={`p-4 ${getSeverityColor()} border-0`}>
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5">{getIcon()}</div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-display font-semibold text-sm mb-1">{anomaly.title}</h3>
-          <p className="text-sm opacity-90 mb-3">{anomaly.description}</p>
-          
+    <Card className={`p-5 ${severityStyles.bg} border-2 ${severityStyles.border}`}>
+      <div className="flex items-start gap-4">
+        <div className="text-2xl mt-0.5">{severityStyles.icon}</div>
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Header */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              {getIcon()}
+              <h3 className={`font-display font-semibold text-base ${severityStyles.text}`}>
+                {anomaly.title}
+              </h3>
+            </div>
+            <p className="text-sm text-secondary-label">{anomaly.description}</p>
+          </div>
+
+          {/* What Happened Section */}
           {anomaly.change_percent && (
-            <div className="text-xs font-medium mb-3">
-              {anomaly.baseline_value && (
-                <span>baseline: {Math.round(anomaly.baseline_value)} → </span>
-              )}
-              current: {Math.round(anomaly.current_value || 0)}
-              <span className="ml-2">({anomaly.change_percent > 0 ? '+' : ''}{anomaly.change_percent}%)</span>
+            <div className="space-y-1">
+              <p className="text-xs font-semibold text-label">What Happened</p>
+              <div className="text-sm text-foreground">
+                {anomaly.baseline_value && (
+                  <span>Baseline: {Math.round(anomaly.baseline_value)} → </span>
+                )}
+                Current: {Math.round(anomaly.current_value || 0)}
+                <span className={`ml-2 font-semibold ${anomaly.change_percent > 0 ? 'text-system-green' : 'text-destructive'}`}>
+                  ({anomaly.change_percent > 0 ? '+' : ''}{anomaly.change_percent}%)
+                </span>
+              </div>
             </div>
           )}
 
-          <div className="flex gap-2">
-            <Button 
-              size="sm" 
-              variant="secondary"
-              onClick={handleViewDetails}
-              className="h-8 text-xs"
-            >
-              view details
-            </Button>
-            <Button 
-              size="sm" 
-              variant="ghost"
-              onClick={handleDismiss}
-              className="h-8 text-xs"
-            >
-              <X className="h-3 w-3 mr-1" />
-              dismiss
-            </Button>
+          {/* Why It Matters */}
+          <div className="space-y-1">
+            <p className="text-xs font-semibold text-label">Why It Matters</p>
+            <p className="text-sm text-secondary-label">
+              {anomaly.severity === 'critical' && 'Immediate action required to prevent impact on campaign performance.'}
+              {anomaly.severity === 'high' && 'Significant deviation detected that may affect your metrics.'}
+              {anomaly.severity === 'medium' && 'Notable change in pattern worth investigating.'}
+              {anomaly.severity === 'low' && 'Minor fluctuation for your awareness.'}
+            </p>
+          </div>
+
+          {/* What To Do */}
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-label">What To Do</p>
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                size="sm" 
+                variant="default"
+                onClick={handleViewDetails}
+                className="h-9"
+              >
+                Investigate
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={handleDismiss}
+                className="h-9"
+              >
+                <X className="h-4 w-4 mr-1" />
+                Dismiss
+              </Button>
+              <Button 
+                size="sm" 
+                variant="ghost"
+                className="h-9"
+              >
+                Create Alert Rule
+              </Button>
+            </div>
           </div>
         </div>
         
-        <div className="text-xs opacity-60">
-          {new Date(anomaly.detected_at).toLocaleDateString()}
+        <div className="text-xs text-tertiary-label whitespace-nowrap">
+          {new Date(anomaly.detected_at || anomaly.created_at).toLocaleDateString()}
         </div>
       </div>
     </Card>

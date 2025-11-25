@@ -10,6 +10,7 @@ import { LinkFilters } from "@/components/LinkFilters";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
+import { MobileNav } from "@/components/mobile/MobileNav";
 import type { User } from "@supabase/supabase-js";
 
 const Links = () => {
@@ -161,6 +162,8 @@ const Links = () => {
           onOpenChange={setShowShortcutsHelp}
         />
       </main>
+
+      <MobileNav />
     </div>
   );
 };

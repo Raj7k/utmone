@@ -102,6 +102,9 @@ verify_jwt = true
 [functions.generate-ai-recommendations]
 verify_jwt = false
 
+[functions.bulk-create-links]
+verify_jwt = true
+
 [functions.detect-analytics-anomalies]
 verify_jwt = false
 
