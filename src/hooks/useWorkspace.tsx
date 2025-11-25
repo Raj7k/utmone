@@ -35,7 +35,15 @@ export const useWorkspace = () => {
         description: "Your workspace has been created successfully.",
       });
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
+      if (error.code === "23505") {
+        toast({
+          title: "Workspace name unavailable",
+          description: "A workspace with this name already exists. Please try a different name.",
+          variant: "destructive",
+        });
+        return;
+      }
       toast({
         title: "Error",
         description: error.message,
