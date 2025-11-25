@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Copy, ExternalLink, Sparkles } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useQuery } from "@tanstack/react-query";
 
 const linkSchema = z.object({
   destination: z.string().url("Enter a valid URL"),
@@ -33,6 +34,22 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
   const [createdLink, setCreatedLink] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"simple" | "advanced">("simple");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
+
+  // Fetch all verified shortener domains (excluding utm.one which is the main website)
+  const { data: verifiedDomains } = useQuery({
+    queryKey: ["verified-domains", workspaceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("domains")
+        .select("id, domain")
+        .eq("is_verified", true)
+        .order("is_primary", { ascending: false });
+
+      if (error) throw error;
+      // Filter out utm.one (main website) and return only shortener domains
+      return (data || []).filter(d => d.domain !== 'utm.one');
+    },
+  });
 
   const form = useForm<LinkFormData>({
     resolver: zodResolver(linkSchema),
@@ -214,8 +231,11 @@ export function CreateLinkInline({ workspaceId, onSuccess }: CreateLinkInlinePro
                 onChange={(e) => setSelectedDomain(e.target.value)}
                 className="w-full h-10 px-3 rounded-md border border-input bg-background"
               >
-                <option value="utm.click">utm.click</option>
-                <option value="go.utm.one">go.utm.one</option>
+                {verifiedDomains?.map((d) => (
+                  <option key={d.id} value={d.domain}>
+                    {d.domain}
+                  </option>
+                ))}
               </select>
             </div>
 
