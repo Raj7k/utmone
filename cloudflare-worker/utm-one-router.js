@@ -29,6 +29,7 @@ async function handleRequest(request) {
   try {
     const response = await fetch(supabaseUrl, {
       method: 'GET',
+      redirect: 'manual', // Don't follow redirects - pass them through
       headers: {
         'User-Agent': request.headers.get('User-Agent') || '',
         'X-Forwarded-For': request.headers.get('CF-Connecting-IP') || '',
