@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 import { LinkFilters } from "@/components/LinkFilters";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -11,12 +11,19 @@ import { MobileLinkFilters } from "@/components/mobile/MobileLinkFilters";
 import { FeatureHint } from "@/components/FeatureHint";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { LinkForge } from "@/components/link-forge/LinkForge";
+import { ToolSelector } from "@/components/tools/ToolSelector";
+import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
+import { URLShortenerTool } from "@/components/tools/URLShortenerTool";
+import { QRCodeTool } from "@/components/tools/QRCodeTool";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [selectedTool, setSelectedTool] = useState<"utm" | "shortener" | "qr" | "forge" | null>(null);
+  const [utmToShorten, setUtmToShorten] = useState<string>("");
+  const [urlForQR, setUrlForQR] = useState<string>("");
   const { currentWorkspace } = useWorkspace();
   const isMobile = useIsMobile();
 
@@ -31,27 +38,37 @@ export default function Links() {
     );
   }
 
+  const handleToolSelect = (tool: "utm" | "shortener" | "qr" | "forge") => {
+    setSelectedTool(tool);
+    setCreateDialogOpen(true);
+  };
+
+  const handleCloseTool = () => {
+    setSelectedTool(null);
+    setUtmToShorten("");
+    setUrlForQR("");
+  };
+
   return (
     <div className="space-y-6">
       <FeatureHint
         id="links-first-visit"
         title="Create Your First Short Link"
-        description="Add UTM parameters for better campaign tracking. Click the create button to get started."
+        description="Add UTM parameters for better campaign tracking. Choose a tool to get started."
         className="mb-content"
       />
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-large-title font-bold text-label mb-2 heading">links</h1>
+          <h1 className="text-large-title font-bold text-label mb-2 heading">Links</h1>
           <p className="text-body-apple text-secondary-label">
-            manage and track all your short links
+            Manage and track all your short links
           </p>
         </div>
-        <Button size="lg" onClick={() => setCreateDialogOpen(true)}>
-          <Plus className="h-5 w-5 mr-2" />
-          create link
-        </Button>
       </div>
+
+      {/* Tool Selector */}
+      <ToolSelector onSelectTool={handleToolSelect} />
 
       {!isMobile && (
         <LinkFilters
@@ -76,21 +93,70 @@ export default function Links() {
         </CardContent>
       </Card>
 
-      {/* Create Link Dialog with Link Forge */}
-      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+      {/* Create Link Dialog with Selected Tool */}
+      <Dialog open={createDialogOpen} onOpenChange={(open) => {
+        setCreateDialogOpen(open);
+        if (!open) handleCloseTool();
+      }}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-title-2 heading">create new link</DialogTitle>
-            <DialogDescription>
-              build your utm url, shorten it, and generate a qr code
-            </DialogDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <DialogTitle className="text-title-2 heading">
+                  {selectedTool === "utm" && "UTM Builder"}
+                  {selectedTool === "shortener" && "URL Shortener"}
+                  {selectedTool === "qr" && "QR Code Generator"}
+                  {selectedTool === "forge" && "Link Forge"}
+                </DialogTitle>
+                <DialogDescription>
+                  {selectedTool === "utm" && "Build UTM parameters with quick templates"}
+                  {selectedTool === "shortener" && "Create short, memorable links"}
+                  {selectedTool === "qr" && "Generate branded QR codes"}
+                  {selectedTool === "forge" && "All-in-one: UTM + Shortener + QR"}
+                </DialogDescription>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCloseTool}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </DialogHeader>
-          <LinkForge 
-            workspaceId={currentWorkspace.id}
-            onSuccess={() => {
-              // Keep dialog open so user can see journey and go to step 3 for QR
-            }}
-          />
+
+          {selectedTool === "utm" && (
+            <UTMBuilderTool
+              onShortenURL={(url) => {
+                setUtmToShorten(url);
+                setSelectedTool("shortener");
+              }}
+            />
+          )}
+
+          {selectedTool === "shortener" && (
+            <URLShortenerTool
+              workspaceId={currentWorkspace.id}
+              initialURL={utmToShorten}
+              onGenerateQR={(url) => {
+                setUrlForQR(url);
+                setSelectedTool("qr");
+              }}
+            />
+          )}
+
+          {selectedTool === "qr" && (
+            <QRCodeTool initialURL={urlForQR} />
+          )}
+
+          {selectedTool === "forge" && (
+            <LinkForge 
+              workspaceId={currentWorkspace.id}
+              onSuccess={() => {
+                // Keep dialog open so user can see journey and go to step 3 for QR
+              }}
+            />
+          )}
         </DialogContent>
       </Dialog>
 
