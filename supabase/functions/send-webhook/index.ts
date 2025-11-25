@@ -35,29 +35,66 @@ serve(async (req) => {
         .digest('hex');
     }
 
-    // Send webhook
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Webhook-Signature': signature,
-        'User-Agent': 'utm.one-webhook/1.0',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      console.error('Webhook delivery failed:', await response.text());
+    // Validate webhook URL to prevent SSRF attacks
+    const allowedProtocols = ['https:', 'http:'];
+    const parsedUrl = new URL(webhookUrl);
+    
+    if (!allowedProtocols.includes(parsedUrl.protocol)) {
       return new Response(
-        JSON.stringify({ error: 'Webhook delivery failed', status: response.status }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Invalid webhook URL protocol. Only HTTP/HTTPS allowed.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    // Block internal/private IP ranges (basic SSRF protection)
+    const blockedHosts = ['localhost', '127.0.0.1', '0.0.0.0', '::1'];
+    if (blockedHosts.includes(parsedUrl.hostname)) {
+      return new Response(
+        JSON.stringify({ error: 'Webhook URL cannot target internal hosts' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Send webhook with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Webhook-Signature': signature,
+          'X-Webhook-Timestamp': payload.timestamp,
+          'User-Agent': 'utm.one-webhook/1.0',
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        console.error('Webhook delivery failed:', await response.text());
+        return new Response(
+          JSON.stringify({ error: 'Webhook delivery failed', status: response.status }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      console.error('Webhook fetch error:', fetchError);
+      const message = fetchError instanceof Error ? fetchError.message : 'Webhook request failed';
+      return new Response(
+        JSON.stringify({ error: message }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
   } catch (error) {
     console.error('Webhook error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';

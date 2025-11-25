@@ -1,6 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { createHash } from 'https://deno.land/std@0.168.0/node/crypto.ts';
+import { checkRateLimit, getRateLimitHeaders } from '../_shared/rate-limiter.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -45,6 +46,32 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ error: { code: 'invalid_api_key', message: 'Invalid or expired API key' } }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check rate limit based on API key tier
+    const rateLimitConfig = {
+      maxRequests: keyData.rate_limit || 100,
+      windowSeconds: 3600, // 1 hour
+    };
+    const rateLimitResult = checkRateLimit(hash.toString(), rateLimitConfig);
+
+    if (!rateLimitResult.allowed) {
+      return new Response(
+        JSON.stringify({ 
+          error: { 
+            code: 'rate_limit_exceeded', 
+            message: `Rate limit exceeded. Try again after ${rateLimitResult.resetAt.toISOString()}` 
+          } 
+        }),
+        { 
+          status: 429, 
+          headers: { 
+            ...corsHeaders, 
+            ...getRateLimitHeaders(rateLimitResult),
+            'Content-Type': 'application/json' 
+          } 
+        }
       );
     }
 

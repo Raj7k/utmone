@@ -3238,6 +3238,14 @@ export type Database = {
           workspace_id: string
         }[]
       }
+      get_profile_by_email_secure: {
+        Args: { p_email: string }
+        Returns: {
+          email: string
+          full_name: string
+          id: string
+        }[]
+      }
       get_time_series_analytics: {
         Args: { p_days?: number; p_link_id?: string; p_workspace_id: string }
         Returns: {
