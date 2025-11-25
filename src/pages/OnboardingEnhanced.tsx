@@ -77,8 +77,8 @@ export default function OnboardingEnhanced() {
   const handleICPContinue = async () => {
     if (!role || !primaryUseCase) {
       toast({
-        title: "required fields",
-        description: "please complete all fields to continue.",
+        title: "Required fields",
+        description: "Please complete all fields to continue.",
         variant: "destructive",
       });
       return;
@@ -86,8 +86,8 @@ export default function OnboardingEnhanced() {
 
     if (userType === "organization" && !teamSize) {
       toast({
-        title: "required fields",
-        description: "please select your team size.",
+        title: "Required fields",
+        description: "Please select your team size.",
         variant: "destructive",
       });
       return;
@@ -117,8 +117,8 @@ export default function OnboardingEnhanced() {
   const handleCreateWorkspace = async () => {
     if (!workspaceName.trim()) {
       toast({
-        title: "workspace name required",
-        description: "please enter a name for your workspace.",
+        title: "Workspace name required",
+        description: "Please enter a name for your workspace.",
         variant: "destructive",
       });
       return;
@@ -148,7 +148,7 @@ export default function OnboardingEnhanced() {
       setStep("complete");
     } catch (error: any) {
       toast({
-        title: "error",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -159,8 +159,8 @@ export default function OnboardingEnhanced() {
     const workspaceId = currentWorkspace?.id || createdWorkspaceId;
     if (!workspaceId) {
       toast({
-        title: "error",
-        description: "workspace not found. please refresh and try again.",
+        title: "Error",
+        description: "Workspace not found. Please refresh and try again.",
         variant: "destructive",
       });
       return;
@@ -178,14 +178,14 @@ export default function OnboardingEnhanced() {
       queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
 
       toast({
-        title: "welcome to utm.one",
-        description: "your workspace is ready.",
+        title: "Welcome to utm.one",
+        description: "Your workspace is ready.",
       });
 
       navigate("/dashboard");
     } catch (error: any) {
       toast({
-        title: "error",
+        title: "Error",
         description: error.message,
         variant: "destructive",
       });
@@ -248,9 +248,9 @@ export default function OnboardingEnhanced() {
         {step === "user-type" && (
           <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <CardTitle className="text-title-1">welcome to utm.one</CardTitle>
+              <CardTitle className="text-title-1">Welcome to utm.one</CardTitle>
               <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
-                are you setting up for yourself or your team?
+                Are you setting up for yourself or your team?
               </CardDescription>
             </CardHeader>
             <CardContent className="p-8">
@@ -263,9 +263,9 @@ export default function OnboardingEnhanced() {
         {step === "icp-questions" && (
           <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader>
-              <CardTitle className="text-title-2">tell us about yourself</CardTitle>
+              <CardTitle className="text-title-2">Tell us about yourself</CardTitle>
               <CardDescription className="text-body-apple text-secondary-label">
-                this helps us personalize your experience.
+                This helps us personalize your experience.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -296,23 +296,23 @@ export default function OnboardingEnhanced() {
         {step === "workspace-create" && (
           <Card variant="grouped" className="max-w-2xl mx-auto">
             <CardHeader className="text-center">
-              <CardTitle className="text-title-1">create your workspace</CardTitle>
+              <CardTitle className="text-title-1">Create your workspace</CardTitle>
               <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
                 {userType === "individual" 
-                  ? "give your workspace a name."
-                  : "what should we call your team workspace?"
+                  ? "Give your workspace a name."
+                  : "What should we call your team workspace?"
                 }
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label className="text-subheadline text-label" htmlFor="workspace-name">
-                  workspace name
+                  Workspace name
                 </Label>
                 <Input
                   variant="system"
                   id="workspace-name"
-                  placeholder={userType === "individual" ? "my workspace" : "acme marketing"}
+                  placeholder={userType === "individual" ? "My Workspace" : "Acme Marketing"}
                   value={workspaceName}
                   onChange={(e) => setWorkspaceName(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleCreateWorkspace()}
@@ -325,7 +325,7 @@ export default function OnboardingEnhanced() {
                 className="w-full" 
                 size="lg"
               >
-                create workspace
+                Create workspace
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </CardContent>
@@ -339,9 +339,9 @@ export default function OnboardingEnhanced() {
               <div className="w-16 h-16 rounded-full bg-system-green/10 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-8 h-8 text-system-green" />
               </div>
-              <CardTitle className="text-title-1">you're all set</CardTitle>
+              <CardTitle className="text-title-1">You're all set</CardTitle>
               <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
-                your workspace is ready. let's start creating short links.
+                Your workspace is ready. Let's start creating short links.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -351,7 +351,7 @@ export default function OnboardingEnhanced() {
                 className="w-full" 
                 size="lg"
               >
-                go to dashboard
+                Go to dashboard
               </Button>
             </CardContent>
           </Card>

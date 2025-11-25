@@ -18,10 +18,10 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch link and workspace info
+    // Fetch link and workspace info with GA4 config
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('*, workspaces!inner(id)')
+      .select('*, workspaces!inner(id, ga4_measurement_id, ga4_api_secret)')
       .eq('id', linkId)
       .single();
 
@@ -107,6 +107,50 @@ serve(async (req) => {
         } catch (error) {
           console.error('Anomaly webhook failed:', error);
         }
+      }
+    }
+
+    // Send server-side GA4 event if configured
+    const workspace = link.workspaces as any;
+    if (workspace?.ga4_measurement_id && workspace?.ga4_api_secret) {
+      try {
+        const ga4Payload = {
+          client_id: clickData.ip_address || 'unknown',
+          events: [{
+            name: 'link_click',
+            params: {
+              link_id: linkId,
+              link_title: link.title,
+              short_url: `https://${link.domain}/${link.path}/${link.slug}`,
+              destination_url: link.destination_url,
+              device_type: clickData.device_type,
+              country: clickData.country,
+              referrer: clickData.referrer,
+              utm_source: link.utm_source,
+              utm_medium: link.utm_medium,
+              utm_campaign: link.utm_campaign,
+              utm_term: link.utm_term,
+              utm_content: link.utm_content,
+            }
+          }]
+        };
+
+        const ga4Response = await fetch(
+          `https://www.google-analytics.com/mp/collect?measurement_id=${workspace.ga4_measurement_id}&api_secret=${workspace.ga4_api_secret}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ga4Payload),
+          }
+        );
+
+        if (!ga4Response.ok) {
+          console.error('GA4 event failed:', await ga4Response.text());
+        } else {
+          console.log('✅ GA4 link_click event sent');
+        }
+      } catch (error) {
+        console.error('GA4 tracking error:', error);
       }
     }
 
