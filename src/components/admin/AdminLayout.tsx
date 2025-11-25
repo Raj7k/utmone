@@ -11,7 +11,8 @@ import {
   LogOut,
   ChevronRight,
   Activity,
-  Flag
+  Flag,
+  TestTube
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -25,6 +26,7 @@ const navItems = [
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
   { path: "/admin/system", label: "system monitoring", icon: Activity },
   { path: "/admin/feature-flags", label: "feature flags", icon: Flag },
+  { path: "/admin/tests", label: "system tests", icon: TestTube },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {

@@ -49,6 +49,7 @@ const SystemMonitoring = lazy(() => import("./pages/admin/SystemMonitoring"));
 const FeatureFlags = lazy(() => import("./pages/admin/FeatureFlags"));
 const FlagDetails = lazy(() => import("./pages/admin/FlagDetails"));
 const PartnersManagement = lazy(() => import("./pages/admin/PartnersManagement"));
+const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
@@ -260,6 +261,7 @@ const App = () => (
               <Route path="/admin/feature-flags" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><FeatureFlags /></AdminLayout></Suspense>} />
               <Route path="/admin/flags/:flagKey" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><FlagDetails /></AdminLayout></Suspense>} />
               <Route path="/admin/partners" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><PartnersManagement /></AdminLayout></Suspense>} />
+              <Route path="/admin/tests" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemTests /></AdminLayout></Suspense>} />
               
               <Route path="/settings" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
               <Route path="/settings/domains" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
