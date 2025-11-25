@@ -64,7 +64,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         const { data } = await supabase
           .from("links")
           .select("id")
-          .eq("domain", "utm.one")
+          .eq("domain", "go.utm.one")
           .eq("path", "")
           .eq("slug", values.slug)
           .maybeSingle();
@@ -96,7 +96,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           slug: data.slug,
           destination_url: data.url,
           final_url: data.url,
-          domain: "utm.one",
+          domain: "go.utm.one",
           path: "",
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
@@ -109,7 +109,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       return link;
     },
     onSuccess: (link) => {
-      const url = `https://utm.one/${link.slug}`;
+      const url = `https://go.utm.one/${link.slug}`;
       setShortURL(url);
       toast({
         title: "link created",
@@ -184,7 +184,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           <div>
             <Label htmlFor="slug">Custom Slug *</Label>
             <div className="flex items-center gap-2 mt-1.5">
-              <span className="text-body-apple text-secondary-label whitespace-nowrap">utm.one/</span>
+              <span className="text-body-apple text-secondary-label whitespace-nowrap">go.utm.one/</span>
               <div className="flex-1 relative">
                 <Input
                   id="slug"
