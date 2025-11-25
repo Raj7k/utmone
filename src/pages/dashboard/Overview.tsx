@@ -11,41 +11,11 @@ import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist"
 import { GlanceableMetrics } from "@/components/dashboard/GlanceableMetrics";
 import { AIInsights } from "@/components/dashboard/AIInsights";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { FeatureHint } from "@/components/FeatureHint";
 
 export default function Overview() {
   const { currentWorkspace } = useWorkspace();
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
-  const [hasLinks, setHasLinks] = useState(false);
-  const [hasQrCodes, setHasQrCodes] = useState(false);
-
-  useEffect(() => {
-    const checkProgress = async () => {
-      if (!currentWorkspace) return;
-
-      const { data: links } = await supabase
-        .from('links')
-        .select('id')
-        .eq('workspace_id', currentWorkspace.id)
-        .limit(1);
-      
-      setHasLinks(!!links && links.length > 0);
-
-      if (links && links.length > 0) {
-        const { data: qrs } = await supabase
-          .from('qr_codes')
-          .select('id')
-          .in('link_id', links.map(l => l.id))
-          .limit(1);
-        
-        setHasQrCodes(!!qrs && qrs.length > 0);
-      }
-    };
-
-    checkProgress();
-  }, [currentWorkspace]);
 
   if (!currentWorkspace) {
     return (
@@ -87,13 +57,7 @@ export default function Overview() {
         </div>
       )}
 
-      <OnboardingChecklist
-        hasLinks={hasLinks}
-        hasQrCodes={hasQrCodes}
-        hasViewedAnalytics={false}
-        hasInvitedTeam={false}
-        hasCustomDomain={false}
-      />
+      <OnboardingChecklist />
 
       <GlanceableMetrics />
 
