@@ -74,7 +74,7 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
         <DialogHeader>
           <DialogTitle className="text-title-2 heading">create new link</DialogTitle>
           <DialogDescription>
-            build your utm url, shorten it, and generate a qr code
+            Build your UTM URL, shorten it, and generate a QR Code
           </DialogDescription>
         </DialogHeader>
         <LinkForge workspaceId={workspaceId} onSuccess={handleSuccess} />

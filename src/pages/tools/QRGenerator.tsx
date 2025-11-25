@@ -18,8 +18,8 @@ export default function QRGenerator() {
   const handleDownload = async () => {
     if (!url) {
       toast({
-        title: "url required",
-        description: "please enter a url to generate qr code",
+        title: "URL Required",
+        description: "Please enter a URL to generate QR Code",
         variant: "destructive",
       });
       return;
@@ -38,13 +38,13 @@ export default function QRGenerator() {
       link.click();
 
       toast({
-        title: "qr code downloaded",
-        description: "your qr code has been saved",
+        title: "QR Code Downloaded",
+        description: "Your QR Code has been saved",
       });
     } catch (error) {
       toast({
-        title: "download failed",
-        description: "couldn't generate qr code",
+        title: "Download Failed",
+        description: "Couldn't generate QR Code",
         variant: "destructive",
       });
     }
@@ -60,7 +60,7 @@ export default function QRGenerator() {
           </Link>
           <Link to="/auth">
             <Button variant="outline" size="sm">
-              sign in
+              Sign In
             </Button>
           </Link>
         </div>
@@ -70,10 +70,10 @@ export default function QRGenerator() {
       <main className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            free qr code generator
+            Free QR Code Generator
           </h1>
           <p className="text-lg text-secondary-label max-w-2xl mx-auto">
-            create branded qr codes instantly. no signup required.
+            Create branded QR Codes instantly. No signup required.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function QRGenerator() {
           <Card className="p-8">
             <div className="space-y-6">
               <div>
-                <Label htmlFor="url">destination url</Label>
+                <Label htmlFor="url">Destination URL</Label>
                 <Input
                   id="url"
                   type="url"
@@ -95,7 +95,7 @@ export default function QRGenerator() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="color">qr color</Label>
+                  <Label htmlFor="color">QR Color</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
                       id="color"
@@ -113,7 +113,7 @@ export default function QRGenerator() {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="bgColor">background</Label>
+                  <Label htmlFor="bgColor">Background</Label>
                   <div className="flex gap-2 mt-2">
                     <Input
                       id="bgColor"
@@ -135,24 +135,24 @@ export default function QRGenerator() {
               <div className="pt-4 border-t border-border/40">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
                   <Sparkles className="h-4 w-4" />
-                  <span>unlock pro features</span>
+                  <span>Unlock Pro features</span>
                 </div>
                 <div className="space-y-2 text-sm text-secondary-label">
                   <div className="flex items-center gap-2">
                     <span className="text-primary">🔒</span>
-                    <span>remove utm.one watermark</span>
+                    <span>Remove utm.one watermark</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-primary">🔒</span>
-                    <span>svg & pdf export</span>
+                    <span>SVG & PDF export</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-primary">🔒</span>
-                    <span>custom logo upload</span>
+                    <span>Custom logo upload</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-primary">🔒</span>
-                    <span>gradient colors</span>
+                    <span>Gradient colors</span>
                   </div>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export default function QRGenerator() {
                   </>
                 ) : (
                   <div className="w-64 h-64 bg-muted/20 rounded-lg flex items-center justify-center text-secondary-label">
-                    enter url to preview
+                    Enter URL to preview
                   </div>
                 )}
               </div>
@@ -192,22 +192,22 @@ export default function QRGenerator() {
                   size="lg"
                 >
                   <Download className="h-4 w-4 mr-2" />
-                  download png
+                  Download PNG
                 </Button>
 
                 <Link to="/early-access" className="block">
                   <Button variant="outline" className="w-full" size="lg">
                     <Sparkles className="h-4 w-4 mr-2" />
-                    remove branding →
+                    Remove branding →
                   </Button>
                 </Link>
               </div>
             </Card>
 
             <p className="text-sm text-secondary-label text-center mt-6 max-w-md">
-              free qr codes include utm.one branding.{" "}
+              Free QR Codes include utm.one branding.{" "}
               <Link to="/pricing" className="text-primary hover:underline">
-                upgrade to pro
+                Upgrade to Pro
               </Link>{" "}
               to remove watermarks and access advanced features.
             </p>
