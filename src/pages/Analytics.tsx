@@ -33,6 +33,9 @@ import { ComparisonDashboard } from "@/components/analytics/ComparisonDashboard"
 import { useComparisonMetrics } from "@/hooks/useComparisonMetrics";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { DashboardCustomizer } from "@/components/analytics/DashboardCustomizer";
+import { useRealtimeClicks } from "@/hooks/useRealtimeClicks";
+import { Activity } from "lucide-react";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -44,6 +47,7 @@ const Analytics = () => {
   const conversionMetrics = useConversionMetrics(undefined, currentWorkspace?.id);
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
   const { data: comparisonMetrics } = useComparisonMetrics({ workspaceId: currentWorkspace?.id || '', period: 'month' });
+  const { recentClick, liveCount, isLive } = useRealtimeClicks(currentWorkspace?.id || '');
   const isMobile = useIsMobile();
 
   const handleRefresh = async () => {
@@ -151,6 +155,13 @@ const Analytics = () => {
                     </p>
                   </div>
                   <div className="flex gap-2">
+                    {isLive && (
+                      <div className="flex items-center gap-2 px-3 py-1 bg-system-green/10 border border-system-green/20 rounded-full">
+                        <Activity className="h-3 w-3 text-system-green animate-pulse" />
+                        <span className="text-xs text-system-green">Live ({liveCount})</span>
+                      </div>
+                    )}
+                    <DashboardCustomizer workspaceId={currentWorkspace.id} />
                     <Button variant="outline" size="sm" className="hidden md:flex">
                       Export PDF
                     </Button>
