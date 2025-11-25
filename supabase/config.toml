@@ -3,6 +3,12 @@ project_id = "whgnsmjdubnvbmarnjfx"
 [functions.redirect]
 verify_jwt = false
 
+[functions.verify-domain]
+verify_jwt = false
+
+[functions.domain-health-check]
+verify_jwt = false
+
 [functions.github-backup-cron]
 verify_jwt = false
 
@@ -144,6 +150,11 @@ schedule = "*/5 * * * *"
 [[edge_runtime.scheduler]]
 function = "github-backup-cron"
 schedule = "0 2 * * *"
+
+# Domain health check - runs every 6 hours
+[[edge_runtime.scheduler]]
+function = "domain-health-check"
+schedule = "0 */6 * * *"
 
 # Generate AI recommendations - runs hourly
 [[edge_runtime.scheduler]]

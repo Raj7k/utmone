@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Copy, CheckCircle2, ExternalLink, AlertCircle } from "lucide-react";
+import { Copy, CheckCircle2, ExternalLink, AlertCircle, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useVerifyDomain } from "@/hooks/useVerifyDomain";
 
 interface DNSRecord {
   type: string;
@@ -15,14 +16,17 @@ interface DNSRecord {
 interface DomainDNSInstructionsProps {
   domain: string;
   verificationCode: string;
+  domainId?: string;
 }
 
 export const DomainDNSInstructions = ({
   domain,
   verificationCode,
+  domainId,
 }: DomainDNSInstructionsProps) => {
   const { toast } = useToast();
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const verifyDomain = useVerifyDomain();
 
   const dnsRecords: DNSRecord[] = [
     {
@@ -169,6 +173,26 @@ export const DomainDNSInstructions = ({
             Check DNS Propagation
             <ExternalLink className="w-4 h-4 ml-2" />
           </Button>
+
+          {domainId && (
+            <Button
+              className="w-full mt-2"
+              onClick={() => verifyDomain.mutate(domainId)}
+              disabled={verifyDomain.isPending}
+            >
+              {verifyDomain.isPending ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="w-4 h-4 mr-2" />
+                  Verify Domain Now
+                </>
+              )}
+            </Button>
+          )}
         </CardContent>
       </Card>
     </div>

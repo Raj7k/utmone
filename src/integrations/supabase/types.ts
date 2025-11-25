@@ -688,9 +688,13 @@ export type Database = {
           created_by: string
           dns_verified_at: string | null
           domain: string
+          domain_settings: Json | null
+          health_status: string | null
           id: string
           is_primary: boolean | null
           is_verified: boolean | null
+          last_health_check: string | null
+          ssl_expires_at: string | null
           ssl_status: string | null
           updated_at: string | null
           verification_code: string | null
@@ -701,9 +705,13 @@ export type Database = {
           created_by: string
           dns_verified_at?: string | null
           domain: string
+          domain_settings?: Json | null
+          health_status?: string | null
           id?: string
           is_primary?: boolean | null
           is_verified?: boolean | null
+          last_health_check?: string | null
+          ssl_expires_at?: string | null
           ssl_status?: string | null
           updated_at?: string | null
           verification_code?: string | null
@@ -714,9 +722,13 @@ export type Database = {
           created_by?: string
           dns_verified_at?: string | null
           domain?: string
+          domain_settings?: Json | null
+          health_status?: string | null
           id?: string
           is_primary?: boolean | null
           is_verified?: boolean | null
+          last_health_check?: string | null
+          ssl_expires_at?: string | null
           ssl_status?: string | null
           updated_at?: string | null
           verification_code?: string | null
@@ -1942,6 +1954,50 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
+          },
+        ]
+      }
+      onboarding_analytics: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          skipped: boolean | null
+          started_at: string | null
+          step_name: string
+          user_id: string | null
+          workspace_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          skipped?: boolean | null
+          started_at?: string | null
+          step_name: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          skipped?: boolean | null
+          started_at?: string | null
+          step_name?: string
+          user_id?: string | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_analytics_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
           },
         ]
       }
