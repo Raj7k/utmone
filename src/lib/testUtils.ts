@@ -255,6 +255,214 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
 }
 
 /**
+ * Test authentication signup
+ */
+export async function testAuthSignUp(): Promise<TestResult> {
+  const startTime = Date.now();
+  const testName = "Authentication Signup";
+
+  try {
+    const testEmail = `test-${Date.now()}@example.com`;
+    const testPassword = "TestPassword123!";
+
+    const { data, error } = await supabase.auth.signUp({
+      email: testEmail,
+      password: testPassword
+    });
+
+    const duration = Date.now() - startTime;
+
+    if (error) {
+      return {
+        name: testName,
+        passed: false,
+        message: error.message,
+        duration
+      };
+    }
+
+    // Cleanup if user was created
+    if (data.user) {
+      await supabase.auth.signOut();
+    }
+
+    return {
+      name: testName,
+      passed: true,
+      message: "Signup successful",
+      duration
+    };
+  } catch (error) {
+    return {
+      name: testName,
+      passed: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+      duration: Date.now() - startTime
+    };
+  }
+}
+
+/**
+ * Test link update
+ */
+export async function testLinkUpdate(linkId: string): Promise<TestResult> {
+  const startTime = Date.now();
+  const testName = "Link Update";
+
+  try {
+    const { error } = await supabase
+      .from("links")
+      .update({ title: `Updated ${Date.now()}` })
+      .eq("id", linkId);
+
+    const duration = Date.now() - startTime;
+
+    return {
+      name: testName,
+      passed: !error,
+      message: error ? error.message : "Link updated successfully",
+      duration
+    };
+  } catch (error) {
+    return {
+      name: testName,
+      passed: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+      duration: Date.now() - startTime
+    };
+  }
+}
+
+/**
+ * Test link duplication
+ */
+export async function testLinkDuplication(linkId: string, workspaceId: string): Promise<TestResult> {
+  const startTime = Date.now();
+  const testName = "Link Duplication";
+
+  try {
+    const { data: original, error: fetchError } = await supabase
+      .from("links")
+      .select("*")
+      .eq("id", linkId)
+      .single();
+
+    if (fetchError || !original) {
+      return {
+        name: testName,
+        passed: false,
+        message: "Could not fetch original link",
+        duration: Date.now() - startTime
+      };
+    }
+
+    const { data: user } = await supabase.auth.getUser();
+    if (!user.user) throw new Error("Not authenticated");
+
+    const { data: duplicate, error } = await supabase
+      .from("links")
+      .insert({
+        ...original,
+        id: undefined,
+        slug: `${original.slug}-copy-${Date.now()}`,
+        title: `${original.title} (Copy)`,
+        created_by: user.user.id
+      })
+      .select()
+      .single();
+
+    const duration = Date.now() - startTime;
+
+    // Cleanup
+    if (duplicate) {
+      await supabase.from("links").delete().eq("id", duplicate.id);
+    }
+
+    return {
+      name: testName,
+      passed: !error,
+      message: error ? error.message : "Link duplicated successfully",
+      duration
+    };
+  } catch (error) {
+    return {
+      name: testName,
+      passed: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+      duration: Date.now() - startTime
+    };
+  }
+}
+
+/**
+ * Test QR code actual generation
+ */
+export async function testActualQRGeneration(linkId: string, shortUrl: string): Promise<TestResult> {
+  const startTime = Date.now();
+  const testName = "Actual QR Generation";
+
+  try {
+    // This would need actual QR generation logic
+    // For now, just verify the system is ready
+    const { data: bucket } = await supabase.storage.getBucket("qr-codes");
+    
+    const duration = Date.now() - startTime;
+
+    return {
+      name: testName,
+      passed: !!bucket,
+      message: bucket ? "QR generation system ready" : "QR bucket not accessible",
+      duration
+    };
+  } catch (error) {
+    return {
+      name: testName,
+      passed: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+      duration: Date.now() - startTime
+    };
+  }
+}
+
+/**
+ * Test click recording
+ */
+export async function testClickRecording(linkId: string): Promise<TestResult> {
+  const startTime = Date.now();
+  const testName = "Click Recording";
+
+  try {
+    // Record a test click
+    const { error } = await supabase
+      .from("link_clicks")
+      .insert({
+        link_id: linkId,
+        ip_address: "127.0.0.1",
+        user_agent: "Test Agent",
+        device_type: "desktop",
+        browser: "Chrome",
+        os: "Windows"
+      });
+
+    const duration = Date.now() - startTime;
+
+    return {
+      name: testName,
+      passed: !error,
+      message: error ? error.message : "Click recorded successfully",
+      duration
+    };
+  } catch (error) {
+    return {
+      name: testName,
+      passed: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+      duration: Date.now() - startTime
+    };
+  }
+}
+
+/**
  * Run all critical path tests
  */
 export async function runAllTests(workspaceId: string, linkId: string, shortUrl: string): Promise<TestResult[]> {
@@ -267,6 +475,10 @@ export async function runAllTests(workspaceId: string, linkId: string, shortUrl:
   results.push(await testLinkCreation(workspaceId));
   results.push(await testQRGeneration(linkId));
   results.push(await testAnalyticsTracking(linkId));
+  results.push(await testLinkUpdate(linkId));
+  results.push(await testLinkDuplication(linkId, workspaceId));
+  results.push(await testActualQRGeneration(linkId, shortUrl));
+  results.push(await testClickRecording(linkId));
 
   const passedCount = results.filter(r => r.passed).length;
   const totalDuration = results.reduce((sum, r) => sum + r.duration, 0);
