@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Workspace {
   id: string;
@@ -24,6 +26,8 @@ const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefin
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const { workspaces = [], isLoading } = useClientWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Initialize current workspace from localStorage or first workspace
   useEffect(() => {
@@ -43,6 +47,25 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
       }
     }
   }, [workspaces, currentWorkspace]);
+
+  // Redirect to onboarding if user has no workspaces
+  useEffect(() => {
+    const checkWorkspaces = async () => {
+      if (isLoading) return;
+      
+      // Don't redirect if already on auth or onboarding pages
+      if (location.pathname === "/auth" || location.pathname === "/onboarding") return;
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      // If authenticated user has no workspaces, redirect to onboarding
+      if (user && workspaces.length === 0) {
+        navigate("/onboarding");
+      }
+    };
+
+    checkWorkspaces();
+  }, [workspaces, isLoading, navigate, location.pathname]);
 
   const switchWorkspace = (workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);

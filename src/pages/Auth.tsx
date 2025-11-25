@@ -26,9 +26,20 @@ const Auth = () => {
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
-        navigate("/dashboard");
+        // Check if user has any workspaces
+        const { data: workspaces } = await supabase
+          .from("workspaces")
+          .select("id")
+          .or(`owner_id.eq.${session.user.id}`);
+        
+        // New users without workspaces go to onboarding
+        if (!workspaces || workspaces.length === 0) {
+          navigate("/onboarding");
+        } else {
+          navigate("/dashboard");
+        }
       }
     });
 
