@@ -23,11 +23,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useVerifyDomain } from "@/hooks/useVerifyDomain";
-import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle } from "lucide-react";
+import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle, ChevronDown } from "lucide-react";
 
 interface DomainEditDialogProps {
   domain: any;
@@ -40,8 +45,11 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const queryClient = useQueryClient();
   const verifyDomainMutation = useVerifyDomain();
   const [isLoading, setIsLoading] = useState(false);
-  const [copiedTxt, setCopiedTxt] = useState(false);
-  const [copiedCname, setCopiedCname] = useState(false);
+  const [copiedTxtName, setCopiedTxtName] = useState(false);
+  const [copiedTxtValue, setCopiedTxtValue] = useState(false);
+  const [copiedCnameName, setCopiedCnameName] = useState(false);
+  const [copiedCnameValue, setCopiedCnameValue] = useState(false);
+  const [dnsOpen, setDnsOpen] = useState(!domain?.is_verified); // Open by default for unverified
 
   // Parse existing domain_settings or use defaults
   const settings = domain?.domain_settings || {};
@@ -55,14 +63,20 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const isVerified = domain?.is_verified;
   const verificationCode = domain?.verification_code;
 
-  const handleCopy = async (text: string, type: 'txt' | 'cname') => {
+  const handleCopy = async (text: string, type: 'txtName' | 'txtValue' | 'cnameName' | 'cnameValue') => {
     await navigator.clipboard.writeText(text);
-    if (type === 'txt') {
-      setCopiedTxt(true);
-      setTimeout(() => setCopiedTxt(false), 2000);
+    if (type === 'txtName') {
+      setCopiedTxtName(true);
+      setTimeout(() => setCopiedTxtName(false), 2000);
+    } else if (type === 'txtValue') {
+      setCopiedTxtValue(true);
+      setTimeout(() => setCopiedTxtValue(false), 2000);
+    } else if (type === 'cnameName') {
+      setCopiedCnameName(true);
+      setTimeout(() => setCopiedCnameName(false), 2000);
     } else {
-      setCopiedCname(true);
-      setTimeout(() => setCopiedCname(false), 2000);
+      setCopiedCnameValue(true);
+      setTimeout(() => setCopiedCnameValue(false), 2000);
     }
   };
 
@@ -118,126 +132,158 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          {/* DNS Verification Section - Only show for unverified domains */}
-          {!isVerified && (
-            <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-destructive" />
-                <span className="text-sm font-medium text-destructive">domain not verified</span>
-              </div>
-
-              <p className="text-sm text-muted-foreground">
-                add these DNS records to your domain registrar to verify ownership:
-              </p>
-
-              {/* TXT Record */}
-              <div className="space-y-2">
-                <Label className="text-xs font-semibold uppercase tracking-wide">TXT Record</Label>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <Label className="text-xs text-muted-foreground">Name</Label>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Input
-                          value={`_utm-verification.${domain?.domain}`}
-                          readOnly
-                          className="font-mono text-xs"
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleCopy(`_utm-verification.${domain?.domain}`, 'txt')}
-                        >
-                          {copiedTxt ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <Label className="text-xs text-muted-foreground">Value</Label>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Input
-                          value={verificationCode || ""}
-                          readOnly
-                          className="font-mono text-xs"
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleCopy(verificationCode || "", 'txt')}
-                        >
-                          {copiedTxt ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* CNAME Record */}
-              <div className="space-y-2">
-                <Label className="text-xs font-semibold uppercase tracking-wide">CNAME Record (optional for go.utm.one)</Label>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <Label className="text-xs text-muted-foreground">Name</Label>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Input
-                          value="@"
-                          readOnly
-                          className="font-mono text-xs"
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleCopy("@", 'cname')}
-                        >
-                          {copiedCname ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1">
-                      <Label className="text-xs text-muted-foreground">Value</Label>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Input
-                          value="go.utm.one"
-                          readOnly
-                          className="font-mono text-xs"
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleCopy("go.utm.one", 'cname')}
-                        >
-                          {copiedCname ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <Button
-                onClick={handleVerify}
-                disabled={verifyDomainMutation.isPending}
-                className="w-full"
-              >
-                {verifyDomainMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                verify domain
-              </Button>
+          {/* DNS Verification Section - Always show with collapsible */}
+          <div className="space-y-3">
+            {/* Verification Status Badge */}
+            <div className={`flex items-center gap-2 p-3 border rounded-lg ${
+              isVerified 
+                ? 'border-green-500/20 bg-green-500/10' 
+                : 'border-destructive/20 bg-destructive/10'
+            }`}>
+              {isVerified ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-green-600" />
+                  <span className="text-sm font-medium text-green-600">domain verified ✓</span>
+                </>
+              ) : (
+                <>
+                  <AlertCircle className="w-4 h-4 text-destructive" />
+                  <span className="text-sm font-medium text-destructive">domain not verified</span>
+                </>
+              )}
             </div>
-          )}
 
-          {/* Verified Badge */}
-          {isVerified && (
-            <div className="flex items-center gap-2 p-3 border border-green-500/20 rounded-lg bg-green-500/10">
-              <CheckCircle2 className="w-4 h-4 text-green-600" />
-              <span className="text-sm font-medium text-green-600">domain verified ✓</span>
-            </div>
-          )}
+            {/* Collapsible DNS Records */}
+            <Collapsible open={dnsOpen} onOpenChange={setDnsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="w-full flex items-center justify-between p-3 h-auto hover:bg-muted/50"
+                >
+                  <span className="text-sm font-medium">
+                    {isVerified ? 'view dns records' : 'dns setup instructions'}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${dnsOpen ? 'rotate-180' : ''}`} />
+                </Button>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent className="space-y-4 pt-3">
+                <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+                  {!isVerified && (
+                    <p className="text-sm text-muted-foreground">
+                      add these DNS records to your domain registrar to verify ownership:
+                    </p>
+                  )}
+                  {isVerified && (
+                    <p className="text-sm text-muted-foreground">
+                      these are your current DNS records. save them for reference or troubleshooting.
+                    </p>
+                  )}
+
+                  {/* TXT Record */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold uppercase tracking-wide">TXT Record</Label>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <Label className="text-xs text-muted-foreground">Name</Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              value={`_utm-verification.${domain?.domain}`}
+                              readOnly
+                              className="font-mono text-xs"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleCopy(`_utm-verification.${domain?.domain}`, 'txtName')}
+                            >
+                              {copiedTxtName ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <Label className="text-xs text-muted-foreground">Value</Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              value={verificationCode || ""}
+                              readOnly
+                              className="font-mono text-xs"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleCopy(verificationCode || "", 'txtValue')}
+                            >
+                              {copiedTxtValue ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CNAME Record */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-semibold uppercase tracking-wide">CNAME Record (optional)</Label>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <Label className="text-xs text-muted-foreground">Name</Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              value="@"
+                              readOnly
+                              className="font-mono text-xs"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleCopy("@", 'cnameName')}
+                            >
+                              {copiedCnameName ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <Label className="text-xs text-muted-foreground">Value</Label>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Input
+                              value="go.utm.one"
+                              readOnly
+                              className="font-mono text-xs"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleCopy("go.utm.one", 'cnameValue')}
+                            >
+                              {copiedCnameValue ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {!isVerified && (
+                    <Button
+                      onClick={handleVerify}
+                      disabled={verifyDomainMutation.isPending}
+                      className="w-full"
+                    >
+                      {verifyDomainMutation.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                      verify domain
+                    </Button>
+                  )}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </div>
           {/* Path Prefix */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
