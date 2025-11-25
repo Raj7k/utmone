@@ -260,13 +260,6 @@ export type Database = {
             referencedColumns: ["link_id"]
           },
           {
-            foreignKeyName: "analytics_anomalies_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
-          {
             foreignKeyName: "analytics_anomalies_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
@@ -723,13 +716,6 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
-            referencedColumns: ["link_id"]
-          },
-          {
-            foreignKeyName: "conversion_events_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
           },
           {
@@ -1265,13 +1251,6 @@ export type Database = {
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
           },
-          {
-            foreignKeyName: "fraud_scores_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
         ]
       }
       integrations: {
@@ -1435,13 +1414,6 @@ export type Database = {
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
           },
-          {
-            foreignKeyName: "link_change_history_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
         ]
       }
       link_clicks: {
@@ -1515,13 +1487,6 @@ export type Database = {
             referencedColumns: ["link_id"]
           },
           {
-            foreignKeyName: "link_clicks_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
-          {
             foreignKeyName: "link_clicks_og_variant_id_fkey"
             columns: ["og_variant_id"]
             isOneToOne: false
@@ -1588,13 +1553,6 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
-            referencedColumns: ["link_id"]
-          },
-          {
-            foreignKeyName: "link_comments_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
           },
           {
@@ -1685,13 +1643,6 @@ export type Database = {
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
           },
-          {
-            foreignKeyName: "link_previews_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: true
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
         ]
       }
       link_tags: {
@@ -1726,13 +1677,6 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
-            referencedColumns: ["link_id"]
-          },
-          {
-            foreignKeyName: "link_tags_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
           },
         ]
@@ -2040,13 +1984,6 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
-            referencedColumns: ["link_id"]
-          },
-          {
-            foreignKeyName: "og_image_variants_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
           },
         ]
@@ -2412,13 +2349,6 @@ export type Database = {
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
           },
-          {
-            foreignKeyName: "qr_codes_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
-            referencedColumns: ["link_id"]
-          },
         ]
       }
       report_downloads: {
@@ -2557,13 +2487,6 @@ export type Database = {
             columns: ["link_id"]
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
-            referencedColumns: ["link_id"]
-          },
-          {
-            foreignKeyName: "targeting_rules_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "mv_link_analytics"
             referencedColumns: ["link_id"]
           },
         ]
@@ -3188,38 +3111,6 @@ export type Database = {
           workspace_id: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "links_workspace_id_fkey"
-            columns: ["workspace_id"]
-            isOneToOne: false
-            referencedRelation: "workspaces"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      mv_link_analytics: {
-        Row: {
-          clicks_last_30_days: number | null
-          clicks_last_7_days: number | null
-          created_at: string | null
-          created_by: string | null
-          destination_url: string | null
-          last_clicked_at: string | null
-          link_id: string | null
-          short_url: string | null
-          title: string | null
-          total_clicks: number | null
-          unique_clicks: number | null
-          workspace_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "links_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "links_workspace_id_fkey"
             columns: ["workspace_id"]

@@ -250,14 +250,26 @@ Deno.serve(async (req) => {
     const pathParts = url.pathname.split('/').filter(Boolean);
     
     // Extract path and slug from URL
-    if (pathParts.length !== 2) {
+    // Support both formats: domain/slug OR domain/path/slug
+    let path: string;
+    let slug: string;
+    
+    if (pathParts.length === 1) {
+      // Format: domain/slug (assume default path)
+      path = '';
+      slug = pathParts[0];
+    } else if (pathParts.length === 2) {
+      // Format: domain/path/slug
+      path = pathParts[0];
+      slug = pathParts[1];
+    } else {
+      console.error(`Invalid URL format: ${pathParts.length} parts`, pathParts);
       return new Response('Invalid URL format', { 
         status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'text/html' }
       });
     }
     
-    const [path, slug] = pathParts;
     let domain = url.hostname;
     
     // Normalize domain (remove www if present)
