@@ -99,6 +99,9 @@ verify_jwt = true
 [functions.generate-analytics-summary]
 verify_jwt = true
 
+[functions.generate-ai-recommendations]
+verify_jwt = false
+
 [functions.detect-analytics-anomalies]
 verify_jwt = false
 
@@ -138,3 +141,8 @@ schedule = "*/5 * * * *"
 [[edge_runtime.scheduler]]
 function = "github-backup-cron"
 schedule = "0 2 * * *"
+
+# Generate AI recommendations - runs hourly
+[[edge_runtime.scheduler]]
+function = "generate-ai-recommendations"
+schedule = "0 * * * *"

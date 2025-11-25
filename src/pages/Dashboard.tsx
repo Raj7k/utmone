@@ -3,20 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link as LinkIcon, QrCode, BarChart3, Plus, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
-import { CreateLinkDialog } from "@/components/CreateLinkDialog";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { UsageLimitBanner } from "@/components/UsageLimitBanner";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { KeyboardShortcutsHelp } from "@/components/KeyboardShortcutsHelp";
-import { AIInsightCard } from "@/components/analytics/AIInsightCard";
 import { useAnomalies } from "@/hooks/useAnomalies";
 import { AnomalyAlert } from "@/components/analytics/AnomalyAlert";
 import { RecentLinksWidget } from "@/components/dashboard/RecentLinksWidget";
 import { TransparencyCard } from "@/components/dashboard/TransparencyCard";
 import { SecurityOverviewWidget } from "@/components/dashboard/SecurityOverviewWidget";
+import { QuickActions } from "@/components/dashboard/QuickActions";
+import { GlanceableStats } from "@/components/dashboard/GlanceableStats";
+import { AIRecommendationsWidget } from "@/components/dashboard/AIRecommendationsWidget";
+import { PerformanceMetrics } from "@/components/dashboard/PerformanceMetrics";
+import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,15 +26,44 @@ const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
-  const [createLinkDialogOpen, setCreateLinkDialogOpen] = useState(false);
   const { currentWorkspace, isLoading: workspaceLoading, createWorkspace } = useWorkspace();
   const { data: anomalies, invalidate: invalidateAnomalies } = useAnomalies(currentWorkspace?.id || '');
 
   // Keyboard shortcuts
   useKeyboardShortcuts({
-    onCreateLink: () => setCreateLinkDialogOpen(true),
+    onCreateLink: () => {},
     onShowHelp: () => setShowShortcutsHelp(true),
   });
+
+  // Check for onboarding progress
+  const [hasLinks, setHasLinks] = useState(false);
+  const [hasQrCodes, setHasQrCodes] = useState(false);
+
+  useEffect(() => {
+    const checkProgress = async () => {
+      if (!currentWorkspace) return;
+
+      const { data: links } = await supabase
+        .from('links')
+        .select('id')
+        .eq('workspace_id', currentWorkspace.id)
+        .limit(1);
+      
+      setHasLinks(!!links && links.length > 0);
+
+      if (links && links.length > 0) {
+        const { data: qrs } = await supabase
+          .from('qr_codes')
+          .select('id')
+          .in('link_id', links.map(l => l.id))
+          .limit(1);
+        
+        setHasQrCodes(!!qrs && qrs.length > 0);
+      }
+    };
+
+    checkProgress();
+  }, [currentWorkspace]);
 
   useEffect(() => {
     // Check authentication
@@ -120,32 +151,64 @@ const Dashboard = () => {
       <main className="container mx-auto px-8 py-group bg-grouped-background min-h-screen">
         <UsageLimitBanner />
         
-        {/* AI Insights */}
-        {currentWorkspace && (
-          <>
-            <div className="mb-content">
-              <AIInsightCard workspaceId={currentWorkspace.id} />
-            </div>
-            
-            {anomalies && anomalies.length > 0 && (
-              <div className="space-y-4 mb-content">
-                <h2 className="text-title-2 font-semibold text-label">anomalies detected</h2>
-                {anomalies.slice(0, 3).map((anomaly) => (
-                  <AnomalyAlert 
-                    key={anomaly.id} 
-                    anomaly={anomaly} 
-                    onDismiss={invalidateAnomalies}
-                  />
-                ))}
-              </div>
-            )}
-          </>
-        )}
-        
+        {/* Welcome Section */}
         <div className="mb-content">
           <h1 className="text-large-title font-bold text-label mb-2">welcome back</h1>
           <p className="text-body-apple text-secondary-label">here's what's happening with your links today.</p>
         </div>
+
+        {/* Anomalies */}
+        {currentWorkspace && anomalies && anomalies.length > 0 && (
+          <div className="space-y-4 mb-content">
+            <h2 className="text-title-2 font-semibold text-label">anomalies detected</h2>
+            {anomalies.slice(0, 3).map((anomaly) => (
+              <AnomalyAlert 
+                key={anomaly.id} 
+                anomaly={anomaly} 
+                onDismiss={invalidateAnomalies}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Onboarding Checklist */}
+        {currentWorkspace && (
+          <div className="mb-content">
+            <OnboardingChecklist
+              hasLinks={hasLinks}
+              hasQrCodes={hasQrCodes}
+              hasViewedAnalytics={false}
+              hasInvitedTeam={false}
+              hasCustomDomain={false}
+            />
+          </div>
+        )}
+
+        {/* Glanceable Stats */}
+        {currentWorkspace && (
+          <div className="mb-content">
+            <GlanceableStats workspaceId={currentWorkspace.id} />
+          </div>
+        )}
+
+        {/* Quick Actions */}
+        {currentWorkspace && (
+          <div className="mb-content">
+            <QuickActions 
+              workspaceId={currentWorkspace.id}
+              hasLinks={hasLinks}
+              hasQrCodes={hasQrCodes}
+            />
+          </div>
+        )}
+
+        {/* AI Recommendations & Performance Side by Side */}
+        {currentWorkspace && (
+          <div className="grid md:grid-cols-2 gap-card mb-content">
+            <AIRecommendationsWidget workspaceId={currentWorkspace.id} />
+            <PerformanceMetrics workspaceId={currentWorkspace.id} />
+          </div>
+        )}
 
         {/* Transparency & Security */}
         {currentWorkspace && (
@@ -154,107 +217,6 @@ const Dashboard = () => {
             <SecurityOverviewWidget workspaceId={currentWorkspace.id} />
           </div>
         )}
-
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-card mb-content">
-          <Card variant="grouped" className="hover:shadow-lg transition-apple">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <LinkIcon className="h-8 w-8 text-system-blue" />
-                <CardTitle>Create Short Link</CardTitle>
-              </div>
-              <CardDescription>Generate a branded short URL with UTM parameters</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {currentWorkspace ? (
-                <CreateLinkDialog 
-                  workspaceId={currentWorkspace.id}
-                  open={createLinkDialogOpen}
-                  onOpenChange={setCreateLinkDialogOpen}
-                />
-              ) : (
-                <Button className="w-full" variant="system" disabled>
-                  <Plus className="h-4 w-4 mr-2" />
-                  loading...
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card variant="grouped" className="hover:shadow-lg transition-apple cursor-pointer">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <QrCode className="h-8 w-8 text-system-indigo" />
-                <CardTitle>Generate QR Code</CardTitle>
-              </div>
-              <CardDescription>Create a branded QR code for your campaigns</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="system-secondary">
-                <Plus className="h-4 w-4 mr-2" />
-                generate qr
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card variant="grouped" className="hover:shadow-lg transition-apple cursor-pointer">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <BarChart3 className="h-8 w-8 text-system-green" />
-                <CardTitle>View Analytics</CardTitle>
-              </div>
-              <CardDescription>Track performance and campaign metrics</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full" variant="system-secondary">
-                view analytics
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Stats Overview */}
-        <div className="grid md:grid-cols-4 gap-4 mb-content">
-          <Card variant="grouped">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-secondary-label">Total Links</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-label">0</div>
-              <p className="text-caption-1 text-tertiary-label mt-1">No links created yet</p>
-            </CardContent>
-          </Card>
-
-          <Card variant="grouped">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-secondary-label">Total Clicks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-label">0</div>
-              <p className="text-caption-1 text-tertiary-label mt-1">Across all links</p>
-            </CardContent>
-          </Card>
-
-          <Card variant="grouped">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-secondary-label">QR Codes</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-label">0</div>
-              <p className="text-caption-1 text-tertiary-label mt-1">Generated this month</p>
-            </CardContent>
-          </Card>
-
-          <Card variant="grouped">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-secondary-label">Active Campaigns</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-label">0</div>
-              <p className="text-caption-1 text-tertiary-label mt-1">Running campaigns</p>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Recent Links Widget */}
         {currentWorkspace && (
