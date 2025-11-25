@@ -27,7 +27,7 @@ export const MarketingSalarySection = () => {
         {/* Opening Narrative */}
         <div className="prose prose-lg max-w-[750px] mx-auto mb-16">
           
-          <div className="text-lg text-muted-foreground space-y-4 mb-12">
+          <div className="text-lg text-secondary-label space-y-4 mb-12">
             <p className="lead text-xl">
               Marketing compensation varies more dramatically than any other GTM function. The gap between highest-paid and lowest-paid marketing roles is <strong className="text-foreground">3.8×</strong>—wider than sales (2.7×), operations (2.1×), or product (2.3×).
             </p>
@@ -52,7 +52,7 @@ export const MarketingSalarySection = () => {
               <AlertCircle className="w-6 h-6 text-primary" />
               The B2B vs. B2C Divide
             </h3>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-secondary-label mb-4">
               <strong className="text-foreground">B2B marketing pays 10-30% more than B2C marketing</strong> at equivalent levels. Why?
             </p>
             <div className="grid md:grid-cols-2 gap-4 text-sm">
