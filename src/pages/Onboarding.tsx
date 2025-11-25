@@ -20,10 +20,53 @@ export default function Onboarding() {
   const [domainInput, setDomainInput] = useState("");
   const [addedDomain, setAddedDomain] = useState<any>(null);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
 
   const addDomainMutation = useAddDomain();
   const verifyDomainMutation = useVerifyDomain();
   const { data: domains } = useWorkspaceDomains(currentWorkspace?.id);
+
+  useEffect(() => {
+    const checkAndCreateWorkspace = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      // Check if user has any workspace
+      const { data: workspaces } = await supabase
+        .from("workspaces")
+        .select("*")
+        .eq("owner_id", user.id);
+
+      // If no workspace exists, create one
+      if (!workspaces || workspaces.length === 0) {
+        setIsCreatingWorkspace(true);
+        const slug = user.email?.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, '-') || 'workspace';
+        const { data: newWorkspace, error } = await supabase
+          .from("workspaces")
+          .insert({
+            name: `${user.email?.split("@")[0]}'s Workspace`,
+            slug: slug,
+            owner_id: user.id,
+          })
+          .select()
+          .single();
+
+        if (error) {
+          toast({
+            title: "Error",
+            description: "Failed to create workspace",
+            variant: "destructive",
+          });
+        }
+        setIsCreatingWorkspace(false);
+      }
+    };
+
+    checkAndCreateWorkspace();
+  }, [navigate, toast]);
 
   useEffect(() => {
     if (!currentWorkspace) return;
@@ -126,10 +169,15 @@ export default function Onboarding() {
     }
   };
 
-  if (!currentWorkspace) {
+  if (!currentWorkspace || isCreatingWorkspace) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin" />
+        <div className="text-center space-y-4">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+          <p className="text-sm text-secondary-label">
+            {isCreatingWorkspace ? "Creating your workspace..." : "Loading..."}
+          </p>
+        </div>
       </div>
     );
   }
