@@ -100,7 +100,7 @@ export function GlanceableMetrics() {
 
   if (isLoading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
           <Card key={i} className="p-6">
             <Skeleton className="h-4 w-24 mb-3" />
@@ -115,7 +115,7 @@ export function GlanceableMetrics() {
   if (!metrics) return null;
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <Card className="p-6 hover:shadow-lg transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <p className="text-sm font-medium text-muted-foreground">Total Links</p>
