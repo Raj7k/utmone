@@ -1274,6 +1274,64 @@ export type Database = {
         }
         Relationships: []
       }
+      link_change_history: {
+        Row: {
+          change_type: string
+          changed_by: string
+          created_at: string | null
+          field_name: string | null
+          id: string
+          link_id: string
+          metadata: Json | null
+          new_value: string | null
+          old_value: string | null
+        }
+        Insert: {
+          change_type: string
+          changed_by: string
+          created_at?: string | null
+          field_name?: string | null
+          id?: string
+          link_id: string
+          metadata?: Json | null
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Update: {
+          change_type?: string
+          changed_by?: string
+          created_at?: string | null
+          field_name?: string | null
+          id?: string
+          link_id?: string
+          metadata?: Json | null
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_change_history_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_change_history_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_change_history_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_clicks: {
         Row: {
           browser: string | null
@@ -1370,6 +1428,68 @@ export type Database = {
             columns: ["targeting_rule_id"]
             isOneToOne: false
             referencedRelation: "targeting_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      link_comments: {
+        Row: {
+          comment_text: string
+          created_at: string | null
+          id: string
+          is_resolved: boolean | null
+          link_id: string
+          parent_comment_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          comment_text: string
+          created_at?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          link_id: string
+          parent_comment_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          comment_text?: string
+          created_at?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          link_id?: string
+          parent_comment_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_comments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_comments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_comments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_link_analytics"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "link_comments_parent_comment_id_fkey"
+            columns: ["parent_comment_id"]
+            isOneToOne: false
+            referencedRelation: "link_comments"
             referencedColumns: ["id"]
           },
         ]
@@ -1513,6 +1633,8 @@ export type Database = {
           ab_test_started_at: string | null
           ab_test_status: string | null
           ab_test_winner_id: string | null
+          approval_notes: string | null
+          approval_status: string | null
           blacklist_status: string | null
           conversion_rate: number | null
           created_at: string | null
@@ -1534,11 +1656,13 @@ export type Database = {
           password_hash: string | null
           password_hint: string | null
           path: string
+          pending_approval_by: string | null
           redirect_type: string | null
           security_status: Database["public"]["Enums"]["security_status"] | null
           short_url: string | null
           slug: string
           status: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at: string | null
           title: string
           total_clicks: number | null
           total_conversions: number | null
@@ -1559,6 +1683,8 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          approval_notes?: string | null
+          approval_status?: string | null
           blacklist_status?: string | null
           conversion_rate?: number | null
           created_at?: string | null
@@ -1580,6 +1706,7 @@ export type Database = {
           password_hash?: string | null
           password_hint?: string | null
           path?: string
+          pending_approval_by?: string | null
           redirect_type?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
@@ -1587,6 +1714,7 @@ export type Database = {
           short_url?: string | null
           slug: string
           status?: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at?: string | null
           title: string
           total_clicks?: number | null
           total_conversions?: number | null
@@ -1607,6 +1735,8 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          approval_notes?: string | null
+          approval_status?: string | null
           blacklist_status?: string | null
           conversion_rate?: number | null
           created_at?: string | null
@@ -1628,6 +1758,7 @@ export type Database = {
           password_hash?: string | null
           password_hint?: string | null
           path?: string
+          pending_approval_by?: string | null
           redirect_type?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
@@ -1635,6 +1766,7 @@ export type Database = {
           short_url?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at?: string | null
           title?: string
           total_clicks?: number | null
           total_conversions?: number | null
@@ -2580,6 +2712,59 @@ export type Database = {
             foreignKeyName: "webhook_subscriptions_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workspace_branding: {
+        Row: {
+          company_name: string | null
+          created_at: string | null
+          custom_domain: string | null
+          custom_footer_text: string | null
+          hide_utm_one_branding: boolean | null
+          id: string
+          logo_url: string | null
+          primary_color: string | null
+          secondary_color: string | null
+          support_email: string | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string | null
+          custom_domain?: string | null
+          custom_footer_text?: string | null
+          hide_utm_one_branding?: boolean | null
+          id?: string
+          logo_url?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          support_email?: string | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string | null
+          custom_domain?: string | null
+          custom_footer_text?: string | null
+          hide_utm_one_branding?: boolean | null
+          id?: string
+          logo_url?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          support_email?: string | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_branding_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: true
             referencedRelation: "workspaces"
             referencedColumns: ["id"]
           },

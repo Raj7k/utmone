@@ -164,6 +164,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Accessibility from "@/pages/Accessibility";
 import Permanence from "@/pages/Permanence";
 import Backups from "@/pages/settings/Backups";
+import ApprovalQueue from "./pages/ApprovalQueue";
 import { SkipToContent } from "@/components/SkipToContent";
 
 // Feature Pages
@@ -208,6 +209,7 @@ const App = () => (
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/domains" element={<Settings />} />
           <Route path="/settings/backups" element={<Backups />} />
+          <Route path="/approval-queue" element={<ApprovalQueue />} />
           <Route path="/password-protected" element={<PasswordProtected />} />
           <Route path="/accessibility" element={<Accessibility />} />
           <Route path="/permanence" element={<Permanence />} />
