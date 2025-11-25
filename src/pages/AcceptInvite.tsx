@@ -28,15 +28,38 @@ export default function AcceptInvite() {
 
   const loadInvitation = async (token: string) => {
     try {
+      console.log("🔍 Loading invitation with token:", token);
+      
       // First check if invitation exists (including accepted ones)
-      const { data: anyInvitation } = await supabase
+      const { data: anyInvitation, error: checkError } = await supabase
         .from("workspace_invitations")
         .select("accepted_at, expires_at")
         .eq("token", token)
         .single();
 
+      console.log("📋 Initial check result:", { anyInvitation, checkError });
+
+      if (checkError) {
+        console.error("❌ Error checking invitation:", checkError);
+        setError("Invalid invitation link");
+        setLoading(false);
+        return;
+      }
+
       if (anyInvitation?.accepted_at) {
+        console.log("⚠️ Invitation already accepted at:", anyInvitation.accepted_at);
         setError("This invitation has already been accepted");
+        setLoading(false);
+        return;
+      }
+
+      // Check if expired
+      const expiryDate = new Date(anyInvitation.expires_at);
+      const now = new Date();
+      console.log("⏰ Expiry check:", { expiryDate, now, isExpired: expiryDate < now });
+      
+      if (expiryDate < now) {
+        setError("This invitation has expired");
         setLoading(false);
         return;
       }
@@ -59,19 +82,15 @@ export default function AcceptInvite() {
         .is("accepted_at", null)
         .single();
 
-      if (error) throw error;
+      console.log("📦 Full invitation data:", { data, error });
 
-      // Check if expired
-      if (new Date(data.expires_at) < new Date()) {
-        setError("This invitation has expired");
-        setLoading(false);
-        return;
-      }
+      if (error) throw error;
 
       setInvitation(data);
       setLoading(false);
+      console.log("✅ Invitation loaded successfully");
     } catch (err) {
-      console.error("Error loading invitation:", err);
+      console.error("❌ Error loading invitation:", err);
       setError("Invalid invitation link");
       setLoading(false);
     }
