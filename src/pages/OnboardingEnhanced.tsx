@@ -211,9 +211,9 @@ export default function OnboardingEnhanced() {
           title: linkTitle,
           destination_url: linkDestination,
           domain: addedDomain?.domain || "utm.one",
-          path: "go",
+          path: "",
           slug,
-          final_url: `https://${addedDomain?.domain || "utm.one"}/go/${slug}`,
+          final_url: `https://${addedDomain?.domain || "utm.one"}/${slug}`,
         })
         .select()
         .single();
