@@ -32,7 +32,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useVerifyDomain } from "@/hooks/useVerifyDomain";
-import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle, ChevronDown } from "lucide-react";
+import { Loader2, Copy, Check, CheckCircle2, HelpCircle, AlertCircle, ChevronDown, AlertTriangle, Info } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
 
 interface DomainEditDialogProps {
   domain: any;
@@ -51,6 +53,10 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
     txtValue: false,
     cnameName: false,
     cnameValue: false,
+    aRecordName: false,
+    aRecordValue: false,
+    cnameRecordName: false,
+    cnameRecordValue: false,
   });
   const [dnsOpen, setDnsOpen] = useState(!domain?.is_verified); // Open by default for unverified
 
@@ -66,7 +72,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
   const isVerified = domain?.is_verified;
   const verificationCode = domain?.verification_code;
 
-  const handleCopy = async (text: string, type: 'txtName' | 'txtNameFull' | 'txtValue' | 'cnameName' | 'cnameValue') => {
+  const handleCopy = async (text: string, type: 'txtName' | 'txtNameFull' | 'txtValue' | 'cnameName' | 'cnameValue' | 'aRecordName' | 'aRecordValue' | 'cnameRecordName' | 'cnameRecordValue') => {
     await navigator.clipboard.writeText(text);
     setCopiedFields(prev => ({ ...prev, [type]: true }));
     setTimeout(() => {
@@ -317,6 +323,185 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
               </CollapsibleContent>
             </Collapsible>
           </div>
+
+          {/* Step 2: Traffic Routing Configuration */}
+          <div className="mt-8 pt-8 border-t border-border">
+            <div className="flex items-start gap-3 mb-4">
+              <div className={cn(
+                "w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold",
+                domain?.is_verified 
+                  ? "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400" 
+                  : "bg-muted text-muted-foreground"
+              )}>
+                2
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground mb-1">
+                  configure traffic routing
+                  {domain?.is_verified && (
+                    <span className="ml-2 text-sm font-normal text-orange-600 dark:text-orange-400">
+                      ⚠️ required for links to work
+                    </span>
+                  )}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {domain?.is_verified 
+                    ? "domain verified! now add A/CNAME records to route traffic to your short links."
+                    : "complete step 1 first, then configure routing records."}
+                </p>
+              </div>
+            </div>
+
+            {domain?.is_verified && (
+              <div className="ml-11 space-y-4">
+                <Alert className="bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-900">
+                  <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                  <AlertDescription className="text-sm text-foreground">
+                    your domain is verified but traffic routing is not configured. short links won't work until you add the A or CNAME record below.
+                  </AlertDescription>
+                </Alert>
+
+                <div className="space-y-3">
+                  <div className="text-sm font-medium text-foreground">
+                    choose one routing method:
+                  </div>
+
+                  {/* Option A: A Record (Recommended) */}
+                  <div className="p-4 rounded-lg border border-border bg-card">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-semibold text-foreground">option a: a record</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">recommended</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      routes traffic via cloudflare for better performance and ddos protection
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <label className="text-xs text-muted-foreground block mb-1">type</label>
+                          <div className="px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
+                            A
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-xs text-muted-foreground block mb-1">name</label>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
+                              @
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleCopy('@', 'aRecordName')}
+                              className="shrink-0"
+                            >
+                              {copiedFields.aRecordName ? (
+                                <Check className="h-4 w-4 text-green-600" />
+                              ) : (
+                                <Copy className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">value (ip address)</label>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
+                            185.158.133.1
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleCopy('185.158.133.1', 'aRecordValue')}
+                            className="shrink-0"
+                          >
+                            {copiedFields.aRecordValue ? (
+                              <Check className="h-4 w-4 text-green-600" />
+                            ) : (
+                              <Copy className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Option B: CNAME Record */}
+                  <div className="p-4 rounded-lg border border-border bg-card">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-sm font-semibold text-foreground">option b: cname record</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      direct route to supabase (simpler, but less performance optimization)
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <label className="text-xs text-muted-foreground block mb-1">type</label>
+                          <div className="px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
+                            CNAME
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <label className="text-xs text-muted-foreground block mb-1">name</label>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground">
+                              @
+                            </div>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleCopy('@', 'cnameRecordName')}
+                              className="shrink-0"
+                            >
+                              {copiedFields.cnameRecordName ? (
+                                <Check className="h-4 w-4 text-green-600" />
+                              ) : (
+                                <Copy className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">value (target)</label>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 px-3 py-2 rounded-md bg-muted/50 text-sm font-mono text-foreground break-all">
+                            whgnsmjdubnvbmarnjfx.supabase.co
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleCopy('whgnsmjdubnvbmarnjfx.supabase.co', 'cnameRecordValue')}
+                            className="shrink-0"
+                          >
+                            {copiedFields.cnameRecordValue ? (
+                              <Check className="h-4 w-4 text-green-600" />
+                            ) : (
+                              <Copy className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Alert>
+                    <Info className="h-4 w-4" />
+                    <AlertDescription className="text-sm">
+                      <strong>note:</strong> dns propagation can take 1-72 hours. most providers propagate within minutes, but some take longer.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Path Prefix */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">

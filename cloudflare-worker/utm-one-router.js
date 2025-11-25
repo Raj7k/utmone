@@ -17,9 +17,14 @@ async function handleRequest(request) {
   // Extract the full path (e.g., /test or /go/test from utm.one/test or utm.one/go/test)
   const pathname = url.pathname;
   
-  // If no path (root domain), redirect to main site
+  // If no path (root domain), handle appropriately
   if (!pathname || pathname === '/') {
-    return Response.redirect('https://utm.one', 302);
+    // utm.one and go.utm.one redirect to main site
+    if (url.hostname === 'utm.one' || url.hostname === 'go.utm.one') {
+      return Response.redirect('https://utm.one', 302);
+    }
+    // Custom domains show 404 at root (short links require a slug)
+    return new Response('Short link not found. Links require a path (e.g., yourdomain.com/slug)', { status: 404 });
   }
   
   // Forward to Supabase edge function with the same path
