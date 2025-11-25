@@ -6,6 +6,15 @@ import { CTABanner } from "@/components/resources/CTABanner";
 import { QuickAnswer } from "@/components/resources/QuickAnswer";
 import { SEO } from "@/components/seo/SEO";
 import { ArticleSchema, FAQSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { LLMReadinessScorer } from "@/components/resources/utm/LLMReadinessScorer";
+import { SchemaGenerator } from "@/components/resources/utm/SchemaGenerator";
+import { ContentStructureAnalyzer } from "@/components/resources/llm/ContentStructureAnalyzer";
+import { QueryIntentMatcher } from "@/components/resources/llm/QueryIntentMatcher";
+import { EATSignalChecker } from "@/components/resources/llm/EATSignalChecker";
+import { SemanticKeywordOptimizer } from "@/components/resources/llm/SemanticKeywordOptimizer";
+import { LLMCitationChecklist } from "@/components/resources/llm/LLMCitationChecklist";
+import { PromptOptimizationTool } from "@/components/resources/llm/PromptOptimizationTool";
+import { AIAnswerEngineTracker } from "@/components/resources/llm/AIAnswerEngineTracker";
 
 const LLMSeo = () => {
   const breadcrumbs = [
@@ -85,7 +94,7 @@ const LLMSeo = () => {
         relatedResources={relatedResources}
       >
       <QuickAnswer>
-        LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems like ChatGPT, Gemini, Claude, and Perplexity. It uses 7 principles: semantic naming, dense definitions, schema markup, internal cross-linking, FAQ sections, clear hierarchies, and citation-worthy sources.
+        LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems like ChatGPT, Gemini, Claude, and Perplexity. It uses 7 principles: semantic naming, dense definitions, schema markup, internal cross-linking, FAQ sections, clear hierarchies, and citation-worthy sources. This guide includes 9 interactive tools to optimize your content for AI citation.
       </QuickAnswer>
 
       {/* Narrative Introduction */}
@@ -267,6 +276,21 @@ const LLMSeo = () => {
       <section className="space-y-6">
         <h2 className="text-3xl font-display font-bold text-foreground">frequently asked questions</h2>
         <FAQAccordion items={faqs} />
+      </section>
+
+      {/* New LLM Tools Section */}
+      <section className="space-y-8">
+        <h2 className="text-3xl font-display font-bold text-foreground">Interactive LLM Optimization Tools</h2>
+        
+        <ContentStructureAnalyzer />
+        <QueryIntentMatcher />
+        <LLMReadinessScorer />
+        <SchemaGenerator />
+        <EATSignalChecker />
+        <SemanticKeywordOptimizer />
+        <LLMCitationChecklist />
+        <PromptOptimizationTool />
+        <AIAnswerEngineTracker />
       </section>
 
       <CTABanner
