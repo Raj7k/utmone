@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import About from "./pages/About";
@@ -177,6 +178,8 @@ import AnalyticsFeature from "./pages/features/Analytics";
 import EnterpriseControl from "./pages/features/EnterpriseControl";
 import CleanTrack from "./pages/features/CleanTrack";
 import PartnerProgram from "./pages/features/PartnerProgram";
+import ClientWorkspaces from "./pages/ClientWorkspaces";
+import AnalyticsShare from "./pages/AnalyticsShare";
 import Features from "./pages/Features";
 
 const queryClient = new QueryClient();
@@ -184,12 +187,13 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <SkipToContent />
-        <ScrollToTop />
-        <Routes>
+      <WorkspaceProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <SkipToContent />
+          <ScrollToTop />
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/onboarding" element={<OnboardingEnhanced />} />
@@ -373,10 +377,13 @@ const App = () => (
           <Route path="/partners/apply" element={<PartnerApply />} />
           <Route path="/partners/dashboard" element={<PartnerDashboard />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/workspaces" element={<ClientWorkspaces />} />
+          <Route path="/analytics/share/:token" element={<AnalyticsShare />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      </WorkspaceProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

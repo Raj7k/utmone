@@ -23,6 +23,7 @@ import { GlanceableMetrics } from "@/components/dashboard/GlanceableMetrics";
 import { AIInsights } from "@/components/dashboard/AIInsights";
 import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { CreateLinkInline } from "@/components/link/CreateLinkInline";
+import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 
 const Dashboard = () => {
   const navigate = useNavigate();
