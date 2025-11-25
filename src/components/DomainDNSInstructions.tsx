@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Copy, CheckCircle2, ExternalLink, AlertCircle, RefreshCw } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useVerifyDomain } from "@/hooks/useVerifyDomain";
+import { cn } from "@/lib/utils";
 
 interface DNSRecord {
   type: string;
@@ -25,7 +26,7 @@ export const DomainDNSInstructions = ({
   domainId,
 }: DomainDNSInstructionsProps) => {
   const { toast } = useToast();
-  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [copiedRecords, setCopiedRecords] = useState<Set<string>>(new Set());
   const verifyDomain = useVerifyDomain();
 
   const dnsRecords: DNSRecord[] = [
@@ -43,15 +44,24 @@ export const DomainDNSInstructions = ({
     },
   ];
 
-  const copyToClipboard = (text: string, field: string) => {
+  const copyToClipboard = (text: string, recordType: string) => {
     navigator.clipboard.writeText(text);
-    setCopiedField(field);
+    setCopiedRecords(prev => new Set(prev).add(recordType));
     toast({
-      title: "Copied to clipboard",
-      description: `${field} value copied successfully.`,
+      title: "Copied!",
+      description: `${recordType} copied to clipboard.`,
     });
-    setTimeout(() => setCopiedField(null), 2000);
   };
+
+  const allCopied = useMemo(() => 
+    copiedRecords.has("CNAME") && copiedRecords.has("TXT"),
+    [copiedRecords]
+  );
+
+  const copyProgress = useMemo(() => 
+    `${copiedRecords.size}/2 records copied`,
+    [copiedRecords]
+  );
 
   return (
     <div className="space-y-6">
@@ -69,6 +79,22 @@ export const DomainDNSInstructions = ({
         </AlertDescription>
       </Alert>
 
+      {copiedRecords.size > 0 && (
+        <Alert className={cn(
+          "border-2 transition-colors",
+          allCopied ? "border-green-500 bg-green-50" : "border-blue-500 bg-blue-50"
+        )}>
+          <CheckCircle2 className={cn(
+            "h-4 w-4",
+            allCopied ? "text-green-600" : "text-blue-600"
+          )} />
+          <AlertDescription className={allCopied ? "text-green-800" : "text-blue-800"}>
+            <strong>{allCopied ? "All records copied!" : copyProgress}</strong>
+            {allCopied && " Ready to verify your domain."}
+          </AlertDescription>
+        </Alert>
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>DNS Records for {domain}</CardTitle>
@@ -78,27 +104,40 @@ export const DomainDNSInstructions = ({
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {dnsRecords.map((record, index) => (
-              <div
-                key={index}
-                className="border rounded-lg p-4 space-y-3 bg-muted/50"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="font-semibold text-lg">{record.type} Record</div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() =>
-                      copyToClipboard(record.value, `${record.type} record`)
-                    }
-                  >
-                    {copiedField === `${record.type} record` ? (
-                      <CheckCircle2 className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </Button>
-                </div>
+            {dnsRecords.map((record, index) => {
+              const isCopied = copiedRecords.has(record.type);
+              
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    "border-2 rounded-lg p-4 space-y-3 transition-all duration-300",
+                    isCopied 
+                      ? "bg-green-50 border-green-300" 
+                      : "bg-muted/50 border-border"
+                  )}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="font-semibold text-lg">{record.type} Record</div>
+                      {isCopied && (
+                        <span className="text-xs text-green-600 font-medium px-2 py-1 bg-green-100 rounded-full">
+                          copied ✓
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => copyToClipboard(record.value, record.type)}
+                    >
+                      {isCopied ? (
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </Button>
+                  </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                   <div>
@@ -121,7 +160,8 @@ export const DomainDNSInstructions = ({
                   </div>
                 )}
               </div>
-            ))}
+            );
+            })}
           </div>
         </CardContent>
       </Card>
