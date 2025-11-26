@@ -21,9 +21,13 @@ import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
 import { BulkFolderSelector } from "./BulkFolderSelector";
 import { BulkTagInput } from "./BulkTagInput";
 import { BulkQRGenerator } from "./BulkQRGenerator";
+import { UTMTemplateManager } from "./UTMTemplateManager";
+import { BulkLinkSettings, type BulkLinkSettingsData } from "./BulkLinkSettings";
+import { UTMValidationRules, type UTMValidationRule } from "./UTMValidationRules";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
+import type { BatchResult } from "@/hooks/useBatchProcessor";
 
 interface BulkUploadProProps {
   workspaceId: string;
@@ -38,6 +42,10 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const [folderId, setFolderId] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [showQRGenerator, setShowQRGenerator] = useState(false);
+  const [linkSettings, setLinkSettings] = useState<BulkLinkSettingsData>({
+    redirect_type: "302",
+  });
+  const [validationRules, setValidationRules] = useState<UTMValidationRule[]>([]);
   const [showResumeBanner, setShowResumeBanner] = useState(false);
   const [savedProgress, setSavedProgress] = useState<any>(null);
   const [utmDefaults, setUtmDefaults] = useState({
@@ -237,7 +245,52 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       return;
     }
 
-    // Prepare links for creation with custom slugs and UTM parameters
+    // Validate UTM parameters against rules
+    for (const validation of validations) {
+      for (const rule of validationRules) {
+        const value = validation[rule.parameter] || "";
+        if (rule.required && !value) {
+          toast({
+            title: "validation error",
+            description: `${rule.parameter} is required for all links`,
+            variant: "destructive",
+          });
+          return;
+        }
+        if (rule.pattern && value) {
+          try {
+            const regex = new RegExp(rule.pattern);
+            if (!regex.test(value)) {
+              toast({
+                title: "validation error",
+                description: rule.errorMessage || `${rule.parameter} does not match required pattern`,
+                variant: "destructive",
+              });
+              return;
+            }
+          } catch (e) {
+            toast({
+              title: "validation error",
+              description: `invalid regex pattern for ${rule.parameter}`,
+              variant: "destructive",
+            });
+            return;
+          }
+        }
+        if (rule.allowedValues && rule.allowedValues.length > 0 && value) {
+          if (!rule.allowedValues.includes(value)) {
+            toast({
+              title: "validation error",
+              description: `${rule.parameter} must be one of: ${rule.allowedValues.join(", ")}`,
+              variant: "destructive",
+            });
+            return;
+          }
+        }
+      }
+    }
+
+    // Prepare links for creation with custom slugs, UTM parameters, and advanced settings
     const links = validations
       .filter(v => v.isValid && !v.isDuplicate)
       .map((v, index) => {
@@ -251,6 +304,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           utm_campaign: v.utm_campaign,
           utm_term: v.utm_term,
           utm_content: v.utm_content,
+          ...linkSettings,
         };
       });
 
@@ -390,10 +444,33 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
                 <BulkFolderSelector value={folderId} onChange={setFolderId} />
-                <BulkTagInput value={tags} onChange={setTags} />
-              </div>
-            </CardContent>
-          </Card>
+              <BulkTagInput
+                value={tags}
+                onChange={setTags}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* UTM Template Manager */}
+        {workspaceId && (
+          <UTMTemplateManager
+            workspaceId={workspaceId}
+            onApplyTemplate={(template) => {
+              setUtmDefaults(template);
+              toast({
+                title: "template applied",
+                description: "UTM template has been applied to all links",
+              });
+            }}
+          />
+        )}
+
+        {/* Advanced Link Settings */}
+        <BulkLinkSettings settings={linkSettings} onChange={setLinkSettings} />
+
+        {/* UTM Validation Rules */}
+        <UTMValidationRules rules={validationRules} onChange={setValidationRules} />
 
           <Card>
             <CardHeader>
