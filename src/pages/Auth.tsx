@@ -99,72 +99,41 @@ const Auth = () => {
   };
 
   const checkEmailAllowed = async (email: string): Promise<{allowed: boolean; reason: string; message?: string}> => {
-    // FIRST: Check if this email belongs to an admin user using two-step query
-    // Step 1: Get user_id from profiles
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("email", email.toLowerCase())
-      .maybeSingle();
-
-    if (profile) {
-      // Step 2: Check if this user has admin role
-      const { data: adminRole } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", profile.id)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      if (adminRole) {
-        return { allowed: true, reason: "admin" };
+    console.log("Checking if email is allowed:", email);
+    
+    try {
+      // Call edge function that bypasses RLS using service role
+      const { data, error } = await supabase.functions.invoke('check-email-allowed', {
+        body: { email: email.toLowerCase() }
+      });
+      
+      if (error) {
+        console.error("Error checking email access:", error);
+        return { 
+          allowed: false, 
+          reason: "error", 
+          message: "Unable to verify access. Please try again." 
+        };
       }
+      
+      if (!data) {
+        return { 
+          allowed: false, 
+          reason: "error", 
+          message: "Unable to verify access. Please try again." 
+        };
+      }
+      
+      console.log("Email access check result:", data);
+      return data;
+    } catch (error) {
+      console.error("Exception checking email access:", error);
+      return { 
+        allowed: false, 
+        reason: "error", 
+        message: "Unable to verify access. Please try again." 
+      };
     }
-
-    // THEN: Check early_access_requests for approved status
-    const { data: request } = await supabase
-      .from("early_access_requests")
-      .select("status")
-      .eq("email", email.toLowerCase())
-      .eq("status", "approved")
-      .limit(1)
-      .maybeSingle();
-
-    if (request?.status === "approved") {
-      return { allowed: true, reason: "approved" };
-    }
-
-    // Check early_access_invites for valid invite
-    const { data: invite } = await supabase
-      .from("early_access_invites")
-      .select("id, claimed_at, expires_at")
-      .eq("email", email.toLowerCase())
-      .is("claimed_at", null)
-      .gt("expires_at", new Date().toISOString())
-      .maybeSingle();
-
-    if (invite) {
-      return { allowed: true, reason: "invited" };
-    }
-
-    // FINALLY: Check workspace_invitations for team member invites
-    const { data: workspaceInvite } = await supabase
-      .from("workspace_invitations")
-      .select("id, email, expires_at, accepted_at")
-      .eq("email", email.toLowerCase())
-      .is("accepted_at", null)
-      .gt("expires_at", new Date().toISOString())
-      .maybeSingle();
-
-    if (workspaceInvite) {
-      return { allowed: true, reason: "workspace_invited" };
-    }
-
-    return { 
-      allowed: false, 
-      reason: "not_approved",
-      message: "Your email hasn't been approved yet. Request early access to join the waitlist." 
-    };
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
