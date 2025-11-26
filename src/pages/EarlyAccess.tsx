@@ -178,44 +178,30 @@ export default function EarlyAccess() {
       referredBy = referrer?.id || null;
     }
 
-    // Insert the request
-    const { data: insertedData, error } = await supabase
-      .from('early_access_requests')
-      .insert({
-        name: data.name,
-        email: data.email,
-        team_size: data.team_size,
-        role: data.role,
-        reason_for_joining: data.reason_for_joining,
-        reason_details: data.reason_details || null,
-        how_heard: data.how_heard,
-        company_domain: data.company_domain || null,
-        desired_domain: data.desired_domain || null,
-        referred_by: referredBy,
-      })
-      .select()
-      .single();
+    // Submit via edge function (uses service role to bypass RLS)
+    const { data: insertedData, error } = await supabase.functions.invoke(
+      "submit-early-access",
+      {
+        body: {
+          name: data.name,
+          email: data.email,
+          team_size: data.team_size,
+          role: data.role,
+          reason_for_joining: data.reason_for_joining,
+          reason_details: data.reason_details || null,
+          how_heard: data.how_heard,
+          company_domain: data.company_domain || null,
+          desired_domain: data.desired_domain || null,
+          referred_by: referredBy,
+        },
+      }
+    );
 
     if (error) {
       console.error('Early access request error:', error);
       toast.error("something went wrong. please try again.");
       setIsSubmitting(false);
       return;
-    }
-
-    // Send confirmation email
-    try {
-      await supabase.functions.invoke('send-applicant-confirmation', {
-        body: {
-          name: data.name,
-          email: data.email,
-          team_size: data.team_size,
-          referral_code: insertedData.referral_code,
-          request_id: insertedData.id,
-        }
-      });
-    } catch (error) {
-      console.error('Confirmation email error:', error);
     }
 
     setIsSubmitted(true);
