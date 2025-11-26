@@ -77,6 +77,7 @@ const Marketers = lazy(() => import("./pages/solutions/Marketers"));
 const Sales = lazy(() => import("./pages/solutions/Sales"));
 const MarketingOps = lazy(() => import("./pages/solutions/MarketingOps"));
 const Developers = lazy(() => import("./pages/solutions/Developers"));
+const PartnerManagers = lazy(() => import("./pages/solutions/PartnerManagers"));
 
 // Resource Pages
 const Resources = lazy(() => import("./pages/Resources"));
@@ -475,6 +476,7 @@ const App = () => (
               <Route path="/solutions/sales" element={<Suspense fallback={<DashboardSkeleton />}><Sales /></Suspense>} />
               <Route path="/solutions/marketing-ops" element={<Suspense fallback={<DashboardSkeleton />}><MarketingOps /></Suspense>} />
               <Route path="/solutions/developers" element={<Suspense fallback={<DashboardSkeleton />}><Developers /></Suspense>} />
+              <Route path="/solutions/partner-managers" element={<Suspense fallback={<DashboardSkeleton />}><PartnerManagers /></Suspense>} />
               <Route path="/early-access" element={<Suspense fallback={<DashboardSkeleton />}><EarlyAccess /></Suspense>} />
               <Route path="/waitlist-status" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistStatus /></Suspense>} />
               <Route path="/invite/:code" element={<Suspense fallback={<DashboardSkeleton />}><Invite /></Suspense>} />

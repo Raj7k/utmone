@@ -1,33 +1,39 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, QrCode, Monitor, MessageSquare } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, UserPlus, MessageSquare, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
-import { FeatureCard } from "@/components/landing/FeatureCard";
 import { Footer } from "@/components/landing/Footer";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
+import { PainPointCard } from "@/components/solutions/PainPointCard";
+import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 
 const Sales = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero */}
-      <section className="py-32 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
+      {/* Fold 1: Hero */}
+      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
+        <HeroFloatingShapes />
+        <HeroGlow />
+        <DiagonalAccent position="top-left" />
+        <DiagonalAccent position="bottom-right" />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
-                Share faster. Share cleaner.
-              </h1>
-            </div>
-            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto text-balance">
-              utm.one gives sales simple, branded short links without the complexity of utms.
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
+              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
+                Links That Explain Your Influence
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+              utm.one helps sales teams share cleaner, faster, clearer links — with attribution built in.
             </p>
             <div className="pt-4">
-              <Link to="/pricing">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  get early access
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Get Early Access
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
@@ -36,121 +42,144 @@ const Sales = () => {
         </div>
       </section>
 
-      {/* The Sales Truth */}
-      <section className="py-32 bg-muted/20">
-        <div className="max-w-[900px] mx-auto px-8">
-          <div className="text-center space-y-12">
-            <AnimatedHeadline>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
-                Sales shouldn&apos;t worry about tracking.
-                <br />
-                They should focus on conversations.
-              </h1>
-            </AnimatedHeadline>
-            <div className="text-title-2 text-secondary-label max-w-[800px] mx-auto leading-relaxed space-y-6">
-              <p>every touchpoint—booth, demo, follow-up—should just work.</p>
-              <p className="text-label font-medium">utm.one removes the friction.</p>
-            </div>
+      {/* Fold 2: The Real Pain */}
+      <section className="relative py-24 bg-wildSand overflow-hidden">
+        <DotPattern />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              The Real Pain
+            </h2>
+            <p className="text-xl text-muted-foreground italic">
+              Sales should focus on conversations, not cleanup.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <PainPointCard icon={AlertCircle} text="Broken outreach links" delay={0} />
+            <PainPointCard icon={AlertCircle} text="Unclear handoffs to marketing" delay={0.1} />
+            <PainPointCard icon={AlertCircle} text="Lost partner traffic" delay={0.2} />
+            <PainPointCard icon={AlertCircle} text="No visibility into which touchpoint mattered" delay={0.3} />
           </div>
         </div>
       </section>
 
-      {/* Why Sales Teams Choose utm.one */}
-      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+      {/* Fold 3: What You Get */}
+      <section className="py-24 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
-          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            Why sales teams choose utm.one
-          </h1>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              What You Get
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Send with confidence. Track with clarity.
+            </p>
+          </div>
           
-          <div className="space-y-8 max-w-[800px] mx-auto">
-            <FeatureCard
-              number="01"
-              title="one-click short links"
-              description="professional, on-brand urls for: demos, proposals, decks, follow-ups."
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {[
+              "Simple short links",
+              "Personal tracking",
+              "Clean UTMs built automatically",
+              "QR for events and booths",
+              "Partner attribution (if needed)",
+              "Analytics that make sense",
+            ].map((benefit, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
+                <p className="text-lg text-foreground">{benefit}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Fold 4: Mapped Features */}
+      <section className="py-24 bg-gradient-to-b from-wildSand/50 to-background">
+        <div className="max-w-[1200px] mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Built for Sales Teams
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureMappedCard
+              icon={LinkIcon}
+              title="Short Links"
+              description="Clean, memorable links in outreach"
+              color="blazeOrange"
               delay={0}
             />
-            
-            <FeatureCard
-              number="02"
-              title="qr codes ready for booths"
-              description="clean, beautiful, instantly usable on screens, slides, and stands."
-              delay={100}
+            <FeatureMappedCard
+              icon={Settings}
+              title="UTM Builder"
+              description="Auto-filled parameters for sequences & cadences"
+              color="deepSea"
+              delay={0.1}
             />
-            
-            <FeatureCard
-              number="03"
-              title="templates that think for you"
-              description="utms are pre-set by marketing. sales just clicks 'generate.'"
-              delay={200}
-            />
-            
-            <FeatureCard
-              number="04"
-              title="simple insights"
-              description="know which links are working — without touching analytics."
-              delay={300}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Workflow Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[1100px] mx-auto px-8">
-          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            Designed for moments that matter
-          </h1>
-          
-          {/* Use Case Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
-            <WorkflowStep
+            <FeatureMappedCard
               icon={QrCode}
-              title="At the booth"
-              description="QR codes on screens, slides, and stands"
-              bgColor="bg-orange-50"
-              iconColor="text-orange-600"
-              delay={0}
+              title="QR Generator"
+              description="Perfect for events, dinners, meetups"
+              color="primary"
+              delay={0.2}
             />
-            
-            <WorkflowStep
-              icon={Monitor}
-              title="During demo"
-              description="Share branded link in real-time"
-              bgColor="bg-blue-50"
-              iconColor="text-blue-600"
-              delay={100}
+            <FeatureMappedCard
+              icon={BarChart3}
+              title="Analytics"
+              description="See who clicked and where they came from"
+              color="blazeOrange"
+              delay={0.3}
             />
-            
-            <WorkflowStep
-              icon={MessageSquare}
-              title="Follow-up"
-              description="Drop clean link in chat or email"
-              bgColor="bg-green-50"
-              iconColor="text-green-600"
-              delay={200}
+            <FeatureMappedCard
+              icon={Layers}
+              title="Clean-Track"
+              description="Consistent naming, even across sales + marketing"
+              color="deepSea"
+              delay={0.4}
             />
           </div>
-          
-          {/* Supporting Text */}
-          <p className="text-center text-title-2 text-secondary-label max-w-[640px] mx-auto">
-            utm.one makes every touchpoint clean and reliable.
-          </p>
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="py-32 bg-white">
+      {/* Fold 5: Workflow */}
+      <section className="py-32 bg-mirage">
+        <div className="max-w-[1100px] mx-auto px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
+              Your Workflow, Simplified
+            </h2>
+            <p className="text-xl text-white/70">
+              No complex setup, no extra tools
+            </p>
+          </div>
+          
+          <WorkflowTimeline
+            steps={[
+              { icon: MessageSquare, label: "Share" },
+              { icon: BarChart3, label: "Track" },
+              { icon: UserPlus, label: "Follow Up" },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: CTA */}
+      <section className="py-32 bg-gradient-to-br from-blazeOrange/10 to-deepSea/10">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <AnimatedHeadline delay={100}>
-              <h1 className="text-h1 font-display text-foreground font-bold tracking-tight">
-                Sales moves faster with simple, consistent links.
-              </h1>
-            </AnimatedHeadline>
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Ready to Track Your Influence?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
+              Join sales teams who trust utm.one for clear attribution and faster follow-ups.
+            </p>
             <div className="pt-4">
-              <Link to="/auth">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  see how sales uses utm.one
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Explore utm.one for Sales
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
@@ -159,20 +188,6 @@ const Sales = () => {
         </div>
       </section>
 
-      {/* Cross-link Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center">
-            <p className="text-body-apple text-secondary-label">
-              <Link to="/solutions/marketers" className="text-label hover:underline">
-                see how marketing creates these links →
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
       <Footer />
     </div>
   );

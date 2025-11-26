@@ -1,33 +1,39 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Box, BarChart3, MessageCircle, Workflow, Database } from "lucide-react";
+import { ArrowRight, Code, Webhook, FileText, CheckCircle2, AlertCircle, Layers, Terminal, Zap, GitBranch, Database } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
-import { FeatureCard } from "@/components/landing/FeatureCard";
 import { Footer } from "@/components/landing/Footer";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
+import { PainPointCard } from "@/components/solutions/PainPointCard";
+import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 
 const Developers = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero */}
-      <section className="py-32 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
+      {/* Fold 1: Hero */}
+      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
+        <HeroFloatingShapes />
+        <HeroGlow />
+        <DiagonalAccent position="top-left" />
+        <DiagonalAccent position="bottom-right" />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
-                A clean API for a cleaner stack.
-              </h1>
-            </div>
-            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto text-balance">
-              utm.one integrates your links, analytics, and events into any system you already use.
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
+              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
+                A Clean API for a Cleaner Stack
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+              utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure.
             </p>
             <div className="pt-4">
-              <Link to="/pricing">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  get early access
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Get Early Access
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
@@ -36,140 +42,154 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* The Engineering Truth */}
-      <section className="py-32 bg-muted/20">
-        <div className="max-w-[900px] mx-auto px-8">
-          <div className="text-center space-y-12">
-            <AnimatedHeadline>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
-                Complex link systems break silently.
-              </h2>
-            </AnimatedHeadline>
-            <div className="text-title-2 text-secondary-label max-w-[800px] mx-auto leading-relaxed space-y-6">
-              <p>APIs differ. Redirects slow. Analytics drift.</p>
-              <p className="text-label font-medium">utm.one gives you a single, reliable foundation.</p>
-            </div>
+      {/* Fold 2: The Real Pain */}
+      <section className="relative py-24 bg-wildSand overflow-hidden">
+        <DotPattern />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              The Real Pain
+            </h2>
+            <p className="text-xl text-muted-foreground italic">
+              Developers shouldn't fight the tools they integrate.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <PainPointCard icon={AlertCircle} text="Rate limits" delay={0} />
+            <PainPointCard icon={AlertCircle} text="Broken redirects" delay={0.1} />
+            <PainPointCard icon={AlertCircle} text="Inconsistent slugs" delay={0.2} />
+            <PainPointCard icon={AlertCircle} text="Messy metadata" delay={0.3} />
+            <PainPointCard icon={AlertCircle} text="No ownership" delay={0.4} />
+            <PainPointCard icon={AlertCircle} text="Poor docs" delay={0.5} />
           </div>
         </div>
       </section>
 
-      {/* Why Developers Choose utm.one */}
-      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+      {/* Fold 3: What You Get */}
+      <section className="py-24 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            Why developers choose utm.one
-          </h2>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              What You Get
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Fast. Predictable. Developer-friendly.
+            </p>
+          </div>
           
-          <div className="space-y-8 max-w-[800px] mx-auto">
-            <FeatureCard
-              number="01"
-              title="consistent restful api"
-              description="create, update, track links programmatically. fully documented. versioned. fast."
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {[
+              "GraphQL + REST APIs",
+              "600 req/min on free tier",
+              "Webhooks for everything",
+              "Interactive playground",
+              "Metadata endpoints",
+              "Semantic slug generation",
+              "Transparent error handling",
+            ].map((benefit, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
+                <p className="text-lg text-foreground">{benefit}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Fold 4: Mapped Features */}
+      <section className="py-24 bg-gradient-to-b from-wildSand/50 to-background">
+        <div className="max-w-[1200px] mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Built for Developers
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureMappedCard
+              icon={Code}
+              title="Short Links API"
+              description="Create, edit, manage links programmatically"
+              color="blazeOrange"
               delay={0}
             />
-            
-            <FeatureCard
-              number="02"
-              title="webhooks that actually work"
-              description="real-time click events. easy to subscribe. easy to pipe into warehouses."
-              delay={100}
+            <FeatureMappedCard
+              icon={Layers}
+              title="Clean-Track API"
+              description="Validate UTMs before saving"
+              color="deepSea"
+              delay={0.1}
             />
-            
-            <FeatureCard
-              number="03"
-              title="export-ready data"
-              description="bigquery, snowflake, databricks, redshift — all supported through clean exports."
-              delay={200}
+            <FeatureMappedCard
+              icon={Database}
+              title="LLM Metadata API"
+              description="Add structured meaning for AI"
+              color="primary"
+              delay={0.2}
             />
-            
-            <FeatureCard
-              number="04"
-              title="predictable performance"
-              description="100ms redirects. safe, governed structure. no surprises."
-              delay={300}
+            <FeatureMappedCard
+              icon={Code}
+              title="QR API"
+              description="Generate QR via code"
+              color="blazeOrange"
+              delay={0.3}
+            />
+            <FeatureMappedCard
+              icon={Webhook}
+              title="Webhooks"
+              description="Listen to clicks, scans, conversions"
+              color="deepSea"
+              delay={0.4}
+            />
+            <FeatureMappedCard
+              icon={FileText}
+              title="Docs"
+              description="Copy-paste examples in 8 languages"
+              color="primary"
+              delay={0.5}
             />
           </div>
         </div>
       </section>
 
-      {/* Integration Section */}
-      <section className="py-24 bg-muted/30">
+      {/* Fold 5: Workflow */}
+      <section className="py-32 bg-mirage">
         <div className="max-w-[1100px] mx-auto px-8">
-          <h2 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            Built for integration
-          </h2>
-          
-          {/* Hub and Spoke Layout */}
-          <div className="flex flex-col items-center gap-12 mb-12">
-            {/* Center Hub */}
-            <div className="flex flex-col items-center">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-foreground/5 flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-105">
-                <Box className="w-10 h-10 md:w-12 md:h-12 text-foreground" strokeWidth={2} />
-              </div>
-              <h3 className="text-headline font-display font-semibold text-label mb-2">utm.one API</h3>
-              <p className="text-subheadline text-secondary-label">Clean API foundation</p>
-            </div>
-            
-            {/* Connected Systems */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 w-full max-w-[1000px]">
-              <WorkflowStep
-                icon={BarChart3}
-                title="Dashboards"
-                description="Pull clean analytics data"
-                bgColor="bg-blue-50"
-                iconColor="text-blue-600"
-                delay={0}
-              />
-              
-              <WorkflowStep
-                icon={MessageCircle}
-                title="Slack Alerts"
-                description="Reliable notifications"
-                bgColor="bg-purple-50"
-                iconColor="text-purple-600"
-                delay={100}
-              />
-              
-              <WorkflowStep
-                icon={Workflow}
-                title="HubSpot"
-                description="Perfect workflow sync"
-                bgColor="bg-orange-50"
-                iconColor="text-orange-600"
-                delay={200}
-              />
-              
-              <WorkflowStep
-                icon={Database}
-                title="Warehouses"
-                description="Export-ready data"
-                bgColor="bg-green-50"
-                iconColor="text-green-600"
-                delay={300}
-              />
-            </div>
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
+              Your Workflow, Simplified
+            </h2>
+            <p className="text-xl text-white/70">
+              A link system that fits into your infra
+            </p>
           </div>
           
-          {/* Supporting Text */}
-          <p className="text-center text-body-apple text-secondary-label max-w-[640px] mx-auto">
-            everything works because the data is clean from the start.
-          </p>
+          <WorkflowTimeline
+            steps={[
+              { icon: Terminal, label: "Build" },
+              { icon: Zap, label: "Test" },
+              { icon: GitBranch, label: "Ship" },
+            ]}
+          />
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="py-32 bg-white">
+      {/* Fold 6: CTA */}
+      <section className="py-32 bg-gradient-to-br from-blazeOrange/10 to-deepSea/10">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <AnimatedHeadline delay={100}>
-              <h2 className="text-h1 font-display text-foreground font-bold tracking-tight">
-                utm.one gives teams a single, reliable foundation for link data.
-              </h2>
-            </AnimatedHeadline>
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Ready to Build with utm.one?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
+              Join developer teams who trust utm.one for reliable APIs and clean data.
+            </p>
             <div className="pt-4">
-              <Link to="/auth">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  view developer docs
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Explore utm.one for Developers
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
@@ -178,20 +198,6 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Cross-link Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center">
-            <p className="text-body-apple text-secondary-label">
-              <Link to="/solutions/marketers" className="text-label hover:underline">
-                see how <Link to="/solutions/marketing-ops" className="text-label hover:underline">ops</Link> governs domains and roles →
-              </Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
