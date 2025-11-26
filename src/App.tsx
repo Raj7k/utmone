@@ -222,6 +222,7 @@ const GlossaryRevenueRecognition = lazy(() => import("./pages/resources/glossary
 const EarlyAccess = lazy(() => import("./pages/EarlyAccess"));
 const Invite = lazy(() => import("./pages/Invite"));
 const ClaimAccess = lazy(() => import("./pages/ClaimAccess"));
+const Partners = lazy(() => import("./pages/Partners"));
 const PartnerApply = lazy(() => import("./pages/Partners/Apply"));
 const PartnerDashboard = lazy(() => import("./pages/Partners/Dashboard"));
 const PartnerTerms = lazy(() => import("./pages/Partners/Terms"));
@@ -232,6 +233,12 @@ const IntegrationsSettings = lazy(() => import("./pages/settings/Integrations"))
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ClientWorkspaces = lazy(() => import("./pages/ClientWorkspaces"));
 const AnalyticsShare = lazy(() => import("./pages/AnalyticsShare"));
+
+// Legal Pages
+const PrivacyLegal = lazy(() => import("./pages/legal/PrivacyLegal"));
+const TermsLegal = lazy(() => import("./pages/legal/TermsLegal"));
+const PermanenceTerms = lazy(() => import("./pages/legal/PermanenceTerms"));
+
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -483,6 +490,7 @@ const App = () => (
               <Route path="/waitlist-status" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistStatus /></Suspense>} />
               <Route path="/invite/:code" element={<Suspense fallback={<DashboardSkeleton />}><Invite /></Suspense>} />
               <Route path="/claim-access" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAccess /></Suspense>} />
+              <Route path="/partners" element={<Suspense fallback={<DashboardSkeleton />}><Partners /></Suspense>} />
               <Route path="/partners/apply" element={<Suspense fallback={<DashboardSkeleton />}><PartnerApply /></Suspense>} />
               <Route path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />
               <Route path="/partners/terms" element={<Suspense fallback={<DashboardSkeleton />}><PartnerTerms /></Suspense>} />
@@ -491,6 +499,11 @@ const App = () => (
               <Route path="/integrations/gtm" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><GTMSettings /></DashboardLayout></Suspense>} />
               <Route path="/settings/integrations" element={<Suspense fallback={<DashboardSkeleton />}><IntegrationsSettings /></Suspense>} />
               <Route path="/privacy-policy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyPolicy /></Suspense>} />
+              
+              {/* Legal Pages */}
+              <Route path="/legal/privacy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyLegal /></Suspense>} />
+              <Route path="/legal/terms" element={<Suspense fallback={<DashboardSkeleton />}><TermsLegal /></Suspense>} />
+              <Route path="/legal/permanence-terms" element={<Suspense fallback={<DashboardSkeleton />}><PermanenceTerms /></Suspense>} />
               <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -62,10 +62,6 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
     mutationFn: async (data: QRFormData) => {
       try {
         setIsGenerating(true);
-        console.log("🚀 [QR Generation] Starting QR code generation...");
-        console.log("📋 [QR Generation] Form data:", data);
-        console.log("🔗 [QR Generation] Original Short URL:", shortUrl);
-        console.log("🆔 [QR Generation] Link ID:", linkId);
 
         // Normalize URL to Supabase edge function format
         const normalizeUrl = (url: string) => {
@@ -78,7 +74,6 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         };
 
         const normalizedShortUrl = normalizeUrl(shortUrl);
-        console.log("🔄 [QR Generation] Normalized URL:", normalizedShortUrl);
 
         // Generate PNG using qrcode library
         const pngDataUrl = await QRCodeLib.toDataURL(normalizedShortUrl, {
@@ -90,12 +85,8 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
           },
         });
 
-        console.log("✅ [QR Generation] PNG generated successfully");
-        console.log("📊 [QR Generation] PNG data URL length:", pngDataUrl.length);
-
         // Convert data URL to blob
         const pngBlob = await fetch(pngDataUrl).then((r) => r.blob());
-        console.log("✅ [QR Generation] PNG blob created, size:", pngBlob.size, "bytes");
 
         // Generate SVG
         const svgString = await QRCodeLib.toString(normalizedShortUrl, {
