@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, BarChart3, Activity, Target } from 'lucide-react';
+import { PerformanceCharts } from './PerformanceCharts';
 
 interface Version {
   id: string;
@@ -167,6 +168,9 @@ export const VersionAnalytics = ({ versions }: VersionAnalyticsProps) => {
           )}
         </CardContent>
       </Card>
+
+      {/* Performance Charts */}
+      <PerformanceCharts versions={versions} />
     </div>
   );
 };
