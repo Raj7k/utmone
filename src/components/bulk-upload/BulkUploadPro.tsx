@@ -31,6 +31,8 @@ import { BulkUploadAnalytics } from "./BulkUploadAnalytics";
 import { BatchLinkOperations } from "./BatchLinkOperations";
 import { ErrorRecovery } from "./ErrorRecovery";
 import { ValidationReport } from "./ValidationReport";
+import { NotificationSettings, type NotificationPreferences } from "./NotificationSettings";
+import { PerformanceMonitor } from "./PerformanceMonitor";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -77,6 +79,12 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const { validations, validateURLs, updateValidation, getStats } = useBulkValidation();
   const { state, results, processURLs, retryFailed, reset } = useEnhancedBatchProcessor(workspaceId, 10);
   const [showErrorRecovery, setShowErrorRecovery] = useState(false);
+  const [processingStartTime, setProcessingStartTime] = useState(0);
+  const [notificationPreferences, setNotificationPreferences] = useState<NotificationPreferences>({
+    email: true,
+    webhook: false,
+    inApp: true,
+  });
   const { previews, isLoading: previewsLoading } = useBulkLinkPreview(urls);
   const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
   const persistence = useBulkUploadPersistence();
@@ -334,6 +342,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         };
       });
 
+    setProcessingStartTime(Date.now());
+    
     try {
       const batchResults = await processURLs(links, selectedDomain, folderId, tags);
       queryClient.invalidateQueries({ queryKey: ["links"] });
@@ -344,6 +354,25 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       
       const successCount = batchResults.filter(r => r.success).length;
       const failedResultsCount = batchResults.filter(r => !r.success).length;
+      
+      // Send notifications
+      const notificationChannels: ('email' | 'webhook' | 'in_app')[] = [];
+      if (notificationPreferences.email) notificationChannels.push('email');
+      if (notificationPreferences.webhook) notificationChannels.push('webhook');
+      if (notificationPreferences.inApp) notificationChannels.push('in_app');
+      
+      if (notificationChannels.length > 0) {
+        await supabase.functions.invoke('notify-bulk-upload-complete', {
+          body: {
+            workspace_id: workspaceId,
+            user_id: (await supabase.auth.getUser()).data.user?.id,
+            total_links: links.length,
+            successful: successCount,
+            failed: failedResultsCount,
+            notification_channels: notificationChannels,
+          },
+        });
+      }
       
       if (failedResultsCount > 0) {
         setShowErrorRecovery(true);
@@ -364,8 +393,10 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      setProcessingStartTime(0);
     }
-  }, [validations, getStats, processURLs, selectedDomain, folderId, tags, queryClient, results, toast]);
+  }, [validations, getStats, processURLs, selectedDomain, folderId, tags, queryClient, results, toast, notificationPreferences, workspaceId]);
 
   const handleRetryFailed = async (urls: string[]) => {
     await retryFailed(urls, selectedDomain, folderId, tags);
@@ -516,6 +547,13 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         {/* Schedule Settings */}
         <ScheduleSettings schedule={schedule} onChange={setSchedule} />
 
+        {/* Notification Settings */}
+        <NotificationSettings
+          preferences={notificationPreferences}
+          onPreferencesChange={setNotificationPreferences}
+          hasWebhookConfigured={false}
+        />
+
           <Card>
             <CardHeader>
               <CardTitle className="font-display text-title-2">upload URLs</CardTitle>
@@ -603,15 +641,34 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
 
       {/* Processing Section */}
       {(state.stage === "parsing" || state.stage === "validating" || state.stage === "creating") && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-display text-title-2">processing links</CardTitle>
-            <CardDescription>creating your short links…</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ProcessingProgress {...state} />
-          </CardContent>
-        </Card>
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-title-2">processing links</CardTitle>
+              <CardDescription>creating your short links…</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ProcessingProgress
+                stage={state.stage}
+                currentBatch={state.currentBatch}
+                totalBatches={state.totalBatches}
+                processedCount={state.processedCount}
+                totalCount={state.totalCount}
+              />
+            </CardContent>
+          </Card>
+
+          {processingStartTime > 0 && (
+            <PerformanceMonitor
+              currentBatch={state.currentBatch}
+              totalBatches={state.totalBatches}
+              processedCount={state.processedCount}
+              totalCount={state.totalCount}
+              successCount={results.filter(r => r.success).length}
+              startTime={processingStartTime}
+            />
+          )}
+        </>
       )}
 
       {/* Results Section */}
