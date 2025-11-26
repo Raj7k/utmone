@@ -20,6 +20,8 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [minimumLoadingComplete, setMinimumLoadingComplete] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -29,6 +31,27 @@ const Auth = () => {
     inviterName: string;
     role: string;
   } | null>(null);
+
+  // Start minimum loading timer when loading begins
+  useEffect(() => {
+    if (isCheckingSession || isAuthenticating) {
+      setMinimumLoadingComplete(false);
+      // Show loading screen for minimum 4 seconds
+      const timer = setTimeout(() => {
+        setMinimumLoadingComplete(true);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCheckingSession, isAuthenticating]);
+
+  // Navigate only when both minimum timer complete AND navigation ready
+  useEffect(() => {
+    if (minimumLoadingComplete && pendingNavigation) {
+      navigate(pendingNavigation);
+      setPendingNavigation(null);
+      setMinimumLoadingComplete(false);
+    }
+  }, [minimumLoadingComplete, pendingNavigation, navigate]);
 
   useEffect(() => {
     // Load invitation context if invite token present
@@ -41,9 +64,9 @@ const Auth = () => {
       if (session) {
         // If has invite token, redirect to accept-invite
         if (inviteToken) {
-          navigate(`/accept-invite?token=${inviteToken}`);
+          setPendingNavigation(`/accept-invite?token=${inviteToken}`);
         } else {
-          navigate("/dashboard");
+          setPendingNavigation("/dashboard");
         }
       }
       setIsCheckingSession(false);
@@ -54,9 +77,9 @@ const Auth = () => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
         try {
-          // If invite token exists, redirect back to accept-invite
+          // If invite token exists, set pending redirect to accept-invite
           if (inviteToken) {
-            navigate(`/accept-invite?token=${inviteToken}`);
+            setPendingNavigation(`/accept-invite?token=${inviteToken}`);
             return;
           }
 
@@ -79,7 +102,7 @@ const Auth = () => {
               variant: "default",
             });
             setIsAuthenticating(false);
-            navigate("/onboarding");
+            setPendingNavigation("/onboarding");
             return;
           }
           
@@ -87,9 +110,9 @@ const Auth = () => {
           
           // New users without workspaces go to onboarding
           if (!hasWorkspaces) {
-            navigate("/onboarding");
+            setPendingNavigation("/onboarding");
           } else {
-            navigate("/dashboard");
+            setPendingNavigation("/dashboard");
           }
         } catch (err) {
           console.error("Auth state change error:", err);
@@ -99,7 +122,7 @@ const Auth = () => {
             variant: "destructive",
           });
           setIsAuthenticating(false);
-          navigate("/onboarding");
+          setPendingNavigation("/onboarding");
         } finally {
           setIsAuthenticating(false);
         }
@@ -269,7 +292,7 @@ const Auth = () => {
 
   // Show loading screen during session check or authentication
   if (isCheckingSession || isAuthenticating) {
-    return <LoadingScreen duration={8000} showProgress={true} />;
+    return <LoadingScreen duration={4000} showProgress={true} />;
   }
 
   return (
