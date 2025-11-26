@@ -51,7 +51,7 @@ const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
-const AIURLShortener = lazy(() => import("./pages/dashboard/AIURLShortener"));
+const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 
 // Admin pages
@@ -294,7 +294,7 @@ const App = () => (
               <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting/:linkId" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
-              <Route path="/dashboard/ai-shortener" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AIURLShortener /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/onelink-validator" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
