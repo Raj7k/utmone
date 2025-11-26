@@ -30,7 +30,7 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { workspace_id, domain, links } = await req.json();
+    const { workspace_id, domain, links, skip_existing = false } = await req.json();
 
     if (!workspace_id || !links || !Array.isArray(links)) {
       throw new Error("invalid request body");
@@ -45,6 +45,25 @@ serve(async (req) => {
     }
 
     const targetDomain = domain || "utm.click";
+    
+    // Pre-check for existing links if skip_existing is true
+    const destinationUrls = links.map((l: any) => l.destination_url);
+    const { data: existingLinks } = skip_existing
+      ? await supabase
+          .from('links')
+          .select('destination_url, slug, short_url')
+          .eq('workspace_id', workspace_id)
+          .in('destination_url', destinationUrls)
+      : { data: [] };
+
+    const existingMap = new Map();
+    existingLinks?.forEach((link: any) => {
+      existingMap.set(link.destination_url, {
+        slug: link.slug,
+        shortUrl: link.short_url,
+      });
+    });
+
     const results = [];
     let successCount = 0;
 
@@ -52,6 +71,18 @@ serve(async (req) => {
       const linkData = links[i];
       
       try {
+        // Check if link exists and skip if requested
+        if (skip_existing && existingMap.has(linkData.destination_url)) {
+          const existing = existingMap.get(linkData.destination_url);
+          results.push({
+            success: false,
+            url: linkData.destination_url,
+            error: 'ALREADY_EXISTS',
+            existingSlug: existing.slug,
+            existingShortUrl: existing.shortUrl,
+          });
+          continue;
+        }
         // Generate slug if not provided
         const slug = linkData.slug || Math.random().toString(36).substring(2, 10);
         

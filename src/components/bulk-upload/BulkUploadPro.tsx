@@ -12,7 +12,9 @@ import { DragDropUploader } from "./DragDropUploader";
 import { URLPreviewTable } from "./URLPreviewTable";
 import { ProcessingProgress } from "./ProcessingProgress";
 import { BulkSecuritySummary } from "./BulkSecuritySummary";
-import { useBulkValidation } from "@/hooks/useBulkValidation";
+import { useBulkValidation, URLValidation } from "@/hooks/useBulkValidation";
+import { BulkTemplateSelector } from "./BulkTemplateSelector";
+import { SaveBulkTemplateDialog } from "./SaveBulkTemplateDialog";
 import { useBatchProcessor } from "@/hooks/useBatchProcessor";
 import { useBulkLinkPreview } from "@/hooks/useBulkLinkPreview";
 import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
@@ -28,6 +30,19 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const [urls, setUrls] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState("utm.click");
   const [manualInput, setManualInput] = useState("");
+  const [utmDefaults, setUtmDefaults] = useState({
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_term: "",
+    utm_content: "",
+  });
+  const [smartOptions, setSmartOptions] = useState({
+    autoAlias: false,
+    utmTracking: false,
+    cleanQueryParams: false,
+    groupByDomain: false,
+  });
 
   const { validations, validateURLs, updateValidation, getStats } = useBulkValidation();
   const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
@@ -51,7 +66,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   });
 
   const handleFileContent = useCallback(
-    (content: string) => {
+    async (content: string) => {
       // Check if CSV with headers
       const lines = content.split('\n').map(line => line.trim()).filter(Boolean);
       
@@ -75,7 +90,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         
         setUrls(parsedUrls);
         setManualInput(parsedUrls.join('\n'));
-        const validated = validateURLs(parsedUrls);
+        await validateURLs(parsedUrls, workspaceId);
         
         // Apply CSV data to validations
         rows.forEach((row, index) => {
@@ -93,19 +108,19 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         // Plain text URLs
         setUrls(lines);
         setManualInput(lines.join('\n'));
-        validateURLs(lines);
+        await validateURLs(lines, workspaceId);
       }
     },
-    [validateURLs, updateValidation]
+    [validateURLs, updateValidation, workspaceId]
   );
 
   const handleManualInput = useCallback(
-    (value: string) => {
+    async (value: string) => {
       setManualInput(value);
       const lines = value.split('\n').map(line => line.trim()).filter(Boolean);
       setUrls(lines);
       if (lines.length > 0) {
-        const validated = validateURLs(lines);
+        const validated = await validateURLs(lines, workspaceId);
         // Trigger security scans for valid URLs
         const validUrls = validated.filter(v => v.isValid).map(v => v.url);
         if (validUrls.length > 0) {
@@ -113,8 +128,20 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         }
       }
     },
-    [validateURLs, scanMultipleURLs]
+    [validateURLs, scanMultipleURLs, workspaceId]
   );
+
+  const handleTemplateSelect = (template: any) => {
+    if (!template) return;
+
+    setSelectedDomain(template.domain);
+    setUtmDefaults(template.utm_defaults || {});
+    setSmartOptions(template.smart_options || {});
+  };
+
+  const handleTemplateRefresh = () => {
+    // Trigger re-fetch of templates
+  };
 
   const handleRemoveURL = useCallback(
     (index: number) => {
@@ -206,9 +233,30 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           <Card>
             <CardHeader>
               <CardTitle className="font-display text-title-2">domain selection</CardTitle>
-              <CardDescription>choose your custom domain</CardDescription>
+              <CardDescription>
+                Choose a verified custom domain for your short links or load a saved template
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
+              {workspaceId && (
+                <div className="p-4 border rounded-lg bg-muted/20 space-y-3">
+                  <Label className="text-sm font-medium">saved templates</Label>
+                  <div className="flex items-center gap-2">
+                    <BulkTemplateSelector
+                      workspaceId={workspaceId}
+                      onTemplateSelect={handleTemplateSelect}
+                    />
+                    <SaveBulkTemplateDialog
+                      workspaceId={workspaceId}
+                      domain={selectedDomain}
+                      utmDefaults={utmDefaults}
+                      smartOptions={smartOptions}
+                      onTemplateSaved={handleTemplateRefresh}
+                    />
+                  </div>
+                </div>
+              )}
+              
               <div className="space-y-2">
                 <Label htmlFor="domain">custom domain</Label>
                 <Select value={selectedDomain} onValueChange={setSelectedDomain}>
