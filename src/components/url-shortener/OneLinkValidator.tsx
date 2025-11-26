@@ -1,77 +1,53 @@
 /**
  * OneLinkValidator Component
- * Enterprise-grade URL shortening with AI-powered duplicate handling,
- * version control, A/B testing, and performance comparison
+ * Bulk URL shortening with smart processing and duplicate detection
  */
 
-import { useState, useCallback, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
-  Brain, Link2, BarChart3, GitBranch, Split, TrendingUp, TrendingDown,
-  Upload, Download, Copy, CheckCircle2, Loader2, Sparkles, AlertCircle,
-  Archive, Target, Activity, Clock, Eye, Users, Globe, Shield,
-  RefreshCw, Trash2, MoreVertical, ChevronRight, Info, Zap
+  Copy, Zap, Download, Upload, Link2, Sparkles, AlertCircle, 
+  Check, X, ChevronRight, Layers, Globe, Hash, Loader2
 } from 'lucide-react';
-import { ultimateUrlSchema, type UltimateURLFormData } from '@/lib/urlShortenerSchemas';
-import { useURLProcessing } from './hooks/useURLProcessing';
-import { useDuplicateDetection } from './hooks/useDuplicateDetection';
-import { useVersionManagement } from './hooks/useVersionManagement';
-import { useABTesting } from './hooks/useABTesting';
-import { URLPreviewCard } from './shared/URLPreviewCard';
-import { ProcessingProgress } from './shared/ProcessingProgress';
-import { DuplicateResolutionModal } from './components/DuplicateResolutionModal';
-import { VersionTimeline } from './components/VersionTimeline';
-import { AggregateView } from './components/AggregateView';
-import { ABTestControls } from './components/ABTestControls';
-import { SmartSuggestionsPanel } from './components/SmartSuggestionsPanel';
-import { VersionAnalytics } from './components/VersionAnalytics';
-import { SettingsPanelUltimate } from './components/SettingsPanelUltimate';
-import { PAGINATION_LIMIT, DUPLICATE_STRATEGIES } from '@/lib/constants';
+import { PAGINATION_LIMIT } from '@/lib/constants';
 
-interface URLVersion {
-  id: string;
-  version: number;
-  slug: string;
-  short_url: string;
-  total_clicks: number;
-  created_at: string;
-  utm_campaign?: string;
-  status?: 'active' | 'paused' | 'archived';
+interface ProcessedURL {
+  id: number;
+  original: string;
+  processed: string;
+  short: string;
+  alias: string;
+  domain: string;
+  clicks: number;
+  status: 'success' | 'error';
 }
 
 export const OneLinkValidator = () => {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const { processURL, generateRandomSlug } = useURLProcessing();
   const { currentWorkspace } = useWorkspaceContext();
   
-  const [activeTab, setActiveTab] = useState('create');
-  const [duplicateStrategy, setDuplicateStrategy] = useState<'smart' | 'ask' | 'always-new' | 'use-existing'>(DUPLICATE_STRATEGIES.SMART as 'smart');
-  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
-  const [currentDuplicateData, setCurrentDuplicateData] = useState<any>(null);
-  const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
+  const [urls, setUrls] = useState<ProcessedURL[]>([]);
+  const [bulkInput, setBulkInput] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [activeTab, setActiveTab] = useState('smart');
+  const [smartOptions, setSmartOptions] = useState({
+    autoAlias: true,
+    customDomain: 'utm.one',
+    trackingParams: false,
+    removeQueryParams: false,
+    groupByDomain: false
+  });
+  const [processedCount, setProcessedCount] = useState(0);
 
   const workspaceId = currentWorkspace?.id;
 
@@ -80,18 +56,15 @@ export const OneLinkValidator = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <Card>
           <CardHeader>
-            <CardTitle>no workspace selected</CardTitle>
+            <CardTitle className="text-title-2">no workspace selected</CardTitle>
             <CardDescription>
-              please select a workspace to use OneLink Validator
+              please select a workspace to use onelink validator
             </CardDescription>
           </CardHeader>
         </Card>
       </div>
     );
   }
-  const { checkForDuplicates, analyzeDuplicate, generateSuggestions } = useDuplicateDetection(workspaceId || '');
-  const versionManagement = useVersionManagement(workspaceId || '');
-  const abTesting = useABTesting(workspaceId || '');
 
   // Fetch verified domains
   const { data: domains } = useQuery({
@@ -111,404 +84,461 @@ export const OneLinkValidator = () => {
     enabled: !!workspaceId,
   });
 
-  // Fetch URL groups with versions
-  const { data: urlGroups } = useQuery({
-    queryKey: ['url-groups', workspaceId],
-    queryFn: async () => {
-      if (!workspaceId) return [];
+  // Generate smart aliases
+  const generateSmartAlias = (url: string, index: number): string => {
+    try {
+      const urlObj = new URL(url);
+      const domain = urlObj.hostname.replace('www.', '').split('.')[0];
+      const pathParts = urlObj.pathname.split('/').filter(Boolean);
       
-      const { data } = await supabase
-        .from('links')
-        .select('destination_url, version, slug, total_clicks, created_at, utm_campaign, id, parent_link_id, domain, status')
-        .eq('workspace_id', workspaceId)
-        .order('created_at', { ascending: false })
-        .limit(100);
-
-      if (!data) return [];
-
-      // Group by destination URL
-      const grouped = data.reduce((acc: any, link: any) => {
-        if (!acc[link.destination_url]) {
-          acc[link.destination_url] = [];
-        }
-        acc[link.destination_url].push({
-          ...link,
-          short_url: `https://${link.domain}/${link.slug}`,
-          status: link.status || 'active',
-        });
-        return acc;
-      }, {});
-
-      return Object.entries(grouped).map(([url, versions]: [string, any]) => ({
-        destination_url: url,
-        versions: versions as URLVersion[],
-        totalClicks: versions.reduce((sum: number, v: any) => sum + (v.total_clicks || 0), 0),
-        versionCount: versions.length,
-      }));
-    },
-    enabled: !!workspaceId,
-  });
-
-  const form = useForm<UltimateURLFormData>({
-    resolver: zodResolver(ultimateUrlSchema),
-    defaultValues: {
-      url: '',
-      title: '',
-      slug: '',
-      domain: 'utm.click',
-      duplicate_strategy: duplicateStrategy,
-    },
-  });
-
-  // Create link with duplicate detection
-  const createLinkMutation = useMutation({
-    mutationFn: async (data: UltimateURLFormData) => {
-      if (!workspaceId) throw new Error('no workspace found');
-
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('not authenticated');
-
-      // Check for duplicates
-      const duplicates = await checkForDuplicates(data.url);
+      if (pathParts.length > 0) {
+        const lastPart = pathParts[pathParts.length - 1];
+        const cleanPart = lastPart.replace(/[^a-z0-9]/gi, '').slice(0, 10);
+        return `${domain}-${cleanPart}-${index}`;
+      }
       
-      let version = 1;
-      let parent_link_id = null;
+      return `${domain}-${index}`;
+    } catch (e) {
+      return `link-${index}`;
+    }
+  };
 
-      if (duplicates.length > 0) {
-        // Get next version number
-        const { data: nextVersion } = await supabase
-          .rpc('get_next_url_version', {
-            p_workspace_id: workspaceId,
-            p_destination_url: data.url,
-          });
+  const isValidUrl = (string: string): boolean => {
+    try {
+      new URL(string);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-        version = nextVersion || 1;
-        parent_link_id = duplicates[0].id;
+  const getDomain = (url: string): string => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return 'invalid';
+    }
+  };
 
-        // Handle based on strategy
-        if (duplicateStrategy === DUPLICATE_STRATEGIES.USE_EXISTING) {
-          return duplicates[0]; // Return existing link
+  // Process URLs with smart capabilities
+  const processUrls = useCallback(() => {
+    setIsProcessing(true);
+    setProcessedCount(0);
+    
+    const urlLines = bulkInput.split('\n').filter(line => line.trim());
+    
+    const processed = urlLines.map((url, index) => {
+      const trimmedUrl = url.trim();
+      let finalUrl = trimmedUrl;
+      
+      // Smart processing based on options
+      if (smartOptions.removeQueryParams) {
+        try {
+          const urlObj = new URL(trimmedUrl);
+          urlObj.search = '';
+          finalUrl = urlObj.toString();
+        } catch (e) {
+          finalUrl = trimmedUrl;
         }
       }
+      
+      if (smartOptions.trackingParams) {
+        const separator = finalUrl.includes('?') ? '&' : '?';
+        finalUrl = `${finalUrl}${separator}utm_source=bulk&utm_medium=shortener`;
+      }
+      
+      const alias = smartOptions.autoAlias ? generateSmartAlias(trimmedUrl, index + 1) : `link-${index + 1}`;
+      const shortUrl = `https://${smartOptions.customDomain}/${alias}`;
+      
+      setTimeout(() => setProcessedCount(prev => prev + 1), index * 50);
+      
+      return {
+        id: Date.now() + index,
+        original: trimmedUrl,
+        processed: finalUrl,
+        short: shortUrl,
+        alias: alias,
+        domain: getDomain(trimmedUrl),
+        clicks: 0,
+        status: isValidUrl(trimmedUrl) ? 'success' : 'error'
+      } as ProcessedURL;
+    });
+    
+    setUrls(processed);
+    
+    setTimeout(() => {
+      setIsProcessing(false);
+    }, urlLines.length * 50 + 500);
+  }, [bulkInput, smartOptions]);
 
-      const { data: link, error } = await supabase
-        .from('links')
-        .insert({
-          workspace_id: workspaceId,
-          created_by: user.id,
-          title: data.title,
-          slug: data.slug,
-          destination_url: data.url,
-          final_url: data.url,
-          domain: data.domain,
-          path: '',
-          version,
-          parent_link_id,
-          is_ab_test: data.is_ab_test || false,
-          duplicate_strategy: duplicateStrategy,
-          utm_source: data.utm_source || null,
-          utm_medium: data.utm_medium || null,
-          utm_campaign: data.utm_campaign || null,
-          utm_term: data.utm_term || null,
-          utm_content: data.utm_content || null,
-        })
-        .select()
-        .single();
-
-      if (error) throw error;
-      return link;
-    },
-    onSuccess: (link) => {
-      queryClient.invalidateQueries({ queryKey: ['url-groups'] });
-      toast({
-        title: 'link created',
-        description: `version ${link.version}: https://${link.domain}/${link.slug}`,
-      });
-      form.reset();
-    },
-    onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
-    },
-  });
-
-  const onSubmit = (data: UltimateURLFormData) => {
-    createLinkMutation.mutate(data);
+  // Copy individual URL
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: 'copied',
+      description: 'short url copied to clipboard',
+    });
   };
+
+  // Export all URLs
+  const exportUrls = (format: 'txt' | 'csv' | 'json') => {
+    let content = '';
+    
+    if (format === 'csv') {
+      content = 'Original URL,Short URL,Alias,Status\n';
+      urls.forEach(url => {
+        content += `"${url.original}","${url.short}","${url.alias}","${url.status}"\n`;
+      });
+    } else if (format === 'json') {
+      content = JSON.stringify(urls, null, 2);
+    } else {
+      urls.forEach(url => {
+        content += `${url.short}\n`;
+      });
+    }
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bulk-urls-${Date.now()}.${format === 'csv' ? 'csv' : format === 'json' ? 'json' : 'txt'}`;
+    a.click();
+    
+    toast({
+      title: 'exported',
+      description: `${urls.length} urls exported as ${format.toUpperCase()}`,
+    });
+  };
+
+  // Import URLs from file
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setBulkInput(e.target?.result as string);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  // Group URLs by domain
+  const groupedUrls = smartOptions.groupByDomain 
+    ? urls.reduce((acc, url) => {
+        const domain = url.domain;
+        if (!acc[domain]) acc[domain] = [];
+        acc[domain].push(url);
+        return acc;
+      }, {} as Record<string, ProcessedURL[]>)
+    : { 'all': urls };
+
+  const urlCount = bulkInput.split('\n').filter(line => line.trim()).length;
+  const successCount = urls.filter(u => u.status === 'success').length;
+  const errorCount = urls.filter(u => u.status === 'error').length;
+  const uniqueDomains = new Set(urls.map(u => u.domain)).size;
 
   return (
     <div className="container max-w-7xl mx-auto py-8 px-4">
+      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="bg-primary/10 rounded-lg p-2">
-            <Brain className="h-8 w-8 text-primary" />
+            <Layers className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-large-title font-bold text-label heading">onelink validator</h1>
+          <h1 className="text-large-title font-display font-bold text-label">onelink validator</h1>
         </div>
         <p className="text-body-apple text-secondary-label">
-          Smart link validation, duplicate detection, and version control
+          smart batch processing with duplicate detection
         </p>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-6">
-          <TabsTrigger value="create">
-            <Link2 className="h-4 w-4 mr-2" />
-            Create
-          </TabsTrigger>
-          <TabsTrigger value="versions">
-            <GitBranch className="h-4 w-4 mr-2" />
-            Versions
-          </TabsTrigger>
-          <TabsTrigger value="analytics">
-            <BarChart3 className="h-4 w-4 mr-2" />
-            Analytics
-          </TabsTrigger>
-          <TabsTrigger value="settings">
-            <Shield className="h-4 w-4 mr-2" />
-            Settings
-          </TabsTrigger>
-        </TabsList>
+      {/* Main Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Input Panel */}
+        <div className="space-y-4">
+          {/* Tab Navigation */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="w-full">
+              <TabsTrigger value="smart" className="flex-1">
+                <Sparkles className="h-4 w-4 mr-2" />
+                smart
+              </TabsTrigger>
+              <TabsTrigger value="manual" className="flex-1">
+                <Link2 className="h-4 w-4 mr-2" />
+                manual
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
 
-        <TabsContent value="create">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-             <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-title-2 flex items-center gap-2">
-                    <div className="bg-primary/10 rounded-lg p-2">
-                      <Link2 className="h-5 w-5 text-primary" />
+          {/* Smart Options */}
+          {activeTab === 'smart' && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-title-3 flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  smart processing options
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <Hash className="h-4 w-4 text-secondary-label" />
+                      <Label htmlFor="autoAlias" className="cursor-pointer">auto-generate smart aliases</Label>
                     </div>
-                    create short link
-                  </CardTitle>
-                  <CardDescription>enterprise url shortening with duplicate detection</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div>
-                      <Label htmlFor="url">Destination URL *</Label>
-                      <Input
-                        id="url"
-                        placeholder="https://example.com/landing-page"
-                        {...form.register('url')}
-                        className="mt-1.5"
-                      />
-                      {form.formState.errors.url && (
-                        <p className="text-xs text-system-red mt-1">
-                          {form.formState.errors.url.message}
-                        </p>
-                      )}
-                    </div>
+                    <Switch
+                      id="autoAlias"
+                      checked={smartOptions.autoAlias}
+                      onCheckedChange={(checked) => setSmartOptions({...smartOptions, autoAlias: checked})}
+                    />
+                  </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="title">Link Title *</Label>
-                        <Input
-                          id="title"
-                          placeholder="Campaign Name"
-                          {...form.register('title')}
-                          className="mt-1.5"
-                        />
+                  <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <Globe className="h-4 w-4 text-secondary-label" />
+                      <Label htmlFor="trackingParams" className="cursor-pointer">add utm tracking</Label>
+                    </div>
+                    <Switch
+                      id="trackingParams"
+                      checked={smartOptions.trackingParams}
+                      onCheckedChange={(checked) => setSmartOptions({...smartOptions, trackingParams: checked})}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <X className="h-4 w-4 text-secondary-label" />
+                      <Label htmlFor="removeQueryParams" className="cursor-pointer">clean query parameters</Label>
+                    </div>
+                    <Switch
+                      id="removeQueryParams"
+                      checked={smartOptions.removeQueryParams}
+                      onCheckedChange={(checked) => setSmartOptions({...smartOptions, removeQueryParams: checked})}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <Layers className="h-4 w-4 text-secondary-label" />
+                      <Label htmlFor="groupByDomain" className="cursor-pointer">group by domain</Label>
+                    </div>
+                    <Switch
+                      id="groupByDomain"
+                      checked={smartOptions.groupByDomain}
+                      onCheckedChange={(checked) => setSmartOptions({...smartOptions, groupByDomain: checked})}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="customDomain">custom domain</Label>
+                  <Select 
+                    value={smartOptions.customDomain} 
+                    onValueChange={(value) => setSmartOptions({...smartOptions, customDomain: value})}
+                  >
+                    <SelectTrigger id="customDomain">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {domains?.map((d) => (
+                        <SelectItem key={d.id} value={d.domain}>
+                          {d.domain}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* URL Input */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-title-3">paste urls</CardTitle>
+                <label className="cursor-pointer">
+                  <Button variant="outline" size="sm" asChild>
+                    <span>
+                      <Upload className="h-4 w-4 mr-2" />
+                      import
+                    </span>
+                  </Button>
+                  <input type="file" className="hidden" accept=".txt,.csv" onChange={handleFileUpload} />
+                </label>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                value={bulkInput}
+                onChange={(e) => setBulkInput(e.target.value)}
+                placeholder="paste your urls here, one per line...
+
+https://example.com/page1
+https://example.com/page2
+https://another-site.com/article"
+                className="min-h-64 font-mono text-sm resize-none"
+              />
+              
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-sm text-secondary-label">
+                  {urlCount} urls detected
+                </span>
+                <Button
+                  onClick={processUrls}
+                  disabled={!bulkInput.trim() || isProcessing}
+                  className="gap-2"
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      processing {processedCount}/{urlCount}
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="h-4 w-4" />
+                      process urls
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Results Panel */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Link2 className="h-5 w-5 text-primary" />
+                <CardTitle className="text-title-3">shortened urls</CardTitle>
+                {urls.length > 0 && (
+                  <span className="ml-2 px-2 py-1 bg-primary/10 text-primary rounded-lg text-sm font-medium">
+                    {urls.length}
+                  </span>
+                )}
+              </div>
+              
+              {urls.length > 0 && (
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => exportUrls('txt')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    <Download className="h-3 w-3 mr-1" />
+                    txt
+                  </Button>
+                  <Button
+                    onClick={() => exportUrls('csv')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    <Download className="h-3 w-3 mr-1" />
+                    csv
+                  </Button>
+                  <Button
+                    onClick={() => exportUrls('json')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    <Download className="h-3 w-3 mr-1" />
+                    json
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CardHeader>
+
+          <CardContent>
+            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+              {urls.length === 0 ? (
+                <div className="text-center py-12 text-secondary-label">
+                  <Link2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p className="text-body-apple">no urls processed yet</p>
+                  <p className="text-sm mt-2 text-tertiary-label">add urls and click process to get started</p>
+                </div>
+              ) : (
+                Object.entries(groupedUrls).map(([domain, domainUrls]) => (
+                  <div key={domain} className="space-y-2">
+                    {smartOptions.groupByDomain && domain !== 'all' && (
+                      <div className="flex items-center gap-2 text-sm text-secondary-label font-mono">
+                        <Globe className="h-3 w-3" />
+                        {domain}
+                        <span className="px-2 py-0.5 bg-muted rounded text-xs">{domainUrls.length}</span>
                       </div>
-                      <div>
-                        <Label htmlFor="slug">Custom Slug *</Label>
-                        <div className="flex gap-2 mt-1.5">
-                          <Input
-                            id="slug"
-                            placeholder="my-link"
-                            {...form.register('slug')}
-                            className="flex-1"
-                          />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={() => form.setValue('slug', generateRandomSlug())}
-                          >
-                            <Sparkles className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="domain">Domain</Label>
-                      <Select 
-                        value={form.watch('domain')} 
-                        onValueChange={(value) => form.setValue('domain', value)}
+                    )}
+                    
+                    {domainUrls.map((url) => (
+                      <div
+                        key={url.id}
+                        className={`group p-4 rounded-lg border transition-all ${
+                          url.status === 'error'
+                            ? 'border-system-red/50 bg-system-red/5'
+                            : 'border-border hover:border-primary/50 bg-card'
+                        }`}
                       >
-                        <SelectTrigger className="mt-1.5">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {domains?.map((d) => (
-                            <SelectItem key={d.id} value={d.domain}>
-                              {d.domain}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Accordion type="single" collapsible>
-                      <AccordionItem value="utm">
-                        <AccordionTrigger>UTM Parameters</AccordionTrigger>
-                        <AccordionContent className="space-y-4 pt-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label>Source</Label>
-                              <Input {...form.register('utm_source')} placeholder="newsletter" className="mt-1.5" />
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              {url.status === 'error' ? (
+                                <AlertCircle className="h-4 w-4 text-system-red flex-shrink-0" />
+                              ) : (
+                                <Check className="h-4 w-4 text-system-green flex-shrink-0" />
+                              )}
+                              <p className="text-sm text-secondary-label truncate">{url.original}</p>
                             </div>
-                            <div>
-                              <Label>Medium</Label>
-                              <Input {...form.register('utm_medium')} placeholder="email" className="mt-1.5" />
+                            
+                            <div className="flex items-center gap-2">
+                              <ChevronRight className="h-4 w-4 text-tertiary-label" />
+                              <p className="font-mono text-primary text-sm truncate">{url.short}</p>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
+                                onClick={() => copyToClipboard(url.short)}
+                              >
+                                <Copy className="h-3 w-3" />
+                              </Button>
                             </div>
                           </div>
-                          <div>
-                            <Label>Campaign</Label>
-                            <Input {...form.register('utm_campaign')} placeholder="summer-2024" className="mt-1.5" />
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={createLinkMutation.isPending}
-                    >
-                      {createLinkMutation.isPending ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Creating...
-                        </>
-                      ) : (
-                        <>
-                          <Brain className="h-4 w-4 mr-2" />
-                          Create with AI
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Duplicate Strategy</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {[
-                    { value: DUPLICATE_STRATEGIES.SMART, label: 'Smart (AI)', icon: Brain, desc: 'ai decides best action' },
-                    { value: DUPLICATE_STRATEGIES.ASK, label: 'Ask Me', icon: AlertCircle, desc: 'review each duplicate' },
-                    { value: DUPLICATE_STRATEGIES.ALWAYS_NEW, label: 'Always New', icon: Zap, desc: 'create new version' },
-                    { value: DUPLICATE_STRATEGIES.USE_EXISTING, label: 'Use Existing', icon: RefreshCw, desc: 'reuse existing link' },
-                  ].map((strategy) => (
-                    <button
-                      key={strategy.value}
-                      type="button"
-                      onClick={() => setDuplicateStrategy(strategy.value)}
-                      className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
-                        duplicateStrategy === strategy.value
-                          ? 'border-primary bg-primary/5'
-                          : 'border-border hover:border-primary/50'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <strategy.icon className={`h-5 w-5 mt-0.5 ${
-                          duplicateStrategy === strategy.value ? 'text-primary' : 'text-secondary-label'
-                        }`} />
-                        <div className="flex-1">
-                          <p className="font-semibold text-sm mb-0.5">{strategy.label}</p>
-                          <p className="text-xs text-secondary-label">{strategy.desc}</p>
                         </div>
                       </div>
-                    </button>
-                  ))}
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Quick Stats</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-secondary-label">URL Groups</span>
-                    <span className="text-xl font-bold">{urlGroups?.length || 0}</span>
+                    ))}
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-secondary-label">Total Versions</span>
-                    <span className="text-xl font-bold">
-                      {urlGroups?.reduce((sum, g) => sum + g.versionCount, 0) || 0}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-secondary-label">Total Clicks</span>
-                    <span className="text-xl font-bold">
-                      {urlGroups?.reduce((sum, g) => sum + g.totalClicks, 0) || 0}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
+                ))
+              )}
             </div>
-          </div>
-        </TabsContent>
+          </CardContent>
+        </Card>
+      </div>
 
-        <TabsContent value="versions">
-          {urlGroups && urlGroups.length > 0 ? (
-            <AggregateView 
-              groups={urlGroups.map(g => ({
-                ...g,
-                bestPerformer: g.versions.reduce((best: any, current: any) => 
-                  (current.total_clicks > (best?.total_clicks || 0)) ? current : best
-                , g.versions[0])
-              }))}
-              workspaceId={workspaceId || ''}
-            />
-          ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <GitBranch className="h-12 w-12 text-secondary-label mx-auto mb-4" />
-                <p className="text-secondary-label">no url versions yet. create your first link to get started.</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        <TabsContent value="analytics">
-          {urlGroups && urlGroups.length > 0 ? (
-            <VersionAnalytics 
-              versions={urlGroups.flatMap(g => g.versions.map((v: any) => ({
-                id: v.id,
-                version: v.version,
-                slug: v.slug,
-                total_clicks: v.total_clicks,
-                created_at: v.created_at,
-                unique_clicks: Math.floor(v.total_clicks * 0.7),
-                ctr: v.total_clicks > 0 ? ((v.total_clicks / 100) * 2.5) : 0,
-                conversion_rate: v.total_clicks > 0 ? ((v.total_clicks / 100) * 1.2) : 0,
-              })))} 
-            />
-          ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <BarChart3 className="h-12 w-12 text-secondary-label mx-auto mb-4" />
-                <p className="text-secondary-label">no data yet. create some links to see analytics.</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-
-        <TabsContent value="settings">
-          <SettingsPanelUltimate workspaceId={workspaceId || ''} />
-        </TabsContent>
-      </Tabs>
+      {/* Stats Bar */}
+      {urls.length > 0 && (
+        <Card className="mt-6 bg-muted/10">
+          <CardContent className="py-4">
+            <div className="grid grid-cols-4 gap-4 text-center">
+              <div>
+                <p className="text-2xl font-bold text-label">{urls.length}</p>
+                <p className="text-sm text-secondary-label">total</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-system-green">{successCount}</p>
+                <p className="text-sm text-secondary-label">successful</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-system-red">{errorCount}</p>
+                <p className="text-sm text-secondary-label">failed</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-primary">{uniqueDomains}</p>
+                <p className="text-sm text-secondary-label">unique domains</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
