@@ -48,30 +48,51 @@ const Auth = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
-        // If invite token exists, redirect back to accept-invite
-        if (inviteToken) {
-          navigate(`/accept-invite?token=${inviteToken}`);
-          return;
-        }
+        try {
+          // If invite token exists, redirect back to accept-invite
+          if (inviteToken) {
+            navigate(`/accept-invite?token=${inviteToken}`);
+            return;
+          }
 
-        // Check if user has any workspaces (owned or member)
-        const { data: ownedWorkspaces } = await supabase
-          .from("workspaces")
-          .select("id")
-          .eq("owner_id", session.user.id);
+          // Check if user has any workspaces (owned or member)
+          const { data: ownedWorkspaces, error: ownedError } = await supabase
+            .from("workspaces")
+            .select("id")
+            .eq("owner_id", session.user.id);
 
-        const { data: memberWorkspaces } = await supabase
-          .from("workspace_members")
-          .select("workspace_id")
-          .eq("user_id", session.user.id);
-        
-        const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
-        
-        // New users without workspaces go to onboarding
-        if (!hasWorkspaces) {
+          const { data: memberWorkspaces, error: memberError } = await supabase
+            .from("workspace_members")
+            .select("workspace_id")
+            .eq("user_id", session.user.id);
+
+          if (ownedError || memberError) {
+            console.error("Workspace query error:", ownedError || memberError);
+            toast({
+              title: "Warning",
+              description: "Could not load workspace data. Redirecting to onboarding.",
+              variant: "default",
+            });
+            navigate("/onboarding");
+            return;
+          }
+          
+          const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
+          
+          // New users without workspaces go to onboarding
+          if (!hasWorkspaces) {
+            navigate("/onboarding");
+          } else {
+            navigate("/dashboard");
+          }
+        } catch (err) {
+          console.error("Auth state change error:", err);
+          toast({
+            title: "Error",
+            description: "An error occurred during sign in. Please try again.",
+            variant: "destructive",
+          });
           navigate("/onboarding");
-        } else {
-          navigate("/dashboard");
         }
       }
     });
@@ -298,7 +319,7 @@ const Auth = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="signin">
+          <TabsContent value="signin" className="mt-6">
             <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
@@ -350,7 +371,7 @@ const Auth = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="signup">
+          <TabsContent value="signup" className="mt-6">
             <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Create an account</CardTitle>
