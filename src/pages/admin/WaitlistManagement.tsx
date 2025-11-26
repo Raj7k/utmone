@@ -21,6 +21,8 @@ import { BatchInviteModal } from "@/components/admin/BatchInviteModal";
 import { BatchActionBar } from "@/components/admin/BatchActionBar";
 import { InviteTrackingDashboard } from "@/components/admin/InviteTrackingDashboard";
 import { DripCampaignManager } from "@/components/admin/DripCampaignManager";
+import { AdminDirectInvite } from "@/components/admin/AdminDirectInvite";
+import { AddToWaitlist } from "@/components/admin/AddToWaitlist";
 
 type EarlyAccessRequest = {
   id: string;
@@ -238,6 +240,12 @@ export default function WaitlistManagement() {
 
           {/* Applications Tab */}
           <TabsContent value="requests" className="space-y-4">
+            {/* Manual User Management */}
+            <div className="grid grid-cols-2 gap-6 mb-6">
+              <AddToWaitlist />
+              <AdminDirectInvite />
+            </div>
+
             <div className="bg-white rounded-xl border p-4">
               <div className="flex items-center justify-between gap-4">
                 <div className="grid grid-cols-3 gap-4 flex-1">
