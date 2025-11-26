@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare } from "lucide-react";
-import logo from "@/assets/utm-one-logo.png";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -32,11 +32,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
     <aside className="w-64 h-screen border-r border-separator bg-system-background flex flex-col">
       {/* Logo */}
       <div className="h-[72px] flex items-center px-6 border-b border-separator">
-        <img 
-          src={logo}
-          alt="utm.one" 
-          className="h-8 w-auto"
-        />
+        <UtmOneLogo size="md" />
       </div>
 
       {/* Navigation */}

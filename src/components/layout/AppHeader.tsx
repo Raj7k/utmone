@@ -7,7 +7,7 @@ import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import logo from "@/assets/utm-one-logo.png";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { DashboardSidebar } from "./DashboardSidebar";
 
 export const AppHeader = () => {
@@ -47,12 +47,12 @@ export const AppHeader = () => {
             </Sheet>
 
             {/* Logo */}
-            <img 
-              src={logo}
-              alt="utm.one" 
-              className="h-7 w-auto cursor-pointer"
+            <div 
+              className="cursor-pointer"
               onClick={() => navigate("/dashboard")}
-            />
+            >
+              <UtmOneLogo size="md" />
+            </div>
             
             {/* Workspace Switcher */}
             <div className="hidden md:block">
