@@ -67,7 +67,7 @@ export const BulkActionsPanel = ({ selectedVersions, onClearSelection, workspace
   if (selectedVersions.length === 0) return null;
 
   return (
-    <Card className="p-4 bg-gray-900/50 backdrop-blur border-gray-800 sticky top-4 z-10">
+    <Card className="p-4 bg-background border-border shadow-md sticky top-4 z-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-sm">
@@ -89,7 +89,6 @@ export const BulkActionsPanel = ({ selectedVersions, onClearSelection, workspace
             size="sm"
             onClick={handleBulkArchive}
             disabled={isProcessing}
-            className="border-gray-700 hover:bg-gray-800"
           >
             <Archive className="h-4 w-4 mr-2" />
             archive
@@ -100,7 +99,7 @@ export const BulkActionsPanel = ({ selectedVersions, onClearSelection, workspace
             size="sm"
             onClick={handleBulkDelete}
             disabled={isProcessing}
-            className="border-gray-700 hover:bg-gray-800 text-destructive hover:text-destructive"
+            className="text-destructive hover:text-destructive"
           >
             <Trash2 className="h-4 w-4 mr-2" />
             delete

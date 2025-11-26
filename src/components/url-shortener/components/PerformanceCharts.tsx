@@ -33,8 +33,8 @@ export const PerformanceCharts = ({ versions }: PerformanceChartsProps) => {
   return (
     <div className="space-y-6">
       {/* Version Performance Comparison */}
-      <Card className="p-6 bg-gray-900/30 backdrop-blur border-gray-800">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">version performance</h3>
+      <Card className="p-6">
+        <h3 className="text-title-2 font-semibold mb-4 text-foreground">version performance</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={versionData}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
@@ -61,8 +61,8 @@ export const PerformanceCharts = ({ versions }: PerformanceChartsProps) => {
       </Card>
 
       {/* Traffic Distribution */}
-      <Card className="p-6 bg-gray-900/30 backdrop-blur border-gray-800">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">traffic distribution</h3>
+      <Card className="p-6">
+        <h3 className="text-title-2 font-semibold mb-4 text-foreground">traffic distribution</h3>
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
