@@ -63,11 +63,11 @@ const Auth = () => {
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (session) {
-          // If has invite token, redirect to accept-invite
+          // Existing session - navigate directly (no loading animation)
           if (inviteToken) {
-            setPendingNavigation(`/accept-invite?token=${inviteToken}`);
+            navigate(`/accept-invite?token=${inviteToken}`);
           } else {
-            setPendingNavigation("/dashboard");
+            navigate("/dashboard");
           }
         }
       })
