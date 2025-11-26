@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare } from "lucide-react";
-import logo from "@/assets/utm-one-logo.svg";
+import logo from "@/assets/utm-one-logo.png";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;

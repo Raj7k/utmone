@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
+import utmOneLogo from "@/assets/utm-one-logo.png";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -84,7 +85,7 @@ export const Navigation = () => {
           {/* Logo with hover effect */}
           <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
             <img 
-              src="/src/assets/utm-one-logo.svg" 
+              src={utmOneLogo} 
               alt="utm.one logo" 
               className="h-10 md:h-12 w-auto"
             />
@@ -435,7 +436,7 @@ export const Navigation = () => {
                 {/* Logo at top of mobile menu */}
                 <div className="flex items-center gap-2 mb-6">
             <img 
-              src="/src/assets/utm-one-logo.svg" 
+              src={utmOneLogo} 
               alt="utm.one" 
               className="h-8 w-auto"
             />
