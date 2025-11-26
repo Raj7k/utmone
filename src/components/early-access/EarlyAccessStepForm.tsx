@@ -153,8 +153,8 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
       <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent opacity-40 blur-3xl pointer-events-none" />
       
       {/* Premium gradient card container */}
-      <div className="relative bg-gradient-to-br from-white via-white to-muted/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/30 p-8 md:p-10 hover:border-primary/20 transition-all duration-500">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <div className="relative bg-gradient-to-br from-white via-white to-muted/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/30 p-6 md:p-8 hover:border-primary/20 transition-all duration-500">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Animated Progress Bar */}
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
@@ -182,7 +182,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
           </div>
 
           {/* Step Content */}
-          <div className="relative min-h-[320px]">
+          <div className="relative min-h-[280px]">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               {currentStep === 1 && (
                 <motion.div
@@ -196,7 +196,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                   className="absolute inset-0"
                 >
                   <motion.div 
-                    className="space-y-6"
+                    className="space-y-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
@@ -205,7 +205,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                       let's start simple
                     </h3>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <motion.div 
                         className="space-y-2"
                         initial={{ opacity: 0, y: 10 }}
@@ -217,7 +217,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                           id="name"
                           placeholder="john doe"
                           {...register("name")}
-                          className="h-12 focus:scale-[1.02] transition-transform duration-200"
+                          className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.name && (
                           <p className="text-sm text-destructive">
@@ -238,7 +238,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                           type="email"
                           placeholder="you@company.com"
                           {...register("email")}
-                          className="h-12 focus:scale-[1.02] transition-transform duration-200"
+                          className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.email && (
                           <p className="text-sm text-destructive">
@@ -262,19 +262,19 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   className="absolute inset-0"
                 >
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <h3 className="text-2xl font-display font-semibold">
                       tell us about you
                     </h3>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="space-y-2">
                         <Label htmlFor="role">your role</Label>
                         <Select
                           value={role}
                           onValueChange={(value) => setValue("role", value)}
                         >
-                          <SelectTrigger id="role" className="h-12">
+                          <SelectTrigger id="role" className="h-11">
                             <SelectValue placeholder="select your role" />
                           </SelectTrigger>
                           <SelectContent>
@@ -304,7 +304,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                           value={team_size}
                           onValueChange={(value) => setValue("team_size", value)}
                         >
-                          <SelectTrigger id="team_size" className="h-12">
+                          <SelectTrigger id="team_size" className="h-11">
                             <SelectValue placeholder="select team size" />
                           </SelectTrigger>
                           <SelectContent>
@@ -331,7 +331,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                             setValue("reason_for_joining", value)
                           }
                         >
-                          <SelectTrigger id="reason_for_joining" className="h-12">
+                          <SelectTrigger id="reason_for_joining" className="h-11">
                             <SelectValue placeholder="what brings you here" />
                           </SelectTrigger>
                           <SelectContent>
@@ -374,7 +374,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                   className="absolute inset-0"
                 >
                   <motion.div 
-                    className="space-y-6"
+                    className="space-y-4"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
@@ -388,14 +388,14 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                       </p>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="space-y-2">
                         <Label htmlFor="how_heard">how did you hear about us?</Label>
                         <Select
                           value={how_heard}
                           onValueChange={(value) => setValue("how_heard", value)}
                         >
-                          <SelectTrigger id="how_heard" className="h-12">
+                          <SelectTrigger id="how_heard" className="h-11">
                             <SelectValue placeholder="select one" />
                           </SelectTrigger>
                           <SelectContent>
@@ -422,35 +422,6 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="desired_domain">
-                          desired domain{" "}
-                          <span className="text-muted-foreground">(optional)</span>
-                        </Label>
-                        <Input
-                          id="desired_domain"
-                          placeholder="go.company.com"
-                          {...register("desired_domain")}
-                          className="h-12"
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          what custom domain would you like?
-                        </p>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="company_domain">
-                          company domain{" "}
-                          <span className="text-muted-foreground">(optional)</span>
-                        </Label>
-                        <Input
-                          id="company_domain"
-                          placeholder="company.com"
-                          {...register("company_domain")}
-                          className="h-12"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
                         <Label htmlFor="reason_details">
                           tell us more{" "}
                           <span className="text-muted-foreground">(optional)</span>
@@ -459,7 +430,7 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                           id="reason_details"
                           placeholder="anything else we should know?"
                           {...register("reason_details")}
-                          className="min-h-[100px]"
+                          className="min-h-[80px]"
                         />
                         {errors.reason_details && (
                           <p className="text-sm text-destructive">
@@ -499,27 +470,20 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
                 next →
               </Button>
             ) : (
-              <motion.div 
-                className="w-full"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-12 bg-gradient-to-r from-[hsl(20_100%_51%)] to-[hsl(20_80%_45%)] hover:from-[hsl(20_80%_45%)] hover:to-[hsl(20_100%_51%)] text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
               >
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full h-14 bg-gradient-to-r from-[hsl(20_100%_51%)] to-[hsl(20_80%_45%)] hover:from-[hsl(20_80%_45%)] hover:to-[hsl(20_100%_51%)] text-white text-lg font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 relative overflow-hidden group"
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    animate={{ x: ["-200%", "200%"] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  />
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isSubmitting ? "submitting..." : "🚀 request early access"}
-                  </span>
-                </Button>
-              </motion.div>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-200%", "200%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {isSubmitting ? "submitting..." : "🚀 request early access"}
+                </span>
+              </Button>
             )}
           </div>
         </form>
