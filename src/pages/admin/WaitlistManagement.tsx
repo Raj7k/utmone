@@ -464,6 +464,5 @@ export default function WaitlistManagement() {
           onSendInvites={() => setBatchInviteOpen(true)}
         />
       </div>
-    </div>
   );
 }
