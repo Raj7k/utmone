@@ -1,12 +1,17 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download } from "lucide-react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { toast } from "sonner";
 
 export default function AdminDashboard() {
+  const [isImporting, setIsImporting] = useState(false);
+
   // Fetch waitlist stats
-  const { data: waitlistStats } = useQuery({
+  const { data: waitlistStats, refetch: refetchWaitlist } = useQuery({
     queryKey: ['admin-waitlist-stats'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -58,6 +63,37 @@ export default function AdminDashboard() {
     },
   });
 
+  const handleImportSeedData = async () => {
+    setIsImporting(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast.error("Authentication required");
+        setIsImporting(false);
+        return;
+      }
+
+      const response = await supabase.functions.invoke('seed-waitlist-data', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (response.error) {
+        throw response.error;
+      }
+
+      toast.success(`Import complete! ${response.data?.stats?.inserted || 0} records imported`);
+      refetchWaitlist();
+    } catch (error) {
+      console.error('Import error:', error);
+      toast.error("Import failed. Check console for details.");
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="p-8">
@@ -70,7 +106,19 @@ export default function AdminDashboard() {
 
         {/* Waitlist Section */}
         <div className="mb-8">
-          <h2 className="text-xl font-display font-semibold mb-4">waitlist management</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-display font-semibold">waitlist management</h2>
+            <Button
+              onClick={handleImportSeedData}
+              disabled={isImporting}
+              size="sm"
+              variant="outline"
+              className="gap-2"
+            >
+              <Download className="w-4 h-4" />
+              {isImporting ? "importing..." : "import seed data"}
+            </Button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Card>
               <CardHeader className="pb-3">

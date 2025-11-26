@@ -267,10 +267,14 @@ export default function EarlyAccess() {
               className="inline-block mt-6 text-sm text-muted-foreground hover:text-primary transition-colors"
               onClick={(e) => {
                 e.preventDefault();
-                document.querySelector('[data-leaderboard]')?.scrollIntoView({ behavior: 'smooth' });
+                document.querySelector('#leaderboard')?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <span className="font-bold text-foreground">{stats?.total || '1K+'}+ waiting</span> • <span className="underline">see where you stand</span>
+              <span className="font-bold text-foreground">
+                {stats?.total && stats.total >= 1000 
+                  ? `${Math.floor(stats.total / 1000)}K+` 
+                  : stats?.total || '1K+'} waiting
+              </span> • <span className="underline">see where you stand</span>
             </a>
           </AnimatedHeadline>
         </div>
@@ -387,9 +391,7 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* Referral Leaderboard */}
-      <div data-leaderboard>
-        <PublicLeaderboard />
-      </div>
+      <PublicLeaderboard />
 
       <GradientDivider />
 

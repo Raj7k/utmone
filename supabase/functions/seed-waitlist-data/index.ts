@@ -80,9 +80,19 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Verify admin token for security
+    const authHeader = req.headers.get('authorization');
+    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    
+    if (!authHeader || !authHeader.includes(serviceRoleKey)) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized. Admin token required.' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 401 }
+      );
+    }
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(supabaseUrl, serviceRoleKey);
 
     console.log('Parsing CSV data...');
     const rows = parseCSV(REFERRAL_CSV);
