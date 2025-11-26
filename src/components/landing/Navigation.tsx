@@ -70,22 +70,20 @@ export const Navigation = () => {
 
   return (
     <header 
-      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-all duration-300 ${
+      className={`sticky z-50 py-4 px-4 md:px-8 transition-all duration-300 ${
         announcementVisible ? "top-[48px]" : "top-0"
-      } ${
-        isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
       } ${
         hideNav ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100"
       }`}
     >
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left"
-        style={{ width: progressWidth }}
-      />
-
-      <div className="max-w-[1280px] mx-auto px-8 h-full">
-        <nav className="flex items-center justify-between h-full">
+      <nav className={`max-w-[1280px] mx-auto bg-white/95 backdrop-blur-xl shadow-xl rounded-full border-2 border-border/10 px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
+        isScrolled ? "shadow-xl" : "shadow-lg"
+      }`}>
+        {/* Scroll Progress Bar */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left rounded-full"
+          style={{ width: progressWidth }}
+        />
           {/* Logo with hover effect */}
           <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
             <UtmOneLogo size="lg" />
@@ -555,7 +553,6 @@ export const Navigation = () => {
             </Link>
           </div>
         </nav>
-      </div>
-    </header>
-  );
-};
+      </header>
+    );
+  };
