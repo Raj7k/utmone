@@ -154,10 +154,12 @@ export type Database = {
           metric_type: string
           slack_enabled: boolean | null
           slack_webhook_url: string | null
+          slack_webhook_url_encrypted: string | null
           threshold_value: number
           updated_at: string
           webhook_enabled: boolean | null
           webhook_url: string | null
+          webhook_url_encrypted: string | null
         }
         Insert: {
           alert_name: string
@@ -171,10 +173,12 @@ export type Database = {
           metric_type: string
           slack_enabled?: boolean | null
           slack_webhook_url?: string | null
+          slack_webhook_url_encrypted?: string | null
           threshold_value: number
           updated_at?: string
           webhook_enabled?: boolean | null
           webhook_url?: string | null
+          webhook_url_encrypted?: string | null
         }
         Update: {
           alert_name?: string
@@ -188,10 +192,12 @@ export type Database = {
           metric_type?: string
           slack_enabled?: boolean | null
           slack_webhook_url?: string | null
+          slack_webhook_url_encrypted?: string | null
           threshold_value?: number
           updated_at?: string
           webhook_enabled?: boolean | null
           webhook_url?: string | null
+          webhook_url_encrypted?: string | null
         }
         Relationships: []
       }
@@ -1362,7 +1368,9 @@ export type Database = {
       integrations: {
         Row: {
           access_token: string | null
+          access_token_encrypted: string | null
           config: Json | null
+          config_encrypted: string | null
           created_at: string | null
           created_by: string | null
           expires_at: string | null
@@ -1370,11 +1378,14 @@ export type Database = {
           is_active: boolean | null
           provider: string
           refresh_token: string | null
+          refresh_token_encrypted: string | null
           workspace_id: string
         }
         Insert: {
           access_token?: string | null
+          access_token_encrypted?: string | null
           config?: Json | null
+          config_encrypted?: string | null
           created_at?: string | null
           created_by?: string | null
           expires_at?: string | null
@@ -1382,11 +1393,14 @@ export type Database = {
           is_active?: boolean | null
           provider: string
           refresh_token?: string | null
+          refresh_token_encrypted?: string | null
           workspace_id: string
         }
         Update: {
           access_token?: string | null
+          access_token_encrypted?: string | null
           config?: Json | null
+          config_encrypted?: string | null
           created_at?: string | null
           created_by?: string | null
           expires_at?: string | null
@@ -1394,6 +1408,7 @@ export type Database = {
           is_active?: boolean | null
           provider?: string
           refresh_token?: string | null
+          refresh_token_encrypted?: string | null
           workspace_id?: string
         }
         Relationships: [
@@ -3012,6 +3027,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           secret: string | null
+          secret_encrypted: string | null
           webhook_url: string
           workspace_id: string
         }
@@ -3022,6 +3038,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           secret?: string | null
+          secret_encrypted?: string | null
           webhook_url: string
           workspace_id: string
         }
@@ -3032,6 +3049,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           secret?: string | null
+          secret_encrypted?: string | null
           webhook_url?: string
           workspace_id?: string
         }
@@ -3237,6 +3255,7 @@ export type Database = {
           default_path: string | null
           description: string | null
           ga4_api_secret: string | null
+          ga4_api_secret_encrypted: string | null
           ga4_measurement_id: string | null
           gtm_container_id: string | null
           id: string
@@ -3263,6 +3282,7 @@ export type Database = {
           default_path?: string | null
           description?: string | null
           ga4_api_secret?: string | null
+          ga4_api_secret_encrypted?: string | null
           ga4_measurement_id?: string | null
           gtm_container_id?: string | null
           id?: string
@@ -3289,6 +3309,7 @@ export type Database = {
           default_path?: string | null
           description?: string | null
           ga4_api_secret?: string | null
+          ga4_api_secret_encrypted?: string | null
           ga4_measurement_id?: string | null
           gtm_container_id?: string | null
           id?: string
@@ -3429,6 +3450,14 @@ export type Database = {
           p_window_minutes?: number
         }
         Returns: boolean
+      }
+      decrypt_sensitive_data: {
+        Args: { ciphertext: string; encryption_key: string }
+        Returns: string
+      }
+      encrypt_sensitive_data: {
+        Args: { encryption_key: string; plaintext: string }
+        Returns: string
       }
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }

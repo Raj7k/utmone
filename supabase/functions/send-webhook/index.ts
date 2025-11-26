@@ -6,13 +6,40 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to decrypt token
+async function decryptToken(ciphertext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt']
+  );
+
+  const combined = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0));
+  const iv = combined.slice(0, 12);
+  const encryptedData = combined.slice(12);
+
+  const decrypted = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encryptedData
+  );
+
+  return decoder.decode(decrypted);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { event, data, webhookUrl, secret } = await req.json();
+    const { event, data, webhookUrl, secret, secretEncrypted } = await req.json();
 
     if (!event || !data || !webhookUrl) {
       return new Response(
@@ -27,10 +54,16 @@ serve(async (req) => {
       timestamp: new Date().toISOString(),
     };
 
+    // Decrypt secret if encrypted version is provided, otherwise use plaintext (for backward compatibility)
+    let actualSecret = secret;
+    if (secretEncrypted) {
+      actualSecret = await decryptToken(secretEncrypted);
+    }
+
     // Generate HMAC signature if secret is provided
     let signature = '';
-    if (secret) {
-      signature = createHmac('sha256', secret)
+    if (actualSecret) {
+      signature = createHmac('sha256', actualSecret)
         .update(JSON.stringify(payload))
         .digest('hex');
     }
