@@ -87,11 +87,11 @@ export const AggregateView = ({
         return (
           <Card
             key={group.destination_url}
-            className="overflow-hidden bg-gray-900/30 border-gray-800 hover:border-gray-700 transition-all"
+            className="overflow-hidden border-border hover:border-primary/30 hover:shadow-md transition-all"
           >
             {/* Group Header */}
             <div
-              className="p-4 cursor-pointer hover:bg-gray-800/30 transition-colors"
+              className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
               onClick={() => toggleGroup(group.destination_url)}
             >
               <div className="flex items-start gap-3">
@@ -130,7 +130,7 @@ export const AggregateView = ({
 
             {/* Expanded Versions */}
             {isExpanded && (
-              <div className="border-t border-gray-800 bg-gray-950/50">
+              <div className="border-t border-border bg-muted/20">
                 <div className="p-4 space-y-2">
                   {group.versions
                     .sort((a, b) => b.total_clicks - a.total_clicks)
@@ -143,7 +143,7 @@ export const AggregateView = ({
                           className={`p-3 rounded-lg border transition-all ${
                             isBest
                               ? 'bg-gradient-to-br from-primary/10 to-primary/5 border-primary/30'
-                              : 'bg-gray-900/50 border-gray-800 hover:border-gray-700'
+                              : 'bg-muted/10 border-border hover:border-primary/30'
                           }`}
                           onClick={() => onSelectVersion?.(version.id)}
                         >

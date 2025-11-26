@@ -82,9 +82,9 @@ export const VersionAnalytics = ({ versions }: VersionAnalyticsProps) => {
       </div>
 
       {/* Performance Comparison */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Version Comparison</CardTitle>
+          <CardTitle className="text-title-2">Version Comparison</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -121,11 +121,11 @@ export const VersionAnalytics = ({ versions }: VersionAnalyticsProps) => {
                     </div>
                     
                     {/* Progress Bar */}
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all ${
                           isBest ? 'bg-gradient-to-r from-green-500 to-green-400' :
-                          isWorst ? 'bg-gray-600' :
+                          isWorst ? 'bg-muted-foreground' :
                           'bg-gradient-to-r from-primary to-primary/70'
                         }`}
                         style={{ width: `${percentage}%` }}
