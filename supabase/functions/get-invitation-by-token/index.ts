@@ -94,6 +94,7 @@ Deno.serve(async (req) => {
     const response = {
       email: invitation.email,
       role: invitation.role,
+      workspaceId: invitation.workspace_id,
       workspaceName: workspace?.name || 'a workspace',
       inviterName: invitation.invited_by_name || 'A team member',
     };
