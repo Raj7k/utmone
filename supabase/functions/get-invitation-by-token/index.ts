@@ -55,7 +55,7 @@ Deno.serve(async (req) => {
     // Fetch invitation details (only non-sensitive fields)
     const { data: invitation, error } = await supabase
       .from('workspace_invitations')
-      .select('email, role, workspace_id, invited_by_name, status, expires_at')
+      .select('email, role, workspace_id, invited_by_name, accepted_at, expires_at')
       .eq('token', token)
       .single();
 
@@ -67,10 +67,10 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate invitation status
-    if (invitation.status !== 'pending') {
+    // Validate invitation hasn't been accepted
+    if (invitation.accepted_at) {
       return new Response(
-        JSON.stringify({ error: 'This invitation has already been accepted or is no longer valid.' }),
+        JSON.stringify({ error: 'This invitation has already been accepted.' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
