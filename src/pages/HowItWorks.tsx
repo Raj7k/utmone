@@ -48,7 +48,7 @@ const HowItWorks = () => {
       <Navigation />
       
       {/* Fold 1: Hero */}
-      <section className="relative py-32 md:py-40 bg-gradient-to-br from-wildSand via-background to-background overflow-hidden">
+      <section className="relative py-32 md:py-40 bg-white overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-20 left-10 w-2 h-32 bg-gradient-to-b from-primary to-transparent rounded-full blur-sm opacity-50" />
         <div className="absolute bottom-20 right-10 w-2 h-32 bg-gradient-to-t from-deepSea to-transparent rounded-full blur-sm opacity-50" />
@@ -79,7 +79,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 2: The Idea */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="container max-w-[900px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -88,9 +88,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="space-y-8 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground">
               Everything starts with one clean link
-            </h2>
+            </h1>
             <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
               <p>
                 utm.one takes the moment you create a link —<br />
@@ -111,9 +111,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 3: The utm.one Flow */}
-      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
-        <WorkflowBackground />
-        
+      <section className="py-24 md:py-32 bg-white">
         <div className="container max-w-[1200px] mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -122,10 +120,10 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4">
               The utm.one flow
-            </h2>
-            <p className="text-lg text-white/70">
+            </h1>
+            <p className="text-lg text-muted-foreground">
               Simple, visual, effective
             </p>
           </motion.div>
@@ -178,9 +176,9 @@ const HowItWorks = () => {
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="text-center text-lg text-white/80 font-medium"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-center text-lg text-muted-foreground font-medium"
           >
             One system, many workflows — all aligned.
           </motion.p>
@@ -188,18 +186,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 4: What Happens Inside Each Link */}
-      <section className="py-24 md:py-32 bg-wildSand">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Every link carries meaning
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground">
               utm.one adds structured metadata that:
             </p>
@@ -227,18 +225,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 5: Trust, by Design */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               You see where the link goes before you click
-            </h2>
+            </h1>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
@@ -264,18 +262,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 6: Accessibility Built In */}
-      <section className="py-24 md:py-32 bg-gradient-to-b from-deepSea/10 to-wildSand">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Links that include everyone
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground">
               utm.one makes link creation accessible by default:
             </p>
@@ -312,9 +310,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
               Your links last forever
-            </h2>
+            </h1>
             <div className="space-y-2 text-lg text-white/70">
               <p>platforms shut down</p>
               <p>urls break</p>
@@ -344,18 +342,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 8: Consistency Across Your Org */}
-      <section className="py-24 md:py-32 bg-wildSand">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Everyone follows the same standard
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground">
               utm.one removes the guesswork:
             </p>
@@ -395,18 +393,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 9: Analytics Without Overwhelm */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               See only what matters
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground">
               utm.one gives you clarity, not dashboards that fight you.
             </p>
@@ -454,18 +452,18 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 10: Where It All Comes Together */}
-      <section className="py-24 md:py-32 bg-gradient-to-br from-blazeOrange/5 via-deepSea/5 to-background">
-        <div className="container max-w-[1000px] mx-auto px-6">
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container mx-auto px-4 max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               One workspace, many roles
-            </h2>
+            </h1>
             <p className="text-lg text-muted-foreground">
               utm.one works the same way across your teams:
             </p>
