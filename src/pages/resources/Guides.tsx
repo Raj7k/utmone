@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
@@ -72,6 +73,7 @@ const Guides = () => {
       />
       <div className="min-h-screen bg-background">
       <Navigation />
+      <FloatingNavigation />
 
       {/* Header */}
       <section className="py-20 bg-background border-b border-separator">

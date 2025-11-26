@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { PricingCard } from "@/components/PricingCard";
 import { PricingComparison } from "@/components/PricingComparison";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
@@ -42,8 +43,9 @@ const Pricing = () => {
         description="Simple pricing with generous limits and no per-seat charges for link management and UTM tracking."
         url="https://utm.one/pricing"
       />
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
+      <FloatingNavigation />
 
       {/* Hero Section */}
       <section className="py-24 md:py-32 bg-background">

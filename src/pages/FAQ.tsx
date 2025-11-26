@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { Link } from "react-router-dom";
@@ -277,6 +278,7 @@ const FAQ = () => {
       />
       <FAQSchema questions={allFAQs} />
       <Navigation />
+      <FloatingNavigation />
 
       {/* Hero */}
       <section className="py-24 bg-background border-b border-border">

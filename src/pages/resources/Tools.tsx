@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { 
@@ -91,6 +92,7 @@ const Tools = () => {
         keywords={['salary calculator', 'career planning tools', 'market value calculator', 'negotiation coach', 'team budget tools']}
       />
       <Navigation />
+      <FloatingNavigation />
 
       {/* Hero */}
       <section className="py-20 bg-background">

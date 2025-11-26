@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap, Calculator, BarChart3 } from "lucide-react";
@@ -95,6 +96,7 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <FloatingNavigation />
 
       {/* Hero */}
       <section className="py-20 bg-background">

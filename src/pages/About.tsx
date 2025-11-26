@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
@@ -24,6 +25,7 @@ const About = () => {
       />
       <div className="min-h-screen bg-white">
       <Navigation />
+      <FloatingNavigation />
 
       {/* Hero Section */}
       <section className="py-24 md:py-32 bg-white">

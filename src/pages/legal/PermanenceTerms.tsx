@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 
@@ -13,6 +14,7 @@ const PermanenceTerms = () => {
       />
       <div className="min-h-screen flex flex-col">
         <Navigation />
+        <FloatingNavigation />
         
         <main className="flex-1 bg-white">
           <div className="max-w-text-content mx-auto px-8 py-24">

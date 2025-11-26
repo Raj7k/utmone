@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download } from "lucide-react";
@@ -41,6 +42,7 @@ const Templates = () => {
         keywords={['UTM templates', 'campaign templates', 'marketing templates', 'naming convention templates', 'tracking templates']}
       />
       <Navigation />
+      <FloatingNavigation />
 
       <section className="py-20 bg-background border-b border-separator">
         <div className="max-w-[980px] mx-auto px-8">

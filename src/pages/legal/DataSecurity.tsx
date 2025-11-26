@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 
@@ -11,6 +12,7 @@ const DataSecurity = () => {
         canonical="https://utm.one/legal/data-security"
       />
       <Navigation />
+      <FloatingNavigation />
       <main className="min-h-screen bg-white">
         <div className="max-w-text-content mx-auto px-8 py-24 md:py-32">
           {/* Header */}
