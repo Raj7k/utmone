@@ -7,7 +7,7 @@ import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import logo from "@/assets/utm-one-logo.svg";
+import logo from "@/assets/utm-one-logo.png";
 import { DashboardSidebar } from "./DashboardSidebar";
 
 export const AppHeader = () => {

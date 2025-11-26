@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import utmOneLogo from "@/assets/utm-one-logo.svg";
+import utmOneWordmark from "@/assets/utm-one-wordmark.png";
 
 export const Footer = () => {
   return (
@@ -9,7 +9,7 @@ export const Footer = () => {
           
           {/* Brand Column (spans 2 on desktop) */}
           <div className="lg:col-span-2 space-y-6">
-            <img src={utmOneLogo} alt="utm.one" className="h-10 w-auto" />
+            <img src={utmOneWordmark} alt="utm.one" className="h-10 w-auto" />
             <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
               utm.one gives every link a meaning machines can understand and humans can trust.
             </p>
