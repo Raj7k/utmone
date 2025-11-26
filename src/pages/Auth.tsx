@@ -105,63 +105,12 @@ const Auth = () => {
     }
   };
 
-  const checkEmailAllowed = async (email: string): Promise<{allowed: boolean; reason: string; message?: string}> => {
-    console.log("Checking if email is allowed:", email);
-    
-    try {
-      // Call edge function that bypasses RLS using service role
-      const { data, error } = await supabase.functions.invoke('check-email-allowed', {
-        body: { email: email.toLowerCase() }
-      });
-      
-      if (error) {
-        console.error("Error checking email access:", error);
-        return { 
-          allowed: false, 
-          reason: "error", 
-          message: "Unable to verify access. Please try again." 
-        };
-      }
-      
-      if (!data) {
-        return { 
-          allowed: false, 
-          reason: "error", 
-          message: "Unable to verify access. Please try again." 
-        };
-      }
-      
-      console.log("Email access check result:", data);
-      return data;
-    } catch (error) {
-      console.error("Exception checking email access:", error);
-      return { 
-        allowed: false, 
-        reason: "error", 
-        message: "Unable to verify access. Please try again." 
-      };
-    }
-  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Check if email is allowed
-      const emailCheck = await checkEmailAllowed(email);
-      if (!emailCheck.allowed) {
-        toast({
-          title: "Access restricted",
-          description: emailCheck.message,
-          variant: "destructive",
-        });
-        setIsLoading(false);
-        // Redirect to early access page
-        setTimeout(() => navigate("/early-access"), 2000);
-        return;
-      }
-
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -234,20 +183,6 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      // Check if email is allowed
-      const emailCheck = await checkEmailAllowed(email);
-      if (!emailCheck.allowed) {
-        toast({
-          title: "Access restricted",
-          description: emailCheck.message,
-          variant: "destructive",
-        });
-        setIsLoading(false);
-        // Redirect to early access page
-        setTimeout(() => navigate("/early-access"), 2000);
-        return;
-      }
-
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
