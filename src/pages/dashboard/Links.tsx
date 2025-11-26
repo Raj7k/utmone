@@ -16,6 +16,7 @@ import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
 import { URLShortenerEnhanced } from "@/components/url-shortener/URLShortenerEnhanced";
 import { QRCodeTool } from "@/components/tools/QRCodeTool";
 import { BulkUploadTabs } from "@/components/bulk-upload/BulkUploadTabs";
+import { LinksURLShortener } from "@/components/url-shortener/LinksURLShortener";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,17 +60,8 @@ export default function Links() {
         className="mb-content"
       />
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-large-title font-bold text-label mb-2 heading">links</h1>
-          <p className="text-body-apple text-secondary-label">
-            manage and track all your short links
-          </p>
-        </div>
-      </div>
-
-      {/* Tool Selector */}
-      <ToolSelector onSelectTool={handleToolSelect} />
+      {/* URL Shortener */}
+      <LinksURLShortener />
 
       {!isMobile && (
         <LinkFilters
