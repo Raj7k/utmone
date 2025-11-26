@@ -6,6 +6,13 @@ export interface URLValidation {
   isDuplicate: boolean;
   domain: string | null;
   error: string | null;
+  slug?: string;
+  title?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
 }
 
 export const useBulkValidation = () => {
@@ -34,6 +41,7 @@ export const useBulkValidation = () => {
       isDuplicate: false,
       domain,
       error,
+      title: domain || "link",
     };
   }, []);
 
@@ -65,6 +73,12 @@ export const useBulkValidation = () => {
     [validateURL]
   );
 
+  const updateValidation = useCallback((index: number, updates: Partial<URLValidation>) => {
+    setValidations(prev => 
+      prev.map((v, i) => i === index ? { ...v, ...updates } : v)
+    );
+  }, []);
+
   const getStats = useCallback(() => {
     const total = validations.length;
     const valid = validations.filter((v) => v.isValid && !v.isDuplicate).length;
@@ -80,6 +94,7 @@ export const useBulkValidation = () => {
   return {
     validations,
     validateURLs,
+    updateValidation,
     getStats,
   };
 };

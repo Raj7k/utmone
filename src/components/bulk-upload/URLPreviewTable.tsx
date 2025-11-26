@@ -5,6 +5,8 @@ import { X, Loader2 } from "lucide-react";
 import { ValidationBadge } from "./ValidationBadge";
 import { TrustBadge } from "@/components/TrustBadge";
 import { LinkPreviewCard } from "@/components/LinkPreviewCard";
+import { EditableSlugCell } from "./EditableSlugCell";
+import { BulkUTMEditor } from "./BulkUTMEditor";
 import type { URLValidation } from "@/hooks/useBulkValidation";
 import type { LinkPreview } from "@/hooks/useBulkLinkPreview";
 import type { SecurityScanResult } from "@/hooks/useBulkSecurityScan";
@@ -13,11 +15,37 @@ interface URLPreviewTableProps {
   validations: URLValidation[];
   previews: Map<string, LinkPreview>;
   scanResults: Map<string, SecurityScanResult>;
+  selectedDomain: string;
+  workspaceId: string;
   onRemove: (index: number) => void;
+  onUpdateValidation: (index: number, updates: Partial<URLValidation>) => void;
 }
 
-export const URLPreviewTable = ({ validations, previews, scanResults, onRemove }: URLPreviewTableProps) => {
+export const URLPreviewTable = ({ 
+  validations, 
+  previews, 
+  scanResults, 
+  selectedDomain,
+  workspaceId,
+  onRemove,
+  onUpdateValidation,
+}: URLPreviewTableProps) => {
   if (validations.length === 0) return null;
+
+  const handleCopyUTMToAll = (index: number) => {
+    const sourceUTM = validations[index];
+    validations.forEach((_, i) => {
+      if (i !== index) {
+        onUpdateValidation(i, {
+          utm_source: sourceUTM.utm_source,
+          utm_medium: sourceUTM.utm_medium,
+          utm_campaign: sourceUTM.utm_campaign,
+          utm_term: sourceUTM.utm_term,
+          utm_content: sourceUTM.utm_content,
+        });
+      }
+    });
+  };
 
   const getSecurityBadge = (url: string, preview: LinkPreview | undefined, scanResult: SecurityScanResult | undefined) => {
     // Show security scan status
@@ -53,7 +81,8 @@ export const URLPreviewTable = ({ validations, previews, scanResults, onRemove }
           <TableHeader className="sticky top-0 bg-background z-10">
             <TableRow>
               <TableHead className="font-display font-semibold">preview</TableHead>
-              <TableHead className="font-display font-semibold">original URL</TableHead>
+              <TableHead className="font-display font-semibold">custom slug</TableHead>
+              <TableHead className="font-display font-semibold">utm parameters</TableHead>
               <TableHead className="font-display font-semibold">security</TableHead>
               <TableHead className="font-display font-semibold">validation</TableHead>
               <TableHead className="w-[60px]"></TableHead>
@@ -106,8 +135,33 @@ export const URLPreviewTable = ({ validations, previews, scanResults, onRemove }
                       </LinkPreviewCard>
                     )}
                   </TableCell>
-                  <TableCell className="font-mono text-xs max-w-md truncate">
-                    {validation.url}
+                  <TableCell className="w-[200px]">
+                    {validation.isValid && (
+                      <EditableSlugCell
+                        slug={validation.slug || `link-${index + 1}`}
+                        domain={selectedDomain}
+                        workspaceId={workspaceId}
+                        onChange={(slug, isAvailable) => {
+                          onUpdateValidation(index, { slug });
+                        }}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell className="w-[250px]">
+                    {validation.isValid && (
+                      <BulkUTMEditor
+                        index={index}
+                        utm_source={validation.utm_source}
+                        utm_medium={validation.utm_medium}
+                        utm_campaign={validation.utm_campaign}
+                        utm_term={validation.utm_term}
+                        utm_content={validation.utm_content}
+                        onChange={(field, value) => {
+                          onUpdateValidation(index, { [field]: value });
+                        }}
+                        onCopyToAll={index === 0 ? () => handleCopyUTMToAll(index) : undefined}
+                      />
+                    )}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">

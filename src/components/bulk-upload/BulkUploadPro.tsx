@@ -29,7 +29,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const [selectedDomain, setSelectedDomain] = useState("utm.click");
   const [manualInput, setManualInput] = useState("");
 
-  const { validations, validateURLs, getStats } = useBulkValidation();
+  const { validations, validateURLs, updateValidation, getStats } = useBulkValidation();
   const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
   const { previews, isLoading: previewsLoading } = useBulkLinkPreview(urls);
   const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
@@ -52,12 +52,51 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
 
   const handleFileContent = useCallback(
     (content: string) => {
+      // Check if CSV with headers
       const lines = content.split('\n').map(line => line.trim()).filter(Boolean);
-      setUrls(lines);
-      setManualInput(lines.join('\n'));
-      validateURLs(lines);
+      
+      if (lines[0]?.includes(',')) {
+        // Parse as CSV
+        const [header, ...rows] = lines;
+        const headers = header.split(',').map(h => h.trim().toLowerCase());
+        
+        const urlIndex = headers.findIndex(h => h.includes('url'));
+        const slugIndex = headers.findIndex(h => h.includes('slug'));
+        const sourceIndex = headers.findIndex(h => h.includes('source'));
+        const mediumIndex = headers.findIndex(h => h.includes('medium'));
+        const campaignIndex = headers.findIndex(h => h.includes('campaign'));
+        const termIndex = headers.findIndex(h => h.includes('term'));
+        const contentIndex = headers.findIndex(h => h.includes('content'));
+        
+        const parsedUrls = rows.map(row => {
+          const cells = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+          return cells[urlIndex] || row;
+        });
+        
+        setUrls(parsedUrls);
+        setManualInput(parsedUrls.join('\n'));
+        const validated = validateURLs(parsedUrls);
+        
+        // Apply CSV data to validations
+        rows.forEach((row, index) => {
+          const cells = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+          updateValidation(index, {
+            slug: slugIndex >= 0 ? cells[slugIndex] : undefined,
+            utm_source: sourceIndex >= 0 ? cells[sourceIndex] : undefined,
+            utm_medium: mediumIndex >= 0 ? cells[mediumIndex] : undefined,
+            utm_campaign: campaignIndex >= 0 ? cells[campaignIndex] : undefined,
+            utm_term: termIndex >= 0 ? cells[termIndex] : undefined,
+            utm_content: contentIndex >= 0 ? cells[contentIndex] : undefined,
+          });
+        });
+      } else {
+        // Plain text URLs
+        setUrls(lines);
+        setManualInput(lines.join('\n'));
+        validateURLs(lines);
+      }
     },
-    [validateURLs]
+    [validateURLs, updateValidation]
   );
 
   const handleManualInput = useCallback(
@@ -101,15 +140,20 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       return;
     }
 
-    // Prepare links for creation
+    // Prepare links for creation with custom slugs and UTM parameters
     const links = validations
       .filter(v => v.isValid && !v.isDuplicate)
       .map((v, index) => {
-        const slug = generateSlugFromTitle(v.domain || `link-${index + 1}`);
+        const autoSlug = generateSlugFromTitle(v.domain || `link-${index + 1}`);
         return {
           destination_url: v.url,
-          title: `Bulk Link ${index + 1}`,
-          slug: `${slug}-${index + 1}`,
+          title: v.title || `Bulk Link ${index + 1}`,
+          slug: v.slug || `${autoSlug}-${index + 1}`,
+          utm_source: v.utm_source,
+          utm_medium: v.utm_medium,
+          utm_campaign: v.utm_campaign,
+          utm_term: v.utm_term,
+          utm_content: v.utm_content,
         };
       });
 
@@ -186,7 +230,16 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           <Card>
             <CardHeader>
               <CardTitle className="font-display text-title-2">upload URLs</CardTitle>
-              <CardDescription>drag and drop or paste URLs</CardDescription>
+              <CardDescription>
+                drag and drop or paste URLs • 
+                <a 
+                  href="/bulk-upload-template.csv" 
+                  download 
+                  className="text-primary hover:underline ml-1"
+                >
+                  download CSV template
+                </a>
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {urls.length === 0 ? (
@@ -236,7 +289,10 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
                     validations={validations} 
                     previews={previews}
                     scanResults={scanResults}
-                    onRemove={handleRemoveURL} 
+                    selectedDomain={selectedDomain}
+                    workspaceId={workspaceId}
+                    onRemove={handleRemoveURL}
+                    onUpdateValidation={updateValidation}
                   />
                   <div className="mt-6">
                     <Button
