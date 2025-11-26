@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
 import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Workspace {
   id: string;
@@ -29,6 +30,7 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
   // Check authentication status
   useEffect(() => {
@@ -58,6 +60,11 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session?.user);
+      
+      // Force refetch of workspaces on login to prevent race condition
+      if (session?.user) {
+        queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+      }
     });
     
     return () => subscription.unsubscribe();
