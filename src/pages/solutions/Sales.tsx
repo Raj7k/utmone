@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, UserPlus, MessageSquare, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
-import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
+import { GradientHeroBackground, VectorShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
@@ -13,28 +13,28 @@ const Sales = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Fold 1: Hero */}
-      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
-        <HeroFloatingShapes />
-        <HeroGlow />
-        <DiagonalAccent position="top-left" />
-        <DiagonalAccent position="bottom-right" />
+      {/* Fold 1: Hero with Gradient */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+        <GradientHeroBackground variant="blue-teal" />
+        <VectorShapes variant="curves" />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
-          <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
-              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
-                Links That Explain Your Influence
-              </span>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter text-white leading-[1.1]">
+              Links That Explain Your Influence
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
-              utm.one helps sales teams share cleaner, faster, clearer links — with attribution built in.
+            
+            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              short links that fit in emails and linkedin dms. 
+              branded qr codes for booths and business cards. 
+              analytics that prove your contribution to pipeline.
             </p>
-            <div className="pt-4">
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                <Button size="lg" className="text-lg px-8 py-6 bg-white text-foreground hover:bg-white/90 transition-all">
                   Get Early Access
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
             </div>
