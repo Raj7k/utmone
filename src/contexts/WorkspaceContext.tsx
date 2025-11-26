@@ -26,8 +26,30 @@ const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefin
 export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const { workspaces = [], isLoading } = useClientWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user);
+      
+      // Redirect to auth if not authenticated and on protected route
+      if (!user && location.pathname.startsWith('/dashboard')) {
+        navigate("/auth");
+      }
+    };
+    
+    checkAuth();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session?.user);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, [location.pathname, navigate]);
 
   // Initialize current workspace from localStorage or first workspace
   useEffect(() => {
@@ -51,21 +73,19 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   // Redirect to onboarding if user has no workspaces
   useEffect(() => {
     const checkWorkspaces = async () => {
-      if (isLoading) return;
+      if (isLoading || isAuthenticated === null) return;
       
       // Don't redirect if already on auth, onboarding, or accept-invite pages
       if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
       
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      // If authenticated user has no workspaces, redirect to onboarding
-      if (user && workspaces.length === 0) {
+      // Only check workspaces if authenticated
+      if (isAuthenticated && workspaces.length === 0) {
         navigate("/onboarding");
       }
     };
 
     checkWorkspaces();
-  }, [workspaces, isLoading, navigate, location.pathname]);
+  }, [workspaces, isLoading, isAuthenticated, navigate, location.pathname]);
 
   const switchWorkspace = (workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);

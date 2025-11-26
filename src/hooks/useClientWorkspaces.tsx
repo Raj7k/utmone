@@ -10,7 +10,7 @@ export const useClientWorkspaces = () => {
     queryKey: ["client-workspaces"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) return [];
 
       // Get workspaces where user is owner
       const { data: ownedWorkspaces, error: ownedError } = await supabase
@@ -38,6 +38,7 @@ export const useClientWorkspaces = () => {
 
       return [...ownedWorkspaces, ...memberWorkspacesList];
     },
+    retry: false,
   });
 
   const createWorkspaceMutation = useMutation({
