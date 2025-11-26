@@ -37,8 +37,17 @@ import {
 import { ultimateUrlSchema, type UltimateURLFormData } from '@/lib/urlShortenerSchemas';
 import { useURLProcessing } from './hooks/useURLProcessing';
 import { useDuplicateDetection } from './hooks/useDuplicateDetection';
+import { useVersionManagement } from './hooks/useVersionManagement';
+import { useABTesting } from './hooks/useABTesting';
 import { URLPreviewCard } from './shared/URLPreviewCard';
 import { ProcessingProgress } from './shared/ProcessingProgress';
+import { DuplicateResolutionModal } from './components/DuplicateResolutionModal';
+import { VersionTimeline } from './components/VersionTimeline';
+import { AggregateView } from './components/AggregateView';
+import { ABTestControls } from './components/ABTestControls';
+import { SmartSuggestionsPanel } from './components/SmartSuggestionsPanel';
+import { VersionAnalytics } from './components/VersionAnalytics';
+import { SettingsPanelUltimate } from './components/SettingsPanelUltimate';
 import { PAGINATION_LIMIT, DUPLICATE_STRATEGIES } from '@/lib/constants';
 
 interface URLVersion {
@@ -58,10 +67,8 @@ export const URLShortenerUltimate = () => {
   
   const [activeTab, setActiveTab] = useState('create');
   const [duplicateStrategy, setDuplicateStrategy] = useState<'smart' | 'ask' | 'always-new' | 'use-existing'>(DUPLICATE_STRATEGIES.SMART as 'smart');
-  const [bulkInput, setBulkInput] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
-  const [currentDuplicate, setCurrentDuplicate] = useState<any>(null);
+  const [currentDuplicateData, setCurrentDuplicateData] = useState<any>(null);
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
   const workspaceId = currentWorkspace?.id;
@@ -81,6 +88,8 @@ export const URLShortenerUltimate = () => {
     );
   }
   const { checkForDuplicates, analyzeDuplicate, generateSuggestions } = useDuplicateDetection(workspaceId || '');
+  const versionManagement = useVersionManagement(workspaceId || '');
+  const abTesting = useABTesting(workspaceId || '');
 
   // Fetch verified domains
   const { data: domains } = useQuery({
@@ -442,7 +451,7 @@ export const URLShortenerUltimate = () => {
           <Card>
             <CardHeader>
               <CardTitle>URL Version Control</CardTitle>
-              <CardDescription>manage all versions of your urls</CardDescription>
+              <CardDescription>manage all versions of your urls with tree view</CardDescription>
             </CardHeader>
             <CardContent>
               {urlGroups && urlGroups.length > 0 ? (
