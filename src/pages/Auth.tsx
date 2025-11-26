@@ -98,7 +98,22 @@ const Auth = () => {
   };
 
   const checkEmailAllowed = async (email: string): Promise<{allowed: boolean; reason: string; message?: string}> => {
-    // Check early_access_requests for approved status
+    // FIRST: Check if this email belongs to an admin user
+    const { data: adminCheck } = await supabase
+      .from("profiles")
+      .select(`
+        id,
+        user_roles!inner(role)
+      `)
+      .eq("email", email.toLowerCase())
+      .eq("user_roles.role", "admin")
+      .single();
+
+    if (adminCheck) {
+      return { allowed: true, reason: "admin" };
+    }
+
+    // THEN: Check early_access_requests for approved status
     const { data: request } = await supabase
       .from("early_access_requests")
       .select("status")
