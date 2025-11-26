@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { DashboardSidebar } from "./DashboardSidebar";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export const AppHeader = () => {
   const { toast } = useToast();
@@ -97,6 +98,7 @@ export const AppHeader = () => {
             <span className="text-footnote text-secondary-label hidden md:block">
               {user?.email}
             </span>
+            <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={handleSignOut}>
               <LogOut className="h-4 w-4" />
             </Button>

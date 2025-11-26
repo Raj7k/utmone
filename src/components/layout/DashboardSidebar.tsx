@@ -31,7 +31,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   };
 
   return (
-    <aside className="w-64 h-screen border-r border-separator bg-system-background flex flex-col">
+    <aside className="w-64 h-screen border-r border-separator bg-system-background vibrancy flex flex-col">
       {/* Logo */}
       <div className="h-[72px] flex items-center px-6 border-b border-separator">
         <UtmOneLogo size="md" />
