@@ -1,12 +1,20 @@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { 
   ChevronRight, ChevronDown, TrendingUp, GitBranch, Copy, 
-  BarChart3, ExternalLink, Star 
+  BarChart3, ExternalLink, Star, Archive, Pause, Play, Trash2, MoreVertical 
 } from 'lucide-react';
 import { useState } from 'react';
 import { formatDistanceToNow } from 'date-fns';
+import { useVersionManagement } from '../hooks/useVersionManagement';
 
 interface Version {
   id: string;
@@ -31,10 +39,20 @@ interface URLGroup {
 interface AggregateViewProps {
   groups: URLGroup[];
   onSelectVersion?: (versionId: string) => void;
+  selectedVersions?: string[];
+  onToggleVersion?: (versionId: string) => void;
+  workspaceId: string;
 }
 
-export const AggregateView = ({ groups, onSelectVersion }: AggregateViewProps) => {
+export const AggregateView = ({ 
+  groups, 
+  onSelectVersion, 
+  selectedVersions = [], 
+  onToggleVersion,
+  workspaceId 
+}: AggregateViewProps) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const versionManagement = useVersionManagement(workspaceId);
 
   const toggleGroup = (url: string) => {
     setExpandedGroups(prev => {
@@ -171,7 +189,71 @@ export const AggregateView = ({ groups, onSelectVersion }: AggregateViewProps) =
                               </p>
                             </div>
 
-                            <div className="flex gap-1 flex-shrink-0">
+                            <div className="flex gap-2 flex-shrink-0 items-center">
+                              <Checkbox
+                                checked={selectedVersions.includes(version.id)}
+                                onCheckedChange={() => onToggleVersion?.(version.id)}
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                                  <Button variant="ghost" size="sm" className="h-7 w-7 p-0">
+                                    <MoreVertical className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      versionManagement.activateVersion.mutate(version.id);
+                                    }}
+                                  >
+                                    <Play className="h-4 w-4 mr-2" />
+                                    activate
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      versionManagement.pauseVersion.mutate(version.id);
+                                    }}
+                                  >
+                                    <Pause className="h-4 w-4 mr-2" />
+                                    pause
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      versionManagement.archiveVersion.mutate(version.id);
+                                    }}
+                                  >
+                                    <Archive className="h-4 w-4 mr-2" />
+                                    archive
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      versionManagement.createBranch.mutate({ parentId: version.id, newSlug: `${version.slug}-v2` });
+                                    }}
+                                  >
+                                    <GitBranch className="h-4 w-4 mr-2" />
+                                    branch
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (confirm('Delete this version?')) {
+                                        versionManagement.deleteVersion.mutate(version.id);
+                                      }
+                                    }}
+                                    className="text-destructive"
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                              
                               <Button
                                 size="sm"
                                 variant="ghost"

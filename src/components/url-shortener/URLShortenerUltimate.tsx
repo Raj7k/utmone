@@ -462,6 +462,7 @@ export const URLShortenerUltimate = () => {
                   (current.total_clicks > (best?.total_clicks || 0)) ? current : best
                 , g.versions[0])
               }))}
+              workspaceId={workspaceId || ''}
             />
           ) : (
             <Card>
@@ -477,7 +478,11 @@ export const URLShortenerUltimate = () => {
           {urlGroups && urlGroups.length > 0 ? (
             <VersionAnalytics 
               versions={urlGroups.flatMap(g => g.versions.map((v: any) => ({
-                ...v,
+                id: v.id,
+                version: v.version,
+                slug: v.slug,
+                total_clicks: v.total_clicks,
+                created_at: v.created_at,
                 unique_clicks: Math.floor(v.total_clicks * 0.7),
                 ctr: v.total_clicks > 0 ? ((v.total_clicks / 100) * 2.5) : 0,
                 conversion_rate: v.total_clicks > 0 ? ((v.total_clicks / 100) * 1.2) : 0,
@@ -494,59 +499,7 @@ export const URLShortenerUltimate = () => {
         </TabsContent>
 
         <TabsContent value="settings">
-          <Card>
-            <CardHeader>
-              <CardTitle>Duplicate Handling Settings</CardTitle>
-              <CardDescription>configure how duplicates are handled</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Compare UTM Parameters</Label>
-                    <p className="text-xs text-secondary-label">treat different utm params as unique</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Auto Version Increment</Label>
-                    <p className="text-xs text-secondary-label">automatically create v1, v2, v3...</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Track Link Lineage</Label>
-                    <p className="text-xs text-secondary-label">maintain parent-child relationships</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Auto-Archive Old Versions</Label>
-                    <p className="text-xs text-secondary-label">archive low-performing versions after 90 days</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label>Notify on Duplicate</Label>
-                    <p className="text-xs text-secondary-label">alert when duplicates are detected</p>
-                  </div>
-                  <Switch defaultChecked />
-                </div>
-              </div>
-
-              <div>
-                <Label>Max Versions per URL</Label>
-                <Input type="number" defaultValue={10} className="mt-1.5" />
-                <p className="text-xs text-tertiary-label mt-1">
-                  maximum number of versions before auto-archiving
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsPanelUltimate workspaceId={workspaceId || ''} />
         </TabsContent>
       </Tabs>
     </div>
