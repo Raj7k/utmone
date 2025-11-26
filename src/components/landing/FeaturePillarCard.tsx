@@ -30,7 +30,7 @@ export const FeaturePillarCard = ({
       )}
     >
       <div className="flex flex-col items-start space-y-4">
-        <div className="p-3 rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+        <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
           <Icon className="w-6 h-6" />
         </div>
         <h3 className="text-xl font-display font-semibold text-foreground">
