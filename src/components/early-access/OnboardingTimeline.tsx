@@ -15,9 +15,9 @@ export const OnboardingTimeline = () => {
       <GridOverlay />
       <div className="max-w-[900px] mx-auto relative z-10">
         <AnimatedHeadline>
-          <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
             a calm, simple onboarding flow
-          </h2>
+          </h1>
         </AnimatedHeadline>
         
         <div className="relative">

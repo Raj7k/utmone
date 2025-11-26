@@ -17,9 +17,9 @@ export const TrustNarrativeCard = () => {
         <AnimatedHeadline>
           <div className="bg-gradient-to-br from-background via-muted/30 to-background rounded-3xl p-12 md:p-16 shadow-[0_8px_32px_rgba(0,0,0,0.06)] relative">
             <CornerBrackets />
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-12 text-center tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center tracking-tight">
               your links will be safe here
-            </h2>
+            </h1>
             
             <div className="space-y-6 mb-12">
               {problems.map((problem, index) => (
