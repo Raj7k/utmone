@@ -22,18 +22,30 @@ import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3,
 import { useTrackPageView, useTrackFormStart, useTrackFormSubmit } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
 
-// Simplified form schema (4 fields only)
+// Comprehensive 9-field form schema
 const formSchema = z.object({
+  name: z.string()
+    .min(1, "please enter your full name")
+    .max(100, "name must be less than 100 characters"),
   email: z.string()
     .email("please enter a valid email")
     .max(255, "email must be less than 255 characters"),
-  company: z.string()
-    .min(1, "please enter your company or project")
-    .max(100, "company name must be less than 100 characters"),
   role: z.string()
     .min(1, "please select your role"),
-  use_case: z.string()
+  team_size: z.string()
+    .min(1, "please select your team size"),
+  reason_for_joining: z.string()
+    .min(1, "please select why you want to join"),
+  reason_details: z.string()
     .max(500, "please keep it under 500 characters")
+    .optional(),
+  how_heard: z.string()
+    .min(1, "please select how you heard about us"),
+  desired_domain: z.string()
+    .max(100, "domain must be less than 100 characters")
+    .optional(),
+  company_domain: z.string()
+    .max(100, "domain must be less than 100 characters")
     .optional(),
 });
 
@@ -101,10 +113,15 @@ export default function EarlyAccess() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
-      company: "",
       role: "",
-      use_case: "",
+      team_size: "",
+      reason_for_joining: "",
+      reason_details: "",
+      how_heard: "",
+      desired_domain: "",
+      company_domain: "",
     },
   });
 
@@ -114,6 +131,7 @@ export default function EarlyAccess() {
     // Track form submission
     trackFormSubmit({
       role: data.role,
+      team_size: data.team_size,
       variant_id: heroVariant.id.toString(),
     });
 
@@ -149,15 +167,15 @@ export default function EarlyAccess() {
     const { data: insertedData, error } = await supabase
       .from('early_access_requests')
       .insert({
-        name: data.company, // Use company as name for simplified form
+        name: data.name,
         email: data.email,
-        team_size: "unknown", // Default since not collected
+        team_size: data.team_size,
         role: data.role,
-        reason_for_joining: "early_access", // Default
-        reason_details: data.use_case || null,
-        how_heard: "website", // Default
-        company_domain: null,
-        desired_domain: null,
+        reason_for_joining: data.reason_for_joining,
+        reason_details: data.reason_details || null,
+        how_heard: data.how_heard,
+        company_domain: data.company_domain || null,
+        desired_domain: data.desired_domain || null,
         referred_by: referredBy,
       })
       .select()
@@ -174,9 +192,9 @@ export default function EarlyAccess() {
     try {
       await supabase.functions.invoke('send-applicant-confirmation', {
         body: {
-          name: data.company,
+          name: data.name,
           email: data.email,
-          team_size: "unknown",
+          team_size: data.team_size,
           referral_code: insertedData.referral_code,
           request_id: insertedData.id,
         }
@@ -194,8 +212,7 @@ export default function EarlyAccess() {
     <div className="min-h-screen bg-white">
       <Navigation />
       {/* FOLD 1 - Hero (A/B tested) */}
-      <section className="relative bg-gradient-to-br from-background via-wildSand/30 to-background py-24 md:py-32 px-6 overflow-hidden">
-        <FloatingShapes />
+      <section className="relative bg-white py-24 md:py-32 px-6 overflow-hidden">
         <DiagonalLines />
         <div className="hero-glow" />
         <div className="max-w-[900px] mx-auto text-center relative z-10">
@@ -235,8 +252,7 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* FOLD 2 - Why Early Access Exists */}
-      <section className="bg-wildSand py-24 md:py-32 px-6 relative overflow-hidden">
-        <GridOverlay />
+      <section className="bg-muted/20 py-24 md:py-32 px-6 relative overflow-hidden">
         <div className="max-w-[1200px] mx-auto relative z-10">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-deepSea/10 text-deepSea text-sm font-medium mb-6">
@@ -343,8 +359,7 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* FOLD 7 - Who This Is For (audience grid) */}
-      <section className="bg-gradient-to-br from-background to-wildSand/50 py-24 md:py-32 px-6 relative overflow-hidden">
-        <FloatingShapes />
+      <section className="bg-muted/20 py-24 md:py-32 px-6 relative overflow-hidden">
         <div className="max-w-[800px] mx-auto relative z-10">
           <AnimatedHeadline>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
@@ -402,14 +417,15 @@ export default function EarlyAccess() {
         </div>
       </section>
 
-      {/* FOLD 8 - Final CTA with Simplified Form */}
-      <section id="early-access-form" className="bg-gradient-to-br from-wildSand to-background py-24 md:py-32 px-6 relative overflow-hidden">
-        <GridOverlay />
-        <FloatingShapes />
+      {/* FOLD 8 - Final CTA with Comprehensive Form */}
+      <section id="early-access-form" className="bg-white py-24 md:py-32 px-6 relative overflow-hidden">
         <div className="max-w-[600px] mx-auto">
           {!isSubmitted ? (
             <>
               <AnimatedHeadline>
+                <h2 className="text-2xl md:text-3xl font-display font-bold mb-2 text-center tracking-tight text-muted-foreground">
+                  join the early circle
+                </h2>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center tracking-tight">
                   be among the first to use utm.one
                 </h1>
@@ -424,14 +440,13 @@ export default function EarlyAccess() {
                   >
                     <FormField
                       control={form.control}
-                      name="email"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium">Your email</FormLabel>
+                          <FormLabel className="text-sm font-medium">Your full name</FormLabel>
                           <FormControl>
                             <Input
-                              type="email"
-                              placeholder="name@company.com"
+                              placeholder="your full name"
                               className="h-12 rounded-lg"
                               {...field}
                             />
@@ -443,13 +458,14 @@ export default function EarlyAccess() {
 
                     <FormField
                       control={form.control}
-                      name="company"
+                      name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium">Your company or project</FormLabel>
+                          <FormLabel className="text-sm font-medium">Email</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="company name"
+                              type="email"
+                              placeholder="you@company.com"
                               className="h-12 rounded-lg"
                               {...field}
                             />
@@ -474,9 +490,9 @@ export default function EarlyAccess() {
                             <SelectContent>
                               <SelectItem value="marketing">marketing</SelectItem>
                               <SelectItem value="sales">sales</SelectItem>
-                              <SelectItem value="ops">marketing ops</SelectItem>
+                              <SelectItem value="marketing_ops">marketing ops</SelectItem>
                               <SelectItem value="developer">developer</SelectItem>
-                              <SelectItem value="partner">partner manager</SelectItem>
+                              <SelectItem value="partner_manager">partner manager</SelectItem>
                               <SelectItem value="agency">agency</SelectItem>
                               <SelectItem value="other">other</SelectItem>
                             </SelectContent>
@@ -488,17 +504,135 @@ export default function EarlyAccess() {
 
                     <FormField
                       control={form.control}
-                      name="use_case"
+                      name="team_size"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium">How do you plan to use utm.one?</FormLabel>
+                          <FormLabel className="text-sm font-medium">Team size</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="select team size" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="just_me">just me</SelectItem>
+                              <SelectItem value="2-10">2-10</SelectItem>
+                              <SelectItem value="11-50">11-50</SelectItem>
+                              <SelectItem value="51-200">51-200</SelectItem>
+                              <SelectItem value="201-500">201-500</SelectItem>
+                              <SelectItem value="500+">500+</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="reason_for_joining"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Why utm.one?</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="what brings you here?" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="link_management">link management</SelectItem>
+                              <SelectItem value="utm_tracking">UTM tracking</SelectItem>
+                              <SelectItem value="qr_codes">QR codes</SelectItem>
+                              <SelectItem value="analytics">analytics</SelectItem>
+                              <SelectItem value="team_governance">team governance</SelectItem>
+                              <SelectItem value="all">all of the above</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="reason_details"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Tell us more (optional)</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="tell us about your use case (optional)"
+                              placeholder="share any details about your use case (max 500 characters)"
                               className="min-h-[100px] rounded-lg resize-none"
+                              maxLength={500}
                               {...field}
                             />
                           </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="how_heard"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">How did you hear about utm.one?</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-lg">
+                                <SelectValue placeholder="select one" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="google_search">google search</SelectItem>
+                              <SelectItem value="social_media">social media</SelectItem>
+                              <SelectItem value="referral">referral</SelectItem>
+                              <SelectItem value="product_hunt">product hunt</SelectItem>
+                              <SelectItem value="blog_article">blog/article</SelectItem>
+                              <SelectItem value="podcast">podcast</SelectItem>
+                              <SelectItem value="other">other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="desired_domain"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Domain to shorten with (optional)</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="go.company.com or company.com"
+                              className="h-12 rounded-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <p className="text-xs text-muted-foreground">what domain do you want to use for short links?</p>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="company_domain"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">Company domain (optional)</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="company.com"
+                              className="h-12 rounded-lg"
+                              {...field}
+                            />
+                          </FormControl>
+                          <p className="text-xs text-muted-foreground">helps us understand your organization</p>
                           <FormMessage />
                         </FormItem>
                       )}
