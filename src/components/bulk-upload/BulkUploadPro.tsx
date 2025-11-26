@@ -11,8 +11,11 @@ import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload } from "
 import { DragDropUploader } from "./DragDropUploader";
 import { URLPreviewTable } from "./URLPreviewTable";
 import { ProcessingProgress } from "./ProcessingProgress";
+import { BulkSecuritySummary } from "./BulkSecuritySummary";
 import { useBulkValidation } from "@/hooks/useBulkValidation";
 import { useBatchProcessor } from "@/hooks/useBatchProcessor";
+import { useBulkLinkPreview } from "@/hooks/useBulkLinkPreview";
+import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
 import { generateSlugFromTitle } from "@/lib/slugify";
 
 interface BulkUploadProProps {
@@ -28,6 +31,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
 
   const { validations, validateURLs, getStats } = useBulkValidation();
   const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
+  const { previews, isLoading: previewsLoading } = useBulkLinkPreview(urls);
+  const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
 
   // Fetch verified domains
   const { data: verifiedDomains } = useQuery({
@@ -61,10 +66,15 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       const lines = value.split('\n').map(line => line.trim()).filter(Boolean);
       setUrls(lines);
       if (lines.length > 0) {
-        validateURLs(lines);
+        const validated = validateURLs(lines);
+        // Trigger security scans for valid URLs
+        const validUrls = validated.filter(v => v.isValid).map(v => v.url);
+        if (validUrls.length > 0) {
+          scanMultipleURLs(validUrls);
+        }
       }
     },
-    [validateURLs]
+    [validateURLs, scanMultipleURLs]
   );
 
   const handleRemoveURL = useCallback(
@@ -140,6 +150,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   }, [results]);
 
   const stats = getStats();
+  const securityStats = getSecurityStats();
   const successCount = results.filter(r => r.success).length;
   const failedCount = results.filter(r => !r.success).length;
 
@@ -205,26 +216,42 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           </Card>
 
           {validations.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-display text-title-2">preview & validate</CardTitle>
-                <CardDescription>review URLs before creating</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <URLPreviewTable validations={validations} onRemove={handleRemoveURL} />
-                <div className="mt-6">
-                  <Button
-                    onClick={handleProcess}
-                    disabled={stats.valid === 0}
-                    className="w-full"
-                    size="lg"
-                  >
-                    <Upload className="h-4 w-4 mr-2" />
-                    create {stats.valid} links
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <>
+              {securityStats.total > 0 && (
+                <BulkSecuritySummary
+                  httpsCount={securityStats.httpsCount}
+                  safeCount={securityStats.safe}
+                  threatsCount={securityStats.threats}
+                  total={securityStats.total}
+                />
+              )}
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="font-display text-title-2">preview & validate</CardTitle>
+                  <CardDescription>review URLs before creating</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <URLPreviewTable 
+                    validations={validations} 
+                    previews={previews}
+                    scanResults={scanResults}
+                    onRemove={handleRemoveURL} 
+                  />
+                  <div className="mt-6">
+                    <Button
+                      onClick={handleProcess}
+                      disabled={stats.valid === 0}
+                      className="w-full"
+                      size="lg"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      create {stats.valid} links
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
           )}
         </>
       )}
