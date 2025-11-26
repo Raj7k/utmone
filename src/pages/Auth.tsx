@@ -346,10 +346,10 @@ const Auth = () => {
           Back to home
         </Link>
 
-        <div className="text-center space-y-3">
-          <UtmOneLogo size="lg" className="justify-center" />
-          <h1 className="text-3xl font-display font-bold tracking-tight text-primary">Welcome back</h1>
-          <p className="text-muted-foreground">Sign in to your account or create a new one</p>
+        <div className="text-center space-y-4">
+          <UtmOneLogo size="xl" className="justify-center mb-2" />
+          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">Welcome back</h1>
+          <p className="text-muted-foreground text-lg">Sign in to your account or create a new one</p>
         </div>
 
         {invitationContext && (
@@ -372,23 +372,23 @@ const Auth = () => {
         )}
 
         <Tabs defaultValue={inviteToken ? "signup" : "signin"} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-muted/50 p-1 rounded-full">
+          <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1.5 rounded-full border border-gray-200">
             <TabsTrigger 
               value="signin"
-              className="rounded-full data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              className="rounded-full font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md transition-all"
             >
               Sign in
             </TabsTrigger>
             <TabsTrigger 
               value="signup"
-              className="rounded-full data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              className="rounded-full font-medium data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-md transition-all"
             >
               Sign up
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
-            <Card className="border-border/50 shadow-lg rounded-2xl">
+            <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
                 <CardDescription className="text-muted-foreground">Enter your credentials to access your account</CardDescription>
@@ -440,7 +440,7 @@ const Auth = () => {
           </TabsContent>
 
           <TabsContent value="signup">
-            <Card className="border-border/50 shadow-lg rounded-2xl">
+            <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Create an account</CardTitle>
                 <CardDescription className="text-muted-foreground">Sign up to get started with utm.one</CardDescription>
