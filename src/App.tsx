@@ -49,6 +49,7 @@ const APIDocumentation = lazy(() => import("./pages/Docs/API"));
 const APIPlayground = lazy(() => import("./pages/Docs/APIPlayground"));
 const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
+const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 
 // Admin pages
@@ -279,6 +280,7 @@ const App = () => (
                
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
+               <Route path="/tools/shorten" element={<Suspense fallback={<DashboardSkeleton />}><PublicURLShortener /></Suspense>} />
                
                {/* Invitation Acceptance */}
                <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
