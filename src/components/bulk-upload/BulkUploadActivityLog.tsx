@@ -1,0 +1,111 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Activity } from "lucide-react";
+import { useBulkUploadActivity } from "@/hooks/useBulkUploadActivity";
+import { formatDistanceToNow } from "date-fns";
+
+interface BulkUploadActivityLogProps {
+  bulkUploadId: string;
+}
+
+const actionTypeLabels: Record<string, string> = {
+  created: "Created upload",
+  processed: "Processed links",
+  commented: "Added comment",
+  approval_requested: "Requested approval",
+  approved: "Approved request",
+  rejected: "Rejected request",
+  template_saved: "Saved template",
+  template_applied: "Applied template",
+};
+
+const actionTypeColors: Record<string, string> = {
+  created: "bg-blue-100 text-blue-800",
+  processed: "bg-green-100 text-green-800",
+  commented: "bg-purple-100 text-purple-800",
+  approval_requested: "bg-yellow-100 text-yellow-800",
+  approved: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
+  template_saved: "bg-indigo-100 text-indigo-800",
+  template_applied: "bg-cyan-100 text-cyan-800",
+};
+
+export function BulkUploadActivityLog({ bulkUploadId }: BulkUploadActivityLogProps) {
+  const { activities, isLoading } = useBulkUploadActivity(bulkUploadId);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 font-display text-title-3">
+          <Activity className="w-5 h-5 text-primary" />
+          Activity Timeline
+        </CardTitle>
+        <CardDescription>
+          Track all actions and changes for this bulk upload
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ScrollArea className="h-[400px] pr-4">
+          {isLoading ? (
+            <div className="text-sm text-muted-foreground text-center py-8">
+              Loading activity...
+            </div>
+          ) : activities.length === 0 ? (
+            <div className="text-sm text-muted-foreground text-center py-8">
+              No activity recorded yet
+            </div>
+          ) : (
+            <div className="relative space-y-4">
+              {/* Timeline line */}
+              <div className="absolute left-3 top-0 bottom-0 w-px bg-border" />
+
+              {activities.map((activity, index) => (
+                <div key={activity.id} className="relative flex gap-4">
+                  {/* Timeline dot */}
+                  <div className="relative z-10 flex-shrink-0 w-6 h-6 rounded-full bg-background border-2 border-primary flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  </div>
+
+                  {/* Activity content */}
+                  <div className="flex-1 pb-4">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div>
+                        <div className="font-medium text-sm">
+                          User {activity.user_id.substring(0, 8)}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                        </div>
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className={actionTypeColors[activity.action_type] || ""}
+                      >
+                        {actionTypeLabels[activity.action_type] || activity.action_type}
+                      </Badge>
+                    </div>
+
+                    {activity.metadata && Object.keys(activity.metadata).length > 0 && (
+                      <div className="text-sm text-muted-foreground">
+                        {activity.metadata.links_count && (
+                          <span>{activity.metadata.links_count} links</span>
+                        )}
+                        {activity.metadata.template_name && (
+                          <span>Template: {activity.metadata.template_name}</span>
+                        )}
+                        {activity.metadata.notes && (
+                          <span className="block mt-1 italic">{activity.metadata.notes}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </ScrollArea>
+      </CardContent>
+    </Card>
+  );
+}

@@ -703,6 +703,121 @@ export type Database = {
           },
         ]
       }
+      bulk_upload_activity: {
+        Row: {
+          action_type: string
+          bulk_upload_id: string
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          action_type: string
+          bulk_upload_id: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          action_type?: string
+          bulk_upload_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_upload_activity_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bulk_upload_approvals: {
+        Row: {
+          approver_id: string | null
+          bulk_upload_id: string
+          id: string
+          metadata: Json | null
+          notes: string | null
+          requested_at: string | null
+          requested_by: string
+          reviewed_at: string | null
+          status: string
+          workspace_id: string
+        }
+        Insert: {
+          approver_id?: string | null
+          bulk_upload_id: string
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          requested_at?: string | null
+          requested_by: string
+          reviewed_at?: string | null
+          status?: string
+          workspace_id: string
+        }
+        Update: {
+          approver_id?: string | null
+          bulk_upload_id?: string
+          id?: string
+          metadata?: Json | null
+          notes?: string | null
+          requested_at?: string | null
+          requested_by?: string
+          reviewed_at?: string | null
+          status?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_upload_approvals_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bulk_upload_comments: {
+        Row: {
+          bulk_upload_id: string
+          comment_text: string
+          created_at: string | null
+          id: string
+          is_resolved: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          bulk_upload_id: string
+          comment_text: string
+          created_at?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          bulk_upload_id?: string
+          comment_text?: string
+          created_at?: string | null
+          id?: string
+          is_resolved?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       bulk_upload_templates: {
         Row: {
           created_at: string | null
@@ -711,7 +826,9 @@ export type Database = {
           domain: string
           id: string
           is_default: boolean | null
+          is_shared: boolean | null
           name: string
+          shared_with_workspace: boolean | null
           smart_options: Json | null
           updated_at: string | null
           utm_defaults: Json | null
@@ -724,7 +841,9 @@ export type Database = {
           domain: string
           id?: string
           is_default?: boolean | null
+          is_shared?: boolean | null
           name: string
+          shared_with_workspace?: boolean | null
           smart_options?: Json | null
           updated_at?: string | null
           utm_defaults?: Json | null
@@ -737,7 +856,9 @@ export type Database = {
           domain?: string
           id?: string
           is_default?: boolean | null
+          is_shared?: boolean | null
           name?: string
+          shared_with_workspace?: boolean | null
           smart_options?: Json | null
           updated_at?: string | null
           utm_defaults?: Json | null
