@@ -58,9 +58,9 @@ export default function QRGenerator() {
           <Link to="/" className="text-lg font-semibold text-foreground">
             utm.one
           </Link>
-          <Link to="/auth">
-            <Button variant="outline" size="sm">
-              Sign In
+          <Link to="/early-access">
+            <Button variant="default" size="sm">
+              Get Early Access
             </Button>
           </Link>
         </div>
