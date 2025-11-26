@@ -28,6 +28,7 @@ import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { FloatingActionButton } from "@/components/landing/FloatingActionButton";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { Footer } from "@/components/landing/Footer";
 import { 
@@ -69,6 +70,7 @@ const Index = () => {
       <div className="min-h-screen bg-white">
         <AnnouncementBar dismissible={true} />
         <Navigation />
+        <FloatingNavigation />
         <FloatingActionButton />
 
         {/* Hero Section with Organic Shapes */}

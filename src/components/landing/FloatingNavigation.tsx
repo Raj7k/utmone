@@ -107,20 +107,18 @@ export const FloatingNavigation = () => {
 
                   {/* Solutions Dropdown */}
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary data-[state=open]:bg-primary/10 data-[state=open]:text-primary bg-transparent">
                       solutions
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-2 p-3">
+                      <ul className="grid w-[350px] gap-2 p-3 bg-white/95 backdrop-blur-xl">
                         <li>
                           <Link
                             to="/solutions/marketers"
                             className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
                           >
-                            <div className="text-xs font-medium leading-none">For Marketers</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              campaigns work better
-                            </p>
+                            <div className="text-xs font-medium">Marketing Teams</div>
+                            <p className="text-xs text-muted-foreground">campaigns work better when links do</p>
                           </Link>
                         </li>
                         <li>
@@ -128,10 +126,8 @@ export const FloatingNavigation = () => {
                             to="/solutions/sales"
                             className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
                           >
-                            <div className="text-xs font-medium leading-none">For Sales</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              share faster, cleaner
-                            </p>
+                            <div className="text-xs font-medium">Sales Teams</div>
+                            <p className="text-xs text-muted-foreground">share faster, share cleaner</p>
                           </Link>
                         </li>
                         <li>
@@ -139,10 +135,8 @@ export const FloatingNavigation = () => {
                             to="/solutions/marketing-ops"
                             className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
                           >
-                            <div className="text-xs font-medium leading-none">For Marketing Ops</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              governance without friction
-                            </p>
+                            <div className="text-xs font-medium">Marketing Ops</div>
+                            <p className="text-xs text-muted-foreground">governance without the friction</p>
                           </Link>
                         </li>
                         <li>
@@ -150,10 +144,55 @@ export const FloatingNavigation = () => {
                             to="/solutions/developers"
                             className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
                           >
-                            <div className="text-xs font-medium leading-none">For Developers</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              a clean api
-                            </p>
+                            <div className="text-xs font-medium">Developers</div>
+                            <p className="text-xs text-muted-foreground">a clean api for a cleaner stack</p>
+                          </Link>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  {/* Resources Dropdown */}
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary data-[state=open]:bg-primary/10 data-[state=open]:text-primary bg-transparent">
+                      resources
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[350px] gap-2 p-3 bg-white/95 backdrop-blur-xl">
+                        <li>
+                          <Link
+                            to="/resources/guides"
+                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                          >
+                            <div className="text-xs font-medium">Guides</div>
+                            <p className="text-xs text-muted-foreground">long-form educational content</p>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/resources/playbooks"
+                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                          >
+                            <div className="text-xs font-medium">Playbooks</div>
+                            <p className="text-xs text-muted-foreground">step-by-step implementation</p>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/resources/templates"
+                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                          >
+                            <div className="text-xs font-medium">Templates</div>
+                            <p className="text-xs text-muted-foreground">ready-to-use resources</p>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/resources/glossary"
+                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                          >
+                            <div className="text-xs font-medium">Glossary</div>
+                            <p className="text-xs text-muted-foreground">utm & tracking terms explained</p>
                           </Link>
                         </li>
                       </ul>
