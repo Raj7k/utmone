@@ -30,10 +30,11 @@ verify_jwt = false
 [functions.process-geolocation]
 verify_jwt = false
 
-  [functions.process-click-queue]
-  verify_jwt = false
-  [functions.refresh-analytics-views]
-  verify_jwt = false
+[functions.process-click-queue]
+verify_jwt = false
+
+[functions.refresh-analytics-views]
+verify_jwt = false
 
 [functions.notify-admin-new-request]
 verify_jwt = false
@@ -107,7 +108,6 @@ verify_jwt = false
 [functions.trigger-click-webhook]
 verify_jwt = false
 
-
 [functions.scan-url]
 verify_jwt = false
 
@@ -164,6 +164,9 @@ verify_jwt = false
 
 [functions.activate-scheduled-links]
 verify_jwt = false
+
+[functions.notify-bulk-upload-complete]
+verify_jwt = true
 
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
