@@ -324,7 +324,7 @@ const Auth = () => {
 
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">Welcome back</h1>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">Welcome back</h1>
           <p className="text-muted-foreground text-lg">Sign in to your account or create a new one</p>
         </div>
 
