@@ -112,14 +112,16 @@ export default function EarlyAccess() {
   const trackFormStart = useTrackFormStart();
   const trackFormSubmit = useTrackFormSubmit();
 
-  // Fetch waitlist stats for FOMO counter
+  // Fetch waitlist stats for FOMO counter using edge function (bypasses RLS)
   const { data: stats } = useQuery({
-    queryKey: ["waitlist-stats-hero"],
+    queryKey: ["waitlist-stats"],
     queryFn: async () => {
-      const { count } = await supabase
-        .from("early_access_requests")
-        .select("*", { count: "exact", head: true });
-      return { total: count || 0 };
+      const { data, error } = await supabase.functions.invoke("get-waitlist-stats");
+      if (error) {
+        console.error("Error fetching waitlist stats:", error);
+        return { total: 0 };
+      }
+      return { total: data?.totalCount || 0 };
     },
   });
 
