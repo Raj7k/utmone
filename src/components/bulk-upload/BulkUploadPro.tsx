@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload, QrCode } from "lucide-react";
+import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload, QrCode, Clock, RefreshCw, X as XIcon } from "lucide-react";
 import { DragDropUploader } from "./DragDropUploader";
 import { URLPreviewTable } from "./URLPreviewTable";
 import { ProcessingProgress } from "./ProcessingProgress";
@@ -21,6 +21,8 @@ import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
 import { BulkFolderSelector } from "./BulkFolderSelector";
 import { BulkTagInput } from "./BulkTagInput";
 import { BulkQRGenerator } from "./BulkQRGenerator";
+import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
 
 interface BulkUploadProProps {
@@ -36,6 +38,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const [folderId, setFolderId] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [showQRGenerator, setShowQRGenerator] = useState(false);
+  const [showResumeBanner, setShowResumeBanner] = useState(false);
+  const [savedProgress, setSavedProgress] = useState<any>(null);
   const [utmDefaults, setUtmDefaults] = useState({
     utm_source: "",
     utm_medium: "",
@@ -54,6 +58,33 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
   const { previews, isLoading: previewsLoading } = useBulkLinkPreview(urls);
   const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
+  const persistence = useBulkUploadPersistence();
+
+  // Check for unfinished uploads on mount
+  useEffect(() => {
+    const saved = persistence.loadProgress();
+    if (saved && persistence.hasUnfinishedUpload()) {
+      setSavedProgress(saved);
+      setShowResumeBanner(true);
+    }
+  }, []);
+
+  // Auto-save progress when validations change
+  useEffect(() => {
+    if (validations.length > 0 && state.stage !== "complete") {
+      persistence.saveProgress({
+        urls,
+        validations,
+        selectedDomain,
+        utmDefaults,
+        smartOptions,
+        folderId,
+        tags,
+        processedCount: state.processedCount,
+        results,
+      });
+    }
+  }, [validations, state.stage, state.processedCount, urls, selectedDomain, utmDefaults, smartOptions, folderId, tags, results]);
 
   // Fetch verified domains
   const { data: verifiedDomains } = useQuery({
@@ -149,6 +180,39 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
     // Trigger re-fetch of templates
   };
 
+  const handleResumeProgress = useCallback(() => {
+    if (!savedProgress) return;
+
+    setUrls(savedProgress.urls);
+    setManualInput(savedProgress.urls.join('\n'));
+    setSelectedDomain(savedProgress.selectedDomain);
+    setUtmDefaults(savedProgress.utmDefaults);
+    setSmartOptions(savedProgress.smartOptions);
+    setFolderId(savedProgress.folderId);
+    setTags(savedProgress.tags);
+    
+    // Re-validate URLs
+    validateURLs(savedProgress.urls, workspaceId);
+    
+    setShowResumeBanner(false);
+    
+    toast({
+      title: "progress restored",
+      description: "your previous upload has been restored",
+    });
+  }, [savedProgress, validateURLs, workspaceId, toast]);
+
+  const handleDiscardProgress = useCallback(() => {
+    persistence.clearProgress();
+    setShowResumeBanner(false);
+    setSavedProgress(null);
+    
+    toast({
+      title: "progress cleared",
+      description: "previous upload data has been discarded",
+    });
+  }, [persistence, toast]);
+
   const handleRemoveURL = useCallback(
     (index: number) => {
       const newUrls = urls.filter((_, i) => i !== index);
@@ -195,6 +259,9 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
       
+      // Clear persistence on successful completion
+      persistence.clearProgress();
+      
       const successCount = results.filter(r => r.success).length;
       toast({
         title: "bulk upload complete",
@@ -233,6 +300,39 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
 
   return (
     <div className="space-y-6">
+      {/* Resume Progress Banner */}
+      {showResumeBanner && savedProgress && (
+        <Alert className="border-primary/50 bg-primary/5">
+          <Clock className="h-4 w-4 text-primary" />
+          <AlertDescription className="flex items-center justify-between gap-4">
+            <div>
+              <p className="font-medium">unfinished upload found</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                you have an upload from {new Date(savedProgress.savedAt).toLocaleDateString()} with {savedProgress.urls.length} URLs
+              </p>
+            </div>
+            <div className="flex gap-2 shrink-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleResumeProgress}
+              >
+                <RefreshCw className="h-4 w-4 mr-2" />
+                resume
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDiscardProgress}
+              >
+                <XIcon className="h-4 w-4 mr-2" />
+                discard
+              </Button>
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Input Section */}
       {state.stage === "idle" && (
         <>
