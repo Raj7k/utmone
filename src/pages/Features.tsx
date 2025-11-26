@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
@@ -79,8 +80,9 @@ const Features = () => {
         ]}
       />
       
-      <div className="min-h-screen bg-background">
-        <Navigation />
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <FloatingNavigation />
         
         <main className="pt-24 pb-32">
           {/* Hero Section */}

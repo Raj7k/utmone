@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, UserPlus, MessageSquare, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
@@ -35,6 +36,7 @@ const Sales = () => {
         ]}
       />
       <Navigation />
+      <FloatingNavigation />
 
       {/* Fold 1: Hero */}
       <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">

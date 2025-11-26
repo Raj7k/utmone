@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { Button } from "@/components/ui/button";

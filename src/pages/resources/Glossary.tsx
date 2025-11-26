@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Search } from "lucide-react";
@@ -503,6 +504,7 @@ const Glossary = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+      <FloatingNavigation />
 
       <section className="py-20 bg-background border-b border-separator">
         <div className="max-w-[980px] mx-auto px-8">
