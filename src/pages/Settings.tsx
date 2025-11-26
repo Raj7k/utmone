@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users } from "lucide-react";
+import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users, ShieldCheck } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 import { WorkspaceBranding } from "@/components/settings/WorkspaceBranding";
 import { TeamMembers } from "@/components/settings/TeamMembers";
+import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
@@ -105,6 +106,10 @@ export default function Settings() {
                 <Webhook className="w-4 h-4" />
                 Integrations
               </TabsTrigger>
+              <TabsTrigger value="security" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
+                <ShieldCheck className="w-4 h-4" />
+                Security
+              </TabsTrigger>
               <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Shield className="w-4 h-4" />
                 Data & Privacy
@@ -134,6 +139,10 @@ export default function Settings() {
                   <IntegrationsManager />
                 </>
               )}
+            </TabsContent>
+
+            <TabsContent value="security" className="space-y-6">
+              <SecuritySettings />
             </TabsContent>
 
             <TabsContent value="privacy" className="space-y-6">

@@ -10,6 +10,8 @@ import { ArrowLeft, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
+import { MFAChallenge } from "@/components/auth/MFAChallenge";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -23,6 +25,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [showMFAChallenge, setShowMFAChallenge] = useState(false);
+  const [mfaFactorId, setMFAFactorId] = useState("");
   const [invitationContext, setInvitationContext] = useState<{
     email: string;
     workspaceName: string;
@@ -224,7 +228,7 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -235,16 +239,81 @@ const Auth = () => {
           description: error.message,
           variant: "destructive",
         });
+        setIsLoading(false);
+        return;
       }
+
+      // Check if MFA is required
+      const { data: factorsData } = await supabase.auth.mfa.listFactors();
+      
+      if (factorsData?.totp && factorsData.totp.length > 0) {
+        // User has MFA enabled - show challenge
+        setShowMFAChallenge(true);
+        setMFAFactorId(factorsData.totp[0].id);
+        setIsLoading(false);
+      }
+      // If no MFA, onAuthStateChange will handle navigation
     } catch (error) {
       toast({
         title: "Error",
         description: "An unexpected error occurred",
         variant: "destructive",
       });
-    } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        }
+      }
+    });
+    
+    if (error) {
+      toast({
+        title: "Sign in failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }
+  };
+
+  const handleMicrosoftLogin = async () => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'azure',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+        scopes: 'email profile openid',
+      }
+    });
+    
+    if (error) {
+      toast({
+        title: "Sign in failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }
+  };
+
+  const handleMFASuccess = () => {
+    setShowMFAChallenge(false);
+    // Navigation will be handled by onAuthStateChange
+  };
+
+  const handleMFACancel = () => {
+    setShowMFAChallenge(false);
+    setMFAFactorId("");
   };
 
   const handleForgotPassword = async () => {
@@ -286,6 +355,17 @@ const Auth = () => {
   // Show loading screen while authenticating
   if (isAuthenticating) {
     return <AuthLoadingScreen />;
+  }
+
+  // Show MFA challenge if required
+  if (showMFAChallenge && mfaFactorId) {
+    return (
+      <MFAChallenge
+        factorId={mfaFactorId}
+        onSuccess={handleMFASuccess}
+        onCancel={handleMFACancel}
+      />
+    );
   }
 
   return (
@@ -353,9 +433,24 @@ const Auth = () => {
             <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
-                <CardDescription className="text-muted-foreground">Enter your credentials to access your account</CardDescription>
+                <CardDescription className="text-muted-foreground">Continue with your preferred method</CardDescription>
               </CardHeader>
-              <CardContent className="p-8 pt-6">
+              <CardContent className="p-8 pt-6 space-y-6">
+                <SocialLoginButtons
+                  isLoading={isLoading}
+                  onGoogleClick={handleGoogleLogin}
+                  onMicrosoftClick={handleMicrosoftLogin}
+                />
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-2 text-muted-foreground">Or</span>
+                  </div>
+                </div>
+
                 <form onSubmit={handleSignIn} className="space-y-5">
                   <div className="space-y-2">
                     <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
@@ -405,9 +500,24 @@ const Auth = () => {
             <Card className="border-border/50 shadow-xl rounded-2xl">
               <CardHeader className="space-y-1 pb-4">
                 <CardTitle className="text-2xl font-display font-bold">Create an account</CardTitle>
-                <CardDescription className="text-muted-foreground">Sign up to get started with utm.one</CardDescription>
+                <CardDescription className="text-muted-foreground">Get started in seconds</CardDescription>
               </CardHeader>
-              <CardContent className="p-8 pt-6">
+              <CardContent className="p-8 pt-6 space-y-6">
+                <SocialLoginButtons
+                  isLoading={isLoading}
+                  onGoogleClick={handleGoogleLogin}
+                  onMicrosoftClick={handleMicrosoftLogin}
+                />
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-2 text-muted-foreground">Or</span>
+                  </div>
+                </div>
+
                 <form onSubmit={handleSignUp} className="space-y-5">
                   <div className="space-y-2">
                     <label htmlFor="signup-fullname" className="text-sm font-medium text-foreground">
