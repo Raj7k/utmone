@@ -33,12 +33,24 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   // Check authentication status
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setIsAuthenticated(!!user);
-      
-      // Redirect to auth if not authenticated and on protected route
-      if (!user && location.pathname.startsWith('/dashboard')) {
-        navigate("/auth");
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        if (error) {
+          console.error("Auth check error:", error);
+          setIsAuthenticated(false);
+          return;
+        }
+        
+        setIsAuthenticated(!!user);
+        
+        // Redirect to auth if not authenticated and on protected route
+        if (!user && location.pathname.startsWith('/dashboard')) {
+          navigate("/auth");
+        }
+      } catch (err) {
+        console.error("Auth check exception:", err);
+        setIsAuthenticated(false);
       }
     };
     
@@ -73,14 +85,18 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   // Redirect to onboarding if user has no workspaces
   useEffect(() => {
     const checkWorkspaces = async () => {
-      if (isLoading || isAuthenticated === null) return;
-      
-      // Don't redirect if already on auth, onboarding, or accept-invite pages
-      if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
-      
-      // Only check workspaces if authenticated
-      if (isAuthenticated && workspaces.length === 0) {
-        navigate("/onboarding");
+      try {
+        if (isLoading || isAuthenticated === null) return;
+        
+        // Don't redirect if already on auth, onboarding, or accept-invite pages
+        if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
+        
+        // Only check workspaces if authenticated
+        if (isAuthenticated && workspaces.length === 0) {
+          navigate("/onboarding");
+        }
+      } catch (err) {
+        console.error("Workspace check error:", err);
       }
     };
 
