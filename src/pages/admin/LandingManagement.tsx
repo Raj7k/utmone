@@ -24,8 +24,7 @@ export default function LandingManagement() {
   });
 
   return (
-    <AdminLayout>
-      <div className="p-8">
+    <div className="p-8">
         <div className="mb-6">
           <h1 className="text-3xl font-display font-bold">landing page control</h1>
           <p className="text-muted-foreground mt-1">
@@ -180,6 +179,6 @@ export default function LandingManagement() {
           </TabsContent>
         </Tabs>
       </div>
-    </AdminLayout>
+    </div>
   );
 }
