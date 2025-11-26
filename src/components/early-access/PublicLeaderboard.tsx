@@ -8,29 +8,18 @@ export const PublicLeaderboard = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("early_access_requests")
-        .select("name, referral_code")
+        .select("name, referral_score")
         .not("referral_code", "is", null)
+        .gt("referral_score", 0)
         .order("referral_score", { ascending: false })
-        .limit(5);
+        .limit(10);
 
       if (error) throw error;
 
-      // Calculate referral counts for each user
-      const referrersWithCounts = await Promise.all(
-        (data || []).map(async (referrer) => {
-          const { count } = await supabase
-            .from("early_access_requests")
-            .select("*", { count: "exact", head: true })
-            .eq("referred_by", referrer.referral_code);
-
-          return {
-            name: anonymizeName(referrer.name),
-            referrals: count || 0,
-          };
-        })
-      );
-
-      return referrersWithCounts.filter((r) => r.referrals > 0);
+      return (data || []).map((referrer) => ({
+        name: anonymizeName(referrer.name),
+        score: referrer.referral_score || 0,
+      }));
     },
   });
 
@@ -49,7 +38,28 @@ export const PublicLeaderboard = () => {
     return `${index + 1}`;
   };
 
-  if (!topReferrers || topReferrers.length === 0) return null;
+  // Always show leaderboard section, even if empty
+  if (!topReferrers || topReferrers.length === 0) {
+    return (
+      <section id="leaderboard" className="relative py-32 bg-wildSand overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_hsl(var(--blaze-orange)/0.05)_2px,_transparent_2px)] bg-[length:48px_48px]" />
+        <div className="container mx-auto px-6 relative">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blazeOrange/10 text-blazeOrange text-sm font-medium mb-6">
+              <Trophy className="w-4 h-4" />
+              referral leaderboard
+            </div>
+            <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter mb-6">
+              top referrers
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              be the first to climb the leaderboard
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="leaderboard" className="relative py-32 bg-wildSand overflow-hidden">
@@ -82,20 +92,20 @@ export const PublicLeaderboard = () => {
                     {getMedalEmoji(index)}
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-lg text-foreground">
-                      {referrer.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {referrer.referrals} {referrer.referrals === 1 ? "referral" : "referrals"}
-                    </p>
-                  </div>
+                  <h3 className="font-display font-bold text-lg text-foreground">
+                    {referrer.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {referrer.score} referral {referrer.score === 1 ? "point" : "points"}
+                  </p>
                 </div>
-                <div className="flex items-center gap-2 text-deepSea">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="font-display font-bold text-2xl">
-                    {referrer.referrals}
-                  </span>
-                </div>
+              </div>
+              <div className="flex items-center gap-2 text-deepSea">
+                <TrendingUp className="w-5 h-5" />
+                <span className="font-display font-bold text-2xl">
+                  {referrer.score}
+                </span>
+              </div>
               </div>
             </div>
           ))}

@@ -273,7 +273,7 @@ export default function EarlyAccess() {
               <span className="font-bold text-foreground">
                 {stats?.total && stats.total >= 1000 
                   ? `${Math.floor(stats.total / 1000)}K+` 
-                  : stats?.total || '1K+'} waiting
+                  : stats?.total || 0} waiting
               </span> • <span className="underline">see where you stand</span>
             </a>
           </AnimatedHeadline>
