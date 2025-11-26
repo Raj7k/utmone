@@ -69,7 +69,7 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
             Control The System, Not Your People
           </h1>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
@@ -80,7 +80,7 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Scale
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -101,7 +101,7 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Finally, Governance That Feels Light
         </h1>
         <FeatureComparison
@@ -114,7 +114,7 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Manage → Approve → Track
         </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -141,7 +141,7 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
             Explore Enterprise Control
           </h1>
           <p className="text-body-apple text-secondary-label mb-8">

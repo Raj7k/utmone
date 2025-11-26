@@ -69,7 +69,7 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
             Track QR Like It's Digital
           </h1>
           <p className="text-title-2 text-label font-medium max-w-2xl mx-auto">
@@ -79,7 +79,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Everything You Expect, Done Better
         </h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,7 +99,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           QR Codes That Feel Safe To Scan
         </h1>
         <FeatureComparison
@@ -112,7 +112,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="font-display text-title-1 font-bold mb-12 text-center text-label">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Scan → Understand → Convert
         </h1>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -139,7 +139,7 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="font-display text-title-1 font-bold mb-6 text-label">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
             Generate A QR Code
           </h1>
           <p className="text-body-apple text-secondary-label mb-8">

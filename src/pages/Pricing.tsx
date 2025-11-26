@@ -46,11 +46,11 @@ const Pricing = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="py-section bg-background">
+      <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance">
                 simple pricing.<br />generous limits.
               </h1>
             </div>
@@ -62,7 +62,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Cards */}
-      <section className="py-group bg-muted/20">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {mainPlans.map((plan, idx) => (
@@ -98,7 +98,7 @@ const Pricing = () => {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-group bg-background">
+      <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[1280px] mx-auto px-8">
           <AnimatedSection>
             <PricingComparison />
@@ -107,12 +107,12 @@ const Pricing = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-group bg-muted/20">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
-            <h2 className="text-title-1 font-display text-center font-bold text-label mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-center font-bold tracking-tight text-label mb-12">
               frequently asked questions
-            </h2>
+            </h1>
             <div className="space-y-8">
               <div className="space-y-3">
                 <h3 className="text-title-3 font-display font-semibold text-label">

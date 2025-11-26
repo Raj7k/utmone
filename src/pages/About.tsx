@@ -26,12 +26,12 @@ const About = () => {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedHeadline>
             <div className="text-center space-y-6">
               <div className="hero-glow">
-                <h1 className="hero-gradient text-5xl md:text-6xl lg:text-8xl font-display font-extrabold tracking-tight text-balance">
+                <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance">
                   about utm.one
                 </h1>
               </div>
@@ -41,13 +41,13 @@ const About = () => {
       </section>
 
       {/* What is utm.one */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 what is utm.one
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -70,13 +70,13 @@ const About = () => {
       </section>
 
       {/* The Idea Behind It */}
-      <section className="py-16 md:py-20 bg-muted/20">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the idea behind it
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -114,13 +114,13 @@ const About = () => {
       </section>
 
       {/* What Makes utm.one Different */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 what makes utm.one different
-              </h2>
+              </h1>
               <ProgressiveReveal>
                 <p className="text-body-apple text-secondary-label italic">
                   minimal on the outside. structured to perfection inside.
@@ -175,13 +175,13 @@ const About = () => {
       </section>
 
       {/* Why It Matters */}
-      <section className="py-16 md:py-20 bg-muted/20">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 why it matters
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -206,13 +206,13 @@ const About = () => {
       </section>
 
       {/* The Philosophy */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the philosophy
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -241,13 +241,13 @@ const About = () => {
       </section>
 
       {/* Who Is It For */}
-      <section className="py-16 md:py-20 bg-muted/20">
+      <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 who is it for
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -270,13 +270,13 @@ const About = () => {
       </section>
 
       {/* The Promise */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-title-1 font-display font-bold text-label">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the promise
-              </h2>
+              </h1>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
