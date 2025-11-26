@@ -1,5 +1,8 @@
 project_id = "whgnsmjdubnvbmarnjfx"
 
+[functions.get-invitation-by-token]
+verify_jwt = false
+
 [functions.redirect]
 verify_jwt = false
 

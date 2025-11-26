@@ -73,28 +73,20 @@ const Auth = () => {
 
   const loadInvitationContext = async (token: string) => {
     try {
-      const { data, error } = await supabase
-        .from("workspace_invitations")
-        .select("email, role, workspace_id, invited_by_name")
-        .eq("token", token)
-        .single();
+      // Use secure edge function instead of direct query
+      const { data, error } = await supabase.functions.invoke('get-invitation-by-token', {
+        body: { token }
+      });
 
       if (error || !data) {
         console.error("Error loading invitation:", error);
         return;
       }
 
-      // Try to get workspace name
-      const { data: workspace } = await supabase
-        .from("workspaces")
-        .select("name")
-        .eq("id", data.workspace_id)
-        .single();
-
       setInvitationContext({
         email: data.email,
-        workspaceName: workspace?.name || "a workspace",
-        inviterName: data.invited_by_name || "A team member",
+        workspaceName: data.workspaceName,
+        inviterName: data.inviterName,
         role: data.role,
       });
 
