@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock } from "lucide-react";
 import { useTrackPageView, useTrackFormStart, useTrackFormSubmit } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
+import { useQuery } from "@tanstack/react-query";
 
 // Comprehensive 9-field form schema
 const formSchema = z.object({
@@ -110,6 +111,17 @@ export default function EarlyAccess() {
   useTrackPageView('/early-access');
   const trackFormStart = useTrackFormStart();
   const trackFormSubmit = useTrackFormSubmit();
+
+  // Fetch waitlist stats for FOMO counter
+  const { data: stats } = useQuery({
+    queryKey: ["waitlist-stats-hero"],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from("early_access_requests")
+        .select("*", { count: "exact", head: true });
+      return { total: count || 0 };
+    },
+  });
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -247,6 +259,20 @@ export default function EarlyAccess() {
               {heroVariant.microcopy}
             </p>
           </AnimatedHeadline>
+          
+          {/* FOMO Counter */}
+          <AnimatedHeadline delay={400}>
+            <a 
+              href="#leaderboard"
+              className="inline-block mt-6 text-sm text-muted-foreground hover:text-primary transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('[data-leaderboard]')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span className="font-bold text-foreground">{stats?.total || '1K+'}+ waiting</span> • <span className="underline">see where you stand</span>
+            </a>
+          </AnimatedHeadline>
         </div>
         {/* Hero glow effect - brand colors */}
         <div className="absolute inset-0 bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent opacity-30 pointer-events-none" />
@@ -361,7 +387,9 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* Referral Leaderboard */}
-      <PublicLeaderboard />
+      <div data-leaderboard>
+        <PublicLeaderboard />
+      </div>
 
       <GradientDivider />
 
