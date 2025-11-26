@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const URLShortenerBasic = () => {
   const { toast } = useToast();
   const [url, setUrl] = useState("");
+  const [customSlug, setCustomSlug] = useState("");
   const [shortURL, setShortURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,7 +34,7 @@ export const URLShortenerBasic = () => {
 
     try {
       const { data, error: fnError } = await supabase.functions.invoke('create-public-link', {
-        body: { url },
+        body: { url, slug: customSlug || undefined },
       });
 
       if (fnError) throw fnError;
@@ -72,8 +73,18 @@ export const URLShortenerBasic = () => {
 
   const handleReset = () => {
     setUrl("");
+    setCustomSlug("");
     setShortURL("");
     setError("");
+  };
+
+  const generateRandomSlug = () => {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let slug = '';
+    for (let i = 0; i < 8; i++) {
+      slug += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setCustomSlug(slug);
   };
 
   return (
@@ -101,6 +112,34 @@ export const URLShortenerBasic = () => {
                 <span>{error}</span>
               </div>
             )}
+          </div>
+
+          <div>
+            <Label htmlFor="customSlug">custom slug (optional)</Label>
+            <div className="flex gap-2 mt-2">
+              <Input
+                id="customSlug"
+                type="text"
+                placeholder="leave blank for auto-generate"
+                value={customSlug}
+                onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                className="flex-1"
+                disabled={!!shortURL}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={generateRandomSlug}
+                disabled={!!shortURL}
+                title="generate random slug"
+              >
+                <Sparkles className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              only lowercase letters, numbers, and hyphens
+            </p>
           </div>
 
           {!shortURL ? (

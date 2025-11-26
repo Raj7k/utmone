@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
     }
 
     // Parse request body
-    const { url } = await req.json();
+    const { url, slug: customSlug } = await req.json();
 
     if (!url) {
       return new Response(
@@ -116,7 +116,7 @@ Deno.serve(async (req) => {
       return slug;
     };
 
-    let slug = generateSlug();
+    let slug = customSlug || generateSlug();
     let attempts = 0;
     const maxAttempts = 5;
 
@@ -159,6 +159,7 @@ Deno.serve(async (req) => {
         .from('workspaces')
         .insert({
           name: 'public-links-system',
+          slug: 'public-links-system',
           owner_id: '00000000-0000-0000-0000-000000000000', // System user
         })
         .select()
