@@ -25,10 +25,8 @@ const MarketingOps = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
-              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
-                Governance, Without the Noise
-              </span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient">
+              Governance, Without the Noise
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
               utm.one enforces the structure your org needs — automatically, quietly, consistently.

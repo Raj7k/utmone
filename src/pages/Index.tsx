@@ -174,7 +174,7 @@ const Index = () => {
             <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Eye className="w-10 h-10 text-system-blue mb-4" />
+                  <Eye className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Link Previews</h3>
                   <p className="text-subheadline text-secondary-label">
                     See the destination before you click — title, favicon, page summary
@@ -183,7 +183,7 @@ const Index = () => {
               </StaggerItem>
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Shield className="w-10 h-10 text-system-green mb-4" />
+                  <Shield className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Safety Indicators</h3>
                   <p className="text-subheadline text-secondary-label">
                     Malware scan, blacklist check, SSL validation
@@ -192,7 +192,7 @@ const Index = () => {
               </StaggerItem>
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <BarChart3 className="w-10 h-10 text-system-teal mb-4" />
+                  <BarChart3 className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Transparent Analytics</h3>
                   <p className="text-subheadline text-secondary-label">
                     You always know what's collected and why
@@ -201,7 +201,7 @@ const Index = () => {
               </StaggerItem>
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Lock className="w-10 h-10 text-system-indigo mb-4" />
+                  <Lock className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Privacy by Default</h3>
                   <p className="text-subheadline text-secondary-label">
                     GDPR-ready, easy export, simple opt-out
@@ -271,7 +271,7 @@ const Index = () => {
             <StaggerContainer className="grid md:grid-cols-3 gap-8">
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Infinity className="w-10 h-10 text-system-blue mb-4" />
+                  <Infinity className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Permanent Redirects</h3>
                   <p className="text-subheadline text-secondary-label">
                     Your links keep working, always
@@ -280,7 +280,7 @@ const Index = () => {
               </StaggerItem>
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Database className="w-10 h-10 text-system-indigo mb-4" />
+                  <Database className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Self-Hosted Option</h3>
                   <p className="text-subheadline text-secondary-label">
                     Run utm.one locally, keep full control
@@ -289,7 +289,7 @@ const Index = () => {
               </StaggerItem>
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <GitBranch className="w-10 h-10 text-system-teal mb-4" />
+                  <GitBranch className="w-10 h-10 text-primary mb-4" />
                   <h3 className="text-title-3 font-semibold text-label mb-3">Link Backups</h3>
                   <p className="text-subheadline text-secondary-label">
                     Auto-backup to your GitHub or storage

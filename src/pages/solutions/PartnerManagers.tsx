@@ -25,10 +25,8 @@ const PartnerManagers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
-              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
-                Clear Attribution, Zero Manual Work
-              </span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient">
+              Clear Attribution, Zero Manual Work
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
               utm.one makes partner programs easier to run — with clean links, clean QR, and clean reporting.
