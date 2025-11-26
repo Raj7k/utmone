@@ -13,7 +13,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { Search, Eye, UserCheck, RefreshCw, Trophy, BarChart3, Mail } from "lucide-react";
-import { AdminLayout } from "@/components/admin/AdminLayout";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import FraudAlerts from "@/components/admin/FraudAlerts";
@@ -197,8 +196,7 @@ export default function WaitlistManagement() {
   ) || [];
 
   return (
-    <AdminLayout>
-      <div className="p-8">
+    <div className="p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-display font-bold">waitlist management</h1>
@@ -466,6 +464,6 @@ export default function WaitlistManagement() {
           onSendInvites={() => setBatchInviteOpen(true)}
         />
       </div>
-    </AdminLayout>
+    </div>
   );
 }

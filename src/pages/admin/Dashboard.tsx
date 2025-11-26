@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download } from "lucide-react";
-import { AdminLayout } from "@/components/admin/AdminLayout";
 import { toast } from "sonner";
 
 export default function AdminDashboard() {
@@ -95,8 +94,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <AdminLayout>
-      <div className="p-8">
+    <div className="p-8">
         <div className="mb-8">
           <h1 className="text-3xl font-display font-bold">admin dashboard</h1>
           <p className="text-muted-foreground mt-2">
@@ -235,6 +233,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
       </div>
-    </AdminLayout>
+    </div>
   );
 }

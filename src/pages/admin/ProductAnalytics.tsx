@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link2, QrCode, Users, TrendingUp, MousePointerClick, Eye } from "lucide-react";
-import { AdminLayout } from "@/components/admin/AdminLayout";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 
 export default function ProductAnalytics() {
@@ -103,8 +102,7 @@ export default function ProductAnalytics() {
   });
 
   return (
-    <AdminLayout>
-      <div className="p-8">
+    <div className="p-8">
         <div className="mb-6">
           <h1 className="text-3xl font-display font-bold">product analytics</h1>
           <p className="text-muted-foreground mt-1">
@@ -200,6 +198,6 @@ export default function ProductAnalytics() {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </div>
   );
 }
