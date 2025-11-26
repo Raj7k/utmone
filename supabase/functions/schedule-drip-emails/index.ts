@@ -34,22 +34,40 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Found ${schedules?.length || 0} active drip schedules`);
 
     for (const schedule of schedules || []) {
-      if (schedule.trigger_type === "days_after_signup") {
-        // Time-based drip emails
+      // Hours after signup trigger
+      if (schedule.trigger_type === "hours_after_signup") {
+        const hoursAgo = new Date(Date.now() - (schedule.trigger_hours || 24) * 60 * 60 * 1000);
+        
+        const { data: eligibleUsers } = await supabase
+          .from("early_access_requests")
+          .select("id, email, drip_emails_sent")
+          .gte("created_at", hoursAgo.toISOString())
+          .lte("created_at", new Date(hoursAgo.getTime() + 30 * 60 * 1000).toISOString());
+
+        for (const user of eligibleUsers || []) {
+          const emailsSent = user.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            await supabase.from("email_queue").insert({
+              user_id: user.id,
+              campaign_id: schedule.campaign_id,
+              scheduled_at: new Date().toISOString(),
+              status: "pending",
+            });
+            totalScheduled++;
+          }
+        }
+      }
+      // Days after signup trigger
+      else if (schedule.trigger_type === "days_after_signup") {
         const daysAgo = schedule.trigger_value || 0;
         const targetDate = new Date();
         targetDate.setDate(targetDate.getDate() - daysAgo);
         
-        // Find users who signed up exactly X days ago and haven't received this email yet
         const { data: eligibleUsers, error: usersError } = await supabase
           .from("early_access_requests")
-          .select("id, email, name")
+          .select("id, email, name, drip_emails_sent")
           .gte("created_at", targetDate.toISOString().split("T")[0])
-          .lt("created_at", new Date(targetDate.getTime() + 86400000).toISOString().split("T")[0])
-          .not("id", "in", `(
-            SELECT user_id FROM email_queue 
-            WHERE campaign_id = '${schedule.campaign_id}'
-          )`);
+          .lt("created_at", new Date(targetDate.getTime() + 86400000).toISOString().split("T")[0]);
 
         if (usersError) {
           console.error(`Error fetching eligible users:`, usersError);
@@ -58,34 +76,81 @@ const handler = async (req: Request): Promise<Response> => {
 
         console.log(`Found ${eligibleUsers?.length || 0} eligible users for campaign ${schedule.email_campaigns.campaign_type}`);
 
-        // Schedule emails for eligible users
         for (const user of eligibleUsers || []) {
-          const { error: queueError } = await supabase
-            .from("email_queue")
-            .insert({
+          const emailsSent = user.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            const { error: queueError } = await supabase
+              .from("email_queue")
+              .insert({
+                user_id: user.id,
+                campaign_id: schedule.campaign_id,
+                scheduled_at: new Date().toISOString(),
+                status: "pending",
+              });
+
+            if (!queueError) {
+              totalScheduled++;
+              console.log(`Scheduled ${schedule.email_campaigns.campaign_type} for user ${user.email}`);
+            }
+          }
+        }
+      } 
+      // Conditional pending (Day 14 nudge)
+      else if (schedule.trigger_type === "conditional_pending") {
+        const daysAgo = new Date(Date.now() - (schedule.trigger_value || 14) * 24 * 60 * 60 * 1000);
+        
+        const { data: eligibleUsers } = await supabase
+          .from("early_access_requests")
+          .select("id, email, drip_emails_sent, status")
+          .eq("status", "pending")
+          .gte("created_at", daysAgo.toISOString())
+          .lte("created_at", new Date(daysAgo.getTime() + 60 * 60 * 1000).toISOString());
+
+        for (const user of eligibleUsers || []) {
+          const emailsSent = user.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            await supabase.from("email_queue").insert({
               user_id: user.id,
               campaign_id: schedule.campaign_id,
               scheduled_at: new Date().toISOString(),
               status: "pending",
             });
-
-          if (!queueError) {
             totalScheduled++;
-            console.log(`Scheduled ${schedule.email_campaigns.campaign_type} for user ${user.email}`);
           }
         }
-      } else if (schedule.trigger_type === "score_threshold") {
-        // Score-based emails
+      }
+      // Hours after approval with no activity
+      else if (schedule.trigger_type === "hours_after_approval_no_activity") {
+        const hoursAgo = new Date(Date.now() - (schedule.condition_hours || 48) * 60 * 60 * 1000);
+        
+        const { data: eligibleUsers } = await supabase
+          .from("early_access_requests")
+          .select("id, email, drip_emails_sent, last_activity_timestamp")
+          .eq("status", "approved")
+          .lte("approval_timestamp", hoursAgo.toISOString())
+          .is("last_activity_timestamp", null);
+
+        for (const user of eligibleUsers || []) {
+          const emailsSent = user.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            await supabase.from("email_queue").insert({
+              user_id: user.id,
+              campaign_id: schedule.campaign_id,
+              scheduled_at: new Date().toISOString(),
+              status: "pending",
+            });
+            totalScheduled++;
+          }
+        }
+      }
+      // Score threshold trigger
+      else if (schedule.trigger_type === "score_threshold") {
         const threshold = schedule.trigger_value || 0;
         
         const { data: eligibleUsers, error: usersError } = await supabase
           .from("early_access_requests")
-          .select("id, email, name, total_access_score")
-          .gte("total_access_score", threshold)
-          .not("id", "in", `(
-            SELECT user_id FROM email_queue 
-            WHERE campaign_id = '${schedule.campaign_id}'
-          )`);
+          .select("id, email, name, total_access_score, drip_emails_sent")
+          .gte("total_access_score", threshold);
 
         if (usersError) {
           console.error(`Error fetching users by score:`, usersError);
@@ -93,32 +158,31 @@ const handler = async (req: Request): Promise<Response> => {
         }
 
         for (const user of eligibleUsers || []) {
-          const { error: queueError } = await supabase
-            .from("email_queue")
-            .insert({
-              user_id: user.id,
-              campaign_id: schedule.campaign_id,
-              scheduled_at: new Date().toISOString(),
-              status: "pending",
-            });
+          const emailsSent = user.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            const { error: queueError } = await supabase
+              .from("email_queue")
+              .insert({
+                user_id: user.id,
+                campaign_id: schedule.campaign_id,
+                scheduled_at: new Date().toISOString(),
+                status: "pending",
+              });
 
-          if (!queueError) {
-            totalScheduled++;
+            if (!queueError) {
+              totalScheduled++;
+            }
           }
         }
-      } else if (schedule.trigger_type === "milestone") {
-        // Milestone-based emails
+      } 
+      // Milestone trigger
+      else if (schedule.trigger_type === "milestone") {
         const milestoneType = schedule.trigger_milestone;
         
-        // Find users who achieved this milestone but haven't received email
         const { data: eligibleUsers, error: usersError } = await supabase
           .from("waitlist_milestones")
-          .select("user_id, early_access_requests(email, name)")
-          .eq("milestone_type", milestoneType)
-          .not("user_id", "in", `(
-            SELECT user_id FROM email_queue 
-            WHERE campaign_id = '${schedule.campaign_id}'
-          )`);
+          .select("user_id, early_access_requests(email, name, drip_emails_sent)")
+          .eq("milestone_type", milestoneType);
 
         if (usersError) {
           console.error(`Error fetching milestone users:`, usersError);
@@ -126,17 +190,21 @@ const handler = async (req: Request): Promise<Response> => {
         }
 
         for (const milestone of eligibleUsers || []) {
-          const { error: queueError } = await supabase
-            .from("email_queue")
-            .insert({
-              user_id: milestone.user_id,
-              campaign_id: schedule.campaign_id,
-              scheduled_at: new Date().toISOString(),
-              status: "pending",
-            });
+          const user = milestone.early_access_requests;
+          const emailsSent = (user as any)?.drip_emails_sent || {};
+          if (!emailsSent[schedule.email_campaigns.template_name]) {
+            const { error: queueError } = await supabase
+              .from("email_queue")
+              .insert({
+                user_id: milestone.user_id,
+                campaign_id: schedule.campaign_id,
+                scheduled_at: new Date().toISOString(),
+                status: "pending",
+              });
 
-          if (!queueError) {
-            totalScheduled++;
+            if (!queueError) {
+              totalScheduled++;
+            }
           }
         }
       }

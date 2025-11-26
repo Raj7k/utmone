@@ -875,27 +875,36 @@ export type Database = {
       drip_campaign_schedules: {
         Row: {
           campaign_id: string
+          condition_hours: number | null
           created_at: string | null
           id: string
           is_active: boolean | null
+          trigger_condition: string | null
+          trigger_hours: number | null
           trigger_milestone: string | null
           trigger_type: string
           trigger_value: number | null
         }
         Insert: {
           campaign_id: string
+          condition_hours?: number | null
           created_at?: string | null
           id?: string
           is_active?: boolean | null
+          trigger_condition?: string | null
+          trigger_hours?: number | null
           trigger_milestone?: string | null
           trigger_type: string
           trigger_value?: number | null
         }
         Update: {
           campaign_id?: string
+          condition_hours?: number | null
           created_at?: string | null
           id?: string
           is_active?: boolean | null
+          trigger_condition?: string | null
+          trigger_hours?: number | null
           trigger_milestone?: string | null
           trigger_type?: string
           trigger_value?: number | null
@@ -946,9 +955,12 @@ export type Database = {
       early_access_requests: {
         Row: {
           access_level: number | null
+          approval_timestamp: string | null
+          badge: string | null
           company_domain: string | null
           created_at: string | null
           desired_domain: string | null
+          drip_emails_sent: Json | null
           email: string
           engagement_score: number | null
           fit_score: number | null
@@ -956,6 +968,7 @@ export type Database = {
           how_heard: string | null
           id: string
           is_flagged: boolean | null
+          last_activity_timestamp: string | null
           name: string
           reason_details: string | null
           reason_for_joining: string | null
@@ -967,12 +980,16 @@ export type Database = {
           team_size: string
           total_access_score: number | null
           updated_at: string | null
+          use_case_tags: string[] | null
         }
         Insert: {
           access_level?: number | null
+          approval_timestamp?: string | null
+          badge?: string | null
           company_domain?: string | null
           created_at?: string | null
           desired_domain?: string | null
+          drip_emails_sent?: Json | null
           email: string
           engagement_score?: number | null
           fit_score?: number | null
@@ -980,6 +997,7 @@ export type Database = {
           how_heard?: string | null
           id?: string
           is_flagged?: boolean | null
+          last_activity_timestamp?: string | null
           name: string
           reason_details?: string | null
           reason_for_joining?: string | null
@@ -991,12 +1009,16 @@ export type Database = {
           team_size: string
           total_access_score?: number | null
           updated_at?: string | null
+          use_case_tags?: string[] | null
         }
         Update: {
           access_level?: number | null
+          approval_timestamp?: string | null
+          badge?: string | null
           company_domain?: string | null
           created_at?: string | null
           desired_domain?: string | null
+          drip_emails_sent?: Json | null
           email?: string
           engagement_score?: number | null
           fit_score?: number | null
@@ -1004,6 +1026,7 @@ export type Database = {
           how_heard?: string | null
           id?: string
           is_flagged?: boolean | null
+          last_activity_timestamp?: string | null
           name?: string
           reason_details?: string | null
           reason_for_joining?: string | null
@@ -1015,6 +1038,7 @@ export type Database = {
           team_size?: string
           total_access_score?: number | null
           updated_at?: string | null
+          use_case_tags?: string[] | null
         }
         Relationships: [
           {
