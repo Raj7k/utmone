@@ -20,8 +20,6 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [minimumLoadingComplete, setMinimumLoadingComplete] = useState(false);
-  const [pendingNavigation, setPendingNavigation] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -32,26 +30,7 @@ const Auth = () => {
     role: string;
   } | null>(null);
 
-  // Start minimum loading timer when authenticating (after sign in)
-  useEffect(() => {
-    if (isAuthenticating) {
-      setMinimumLoadingComplete(false);
-      // Show loading screen for minimum 2 seconds
-      const timer = setTimeout(() => {
-        setMinimumLoadingComplete(true);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [isAuthenticating]);
-
-  // Navigate only when both minimum timer complete AND navigation ready
-  useEffect(() => {
-    if (minimumLoadingComplete && pendingNavigation) {
-      navigate(pendingNavigation);
-      setPendingNavigation(null);
-      setMinimumLoadingComplete(false);
-    }
-  }, [minimumLoadingComplete, pendingNavigation, navigate]);
+  // Timer effects removed - we now navigate directly after workspace check
 
   useEffect(() => {
     // Load invitation context if invite token present
@@ -88,9 +67,9 @@ const Auth = () => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
         try {
-          // If invite token exists, set pending redirect to accept-invite
+          // If invite token exists, navigate to accept-invite
           if (inviteToken) {
-            setPendingNavigation(`/accept-invite?token=${inviteToken}`);
+            navigate(`/accept-invite?token=${inviteToken}`);
             return;
           }
 
@@ -112,18 +91,17 @@ const Auth = () => {
               description: "Could not load workspace data. Redirecting to onboarding.",
               variant: "default",
             });
-            setIsAuthenticating(false);
-            setPendingNavigation("/onboarding");
+            navigate("/onboarding");
             return;
           }
           
           const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
           
-          // New users without workspaces go to onboarding
+          // Navigate immediately after workspace check
           if (!hasWorkspaces) {
-            setPendingNavigation("/onboarding");
+            navigate("/onboarding");
           } else {
-            setPendingNavigation("/dashboard");
+            navigate("/dashboard");
           }
         } catch (err) {
           console.error("Auth state change error:", err);
@@ -132,8 +110,7 @@ const Auth = () => {
             description: "An error occurred during sign in. Please try again.",
             variant: "destructive",
           });
-          setIsAuthenticating(false);
-          setPendingNavigation("/onboarding");
+          navigate("/onboarding");
         } finally {
           setIsAuthenticating(false);
         }
@@ -306,8 +283,8 @@ const Auth = () => {
     return <AuthLoadingScreen />;
   }
 
-  // Show loading screen while authenticating (only if minimum timer not complete)
-  if (isAuthenticating && !minimumLoadingComplete) {
+  // Show loading screen while authenticating
+  if (isAuthenticating) {
     return <AuthLoadingScreen />;
   }
 
