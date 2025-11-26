@@ -32,14 +32,14 @@ export const BulkTagInput = ({ value, onChange }: BulkTagInputProps) => {
       
       const { data, error } = await supabase
         .from('link_tags')
-        .select('tag')
+        .select('tag_name')
         .in('link_id', linkIds)
-        .order('tag');
+        .order('tag_name');
 
       if (error) throw error;
       
       // Get unique tags
-      const uniqueTags = [...new Set(data.map(item => item.tag))];
+      const uniqueTags = [...new Set(data.map(item => item.tag_name))];
       return uniqueTags;
     },
     enabled: !!currentWorkspace,
