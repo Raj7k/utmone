@@ -194,13 +194,13 @@ export default function EarlyAccess() {
     <div className="min-h-screen bg-white">
       <Navigation />
       {/* FOLD 1 - Hero (A/B tested) */}
-      <section className="relative bg-gradient-to-br from-background via-wildSand/30 to-background py-32 md:py-40 px-6 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-background via-wildSand/30 to-background py-24 md:py-32 px-6 overflow-hidden">
         <FloatingShapes />
         <DiagonalLines />
         <div className="hero-glow" />
         <div className="max-w-[900px] mx-auto text-center relative z-10">
           <AnimatedHeadline>
-            <h1 className="font-display font-extrabold text-7xl md:text-8xl lg:text-9xl mb-8 tracking-tighter bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent leading-[1.05]">
+            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tighter bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent leading-[1.05]">
               {heroVariant.headline}
             </h1>
           </AnimatedHeadline>
@@ -235,7 +235,7 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* FOLD 2 - Why Early Access Exists */}
-      <section className="bg-wildSand py-32 md:py-40 px-6 relative overflow-hidden">
+      <section className="bg-wildSand py-24 md:py-32 px-6 relative overflow-hidden">
         <GridOverlay />
         <div className="max-w-[1200px] mx-auto relative z-10">
           <div className="text-center mb-16">
@@ -244,9 +244,9 @@ export default function EarlyAccess() {
               limited availability
             </div>
             <AnimatedHeadline>
-              <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
                 we want the right people in first
-              </h2>
+              </h1>
             </AnimatedHeadline>
           </div>
           
@@ -283,12 +283,12 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* FOLD 3 - What You Get (gray background with icons) */}
-      <section className="bg-white py-32 md:py-40 px-6">
+      <section className="bg-white py-24 md:py-32 px-6">
         <div className="max-w-[1000px] mx-auto">
           <AnimatedHeadline>
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
               you get more than a login
-            </h2>
+            </h1>
           </AnimatedHeadline>
           
           <div className="space-y-8">
@@ -343,13 +343,13 @@ export default function EarlyAccess() {
       <GradientDivider />
 
       {/* FOLD 7 - Who This Is For (audience grid) */}
-      <section className="bg-gradient-to-br from-background to-wildSand/50 py-32 md:py-40 px-6 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-background to-wildSand/50 py-24 md:py-32 px-6 relative overflow-hidden">
         <FloatingShapes />
         <div className="max-w-[800px] mx-auto relative z-10">
           <AnimatedHeadline>
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold mb-16 text-center tracking-tighter">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
               who this is for
-            </h2>
+            </h1>
           </AnimatedHeadline>
           
           <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -403,16 +403,16 @@ export default function EarlyAccess() {
       </section>
 
       {/* FOLD 8 - Final CTA with Simplified Form */}
-      <section id="early-access-form" className="bg-gradient-to-br from-wildSand to-background py-32 md:py-40 px-6 relative overflow-hidden">
+      <section id="early-access-form" className="bg-gradient-to-br from-wildSand to-background py-24 md:py-32 px-6 relative overflow-hidden">
         <GridOverlay />
         <FloatingShapes />
         <div className="max-w-[600px] mx-auto">
           {!isSubmitted ? (
             <>
               <AnimatedHeadline>
-                <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-center">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center tracking-tight">
                   be among the first to use utm.one
-                </h2>
+                </h1>
               </AnimatedHeadline>
               
               <AnimatedHeadline delay={200}>

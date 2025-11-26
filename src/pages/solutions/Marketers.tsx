@@ -46,14 +46,14 @@ const Marketers = () => {
       </section>
 
       {/* Fold 2: The Real Pain */}
-      <section className="relative py-24 bg-wildSand overflow-hidden">
+      <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
               The Real Pain
-            </h2>
+            </h1>
             <p className="text-xl text-muted-foreground italic">
               Marketing shouldn't require detective work.
             </p>
@@ -71,12 +71,12 @@ const Marketers = () => {
       </section>
 
       {/* Fold 3: What You Get */}
-      <section className="py-24 bg-white">
+      <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
               What You Get
-            </h2>
+            </h1>
             <p className="text-xl text-muted-foreground">
               Clarity → Trust → Performance
             </p>
@@ -102,12 +102,12 @@ const Marketers = () => {
       </section>
 
       {/* Fold 4: Mapped Features */}
-      <section className="py-24 bg-gradient-to-b from-wildSand/50 to-background">
+      <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
               Built for Marketing Teams
-            </h2>
+            </h1>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -158,14 +158,14 @@ const Marketers = () => {
       </section>
 
       {/* Fold 5: Workflow */}
-      <section className="relative py-32 bg-mirage overflow-hidden">
+      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
         <WorkflowBackground />
         
         <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
               Your Workflow, Simplified
-            </h2>
+            </h1>
             <p className="text-xl text-white/70">
               All from one clean workspace
             </p>

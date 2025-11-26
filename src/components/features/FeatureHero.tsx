@@ -25,7 +25,7 @@ export const FeatureHero = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-          className="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-6 hero-gradient"
+          className="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-6 hero-gradient"
         >
           {headline}
         </motion.h1>
