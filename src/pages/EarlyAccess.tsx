@@ -103,6 +103,7 @@ export default function EarlyAccess() {
         keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics', 'UTM builder']}
       />
       <Navigation />
+      <FloatingNavigation />
       {/* FOLD 1 - Hero (A/B tested) */}
       <section className="relative bg-white py-24 md:py-32 px-6 overflow-hidden">
         <DiagonalLines />
@@ -328,8 +329,8 @@ export default function EarlyAccess() {
       </section>
 
       {/* FOLD 8 - Final CTA with Comprehensive Form */}
-      <section id="early-access-form" className="bg-white py-24 md:py-32 px-6 relative overflow-hidden">
-        <div className="max-w-[600px] mx-auto">
+      <section id="early-access-form" className="bg-white py-16 md:py-24 px-6 relative overflow-hidden">
+        <div className="max-w-[680px] mx-auto">
           {!isSubmitted ? (
             <>
               <AnimatedHeadline>
