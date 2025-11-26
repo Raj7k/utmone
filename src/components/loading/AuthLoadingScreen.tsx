@@ -59,15 +59,15 @@ export const AuthLoadingScreen = () => {
           <img 
             src="/favicon.svg" 
             alt="utm.one" 
-            className="h-12 w-12"
+            className="h-16 w-16"
           />
-          <span className="font-display text-3xl font-semibold text-foreground">
+          <span className="font-display text-4xl font-semibold text-foreground">
             utm.one
           </span>
         </motion.div>
 
         {/* Typewriter Text */}
-        <div className="h-12 flex items-center">
+        <div className="h-32 flex items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentMessageIndex}
@@ -75,7 +75,7 @@ export const AuthLoadingScreen = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="font-display text-2xl font-medium"
+              className="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter"
             >
               {displayedText.split('').map((char, i) => {
                 // Create gradient color sweep effect
