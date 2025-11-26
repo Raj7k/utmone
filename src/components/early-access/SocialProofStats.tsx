@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, TrendingUp, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export const SocialProofStats = () => {
+  const [liveTotal, setLiveTotal] = useState(0);
+  
   const { data: stats } = useQuery({
     queryKey: ["waitlist-stats"],
     queryFn: async () => {
@@ -28,10 +31,40 @@ export const SocialProofStats = () => {
     },
   });
 
+  // Set initial live count
+  useEffect(() => {
+    if (stats?.total) {
+      setLiveTotal(stats.total);
+    }
+  }, [stats?.total]);
+
+  // Realtime subscription for new signups
+  useEffect(() => {
+    const channel = supabase
+      .channel('early-access-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'early_access_requests',
+        },
+        () => {
+          // Increment counter with animation
+          setLiveTotal(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   const statItems = [
     {
       icon: Users,
-      value: `${stats?.total || 0}+`,
+      value: `${liveTotal || stats?.total || 0}+`,
       label: "on waitlist",
       color: "primary",
     },
