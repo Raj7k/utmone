@@ -30,13 +30,13 @@ export const FloatingNavigation = () => {
     <AnimatePresence>
       {showFloating && (
         <motion.nav
-          initial={{ y: -100, opacity: 0 }}
+          initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -100, opacity: 0 }}
+          exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed top-6 left-1/2 -translate-x-1/2 z-50 
-                     bg-white/95 backdrop-blur-xl shadow-lg 
-                     rounded-full border border-border/30 
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 
+                     bg-white/95 backdrop-blur-xl shadow-xl 
+                     rounded-full border-2 border-border/10 
                      px-4 md:px-6 py-2 md:py-3
                      max-w-[95vw] md:max-w-none"
         >
