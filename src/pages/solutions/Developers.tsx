@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Code, Webhook, FileText, CheckCircle2, AlertCircle, Layers, Terminal, Zap, GitBranch, Database } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
@@ -14,6 +16,24 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 const Developers = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="utm.one for Developers"
+        description="A clean API for a cleaner stack. utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure."
+        canonical="https://utm.one/solutions/developers"
+        keywords={['developer API', 'link shortener API', 'REST API', 'GraphQL API', 'webhooks', 'developer tools']}
+      />
+      <WebPageSchema 
+        name="utm.one for Developers"
+        description="A clean API for a cleaner stack. utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure."
+        url="https://utm.one/solutions/developers"
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Solutions', url: 'https://utm.one/solutions' },
+          { name: 'Developers', url: 'https://utm.one/solutions/developers' }
+        ]}
+      />
       <Navigation />
 
       {/* Fold 1: Hero */}

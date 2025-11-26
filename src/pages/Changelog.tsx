@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Sparkles, Wrench, Bug, Shield } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 
 const Changelog = () => {
   const releases = [
@@ -163,6 +164,12 @@ const Changelog = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Changelog - What's New"
+        description="Track new features, improvements, and fixes across all utm.one releases. See what's been added to improve your link management and analytics."
+        canonical="https://utm.one/changelog"
+        keywords={['utm.one changelog', 'product updates', 'new features', 'release notes', 'version history']}
+      />
       <Navigation />
 
       {/* Hero */}

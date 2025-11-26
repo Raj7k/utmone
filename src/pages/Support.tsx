@@ -2,10 +2,17 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Mail, MessageSquare, Book, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/seo/SEO";
 
 const Support = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Support - Get Help"
+        description="Get help with utm.one: email support, live chat, documentation, FAQ, and API docs. Response times: 24-48 hours depending on your plan."
+        canonical="https://utm.one/support"
+        keywords={['utm.one support', 'help', 'contact', 'documentation', 'customer service']}
+      />
       <Navigation />
 
       {/* Hero */}

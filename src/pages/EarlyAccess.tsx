@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { WhitespaceAdvantageCard } from "@/components/early-access/WhitespaceAdvantageCard";
 import { OnboardingTimeline } from "@/components/early-access/OnboardingTimeline";
@@ -210,6 +211,12 @@ export default function EarlyAccess() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO 
+        title="Get Early Access"
+        description="Join the early circle for utm.one — the cleanest way to manage links, UTMs, QR codes, and analytics. Request early access to transform your campaign tracking."
+        canonical="https://utm.one/early-access"
+        keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics', 'UTM builder']}
+      />
       <Navigation />
       {/* FOLD 1 - Hero (A/B tested) */}
       <section className="relative bg-white py-24 md:py-32 px-6 overflow-hidden">

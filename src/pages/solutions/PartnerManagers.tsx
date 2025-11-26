@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Link as LinkIcon, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, Users, DollarSign, TrendingUp, UserPlus } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
@@ -14,6 +16,24 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 const PartnerManagers = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="utm.one for Partner Managers"
+        description="Clear attribution, zero manual work. utm.one makes partner programs easier to run — with clean links, clean QR, and clean reporting."
+        canonical="https://utm.one/solutions/partner-managers"
+        keywords={['partner management', 'affiliate tracking', 'partner attribution', 'referral tracking', 'partner program software']}
+      />
+      <WebPageSchema 
+        name="utm.one for Partner Managers"
+        description="Clear attribution, zero manual work. utm.one makes partner programs easier to run — with clean links, clean QR, and clean reporting."
+        url="https://utm.one/solutions/partner-managers"
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Solutions', url: 'https://utm.one/solutions' },
+          { name: 'Partner Managers', url: 'https://utm.one/solutions/partner-managers' }
+        ]}
+      />
       <Navigation />
 
       {/* Fold 1: Hero */}

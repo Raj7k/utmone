@@ -2,6 +2,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 
 const Templates = () => {
   const templates = [
@@ -33,6 +34,12 @@ const Templates = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Templates - UTM and Campaign Templates"
+        description="Copy/paste templates for UTM setup, naming conventions, campaign briefs, and tracking audits. Free downloadable templates for marketing teams."
+        canonical="https://utm.one/resources/templates"
+        keywords={['UTM templates', 'campaign templates', 'marketing templates', 'naming convention templates', 'tracking templates']}
+      />
       <Navigation />
 
       <section className="py-20 bg-background border-b border-separator">

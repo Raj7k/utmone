@@ -12,6 +12,7 @@ import {
   Search 
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SEO } from "@/components/seo/SEO";
 
 const Tools = () => {
   const tools = [
@@ -83,6 +84,12 @@ const Tools = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Interactive Tools - Salary & Career Calculators"
+        description="Interactive calculators for salary negotiation, career planning, market value assessment, and team budgeting. Backed by real GTM salary data."
+        canonical="https://utm.one/resources/tools"
+        keywords={['salary calculator', 'career planning tools', 'market value calculator', 'negotiation coach', 'team budget tools']}
+      />
       <Navigation />
 
       {/* Hero */}

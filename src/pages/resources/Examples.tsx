@@ -2,6 +2,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 
 const Examples = () => {
   const examples = [
@@ -27,6 +28,12 @@ const Examples = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Examples - UTM & Dashboard Examples"
+        description="Real-world UTM examples, naming conventions, and dashboard visualizations from successful marketing teams. Free example library."
+        canonical="https://utm.one/resources/examples"
+        keywords={['UTM examples', 'dashboard examples', 'naming convention examples', 'campaign examples', 'marketing analytics examples']}
+      />
       <Navigation />
 
       <section className="py-20 bg-background border-b border-separator">

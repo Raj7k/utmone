@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Settings, FileText, CheckCircle2, AlertCircle, Layers, Lock, BarChart3 } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
@@ -14,6 +16,24 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 const MarketingOps = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="utm.one for Marketing Ops"
+        description="Governance, without the noise. utm.one enforces the structure your org needs — automatically, quietly, consistently."
+        canonical="https://utm.one/solutions/marketing-ops"
+        keywords={['marketing operations', 'UTM governance', 'campaign governance', 'marketing ops tools', 'data quality']}
+      />
+      <WebPageSchema 
+        name="utm.one for Marketing Ops"
+        description="Governance, without the noise. utm.one enforces the structure your org needs — automatically, quietly, consistently."
+        url="https://utm.one/solutions/marketing-ops"
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Solutions', url: 'https://utm.one/solutions' },
+          { name: 'Marketing Ops', url: 'https://utm.one/solutions/marketing-ops' }
+        ]}
+      />
       <Navigation />
 
       {/* Fold 1: Hero */}

@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -45,6 +46,12 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 const HowItWorks = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="How utm.one Works"
+        description="Discover how utm.one creates clean links, structured UTMs, branded QR codes, and reliable analytics — all from one simple system. Learn the utm.one flow."
+        canonical="https://utm.one/how-it-works"
+        keywords={['how utm.one works', 'link shortener', 'UTM builder', 'QR generator', 'analytics platform']}
+      />
       <Navigation />
       
       {/* Fold 1: Hero */}

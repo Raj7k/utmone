@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, UserPlus, MessageSquare, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
@@ -14,6 +16,24 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 const Sales = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="utm.one for Sales Teams"
+        description="Links that explain your influence. utm.one helps sales teams share cleaner, faster, clearer links — with attribution built in."
+        canonical="https://utm.one/solutions/sales"
+        keywords={['sales tools', 'sales attribution', 'link tracking for sales', 'outreach links', 'sales analytics']}
+      />
+      <WebPageSchema 
+        name="utm.one for Sales Teams"
+        description="Links that explain your influence. utm.one helps sales teams share cleaner, faster, clearer links — with attribution built in."
+        url="https://utm.one/solutions/sales"
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Solutions', url: 'https://utm.one/solutions' },
+          { name: 'Sales', url: 'https://utm.one/solutions/sales' }
+        ]}
+      />
       <Navigation />
 
       {/* Fold 1: Hero */}

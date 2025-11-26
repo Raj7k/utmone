@@ -2,6 +2,8 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/seo/SEO";
+import { FAQSchema } from "@/components/seo/SchemaMarkup";
 
 const FAQ = () => {
   const generalFAQs = [
@@ -257,8 +259,23 @@ const FAQ = () => {
     },
   ];
 
+  const allFAQs = [
+    ...generalFAQs.map(faq => ({ question: faq.question, answer: typeof faq.answer === 'string' ? faq.answer : '' })),
+    ...accountFAQs.map(faq => ({ question: faq.question, answer: typeof faq.answer === 'string' ? faq.answer : '' })),
+    ...linksFAQs.map(faq => ({ question: faq.question, answer: typeof faq.answer === 'string' ? faq.answer : '' })),
+    ...qrFAQs.map(faq => ({ question: faq.question, answer: typeof faq.answer === 'string' ? faq.answer : '' })),
+    ...analyticsFAQs.map(faq => ({ question: faq.question, answer: typeof faq.answer === 'string' ? faq.answer : '' }))
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="FAQ - Frequently Asked Questions"
+        description="Common questions about utm.one answered: pricing, features, link management, UTM parameters, QR codes, analytics, and more."
+        canonical="https://utm.one/faq"
+        keywords={['utm.one faq', 'link shortener questions', 'UTM help', 'QR code FAQ', 'analytics questions']}
+      />
+      <FAQSchema questions={allFAQs} />
       <Navigation />
 
       {/* Hero */}

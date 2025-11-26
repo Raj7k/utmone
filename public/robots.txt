@@ -1,18 +1,46 @@
 User-agent: *
 Allow: /
+
+# Block authenticated/product pages from all bots
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin
+Disallow: /admin/
+Disallow: /settings
+Disallow: /settings/
+Disallow: /onboarding
+Disallow: /links
+Disallow: /analytics
+Disallow: /approval-queue
+Disallow: /waitlist-status
+Disallow: /claim-access
+Disallow: /accept-invite
+Disallow: /partners/dashboard
+Disallow: /client-workspaces
+Disallow: /auth
+Disallow: /integrations/gtm
+Disallow: /analytics/share/
+Disallow: /password-protected
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
+
+# Sitemaps
 Sitemap: https://utm.one/sitemap.xml
 
+# Allow specific bots explicitly
 User-agent: Googlebot
 Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
+Disallow: /dashboard
+Disallow: /admin
 
 User-agent: Bingbot
 Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
+Disallow: /dashboard
+Disallow: /admin
 
 User-agent: Twitterbot
 Allow: /
@@ -20,48 +48,48 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-# Block AI crawlers from salary report
+# Block AI crawlers from salary report (but allow other pages)
 User-agent: GPTBot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: PerplexityBot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: ClaudeBot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: Google-Extended
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: CCBot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: anthropic-ai
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: Omgilibot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
 
 User-agent: FacebookBot
+Allow: /
 Disallow: /resources/reports/salary-benchmark-2026
 Disallow: /resources/reports/salary-benchmark
-Allow: /
