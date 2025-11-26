@@ -52,12 +52,14 @@ export const DuplicateResolutionModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[85vh] p-0 overflow-hidden bg-gray-950 border-gray-800">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-800 bg-gradient-to-br from-gray-900 to-gray-950">
+      <DialogContent className="max-w-4xl max-h-[85vh] p-0 overflow-hidden bg-popover">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b border-border">
           <div className="flex items-start gap-3">
-            <AlertCircle className="h-6 w-6 text-amber-500 mt-1 flex-shrink-0" />
+            <div className="bg-amber-500/10 rounded-lg p-2">
+              <AlertCircle className="h-6 w-6 text-amber-600 flex-shrink-0" />
+            </div>
             <div className="flex-1">
-              <DialogTitle className="text-xl font-display mb-2">
+              <DialogTitle className="text-large-title font-bold mb-2">
                 duplicate url detected
               </DialogTitle>
               <DialogDescription className="text-sm text-secondary-label">
@@ -70,7 +72,7 @@ export const DuplicateResolutionModal = ({
         <ScrollArea className="flex-1 px-6 py-4">
           <div className="space-y-6">
             {/* Original URL */}
-            <div className="p-4 rounded-lg bg-gray-900/50 border border-gray-800">
+            <div className="p-4 rounded-lg bg-muted/20 border border-border">
               <p className="text-xs text-secondary-label mb-1">original url:</p>
               <p className="text-sm font-mono text-foreground break-all">{originalUrl}</p>
             </div>
@@ -114,8 +116,8 @@ export const DuplicateResolutionModal = ({
                     key={version.id}
                     className={`p-4 rounded-lg border transition-all ${
                       analysis.bestPerforming?.id === version.id
-                        ? 'bg-gradient-to-br from-primary/20 to-primary/10 border-primary'
-                        : 'bg-gray-900/30 border-gray-800 hover:border-gray-700'
+                        ? 'bg-primary/5 border-primary'
+                        : 'bg-background border-border hover:shadow-md'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -180,8 +182,8 @@ export const DuplicateResolutionModal = ({
                       key={idx}
                       className={`p-4 rounded-lg border transition-all ${
                         suggestion.recommended
-                          ? 'bg-gradient-to-br from-amber-500/20 to-amber-500/10 border-amber-500/50'
-                          : 'bg-gray-900/30 border-gray-800'
+                          ? 'bg-amber-50 border-amber-200'
+                          : 'bg-muted/10 border-border'
                       }`}
                     >
                       <div className="flex items-start gap-3">
@@ -206,7 +208,7 @@ export const DuplicateResolutionModal = ({
         </ScrollArea>
 
         {/* Action Buttons */}
-        <div className="px-6 py-4 border-t border-gray-800 bg-gray-900/50 flex items-center justify-between gap-3">
+        <div className="px-6 py-4 border-t border-border bg-muted/10 flex items-center justify-between gap-3">
           <Button variant="outline" onClick={onClose}>
             cancel
           </Button>

@@ -41,20 +41,20 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'border-green-500/30 bg-green-500/10';
+        return 'border-green-200 bg-green-50';
       case 'paused':
-        return 'border-amber-500/30 bg-amber-500/10';
+        return 'border-amber-200 bg-amber-50';
       case 'archived':
-        return 'border-gray-700 bg-gray-800/50';
+        return 'border-border bg-muted/20';
       default:
-        return 'border-gray-700 bg-gray-800/50';
+        return 'border-border bg-muted/20';
     }
   };
 
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-gray-800" />
+      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-border" />
 
       <div className="space-y-4">
         {sortedVersions.map((version, idx) => {
@@ -67,7 +67,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
                 className={`absolute left-4 top-6 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                   isLatest
                     ? 'bg-primary border-primary shadow-lg shadow-primary/50'
-                    : 'bg-gray-900 border-gray-700'
+                    : 'bg-background border-border'
                 }`}
               >
                 {isLatest && <div className="w-2 h-2 rounded-full bg-white" />}

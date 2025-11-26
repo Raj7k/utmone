@@ -243,10 +243,12 @@ export const URLShortenerUltimate = () => {
     <div className="container max-w-7xl mx-auto py-8 px-4">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <Brain className="h-8 w-8 text-primary" />
-          <h1 className="text-4xl font-bold font-display">AI URL Shortener</h1>
+          <div className="bg-primary/10 rounded-lg p-2">
+            <Brain className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-large-title font-bold text-label heading">ai url shortener</h1>
         </div>
-        <p className="text-secondary-label">
+        <p className="text-body-apple text-secondary-label">
           AI-powered duplicate handling, version control, and performance optimization
         </p>
       </div>
@@ -273,10 +275,15 @@ export const URLShortenerUltimate = () => {
 
         <TabsContent value="create">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
+             <div className="lg:col-span-2">
               <Card>
                 <CardHeader>
-                  <CardTitle>Create Short Link</CardTitle>
+                  <CardTitle className="text-title-2 flex items-center gap-2">
+                    <div className="bg-primary/10 rounded-lg p-2">
+                      <Link2 className="h-5 w-5 text-primary" />
+                    </div>
+                    create short link
+                  </CardTitle>
                   <CardDescription>enterprise url shortening with duplicate detection</CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -22,8 +22,8 @@ export const DuplicatePanel = ({
 }: DuplicatePanelProps) => {
   return (
     <div className="space-y-6">
-      <div className="flex items-start gap-3 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-        <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
+      <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+        <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
         <div className="flex-1 min-w-0">
           <div className="text-sm font-medium text-foreground mb-1">
             {duplicates.length} existing {duplicates.length === 1 ? 'version' : 'versions'} found
