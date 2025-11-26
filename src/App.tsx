@@ -51,6 +51,8 @@ const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
+const URLShortenerUltimate = lazy(() => import("./pages/admin/URLShortenerUltimate"));
+const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));

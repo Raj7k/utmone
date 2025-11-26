@@ -2442,16 +2442,19 @@ export type Database = {
           description: string | null
           destination_url: string
           domain: string
+          duplicate_strategy: string | null
           expires_at: string | null
           fallback_url: string | null
           final_url: string
           folder_id: string | null
           id: string
+          is_ab_test: boolean | null
           last_clicked_at: string | null
           max_clicks: number | null
           og_description: string | null
           og_image: string | null
           og_title: string | null
+          parent_link_id: string | null
           password_hash: string | null
           password_hint: string | null
           path: string
@@ -2473,6 +2476,7 @@ export type Database = {
           utm_medium: string | null
           utm_source: string | null
           utm_term: string | null
+          version: number | null
           workspace_id: string
         }
         Insert: {
@@ -2493,16 +2497,19 @@ export type Database = {
           description?: string | null
           destination_url: string
           domain?: string
+          duplicate_strategy?: string | null
           expires_at?: string | null
           fallback_url?: string | null
           final_url: string
           folder_id?: string | null
           id?: string
+          is_ab_test?: boolean | null
           last_clicked_at?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
           og_title?: string | null
+          parent_link_id?: string | null
           password_hash?: string | null
           password_hint?: string | null
           path?: string
@@ -2526,6 +2533,7 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
+          version?: number | null
           workspace_id: string
         }
         Update: {
@@ -2546,16 +2554,19 @@ export type Database = {
           description?: string | null
           destination_url?: string
           domain?: string
+          duplicate_strategy?: string | null
           expires_at?: string | null
           fallback_url?: string | null
           final_url?: string
           folder_id?: string | null
           id?: string
+          is_ab_test?: boolean | null
           last_clicked_at?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
           og_title?: string | null
+          parent_link_id?: string | null
           password_hash?: string | null
           password_hint?: string | null
           path?: string
@@ -2579,6 +2590,7 @@ export type Database = {
           utm_medium?: string | null
           utm_source?: string | null
           utm_term?: string | null
+          version?: number | null
           workspace_id?: string
         }
         Relationships: [
@@ -2602,6 +2614,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "folders"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
           },
           {
             foreignKeyName: "links_workspace_id_fkey"
@@ -3431,6 +3457,74 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "mv_click_time_series"
             referencedColumns: ["link_id"]
+          },
+        ]
+      }
+      url_duplicate_config: {
+        Row: {
+          ab_test_mode: boolean | null
+          archive_old: boolean | null
+          auto_version: boolean | null
+          compare_campaign: boolean | null
+          compare_schedule: boolean | null
+          compare_utm: boolean | null
+          created_at: string | null
+          id: string
+          max_versions: number | null
+          merge_analytics: boolean | null
+          notify_on_duplicate: boolean | null
+          smart_routing: boolean | null
+          strategy: string
+          suggest_alternatives: boolean | null
+          track_lineage: boolean | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          ab_test_mode?: boolean | null
+          archive_old?: boolean | null
+          auto_version?: boolean | null
+          compare_campaign?: boolean | null
+          compare_schedule?: boolean | null
+          compare_utm?: boolean | null
+          created_at?: string | null
+          id?: string
+          max_versions?: number | null
+          merge_analytics?: boolean | null
+          notify_on_duplicate?: boolean | null
+          smart_routing?: boolean | null
+          strategy?: string
+          suggest_alternatives?: boolean | null
+          track_lineage?: boolean | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          ab_test_mode?: boolean | null
+          archive_old?: boolean | null
+          auto_version?: boolean | null
+          compare_campaign?: boolean | null
+          compare_schedule?: boolean | null
+          compare_utm?: boolean | null
+          created_at?: string | null
+          id?: string
+          max_versions?: number | null
+          merge_analytics?: boolean | null
+          notify_on_duplicate?: boolean | null
+          smart_routing?: boolean | null
+          strategy?: string
+          suggest_alternatives?: boolean | null
+          track_lineage?: boolean | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "url_duplicate_config_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: true
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -4328,6 +4422,10 @@ export type Database = {
           unique_clicks: number
           workspace_id: string
         }[]
+      }
+      get_next_url_version: {
+        Args: { p_destination_url: string; p_workspace_id: string }
+        Returns: number
       }
       get_profile_by_email_secure: {
         Args: { p_email: string }
