@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
-import utmOneLogo from "@/assets/utm-one-logo.png";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -84,11 +84,7 @@ export const Navigation = () => {
         <nav className="flex items-center justify-between h-full">
           {/* Logo with hover effect */}
           <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
-            <img 
-              src={utmOneLogo} 
-              alt="utm.one logo" 
-              className="h-10 md:h-12 w-auto"
-            />
+            <UtmOneLogo size="lg" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -435,11 +431,7 @@ export const Navigation = () => {
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 {/* Logo at top of mobile menu */}
                 <div className="flex items-center gap-2 mb-6">
-            <img 
-              src={utmOneLogo} 
-              alt="utm.one" 
-              className="h-8 w-auto"
-            />
+                  <UtmOneLogo size="md" />
                 </div>
                 
                 <nav className="flex flex-col gap-4 mt-8">
