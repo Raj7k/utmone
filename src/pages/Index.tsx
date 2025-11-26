@@ -85,7 +85,7 @@ const Index = () => {
                 >
                   <motion.div className="hero-glow">
                     <motion.h1 
-                      className="hero-gradient text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-extrabold tracking-tight text-balance"
+                      className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}

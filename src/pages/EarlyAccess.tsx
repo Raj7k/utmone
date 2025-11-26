@@ -236,7 +236,7 @@ export default function EarlyAccess() {
         <div className="hero-glow" />
         <div className="max-w-[900px] mx-auto text-center relative z-10">
           <AnimatedHeadline>
-            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tighter bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent leading-[1.05]">
+            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tighter hero-gradient leading-[1.05]">
               {heroVariant.headline}
             </h1>
           </AnimatedHeadline>
