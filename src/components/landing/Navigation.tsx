@@ -256,6 +256,20 @@ export const Navigation = () => {
                           </p>
                         </Link>
                       </li>
+                      <li>
+                        <Link
+                          to="/solutions/partner-managers"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/partner-managers" && "bg-primary/10"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">For Partner Managers</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            clear attribution, zero manual work
+                          </p>
+                        </Link>
+                      </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

@@ -1,34 +1,39 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Link as LinkIcon, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, Shield, CheckCircle2, AlertCircle, Layers, FileText, Zap, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
-import { FeatureCard } from "@/components/landing/FeatureCard";
 import { Footer } from "@/components/landing/Footer";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { FlowConnector } from "@/components/landing/FlowConnector";
-import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
+import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
+import { PainPointCard } from "@/components/solutions/PainPointCard";
+import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 
 const Marketers = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero */}
-      <section className="py-32 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
+      {/* Fold 1: Hero */}
+      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
+        <HeroFloatingShapes />
+        <HeroGlow />
+        <DiagonalAccent position="top-left" />
+        <DiagonalAccent position="bottom-right" />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
-                Campaigns work better when links do.
-              </h1>
-            </div>
-            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto text-balance">
-              utm.one brings clarity, consistency, and precision to every link you create.
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter">
+              <span className="bg-gradient-to-br from-blazeOrange via-foreground to-deepSea bg-clip-text text-transparent">
+                Campaigns Work Better When Links Do
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+              utm.one gives marketers clean links, clean UTMs, clean QR codes, and clean reporting — all without slowing you down.
             </p>
             <div className="pt-4">
-              <Link to="/pricing">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  get early access
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Get Early Access
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
@@ -37,143 +42,159 @@ const Marketers = () => {
         </div>
       </section>
 
-      {/* The Marketing Truth */}
-      <section className="py-32 bg-muted/20">
-        <div className="max-w-[900px] mx-auto px-8">
-          <div className="text-center space-y-12">
-            <AnimatedHeadline>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-foreground font-extrabold tracking-tight leading-[1.1]">
-                When UTMs break, attribution breaks.
-              </h1>
-            </AnimatedHeadline>
-            <div className="text-title-2 text-secondary-label max-w-[800px] mx-auto leading-relaxed space-y-6">
-              <p>when links drift, data drifts.</p>
-              <p>and when data drifts, decisions suffer.</p>
-              <p className="text-label font-medium">utm.one fixes this at the source.</p>
-            </div>
+      {/* Fold 2: The Real Pain */}
+      <section className="relative py-24 bg-wildSand overflow-hidden">
+        <DotPattern />
+        
+        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              The Real Pain
+            </h2>
+            <p className="text-xl text-muted-foreground italic">
+              Marketing shouldn't require detective work.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <PainPointCard icon={AlertCircle} text="Scattered links across tools" delay={0} />
+            <PainPointCard icon={AlertCircle} text="Broken UTMs ruining attribution" delay={0.1} />
+            <PainPointCard icon={AlertCircle} text="Messy dashboards with no clarity" delay={0.2} />
+            <PainPointCard icon={AlertCircle} text="Inconsistent naming conventions" delay={0.3} />
+            <PainPointCard icon={AlertCircle} text="QR chaos without tracking" delay={0.4} />
+            <PainPointCard icon={AlertCircle} text="Stakeholder confusion on performance" delay={0.5} />
           </div>
         </div>
       </section>
 
-      {/* Why Marketers Choose utm.one */}
-      <section className="py-24 bg-gradient-to-b from-background to-muted/20">
+      {/* Fold 3: What You Get */}
+      <section className="py-24 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
-          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            Why marketers choose utm.one
-          </h1>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6">
+              What You Get
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Clarity → Trust → Performance
+            </p>
+          </div>
           
-          <div className="space-y-8 max-w-[800px] mx-auto">
-            <FeatureCard
-              number="01"
-              title="perfect utms, every time"
-              description="five fields. validated. normalized. consistent by default. no more fixing campaigns after launch."
-              delay={0}
-            />
-            
-            <FeatureCard
-              number="02"
-              title="branded short links"
-              description="your domain. your identity. your trust — in every channel."
-              delay={100}
-            />
-            
-            <FeatureCard
-              number="03"
-              title="on-brand qr codes"
-              description="clean, beautiful, and ready for events, webinars, and paid campaigns."
-              delay={200}
-            />
-            
-            <FeatureCard
-              number="04"
-              title="clear analytics"
-              description="see what matters: campaigns, clicks, devices, regions. no clutter. no noise."
-              delay={300}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {[
+              "Predictable UTMs",
+              "Semantic links",
+              "Branded QR codes",
+              "Clear preview cards",
+              "Campaign-level analytics",
+              "Clean attribution",
+              "Workspace governance that never gets in your way",
+            ].map((benefit, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
+                <p className="text-lg text-foreground">{benefit}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Workflow Section */}
-      <section className="py-24 bg-muted/30">
-        <div className="max-w-[1100px] mx-auto px-8">
-          <h1 className="text-title-1 font-display text-label font-bold tracking-tight text-center mb-16">
-            A workflow designed for speed
-          </h1>
+      {/* Fold 4: Mapped Features */}
+      <section className="py-24 bg-gradient-to-b from-wildSand/50 to-background">
+        <div className="max-w-[1200px] mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Built for Marketing Teams
+            </h2>
+          </div>
           
-          {/* Linear Flow */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-6 mb-12">
-            <WorkflowStep
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <FeatureMappedCard
               icon={LinkIcon}
-              title="Paste your link"
-              description="Drop any destination URL"
-              bgColor="bg-blue-50"
-              iconColor="text-blue-600"
+              title="Short Links"
+              description="Easy to share, easy to trust"
+              color="blazeOrange"
               delay={0}
             />
-            
-            <FlowConnector direction="horizontal" />
-            
-            <WorkflowStep
-              icon={Sparkles}
-              title="Choose template"
-              description="UTMs auto-populated from template"
-              bgColor="bg-purple-50"
-              iconColor="text-purple-600"
-              delay={100}
+            <FeatureMappedCard
+              icon={Settings}
+              title="UTM Builder"
+              description="Zero-error parameters"
+              color="deepSea"
+              delay={0.1}
             />
-            
-            <FlowConnector direction="horizontal" />
-            
-            <WorkflowStep
-              icon={Zap}
-              title="Generated"
-              description="Short link + UTMs + QR code ready"
-              bgColor="bg-green-50"
-              iconColor="text-green-600"
-              delay={200}
+            <FeatureMappedCard
+              icon={QrCode}
+              title="QR Generator"
+              description="Print-ready and trackable"
+              color="primary"
+              delay={0.2}
+            />
+            <FeatureMappedCard
+              icon={Layers}
+              title="Clean-Track"
+              description="Every campaign follows the same standard"
+              color="blazeOrange"
+              delay={0.3}
+            />
+            <FeatureMappedCard
+              icon={BarChart3}
+              title="Analytics"
+              description="The top metrics that actually matter"
+              color="deepSea"
+              delay={0.4}
+            />
+            <FeatureMappedCard
+              icon={Shield}
+              title="Enterprise Control"
+              description="Governance without friction"
+              color="primary"
+              delay={0.5}
             />
           </div>
-          
-          {/* Supporting Text */}
-          <p className="text-center text-title-2 text-secondary-label max-w-[640px] mx-auto">
-            all in under 30 seconds.<br />
-            no switching tools.<br />
-            no broken tracking.
-          </p>
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <section className="py-32 bg-white">
+      {/* Fold 5: Workflow */}
+      <section className="py-32 bg-mirage">
+        <div className="max-w-[1100px] mx-auto px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
+              Your Workflow, Simplified
+            </h2>
+            <p className="text-xl text-white/70">
+              All from one clean workspace
+            </p>
+          </div>
+          
+          <WorkflowTimeline
+            steps={[
+              { icon: FileText, label: "Build Campaign" },
+              { icon: Zap, label: "Generate Links" },
+              { icon: TrendingUp, label: "Share" },
+              { icon: BarChart3, label: "Measure" },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: CTA */}
+      <section className="py-32 bg-gradient-to-br from-blazeOrange/10 to-deepSea/10">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-8">
-            <AnimatedHeadline delay={100}>
-              <h1 className="text-h1 font-display text-foreground font-bold tracking-tight">
-                Clean links lead to better campaigns.
-              </h1>
-            </AnimatedHeadline>
+            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
+              Ready to Transform Your Marketing?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
+              Join marketing teams who trust utm.one for clean links and clear attribution.
+            </p>
             <div className="pt-4">
-              <Link to="/auth">
-                <Button variant="marketing" size="lg" className="text-[17px] font-medium px-8 h-12 rounded-full transition-apple hover:scale-[1.02]">
-                  see how marketers use utm.one
+              <Link to="/early-access">
+                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
+                  Explore utm.one for Marketers
                   <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
                 </Button>
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Cross-link Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center">
-            <p className="text-body-apple text-secondary-label">
-              <Link to="/solutions/sales" className="text-label hover:underline">
-                sales also moves faster with clean links →
-              </Link>
-            </p>
           </div>
         </div>
       </section>

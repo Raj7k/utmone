@@ -90,6 +90,11 @@ export const Footer = () => {
                   For Developers
                 </Link>
               </li>
+              <li>
+                <Link to="/solutions/partner-managers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  For Partner Managers
+                </Link>
+              </li>
             </ul>
           </div>
 
