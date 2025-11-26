@@ -33,7 +33,7 @@ const Pricing = () => {
     <>
       <SEO 
         title="Pricing - utm.one"
-        description="Simple pricing with generous limits. No per-seat charges, no hidden fees. Free forever plan with 100 links/month, Pro at $15/month, Business at $49/month."
+        description="Simple pricing with generous limits. No per-seat charges, no hidden fees. Free forever plan with 100 links/month, Pro at $20/month, Business at $99/month."
         canonical="https://utm.one/pricing"
         keywords={["utm.one pricing", "url shortener pricing", "link management pricing", "flat pricing", "no per-seat charges"]}
       />

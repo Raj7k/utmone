@@ -46,7 +46,7 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
     description: 'for individuals testing utm.one',
     features: {
       monthlyLinks: 100,
-      customDomains: 5,
+      customDomains: 0,
       monthlyClicks: 10000,
       analyticsRetentionDays: 90,
       apiAccess: true,
@@ -65,12 +65,12 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
   pro: {
     name: 'pro',
     tier: 'pro',
-    price: 15,
+    price: 20,
     billingPeriod: 'monthly',
     description: 'for solo creators and small teams',
     features: {
       monthlyLinks: 1000,
-      customDomains: 'unlimited',
+      customDomains: 1,
       monthlyClicks: 100000,
       analyticsRetentionDays: 365,
       apiAccess: true,
@@ -93,12 +93,12 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
   business: {
     name: 'business',
     tier: 'business',
-    price: 49,
+    price: 99,
     billingPeriod: 'monthly',
     description: 'for startups and growing companies',
     features: {
       monthlyLinks: 10000,
-      customDomains: 'unlimited',
+      customDomains: 5,
       monthlyClicks: 'unlimited',
       analyticsRetentionDays: 1095,
       apiAccess: true,
@@ -120,8 +120,8 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
   enterprise: {
     name: 'enterprise',
     tier: 'enterprise',
-    price: 'custom',
-    billingPeriod: null,
+    price: 300,
+    billingPeriod: 'monthly',
     description: 'for large organizations with custom needs',
     features: {
       monthlyLinks: 'unlimited',
@@ -154,7 +154,7 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
     description: 'pro features forever (limited availability)',
     features: {
       monthlyLinks: 1000,
-      customDomains: 'unlimited',
+      customDomains: 1,
       monthlyClicks: 100000,
       analyticsRetentionDays: 365,
       apiAccess: true,
@@ -183,8 +183,8 @@ export const COMPETITOR_COMPARISON = [
   },
   {
     feature: 'Custom Domains',
-    free: { utm: '5', bitly: '0', rebrandly: '1', short: '1' },
-    paid: { utm: 'unlimited', bitly: '1', rebrandly: '3', short: '5' },
+    free: { utm: '0', bitly: '0', rebrandly: '1', short: '1' },
+    paid: { utm: '1', bitly: '1', rebrandly: '3', short: '5' },
   },
   {
     feature: 'Team Members',
@@ -204,6 +204,6 @@ export const COMPETITOR_COMPARISON = [
   {
     feature: 'Monthly Price',
     free: { utm: '$0', bitly: '$0', rebrandly: '$0', short: '$0' },
-    paid: { utm: '$15', bitly: '$35', rebrandly: '$39', short: '$25' },
+    paid: { utm: '$20', bitly: '$35', rebrandly: '$39', short: '$25' },
   },
 ];
