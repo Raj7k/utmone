@@ -68,12 +68,12 @@ export const useDuplicateDetection = (workspaceId: string) => {
         analysis.isDifferentUTM = true;
       }
 
-      analysis.totalClicks += existing.clicks_count || 0;
+      analysis.totalClicks += existing.total_clicks || 0;
     });
 
     // Find best and worst performing
     if (existingVersions.length > 0) {
-      existingVersions.sort((a, b) => (b.clicks_count || 0) - (a.clicks_count || 0));
+      existingVersions.sort((a, b) => (b.total_clicks || 0) - (a.total_clicks || 0));
       analysis.bestPerforming = existingVersions[0];
       analysis.worstPerforming = existingVersions[existingVersions.length - 1];
 
@@ -96,7 +96,7 @@ export const useDuplicateDetection = (workspaceId: string) => {
       suggestions.push({
         type: 'use-best',
         action: 'Use Best Performing',
-        description: `Use existing link with ${analysis.bestPerforming.clicks_count} clicks`,
+        description: `Use existing link with ${analysis.bestPerforming.total_clicks} clicks`,
         recommended: true,
       });
     }
@@ -124,7 +124,7 @@ export const useDuplicateDetection = (workspaceId: string) => {
     // Suggest archiving old versions
     const oldVersions = existingVersions.filter(v => {
       const ageInDays = (Date.now() - new Date(v.created_at).getTime()) / (1000 * 60 * 60 * 24);
-      return ageInDays > 30 && (v.clicks_count || 0) < 100;
+      return ageInDays > 30 && (v.total_clicks || 0) < 100;
     });
 
     if (oldVersions.length > 0) {

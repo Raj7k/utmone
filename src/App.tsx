@@ -304,6 +304,7 @@ const App = () => (
               {/* Admin Routes */}
               <Route path="/admin" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminDashboard /></AdminLayout></Suspense>} />
               <Route path="/admin/waitlist" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><WaitlistManagement /></AdminLayout></Suspense>} />
+              <Route path="/admin/url-shortener" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><URLShortenerUltimate /></AdminLayout></Suspense>} />
               <Route path="/admin/landing" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><LandingManagement /></AdminLayout></Suspense>} />
               <Route path="/admin/product" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><ProductAnalytics /></AdminLayout></Suspense>} />
               <Route path="/admin/system" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemMonitoring /></AdminLayout></Suspense>} />
