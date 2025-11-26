@@ -3,14 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+import { ChevronUp } from "lucide-react";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const FloatingNavigation = () => {
   const [showFloating, setShowFloating] = useState(false);
@@ -47,163 +45,189 @@ export const FloatingNavigation = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center">
-              <NavigationMenu>
-                <NavigationMenuList className="gap-1">
-                  {/* Product Dropdown */}
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
-                      product
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-2 p-3">
-                        <li>
-                          <Link
-                            to="/features/short-links"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium leading-none">Short Links</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              branded, memorable links
-                            </p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/features/utm-builder"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium leading-none">UTM Builder</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              consistent parameters
-                            </p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/features/qr-generator"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium leading-none">QR Generator</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              on-brand codes
-                            </p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/features/analytics"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium leading-none">Analytics</div>
-                            <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                              clear data, better decisions
-                            </p>
-                          </Link>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
+            <div className="hidden md:flex items-center gap-1">
+              {/* Product Dropdown */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                  >
+                    product <ChevronUp className="ml-1 h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  side="top" 
+                  align="center" 
+                  sideOffset={12}
+                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                >
+                  <ul className="grid gap-2">
+                    <li>
+                      <Link
+                        to="/features/short-links"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">Short Links</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          branded, memorable links
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/features/utm-builder"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">UTM Builder</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          consistent parameters
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/features/qr-generator"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">QR Generator</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          on-brand codes
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/features/analytics"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">Analytics</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          clear data, better decisions
+                        </p>
+                      </Link>
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
 
-                  {/* Solutions Dropdown */}
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary data-[state=open]:bg-primary/10 data-[state=open]:text-primary bg-transparent">
-                      solutions
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-2 p-3 bg-white/95 backdrop-blur-xl">
-                        <li>
-                          <Link
-                            to="/solutions/marketers"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Marketing Teams</div>
-                            <p className="text-xs text-muted-foreground">campaigns work better when links do</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/solutions/sales"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Sales Teams</div>
-                            <p className="text-xs text-muted-foreground">share faster, share cleaner</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/solutions/marketing-ops"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Marketing Ops</div>
-                            <p className="text-xs text-muted-foreground">governance without the friction</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/solutions/developers"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Developers</div>
-                            <p className="text-xs text-muted-foreground">a clean api for a cleaner stack</p>
-                          </Link>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
+              {/* Solutions Dropdown */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                  >
+                    solutions <ChevronUp className="ml-1 h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  side="top" 
+                  align="center" 
+                  sideOffset={12}
+                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                >
+                  <ul className="grid gap-2">
+                    <li>
+                      <Link
+                        to="/solutions/marketers"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Marketing Teams</div>
+                        <p className="text-xs text-muted-foreground">campaigns work better when links do</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/solutions/sales"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Sales Teams</div>
+                        <p className="text-xs text-muted-foreground">share faster, share cleaner</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/solutions/marketing-ops"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Marketing Ops</div>
+                        <p className="text-xs text-muted-foreground">governance without the friction</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/solutions/developers"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Developers</div>
+                        <p className="text-xs text-muted-foreground">a clean api for a cleaner stack</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
 
-                  {/* Resources Dropdown */}
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary data-[state=open]:bg-primary/10 data-[state=open]:text-primary bg-transparent">
-                      resources
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-2 p-3 bg-white/95 backdrop-blur-xl">
-                        <li>
-                          <Link
-                            to="/resources/guides"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Guides</div>
-                            <p className="text-xs text-muted-foreground">long-form educational content</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/resources/playbooks"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Playbooks</div>
-                            <p className="text-xs text-muted-foreground">step-by-step implementation</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/resources/templates"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Templates</div>
-                            <p className="text-xs text-muted-foreground">ready-to-use resources</p>
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/resources/glossary"
-                            className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                          >
-                            <div className="text-xs font-medium">Glossary</div>
-                            <p className="text-xs text-muted-foreground">utm & tracking terms explained</p>
-                          </Link>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
+              {/* Resources Dropdown */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                  >
+                    resources <ChevronUp className="ml-1 h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  side="top" 
+                  align="center" 
+                  sideOffset={12}
+                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                >
+                  <ul className="grid gap-2">
+                    <li>
+                      <Link
+                        to="/resources/guides"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Guides</div>
+                        <p className="text-xs text-muted-foreground">long-form educational content</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/resources/playbooks"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Playbooks</div>
+                        <p className="text-xs text-muted-foreground">step-by-step implementation</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/resources/templates"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Templates</div>
+                        <p className="text-xs text-muted-foreground">ready-to-use resources</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/resources/glossary"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">Glossary</div>
+                        <p className="text-xs text-muted-foreground">utm & tracking terms explained</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
             </div>
 
             {/* CTAs */}
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2">
               <Link to="/auth">
                 <Button 
                   variant="ghost" 
