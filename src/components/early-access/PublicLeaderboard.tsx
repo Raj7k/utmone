@@ -44,22 +44,22 @@ export const PublicLeaderboard = () => {
   const { data: leaderboardData } = useQuery({
     queryKey: ["public-leaderboard", userCountry],
     queryFn: async () => {
-      // Fetch all top referrers
-      const { data: allReferrers, error } = await supabase
-        .from("early_access_requests")
-        .select("name, referral_score, country")
-        .not("referral_code", "is", null)
-        .gt("referral_score", 0)
-        .order("referral_score", { ascending: false })
-        .limit(50);
+      // Use secure edge function (names already anonymized, no email exposure)
+      const { data, error } = await supabase.functions.invoke("get-waitlist-stats");
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching leaderboard:", error);
+        return { local: [], global: [], country: null };
+      }
 
-      const referrers = (allReferrers || []).map((referrer) => ({
-        name: anonymizeName(referrer.name),
-        score: referrer.referral_score || 0,
-        country: referrer.country || "Unknown",
-        flag: countryFlags[referrer.country || ""] || "🌐",
+      const topReferrers = data?.topReferrers || [];
+
+      // Map to expected format with flags
+      const referrers = topReferrers.map((r: any) => ({
+        name: r.name, // Already anonymized by edge function
+        score: r.score,
+        country: r.country,
+        flag: countryFlags[r.country] || "🌐",
       }));
 
       // If we have user's country, prioritize local leaders
@@ -82,13 +82,7 @@ export const PublicLeaderboard = () => {
     },
   });
 
-  const anonymizeName = (fullName: string) => {
-    const parts = fullName.trim().split(" ");
-    if (parts.length === 1) return parts[0];
-    const firstName = parts[0];
-    const lastInitial = parts[parts.length - 1][0];
-    return `${firstName} ${lastInitial}.`;
-  };
+  // anonymizeName function removed - handled by edge function
 
   const getMedalEmoji = (index: number) => {
     if (index === 0) return "🥇";
