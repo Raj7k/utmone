@@ -51,7 +51,7 @@ const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
-const URLShortenerUltimate = lazy(() => import("./pages/admin/URLShortenerUltimate"));
+const AIURLShortener = lazy(() => import("./pages/dashboard/AIURLShortener"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 
 // Admin pages
@@ -294,6 +294,7 @@ const App = () => (
               <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting/:linkId" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/ai-shortener" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AIURLShortener /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
@@ -304,7 +305,6 @@ const App = () => (
               {/* Admin Routes */}
               <Route path="/admin" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminDashboard /></AdminLayout></Suspense>} />
               <Route path="/admin/waitlist" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><WaitlistManagement /></AdminLayout></Suspense>} />
-              <Route path="/admin/url-shortener" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><URLShortenerUltimate /></AdminLayout></Suspense>} />
               <Route path="/admin/landing" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><LandingManagement /></AdminLayout></Suspense>} />
               <Route path="/admin/product" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><ProductAnalytics /></AdminLayout></Suspense>} />
               <Route path="/admin/system" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemMonitoring /></AdminLayout></Suspense>} />

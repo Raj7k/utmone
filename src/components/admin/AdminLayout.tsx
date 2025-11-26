@@ -12,8 +12,7 @@ import {
   ChevronRight,
   Activity,
   Flag,
-  TestTube,
-  Link2
+  TestTube
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -23,7 +22,6 @@ interface AdminLayoutProps {
 const navItems = [
   { path: "/admin", label: "dashboard", icon: LayoutDashboard },
   { path: "/admin/waitlist", label: "waitlist", icon: Users },
-  { path: "/admin/url-shortener", label: "url shortener", icon: Link2 },
   { path: "/admin/landing", label: "landing page", icon: Megaphone },
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
   { path: "/admin/system", label: "system monitoring", icon: Activity },
