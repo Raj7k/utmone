@@ -6,6 +6,7 @@
 import { useCallback } from 'react';
 import { generateSlugFromTitle } from '@/lib/slugify';
 import { DEFAULT_DOMAIN } from '@/lib/constants';
+import { generateSmartSlug } from '@/lib/smartUrlParser';
 
 export interface ProcessedURL {
   original: string;
@@ -77,17 +78,7 @@ export const useURLProcessing = () => {
 
   const generateSmartAlias = (url: string): string => {
     try {
-      const urlObj = new URL(url);
-      const domain = urlObj.hostname.replace('www.', '').split('.')[0];
-      const pathParts = urlObj.pathname.split('/').filter(Boolean);
-
-      if (pathParts.length > 0) {
-        const lastPart = pathParts[pathParts.length - 1];
-        const cleanPart = lastPart.replace(/[^a-z0-9]/gi, '').slice(0, 10);
-        return generateSlugFromTitle(`${domain}-${cleanPart}`);
-      }
-
-      return generateSlugFromTitle(domain);
+      return generateSmartSlug(url);
     } catch (error) {
       return generateRandomSlug();
     }
