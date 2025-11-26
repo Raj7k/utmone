@@ -30,7 +30,7 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { workspace_id, domain, links, skip_existing = false } = await req.json();
+    const { workspace_id, domain, links, skip_existing = false, folder_id, tags } = await req.json();
 
     if (!workspace_id || !links || !Array.isArray(links)) {
       throw new Error("invalid request body");
@@ -122,6 +122,7 @@ serve(async (req) => {
             path: "",
             slug,
             final_url: finalUrl,
+            folder_id: folder_id || null,
             utm_source: linkData.utm_source || null,
             utm_medium: linkData.utm_medium || null,
             utm_campaign: linkData.utm_campaign || null,
@@ -139,6 +140,22 @@ serve(async (req) => {
             error_code: createError.code || "CREATE_FAILED",
           });
           continue;
+        }
+
+        // Insert tags if provided
+        if (tags && tags.length > 0 && link) {
+          const tagInserts = tags.map((tag: string) => ({
+            link_id: link.id,
+            tag: tag.toLowerCase().trim(),
+          }));
+
+          const { error: tagError } = await supabase
+            .from('link_tags')
+            .insert(tagInserts);
+
+          if (tagError) {
+            console.error('Failed to insert tags:', tagError);
+          }
         }
 
         results.push({

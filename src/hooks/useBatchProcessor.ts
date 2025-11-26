@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
-interface BatchResult {
+export interface BatchResult {
   url: string;
   success: boolean;
   shortUrl?: string;
   slug?: string;
+  linkId?: string;
   error?: string;
 }
 
@@ -32,6 +33,8 @@ export const useBatchProcessor = (workspaceId: string, batchSize: number = 10) =
   const processBatch = async (
     batch: any[],
     domain: string,
+    folderId?: string | null,
+    tags?: string[],
     retries: number = 3
   ): Promise<BatchResult[]> => {
     for (let attempt = 1; attempt <= retries; attempt++) {
@@ -41,6 +44,8 @@ export const useBatchProcessor = (workspaceId: string, batchSize: number = 10) =
             workspace_id: workspaceId,
             domain,
             links: batch,
+            folder_id: folderId,
+            tags: tags || [],
           },
         });
 
@@ -51,6 +56,7 @@ export const useBatchProcessor = (workspaceId: string, batchSize: number = 10) =
           success: result.success,
           shortUrl: result.link ? `https://${domain}/${result.link.slug}` : undefined,
           slug: result.link?.slug,
+          linkId: result.link?.id,
           error: result.error,
         }));
       } catch (error: any) {
@@ -69,7 +75,7 @@ export const useBatchProcessor = (workspaceId: string, batchSize: number = 10) =
   };
 
   const processURLs = useCallback(
-    async (links: any[], domain: string) => {
+    async (links: any[], domain: string, folderId?: string | null, tags?: string[]) => {
       setState({
         stage: "parsing",
         currentBatch: 0,
@@ -99,7 +105,7 @@ export const useBatchProcessor = (workspaceId: string, batchSize: number = 10) =
           processedCount: i * batchSize,
         }));
 
-        const batchResults = await processBatch(batches[i], domain);
+        const batchResults = await processBatch(batches[i], domain, folderId, tags);
         allResults.push(...batchResults);
 
         setState((prev) => ({
