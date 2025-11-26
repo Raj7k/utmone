@@ -15,7 +15,7 @@ import { BulkSecuritySummary } from "./BulkSecuritySummary";
 import { useBulkValidation } from "@/hooks/useBulkValidation";
 import { BulkTemplateSelector } from "./BulkTemplateSelector";
 import { SaveBulkTemplateDialog } from "./SaveBulkTemplateDialog";
-import { useBatchProcessor } from "@/hooks/useBatchProcessor";
+import { useEnhancedBatchProcessor } from "@/hooks/useEnhancedBatchProcessor";
 import { useBulkLinkPreview } from "@/hooks/useBulkLinkPreview";
 import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
 import { BulkFolderSelector } from "./BulkFolderSelector";
@@ -29,6 +29,8 @@ import { ScheduledLinksManager } from "./ScheduledLinksManager";
 import { BulkUploadHistory } from "./BulkUploadHistory";
 import { BulkUploadAnalytics } from "./BulkUploadAnalytics";
 import { BatchLinkOperations } from "./BatchLinkOperations";
+import { ErrorRecovery } from "./ErrorRecovery";
+import { ValidationReport } from "./ValidationReport";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -73,7 +75,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   });
 
   const { validations, validateURLs, updateValidation, getStats } = useBulkValidation();
-  const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
+  const { state, results, processURLs, retryFailed, reset } = useEnhancedBatchProcessor(workspaceId, 10);
+  const [showErrorRecovery, setShowErrorRecovery] = useState(false);
   const { previews, isLoading: previewsLoading } = useBulkLinkPreview(urls);
   const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
   const persistence = useBulkUploadPersistence();
@@ -332,26 +335,41 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       });
 
     try {
-      await processURLs(links, selectedDomain, folderId, tags);
+      const batchResults = await processURLs(links, selectedDomain, folderId, tags);
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
       
       // Clear persistence on successful completion
       persistence.clearProgress();
       
-      const successCount = results.filter(r => r.success).length;
-      toast({
-        title: "bulk upload complete",
-        description: `${successCount} of ${links.length} links created successfully`,
-      });
+      const successCount = batchResults.filter(r => r.success).length;
+      const failedResultsCount = batchResults.filter(r => !r.success).length;
+      
+      if (failedResultsCount > 0) {
+        setShowErrorRecovery(true);
+        toast({
+          title: "Upload completed with errors",
+          description: `${successCount} succeeded, ${failedResultsCount} failed`,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Bulk upload complete",
+          description: `${successCount} of ${links.length} links created successfully`,
+        });
+      }
     } catch (error: any) {
       toast({
-        title: "processing error",
+        title: "Processing error",
         description: error.message,
         variant: "destructive",
       });
     }
   }, [validations, getStats, processURLs, selectedDomain, folderId, tags, queryClient, results, toast]);
+
+  const handleRetryFailed = async (urls: string[]) => {
+    await retryFailed(urls, selectedDomain, folderId, tags);
+  };
 
   const exportResults = useCallback(() => {
     const csvContent = [
@@ -675,6 +693,23 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             slug: r.slug || '',
           }))}
       />
+
+      {/* Validation Report */}
+      {validations.length > 0 && state.stage === "idle" && (
+        <ValidationReport 
+          validations={validations} 
+          stats={getStats()} 
+        />
+      )}
+
+      {/* Error Recovery */}
+      {showErrorRecovery && results.some(r => !r.success) && (
+        <ErrorRecovery
+          failedResults={results.filter(r => !r.success)}
+          onRetry={handleRetryFailed}
+          onDismiss={() => setShowErrorRecovery(false)}
+        />
+      )}
 
       {/* Analytics & Management Section */}
       {state.stage === "idle" && (
