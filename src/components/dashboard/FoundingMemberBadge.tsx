@@ -11,16 +11,22 @@ export const FoundingMemberBadge = () => {
     queryFn: async () => {
       if (!user?.email) return null;
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("early_access_requests")
         .select("badge")
         .eq("email", user.email)
         .eq("badge", "founding_member")
         .single();
 
+      if (error) {
+        console.error("Error fetching badge:", error);
+        return null;
+      }
+
       return data;
     },
     enabled: !!user?.email,
+    retry: false,
   });
 
   if (!earlyAccessData?.badge) return null;
