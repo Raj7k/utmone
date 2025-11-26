@@ -24,7 +24,7 @@ export default function GTMSettings() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('workspaces')
-        .select('gtm_container_id, ga4_measurement_id, ga4_api_secret')
+        .select('gtm_container_id, ga4_measurement_id, ga4_api_secret_encrypted')
         .eq('id', workspaceId)
         .single();
 
@@ -36,12 +36,22 @@ export default function GTMSettings() {
 
   const saveMutation = useMutation({
     mutationFn: async (data: { gtmId: string; ga4Id: string; ga4Secret: string }) => {
+      // Encrypt GA4 API secret if provided
+      let ga4SecretEncrypted = null;
+      if (data.ga4Secret) {
+        const { data: encryptData, error: encryptError } = await supabase.functions.invoke("encrypt-field", {
+          body: { plaintext: data.ga4Secret },
+        });
+        if (encryptError) throw encryptError;
+        ga4SecretEncrypted = encryptData.ciphertext;
+      }
+
       const { error } = await supabase
         .from('workspaces')
         .update({ 
           gtm_container_id: data.gtmId || null,
           ga4_measurement_id: data.ga4Id || null,
-          ga4_api_secret: data.ga4Secret || null
+          ga4_api_secret_encrypted: ga4SecretEncrypted
         })
         .eq('id', workspaceId);
 
@@ -91,7 +101,7 @@ export default function GTMSettings() {
   };
 
   const isConfigured = !!workspace?.gtm_container_id;
-  const isGA4Configured = !!workspace?.ga4_measurement_id && !!workspace?.ga4_api_secret;
+  const isGA4Configured = !!workspace?.ga4_measurement_id && !!workspace?.ga4_api_secret_encrypted;
 
   return (
     <div className="p-8 max-w-4xl">
@@ -192,8 +202,8 @@ export default function GTMSettings() {
               <Input
                 id="ga4ApiSecret"
                 type="password"
-                placeholder="Enter API Secret"
-                value={ga4ApiSecret || workspace?.ga4_api_secret || ""}
+                placeholder={workspace?.ga4_api_secret_encrypted ? "••••••••" : "Enter API Secret"}
+                value={ga4ApiSecret}
                 onChange={(e) => setGa4ApiSecret(e.target.value)}
                 className="font-mono"
               />

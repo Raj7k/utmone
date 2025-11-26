@@ -28,7 +28,7 @@ export const useLinkWebhooks = (workspaceId: string) => {
             event,
             data,
             webhookUrl: webhook.webhook_url,
-            secret: webhook.secret,
+            secretEncrypted: webhook.secret_encrypted,
           },
         });
       } catch (error) {

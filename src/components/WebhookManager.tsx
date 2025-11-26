@@ -17,7 +17,7 @@ interface WebhookSubscription {
   workspace_id: string;
   webhook_url: string;
   event_type: string;
-  secret: string | null;
+  secret_encrypted: string | null;
   is_active: boolean;
   created_at: string;
   created_by: string;
@@ -54,6 +54,16 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // Encrypt secret if provided
+      let secretEncrypted = null;
+      if (secretKey) {
+        const { data: encryptData, error: encryptError } = await supabase.functions.invoke("encrypt-field", {
+          body: { plaintext: secretKey },
+        });
+        if (encryptError) throw encryptError;
+        secretEncrypted = encryptData.ciphertext;
+      }
+
       const { data, error } = await supabase
         .from("webhook_subscriptions")
         .insert({
@@ -61,7 +71,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
           created_by: user.id,
           webhook_url: webhookUrl,
           event_type: selectedEvents.join(","),
-          secret: secretKey || null,
+          secret_encrypted: secretEncrypted,
           is_active: true,
         })
         .select()
@@ -104,7 +114,7 @@ export const WebhookManager = ({ workspaceId }: WebhookManagerProps) => {
           event: "test.ping",
           data: { message: "test webhook from utm.one", timestamp: new Date().toISOString() },
           webhookUrl: webhook.webhook_url,
-          secret: webhook.secret,
+          secretEncrypted: webhook.secret_encrypted,
         },
       });
 
