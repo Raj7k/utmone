@@ -309,12 +309,14 @@ All colors MUST be HSL.
   }
 }
 
-/* H1 Hero Gradient System - Readable dark gradient */
+/* H1 Hero Gradient System - Warm brown to teal to navy */
 .hero-gradient {
-  background: linear-gradient(to bottom, 
-    hsl(222 47% 11% / 1),        /* Rich dark blue-black (solid) */
-    hsl(222 47% 11% / 1) 50%,    /* Solid through middle */
-    hsl(222 47% 11% / 0.5)       /* Fade to 50% transparency */
+  background: linear-gradient(135deg,
+    hsl(20 80% 45%) 0%,          /* Warm rust brown */
+    hsl(20 100% 51%) 15%,        /* Blaze Orange */
+    hsl(184 89% 18%) 50%,        /* Deep Sea teal */
+    hsl(205 29% 13%) 85%,        /* Mirage navy */
+    hsl(205 29% 13%) 100%        /* Mirage navy solid */
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
