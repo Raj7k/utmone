@@ -1895,6 +1895,7 @@ export type Database = {
           ab_test_started_at: string | null
           ab_test_status: string | null
           ab_test_winner_id: string | null
+          activation_at: string | null
           approval_notes: string | null
           approval_status: string | null
           blacklist_status: string | null
@@ -1945,6 +1946,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          activation_at?: string | null
           approval_notes?: string | null
           approval_status?: string | null
           blacklist_status?: string | null
@@ -1997,6 +1999,7 @@ export type Database = {
           ab_test_started_at?: string | null
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
+          activation_at?: string | null
           approval_notes?: string | null
           approval_status?: string | null
           blacklist_status?: string | null
@@ -3691,7 +3694,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      link_status: "active" | "paused" | "archived"
+      link_status: "active" | "paused" | "archived" | "scheduled"
       plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
       report_frequency: "daily" | "weekly" | "monthly" | "custom"
       report_template:
@@ -3828,7 +3831,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      link_status: ["active", "paused", "archived"],
+      link_status: ["active", "paused", "archived", "scheduled"],
       plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
       report_frequency: ["daily", "weekly", "monthly", "custom"],
       report_template: [
