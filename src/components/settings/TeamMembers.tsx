@@ -6,8 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useTeamMembers } from "@/hooks/useTeamMembers";
-import { Trash2, Copy, CheckCircle } from "lucide-react";
+import { Trash2, Copy, CheckCircle, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface TeamMembersProps {
   workspaceId: string;
@@ -18,6 +20,7 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
   const [role, setRole] = useState("viewer");
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   
   const {
     members,
@@ -30,6 +33,29 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
     lastInvitation,
     clearLastInvitation,
   } = useTeamMembers(workspaceId);
+
+  const resendInviteMutation = useMutation({
+    mutationFn: async ({ email, role }: { email: string; role: string }) => {
+      const { error } = await supabase.functions.invoke("invite-team-member", {
+        body: { workspaceId, email, role },
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Invite resent",
+        description: "Invitation email has been resent successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["workspace-invitations", workspaceId] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to resend invite",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -162,6 +188,17 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
                     <TableCell>{new Date(invitation.expires_at).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => resendInviteMutation.mutate({
+                            email: invitation.email,
+                            role: invitation.role,
+                          })}
+                          disabled={resendInviteMutation.isPending}
+                        >
+                          <Send className="h-4 w-4" />
+                        </Button>
                         <Button
                           variant="ghost"
                           size="sm"

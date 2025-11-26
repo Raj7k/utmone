@@ -7,13 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, UserPlus } from "lucide-react";
+import { Mail, UserPlus, Copy, CheckCircle } from "lucide-react";
 
 export const AdminDirectInvite = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   const [accessLevel, setAccessLevel] = useState("2");
+  const [lastInviteToken, setLastInviteToken] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const sendInviteMutation = useMutation({
     mutationFn: async () => {
@@ -45,11 +47,12 @@ export const AdminDirectInvite = () => {
 
       return inviteToken;
     },
-    onSuccess: () => {
+    onSuccess: (inviteToken) => {
       toast({
         title: "Invite sent successfully",
         description: `Direct invite sent to ${email}`,
       });
+      setLastInviteToken(inviteToken);
       setEmail("");
       queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
     },
@@ -65,7 +68,20 @@ export const AdminDirectInvite = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+    setLastInviteToken(null);
     sendInviteMutation.mutate();
+  };
+
+  const copyInviteLink = () => {
+    if (!lastInviteToken) return;
+    const inviteUrl = `${window.location.origin}/claim-access?token=${lastInviteToken}`;
+    navigator.clipboard.writeText(inviteUrl);
+    setCopied(true);
+    toast({
+      title: "Link copied",
+      description: "Invitation link copied to clipboard",
+    });
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -118,6 +134,48 @@ export const AdminDirectInvite = () => {
             {sendInviteMutation.isPending ? "Sending..." : "Send invite"}
           </Button>
         </form>
+
+        {lastInviteToken && (
+          <div className="mt-4 p-4 bg-system-green/10 border border-system-green/20 rounded-lg space-y-3">
+            <div className="flex items-start gap-2">
+              <CheckCircle className="h-5 w-5 text-system-green mt-0.5 flex-shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium">Invite sent successfully!</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Share this link with the user:
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex gap-2">
+              <Input
+                readOnly
+                value={`${window.location.origin}/claim-access?token=${lastInviteToken}`}
+                className="text-xs font-mono"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={copyInviteLink}
+              >
+                {copied ? (
+                  <CheckCircle className="h-4 w-4 text-system-green" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLastInviteToken(null)}
+              className="text-xs"
+            >
+              Dismiss
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
