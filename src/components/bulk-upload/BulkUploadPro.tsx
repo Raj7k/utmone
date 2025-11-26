@@ -7,17 +7,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload } from "lucide-react";
+import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload, QrCode } from "lucide-react";
 import { DragDropUploader } from "./DragDropUploader";
 import { URLPreviewTable } from "./URLPreviewTable";
 import { ProcessingProgress } from "./ProcessingProgress";
 import { BulkSecuritySummary } from "./BulkSecuritySummary";
-import { useBulkValidation, URLValidation } from "@/hooks/useBulkValidation";
+import { useBulkValidation } from "@/hooks/useBulkValidation";
 import { BulkTemplateSelector } from "./BulkTemplateSelector";
 import { SaveBulkTemplateDialog } from "./SaveBulkTemplateDialog";
 import { useBatchProcessor } from "@/hooks/useBatchProcessor";
 import { useBulkLinkPreview } from "@/hooks/useBulkLinkPreview";
 import { useBulkSecurityScan } from "@/hooks/useBulkSecurityScan";
+import { BulkFolderSelector } from "./BulkFolderSelector";
+import { BulkTagInput } from "./BulkTagInput";
+import { BulkQRGenerator } from "./BulkQRGenerator";
 import { generateSlugFromTitle } from "@/lib/slugify";
 
 interface BulkUploadProProps {
@@ -30,6 +33,9 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
   const [urls, setUrls] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState("utm.click");
   const [manualInput, setManualInput] = useState("");
+  const [folderId, setFolderId] = useState<string | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [showQRGenerator, setShowQRGenerator] = useState(false);
   const [utmDefaults, setUtmDefaults] = useState({
     utm_source: "",
     utm_medium: "",
@@ -185,7 +191,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       });
 
     try {
-      await processURLs(links, selectedDomain);
+      await processURLs(links, selectedDomain, folderId, tags);
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
       
@@ -201,7 +207,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         variant: "destructive",
       });
     }
-  }, [validations, getStats, processURLs, selectedDomain, queryClient, results, toast]);
+  }, [validations, getStats, processURLs, selectedDomain, folderId, tags, queryClient, results, toast]);
 
   const exportResults = useCallback(() => {
     const csvContent = [
@@ -271,6 +277,20 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Organization Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-title-2">organization</CardTitle>
+              <CardDescription>assign folder and tags to all links</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-4">
+                <BulkFolderSelector value={folderId} onChange={setFolderId} />
+                <BulkTagInput value={tags} onChange={setTags} />
               </div>
             </CardContent>
           </Card>
@@ -418,6 +438,15 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
                 <Download className="h-4 w-4 mr-2" />
                 export results
               </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowQRGenerator(true)}
+                disabled={successCount === 0}
+                className="flex-1"
+              >
+                <QrCode className="h-4 w-4 mr-2" />
+                generate QR codes
+              </Button>
               <Button onClick={() => {
                 reset();
                 setUrls([]);
@@ -429,6 +458,18 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           </CardContent>
         </Card>
       )}
+
+      <BulkQRGenerator
+        open={showQRGenerator}
+        onOpenChange={setShowQRGenerator}
+        links={results
+          .filter(r => r.success && r.shortUrl && r.linkId)
+          .map(r => ({
+            id: r.linkId || '',
+            short_url: r.shortUrl || '',
+            slug: r.slug || '',
+          }))}
+      />
     </div>
   );
 };
