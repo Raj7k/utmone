@@ -11,6 +11,7 @@ import { DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -264,17 +265,18 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <WorkspaceProvider>
-            <SkipToContent />
-            <ScrollToTop />
-            <NetworkStatus />
-            <AppWithHelp>
-              <Routes>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <WorkspaceProvider>
+              <SkipToContent />
+              <ScrollToTop />
+              <NetworkStatus />
+              <AppWithHelp>
+                <Routes>
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -533,6 +535,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+    </ThemeProvider>
   </ErrorBoundary>
 );
 

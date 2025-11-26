@@ -184,86 +184,88 @@ All colors MUST be HSL.
 
   .dark {
     /* ============================================
-       APPLE SEMANTIC COLOR SYSTEM - DARK MODE
+       APPLE HIG DARK MODE - MATERIAL STYLE
+       No pure black (#000000) - use "Base" and "Elevated"
        ============================================ */
     
-    /* Label Colors (Text) - Dark Mode */
-    --label: 0 0% 100%;                    /* #FFFFFF */
-    --secondary-label: 235 4% 92% / 0.6;   /* #EBEBF5 60% */
-    --tertiary-label: 235 4% 92% / 0.3;    /* #EBEBF5 30% */
-    --quaternary-label: 235 4% 92% / 0.18; /* #EBEBF5 18% */
+    /* Label Colors (Text) - Opacity-based hierarchy */
+    --label: 0 0% 100%;                      /* White 100% */
+    --secondary-label: 0 0% 100% / 0.6;      /* White 60% */
+    --tertiary-label: 0 0% 100% / 0.3;       /* White 30% */
+    --quaternary-label: 0 0% 100% / 0.18;    /* White 18% */
     
     /* Fill Colors (UI Elements) - Dark Mode */
-    --fill-primary: 240 6% 50% / 0.36;     /* #787880 36% */
-    --fill-secondary: 240 6% 50% / 0.32;   /* #787880 32% */
-    --fill-tertiary: 240 5% 49% / 0.24;    /* #767680 24% */
+    --fill-primary: 240 6% 50% / 0.36;       /* #787880 36% */
+    --fill-secondary: 240 6% 50% / 0.32;     /* #787880 32% */
+    --fill-tertiary: 240 5% 49% / 0.24;      /* #767680 24% */
     
-    /* System Colors - Dark Mode */
-    --system-blue: 215 95% 65%;            /* #409CFF */
-    --system-green: 142 71% 55%;           /* #32D74B */
-    --system-red: 3 100% 62%;              /* #FF453A */
-    --system-orange: 38 100% 53%;          /* #FF9F0A */
-    --system-yellow: 48 100% 53%;          /* #FFD60A */
-    --system-teal: 186 68% 62%;            /* #5FD4E0 */
-    --system-indigo: 242 100% 72%;         /* #7E7CFF */
+    /* System Colors - Brighter for dark mode visibility */
+    --system-blue: 215 95% 65%;              /* #409CFF */
+    --system-green: 142 71% 55%;             /* #32D74B */
+    --system-red: 3 100% 62%;                /* #FF453A */
+    --system-orange: 38 100% 53%;            /* #FF9F0A */
+    --system-yellow: 48 100% 53%;            /* #FFD60A */
+    --system-teal: 186 68% 62%;              /* #5FD4E0 */
+    --system-indigo: 242 100% 72%;           /* #7E7CFF */
     
     /* System Grays - Dark Mode */
-    --system-gray: 240 4% 56%;             /* #8E8E93 */
-    --system-gray-2: 240 3% 40%;           /* #636366 */
-    --system-gray-3: 240 3% 29%;           /* #48484A */
-    --system-gray-4: 240 3% 23%;           /* #3A3A3C */
-    --system-gray-5: 240 5% 18%;           /* #2C2C2E */
-    --system-gray-6: 240 6% 11%;           /* #1C1C1E */
+    --system-gray: 240 4% 56%;               /* #8E8E93 */
+    --system-gray-2: 240 3% 40%;             /* #636366 */
+    --system-gray-3: 240 3% 29%;             /* #48484A */
+    --system-gray-4: 240 3% 23%;             /* #3A3A3C */
+    --system-gray-5: 240 5% 18%;             /* #2C2C2E */
+    --system-gray-6: 240 6% 11%;             /* #1C1C1E */
     
-    /* Background Colors - Dark Mode */
-    --system-background: 0 0% 0%;          /* #000000 */
-    --secondary-system-background: 240 6% 11%; /* #1C1C1E */
-    --tertiary-system-background: 240 5% 18%; /* #2C2C2E */
+    /* Base Background (Page) - #1C1C1E (NOT pure black) */
+    --system-background: 240 6% 11%;         /* #1C1C1E */
+    --secondary-system-background: 240 5% 18%; /* #2C2C2E - Elevated */
+    --tertiary-system-background: 240 4% 22%; /* #3A3A3C - Highest */
     
     /* Grouped Background Colors - Dark Mode */
-    --grouped-background: 0 0% 0%;         /* #000000 */
-    --secondary-grouped-background: 240 6% 11%; /* #1C1C1E */
-    --tertiary-grouped-background: 240 5% 18%; /* #2C2C2E */
+    --grouped-background: 240 6% 11%;        /* #1C1C1E */
+    --secondary-grouped-background: 240 5% 18%; /* #2C2C2E */
+    --tertiary-grouped-background: 240 4% 22%; /* #3A3A3C */
     
-    /* Separator Colors - Dark Mode */
-    --separator: 240 6% 34% / 0.6;         /* #545458 60% */
-    --opaque-separator: 240 5% 22%;        /* #38383A */
+    /* Separators - subtle in dark mode */
+    --separator: 0 0% 100% / 0.1;
+    --opaque-separator: 240 5% 26%;          /* #404040 */
 
     /* ============================================
-       LEGACY TOKENS - DARK MODE
+       LEGACY TOKENS (Mapped to Apple System)
        ============================================ */
-    --background: 0 0% 15%;
-    --foreground: 248 0.3% 98.4%;
+    --background: 240 6% 11%;                /* Base #1C1C1E */
+    --foreground: 0 0% 100%;                 /* White */
 
-    --card: 266 4% 20.8%;
-    --card-foreground: 248 0.3% 98.4%;
+    --card: 240 5% 18%;                      /* Elevated #2C2C2E */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 266 4% 20.8%;
-    --popover-foreground: 248 0.3% 98.4%;
+    --popover: 240 5% 18%;                   /* Elevated #2C2C2E */
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 256 1.3% 92.9%;
-    --primary-foreground: 266 4% 20.8%;
-    --primary-hover: 0 0% 90%;
+    /* Primary stays vibrant in dark mode */
+    --primary: 215 95% 65%;                  /* Brighter blue #409CFF */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 215 95% 55%;
 
-    --secondary: 260 4.1% 27.9%;
-    --secondary-foreground: 248 0.3% 98.4%;
-    --secondary-hover: 0 0% 70%;
+    --secondary: 240 5% 18%;                 /* Elevated surface */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 240 4% 22%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 98%;
+    --success: 142 71% 55%;
+    --success-foreground: 0 0% 100%;
 
-    --muted: 260 4.1% 27.9%;
-    --muted-foreground: 257 4% 70.4%;
+    --muted: 240 4% 22%;                     /* Slightly elevated */
+    --muted-foreground: 0 0% 100% / 0.6;     /* White 60% */
 
-    --accent: 260 4.1% 27.9%;
-    --accent-foreground: 248 0.3% 98.4%;
+    --accent: 240 4% 22%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 22 19.1% 70.4%;
-    --destructive-foreground: 248 0.3% 98.4%;
+    --destructive: 3 100% 62%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 100% / 10%;
-    --input: 0 0% 100% / 15%;
-    --ring: 264 2.7% 55.1%;
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.15;
+    --ring: 215 95% 65%;
 
     --gradient-primary: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(0, 0%, 90%) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 14.9%) 0%, hsl(0, 0%, 7%) 100%);
@@ -280,14 +282,14 @@ All colors MUST be HSL.
     --shadow-lg: 0 4px 32px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.6);
     --shadow-xl: 0 8px 48px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.7);
 
-    --sidebar-background: 0 0% 7%;
-    --sidebar-foreground: 248 0.3% 98.4%;
-    --sidebar-primary: 264 24.3% 48.8%;
-    --sidebar-primary-foreground: 248 0.3% 98.4%;
-    --sidebar-accent: 260 4.1% 27.9%;
-    --sidebar-accent-foreground: 248 0.3% 98.4%;
-    --sidebar-border: 0 0% 100% / 10%;
-    --sidebar-ring: 264 2.7% 55.1%;
+    --sidebar-background: 240 6% 9%;         /* Slightly darker than base */
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 215 95% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 5% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 100% / 0.08;
+    --sidebar-ring: 215 95% 65%;
 
     --chart-1: 264 24.3% 48.8%;
     --chart-2: 162 17% 69.6%;
@@ -409,6 +411,33 @@ All colors MUST be HSL.
   /* Apple-style transitions */
   .transition-apple {
     transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Apple "Materials" - Glassmorphism/Vibrancy */
+  .vibrancy {
+    @apply backdrop-blur-[20px] bg-card/80;
+  }
+  
+  .vibrancy-light {
+    @apply backdrop-blur-[20px] bg-white/80 dark:bg-card/80;
+  }
+  
+  .vibrancy-thick {
+    @apply backdrop-blur-[40px] bg-card/90;
+  }
+  
+  /* Image dimming for dark mode */
+  .dark-image-dim {
+    @apply dark:brightness-[0.85] dark:contrast-[1.05];
+  }
+  
+  /* Elevated surface (Cards, Modals, Dropdowns) */
+  .surface-elevated {
+    @apply bg-secondary-system-background;
+  }
+  
+  .surface-base {
+    @apply bg-system-background;
   }
 }
 
