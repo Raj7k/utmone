@@ -162,6 +162,9 @@ verify_jwt = false
 [functions.schedule-drip-emails]
 verify_jwt = false
 
+[functions.activate-scheduled-links]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
@@ -207,3 +210,8 @@ schedule = "0 * * * *"
 [[edge_runtime.scheduler]]
 function = "check-milestones"
 schedule = "*/30 * * * *"
+
+# Activate scheduled links - runs every 5 minutes
+[[edge_runtime.scheduler]]
+function = "activate-scheduled-links"
+schedule = "*/5 * * * *"
