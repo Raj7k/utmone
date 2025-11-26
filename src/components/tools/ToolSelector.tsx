@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link2, Zap, QrCode, Sparkles } from "lucide-react";
 
 interface ToolSelectorProps {
-  onSelectTool: (tool: "utm" | "shortener" | "qr" | "forge") => void;
+  onSelectTool: (tool: "utm" | "shortener" | "bulk" | "qr" | "forge") => void;
 }
 
 export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
@@ -18,6 +18,12 @@ export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
       name: "url shortener",
       description: "create short, memorable links",
       icon: Link2,
+    },
+    {
+      id: "bulk" as const,
+      name: "bulk shortener",
+      description: "process hundreds of urls at once",
+      icon: Zap,
     },
     {
       id: "qr" as const,
