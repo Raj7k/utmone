@@ -1,12 +1,17 @@
+import { useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Activity } from "lucide-react";
 import { useBulkUploadActivity } from "@/hooks/useBulkUploadActivity";
+import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
 import { formatDistanceToNow } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BulkUploadActivityLogProps {
   bulkUploadId: string;
+  workspaceId: string;
 }
 
 const actionTypeLabels: Record<string, string> = {
@@ -18,6 +23,7 @@ const actionTypeLabels: Record<string, string> = {
   rejected: "Rejected request",
   template_saved: "Saved template",
   template_applied: "Applied template",
+  assigned: "Assigned upload",
 };
 
 const actionTypeColors: Record<string, string> = {
@@ -29,38 +35,63 @@ const actionTypeColors: Record<string, string> = {
   rejected: "bg-red-100 text-red-800",
   template_saved: "bg-indigo-100 text-indigo-800",
   template_applied: "bg-cyan-100 text-cyan-800",
+  assigned: "bg-orange-100 text-orange-800",
 };
 
-export function BulkUploadActivityLog({ bulkUploadId }: BulkUploadActivityLogProps) {
+export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadActivityLogProps) {
   const { activities, isLoading } = useBulkUploadActivity(bulkUploadId);
+  const { getMemberName, getMemberAvatar } = useWorkspaceMembers(workspaceId);
+
+  // Real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('bulk-upload-activity')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'bulk_upload_activity',
+          filter: `bulk_upload_id=eq.${bulkUploadId}`
+        },
+        () => {
+          // Trigger refetch
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [bulkUploadId]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display text-title-3">
-          <Activity className="w-5 h-5 text-primary" />
+        <CardTitle className="flex items-center gap-2">
+          <Activity className="h-5 w-5" />
           Activity Timeline
         </CardTitle>
         <CardDescription>
-          Track all actions and changes for this bulk upload
+          track all actions and changes for this bulk upload
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[400px] pr-4">
           {isLoading ? (
             <div className="text-sm text-muted-foreground text-center py-8">
-              Loading activity...
+              loading activity...
             </div>
           ) : activities.length === 0 ? (
             <div className="text-sm text-muted-foreground text-center py-8">
-              No activity recorded yet
+              no activity recorded yet
             </div>
           ) : (
             <div className="relative space-y-4">
               {/* Timeline line */}
               <div className="absolute left-3 top-0 bottom-0 w-px bg-border" />
 
-              {activities.map((activity, index) => (
+              {activities.map((activity) => (
                 <div key={activity.id} className="relative flex gap-4">
                   {/* Timeline dot */}
                   <div className="relative z-10 flex-shrink-0 w-6 h-6 rounded-full bg-background border-2 border-primary flex items-center justify-center">
@@ -70,12 +101,20 @@ export function BulkUploadActivityLog({ bulkUploadId }: BulkUploadActivityLogPro
                   {/* Activity content */}
                   <div className="flex-1 pb-4">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <div>
-                        <div className="font-medium text-sm">
-                          User {activity.user_id.substring(0, 8)}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-6 w-6">
+                          <AvatarImage src={getMemberAvatar(activity.user_id) || undefined} />
+                          <AvatarFallback className="text-xs">
+                            {getMemberName(activity.user_id)[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium text-sm">
+                            {getMemberName(activity.user_id)}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                          </div>
                         </div>
                       </div>
                       <Badge
