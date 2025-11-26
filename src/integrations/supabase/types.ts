@@ -468,6 +468,47 @@ export type Database = {
         }
         Relationships: []
       }
+      api_key_access_logs: {
+        Row: {
+          accessed_at: string
+          api_key_id: string | null
+          endpoint: string | null
+          failure_reason: string | null
+          id: string
+          ip_address: string | null
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          accessed_at?: string
+          api_key_id?: string | null
+          endpoint?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          accessed_at?: string
+          api_key_id?: string | null
+          endpoint?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_key_access_logs_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       api_keys: {
         Row: {
           created_at: string | null
@@ -478,10 +519,13 @@ export type Database = {
           key_hash: string
           key_name: string
           key_prefix: string
+          last_rotated_at: string | null
           last_used_at: string | null
           rate_limit: number | null
           rate_limit_window: string | null
           requests_this_window: number | null
+          rotation_policy_days: number | null
+          rotation_required: boolean | null
           scopes: string[] | null
           window_reset_at: string | null
           workspace_id: string
@@ -495,10 +539,13 @@ export type Database = {
           key_hash: string
           key_name: string
           key_prefix: string
+          last_rotated_at?: string | null
           last_used_at?: string | null
           rate_limit?: number | null
           rate_limit_window?: string | null
           requests_this_window?: number | null
+          rotation_policy_days?: number | null
+          rotation_required?: boolean | null
           scopes?: string[] | null
           window_reset_at?: string | null
           workspace_id: string
@@ -512,10 +559,13 @@ export type Database = {
           key_hash?: string
           key_name?: string
           key_prefix?: string
+          last_rotated_at?: string | null
           last_used_at?: string | null
           rate_limit?: number | null
           rate_limit_window?: string | null
           requests_this_window?: number | null
+          rotation_policy_days?: number | null
+          rotation_required?: boolean | null
           scopes?: string[] | null
           window_reset_at?: string | null
           workspace_id?: string
@@ -3421,6 +3471,7 @@ export type Database = {
       }
     }
     Functions: {
+      check_key_rotation: { Args: never; Returns: undefined }
       check_rate_limit: {
         Args: {
           p_endpoint: string
@@ -3569,6 +3620,24 @@ export type Database = {
       }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
+      verify_api_key: {
+        Args: {
+          p_key_hash: string
+          p_key_prefix: string
+          p_workspace_id: string
+        }
+        Returns: {
+          is_active: boolean
+          key_id: string
+          key_name: string
+          rate_limit: number
+          rate_limit_window: string
+          requests_this_window: number
+          scopes: string[]
+          window_reset_at: string
+          workspace_id: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "user"
