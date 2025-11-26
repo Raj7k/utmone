@@ -53,7 +53,7 @@ export const StrategySelector = ({ strategy, onStrategyChange }: StrategySelecto
             className={`group relative p-4 rounded-xl border-2 transition-all text-left ${
               isActive
                 ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
-                : 'border-gray-800 bg-gray-900/30 hover:border-gray-700 hover:bg-gray-900/50'
+                : 'border-border bg-background hover:border-primary/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
             }`}
           >
             <div className={`inline-flex p-2 rounded-lg bg-gradient-to-br ${s.color} mb-2`}>

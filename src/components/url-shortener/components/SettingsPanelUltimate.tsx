@@ -58,10 +58,12 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
   return (
     <div className="space-y-6">
       {/* Duplicate Detection */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Shield className="h-5 w-5 text-primary" />
+            </div>
             Duplicate Detection
           </CardTitle>
           <CardDescription>
@@ -118,10 +120,12 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       </Card>
 
       {/* Version Management */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Settings className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Settings className="h-5 w-5 text-primary" />
+            </div>
             Version Management
           </CardTitle>
           <CardDescription>
@@ -195,10 +199,12 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       </Card>
 
       {/* Advanced Features */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Zap className="h-5 w-5 text-primary" />
+            </div>
             Advanced Features
             <Badge variant="secondary" className="text-xs ml-2">experimental</Badge>
           </CardTitle>
@@ -256,10 +262,12 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       </Card>
 
       {/* Auto-Archive */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Archive className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Archive className="h-5 w-5 text-primary" />
+            </div>
             Auto-Archive
           </CardTitle>
           <CardDescription>
@@ -304,10 +312,12 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       </Card>
 
       {/* Notifications */}
-      <Card className="bg-gray-900/30 border-gray-800">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Bell className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Bell className="h-5 w-5 text-primary" />
+            </div>
             Notifications
           </CardTitle>
           <CardDescription>

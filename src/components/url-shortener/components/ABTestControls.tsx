@@ -56,11 +56,13 @@ export const ABTestControls = ({
   };
 
   return (
-    <Card className="bg-gray-900/30 border-gray-800">
+    <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Split className="h-5 w-5 text-primary" />
+          <CardTitle className="text-title-2 flex items-center gap-2">
+            <div className="bg-primary/10 rounded-lg p-2">
+              <Split className="h-5 w-5 text-primary" />
+            </div>
             A/B Test Controls
           </CardTitle>
           <div className="flex items-center gap-2">
@@ -80,8 +82,8 @@ export const ABTestControls = ({
         {/* Test Status */}
         <div className={`p-4 rounded-lg border ${
           isActive 
-            ? 'bg-green-500/10 border-green-500/30' 
-            : 'bg-gray-800/50 border-gray-700'
+            ? 'bg-green-50 border-green-200' 
+            : 'bg-muted/20 border-border'
         }`}>
           <div className="flex items-center gap-3">
             {isActive ? (
@@ -114,8 +116,8 @@ export const ABTestControls = ({
                   key={variant.id}
                   className={`p-4 rounded-lg border ${
                     isWinner
-                      ? 'bg-gradient-to-br from-primary/20 to-primary/10 border-primary'
-                      : 'bg-gray-900/50 border-gray-800'
+                      ? 'bg-primary/5 border-primary'
+                      : 'bg-muted/10 border-border'
                   }`}
                 >
                   <div className="flex items-start justify-between mb-3">
@@ -223,7 +225,7 @@ export const ABTestControls = ({
               )}
             </div>
           ) : (
-            <div className="h-8 bg-gray-800 rounded-lg overflow-hidden flex">
+            <div className="h-8 bg-muted/20 rounded-lg overflow-hidden flex">
               {variants.map((variant, idx) => (
                 <div
                   key={variant.id}
@@ -240,7 +242,7 @@ export const ABTestControls = ({
         </div>
 
         {/* Declare Winner */}
-        <div className="pt-4 border-t border-gray-800">
+        <div className="pt-4 border-t border-border">
           <Button
             className="w-full"
             onClick={() => onDeclareWinner(winner.id)}
