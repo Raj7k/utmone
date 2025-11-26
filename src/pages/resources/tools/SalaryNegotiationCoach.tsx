@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { MessageSquare, Calculator, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -93,6 +94,14 @@ const SalaryNegotiationCoach = () => {
         { title: "Job Offer Analyzer", href: "/resources/tools/job-offer-analyzer", icon: TrendingUp }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Select your role", description: "Choose your current job title from the dropdown" },
+        { title: "Enter your details", description: "Input your current compensation and years of experience" },
+        { title: "Add offer details", description: "Include any offer you're evaluating (optional)" },
+        { title: "Generate scripts", description: "Click generate to receive AI-powered negotiation language" },
+        { title: "Practice & customize", description: "Use the scripts as a starting point and personalize for your situation" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">your information</CardTitle>

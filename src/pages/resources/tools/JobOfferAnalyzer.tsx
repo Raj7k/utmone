@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { TrendingUp, Calculator, MessageSquare, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -100,6 +101,13 @@ const JobOfferAnalyzer = () => {
         { title: "AI Salary Negotiation Coach", href: "/resources/tools/salary-negotiation-coach", icon: MessageSquare }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Enter offer details", description: "Input role, base salary, equity, and bonus information" },
+        { title: "Add location & company", description: "Specify location and company size for accurate comparison" },
+        { title: "Analyze offer", description: "Click analyze to compare against market benchmarks" },
+        { title: "Review AI insights", description: "Get AI-powered pros/cons analysis and recommendations" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">offer details</CardTitle>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { Calculator, MessageSquare, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SalaryFilters, FilterState } from "@/components/tools/SalaryFilters";
@@ -59,6 +60,13 @@ const MarketValueCalculator = () => {
         { title: "Career Path Optimizer", href: "/resources/tools/career-path-optimizer", icon: TrendingUp }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Select your role & location", description: "Choose your job title, location, and company size" },
+        { title: "Enter your current salary", description: "Input your total compensation including base and bonus" },
+        { title: "View your percentile", description: "See where you rank against the market median" },
+        { title: "Review market insights", description: "Get personalized recommendations based on your position" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">calculate your market value</CardTitle>

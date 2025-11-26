@@ -1,4 +1,5 @@
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { Sparkles, Calculator, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -47,6 +48,12 @@ const AIvsHumanROI = () => {
         { title: "Team Budget Optimizer", href: "/resources/tools/team-budget-optimizer", icon: Users }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Review automation risk scores", description: "See which roles are most at risk of AI replacement" },
+        { title: "Check AI skills premiums", description: "Understand salary increases for AI-related skills" },
+        { title: "Review future-proofing tips", description: "Learn which skills are least likely to be automated" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">role automation risk scores</CardTitle>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { AlertCircle, Calculator, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -76,6 +77,12 @@ const LinkedInRealityCheck = () => {
         { title: "Market Value Calculator", href: "/resources/tools/market-value-calculator", icon: Calculator }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Copy job description", description: "Find a LinkedIn job posting and copy the full text" },
+        { title: "Paste & analyze", description: "Paste the description and click analyze" },
+        { title: "Review red flags", description: "See unrealistic requirements and missing information flagged" }
+      ]} />
+
       <Alert>
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>

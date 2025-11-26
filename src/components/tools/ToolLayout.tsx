@@ -100,8 +100,15 @@ export const ToolLayout = ({
 
               <Alert>
                 <Info className="h-4 w-4" />
-                <AlertDescription className="text-sm">
-                  <strong>Data Sources:</strong> Salary benchmarks based on aggregated data from 1,000+ companies across marketing and sales operations roles.
+                <AlertDescription className="text-sm space-y-1">
+                  <strong>Data Sources:</strong>
+                  <ul className="mt-1 space-y-0.5 text-xs">
+                    <li>• 20,000+ survey respondents</li>
+                    <li>• SHRM Salary Database</li>
+                    <li>• Glassdoor, Payscale, Levels.fyi</li>
+                    <li>• 50,000+ job postings analyzed</li>
+                    <li>• 15+ countries covered</li>
+                  </ul>
                 </AlertDescription>
               </Alert>
 

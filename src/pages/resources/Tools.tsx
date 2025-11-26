@@ -146,14 +146,32 @@ const Tools = () => {
         </div>
       </section>
 
-      {/* Data Sources Note */}
-      <section className="py-12 bg-muted/20 border-y border-separator">
-        <div className="max-w-[980px] mx-auto px-8 text-center">
-          <p className="text-sm text-secondary-label">
-            All salary data sourced from 2026 Global Marketing & Sales Operations Benchmark Report
-            <br />
-            <span className="text-xs">Updated quarterly • Covering 2,000+ roles across 50+ markets</span>
-          </p>
+      {/* Data Sources Stats Grid */}
+      <section className="py-16 bg-muted/20 border-y border-separator">
+        <div className="max-w-[1100px] mx-auto px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-display font-bold mb-2 lowercase">
+              backed by real data
+            </h2>
+            <p className="text-secondary-label">
+              All tools powered by our 2026 Global Salary Benchmark Report
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { label: "Survey Respondents", value: "20,000+" },
+              { label: "SHRM Data Points", value: "500K+" },
+              { label: "Salary Records", value: "2M+" },
+              { label: "Job Postings", value: "50,000+" },
+              { label: "Countries", value: "15+" },
+              { label: "Roles Covered", value: "50+" }
+            ].map((stat) => (
+              <div key={stat.label} className="text-center p-4 bg-white rounded-xl border">
+                <div className="text-2xl font-display font-bold text-primary">{stat.value}</div>
+                <div className="text-xs text-secondary-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
