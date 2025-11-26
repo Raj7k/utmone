@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hideNav, setHideNav] = useState(false);
   const [announcementVisible, setAnnouncementVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
@@ -31,6 +32,7 @@ export const Navigation = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      setHideNav(window.scrollY > 600);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -68,10 +70,12 @@ export const Navigation = () => {
 
   return (
     <header 
-      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-apple ${
+      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky z-50 transition-all duration-300 ${
         announcementVisible ? "top-[48px]" : "top-0"
       } ${
         isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
+      } ${
+        hideNav ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100"
       }`}
     >
       {/* Scroll Progress Bar */}
