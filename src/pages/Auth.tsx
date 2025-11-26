@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Link as LinkIcon, UserPlus } from "lucide-react";
+import { ArrowLeft, Info } from "lucide-react";
+import { motion } from "framer-motion";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -326,157 +327,186 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
-      <div className="w-full max-w-md">
-        <div className="flex items-center justify-center mb-8">
-          <img 
-            src="/src/assets/utm-one-logo.svg" 
-            alt="utm.one" 
-            className="h-10 w-auto"
-          />
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle background gradient glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+      
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-8 relative z-10"
+      >
+        {/* Back to home link */}
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
+
+        <div className="text-center space-y-3">
+          <UtmOneLogo size="lg" className="justify-center" />
+          <h1 className="text-3xl font-display font-bold tracking-tight text-primary">Welcome back</h1>
+          <p className="text-muted-foreground">Sign in to your account or create a new one</p>
         </div>
 
         {invitationContext && (
-          <Card variant="grouped" className="mb-4 bg-system-blue/5 border-system-blue/20">
-            <CardContent className="py-4">
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-system-blue/10">
-                  <UserPlus className="h-5 w-5 text-system-blue" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-body-apple font-medium text-label mb-1">
-                    You've been invited to join {invitationContext.workspaceName}
-                  </p>
-                  <p className="text-footnote-apple text-secondary-label">
-                    <span className="font-medium">{invitationContext.inviterName}</span> invited you as{" "}
-                    <span className="font-medium">{invitationContext.role}</span>
-                  </p>
-                  <p className="text-footnote-apple text-tertiary-label mt-1">
-                    Create an account with <span className="font-medium text-secondary-label">{invitationContext.email}</span> to accept
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-start gap-3"
+          >
+            <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <div className="flex-1 space-y-1">
+              <p className="text-sm font-medium text-primary">
+                You've been invited to join utm.one
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {invitationContext.inviterName} has invited you to join their workspace
+                as a {invitationContext.role}. Complete your signup below.
+              </p>
+            </div>
+          </motion.div>
         )}
 
         <Tabs defaultValue={inviteToken ? "signup" : "signin"} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-fill-tertiary">
-            <TabsTrigger value="signin" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign In</TabsTrigger>
-            <TabsTrigger value="signup" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 bg-muted/50 p-1 rounded-full">
+            <TabsTrigger 
+              value="signin"
+              className="rounded-full data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            >
+              Sign in
+            </TabsTrigger>
+            <TabsTrigger 
+              value="signup"
+              className="rounded-full data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+            >
+              Sign up
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
-            <Card variant="grouped">
-              <CardHeader>
-                <CardTitle className="text-title-2">Welcome back</CardTitle>
-                <CardDescription className="text-body-apple text-secondary-label">Sign in to your account to continue</CardDescription>
+            <Card className="border-border/50 shadow-lg rounded-2xl">
+              <CardHeader className="space-y-1 pb-4">
+                <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
+                <CardDescription className="text-muted-foreground">Enter your credentials to access your account</CardDescription>
               </CardHeader>
-              <form onSubmit={handleSignIn}>
-                <CardContent className="space-y-4">
+              <CardContent className="p-8 pt-6">
+                <form onSubmit={handleSignIn} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-subheadline text-label">Email</Label>
+                    <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
+                      Email
+                    </label>
                     <Input
-                      variant="system"
                       id="signin-email"
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder="your@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      className="rounded-xl"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-subheadline text-label">Password</Label>
+                    <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
+                      Password
+                    </label>
                     <Input
-                      variant="system"
                       id="signin-password"
                       type="password"
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      className="rounded-xl"
                     />
-                    <button
-                      type="button"
-                      onClick={handleForgotPassword}
-                      className="text-sm text-system-blue hover:underline block"
-                      disabled={isLoading}
-                    >
-                      Forgot password?
-                    </button>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Signing in..." : "Sign in"}
+                  <Button type="submit" className="w-full rounded-full" disabled={isLoading}>
+                    {isLoading ? "Signing in…" : "Sign in"}
                   </Button>
-                </CardFooter>
-              </form>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="w-full rounded-full"
+                    onClick={handleForgotPassword}
+                  >
+                    Forgot password?
+                  </Button>
+                </form>
+              </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="signup">
-            <Card variant="grouped">
-              <CardHeader>
-                <CardTitle className="text-title-2">Create an account</CardTitle>
-                <CardDescription className="text-body-apple text-secondary-label">Enter your details to get started</CardDescription>
+            <Card className="border-border/50 shadow-lg rounded-2xl">
+              <CardHeader className="space-y-1 pb-4">
+                <CardTitle className="text-2xl font-display font-bold">Create an account</CardTitle>
+                <CardDescription className="text-muted-foreground">Sign up to get started with utm.one</CardDescription>
               </CardHeader>
-              <form onSubmit={handleSignUp}>
-                <CardContent className="space-y-4">
+              <CardContent className="p-8 pt-6">
+                <form onSubmit={handleSignUp} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="signup-name" className="text-subheadline text-label">Full Name</Label>
+                    <label htmlFor="signup-fullname" className="text-sm font-medium text-foreground">
+                      Full name
+                    </label>
                     <Input
-                      variant="system"
-                      id="signup-name"
+                      id="signup-fullname"
                       type="text"
                       placeholder="John Doe"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       required
+                      className="rounded-xl"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-subheadline text-label">Email</Label>
+                    <label htmlFor="signup-email" className="text-sm font-medium text-foreground">
+                      Email
+                    </label>
                     <Input
-                      variant="system"
                       id="signup-email"
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder="your@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      disabled={!!invitationContext}
+                      className="rounded-xl"
+                      readOnly={!!invitationContext}
                     />
                     {invitationContext && (
-                      <p className="text-footnote-apple text-tertiary-label">Email from invitation</p>
+                      <p className="text-xs text-muted-foreground">
+                        This email is pre-filled from your invitation
+                      </p>
                     )}
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-subheadline text-label">Password</Label>
+                    <label htmlFor="signup-password" className="text-sm font-medium text-foreground">
+                      Password
+                    </label>
                     <Input
-                      variant="system"
                       id="signup-password"
                       type="password"
-                      placeholder="Enter your password (min 6 characters)"
+                      placeholder="Create a password (min 6 characters)"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      minLength={6}
+                      className="rounded-xl"
                     />
-                    <p className="text-footnote-apple text-tertiary-label">Minimum 6 characters</p>
+                    <p className="text-xs text-muted-foreground">
+                      Must be at least 6 characters
+                    </p>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="system" type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Creating account..." : invitationContext ? "Create account & join →" : "Sign up"}
+                  <Button type="submit" className="w-full rounded-full" disabled={isLoading}>
+                    {isLoading ? "Creating account…" : "Create account"}
                   </Button>
-                </CardFooter>
-              </form>
+                </form>
+              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
+      </motion.div>
     </div>
   );
 };
