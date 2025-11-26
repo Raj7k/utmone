@@ -9,24 +9,18 @@ export const SocialProofStats = () => {
   const { data: stats } = useQuery({
     queryKey: ["waitlist-stats"],
     queryFn: async () => {
-      const { count: totalCount } = await supabase
-        .from("early_access_requests")
-        .select("*", { count: "exact", head: true });
+      // Use secure edge function to get stats (no PII exposure)
+      const { data, error } = await supabase.functions.invoke("get-waitlist-stats");
 
-      const { count: approvedCount } = await supabase
-        .from("early_access_requests")
-        .select("*", { count: "exact", head: true })
-        .eq("status", "approved");
-
-      const { count: referralCount } = await supabase
-        .from("early_access_requests")
-        .select("*", { count: "exact", head: true })
-        .gt("referral_score", 0);
+      if (error) {
+        console.error("Error fetching waitlist stats:", error);
+        return { total: 0, approved: 0, referrals: 0 };
+      }
 
       return {
-        total: totalCount || 0,
-        approved: approvedCount || 0,
-        referrals: referralCount || 0,
+        total: data?.totalCount || 0,
+        approved: data?.approvedCount || 0,
+        referrals: data?.referralCount || 0,
       };
     },
   });

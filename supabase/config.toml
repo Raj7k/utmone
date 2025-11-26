@@ -138,6 +138,9 @@ verify_jwt = false
 [functions.detect-location]
 verify_jwt = false
 
+[functions.get-waitlist-stats]
+verify_jwt = false
+
 [functions.cleanup-old-analytics]
 verify_jwt = false
 
