@@ -98,19 +98,26 @@ const Auth = () => {
   };
 
   const checkEmailAllowed = async (email: string): Promise<{allowed: boolean; reason: string; message?: string}> => {
-    // FIRST: Check if this email belongs to an admin user
-    const { data: adminCheck } = await supabase
+    // FIRST: Check if this email belongs to an admin user using two-step query
+    // Step 1: Get user_id from profiles
+    const { data: profile } = await supabase
       .from("profiles")
-      .select(`
-        id,
-        user_roles!inner(role)
-      `)
+      .select("id")
       .eq("email", email.toLowerCase())
-      .eq("user_roles.role", "admin")
-      .single();
+      .maybeSingle();
 
-    if (adminCheck) {
-      return { allowed: true, reason: "admin" };
+    if (profile) {
+      // Step 2: Check if this user has admin role
+      const { data: adminRole } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", profile.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (adminRole) {
+        return { allowed: true, reason: "admin" };
+      }
     }
 
     // THEN: Check early_access_requests for approved status
@@ -118,7 +125,9 @@ const Auth = () => {
       .from("early_access_requests")
       .select("status")
       .eq("email", email.toLowerCase())
-      .single();
+      .eq("status", "approved")
+      .limit(1)
+      .maybeSingle();
 
     if (request?.status === "approved") {
       return { allowed: true, reason: "approved" };
@@ -131,7 +140,7 @@ const Auth = () => {
       .eq("email", email.toLowerCase())
       .is("claimed_at", null)
       .gt("expires_at", new Date().toISOString())
-      .single();
+      .maybeSingle();
 
     if (invite) {
       return { allowed: true, reason: "invited" };
