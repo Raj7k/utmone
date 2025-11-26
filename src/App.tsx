@@ -15,6 +15,7 @@ import { AppWithHelp } from "./components/AppWithHelp";
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 
 // Lazy-loaded pages for code splitting
@@ -274,6 +275,7 @@ const App = () => (
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
                
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
