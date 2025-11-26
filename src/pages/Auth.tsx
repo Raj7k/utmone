@@ -54,14 +54,21 @@ const Auth = () => {
           return;
         }
 
-        // Check if user has any workspaces
-        const { data: workspaces } = await supabase
+        // Check if user has any workspaces (owned or member)
+        const { data: ownedWorkspaces } = await supabase
           .from("workspaces")
           .select("id")
-          .or(`owner_id.eq.${session.user.id}`);
+          .eq("owner_id", session.user.id);
+
+        const { data: memberWorkspaces } = await supabase
+          .from("workspace_members")
+          .select("workspace_id")
+          .eq("user_id", session.user.id);
+        
+        const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
         
         // New users without workspaces go to onboarding
-        if (!workspaces || workspaces.length === 0) {
+        if (!hasWorkspaces) {
           navigate("/onboarding");
         } else {
           navigate("/dashboard");
