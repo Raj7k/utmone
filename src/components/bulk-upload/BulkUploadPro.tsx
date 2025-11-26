@@ -33,6 +33,10 @@ import { ErrorRecovery } from "./ErrorRecovery";
 import { ValidationReport } from "./ValidationReport";
 import { NotificationSettings, type NotificationPreferences } from "./NotificationSettings";
 import { PerformanceMonitor } from "./PerformanceMonitor";
+import { BulkUploadComments } from "./BulkUploadComments";
+import { BulkUploadApprovalWorkflow } from "./BulkUploadApprovalWorkflow";
+import { BulkUploadActivityLog } from "./BulkUploadActivityLog";
+import { SharedTemplatesManager } from "./SharedTemplatesManager";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -771,6 +775,28 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       {/* Analytics & Management Section */}
       {state.stage === "idle" && (
         <div className="space-y-6 mt-8">
+          <div className="border-t pt-8">
+            <h2 className="text-2xl font-display font-semibold mb-6">team collaboration</h2>
+            
+            <div className="grid gap-6 md:grid-cols-2">
+              {/* Comments on bulk uploads */}
+              {results.length > 0 && (
+                <BulkUploadComments bulkUploadId={`bulk-${Date.now()}`} />
+              )}
+              
+              {/* Approval Workflow */}
+              <BulkUploadApprovalWorkflow workspaceId={workspaceId} />
+              
+              {/* Activity Log */}
+              {results.length > 0 && (
+                <BulkUploadActivityLog bulkUploadId={`bulk-${Date.now()}`} />
+              )}
+              
+              {/* Shared Templates */}
+              <SharedTemplatesManager workspaceId={workspaceId} />
+            </div>
+          </div>
+
           <div className="border-t pt-8">
             <h2 className="text-2xl font-display font-semibold mb-6">analytics & management</h2>
             
