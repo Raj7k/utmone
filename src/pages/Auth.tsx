@@ -32,17 +32,17 @@ const Auth = () => {
     role: string;
   } | null>(null);
 
-  // Start minimum loading timer when loading begins
+  // Start minimum loading timer when authenticating (after sign in)
   useEffect(() => {
-    if (isCheckingSession || isAuthenticating) {
+    if (isAuthenticating) {
       setMinimumLoadingComplete(false);
-      // Show loading screen for minimum 4 seconds
+      // Show loading screen for minimum 2 seconds
       const timer = setTimeout(() => {
         setMinimumLoadingComplete(true);
-      }, 4000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [isCheckingSession, isAuthenticating]);
+  }, [isAuthenticating]);
 
   // Navigate only when both minimum timer complete AND navigation ready
   useEffect(() => {
@@ -60,17 +60,28 @@ const Auth = () => {
     }
 
     // Check if user is already logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        // If has invite token, redirect to accept-invite
-        if (inviteToken) {
-          setPendingNavigation(`/accept-invite?token=${inviteToken}`);
-        } else {
-          setPendingNavigation("/dashboard");
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (session) {
+          // If has invite token, redirect to accept-invite
+          if (inviteToken) {
+            setPendingNavigation(`/accept-invite?token=${inviteToken}`);
+          } else {
+            setPendingNavigation("/dashboard");
+          }
         }
-      }
-      setIsCheckingSession(false);
-    });
+      })
+      .catch((error) => {
+        console.error("Session check failed:", error);
+        toast({
+          title: "Authentication Error",
+          description: "Failed to check authentication status. Please try again.",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsCheckingSession(false);
+      });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -290,8 +301,13 @@ const Auth = () => {
     });
   };
 
-  // Show loading screen during session check or authentication
-  if (isCheckingSession || isAuthenticating) {
+  // Show loading screen while checking session
+  if (isCheckingSession) {
+    return <AuthLoadingScreen />;
+  }
+
+  // Show loading screen while authenticating (only if minimum timer not complete)
+  if (isAuthenticating && !minimumLoadingComplete) {
     return <AuthLoadingScreen />;
   }
 
