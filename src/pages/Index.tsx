@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/magnetic";
 import { 
   Link as LinkIcon, 
   QrCode, 
@@ -109,18 +110,19 @@ const Index = () => {
                     transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                     className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                   >
-                    <Button
+                    <MagneticButton
                       size="lg"
                       variant="marketing"
-                      className="text-base px-8 py-6 rounded-full font-medium hover:scale-105 transition-transform"
+                      className="text-base px-8 py-6 rounded-full font-medium"
                       onClick={() => trackCTAClick('hero-cta')}
                       asChild
+                      strength={0.25}
                     >
                       <Link to="/early-access">
                         {variant.cta}
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Link>
-                    </Button>
+                    </MagneticButton>
                   </motion.div>
                   <motion.p
                     initial={{ opacity: 0 }}

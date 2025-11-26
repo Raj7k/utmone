@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/magnetic";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
@@ -120,15 +121,16 @@ export default function EarlyAccess() {
             </p>
           </AnimatedHeadline>
           <AnimatedHeadline delay={300}>
-            <Button 
+            <MagneticButton 
               size="lg" 
-              className="rounded-full px-10 py-7 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
+              className="rounded-full px-10 py-7 text-lg shadow-lg hover:shadow-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
               onClick={() => {
                 document.getElementById('early-access-form')?.scrollIntoView({ behavior: 'smooth' });
               }}
+              strength={0.25}
             >
               {heroVariant.cta}
-            </Button>
+            </MagneticButton>
             <p className="text-sm text-muted-foreground/70 mt-4">
               {heroVariant.microcopy}
             </p>

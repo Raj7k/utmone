@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/magnetic";
 import { useState, useEffect } from "react";
 import { announcements } from "@/lib/announcementConfig";
 import { AnnouncementScheduler } from "@/lib/announcementScheduler";
@@ -524,9 +525,9 @@ export const Navigation = () => {
 
                   <div className="border-t pt-4">
                     <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
-                      <Button className="w-full rounded-full">
+                      <MagneticButton className="w-full rounded-full" strength={0.15}>
                         Get Early Access
-                      </Button>
+                      </MagneticButton>
                     </Link>
                   </div>
                 </nav>
@@ -537,19 +538,14 @@ export const Navigation = () => {
           {/* Right: CTA */}
           <div className="flex items-center gap-3">
             <Link to="/early-access">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+              <MagneticButton
+                variant="default"
+                size="sm"
+                className="font-medium rounded-full"
+                strength={0.2}
               >
-                <Button 
-                  variant="default"
-                  size="sm"
-                  className="font-medium rounded-full"
-                >
-                  get early access
-                </Button>
-              </motion.div>
+                get early access
+              </MagneticButton>
             </Link>
           </div>
         </nav>
