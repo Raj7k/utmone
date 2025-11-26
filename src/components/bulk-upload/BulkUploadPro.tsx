@@ -24,6 +24,7 @@ import { BulkQRGenerator } from "./BulkQRGenerator";
 import { UTMTemplateManager } from "./UTMTemplateManager";
 import { BulkLinkSettings, type BulkLinkSettingsData } from "./BulkLinkSettings";
 import { UTMValidationRules, type UTMValidationRule } from "./UTMValidationRules";
+import { ScheduleSettings, type ScheduleData } from "./ScheduleSettings";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -46,6 +47,11 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
     redirect_type: "302",
   });
   const [validationRules, setValidationRules] = useState<UTMValidationRule[]>([]);
+  const [schedule, setSchedule] = useState<ScheduleData>({
+    enabled: false,
+    activationDate: null,
+    activationTime: "09:00",
+  });
   const [showResumeBanner, setShowResumeBanner] = useState(false);
   const [savedProgress, setSavedProgress] = useState<any>(null);
   const [utmDefaults, setUtmDefaults] = useState({
@@ -290,6 +296,17 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
       }
     }
 
+    // Calculate activation timestamp if scheduling is enabled
+    let activationAt: string | undefined;
+    let status: 'active' | 'scheduled' = 'active';
+    if (schedule.enabled && schedule.activationDate && schedule.activationTime) {
+      const [hours, minutes] = schedule.activationTime.split(':').map(Number);
+      const timestamp = new Date(schedule.activationDate);
+      timestamp.setHours(hours, minutes, 0, 0);
+      activationAt = timestamp.toISOString();
+      status = 'scheduled';
+    }
+
     // Prepare links for creation with custom slugs, UTM parameters, and advanced settings
     const links = validations
       .filter(v => v.isValid && !v.isDuplicate)
@@ -304,6 +321,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
           utm_campaign: v.utm_campaign,
           utm_term: v.utm_term,
           utm_content: v.utm_content,
+          status,
+          activation_at: activationAt,
           ...linkSettings,
         };
       });
@@ -471,6 +490,9 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
 
         {/* UTM Validation Rules */}
         <UTMValidationRules rules={validationRules} onChange={setValidationRules} />
+
+        {/* Schedule Settings */}
+        <ScheduleSettings schedule={schedule} onChange={setSchedule} />
 
           <Card>
             <CardHeader>

@@ -43,6 +43,8 @@ serve(async (req) => {
       utm_campaign?: string;
       utm_term?: string;
       utm_content?: string;
+      status?: 'active' | 'scheduled';
+      activation_at?: string | null;
       expires_at?: string | null;
       max_clicks?: number | null;
       custom_expiry_message?: string | null;
@@ -166,6 +168,8 @@ serve(async (req) => {
             slug,
             final_url: finalUrl,
             folder_id: folder_id || null,
+            status: linkData.status || 'active',
+            activation_at: linkData.activation_at || null,
             utm_source: linkData.utm_source || null,
             utm_medium: linkData.utm_medium || null,
             utm_campaign: linkData.utm_campaign || null,
