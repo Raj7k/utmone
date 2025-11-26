@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { Users, Calculator, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,13 @@ const TeamBudgetOptimizer = () => {
         { title: "Career Path Optimizer", href: "/resources/tools/career-path-optimizer", icon: TrendingUp }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Enter your budget", description: "Input total hiring budget (minimum $50,000)" },
+        { title: "Select team goals", description: "Check objectives your team needs to achieve" },
+        { title: "Generate recommendations", description: "Click generate to see optimal team composition" },
+        { title: "Review alternatives", description: "Explore different seniority and role combinations" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">budget & goals</CardTitle>

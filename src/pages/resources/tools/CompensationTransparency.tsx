@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { Shield, Calculator, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,13 @@ const CompensationTransparency = () => {
         { title: "Team Budget Optimizer", href: "/resources/tools/team-budget-optimizer", icon: Users }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Select the role", description: "Choose the job title you want to create salary bands for" },
+        { title: "Review recommended bands", description: "See 25th, 50th, and 75th percentile salary ranges" },
+        { title: "Copy job posting range", description: "Use the generated salary range text for your job listings" },
+        { title: "Get transparency badge", description: "Embed the 'We Pay Fair' badge on your careers page" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">generate salary bands</CardTitle>

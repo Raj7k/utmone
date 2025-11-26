@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 import { TrendingUp, MessageSquare, Calculator } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -38,6 +39,12 @@ const CareerPathOptimizer = () => {
         { title: "AI Salary Negotiation Coach", href: "/resources/tools/salary-negotiation-coach", icon: MessageSquare }
       ]}
     >
+      <HowToUse steps={[
+        { title: "Select your current role", description: "Choose your current position from the dropdown" },
+        { title: "View recommended paths", description: "See optimal next roles with salary increases and timelines" },
+        { title: "Review skill requirements", description: "Understand what skills you need to develop for each path" }
+      ]} />
+
       <Card>
         <CardHeader>
           <CardTitle className="lowercase">your current role</CardTitle>
