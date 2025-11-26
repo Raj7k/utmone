@@ -179,6 +179,5 @@ export default function LandingManagement() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
   );
 }

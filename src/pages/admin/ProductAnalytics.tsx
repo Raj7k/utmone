@@ -198,6 +198,5 @@ export default function ProductAnalytics() {
           </CardContent>
         </Card>
       </div>
-    </div>
   );
 }
