@@ -12,6 +12,7 @@ import { SkipToContent } from "./components/SkipToContent";
 import { NetworkStatus } from "./components/ui/network-status";
 import { AppWithHelp } from "./components/AppWithHelp";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { AnimatedRoutes } from "@/components/transitions/AnimatedRoutes";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -276,7 +277,8 @@ const App = () => (
               <ScrollToTop />
               <NetworkStatus />
               <AppWithHelp>
-                <Routes>
+                <AnimatedRoutes>
+                  <Routes>
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -530,6 +532,7 @@ const App = () => (
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<Suspense fallback={<DashboardSkeleton />}><NotFound /></Suspense>} />
             </Routes>
+            </AnimatedRoutes>
             </AppWithHelp>
           </WorkspaceProvider>
         </BrowserRouter>
