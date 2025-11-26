@@ -2,6 +2,7 @@ import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { SEO } from "@/components/seo/SEO";
 
 const Checklists = () => {
   const checklists = [
@@ -33,6 +34,12 @@ const Checklists = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Checklists - UTM Audit & Campaign Launch"
+        description="Actionable checklists for UTM audits, campaign launches, and analytics health checks. Free marketing operations checklists."
+        canonical="https://utm.one/resources/checklists"
+        keywords={['UTM audit checklist', 'campaign launch checklist', 'analytics health check', 'marketing checklists', 'tracking audit']}
+      />
       <Navigation />
 
       <section className="py-20 bg-background border-b border-separator">

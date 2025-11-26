@@ -3,6 +3,7 @@ import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SEO } from "@/components/seo/SEO";
 
 const Frameworks = () => {
   const frameworks = [
@@ -35,6 +36,12 @@ const Frameworks = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Frameworks - Analytics & Tracking Models"
+        description="Proprietary mental models for clean tracking, minimal analytics, UTM governance, and attribution clarity. Free marketing frameworks."
+        canonical="https://utm.one/resources/frameworks"
+        keywords={['clean track framework', 'analytics framework', 'attribution model', 'marketing ops framework', 'B2B attribution']}
+      />
       <Navigation />
 
       <section className="py-20 bg-background border-b border-separator">

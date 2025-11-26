@@ -1,10 +1,20 @@
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Navigation } from "@/components/landing/Navigation";
+import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Privacy Policy"
+        description="utm.one privacy policy: what data we collect, why we collect it, how long we keep it, your rights (access, export, delete), and GDPR/CCPA compliance."
+        canonical="https://utm.one/privacy-policy"
+        keywords={['privacy policy', 'data protection', 'GDPR', 'CCPA', 'user privacy']}
+      />
+      <Navigation />
       <div className="max-w-4xl mx-auto px-6 py-16">
         <Link to="/">
           <Button variant="ghost" size="sm" className="mb-8">
@@ -120,6 +130,7 @@ export default function PrivacyPolicy() {
           </section>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

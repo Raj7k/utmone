@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, Shield, CheckCircle2, AlertCircle, Layers, FileText, Zap, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { SEO } from "@/components/seo/SEO";
+import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
@@ -14,6 +16,24 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 const Marketers = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="utm.one for Marketers"
+        description="Campaigns work better when links do. utm.one gives marketers clean links, clean UTMs, clean QR codes, and clean reporting — all without slowing you down."
+        canonical="https://utm.one/solutions/marketers"
+        keywords={['marketing automation', 'campaign tracking', 'UTM parameters', 'link management for marketers', 'marketing analytics']}
+      />
+      <WebPageSchema 
+        name="utm.one for Marketers"
+        description="Campaigns work better when links do. utm.one gives marketers clean links, clean UTMs, clean QR codes, and clean reporting."
+        url="https://utm.one/solutions/marketers"
+      />
+      <BreadcrumbSchema 
+        items={[
+          { name: 'Home', url: 'https://utm.one' },
+          { name: 'Solutions', url: 'https://utm.one/solutions' },
+          { name: 'Marketers', url: 'https://utm.one/solutions/marketers' }
+        ]}
+      />
       <Navigation />
 
       {/* Fold 1: Hero */}
