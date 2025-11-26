@@ -238,7 +238,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
   useEffect(() => {
     // Generate preview URLs using Supabase edge function URL
     const slug = values.slug || "your-slug";
-    const domain = values.domain || "keka.com";
+    const domain = values.domain || "utm.one";
     const path = values.path || "go";
     
     // Use Supabase edge function URL for actual redirects
@@ -553,9 +553,9 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-popover border border-border z-50">
-                      <SelectItem value="keka.com">keka.com</SelectItem>
-                      <SelectItem value="go.keka.com">go.keka.com</SelectItem>
-                      <SelectItem value="events.keka.com">events.keka.com</SelectItem>
+                      <SelectItem value="utm.one">utm.one</SelectItem>
+                      <SelectItem value="go.utm.one">go.utm.one</SelectItem>
+                      <SelectItem value="links.utm.one">links.utm.one</SelectItem>
                     </SelectContent>
                   </Select>
                   
