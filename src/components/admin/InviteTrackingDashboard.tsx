@@ -1,13 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { Mail, CheckCircle2, Clock, XCircle, Send } from "lucide-react";
+import { Mail, CheckCircle2, Clock, XCircle, Send, Copy } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export function InviteTrackingDashboard() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [copiedToken, setCopiedToken] = useState<string | null>(null);
+  
   const { data: invites, isLoading } = useQuery({
     queryKey: ['early-access-invites'],
     queryFn: async () => {
@@ -20,6 +26,39 @@ export function InviteTrackingDashboard() {
       return data;
     },
   });
+
+  const resendInviteMutation = useMutation({
+    mutationFn: async ({ email, accessLevel, inviteToken }: { email: string; accessLevel: number; inviteToken: string }) => {
+      const { error } = await supabase.functions.invoke("send-approval-email", {
+        body: { email, accessLevel, inviteToken },
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Invite resent",
+        description: "Invitation email has been resent successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to resend invite",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const copyInviteLink = (token: string) => {
+    const inviteUrl = `${window.location.origin}/claim-access?token=${token}`;
+    navigator.clipboard.writeText(inviteUrl);
+    setCopiedToken(token);
+    toast({
+      title: "Link copied",
+      description: "Invitation link copied to clipboard",
+    });
+    setTimeout(() => setCopiedToken(null), 2000);
+  };
 
   const stats = {
     total: invites?.length || 0,
@@ -137,10 +176,33 @@ export function InviteTrackingDashboard() {
                     </TableCell>
                     <TableCell>
                       {!invite.claimed_at && new Date(invite.expires_at) > new Date() && (
-                        <Button variant="ghost" size="sm" className="gap-2">
-                          <Send className="h-3 w-3" />
-                          Resend
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => resendInviteMutation.mutate({
+                              email: invite.email,
+                              accessLevel: invite.access_level,
+                              inviteToken: invite.invite_token,
+                            })}
+                            disabled={resendInviteMutation.isPending}
+                          >
+                            <Send className="h-3 w-3" />
+                            Resend
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyInviteLink(invite.invite_token)}
+                          >
+                            {copiedToken === invite.invite_token ? (
+                              <CheckCircle2 className="h-3 w-3 text-green-500" />
+                            ) : (
+                              <Copy className="h-3 w-3" />
+                            )}
+                          </Button>
+                        </div>
                       )}
                     </TableCell>
                   </TableRow>
