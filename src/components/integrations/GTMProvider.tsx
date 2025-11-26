@@ -57,7 +57,7 @@ export function GTMProvider({ children, workspaceId }: GTMProviderProps) {
     script.src = `https://www.googletagmanager.com/gtm.js?id=${containerId}`;
     
     script.onload = () => {
-      console.log('[GTM] Loaded successfully:', containerId);
+      // GTM loaded successfully
     };
 
     document.head.appendChild(script);
@@ -82,7 +82,6 @@ export function GTMProvider({ children, workspaceId }: GTMProviderProps) {
 
   const pushEvent = (event: string, data?: Record<string, any>) => {
     if (!window.dataLayer || !gtmConfig?.gtm_container_id) {
-      console.warn('[GTM] Not loaded, event not pushed:', event);
       return;
     }
 
@@ -93,7 +92,6 @@ export function GTMProvider({ children, workspaceId }: GTMProviderProps) {
     };
 
     window.dataLayer.push(eventData);
-    console.log('[GTM] Event pushed:', eventData);
   };
 
   const value: GTMContextType = {

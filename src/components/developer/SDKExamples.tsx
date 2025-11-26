@@ -157,12 +157,12 @@ app.post('/webhooks/utmone', (req, res) => {
   );
 
   switch (event.type) {
-    case 'link.clicked':
-      console.log('Link clicked:', event.data.link_id);
-      break;
-    case 'link.created':
-      console.log('Link created:', event.data.short_url);
-      break;
+      case 'link.clicked':
+        // Handle link clicked event
+        break;
+      case 'link.created':
+        // Handle link created event
+        break;
   }
 
   res.json({ received: true });

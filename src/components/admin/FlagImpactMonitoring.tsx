@@ -35,9 +35,8 @@ export function FlagImpactMonitoring() {
           schema: 'public',
           table: 'feature_flags'
         },
-        (payload) => {
-          console.log('Flag changed:', payload);
-          // Capture metrics snapshot when flag changes
+    (payload) => {
+      // Capture metrics snapshot when flag changes
           captureMetricsSnapshot();
         }
       )
