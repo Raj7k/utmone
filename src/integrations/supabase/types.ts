@@ -703,6 +703,56 @@ export type Database = {
           },
         ]
       }
+      bulk_upload_templates: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          description: string | null
+          domain: string
+          id: string
+          is_default: boolean | null
+          name: string
+          smart_options: Json | null
+          updated_at: string | null
+          utm_defaults: Json | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          description?: string | null
+          domain: string
+          id?: string
+          is_default?: boolean | null
+          name: string
+          smart_options?: Json | null
+          updated_at?: string | null
+          utm_defaults?: Json | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          description?: string | null
+          domain?: string
+          id?: string
+          is_default?: boolean | null
+          name?: string
+          smart_options?: Json | null
+          updated_at?: string | null
+          utm_defaults?: Json | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_upload_templates_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversion_events: {
         Row: {
           attributed_at: string

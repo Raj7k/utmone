@@ -170,16 +170,26 @@ export const URLPreviewTable = ({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <ValidationBadge
-                      status={
-                        !validation.isValid
-                          ? "invalid"
-                          : validation.isDuplicate
-                          ? "duplicate"
-                          : "valid"
-                      }
-                      message={validation.error || undefined}
-                    />
+                    <div className="flex flex-col gap-1">
+                      <ValidationBadge
+                        status={
+                          !validation.isValid
+                            ? "invalid"
+                            : validation.isDuplicate
+                            ? "duplicate"
+                            : "valid"
+                        }
+                        message={validation.error || undefined}
+                      />
+                      {validation.existsInDatabase && (
+                        <div className="flex items-center gap-1 text-xs text-amber-600">
+                          <span className="inline-flex items-center gap-1 bg-amber-50 px-2 py-1 rounded">
+                            <span className="font-medium">exists:</span>
+                            <code className="text-amber-700">{validation.existingSlug}</code>
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Button
