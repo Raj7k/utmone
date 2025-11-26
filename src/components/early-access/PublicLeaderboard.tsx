@@ -52,7 +52,7 @@ export const PublicLeaderboard = () => {
   if (!topReferrers || topReferrers.length === 0) return null;
 
   return (
-    <section className="relative py-32 bg-wildSand overflow-hidden">
+    <section id="leaderboard" className="relative py-32 bg-wildSand overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_hsl(var(--blaze-orange)/0.05)_2px,_transparent_2px)] bg-[length:48px_48px]" />
       
