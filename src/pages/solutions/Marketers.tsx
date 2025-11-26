@@ -6,7 +6,10 @@ import { Footer } from "@/components/landing/Footer";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
-import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
+import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
+import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
+import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
+import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 
 const Marketers = () => {
   return (
@@ -155,8 +158,10 @@ const Marketers = () => {
       </section>
 
       {/* Fold 5: Workflow */}
-      <section className="py-32 bg-mirage">
-        <div className="max-w-[1100px] mx-auto px-8">
+      <section className="relative py-32 bg-mirage overflow-hidden">
+        <WorkflowBackground />
+        
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
               Your Workflow, Simplified
@@ -166,38 +171,33 @@ const Marketers = () => {
             </p>
           </div>
           
-          <WorkflowTimeline
-            steps={[
-              { icon: FileText, label: "Build Campaign" },
-              { icon: Zap, label: "Generate Links" },
-              { icon: TrendingUp, label: "Share" },
-              { icon: BarChart3, label: "Measure" },
-            ]}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 relative">
+            {[
+              { icon: FileText, label: "Build Campaign", step: "01" },
+              { icon: Zap, label: "Generate Links", step: "02" },
+              { icon: TrendingUp, label: "Share", step: "03" },
+              { icon: BarChart3, label: "Measure", step: "04" },
+            ].map((workflow, index) => (
+              <div key={index} className="relative">
+                <InteractiveWorkflowCard
+                  icon={workflow.icon}
+                  label={workflow.label}
+                  stepNumber={workflow.step}
+                  delay={index * 0.15}
+                />
+                <AnimatedConnectingLine index={index} total={4} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Fold 6: CTA */}
-      <section className="py-32 bg-gradient-to-br from-blazeOrange/10 to-deepSea/10">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
-              Ready to Transform Your Marketing?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
-              Join marketing teams who trust utm.one for clean links and clear attribution.
-            </p>
-            <div className="pt-4">
-              <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
-                  Explore utm.one for Marketers
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PremiumCTASection
+        headline="Ready to Transform Your Marketing?"
+        subheadline="Join marketing teams who trust utm.one for clean links and clear attribution."
+        primaryCTA="Explore utm.one for Marketers"
+      />
 
       <Footer />
     </div>

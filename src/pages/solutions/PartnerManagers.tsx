@@ -6,7 +6,10 @@ import { Footer } from "@/components/landing/Footer";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
 import { PainPointCard } from "@/components/solutions/PainPointCard";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
-import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
+import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
+import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
+import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
+import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 
 const PartnerManagers = () => {
   return (
@@ -148,8 +151,10 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 5: Workflow */}
-      <section className="py-32 bg-mirage">
-        <div className="max-w-[1100px] mx-auto px-8">
+      <section className="relative py-32 bg-mirage overflow-hidden">
+        <WorkflowBackground />
+        
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight text-white mb-6">
               Your Workflow, Simplified
@@ -159,38 +164,33 @@ const PartnerManagers = () => {
             </p>
           </div>
           
-          <WorkflowTimeline
-            steps={[
-              { icon: UserPlus, label: "Invite" },
-              { icon: LinkIcon, label: "Assign Link" },
-              { icon: TrendingUp, label: "Track" },
-              { icon: DollarSign, label: "Payout" },
-            ]}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 relative">
+            {[
+              { icon: UserPlus, label: "Invite", step: "01" },
+              { icon: LinkIcon, label: "Assign Link", step: "02" },
+              { icon: TrendingUp, label: "Track", step: "03" },
+              { icon: DollarSign, label: "Payout", step: "04" },
+            ].map((workflow, index) => (
+              <div key={index} className="relative">
+                <InteractiveWorkflowCard
+                  icon={workflow.icon}
+                  label={workflow.label}
+                  stepNumber={workflow.step}
+                  delay={index * 0.15}
+                />
+                <AnimatedConnectingLine index={index} total={4} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Fold 6: CTA */}
-      <section className="py-32 bg-gradient-to-br from-blazeOrange/10 to-deepSea/10">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight">
-              Ready to Scale Your Partner Program?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
-              Join partner teams who trust utm.one for clear attribution and zero manual work.
-            </p>
-            <div className="pt-4">
-              <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
-                  Explore utm.one for Partner Teams
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PremiumCTASection
+        headline="Ready to Scale Your Partner Program?"
+        subheadline="Join partner teams who trust utm.one for clear attribution and zero manual work."
+        primaryCTA="Explore utm.one for Partner Teams"
+      />
 
       <Footer />
     </div>
