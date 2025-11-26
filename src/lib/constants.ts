@@ -14,7 +14,7 @@ export const MAX_SLUG_LENGTH = 50;
 export const SLUG_PATTERN = /^[a-z0-9-]+$/;
 
 // Domains
-export const DEFAULT_DOMAIN = 'utm.click';
+export const DEFAULT_DOMAIN = 'utm.one';
 export const SYSTEM_DOMAINS = ['utm.click', 'go.utm.one'];
 
 // Rate Limiting

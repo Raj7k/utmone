@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Copy, Download, Upload, Link2, Sparkles, AlertCircle, Check, X, ChevronRight, Layers, Globe, Hash, Zap } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { generateSmartSlug } from "@/lib/smartUrlParser";
 
 interface ProcessedURL {
   id: number;
@@ -34,6 +35,31 @@ interface SmartOptions {
 export const LinksURLShortener = () => {
   const { toast } = useToast();
   const { currentWorkspace } = useWorkspace();
+
+  // Fetch available domains for the workspace
+  const { data: workspaceDomains } = useQuery({
+    queryKey: ["workspace-domains", currentWorkspace?.id],
+    queryFn: async () => {
+      if (!currentWorkspace?.id) return [];
+      const { data, error } = await supabase
+        .from("domains")
+        .select("domain")
+        .or(`workspace_id.eq.${currentWorkspace.id},is_system_domain.eq.true`)
+        .eq("is_verified", true);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!currentWorkspace?.id,
+  });
+
+  // Build unique domain list with utm.one as primary default
+  const availableDomains = useMemo(() => {
+    const domainSet = new Set<string>();
+    domainSet.add('utm.one'); // Primary default
+    domainSet.add('go.utm.one'); // Secondary system domain
+    workspaceDomains?.forEach(d => domainSet.add(d.domain));
+    return Array.from(domainSet);
+  }, [workspaceDomains]);
   const [urls, setUrls] = useState<ProcessedURL[]>([]);
   const [bulkInput, setBulkInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -47,22 +73,6 @@ export const LinksURLShortener = () => {
   });
   const [processedCount, setProcessedCount] = useState(0);
   const [hoveredUrl, setHoveredUrl] = useState<number | null>(null);
-
-  // Fetch verified domains
-  const { data: domains } = useQuery({
-    queryKey: ["domains", currentWorkspace?.id],
-    queryFn: async () => {
-      if (!currentWorkspace?.id) return [];
-      const { data, error } = await supabase
-        .from("domains")
-        .select("domain")
-        .eq("workspace_id", currentWorkspace.id)
-        .eq("is_verified", true);
-      if (error) throw error;
-      return data || [];
-    },
-    enabled: !!currentWorkspace?.id,
-  });
 
   const detectPatterns = (urlList: string[]) => {
     const patterns = {
@@ -92,23 +102,6 @@ export const LinksURLShortener = () => {
     return patterns;
   };
 
-  const generateSmartAlias = (url: string, index: number) => {
-    try {
-      const urlObj = new URL(url);
-      const domain = urlObj.hostname.replace("www.", "").split(".")[0];
-      const pathParts = urlObj.pathname.split("/").filter(Boolean);
-
-      if (pathParts.length > 0) {
-        const lastPart = pathParts[pathParts.length - 1];
-        const cleanPart = lastPart.replace(/[^a-z0-9]/gi, "").slice(0, 10);
-        return `${domain}-${cleanPart}-${index}`;
-      }
-
-      return `${domain}-${index}`;
-    } catch (e) {
-      return `link-${index}`;
-    }
-  };
 
   const processUrls = async () => {
     setIsProcessing(true);
@@ -138,7 +131,7 @@ export const LinksURLShortener = () => {
       }
 
       const alias = smartOptions.autoAlias
-        ? generateSmartAlias(trimmedUrl, index + 1)
+        ? generateSmartSlug(trimmedUrl)
         : `link-${index + 1}`;
       const shortUrl = `https://${smartOptions.customDomain}/${alias}`;
 
@@ -346,11 +339,9 @@ export const LinksURLShortener = () => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="utm.one">utm.one</SelectItem>
-                        <SelectItem value="utm.click">utm.click</SelectItem>
-                        {domains?.map((domain) => (
-                          <SelectItem key={domain.domain} value={domain.domain}>
-                            {domain.domain}
+                        {availableDomains.map((domain) => (
+                          <SelectItem key={domain} value={domain}>
+                            {domain}
                           </SelectItem>
                         ))}
                       </SelectContent>
