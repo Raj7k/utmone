@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Linkedin } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 export const Footer = () => {
@@ -243,10 +244,22 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-16 pt-8 border-t border-border/50 text-center space-y-2">
+        <div className="mt-16 pt-8 border-t border-border/50 text-center space-y-4">
           <p className="text-sm text-muted-foreground font-medium">
             clarity creates confidence.
           </p>
+          
+          {/* Social Links */}
+          <a 
+            href="https://www.linkedin.com/company/utmone/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Follow utm.one on LinkedIn"
+          >
+            <Linkedin className="w-5 h-5" />
+          </a>
+          
           <p className="text-xs text-muted-foreground/60">
             © 2025 utm.one. All rights reserved.
           </p>
