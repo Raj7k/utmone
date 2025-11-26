@@ -64,6 +64,7 @@ const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const ShortLinks = lazy(() => import("./pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("./pages/features/UTMBuilder"));
 const QRGenerator = lazy(() => import("./pages/features/QRGenerator"));
@@ -314,6 +315,7 @@ const App = () => (
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<DashboardSkeleton />}><Features /></Suspense>} />
+              <Route path="/how-it-works" element={<Suspense fallback={<DashboardSkeleton />}><HowItWorks /></Suspense>} />
               <Route path="/features/short-links" element={<Suspense fallback={<DashboardSkeleton />}><ShortLinks /></Suspense>} />
               <Route path="/features/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilder /></Suspense>} />
               <Route path="/features/qr-generator" element={<Suspense fallback={<DashboardSkeleton />}><QRGenerator /></Suspense>} />

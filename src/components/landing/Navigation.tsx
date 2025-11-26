@@ -103,6 +103,17 @@ export const Navigation = () => {
                     <ul className="grid w-[400px] gap-2 p-4">
                       <li>
                         <Link
+                          to="/how-it-works"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">How It Works</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            see how utm.one helps your team
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
                           to="/features/short-links"
                           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
