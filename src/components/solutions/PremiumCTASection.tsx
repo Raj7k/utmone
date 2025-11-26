@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { GradientMeshBackground } from "./GradientMeshBackground";
-import { AnimatedStats } from "./AnimatedStats";
 
 interface PremiumCTASectionProps {
   headline: string;
@@ -11,7 +10,6 @@ interface PremiumCTASectionProps {
   primaryCTA: string;
   secondaryCTA?: string;
   secondaryCTALink?: string;
-  stats?: Array<{ value: string; label: string }>;
 }
 
 export const PremiumCTASection = ({
@@ -20,11 +18,6 @@ export const PremiumCTASection = ({
   primaryCTA,
   secondaryCTA,
   secondaryCTALink,
-  stats = [
-    { value: "2,400+", label: "Teams" },
-    { value: "1M+", label: "Links Created" },
-    { value: "50M+", label: "Clicks Tracked" },
-  ],
 }: PremiumCTASectionProps) => {
   return (
     <section className="relative py-32 bg-gradient-to-br from-blazeOrange/10 via-primary/5 to-deepSea/10 overflow-hidden">
@@ -86,28 +79,6 @@ export const PremiumCTASection = ({
           </motion.div>
         </div>
 
-        {/* Animated Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-        >
-          <AnimatedStats stats={stats} />
-        </motion.div>
-
-        {/* Trust Line */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-center pt-8"
-        >
-          <p className="text-sm text-muted-foreground/70 font-medium">
-            Trusted by marketing teams worldwide
-          </p>
-        </motion.div>
 
         {/* Decorative Elements */}
         <div className="absolute top-10 left-10 w-2 h-20 bg-gradient-to-b from-blazeOrange to-transparent rounded-full blur-sm" />
