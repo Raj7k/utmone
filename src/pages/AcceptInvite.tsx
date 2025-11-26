@@ -28,70 +28,32 @@ export default function AcceptInvite() {
 
   const loadInvitation = async (token: string) => {
     try {
-      console.log("🔍 Loading invitation with token:", token);
-      
-      // Simple query - no JOINs, uses denormalized invited_by_name
-      const { data, error } = await supabase
-        .from("workspace_invitations")
-        .select("id, email, role, workspace_id, invited_by, invited_by_name, token, accepted_at, expires_at")
-        .eq("token", token)
-        .single();
+      // Use secure edge function instead of direct query
+      const { data, error } = await supabase.functions.invoke('get-invitation-by-token', {
+        body: { token }
+      });
 
-      console.log("📋 Invitation data:", { data, error });
-
-      if (error) {
-        console.error("❌ Error fetching invitation:", error);
-        setError("Invalid invitation link");
+      if (error || !data) {
+        setError(data?.error || 'This invitation may have expired or already been used. Please request a new invitation.');
         setLoading(false);
         return;
       }
 
-      if (data?.accepted_at) {
-        console.log("⚠️ Invitation already accepted at:", data.accepted_at);
-        setError("This invitation has already been accepted");
-        setLoading(false);
-        return;
-      }
-
-      // Check if expired
-      const expiryDate = new Date(data.expires_at);
-      const now = new Date();
-      console.log("⏰ Expiry check:", { expiryDate, now, isExpired: expiryDate < now });
-      
-      if (expiryDate < now) {
-        setError("This invitation has expired");
-        setLoading(false);
-        return;
-      }
-
-      // Try to get workspace name if possible
+      // Get current user to fetch workspace name if authenticated
       const { data: { user } } = await supabase.auth.getUser();
-      let workspaceName = "a workspace";
       
-      if (user) {
-        // Authenticated user might have access to workspace details
-        const { data: workspace } = await supabase
-          .from("workspaces")
-          .select("name")
-          .eq("id", data.workspace_id)
-          .single();
-        
-        if (workspace) workspaceName = workspace.name;
-      }
-
-      // Use denormalized inviter name from invitation record
-      const inviterName = data.invited_by_name || "A team member";
-
       setInvitation({
-        ...data,
-        workspaces: { id: data.workspace_id, name: workspaceName },
-        profiles: { full_name: inviterName, email: data.email }
+        token,
+        email: data.email,
+        role: data.role,
+        workspace_id: data.workspaceId,
+        workspaces: { name: data.workspaceName },
+        profiles: { full_name: data.inviterName }
       });
       setLoading(false);
-      console.log("✅ Invitation loaded successfully");
     } catch (err) {
-      console.error("❌ Error loading invitation:", err);
-      setError("Invalid invitation link");
+      console.error('Error loading invitation:', err);
+      setError('An error occurred while loading the invitation.');
       setLoading(false);
     }
   };
@@ -137,7 +99,7 @@ export default function AcceptInvite() {
       const { error: acceptError } = await supabase
         .from("workspace_invitations")
         .update({ accepted_at: new Date().toISOString() })
-        .eq("id", invitation.id);
+        .eq("token", invitation.token);
 
       if (acceptError) throw acceptError;
 
