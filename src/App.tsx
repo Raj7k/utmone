@@ -238,6 +238,12 @@ const AnalyticsShare = lazy(() => import("./pages/AnalyticsShare"));
 const PrivacyLegal = lazy(() => import("./pages/legal/PrivacyLegal"));
 const TermsLegal = lazy(() => import("./pages/legal/TermsLegal"));
 const PermanenceTerms = lazy(() => import("./pages/legal/PermanenceTerms"));
+const DataSecurity = lazy(() => import("./pages/legal/DataSecurity"));
+const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
+const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
+const Subprocessors = lazy(() => import("./pages/legal/Subprocessors"));
+const DPA = lazy(() => import("./pages/legal/DPA"));
+const SupportPolicy = lazy(() => import("./pages/legal/SupportPolicy"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -504,6 +510,12 @@ const App = () => (
               <Route path="/legal/privacy" element={<Suspense fallback={<DashboardSkeleton />}><PrivacyLegal /></Suspense>} />
               <Route path="/legal/terms" element={<Suspense fallback={<DashboardSkeleton />}><TermsLegal /></Suspense>} />
               <Route path="/legal/permanence-terms" element={<Suspense fallback={<DashboardSkeleton />}><PermanenceTerms /></Suspense>} />
+              <Route path="/legal/data-security" element={<Suspense fallback={<DashboardSkeleton />}><DataSecurity /></Suspense>} />
+              <Route path="/legal/cookies" element={<Suspense fallback={<DashboardSkeleton />}><CookiePolicy /></Suspense>} />
+              <Route path="/legal/acceptable-use" element={<Suspense fallback={<DashboardSkeleton />}><AcceptableUse /></Suspense>} />
+              <Route path="/legal/subprocessors" element={<Suspense fallback={<DashboardSkeleton />}><Subprocessors /></Suspense>} />
+              <Route path="/legal/dpa" element={<Suspense fallback={<DashboardSkeleton />}><DPA /></Suspense>} />
+              <Route path="/legal/support" element={<Suspense fallback={<DashboardSkeleton />}><SupportPolicy /></Suspense>} />
               <Route path="/client-workspaces" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ClientWorkspaces /></DashboardLayout></Suspense>} />
               <Route path="/analytics/share/:token" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsShare /></Suspense>} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

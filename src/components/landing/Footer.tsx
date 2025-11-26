@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <footer className="border-t border-border/50 bg-white">
       <div className="max-w-[1280px] mx-auto px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-12">
           
           {/* Brand Column (spans 2 on desktop) */}
           <div className="lg:col-span-2 space-y-6">
@@ -180,13 +180,62 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <a href="mailto:hello@utm.one" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
+              Legal
+            </h3>
+            <ul className="space-y-3">
+              <li>
                 <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Privacy
+                  Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link to="/legal/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/data-security" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Data & Security
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Cookie Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/acceptable-use" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Acceptable Use
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/subprocessors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Subprocessors
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/dpa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  DPA
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Support Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal/permanence-terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Permanence Guarantee
                 </Link>
               </li>
             </ul>
