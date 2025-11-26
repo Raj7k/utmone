@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -53,6 +54,7 @@ export const URLShortenerUltimate = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { processURL, generateRandomSlug } = useURLProcessing();
+  const { currentWorkspace } = useWorkspaceContext();
   
   const [activeTab, setActiveTab] = useState('create');
   const [duplicateStrategy, setDuplicateStrategy] = useState<'smart' | 'ask' | 'always-new' | 'use-existing'>(DUPLICATE_STRATEGIES.SMART as 'smart');
@@ -62,24 +64,22 @@ export const URLShortenerUltimate = () => {
   const [currentDuplicate, setCurrentDuplicate] = useState<any>(null);
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
-  // Get current workspace
-  const { data: workspace } = useQuery({
-    queryKey: ['current-workspace'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('not authenticated');
+  const workspaceId = currentWorkspace?.id;
 
-      const { data } = await supabase
-        .from('workspaces')
-        .select('id')
-        .eq('owner_id', user.id)
-        .single();
-
-      return data;
-    },
-  });
-
-  const workspaceId = workspace?.id;
+  if (!currentWorkspace) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card>
+          <CardHeader>
+            <CardTitle>no workspace selected</CardTitle>
+            <CardDescription>
+              please select a workspace to use the AI URL Shortener
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
   const { checkForDuplicates, analyzeDuplicate, generateSuggestions } = useDuplicateDetection(workspaceId || '');
 
   // Fetch verified domains
@@ -229,7 +229,7 @@ export const URLShortenerUltimate = () => {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Brain className="h-8 w-8 text-primary" />
-          <h1 className="text-4xl font-bold font-display">URL Shortener Ultimate</h1>
+          <h1 className="text-4xl font-bold font-display">AI URL Shortener</h1>
         </div>
         <p className="text-secondary-label">
           AI-powered duplicate handling, version control, and performance optimization

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users } from "lucide-react";
+import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 interface DashboardSidebarProps {
@@ -10,6 +10,7 @@ interface DashboardSidebarProps {
 const navigation = [
   { name: "overview", href: "/dashboard", icon: Home },
   { name: "links", href: "/dashboard/links", icon: Link2 },
+  { name: "ai shortener", href: "/dashboard/ai-shortener", icon: Brain },
   { name: "qr codes", href: "/dashboard/qr-codes", icon: QrCode },
   { name: "analytics", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "workspaces", href: "/client-workspaces", icon: Building2 },
