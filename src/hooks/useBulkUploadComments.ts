@@ -33,7 +33,15 @@ export const useBulkUploadComments = (bulkUploadId: string | null) => {
   });
 
   const addComment = useMutation({
-    mutationFn: async ({ comment }: { comment: string }) => {
+    mutationFn: async ({ 
+      comment, 
+      parentId, 
+      mentions 
+    }: { 
+      comment: string; 
+      parentId?: string | null;
+      mentions?: string[];
+    }) => {
       if (!bulkUploadId) throw new Error("No bulk upload ID");
 
       const { data: { user } } = await supabase.auth.getUser();
@@ -45,6 +53,8 @@ export const useBulkUploadComments = (bulkUploadId: string | null) => {
           bulk_upload_id: bulkUploadId,
           user_id: user.id,
           comment_text: comment,
+          parent_id: parentId || null,
+          mentioned_users: mentions || [],
         })
         .select()
         .single();

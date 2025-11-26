@@ -707,6 +707,7 @@ export type Database = {
         Row: {
           action_type: string
           bulk_upload_id: string
+          bulk_upload_uuid: string | null
           created_at: string | null
           id: string
           metadata: Json | null
@@ -716,6 +717,7 @@ export type Database = {
         Insert: {
           action_type: string
           bulk_upload_id: string
+          bulk_upload_uuid?: string | null
           created_at?: string | null
           id?: string
           metadata?: Json | null
@@ -725,6 +727,7 @@ export type Database = {
         Update: {
           action_type?: string
           bulk_upload_id?: string
+          bulk_upload_uuid?: string | null
           created_at?: string | null
           id?: string
           metadata?: Json | null
@@ -732,6 +735,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "bulk_upload_activity_bulk_upload_uuid_fkey"
+            columns: ["bulk_upload_uuid"]
+            isOneToOne: false
+            referencedRelation: "bulk_uploads"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "bulk_upload_activity_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -745,6 +755,7 @@ export type Database = {
         Row: {
           approver_id: string | null
           bulk_upload_id: string
+          bulk_upload_uuid: string | null
           id: string
           metadata: Json | null
           notes: string | null
@@ -757,6 +768,7 @@ export type Database = {
         Insert: {
           approver_id?: string | null
           bulk_upload_id: string
+          bulk_upload_uuid?: string | null
           id?: string
           metadata?: Json | null
           notes?: string | null
@@ -769,6 +781,7 @@ export type Database = {
         Update: {
           approver_id?: string | null
           bulk_upload_id?: string
+          bulk_upload_uuid?: string | null
           id?: string
           metadata?: Json | null
           notes?: string | null
@@ -779,6 +792,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "bulk_upload_approvals_bulk_upload_uuid_fkey"
+            columns: ["bulk_upload_uuid"]
+            isOneToOne: false
+            referencedRelation: "bulk_uploads"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "bulk_upload_approvals_workspace_id_fkey"
             columns: ["workspace_id"]
@@ -791,32 +811,97 @@ export type Database = {
       bulk_upload_comments: {
         Row: {
           bulk_upload_id: string
+          bulk_upload_uuid: string | null
           comment_text: string
           created_at: string | null
           id: string
           is_resolved: boolean | null
+          mentioned_users: string[] | null
+          parent_id: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
           bulk_upload_id: string
+          bulk_upload_uuid?: string | null
           comment_text: string
           created_at?: string | null
           id?: string
           is_resolved?: boolean | null
+          mentioned_users?: string[] | null
+          parent_id?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
           bulk_upload_id?: string
+          bulk_upload_uuid?: string | null
           comment_text?: string
           created_at?: string | null
           id?: string
           is_resolved?: boolean | null
+          mentioned_users?: string[] | null
+          parent_id?: string | null
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "bulk_upload_comments_bulk_upload_uuid_fkey"
+            columns: ["bulk_upload_uuid"]
+            isOneToOne: false
+            referencedRelation: "bulk_uploads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bulk_upload_comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "bulk_upload_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bulk_upload_notifications: {
+        Row: {
+          bulk_upload_id: string | null
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          metadata: Json | null
+          notification_type: string
+          user_id: string
+        }
+        Insert: {
+          bulk_upload_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          metadata?: Json | null
+          notification_type: string
+          user_id: string
+        }
+        Update: {
+          bulk_upload_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          metadata?: Json | null
+          notification_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_upload_notifications_bulk_upload_id_fkey"
+            columns: ["bulk_upload_id"]
+            isOneToOne: false
+            referencedRelation: "bulk_uploads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       bulk_upload_templates: {
         Row: {
@@ -867,6 +952,59 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "bulk_upload_templates_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bulk_uploads: {
+        Row: {
+          assigned_to: string | null
+          created_at: string | null
+          created_by: string
+          failed_links: number | null
+          id: string
+          metadata: Json | null
+          name: string | null
+          status: string
+          successful_links: number | null
+          total_links: number | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string | null
+          created_by: string
+          failed_links?: number | null
+          id?: string
+          metadata?: Json | null
+          name?: string | null
+          status?: string
+          successful_links?: number | null
+          total_links?: number | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string | null
+          created_by?: string
+          failed_links?: number | null
+          id?: string
+          metadata?: Json | null
+          name?: string | null
+          status?: string
+          successful_links?: number | null
+          total_links?: number | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_uploads_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"

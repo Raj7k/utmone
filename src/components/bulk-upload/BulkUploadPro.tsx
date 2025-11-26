@@ -36,6 +36,7 @@ import { PerformanceMonitor } from "./PerformanceMonitor";
 import { BulkUploadComments } from "./BulkUploadComments";
 import { BulkUploadApprovalWorkflow } from "./BulkUploadApprovalWorkflow";
 import { BulkUploadActivityLog } from "./BulkUploadActivityLog";
+import { BulkUploadAssignment } from "./BulkUploadAssignment";
 import { SharedTemplatesManager } from "./SharedTemplatesManager";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -781,15 +782,32 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             <div className="grid gap-6 md:grid-cols-2">
               {/* Comments on bulk uploads */}
               {results.length > 0 && (
-                <BulkUploadComments bulkUploadId={`bulk-${Date.now()}`} />
+                <BulkUploadComments 
+                  bulkUploadId={`bulk-${Date.now()}`} 
+                  workspaceId={workspaceId}
+                />
               )}
               
               {/* Approval Workflow */}
-              <BulkUploadApprovalWorkflow workspaceId={workspaceId} />
+              <BulkUploadApprovalWorkflow 
+                workspaceId={workspaceId}
+                bulkUploadId={`bulk-${Date.now()}`}
+              />
               
               {/* Activity Log */}
               {results.length > 0 && (
-                <BulkUploadActivityLog bulkUploadId={`bulk-${Date.now()}`} />
+                <BulkUploadActivityLog 
+                  bulkUploadId={`bulk-${Date.now()}`} 
+                  workspaceId={workspaceId}
+                />
+              )}
+              
+              {/* Assignment */}
+              {results.length > 0 && (
+                <BulkUploadAssignment
+                  workspaceId={workspaceId}
+                  bulkUploadId={`bulk-${Date.now()}`}
+                />
               )}
               
               {/* Shared Templates */}

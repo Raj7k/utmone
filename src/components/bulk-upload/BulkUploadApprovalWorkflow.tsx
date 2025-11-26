@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +15,9 @@ import {
 } from "@/components/ui/dialog";
 import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
 import { useBulkUploadApprovals } from "@/hooks/useBulkUploadApprovals";
+import { useWorkspaceMembers } from "@/hooks/useWorkspaceMembers";
 import { formatDistanceToNow } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BulkUploadApprovalWorkflowProps {
   workspaceId: string;
@@ -33,6 +36,30 @@ export function BulkUploadApprovalWorkflow({
   } | null>(null);
   const [reviewNotes, setReviewNotes] = useState("");
   const { approvals, isLoading, reviewApproval } = useBulkUploadApprovals(workspaceId);
+  const { getMemberName, getMemberAvatar } = useWorkspaceMembers(workspaceId);
+
+  // Real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('bulk-upload-approvals')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'bulk_upload_approvals',
+          filter: `workspace_id=eq.${workspaceId}`
+        },
+        () => {
+          // Trigger refetch
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [workspaceId]);
 
   const handleReview = () => {
     if (!reviewDialog) return;
@@ -59,11 +86,11 @@ export function BulkUploadApprovalWorkflow({
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "approved":
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
       case "rejected":
-        return <XCircle className="w-4 h-4 text-red-600" />;
+        return <XCircle className="h-4 w-4 text-red-600" />;
       default:
-        return <Clock className="w-4 h-4 text-yellow-600" />;
+        return <Clock className="h-4 w-4 text-yellow-600" />;
     }
   };
 
@@ -82,17 +109,14 @@ export function BulkUploadApprovalWorkflow({
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center gap-2 font-display text-title-3">
-                <AlertCircle className="w-5 h-5 text-primary" />
+              <CardTitle className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5" />
                 Approval Workflow
               </CardTitle>
               <CardDescription>
-                Request approval for bulk uploads before processing
+                {pendingApprovals.length > 0 && `${pendingApprovals.length} pending`}
               </CardDescription>
             </div>
-            {pendingApprovals.length > 0 && (
-              <Badge variant="secondary">{pendingApprovals.length} pending</Badge>
-            )}
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -102,7 +126,7 @@ export function BulkUploadApprovalWorkflow({
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     {getStatusIcon(currentUploadApproval.status)}
-                    <span className="font-medium text-sm">Current Upload Status</span>
+                    <span className="font-medium text-sm">current upload status</span>
                   </div>
                   {getStatusBadge(currentUploadApproval.status)}
                 </div>
@@ -112,34 +136,42 @@ export function BulkUploadApprovalWorkflow({
 
           {onRequestApproval && !currentUploadApproval && (
             <Button onClick={onRequestApproval} className="w-full">
-              Request Approval
+              request approval
             </Button>
           )}
 
           <ScrollArea className="h-[300px]">
             {isLoading ? (
               <div className="text-sm text-muted-foreground text-center py-8">
-                Loading approvals...
+                loading approvals...
               </div>
             ) : approvals.length === 0 ? (
               <div className="text-sm text-muted-foreground text-center py-8">
-                No approval requests yet
+                no approval requests yet
               </div>
             ) : (
               <div className="space-y-3 pr-4">
                 {approvals.map((approval) => (
                   <div key={approval.id} className="p-4 rounded-lg border bg-card space-y-2">
                     <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          {getStatusIcon(approval.status)}
-                          <span className="font-medium text-sm">
-                            User {approval.requested_by.substring(0, 8)}
+                      <div className="flex-1 flex items-center gap-2">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={getMemberAvatar(approval.requested_by) || undefined} />
+                          <AvatarFallback>
+                            {getMemberName(approval.requested_by)[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            {getStatusIcon(approval.status)}
+                            <span className="font-medium text-sm">
+                              {getMemberName(approval.requested_by)}
+                            </span>
+                          </div>
+                          <span className="text-xs text-muted-foreground">
+                            requested {formatDistanceToNow(new Date(approval.requested_at), { addSuffix: true })}
                           </span>
                         </div>
-                        <span className="text-xs text-muted-foreground">
-                          Requested {formatDistanceToNow(new Date(approval.requested_at), { addSuffix: true })}
-                        </span>
                       </div>
                       {getStatusBadge(approval.status)}
                     </div>
@@ -157,7 +189,7 @@ export function BulkUploadApprovalWorkflow({
                             setReviewDialog({ approvalId: approval.id, action: "approved" })
                           }
                         >
-                          Approve
+                          approve
                         </Button>
                         <Button
                           size="sm"
@@ -166,14 +198,14 @@ export function BulkUploadApprovalWorkflow({
                             setReviewDialog({ approvalId: approval.id, action: "rejected" })
                           }
                         >
-                          Reject
+                          reject
                         </Button>
                       </div>
                     )}
 
-                    {approval.reviewed_at && (
+                    {approval.reviewed_at && approval.approver_id && (
                       <div className="text-xs text-muted-foreground pt-2 border-t">
-                        Reviewed by User {approval.approver_id?.substring(0, 8)}{" "}
+                        reviewed by {getMemberName(approval.approver_id)}{" "}
                         {formatDistanceToNow(new Date(approval.reviewed_at), { addSuffix: true })}
                       </div>
                     )}
@@ -189,28 +221,28 @@ export function BulkUploadApprovalWorkflow({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {reviewDialog?.action === "approved" ? "Approve" : "Reject"} Request
+              {reviewDialog?.action === "approved" ? "approve" : "reject"} request
             </DialogTitle>
             <DialogDescription>
-              Add notes about your decision (optional)
+              add notes about your decision (optional)
             </DialogDescription>
           </DialogHeader>
           <Textarea
-            placeholder="Add notes..."
+            placeholder="add notes..."
             value={reviewNotes}
             onChange={(e) => setReviewNotes(e.target.value)}
             rows={4}
           />
           <DialogFooter>
             <Button variant="outline" onClick={() => setReviewDialog(null)}>
-              Cancel
+              cancel
             </Button>
             <Button
               onClick={handleReview}
               disabled={reviewApproval.isPending}
               variant={reviewDialog?.action === "rejected" ? "destructive" : "default"}
             >
-              {reviewDialog?.action === "approved" ? "Approve" : "Reject"}
+              {reviewDialog?.action === "approved" ? "approve" : "reject"}
             </Button>
           </DialogFooter>
         </DialogContent>
