@@ -33,11 +33,15 @@ serve(async (req) => {
     const { workspace_id, domain, links } = await req.json();
 
     if (!workspace_id || !links || !Array.isArray(links)) {
-      throw new Error("Invalid request body");
+      throw new Error("invalid request body");
     }
 
     if (links.length > 100) {
-      throw new Error("Maximum 100 links per upload");
+      throw new Error("maximum 100 links per upload");
+    }
+
+    if (links.length === 0) {
+      throw new Error("no links provided");
     }
 
     const targetDomain = domain || "utm.click";
@@ -68,7 +72,8 @@ serve(async (req) => {
           results.push({
             success: false,
             destination_url: linkData.destination_url,
-            error: `Slug "${slug}" already exists`,
+            error: `slug "${slug}" already exists`,
+            error_code: "DUPLICATE_SLUG",
           });
           continue;
         }
@@ -100,6 +105,7 @@ serve(async (req) => {
             success: false,
             destination_url: linkData.destination_url,
             error: createError.message,
+            error_code: createError.code || "CREATE_FAILED",
           });
           continue;
         }
@@ -115,6 +121,7 @@ serve(async (req) => {
           success: false,
           destination_url: linkData.destination_url,
           error: error.message,
+          error_code: "PROCESSING_ERROR",
         });
       }
     }
