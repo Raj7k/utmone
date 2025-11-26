@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Info } from "lucide-react";
 import { motion } from "framer-motion";
-import { LoadingScreen } from "@/components/loading/LoadingScreen";
+import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const Auth = () => {
@@ -292,7 +292,7 @@ const Auth = () => {
 
   // Show loading screen during session check or authentication
   if (isCheckingSession || isAuthenticating) {
-    return <LoadingScreen duration={4000} showProgress={true} />;
+    return <AuthLoadingScreen />;
   }
 
   return (
