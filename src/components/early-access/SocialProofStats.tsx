@@ -21,7 +21,7 @@ export const SocialProofStats = () => {
       const { count: referralCount } = await supabase
         .from("early_access_requests")
         .select("*", { count: "exact", head: true })
-        .not("referred_by", "is", null);
+        .gt("referral_score", 0);
 
       return {
         total: totalCount || 0,

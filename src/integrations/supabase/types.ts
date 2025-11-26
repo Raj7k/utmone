@@ -958,6 +958,7 @@ export type Database = {
           approval_timestamp: string | null
           badge: string | null
           company_domain: string | null
+          country: string | null
           created_at: string | null
           desired_domain: string | null
           drip_emails_sent: Json | null
@@ -987,6 +988,7 @@ export type Database = {
           approval_timestamp?: string | null
           badge?: string | null
           company_domain?: string | null
+          country?: string | null
           created_at?: string | null
           desired_domain?: string | null
           drip_emails_sent?: Json | null
@@ -1016,6 +1018,7 @@ export type Database = {
           approval_timestamp?: string | null
           badge?: string | null
           company_domain?: string | null
+          country?: string | null
           created_at?: string | null
           desired_domain?: string | null
           drip_emails_sent?: Json | null
