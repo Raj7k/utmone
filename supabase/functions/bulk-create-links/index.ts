@@ -30,7 +30,7 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { workspace_id, links } = await req.json();
+    const { workspace_id, domain, links } = await req.json();
 
     if (!workspace_id || !links || !Array.isArray(links)) {
       throw new Error("Invalid request body");
@@ -40,8 +40,8 @@ serve(async (req) => {
       throw new Error("Maximum 100 links per upload");
     }
 
+    const targetDomain = domain || "utm.click";
     const results = [];
-    const errors = [];
     let successCount = 0;
 
     for (let i = 0; i < links.length; i++) {
@@ -51,33 +51,24 @@ serve(async (req) => {
         // Generate slug if not provided
         const slug = linkData.slug || Math.random().toString(36).substring(2, 10);
         
-        // Build final URL with UTMs
-        const url = new URL(linkData.destination_url);
-        const params = new URLSearchParams();
-        
-        params.set("utm_source", linkData.utm_source);
-        params.set("utm_medium", linkData.utm_medium);
-        params.set("utm_campaign", linkData.utm_campaign);
-        if (linkData.utm_term) params.set("utm_term", linkData.utm_term);
-        if (linkData.utm_content) params.set("utm_content", linkData.utm_content);
-        
-        const finalUrl = `${url.origin}${url.pathname}${url.search ? url.search + "&" : "?"}${params.toString()}`;
+        // Use destination_url as final_url (already processed by frontend)
+        const finalUrl = linkData.destination_url;
         
         // Check slug uniqueness
         const { data: existingLink } = await supabase
           .from("links")
           .select("id")
           .eq("workspace_id", workspace_id)
-          .eq("domain", "utm.one")
-          .eq("path", "go")
+          .eq("domain", targetDomain)
+          .eq("path", "")
           .eq("slug", slug)
           .maybeSingle();
         
         if (existingLink) {
-          errors.push({
-            row: linkData._rowNumber || i + 2,
-            field: "slug",
-            message: `Slug "${slug}" already exists`,
+          results.push({
+            success: false,
+            destination_url: linkData.destination_url,
+            error: `Slug "${slug}" already exists`,
           });
           continue;
         }
@@ -91,13 +82,13 @@ serve(async (req) => {
             title: linkData.title,
             description: linkData.description || null,
             destination_url: linkData.destination_url,
-            domain: "utm.one",
-            path: "go",
+            domain: targetDomain,
+            path: "",
             slug,
             final_url: finalUrl,
-            utm_source: linkData.utm_source,
-            utm_medium: linkData.utm_medium,
-            utm_campaign: linkData.utm_campaign,
+            utm_source: linkData.utm_source || null,
+            utm_medium: linkData.utm_medium || null,
+            utm_campaign: linkData.utm_campaign || null,
             utm_term: linkData.utm_term || null,
             utm_content: linkData.utm_content || null,
           })
@@ -105,30 +96,34 @@ serve(async (req) => {
           .single();
 
         if (createError) {
-          errors.push({
-            row: linkData._rowNumber || i + 2,
-            field: "general",
-            message: createError.message,
+          results.push({
+            success: false,
+            destination_url: linkData.destination_url,
+            error: createError.message,
           });
           continue;
         }
 
-        results.push(link);
+        results.push({
+          success: true,
+          destination_url: linkData.destination_url,
+          link,
+        });
         successCount++;
       } catch (error: any) {
-        errors.push({
-          row: linkData._rowNumber || i + 2,
-          field: "general",
-          message: error.message,
+        results.push({
+          success: false,
+          destination_url: linkData.destination_url,
+          error: error.message,
         });
       }
     }
 
     return new Response(
       JSON.stringify({
-        success_count: successCount,
+        created: successCount,
         total: links.length,
-        errors: errors.length > 0 ? errors : null,
+        results,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

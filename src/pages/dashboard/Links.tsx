@@ -15,13 +15,14 @@ import { ToolSelector } from "@/components/tools/ToolSelector";
 import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
 import { URLShortenerTool } from "@/components/tools/URLShortenerTool";
 import { QRCodeTool } from "@/components/tools/QRCodeTool";
+import { BulkURLShortenerTool } from "@/components/tools/BulkURLShortenerTool";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [selectedTool, setSelectedTool] = useState<"utm" | "shortener" | "qr" | "forge" | null>(null);
+  const [selectedTool, setSelectedTool] = useState<"utm" | "shortener" | "bulk" | "qr" | "forge" | null>(null);
   const [utmToShorten, setUtmToShorten] = useState<string>("");
   const [urlForQR, setUrlForQR] = useState<string>("");
   const { currentWorkspace } = useWorkspace();
@@ -38,7 +39,7 @@ export default function Links() {
     );
   }
 
-  const handleToolSelect = (tool: "utm" | "shortener" | "qr" | "forge") => {
+  const handleToolSelect = (tool: "utm" | "shortener" | "bulk" | "qr" | "forge") => {
     setSelectedTool(tool);
     setCreateDialogOpen(true);
   };
@@ -105,12 +106,14 @@ export default function Links() {
                 <DialogTitle className="text-title-2 heading">
                   {selectedTool === "utm" && "UTM Builder"}
                   {selectedTool === "shortener" && "URL Shortener"}
+                  {selectedTool === "bulk" && "Bulk URL Shortener"}
                   {selectedTool === "qr" && "QR Code Generator"}
                   {selectedTool === "forge" && "Link Forge"}
                 </DialogTitle>
                 <DialogDescription>
                   {selectedTool === "utm" && "Build UTM parameters with quick templates"}
                   {selectedTool === "shortener" && "Create short, memorable links"}
+                  {selectedTool === "bulk" && "Process hundreds of URLs at once"}
                   {selectedTool === "qr" && "Generate branded QR codes"}
                   {selectedTool === "forge" && "All-in-one: UTM + Shortener + QR"}
                 </DialogDescription>
@@ -143,6 +146,10 @@ export default function Links() {
                 setSelectedTool("qr");
               }}
             />
+          )}
+
+          {selectedTool === "bulk" && (
+            <BulkURLShortenerTool workspaceId={currentWorkspace.id} />
           )}
 
           {selectedTool === "qr" && (
