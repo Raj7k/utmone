@@ -47,7 +47,7 @@ const FAQ = () => {
             <li>Professional appearance</li>
           </ul>
           <p>
-            Custom domains are included on all paid plans.
+            Custom domains are available on all plans: Pro includes 1 domain, Business includes 5 domains, and Enterprise includes unlimited domains.
           </p>
         </div>
       ),
@@ -63,9 +63,10 @@ const FAQ = () => {
             We offer three plans:
           </p>
           <ul className="list-disc list-inside space-y-2">
-            <li><strong>Free:</strong> 100 links/month, 5 custom domains, 10K clicks/month, 90-day analytics</li>
-            <li><strong>Pro ($15/month):</strong> 1,000 links/month, unlimited domains, 100K clicks/month, 1-year analytics, priority support</li>
-            <li><strong>Business ($49/month):</strong> 10K links, unlimited clicks, 3-year analytics, advanced features</li>
+            <li><strong>Free:</strong> 100 links/month, 10K clicks/month, 90-day analytics</li>
+            <li><strong>Pro ($20/month):</strong> 1,000 links/month, 1 custom domain, 100K clicks/month, 1-year analytics, priority support</li>
+            <li><strong>Business ($99/month):</strong> 10K links, 5 custom domains, unlimited clicks, 3-year analytics, advanced features</li>
+            <li><strong>Enterprise ($300/month):</strong> Unlimited links, unlimited domains, unlimited clicks, SSO, SLA, dedicated support</li>
           </ul>
           <p>
             All plans include unlimited team members (no per-seat pricing).
