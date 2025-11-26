@@ -57,9 +57,45 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate URL format
+    // Validate URL format and length
+    if (typeof url !== 'string' || url.length > 2048) {
+      return new Response(
+        JSON.stringify({ error: 'url too long (max 2048 characters)' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400 
+        }
+      );
+    }
+
     try {
-      new URL(url);
+      const parsedUrl = new URL(url);
+      
+      // Block localhost and private IPs
+      if (parsedUrl.hostname === 'localhost' || 
+          parsedUrl.hostname.startsWith('127.') ||
+          parsedUrl.hostname.startsWith('192.168.') ||
+          parsedUrl.hostname.startsWith('10.') ||
+          parsedUrl.hostname.startsWith('172.')) {
+        return new Response(
+          JSON.stringify({ error: 'private urls are not allowed' }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 400 
+          }
+        );
+      }
+
+      // Only allow http/https
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        return new Response(
+          JSON.stringify({ error: 'only http and https urls are allowed' }),
+          { 
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            status: 400 
+          }
+        );
+      }
     } catch {
       return new Response(
         JSON.stringify({ error: 'invalid url format' }),
