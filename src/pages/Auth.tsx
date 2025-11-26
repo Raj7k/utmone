@@ -146,6 +146,19 @@ const Auth = () => {
       return { allowed: true, reason: "invited" };
     }
 
+    // FINALLY: Check workspace_invitations for team member invites
+    const { data: workspaceInvite } = await supabase
+      .from("workspace_invitations")
+      .select("id, email, expires_at, accepted_at")
+      .eq("email", email.toLowerCase())
+      .is("accepted_at", null)
+      .gt("expires_at", new Date().toISOString())
+      .maybeSingle();
+
+    if (workspaceInvite) {
+      return { allowed: true, reason: "workspace_invited" };
+    }
+
     return { 
       allowed: false, 
       reason: "not_approved",
