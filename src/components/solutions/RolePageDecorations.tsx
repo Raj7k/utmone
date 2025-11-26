@@ -1,8 +1,5 @@
 import { motion } from "framer-motion";
 
-export { GradientHeroBackground } from "./GradientHeroBackground";
-export { VectorShapes } from "./VectorShapes";
-
 export const HeroFloatingShapes = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
