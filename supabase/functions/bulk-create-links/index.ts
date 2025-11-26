@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { buildUtmUrl } from "./buildUtmUrl.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -30,7 +31,32 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const { workspace_id, domain, links, skip_existing = false, folder_id, tags } = await req.json();
+    const { workspace_id, domain, links, skip_existing = false, folder_id, tags }: {
+    workspace_id: string;
+    domain: string;
+    links: Array<{
+      destination_url: string;
+      slug?: string;
+      title?: string;
+      utm_source?: string;
+      utm_medium?: string;
+      utm_campaign?: string;
+      utm_term?: string;
+      utm_content?: string;
+      expires_at?: string | null;
+      max_clicks?: number | null;
+      custom_expiry_message?: string | null;
+      password?: string | null;
+      password_hint?: string | null;
+      redirect_type?: "301" | "302" | "307";
+      og_title?: string | null;
+      og_description?: string | null;
+      og_image?: string | null;
+    }>;
+    skip_existing?: boolean;
+    folder_id?: string | null;
+    tags?: string[];
+  } = await req.json();
 
     if (!workspace_id || !links || !Array.isArray(links)) {
       throw new Error("invalid request body");
@@ -86,8 +112,26 @@ serve(async (req) => {
         // Generate slug if not provided
         const slug = linkData.slug || Math.random().toString(36).substring(2, 10);
         
-        // Use destination_url as final_url (already processed by frontend)
-        const finalUrl = linkData.destination_url;
+        // Build final URL with UTM parameters if present
+        const finalUrl = linkData.utm_source || linkData.utm_medium || linkData.utm_campaign || linkData.utm_term || linkData.utm_content
+          ? buildUtmUrl(linkData.destination_url, {
+              utm_source: linkData.utm_source,
+              utm_medium: linkData.utm_medium,
+              utm_campaign: linkData.utm_campaign,
+              utm_term: linkData.utm_term,
+              utm_content: linkData.utm_content,
+            })
+          : linkData.destination_url;
+
+        // Hash password if provided
+        let passwordHash = null;
+        if (linkData.password) {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(linkData.password);
+          const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          passwordHash = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+        }
         
         // Check slug uniqueness
         const { data: existingLink } = await supabase
@@ -116,7 +160,6 @@ serve(async (req) => {
             workspace_id,
             created_by: user.id,
             title: linkData.title,
-            description: linkData.description || null,
             destination_url: linkData.destination_url,
             domain: targetDomain,
             path: "",
@@ -128,6 +171,15 @@ serve(async (req) => {
             utm_campaign: linkData.utm_campaign || null,
             utm_term: linkData.utm_term || null,
             utm_content: linkData.utm_content || null,
+            expires_at: linkData.expires_at || null,
+            max_clicks: linkData.max_clicks || null,
+            custom_expiry_message: linkData.custom_expiry_message || null,
+            password_hash: passwordHash,
+            password_hint: linkData.password_hint || null,
+            redirect_type: linkData.redirect_type || "302",
+            og_title: linkData.og_title || null,
+            og_description: linkData.og_description || null,
+            og_image: linkData.og_image || null,
           })
           .select()
           .single();
