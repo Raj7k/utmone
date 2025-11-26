@@ -6,6 +6,60 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to encrypt token
+async function encryptToken(plaintext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['encrypt']
+  );
+
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encrypted = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encoder.encode(plaintext)
+  );
+
+  const combined = new Uint8Array(iv.length + encrypted.byteLength);
+  combined.set(iv, 0);
+  combined.set(new Uint8Array(encrypted), iv.length);
+  
+  return btoa(String.fromCharCode(...combined));
+}
+
+// Helper function to decrypt token
+async function decryptToken(ciphertext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt']
+  );
+
+  const combined = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0));
+  const iv = combined.slice(0, 12);
+  const encryptedData = combined.slice(12);
+
+  const decrypted = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encryptedData
+  );
+
+  return decoder.decode(decrypted);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -80,14 +134,18 @@ serve(async (req) => {
 
       const tokens = await tokenResponse.json();
 
-      // Store tokens in integrations table
+      // Encrypt tokens before storing
+      const encryptedAccessToken = await encryptToken(tokens.access_token);
+      const encryptedRefreshToken = await encryptToken(tokens.refresh_token);
+
+      // Store encrypted tokens in integrations table
       await supabaseClient
         .from('integrations')
         .upsert({
           workspace_id: workspaceId,
           provider: 'hubspot',
-          access_token: tokens.access_token,
-          refresh_token: tokens.refresh_token,
+          access_token_encrypted: encryptedAccessToken,
+          refresh_token_encrypted: encryptedRefreshToken,
           expires_at: new Date(Date.now() + tokens.expires_in * 1000).toISOString(),
           is_active: true,
           created_by: user.id,
@@ -105,7 +163,7 @@ serve(async (req) => {
       // Sync click event to HubSpot timeline
       const { clickId } = await req.json();
 
-      // Get integration
+      // Get integration with encrypted token
       const { data: integration } = await supabaseClient
         .from('integrations')
         .select('*')
@@ -117,6 +175,9 @@ serve(async (req) => {
       if (!integration) {
         throw new Error('HubSpot integration not found');
       }
+
+      // Decrypt access token
+      const accessToken = await decryptToken(integration.access_token_encrypted);
 
       // Get click data
       const { data: click } = await supabaseClient
@@ -146,7 +207,7 @@ serve(async (req) => {
       await fetch('https://api.hubapi.com/crm/v3/timeline/events', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${integration.access_token}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(timelineEvent),

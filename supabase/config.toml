@@ -1,5 +1,11 @@
 project_id = "whgnsmjdubnvbmarnjfx"
 
+[functions.encrypt-field]
+verify_jwt = false
+
+[functions.decrypt-field]
+verify_jwt = false
+
 [functions.get-invitation-by-token]
 verify_jwt = false
 

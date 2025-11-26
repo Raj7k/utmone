@@ -6,6 +6,33 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to decrypt token
+async function decryptToken(ciphertext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt']
+  );
+
+  const combined = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0));
+  const iv = combined.slice(0, 12);
+  const encryptedData = combined.slice(12);
+
+  const decrypted = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encryptedData
+  );
+
+  return decoder.decode(decrypted);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -21,7 +48,7 @@ serve(async (req) => {
     // Fetch link and workspace info with GA4 config
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('*, workspaces!inner(id, ga4_measurement_id, ga4_api_secret)')
+      .select('*, workspaces!inner(id, ga4_measurement_id, ga4_api_secret_encrypted)')
       .eq('id', linkId)
       .single();
 
@@ -65,7 +92,7 @@ serve(async (req) => {
                 reached_at: new Date().toISOString(),
               },
               webhookUrl: webhook.webhook_url,
-              secret: webhook.secret,
+              secretEncrypted: webhook.secret_encrypted,
             },
           });
         } catch (error) {
@@ -101,7 +128,7 @@ serve(async (req) => {
                 detected_at: anomaly.detected_at,
               },
               webhookUrl: webhook.webhook_url,
-              secret: webhook.secret,
+              secretEncrypted: webhook.secret_encrypted,
             },
           });
         } catch (error) {
@@ -112,8 +139,11 @@ serve(async (req) => {
 
     // Send server-side GA4 event if configured
     const workspace = link.workspaces as any;
-    if (workspace?.ga4_measurement_id && workspace?.ga4_api_secret) {
+    if (workspace?.ga4_measurement_id && workspace?.ga4_api_secret_encrypted) {
       try {
+        // Decrypt GA4 API secret
+        const ga4ApiSecret = await decryptToken(workspace.ga4_api_secret_encrypted);
+
         const ga4Payload = {
           client_id: clickData.ip_address || 'unknown',
           events: [{
@@ -136,7 +166,7 @@ serve(async (req) => {
         };
 
         const ga4Response = await fetch(
-          `https://www.google-analytics.com/mp/collect?measurement_id=${workspace.ga4_measurement_id}&api_secret=${workspace.ga4_api_secret}`,
+          `https://www.google-analytics.com/mp/collect?measurement_id=${workspace.ga4_measurement_id}&api_secret=${ga4ApiSecret}`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -170,7 +200,7 @@ serve(async (req) => {
               referrer: clickData.referrer,
             },
             webhookUrl: webhook.webhook_url,
-            secret: webhook.secret,
+            secretEncrypted: webhook.secret_encrypted,
           },
         });
       } catch (error) {

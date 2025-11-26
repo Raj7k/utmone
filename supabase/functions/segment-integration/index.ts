@@ -6,6 +6,60 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to encrypt token
+async function encryptToken(plaintext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['encrypt']
+  );
+
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encrypted = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encoder.encode(plaintext)
+  );
+
+  const combined = new Uint8Array(iv.length + encrypted.byteLength);
+  combined.set(iv, 0);
+  combined.set(new Uint8Array(encrypted), iv.length);
+  
+  return btoa(String.fromCharCode(...combined));
+}
+
+// Helper function to decrypt token
+async function decryptToken(ciphertext: string): Promise<string> {
+  const encryptionKey = Deno.env.get('ENCRYPTION_KEY')!;
+  const decoder = new TextDecoder();
+  const encoder = new TextEncoder();
+  
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(encryptionKey.padEnd(32, '0').slice(0, 32)),
+    { name: 'AES-GCM' },
+    false,
+    ['decrypt']
+  );
+
+  const combined = Uint8Array.from(atob(ciphertext), c => c.charCodeAt(0));
+  const iv = combined.slice(0, 12);
+  const encryptedData = combined.slice(12);
+
+  const decrypted = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv },
+    keyMaterial,
+    encryptedData
+  );
+
+  return decoder.decode(decrypted);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -43,13 +97,16 @@ serve(async (req) => {
     const workspaceId = workspaceData.workspace_id;
 
     if (action === 'configure') {
-      // Store Segment write key
+      // Encrypt write key before storing
+      const encryptedConfig = await encryptToken(JSON.stringify({ write_key: writeKey }));
+
+      // Store encrypted config
       await supabaseClient
         .from('integrations')
         .upsert({
           workspace_id: workspaceId,
           provider: 'segment',
-          config: { write_key: writeKey },
+          config_encrypted: encryptedConfig,
           is_active: true,
           created_by: user.id,
         });
@@ -62,7 +119,7 @@ serve(async (req) => {
     }
 
     if (action === 'track-click') {
-      // Get integration
+      // Get integration with encrypted config
       const { data: integration } = await supabaseClient
         .from('integrations')
         .select('*')
@@ -75,7 +132,10 @@ serve(async (req) => {
         throw new Error('Segment integration not found');
       }
 
-      const segmentWriteKey = integration.config?.write_key;
+      // Decrypt config
+      const configJson = await decryptToken(integration.config_encrypted);
+      const config = JSON.parse(configJson);
+      const segmentWriteKey = config.write_key;
 
       // Get click data
       const { data: click } = await supabaseClient
