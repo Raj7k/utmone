@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Navigation } from "@/components/landing/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
@@ -17,41 +10,13 @@ import { TrustNarrativeCard } from "@/components/early-access/TrustNarrativeCard
 import { PublicLeaderboard } from "@/components/early-access/PublicLeaderboard";
 import { SocialProofStats } from "@/components/early-access/SocialProofStats";
 import { DiagonalLines, FloatingShapes, GridOverlay, GradientDivider } from "@/components/early-access/EarlyAccessDecorations";
+import { EarlyAccessStepForm } from "@/components/early-access/EarlyAccessStepForm";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock } from "lucide-react";
-import { useTrackPageView, useTrackFormStart, useTrackFormSubmit } from "@/hooks/useWaitlistEngagement";
+import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
 import { useQuery } from "@tanstack/react-query";
-
-// Comprehensive 9-field form schema
-const formSchema = z.object({
-  name: z.string()
-    .min(1, "please enter your full name")
-    .max(100, "name must be less than 100 characters"),
-  email: z.string()
-    .email("please enter a valid email")
-    .max(255, "email must be less than 255 characters"),
-  role: z.string()
-    .min(1, "please select your role"),
-  team_size: z.string()
-    .min(1, "please select your team size"),
-  reason_for_joining: z.string()
-    .min(1, "please select why you want to join"),
-  reason_details: z.string()
-    .max(500, "please keep it under 500 characters")
-    .optional(),
-  how_heard: z.string()
-    .min(1, "please select how you heard about us"),
-  desired_domain: z.string()
-    .max(100, "domain must be less than 100 characters")
-    .optional(),
-  company_domain: z.string()
-    .max(100, "domain must be less than 100 characters")
-    .optional(),
-});
-
-type FormData = z.infer<typeof formSchema>;
 
 const BenefitItem = ({ icon: Icon, title, description, delay = 0 }: { 
   icon: any; 
@@ -103,14 +68,12 @@ const AudienceItem = ({ icon: Icon, label, delay = 0, color = "primary" }: {
 };
 
 export default function EarlyAccess() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
   const [heroVariant, setHeroVariant] = useState(getOrCreateEarlyAccessVariant());
 
   // Engagement tracking
   useTrackPageView('/early-access');
-  const trackFormStart = useTrackFormStart();
-  const trackFormSubmit = useTrackFormSubmit();
 
   // Fetch waitlist stats for FOMO counter using edge function (bypasses RLS)
   const { data: stats } = useQuery({
@@ -125,88 +88,9 @@ export default function EarlyAccess() {
     },
   });
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      role: "",
-      team_size: "",
-      reason_for_joining: "",
-      reason_details: "",
-      how_heard: "",
-      desired_domain: "",
-      company_domain: "",
-    },
-  });
-
-  const onSubmit = async (data: FormData) => {
-    setIsSubmitting(true);
-
-    // Track form submission
-    trackFormSubmit({
-      role: data.role,
-      team_size: data.team_size,
-      variant_id: heroVariant.id.toString(),
-    });
-
-    // Check rate limit
-    try {
-      const { data: rateLimitData } = await supabase.functions.invoke('check-early-access-rate-limit');
-      
-      if (rateLimitData && !rateLimitData.allowed) {
-        toast.error("too many requests. please try again in an hour.");
-        setIsSubmitting(false);
-        return;
-      }
-    } catch (rateLimitError) {
-      console.error('Rate limit check failed:', rateLimitError);
-    }
-
-    // Get referral code from URL if present
-    const params = new URLSearchParams(window.location.search);
-    const referralCode = params.get('ref');
-    let referredBy: string | null = null;
-
-    if (referralCode) {
-      const { data: referrer } = await supabase
-        .from('early_access_requests')
-        .select('id')
-        .eq('referral_code', referralCode)
-        .single();
-      
-      referredBy = referrer?.id || null;
-    }
-
-    // Submit via edge function (uses service role to bypass RLS)
-    const { data: insertedData, error } = await supabase.functions.invoke(
-      "submit-early-access",
-      {
-        body: {
-          name: data.name,
-          email: data.email,
-          team_size: data.team_size,
-          role: data.role,
-          reason_for_joining: data.reason_for_joining,
-          reason_details: data.reason_details || null,
-          how_heard: data.how_heard,
-          company_domain: data.company_domain || null,
-          desired_domain: data.desired_domain || null,
-          referred_by: referredBy,
-        },
-      }
-    );
-
-    if (error) {
-      console.error('Early access request error:', error);
-      toast.error("something went wrong. please try again.");
-      setIsSubmitting(false);
-      return;
-    }
-
+  const handleSuccess = (data: { id: string; referral_code: string }) => {
+    setReferralCode(data.referral_code);
     setIsSubmitted(true);
-    toast.success("request submitted successfully!");
-    setIsSubmitting(false);
   };
 
   return (
@@ -457,225 +341,7 @@ export default function EarlyAccess() {
               </AnimatedHeadline>
               
               <AnimatedHeadline delay={200}>
-                <Form {...form}>
-                  <form 
-                    onSubmit={form.handleSubmit(onSubmit)} 
-                    className="space-y-6"
-                    onFocus={() => trackFormStart()}
-                  >
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Your full name</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="your full name"
-                              className="h-12 rounded-lg"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="you@company.com"
-                              className="h-12 rounded-lg"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Your role</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 rounded-lg">
-                                <SelectValue placeholder="select your role" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="marketing">marketing</SelectItem>
-                              <SelectItem value="sales">sales</SelectItem>
-                              <SelectItem value="marketing_ops">marketing ops</SelectItem>
-                              <SelectItem value="developer">developer</SelectItem>
-                              <SelectItem value="partner_manager">partner manager</SelectItem>
-                              <SelectItem value="agency">agency</SelectItem>
-                              <SelectItem value="other">other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="team_size"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Team size</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 rounded-lg">
-                                <SelectValue placeholder="select team size" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="just_me">just me</SelectItem>
-                              <SelectItem value="2-10">2-10</SelectItem>
-                              <SelectItem value="11-50">11-50</SelectItem>
-                              <SelectItem value="51-200">51-200</SelectItem>
-                              <SelectItem value="201-500">201-500</SelectItem>
-                              <SelectItem value="500+">500+</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="reason_for_joining"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Why utm.one?</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 rounded-lg">
-                                <SelectValue placeholder="what brings you here?" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="link_management">link management</SelectItem>
-                              <SelectItem value="utm_tracking">UTM tracking</SelectItem>
-                              <SelectItem value="qr_codes">QR codes</SelectItem>
-                              <SelectItem value="analytics">analytics</SelectItem>
-                              <SelectItem value="team_governance">team governance</SelectItem>
-                              <SelectItem value="all">all of the above</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="reason_details"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Tell us more (optional)</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="share any details about your use case (max 500 characters)"
-                              className="min-h-[100px] rounded-lg resize-none"
-                              maxLength={500}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="how_heard"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">How did you hear about utm.one?</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 rounded-lg">
-                                <SelectValue placeholder="select one" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="google_search">google search</SelectItem>
-                              <SelectItem value="social_media">social media</SelectItem>
-                              <SelectItem value="referral">referral</SelectItem>
-                              <SelectItem value="product_hunt">product hunt</SelectItem>
-                              <SelectItem value="blog_article">blog/article</SelectItem>
-                              <SelectItem value="podcast">podcast</SelectItem>
-                              <SelectItem value="other">other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="desired_domain"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Domain to shorten with (optional)</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="go.company.com or company.com"
-                              className="h-12 rounded-lg"
-                              {...field}
-                            />
-                          </FormControl>
-                          <p className="text-xs text-muted-foreground">what domain do you want to use for short links?</p>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="company_domain"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium">Company domain (optional)</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="company.com"
-                              className="h-12 rounded-lg"
-                              {...field}
-                            />
-                          </FormControl>
-                          <p className="text-xs text-muted-foreground">helps us understand your organization</p>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button 
-                      type="submit" 
-                      className="w-full h-12 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "submitting..." : "request early access"}
-                    </Button>
-                    
-                    <p className="text-sm text-tertiary-label text-center">
-                      we review every request manually. you'll hear from us soon.
-                    </p>
-                  </form>
-                </Form>
+                <EarlyAccessStepForm onSuccess={handleSuccess} />
               </AnimatedHeadline>
             </>
           ) : (
@@ -688,6 +354,14 @@ export default function EarlyAccess() {
                 <p className="text-lg text-secondary-label">
                   your request has been received. we'll be in touch when a spot opens.
                 </p>
+                {referralCode && (
+                  <div className="mt-8 p-6 bg-muted/20 rounded-lg">
+                    <p className="text-sm text-muted-foreground mb-2">share your referral link</p>
+                    <code className="text-sm bg-white px-4 py-2 rounded border">
+                      {window.location.origin}/early-access?ref={referralCode}
+                    </code>
+                  </div>
+                )}
               </div>
             </AnimatedHeadline>
           )}
