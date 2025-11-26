@@ -25,6 +25,10 @@ import { UTMTemplateManager } from "./UTMTemplateManager";
 import { BulkLinkSettings, type BulkLinkSettingsData } from "./BulkLinkSettings";
 import { UTMValidationRules, type UTMValidationRule } from "./UTMValidationRules";
 import { ScheduleSettings, type ScheduleData } from "./ScheduleSettings";
+import { ScheduledLinksManager } from "./ScheduledLinksManager";
+import { BulkUploadHistory } from "./BulkUploadHistory";
+import { BulkUploadAnalytics } from "./BulkUploadAnalytics";
+import { BatchLinkOperations } from "./BatchLinkOperations";
 import { useBulkUploadPersistence } from "@/hooks/useBulkUploadPersistence";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateSlugFromTitle } from "@/lib/slugify";
@@ -658,6 +662,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
         </Card>
       )}
 
+
+
       <BulkQRGenerator
         open={showQRGenerator}
         onOpenChange={setShowQRGenerator}
@@ -669,6 +675,29 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             slug: r.slug || '',
           }))}
       />
+
+      {/* Analytics & Management Section */}
+      {state.stage === "idle" && (
+        <div className="space-y-6 mt-8">
+          <div className="border-t pt-8">
+            <h2 className="text-2xl font-display font-semibold mb-6">analytics & management</h2>
+            
+            <div className="grid gap-6">
+              {/* Scheduled Links Manager */}
+              <ScheduledLinksManager workspaceId={workspaceId} />
+              
+              {/* Bulk Upload Analytics */}
+              <BulkUploadAnalytics workspaceId={workspaceId} />
+              
+              {/* Bulk Upload History */}
+              <BulkUploadHistory workspaceId={workspaceId} />
+              
+              {/* Batch Link Operations */}
+              <BatchLinkOperations workspaceId={workspaceId} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
