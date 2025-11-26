@@ -14,6 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
+      ab_test_variants: {
+        Row: {
+          conversion_rate: number | null
+          conversions: number | null
+          created_at: string | null
+          destination_url: string
+          id: string
+          performance_score: number | null
+          test_id: string
+          total_clicks: number | null
+          traffic_percentage: number | null
+          unique_clicks: number | null
+          variant_name: string
+        }
+        Insert: {
+          conversion_rate?: number | null
+          conversions?: number | null
+          created_at?: string | null
+          destination_url: string
+          id?: string
+          performance_score?: number | null
+          test_id: string
+          total_clicks?: number | null
+          traffic_percentage?: number | null
+          unique_clicks?: number | null
+          variant_name: string
+        }
+        Update: {
+          conversion_rate?: number | null
+          conversions?: number | null
+          created_at?: string | null
+          destination_url?: string
+          id?: string
+          performance_score?: number | null
+          test_id?: string
+          total_clicks?: number | null
+          traffic_percentage?: number | null
+          unique_clicks?: number | null
+          variant_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_test_variants_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "ab_tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ab_tests: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          ended_at: string | null
+          id: string
+          link_id: string
+          started_at: string | null
+          status: string | null
+          test_name: string
+          traffic_split: Json | null
+          updated_at: string | null
+          winner_variant_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          ended_at?: string | null
+          id?: string
+          link_id: string
+          started_at?: string | null
+          status?: string | null
+          test_name: string
+          traffic_split?: Json | null
+          updated_at?: string | null
+          winner_variant_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          ended_at?: string | null
+          id?: string
+          link_id?: string
+          started_at?: string | null
+          status?: string | null
+          test_name?: string
+          traffic_split?: Json | null
+          updated_at?: string | null
+          winner_variant_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ab_tests_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ab_tests_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "ab_tests_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_audit_logs: {
         Row: {
           action: string
@@ -703,6 +823,56 @@ export type Database = {
           },
         ]
       }
+      bulk_operations_log: {
+        Row: {
+          affected_count: number | null
+          completed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          error_message: string | null
+          id: string
+          link_ids: string[]
+          operation_type: string
+          parameters: Json | null
+          status: string | null
+          workspace_id: string
+        }
+        Insert: {
+          affected_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          link_ids: string[]
+          operation_type: string
+          parameters?: Json | null
+          status?: string | null
+          workspace_id: string
+        }
+        Update: {
+          affected_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          error_message?: string | null
+          id?: string
+          link_ids?: string[]
+          operation_type?: string
+          parameters?: Json | null
+          status?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_operations_log_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bulk_upload_activity: {
         Row: {
           action_type: string
@@ -1079,6 +1249,56 @@ export type Database = {
           },
           {
             foreignKeyName: "conversion_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      custom_reports: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_scheduled: boolean | null
+          report_config: Json
+          report_name: string
+          report_type: string
+          schedule_frequency: string | null
+          schedule_recipients: string[] | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_scheduled?: boolean | null
+          report_config: Json
+          report_name: string
+          report_type: string
+          schedule_frequency?: string | null
+          schedule_recipients?: string[] | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_scheduled?: boolean | null
+          report_config?: Json
+          report_name?: string
+          report_type?: string
+          schedule_frequency?: string | null
+          schedule_recipients?: string[] | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "custom_reports_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -2053,6 +2273,57 @@ export type Database = {
         }
         Relationships: []
       }
+      link_health_checks: {
+        Row: {
+          check_time: string | null
+          error_message: string | null
+          final_url: string | null
+          id: string
+          is_healthy: boolean | null
+          link_id: string
+          redirect_chain: string[] | null
+          response_code: number | null
+          response_time_ms: number | null
+        }
+        Insert: {
+          check_time?: string | null
+          error_message?: string | null
+          final_url?: string | null
+          id?: string
+          is_healthy?: boolean | null
+          link_id: string
+          redirect_chain?: string[] | null
+          response_code?: number | null
+          response_time_ms?: number | null
+        }
+        Update: {
+          check_time?: string | null
+          error_message?: string | null
+          final_url?: string | null
+          id?: string
+          is_healthy?: boolean | null
+          link_id?: string
+          redirect_chain?: string[] | null
+          response_code?: number | null
+          response_time_ms?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_health_checks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_health_checks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_previews: {
         Row: {
           cached_at: string | null
@@ -2112,22 +2383,28 @@ export type Database = {
       }
       link_tags: {
         Row: {
+          color: string | null
           created_at: string | null
+          created_by: string | null
           id: string
           link_id: string
-          tag: string
+          tag_name: string
         }
         Insert: {
+          color?: string | null
           created_at?: string | null
+          created_by?: string | null
           id?: string
           link_id: string
-          tag: string
+          tag_name: string
         }
         Update: {
+          color?: string | null
           created_at?: string | null
+          created_by?: string | null
           id?: string
           link_id?: string
-          tag?: string
+          tag_name?: string
         }
         Relationships: [
           {
@@ -2858,6 +3135,73 @@ export type Database = {
         }
         Relationships: []
       }
+      redirect_rules: {
+        Row: {
+          conditions: Json
+          created_at: string | null
+          created_by: string | null
+          destination_url: string
+          id: string
+          is_active: boolean | null
+          link_id: string | null
+          match_count: number | null
+          priority: number | null
+          rule_name: string
+          rule_type: string
+          workspace_id: string
+        }
+        Insert: {
+          conditions: Json
+          created_at?: string | null
+          created_by?: string | null
+          destination_url: string
+          id?: string
+          is_active?: boolean | null
+          link_id?: string | null
+          match_count?: number | null
+          priority?: number | null
+          rule_name: string
+          rule_type: string
+          workspace_id: string
+        }
+        Update: {
+          conditions?: Json
+          created_at?: string | null
+          created_by?: string | null
+          destination_url?: string
+          id?: string
+          is_active?: boolean | null
+          link_id?: string | null
+          match_count?: number | null
+          priority?: number | null
+          rule_name?: string
+          rule_type?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redirect_rules_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redirect_rules_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "redirect_rules_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       report_downloads: {
         Row: {
           company: string | null
@@ -2890,6 +3234,57 @@ export type Database = {
           sent_at?: string | null
         }
         Relationships: []
+      }
+      report_exports: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          download_count: number | null
+          expires_at: string | null
+          export_format: string
+          file_path: string | null
+          id: string
+          report_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          download_count?: number | null
+          expires_at?: string | null
+          export_format: string
+          file_path?: string | null
+          id?: string
+          report_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          download_count?: number | null
+          expires_at?: string | null
+          export_format?: string
+          file_path?: string | null
+          id?: string
+          report_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "report_exports_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "custom_reports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "report_exports_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       scheduled_reports: {
         Row: {
@@ -2931,6 +3326,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "scheduled_reports_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      slack_channels: {
+        Row: {
+          channel_name: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          notification_types: string[] | null
+          webhook_url_encrypted: string
+          workspace_id: string
+        }
+        Insert: {
+          channel_name: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          notification_types?: string[] | null
+          webhook_url_encrypted: string
+          workspace_id: string
+        }
+        Update: {
+          channel_name?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          notification_types?: string[] | null
+          webhook_url_encrypted?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slack_channels_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -3680,6 +4116,56 @@ export type Database = {
           {
             foreignKeyName: "workspaces_parent_workspace_id_fkey"
             columns: ["parent_workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      zapier_webhooks: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          last_triggered_at: string | null
+          secret_key: string | null
+          target_url: string
+          total_triggers: number | null
+          trigger_type: string
+          webhook_name: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          secret_key?: string | null
+          target_url: string
+          total_triggers?: number | null
+          trigger_type: string
+          webhook_name: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          secret_key?: string | null
+          target_url?: string
+          total_triggers?: number | null
+          trigger_type?: string
+          webhook_name?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "zapier_webhooks_workspace_id_fkey"
+            columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
             referencedColumns: ["id"]

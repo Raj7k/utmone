@@ -66,7 +66,7 @@ export const useLinkDetail = (linkId: string) => {
       // Fetch tags
       const { data: tags, error: tagsError } = await supabase
         .from("link_tags")
-        .select("tag")
+        .select("tag_name")
         .eq("link_id", linkId);
 
       if (tagsError) throw tagsError;
@@ -83,7 +83,7 @@ export const useLinkDetail = (linkId: string) => {
         ...link,
         owner: link.owner,
         folder: link.folder,
-        tags: tags?.map((t) => t.tag) || [],
+        tags: tags?.map((t) => t.tag_name) || [],
         qr_code_count: qrCount || 0,
       } as LinkDetail;
     },

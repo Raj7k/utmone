@@ -20,7 +20,7 @@ export const useDuplicateLink = () => {
       // Fetch tags
       const { data: tags } = await supabase
         .from("link_tags")
-        .select("tag")
+        .select("tag_name")
         .eq("link_id", linkId);
 
       // Generate new slug
@@ -81,7 +81,7 @@ export const useDuplicateLink = () => {
       if (tags && tags.length > 0) {
         const tagInserts = tags.map((t) => ({
           link_id: newLink.id,
-          tag: t.tag,
+          tag_name: t.tag_name,
         }));
 
         await supabase.from("link_tags").insert(tagInserts);
