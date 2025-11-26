@@ -255,19 +255,14 @@ export function GitHubBackupSettings() {
                   size="sm"
                   asChild
                 >
-                  <a
-                    href={(integration.config as any)?.repo_url || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1"
-                  >
+                  <span className="flex items-center gap-1">
                     View on GitHub
                     <ExternalLink className="h-3 w-3" />
-                  </a>
+                  </span>
                 </Button>
               </div>
-              <p className="text-sm text-secondary-label font-mono">
-                {(integration.config as any)?.repo_owner}/{(integration.config as any)?.repo_name}
+              <p className="text-sm text-secondary-label">
+                GitHub repository configured (encrypted)
               </p>
             </div>
 
