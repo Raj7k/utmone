@@ -6,8 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Info, Loader2 } from "lucide-react";
+import { ArrowLeft, Info } from "lucide-react";
 import { motion } from "framer-motion";
+import { LoadingScreen } from "@/components/loading/LoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const Auth = () => {
@@ -268,25 +269,7 @@ const Auth = () => {
 
   // Show loading screen during session check or authentication
   if (isCheckingSession || isAuthenticating) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-col items-center gap-6 relative z-10"
-        >
-          <UtmOneLogo size="lg" />
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-sm font-medium">
-              {isCheckingSession ? "checking session…" : "signing you in…"}
-            </span>
-          </div>
-        </motion.div>
-      </div>
-    );
+    return <LoadingScreen duration={8000} showProgress={true} />;
   }
 
   return (
