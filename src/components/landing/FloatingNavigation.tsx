@@ -226,17 +226,8 @@ export const FloatingNavigation = () => {
               </Popover>
             </div>
 
-            {/* CTAs */}
+            {/* CTA */}
             <div className="flex items-center gap-2">
-              <Link to="/auth">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="h-8 px-3 text-xs hover:bg-primary/10 hover:text-primary transition-apple hidden md:inline-flex"
-                >
-                  sign in
-                </Button>
-              </Link>
               <Link to="/early-access">
                 <Button 
                   size="sm"

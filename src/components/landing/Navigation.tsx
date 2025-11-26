@@ -525,11 +525,6 @@ export const Navigation = () => {
                   </div>
 
                   <div className="border-t pt-4">
-                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
-                      <Button variant="outline" className="w-full mb-2">
-                        Sign In
-                      </Button>
-                    </Link>
                     <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full rounded-full">
                         Get Early Access
@@ -541,13 +536,8 @@ export const Navigation = () => {
             </Sheet>
           </div>
 
-          {/* Right: Sign In + CTA */}
+          {/* Right: CTA */}
           <div className="flex items-center gap-3">
-            <Link to="/auth" className="hidden lg:inline-flex">
-              <Button variant="ghost" size="sm" className="text-[14px] font-medium text-foreground/70 hover:text-foreground">
-                Sign In
-              </Button>
-            </Link>
             <Link to="/early-access">
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
