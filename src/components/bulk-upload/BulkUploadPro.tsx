@@ -1,0 +1,303 @@
+import { useState, useCallback } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Layers, CheckCircle2, XCircle, AlertTriangle, Download, Upload } from "lucide-react";
+import { DragDropUploader } from "./DragDropUploader";
+import { URLPreviewTable } from "./URLPreviewTable";
+import { ProcessingProgress } from "./ProcessingProgress";
+import { useBulkValidation } from "@/hooks/useBulkValidation";
+import { useBatchProcessor } from "@/hooks/useBatchProcessor";
+import { generateSlugFromTitle } from "@/lib/slugify";
+
+interface BulkUploadProProps {
+  workspaceId: string;
+}
+
+export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [urls, setUrls] = useState<string[]>([]);
+  const [selectedDomain, setSelectedDomain] = useState("utm.click");
+  const [manualInput, setManualInput] = useState("");
+
+  const { validations, validateURLs, getStats } = useBulkValidation();
+  const { state, results, processURLs, reset } = useBatchProcessor(workspaceId);
+
+  // Fetch verified domains
+  const { data: verifiedDomains } = useQuery({
+    queryKey: ["verified-domains", workspaceId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("domains")
+        .select("id, domain, workspace_id")
+        .eq("is_verified", true)
+        .or(`workspace_id.eq.${workspaceId},is_system_domain.eq.true`)
+        .order("is_primary", { ascending: false });
+
+      if (error) throw error;
+      return (data || []).filter(d => d.domain !== 'utm.one');
+    },
+  });
+
+  const handleFileContent = useCallback(
+    (content: string) => {
+      const lines = content.split('\n').map(line => line.trim()).filter(Boolean);
+      setUrls(lines);
+      setManualInput(lines.join('\n'));
+      validateURLs(lines);
+    },
+    [validateURLs]
+  );
+
+  const handleManualInput = useCallback(
+    (value: string) => {
+      setManualInput(value);
+      const lines = value.split('\n').map(line => line.trim()).filter(Boolean);
+      setUrls(lines);
+      if (lines.length > 0) {
+        validateURLs(lines);
+      }
+    },
+    [validateURLs]
+  );
+
+  const handleRemoveURL = useCallback(
+    (index: number) => {
+      const newUrls = urls.filter((_, i) => i !== index);
+      setUrls(newUrls);
+      setManualInput(newUrls.join('\n'));
+      if (newUrls.length > 0) {
+        validateURLs(newUrls);
+      }
+    },
+    [urls, validateURLs]
+  );
+
+  const handleProcess = useCallback(async () => {
+    const stats = getStats();
+    
+    if (stats.invalid > 0) {
+      toast({
+        title: "validation errors",
+        description: `${stats.invalid} invalid URLs. please fix before processing`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Prepare links for creation
+    const links = validations
+      .filter(v => v.isValid && !v.isDuplicate)
+      .map((v, index) => {
+        const slug = generateSlugFromTitle(v.domain || `link-${index + 1}`);
+        return {
+          destination_url: v.url,
+          title: `Bulk Link ${index + 1}`,
+          slug: `${slug}-${index + 1}`,
+        };
+      });
+
+    try {
+      await processURLs(links, selectedDomain);
+      queryClient.invalidateQueries({ queryKey: ["links"] });
+      queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
+      
+      const successCount = results.filter(r => r.success).length;
+      toast({
+        title: "bulk upload complete",
+        description: `${successCount} of ${links.length} links created successfully`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "processing error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  }, [validations, getStats, processURLs, selectedDomain, queryClient, results, toast]);
+
+  const exportResults = useCallback(() => {
+    const csvContent = [
+      'Original URL,Short URL,Slug,Status,Error',
+      ...results.map(r => 
+        `"${r.url}","${r.shortUrl || ''}","${r.slug || ''}","${r.success ? 'success' : 'failed'}","${r.error || ''}"`
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bulk-links-${Date.now()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [results]);
+
+  const stats = getStats();
+  const successCount = results.filter(r => r.success).length;
+  const failedCount = results.filter(r => !r.success).length;
+
+  return (
+    <div className="space-y-6">
+      {/* Input Section */}
+      {state.stage === "idle" && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-title-2">domain selection</CardTitle>
+              <CardDescription>choose your custom domain</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <Label htmlFor="domain">custom domain</Label>
+                <Select value={selectedDomain} onValueChange={setSelectedDomain}>
+                  <SelectTrigger id="domain">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {verifiedDomains?.map((d) => (
+                      <SelectItem key={d.id} value={d.domain}>
+                        {d.domain}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-display text-title-2">upload URLs</CardTitle>
+              <CardDescription>drag and drop or paste URLs</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {urls.length === 0 ? (
+                <DragDropUploader onFileSelect={handleFileContent} />
+              ) : (
+                <div className="space-y-4">
+                  <Textarea
+                    value={manualInput}
+                    onChange={(e) => handleManualInput(e.target.value)}
+                    placeholder="https://example.com/page1&#10;https://example.com/page2"
+                    className="min-h-[120px] font-mono text-sm"
+                  />
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-secondary-label">
+                      {stats.total} URLs • {stats.valid} valid • {stats.duplicates} duplicates • {stats.invalid} invalid
+                    </span>
+                    <Button variant="outline" size="sm" onClick={() => {
+                      setUrls([]);
+                      setManualInput('');
+                    }}>
+                      clear all
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {validations.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-display text-title-2">preview & validate</CardTitle>
+                <CardDescription>review URLs before creating</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <URLPreviewTable validations={validations} onRemove={handleRemoveURL} />
+                <div className="mt-6">
+                  <Button
+                    onClick={handleProcess}
+                    disabled={stats.valid === 0}
+                    className="w-full"
+                    size="lg"
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    create {stats.valid} links
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </>
+      )}
+
+      {/* Processing Section */}
+      {(state.stage === "parsing" || state.stage === "validating" || state.stage === "creating") && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-display text-title-2">processing links</CardTitle>
+            <CardDescription>creating your short links…</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ProcessingProgress {...state} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Results Section */}
+      {state.stage === "complete" && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-display text-title-2">upload complete</CardTitle>
+            <CardDescription>your bulk upload has finished</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="flex items-center gap-3">
+                <Layers className="h-8 w-8 text-primary" />
+                <div>
+                  <p className="text-2xl font-display font-bold">{stats.total}</p>
+                  <p className="text-sm text-secondary-label">total processed</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="h-8 w-8 text-system-green" />
+                <div>
+                  <p className="text-2xl font-display font-bold">{successCount}</p>
+                  <p className="text-sm text-secondary-label">successful</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <XCircle className="h-8 w-8 text-destructive" />
+                <div>
+                  <p className="text-2xl font-display font-bold">{failedCount}</p>
+                  <p className="text-sm text-secondary-label">failed</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <AlertTriangle className="h-8 w-8 text-system-orange" />
+                <div>
+                  <p className="text-2xl font-display font-bold">{stats.duplicates}</p>
+                  <p className="text-sm text-secondary-label">duplicates skipped</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button onClick={exportResults} variant="outline" className="flex-1">
+                <Download className="h-4 w-4 mr-2" />
+                export results
+              </Button>
+              <Button onClick={() => {
+                reset();
+                setUrls([]);
+                setManualInput('');
+              }} className="flex-1">
+                create more links
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};

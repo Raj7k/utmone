@@ -15,7 +15,7 @@ import { ToolSelector } from "@/components/tools/ToolSelector";
 import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
 import { URLShortenerTool } from "@/components/tools/URLShortenerTool";
 import { QRCodeTool } from "@/components/tools/QRCodeTool";
-import { BulkURLShortenerTool } from "@/components/tools/BulkURLShortenerTool";
+import { BulkUploadPro } from "@/components/bulk-upload/BulkUploadPro";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -149,7 +149,7 @@ export default function Links() {
           )}
 
           {selectedTool === "bulk" && (
-            <BulkURLShortenerTool workspaceId={currentWorkspace.id} />
+            <BulkUploadPro workspaceId={currentWorkspace.id} />
           )}
 
           {selectedTool === "qr" && (
