@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare } from "lucide-react";
+import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 interface DashboardSidebarProps {
@@ -15,6 +15,7 @@ const navigation = [
   { name: "workspaces", href: "/client-workspaces", icon: Building2 },
   { name: "targeting", href: "/dashboard/targeting", icon: Target },
   { name: "approvals", href: "/approval-queue", icon: CheckSquare },
+  { name: "waitlist", href: "/admin/waitlist", icon: Users },
   { name: "settings", href: "/settings", icon: Settings },
 ];
 
