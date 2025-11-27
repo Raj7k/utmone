@@ -20,12 +20,6 @@ export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
       icon: Link2,
     },
     {
-      id: "bulk" as const,
-      name: "bulk shortener",
-      description: "process hundreds of urls at once",
-      icon: Zap,
-    },
-    {
       id: "qr" as const,
       name: "qr generator",
       description: "generate branded qr codes",
