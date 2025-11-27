@@ -51,7 +51,7 @@ https://example.com/product,product-page,linkedin,social,spring2024,announcement
     <div className="space-y-6">
       <SectionCard 
         title="upload urls" 
-        hint="paste URLs line by line or upload a CSV file. each URL will be validated automatically"
+        hint="paste up to 100 URLs at once. automatic validation catches broken links before they go live—saving you from embarrassing dead links."
       >
         <div className="space-y-4">
           <div className="flex items-center gap-2">
