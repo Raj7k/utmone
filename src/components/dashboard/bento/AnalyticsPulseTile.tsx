@@ -4,11 +4,13 @@ import { Activity } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
+import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
 
 type HourlyData = { hour: number; clicks: number };
 
 export const AnalyticsPulseTile = () => {
   const { currentWorkspace } = useWorkspace();
+  const { simulatedPlan } = useAdminSimulation();
 
   const { data: clicksToday, isLoading } = useQuery<number>({
     queryKey: ["clicks-today", currentWorkspace?.id],
@@ -36,8 +38,12 @@ export const AnalyticsPulseTile = () => {
     queryFn: async (): Promise<HourlyData[]> => {
       if (!currentWorkspace?.id) return [];
 
-      // Check if user has access to analytics
-      const access = await checkFeatureAccess(currentWorkspace.id, 'geo_analytics');
+      // Check if user has access to analytics (with simulation support)
+      const access = await checkFeatureAccess(
+        currentWorkspace.id, 
+        'geo_analytics',
+        simulatedPlan || undefined
+      );
       if (!access.allowed) return [];
 
       const sevenDaysAgo = new Date();

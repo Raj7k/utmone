@@ -18,7 +18,7 @@ export interface PlanLimits {
   };
 }
 
-export async function checkPlanLimits(workspaceId: string): Promise<PlanLimits> {
+export async function checkPlanLimits(workspaceId: string, overridePlanTier?: PlanTier): Promise<PlanLimits> {
   // Fetch workspace plan
   const { data: workspace, error: workspaceError } = await supabase
     .from('workspaces')
@@ -30,7 +30,8 @@ export async function checkPlanLimits(workspaceId: string): Promise<PlanLimits> 
     throw new Error('Failed to fetch workspace plan');
   }
 
-  const planTier = (workspace.plan_tier || 'free') as PlanTier;
+  // Use override plan tier if provided (for admin simulation), otherwise use workspace plan
+  const planTier = (overridePlanTier || workspace.plan_tier || 'free') as PlanTier;
   const planConfig = PLAN_CONFIG[planTier];
 
   // Count links created this month

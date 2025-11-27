@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { checkPlanLimits } from "@/lib/planEnforcement";
 import { useWorkspace } from "./useWorkspace";
+import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
 
 export interface UsageStat {
   used: number;
@@ -21,15 +22,18 @@ export interface PlanLimitsResult {
 /**
  * Enhanced plan limits hook with detailed usage statistics
  * Returns structured data for each limit with used/limit/remaining counts
+ * Respects admin plan simulation
  */
 export const usePlanLimits = () => {
   const { currentWorkspace } = useWorkspace();
+  const { simulatedPlan } = useAdminSimulation();
 
   const query = useQuery({
-    queryKey: ['plan-limits', currentWorkspace?.id],
+    queryKey: ['plan-limits', currentWorkspace?.id, simulatedPlan],
     queryFn: () => {
       if (!currentWorkspace?.id) throw new Error('No workspace selected');
-      return checkPlanLimits(currentWorkspace.id);
+      // Pass simulated plan to checkPlanLimits for proper override
+      return checkPlanLimits(currentWorkspace.id, simulatedPlan || undefined);
     },
     enabled: !!currentWorkspace?.id,
     staleTime: 30000, // 30 seconds

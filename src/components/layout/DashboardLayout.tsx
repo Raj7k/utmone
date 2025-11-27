@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { AppHeader } from "./AppHeader";
 import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge";
+import { AdminToolbar } from "@/components/admin/AdminToolbar";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -31,6 +32,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
         </main>
       </div>
+
+      {/* Admin God Mode Toolbar */}
+      <AdminToolbar />
     </div>
   );
 };

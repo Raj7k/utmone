@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
+import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -275,12 +276,13 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <WorkspaceProvider>
-              <SkipToContent />
-              <ScrollToTop />
-              <NetworkStatus />
-              <AppWithHelp>
-                <AnimatedRoutes>
-                  <Routes>
+              <AdminSimulationProvider>
+                <SkipToContent />
+                <ScrollToTop />
+                <NetworkStatus />
+                <AppWithHelp>
+                  <AnimatedRoutes>
+                    <Routes>
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -539,6 +541,7 @@ const App = () => (
             </Routes>
             </AnimatedRoutes>
             </AppWithHelp>
+          </AdminSimulationProvider>
           </WorkspaceProvider>
         </BrowserRouter>
       </TooltipProvider>

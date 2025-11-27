@@ -31,10 +31,11 @@ export interface FeatureCheckResult {
  */
 export async function checkFeatureAccess(
   workspaceId: string,
-  feature: Feature
+  feature: Feature,
+  overridePlanTier?: PlanTier
 ): Promise<FeatureCheckResult> {
   try {
-    const limits = await checkPlanLimits(workspaceId);
+    const limits = await checkPlanLimits(workspaceId, overridePlanTier);
 
     // Handle usage-based features (links, domains)
     if (feature === 'create_link') {
