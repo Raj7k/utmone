@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, Menu, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -138,6 +138,14 @@ export const AppHeader = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
+            <Button 
+              onClick={() => navigate('/dashboard/links')} 
+              size="sm" 
+              className="gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="hidden md:inline">Create New</span>
+            </Button>
             <span className="text-footnote text-secondary-label hidden md:block">
               {user?.email}
             </span>
