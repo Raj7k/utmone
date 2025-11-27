@@ -31,17 +31,22 @@ export const AdminToolbar = () => {
   ];
 
   const handlePlanChange = (value: string) => {
+    console.log('[AdminToolbar] Plan changed to:', value);
+    
     // Update local state
     setCurrentValue(value);
     
     // Write to localStorage
     if (value === 'real') {
       localStorage.removeItem(STORAGE_KEY);
+      console.log('[AdminToolbar] Removed simulated plan from localStorage');
     } else {
       localStorage.setItem(STORAGE_KEY, value);
+      console.log('[AdminToolbar] Set localStorage SIMULATED_PLAN to:', value);
     }
     
     // Dispatch custom event for instant UI update
+    console.log('[AdminToolbar] Dispatching storage-update event');
     window.dispatchEvent(new Event('storage-update'));
   };
 

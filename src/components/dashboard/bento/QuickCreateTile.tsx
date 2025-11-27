@@ -8,21 +8,23 @@ import { toast } from "sonner";
 import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
 import { UpgradeModal } from "@/components/UpgradeModal";
 import { useWorkspace } from "@/hooks/useWorkspace";
-import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
+import { useCurrentPlan } from "@/hooks/useCurrentPlan";
+import { PlanTier } from "@/lib/planConfig";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeData, setUpgradeData] = useState<any>(null);
   const { currentWorkspace } = useWorkspace();
-  const { simulatedPlan } = useAdminSimulation();
+  const { id: currentPlanId } = useCurrentPlan();
   const queryClient = useQueryClient();
 
   const createLinkMutation = useMutation({
     mutationFn: async (destinationUrl: string) => {
       if (!currentWorkspace?.id) throw new Error("No workspace selected");
 
-      // Check feature access with simulated plan if admin is testing
+      // Check feature access (uses localStorage-based simulation if active)
+      const simulatedPlan = localStorage.getItem('SIMULATED_PLAN') as PlanTier | null;
       const accessCheck = await checkFeatureAccess(
         currentWorkspace.id, 
         'create_link',

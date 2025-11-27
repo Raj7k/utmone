@@ -5,19 +5,23 @@ import { CircularProgress } from "@/components/ui/circular-progress";
 import { Crown, TrendingUp } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { checkPlanLimits } from "@/lib/planEnforcement";
-import { PLAN_CONFIG } from "@/lib/planConfig";
+import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig";
 import { useNavigate } from "react-router-dom";
+import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 
 export const YourPlanTile = () => {
   const { currentWorkspace } = useWorkspace();
   const navigate = useNavigate();
+  const { id: currentPlanId } = useCurrentPlan();
 
   const { data: limits, isLoading } = useQuery({
-    queryKey: ["plan-limits", currentWorkspace?.id],
+    queryKey: ["plan-limits", currentWorkspace?.id, currentPlanId],
     enabled: !!currentWorkspace?.id,
     queryFn: async () => {
       if (!currentWorkspace?.id) throw new Error("No workspace");
-      return checkPlanLimits(currentWorkspace.id);
+      // Pass simulated plan if it exists (from localStorage)
+      const simulatedPlan = localStorage.getItem('SIMULATED_PLAN');
+      return checkPlanLimits(currentWorkspace.id, simulatedPlan as PlanTier | undefined);
     },
   });
 
