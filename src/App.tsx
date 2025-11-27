@@ -208,6 +208,7 @@ const GlossaryFunnelMath = lazy(() => import("./pages/resources/glossary/funnel-
 const GlossaryLeadVelocityRate = lazy(() => import("./pages/resources/glossary/lead-velocity-rate"));
 const GlossaryConversionWaterfall = lazy(() => import("./pages/resources/glossary/conversion-waterfall"));
 const WaitlistStatus = lazy(() => import("./pages/WaitlistStatus"));
+const WaitlistPending = lazy(() => import("./pages/WaitlistPending"));
 const GlossaryCommitForecast = lazy(() => import("./pages/resources/glossary/commit-forecast"));
 const GlossaryPipelineCoverageRatio = lazy(() => import("./pages/resources/glossary/pipeline-coverage-ratio"));
 const GlossaryRunRate = lazy(() => import("./pages/resources/glossary/run-rate"));
@@ -283,6 +284,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
                
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
