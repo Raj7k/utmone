@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { PlanTier } from "@/lib/planConfig";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = 'SIMULATED_PLAN';
 
@@ -23,7 +23,7 @@ export const AdminToolbar = () => {
   }
 
   const plans: Array<{ value: PlanTier | 'real'; label: string }> = [
-    { value: 'real', label: 'Real Plan' },
+    { value: 'real', label: 'Real' },
     { value: 'free', label: 'Free' },
     { value: 'pro', label: 'Pro' },
     { value: 'business', label: 'Business' },
@@ -52,43 +52,38 @@ export const AdminToolbar = () => {
 
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-2 duration-300">
-      <div className="bg-black/80 backdrop-blur-xl rounded-full px-6 py-3 shadow-2xl border border-white/10">
-        <div className="flex items-center gap-4">
-          {/* Label */}
-          <span className="text-sm font-medium text-white/90">
-            Viewing as:
-          </span>
+      <div className="bg-black/80 backdrop-blur-xl rounded-full px-4 py-2 shadow-2xl border border-white/10">
+        <div className="flex items-center gap-3">
+          {/* Apple-style Segmented Control */}
+          <div className="flex items-center bg-white/5 rounded-lg p-0.5">
+            {plans.map((plan) => (
+              <button
+                key={plan.value}
+                onClick={() => handlePlanChange(plan.value)}
+                className={cn(
+                  "px-3 py-1 text-xs font-medium rounded-md transition-all duration-200",
+                  currentValue === plan.value
+                    ? "bg-white/20 text-white shadow-sm"
+                    : "text-white/60 hover:text-white/80"
+                )}
+              >
+                {plan.label}
+              </button>
+            ))}
+          </div>
 
-          {/* Plan Selector */}
-          <Select
-            value={currentValue}
-            onValueChange={handlePlanChange}
-          >
-            <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white hover:bg-white/15 focus:ring-white/30">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20">
-              {plans.map((plan) => (
-                <SelectItem 
-                  key={plan.value} 
-                  value={plan.value}
-                  className="text-white hover:bg-white/10 focus:bg-white/10 focus:text-white"
-                >
-                  {plan.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {/* Separator */}
+          <div className="h-4 w-px bg-white/20" />
 
           {/* Admin Panel Button */}
           <Button
             onClick={() => navigate('/admin')}
             variant="ghost"
             size="sm"
-            className="bg-white/10 hover:bg-white/20 text-white border-0 gap-2"
+            className="h-7 bg-white/10 hover:bg-white/20 text-white border-0 gap-1.5 px-2.5 text-xs"
           >
-            <Settings className="h-4 w-4" />
-            Admin Panel
+            <Settings className="h-3.5 w-3.5" />
+            Admin
           </Button>
         </div>
       </div>
