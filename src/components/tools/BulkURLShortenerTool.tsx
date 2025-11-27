@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +23,9 @@ import {
   Zap
 } from "lucide-react";
 import { generateSlugFromTitle } from "@/lib/slugify";
+import { HintTooltip } from "@/components/bulk-upload/shared/HintTooltip";
+import { SectionCard } from "@/components/bulk-upload/shared/SectionCard";
+import { useGTMEvents } from "@/components/integrations/GTMProvider";
 
 interface ProcessedURL {
   id: string;
@@ -41,6 +44,7 @@ interface BulkURLShortenerToolProps {
 export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { trackBulkUpload, trackToolOpened } = useGTMEvents();
   const [bulkInput, setBulkInput] = useState("");
   const [processedURLs, setProcessedURLs] = useState<ProcessedURL[]>([]);
   const [selectedDomain, setSelectedDomain] = useState("utm.click");
@@ -52,6 +56,11 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
     cleanQueryParams: false,
     groupByDomain: false,
   });
+
+  // Track tool opened
+  useEffect(() => {
+    trackToolOpened('bulk_url_shortener');
+  }, [trackToolOpened]);
 
   // Fetch verified domains
   const { data: verifiedDomains } = useQuery({
@@ -151,6 +160,9 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
       setProcessedURLs(results);
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
+      
+      // Track bulk upload completion
+      trackBulkUpload('bulk', data.total, data.created);
       
       toast({
         title: "links created",
@@ -261,19 +273,19 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
 
                 <TabsContent value="smart" className="space-y-6 mt-6">
                   {/* Smart Options */}
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Zap className="h-5 w-5 text-primary" />
-                      <h3 className="text-lg font-display font-semibold">Smart processing options</h3>
-                    </div>
-
+                  <SectionCard 
+                    title="Smart processing options" 
+                    hint="Auto-enhance your links with intelligent defaults"
+                    collapsible
+                    defaultOpen
+                  >
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Hash className="h-4 w-4 text-muted-foreground" />
+                        <div className="flex items-center gap-2">
                           <Label htmlFor="autoAlias" className="cursor-pointer">
                             Auto-generate smart aliases
                           </Label>
+                          <HintTooltip content="creates readable slugs like 'linkedin-yourname' instead of random characters" />
                         </div>
                         <Switch
                           id="autoAlias"
@@ -285,11 +297,11 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Globe className="h-4 w-4 text-muted-foreground" />
+                        <div className="flex items-center gap-2">
                           <Label htmlFor="addUTM" className="cursor-pointer">
                             Add UTM tracking parameters
                           </Label>
+                          <HintTooltip content="appends utm_source=bulk&utm_medium=shortener to track link performance in analytics" />
                         </div>
                         <Switch
                           id="addUTM"
@@ -301,11 +313,11 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Sparkles className="h-4 w-4 text-muted-foreground" />
+                        <div className="flex items-center gap-2">
                           <Label htmlFor="cleanQueryParams" className="cursor-pointer">
                             Clean query parameters
                           </Label>
+                          <HintTooltip content="removes existing ?query=params from URLs for cleaner links" />
                         </div>
                         <Switch
                           id="cleanQueryParams"
@@ -317,11 +329,11 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Layers className="h-4 w-4 text-muted-foreground" />
+                        <div className="flex items-center gap-2">
                           <Label htmlFor="groupByDomain" className="cursor-pointer">
                             Group results by domain
                           </Label>
+                          <HintTooltip content="organizes processed links by their original website for easier review" />
                         </div>
                         <Switch
                           id="groupByDomain"
@@ -332,11 +344,14 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                         />
                       </div>
                     </div>
-                  </div>
+                  </SectionCard>
 
                   {/* Domain Selection */}
                   <div className="space-y-2">
-                    <Label htmlFor="domain">Custom domain</Label>
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="domain">Custom domain</Label>
+                      <HintTooltip content="your branded domain increases trust and click-through rates" />
+                    </div>
                     <Select value={selectedDomain} onValueChange={setSelectedDomain}>
                       <SelectTrigger id="domain">
                         <SelectValue placeholder="Select domain" />

@@ -1,17 +1,31 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link2, Layers, Sparkles } from "lucide-react";
+import { useGTMEvents } from "@/components/integrations/GTMProvider";
 
 interface URLShortenerPickerProps {
   onSelectMode: (mode: "shortener-single" | "shortener-bulk" | "shortener-advanced") => void;
 }
 
 export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) => {
+  const { trackBulkModeSelected } = useGTMEvents();
+
+  const handleModeSelect = (mode: "shortener-single" | "shortener-bulk" | "shortener-advanced") => {
+    // Track mode selection
+    const modeMap = {
+      "shortener-single": "single",
+      "shortener-bulk": "bulk",
+      "shortener-advanced": "advanced",
+    } as const;
+    trackBulkModeSelected(modeMap[mode]);
+    onSelectMode(mode);
+  };
   const modes = [
     {
       id: "shortener-single" as const,
       name: "single",
       quantity: "1 url",
       description: "create one short link",
+      hint: "best for quick, one-off links",
       icon: Link2,
     },
     {
@@ -19,6 +33,7 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
       name: "bulk",
       quantity: "10+ urls",
       description: "process many urls at once",
+      hint: "paste a list, get links instantly",
       icon: Layers,
     },
     {
@@ -26,6 +41,7 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
       name: "advanced",
       quantity: "100+ urls",
       description: "full control with templates & utm",
+      hint: "for campaigns with strict tracking rules",
       icon: Sparkles,
     },
   ];
@@ -44,7 +60,7 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
             <Card
               key={mode.id}
               className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] hover:border-primary/20"
-              onClick={() => onSelectMode(mode.id)}
+              onClick={() => handleModeSelect(mode.id)}
             >
               <CardHeader className="p-6 text-center">
                 <div className="flex flex-col items-center gap-3">
@@ -57,8 +73,9 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-6 pt-0 text-center">
+              <CardContent className="p-6 pt-0 text-center space-y-1">
                 <CardDescription className="text-sm">{mode.description}</CardDescription>
+                <p className="text-xs text-muted-foreground/70">{mode.hint}</p>
               </CardContent>
             </Card>
           );

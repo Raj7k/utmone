@@ -135,5 +135,22 @@ export function useGTMEvents() {
         variant_name: variantName,
       });
     },
+
+    trackBulkUpload: (mode: 'single' | 'bulk' | 'advanced', urlCount: number, successCount: number) => {
+      pushEvent('bulk_upload_complete', {
+        mode,
+        url_count: urlCount,
+        success_count: successCount,
+        success_rate: (successCount / urlCount * 100).toFixed(1),
+      });
+    },
+
+    trackBulkModeSelected: (mode: 'single' | 'bulk' | 'advanced') => {
+      pushEvent('bulk_mode_selected', { mode });
+    },
+
+    trackToolOpened: (toolName: string) => {
+      pushEvent('tool_opened', { tool_name: toolName });
+    },
   };
 }
