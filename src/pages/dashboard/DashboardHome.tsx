@@ -17,27 +17,23 @@ const DashboardHome = () => {
 
       {/* Bento Grid */}
       <div className="bento-grid">
-        {/* Tile 1: Quick Create - Full Width */}
-        <div className="tile-quick-create">
-          <QuickCreateTile />
-        </div>
-
-        {/* Tile 2: Analytics Pulse - 7 columns on desktop */}
+        {/* Row 1: Analytics Pulse + Your Plan */}
         <div className="tile-analytics">
           <AnalyticsPulseTile />
         </div>
-
-        {/* Tile 3: Your Plan - 5 columns on desktop */}
         <div className="tile-your-plan">
           <YourPlanTile />
         </div>
 
-        {/* Tile 4: Referral - 5 columns on desktop */}
+        {/* Row 2: Quick Create + Referral */}
+        <div className="tile-quick-create">
+          <QuickCreateTile />
+        </div>
         <div className="tile-referral">
           <ReferralTile />
         </div>
 
-        {/* Tile 5: Recent Links - Full Width */}
+        {/* Row 3: Recent Links - Full Width */}
         <div className="tile-recent-links">
           <BentoRecentLinksTile />
         </div>

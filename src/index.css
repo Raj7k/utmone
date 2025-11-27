@@ -27,11 +27,20 @@ All colors MUST be HSL.
 .tile-quick-create { grid-column: span 12; }
 .tile-analytics { grid-column: span 7; }
 .tile-your-plan { grid-column: span 5; }
-.tile-referral { grid-column: span 7; }
+.tile-referral { grid-column: span 5; }
 .tile-recent-links { grid-column: span 12; }
 
 @media (max-width: 768px) {
-  .bento-grid > * { grid-column: span 12 !important; }
+  .bento-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tile-quick-create { order: 1; }
+  .tile-analytics { order: 2; }
+  .tile-your-plan { order: 3; }
+  .tile-referral { order: 4; }
+  .tile-recent-links { order: 5; }
 }
 
 @layer base {

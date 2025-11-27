@@ -1,7 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain } from "lucide-react";
+import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain, User, LogOut, Palette } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -22,12 +27,42 @@ const navigation = [
 
 export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const { data: profile } = useQuery({
+    queryKey: ['user-profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('full_name, email, avatar_url')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate('/auth');
+    toast({ title: "Signed out successfully" });
+  };
 
   const isActive = (href: string) => {
     if (href === "/dashboard") {
       return location.pathname === href;
     }
     return location.pathname.startsWith(href);
+  };
+  
+  const getInitials = (name: string | null) => {
+    if (!name) return "U";
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
   return (
@@ -62,11 +97,43 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-separator">
-        <p className="text-xs text-tertiary-label text-center">
-          clarity creates confidence.
-        </p>
+      {/* User Profile Footer */}
+      <div className="p-3 border-t border-separator">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-fill-tertiary transition-apple">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={profile?.avatar_url || undefined} />
+                <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                  {getInitials(profile?.full_name || null)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 text-left overflow-hidden">
+                <p className="text-sm font-medium text-label truncate">
+                  {profile?.full_name || "User"}
+                </p>
+                <p className="text-xs text-secondary-label truncate">
+                  {profile?.email || ""}
+                </p>
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuItem onClick={() => navigate('/settings')}>
+              <User className="mr-2 h-4 w-4" />
+              Profile Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/settings')}>
+              <Palette className="mr-2 h-4 w-4" />
+              Appearance
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   );
