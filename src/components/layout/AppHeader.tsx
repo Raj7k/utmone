@@ -10,6 +10,30 @@ import { useAuth } from "@/hooks/useAuth";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { ChevronRight } from "lucide-react";
+
+const getBreadcrumbs = (pathname: string) => {
+  const segments = pathname.split("/").filter(Boolean);
+  const breadcrumbs = [{ label: "Home", path: "/dashboard" }];
+  
+  if (segments.length > 1) {
+    const pageMap: Record<string, string> = {
+      "links": "Links",
+      "qr-codes": "QR Codes",
+      "analytics": "Analytics",
+      "settings": "Settings",
+      "onelink-validator": "OneLink Validator",
+      "targeting": "Targeting"
+    };
+    
+    const page = segments[1];
+    if (pageMap[page]) {
+      breadcrumbs.push({ label: pageMap[page], path: pathname });
+    }
+  }
+  
+  return breadcrumbs;
+};
 
 export const AppHeader = () => {
   const { toast } = useToast();
@@ -17,6 +41,8 @@ export const AppHeader = () => {
   const location = useLocation();
   const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const breadcrumbs = getBreadcrumbs(location.pathname);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -55,13 +81,30 @@ export const AppHeader = () => {
               <UtmOneLogo size="md" />
             </div>
             
+            {/* Breadcrumbs */}
+            <div className="hidden md:flex items-center gap-2 text-caption-1 text-secondary-label">
+              {breadcrumbs.map((crumb, index) => (
+                <div key={crumb.path} className="flex items-center gap-2">
+                  {index > 0 && <ChevronRight className="h-3 w-3" />}
+                  <button
+                    onClick={() => navigate(crumb.path)}
+                    className={index === breadcrumbs.length - 1 
+                      ? "text-label font-medium" 
+                      : "hover:text-label transition-colors"}
+                  >
+                    {crumb.label}
+                  </button>
+                </div>
+              ))}
+            </div>
+            
             {/* Workspace Switcher */}
             <div className="hidden md:block">
               <WorkspaceSwitcher />
             </div>
 
             {/* Navigation */}
-            <nav className="hidden md:flex items-center gap-2">
+            <nav className="hidden lg:flex items-center gap-2">
               <Button 
                 variant={isActive("/dashboard") ? "system" : "system-tertiary"}
                 size="sm"

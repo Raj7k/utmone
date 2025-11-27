@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { Crown, TrendingUp } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { checkPlanLimits } from "@/lib/planEnforcement";
@@ -55,18 +55,15 @@ export const YourPlanTile = () => {
             )}
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between text-caption-1">
-              <span className="text-secondary-label">Links created</span>
-              <span className="text-label font-medium">
-                {limits.currentUsage.linksThisMonth} / {
-                  typeof limits.limits.monthlyLinks === 'number' 
-                    ? limits.limits.monthlyLinks 
-                    : '∞'
-                }
-              </span>
-            </div>
-            <Progress value={usagePercentage} className="h-2" />
+          <div className="flex flex-col items-center py-4">
+            <CircularProgress value={usagePercentage} size={100} strokeWidth={6} />
+            <p className="text-caption-1 text-secondary-label mt-3">
+              {limits.currentUsage.linksThisMonth} / {
+                typeof limits.limits.monthlyLinks === 'number' 
+                  ? limits.limits.monthlyLinks 
+                  : '∞'
+              } links
+            </p>
           </div>
 
           {limits.currentUsage.clicksThisMonth !== undefined && (
