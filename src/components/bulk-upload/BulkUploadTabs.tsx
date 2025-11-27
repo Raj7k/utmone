@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { BulkQRGenerator } from "./BulkQRGenerator";
+import { useGTMEvents } from "@/components/integrations/GTMProvider";
 
 interface BulkUploadTabsProps {
   workspaceId: string;
@@ -30,6 +31,7 @@ const STEP_LABELS = ["choose method", "configuration", "upload & preview", "revi
 export const BulkUploadTabs = ({ workspaceId }: BulkUploadTabsProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { trackBulkUpload, trackToolOpened } = useGTMEvents();
   const [activeTab, setActiveTab] = useState("upload");
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
@@ -51,6 +53,23 @@ export const BulkUploadTabs = ({ workspaceId }: BulkUploadTabsProps) => {
   const { state, results, processURLs, reset } = useEnhancedBatchProcessor(workspaceId, 10);
   const { previews } = useBulkLinkPreview(urls);
   const { scanResults, scanMultipleURLs, getSecurityStats } = useBulkSecurityScan();
+
+  // Track tool opened
+  useEffect(() => {
+    trackToolOpened('advanced_bulk_shortener');
+  }, [trackToolOpened]);
+
+  // Track wizard step changes
+  useEffect(() => {
+    if (currentStep > 0 && currentStep <= STEP_LABELS.length) {
+      const stepLabel = STEP_LABELS[currentStep - 1];
+      window.dataLayer?.push({
+        event: 'bulk_wizard_step',
+        step: currentStep,
+        step_label: stepLabel,
+      });
+    }
+  }, [currentStep]);
 
   const handleTemplateSelect = (template: any) => {
     setSelectedTemplate(template);
@@ -151,6 +170,10 @@ export const BulkUploadTabs = ({ workspaceId }: BulkUploadTabsProps) => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       
       const successCount = results.filter(r => r.success).length;
+      
+      // Track bulk upload completion
+      trackBulkUpload('advanced', links.length, successCount);
+      
       toast({
         title: "bulk upload complete",
         description: `${successCount} of ${links.length} links created successfully`,
