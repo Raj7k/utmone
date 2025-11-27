@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { LinkForge } from "@/components/link-forge/LinkForge";
 import { ToolSelector } from "@/components/tools/ToolSelector";
 import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
-import { URLShortenerEnhanced } from "@/components/url-shortener/URLShortenerEnhanced";
+import { URLShortenerTool } from "@/components/tools/URLShortenerTool";
 import { QRCodeTool } from "@/components/tools/QRCodeTool";
 import { BulkUploadTabs } from "@/components/bulk-upload/BulkUploadTabs";
 
@@ -155,7 +155,14 @@ export default function Links() {
           )}
 
           {selectedTool === "shortener" && currentWorkspace && (
-            <URLShortenerEnhanced workspaceId={currentWorkspace.id} />
+            <URLShortenerTool 
+              workspaceId={currentWorkspace.id}
+              initialURL={utmToShorten}
+              onGenerateQR={(url) => {
+                setUrlForQR(url);
+                setSelectedTool("qr");
+              }}
+            />
           )}
 
           {selectedTool === "bulk" && (
