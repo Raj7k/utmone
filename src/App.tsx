@@ -67,6 +67,7 @@ const FeatureFlags = lazy(() => import("./pages/admin/FeatureFlags"));
 const FlagDetails = lazy(() => import("./pages/admin/FlagDetails"));
 const PartnersManagement = lazy(() => import("./pages/admin/PartnersManagement"));
 const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
+const ClaimAdmin = lazy(() => import("./pages/admin/ClaimAdmin"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
@@ -310,6 +311,7 @@ const App = () => (
               <Route path="/analytics" element={<Suspense fallback={<DashboardSkeleton />}><Analytics /></Suspense>} />
               
               {/* Admin Routes */}
+              <Route path="/admin/claim" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAdmin /></Suspense>} />
               <Route path="/admin" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminDashboard /></AdminLayout></Suspense>} />
               <Route path="/admin/waitlist" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><WaitlistManagement /></AdminLayout></Suspense>} />
               <Route path="/admin/landing" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><LandingManagement /></AdminLayout></Suspense>} />

@@ -171,6 +171,9 @@ verify_jwt = false
 [functions.notify-bulk-upload-complete]
 verify_jwt = true
 
+[functions.claim-admin-access]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
