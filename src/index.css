@@ -17,6 +17,22 @@ All colors MUST be HSL.
   animation: gradient 3s ease infinite;
 }
 
+/* Bento Grid Layout */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+}
+
+.tile-quick-create { grid-column: span 12; }
+.tile-analytics { grid-column: span 7; }
+.tile-your-plan { grid-column: span 5; }
+.tile-recent-links { grid-column: span 12; }
+
+@media (max-width: 768px) {
+  .bento-grid > * { grid-column: span 12 !important; }
+}
+
 @layer base {
   :root {
     /* ============================================
