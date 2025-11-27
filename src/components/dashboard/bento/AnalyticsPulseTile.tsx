@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Activity } from "lucide-react";
+import { Activity, Lock } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
-import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
+import { useCurrentPlan } from "@/hooks/useCurrentPlan";
+import { Button } from "@/components/ui/button";
 
 type HourlyData = { hour: number; clicks: number };
 
 export const AnalyticsPulseTile = () => {
   const { currentWorkspace } = useWorkspace();
-  const { simulatedPlan } = useAdminSimulation();
+  const { isPaidTier } = useCurrentPlan();
 
   const { data: clicksToday, isLoading } = useQuery<number>({
     queryKey: ["clicks-today", currentWorkspace?.id],
@@ -31,20 +32,12 @@ export const AnalyticsPulseTile = () => {
     },
   });
 
-  // Fetch 7-day data for sparkline
+  // Fetch 7-day data for sparkline - only for paid tiers
   const { data: weeklyData } = useQuery<HourlyData[]>({
-    queryKey: ["clicks-weekly", currentWorkspace?.id],
-    enabled: !!currentWorkspace?.id,
+    queryKey: ["clicks-weekly", currentWorkspace?.id, isPaidTier],
+    enabled: !!currentWorkspace?.id && isPaidTier,
     queryFn: async (): Promise<HourlyData[]> => {
       if (!currentWorkspace?.id) return [];
-
-      // Check if user has access to analytics (with simulation support)
-      const access = await checkFeatureAccess(
-        currentWorkspace.id, 
-        'geo_analytics',
-        simulatedPlan || undefined
-      );
-      if (!access.allowed) return [];
 
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -83,7 +76,7 @@ export const AnalyticsPulseTile = () => {
     },
   });
 
-  const showChart = weeklyData && weeklyData.length > 0 && weeklyData.some(d => d.clicks > 0);
+  const showChart = isPaidTier && weeklyData && weeklyData.length > 0 && weeklyData.some(d => d.clicks > 0);
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
@@ -108,7 +101,20 @@ export const AnalyticsPulseTile = () => {
             </p>
           </div>
 
-          {showChart ? (
+          {!isPaidTier ? (
+            // FREE TIER: Show upgrade lock
+            <div className="flex flex-col items-center justify-center py-8 px-4 bg-muted/20 rounded-lg border border-border/50">
+              <Lock className="h-8 w-8 text-muted-foreground/40 mb-3" />
+              <p className="text-sm font-medium text-foreground mb-1">Analytics Chart Locked</p>
+              <p className="text-xs text-muted-foreground text-center mb-4">
+                Upgrade to Pro to see click trends over time
+              </p>
+              <Button size="sm" variant="default">
+                Upgrade to Pro
+              </Button>
+            </div>
+          ) : showChart ? (
+            // PAID TIER: Show chart if data exists
             <div className="h-20 -mx-2">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weeklyData}>
@@ -138,8 +144,9 @@ export const AnalyticsPulseTile = () => {
               </ResponsiveContainer>
             </div>
           ) : (
+            // PAID TIER: No data yet
             <p className="text-caption-2 text-tertiary-label text-center py-4">
-              {!showChart && weeklyData ? "Upgrade to Pro for detailed analytics" : "No clicks in the last 7 days"}
+              No clicks in the last 7 days
             </p>
           )}
         </div>
