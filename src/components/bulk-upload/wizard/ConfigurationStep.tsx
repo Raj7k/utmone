@@ -68,7 +68,7 @@ export const ConfigurationStep = ({
 
       <SectionCard 
         title="domain" 
-        hint="choose your custom domain for branded short links. example: go.yourcompany.com/abc"
+        hint="your branded domain (like go.company.com) increases trust. click-through rates are 25% higher with custom domains."
       >
         <div className="space-y-2">
           <Label>custom domain *</Label>
@@ -93,7 +93,7 @@ export const ConfigurationStep = ({
 
       <SectionCard 
         title="utm parameters" 
-        hint="add tracking parameters to measure campaign performance. these will be appended to all links"
+        hint="utm parameters help you see exactly which campaign drove each click in google analytics. leave blank to skip."
         collapsible
         defaultOpen={!templateName}
       >
@@ -148,7 +148,7 @@ export const ConfigurationStep = ({
 
       <SectionCard 
         title="organization" 
-        hint="organize links into folders and add tags for easy filtering"
+        hint="folders keep campaigns organized. tags let you filter links across folders—like 'q1' or 'webinar'."
         collapsible
         defaultOpen={false}
       >
