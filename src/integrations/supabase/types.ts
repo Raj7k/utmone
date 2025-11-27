@@ -1755,6 +1755,35 @@ export type Database = {
         }
         Relationships: []
       }
+      feature_gates: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          feature_key: string
+          min_plan_tier: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          feature_key: string
+          min_plan_tier?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          feature_key?: string
+          min_plan_tier?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_gates_min_plan_tier_fkey"
+            columns: ["min_plan_tier"]
+            isOneToOne: false
+            referencedRelation: "subscription_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       flag_recommendations: {
         Row: {
           applied_at: string | null
@@ -3402,6 +3431,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      subscription_plans: {
+        Row: {
+          created_at: string | null
+          id: string
+          max_clicks_per_month: number | null
+          max_custom_domains: number | null
+          max_links: number | null
+          price_monthly: number
+          retention_days: number | null
+          support_level: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          max_clicks_per_month?: number | null
+          max_custom_domains?: number | null
+          max_links?: number | null
+          price_monthly: number
+          retention_days?: number | null
+          support_level?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          max_clicks_per_month?: number | null
+          max_custom_domains?: number | null
+          max_links?: number | null
+          price_monthly?: number
+          retention_days?: number | null
+          support_level?: string | null
+        }
+        Relationships: []
       }
       targeting_rules: {
         Row: {

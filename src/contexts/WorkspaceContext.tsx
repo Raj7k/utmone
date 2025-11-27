@@ -9,6 +9,7 @@ interface Workspace {
   name: string;
   slug: string;
   owner_id: string;
+  plan_tier?: string;
   is_client_workspace?: boolean;
   parent_workspace_id?: string;
   created_at?: string;

@@ -1,5 +1,7 @@
 import { checkPlanLimits, PlanLimits } from './planEnforcement';
 import { PlanTier } from './planConfig';
+import { supabase } from '@/integrations/supabase/client';
+import { hasMinPlanTier } from './featureGating';
 
 export type Feature = 
   | 'create_link' 
@@ -9,7 +11,10 @@ export type Feature =
   | 'api_access' 
   | 'white_label'
   | 'team_members'
-  | 'qr_advanced';
+  | 'qr_advanced'
+  | 'csv_export'
+  | 'remove_branding'
+  | 'sso';
 
 export interface FeatureCheckResult {
   allowed: boolean;
@@ -20,17 +25,10 @@ export interface FeatureCheckResult {
   planLimits?: PlanLimits;
 }
 
-const FEATURE_TO_UPGRADE_MAP: Record<Feature, PlanTier> = {
-  create_link: 'pro',
-  add_domain: 'pro',
-  geo_analytics: 'pro',
-  export_svg: 'pro',
-  api_access: 'pro',
-  white_label: 'business',
-  team_members: 'pro',
-  qr_advanced: 'pro',
-};
-
+/**
+ * Check if user can access a feature
+ * Now queries the feature_gates table for dynamic feature gating
+ */
 export async function checkFeatureAccess(
   workspaceId: string,
   feature: Feature
@@ -38,67 +36,60 @@ export async function checkFeatureAccess(
   try {
     const limits = await checkPlanLimits(workspaceId);
 
-    // Map features to plan limits
-    switch (feature) {
-      case 'create_link':
-        return {
-          allowed: limits.canCreateLink,
-          reason: limits.reason,
-          currentUsage: limits.currentUsage.linksThisMonth,
-          limit: limits.limits.monthlyLinks,
-          upgradeRequired: limits.canCreateLink ? undefined : FEATURE_TO_UPGRADE_MAP[feature],
-          planLimits: limits,
-        };
-
-      case 'add_domain':
-        return {
-          allowed: limits.canAddDomain,
-          reason: limits.reason,
-          currentUsage: limits.currentUsage.customDomains,
-          limit: limits.limits.customDomains,
-          upgradeRequired: limits.canAddDomain ? undefined : FEATURE_TO_UPGRADE_MAP[feature],
-          planLimits: limits,
-        };
-
-      case 'geo_analytics':
-      case 'export_svg':
-      case 'qr_advanced':
-        // These are plan-tier features
-        const hasPremiumFeature = limits.planTier !== 'free';
-        return {
-          allowed: hasPremiumFeature,
-          reason: hasPremiumFeature ? undefined : `Upgrade to ${FEATURE_TO_UPGRADE_MAP[feature]} to access this feature`,
-          upgradeRequired: hasPremiumFeature ? undefined : FEATURE_TO_UPGRADE_MAP[feature],
-          planLimits: limits,
-        };
-
-      case 'api_access':
-        return {
-          allowed: true, // All plans have API access
-          planLimits: limits,
-        };
-
-      case 'white_label':
-        const hasWhiteLabel = limits.planTier === 'business' || limits.planTier === 'enterprise';
-        return {
-          allowed: hasWhiteLabel,
-          reason: hasWhiteLabel ? undefined : 'Upgrade to Business for white-label features',
-          upgradeRequired: hasWhiteLabel ? undefined : 'business',
-          planLimits: limits,
-        };
-
-      case 'team_members':
-        return {
-          allowed: true, // All plans have unlimited team members
-          planLimits: limits,
-        };
-
-      default:
-        return {
-          allowed: true,
-          planLimits: limits,
-        };
+    // Handle usage-based features (links, domains)
+    if (feature === 'create_link') {
+      return {
+        allowed: limits.canCreateLink,
+        reason: limits.reason,
+        currentUsage: limits.currentUsage.linksThisMonth,
+        limit: limits.limits.monthlyLinks,
+        upgradeRequired: limits.canCreateLink ? undefined : 'pro',
+        planLimits: limits,
+      };
     }
+
+    if (feature === 'add_domain') {
+      return {
+        allowed: limits.canAddDomain,
+        reason: limits.reason,
+        currentUsage: limits.currentUsage.customDomains,
+        limit: limits.limits.customDomains,
+        upgradeRequired: limits.canAddDomain ? undefined : 'pro',
+        planLimits: limits,
+      };
+    }
+
+    // For tier-based features, query feature_gates table
+    const { data: gate, error } = await supabase
+      .from('feature_gates')
+      .select('*')
+      .eq('feature_key', feature)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = no rows found, which is okay
+      throw error;
+    }
+
+    // If feature not in registry, allow by default (backward compatibility)
+    if (!gate) {
+      return {
+        allowed: true,
+        planLimits: limits,
+      };
+    }
+
+    // Check if user's plan meets minimum requirement
+    const allowed = hasMinPlanTier(limits.planTier, gate.min_plan_tier);
+
+    return {
+      allowed,
+      reason: allowed 
+        ? undefined 
+        : `Upgrade to ${gate.min_plan_tier} to access ${gate.description}`,
+      upgradeRequired: allowed ? undefined : (gate.min_plan_tier as PlanTier),
+      planLimits: limits,
+    };
   } catch (error) {
     console.error('Feature access check failed:', error);
     return {
