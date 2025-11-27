@@ -66,55 +66,94 @@ const Auth = () => {
         setIsCheckingSession(false);
       });
 
-    // Listen for auth changes
+    // Listen for auth changes with priority-based access gating
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
+        
         try {
-          // If invite token exists, navigate to accept-invite
+          const userEmail = session.user.email;
+          
+          // Create timeout promise (10 seconds)
+          const timeoutPromise = new Promise<never>((_, reject) => 
+            setTimeout(() => reject(new Error('Access check timed out')), 10000)
+          );
+          
+          // PRIORITY 1: Check workspace invitations
           if (inviteToken) {
             navigate(`/accept-invite?token=${inviteToken}`);
             return;
           }
 
-          // Check if user has any workspaces (owned or member)
-          const { data: ownedWorkspaces, error: ownedError } = await supabase
-            .from("workspaces")
-            .select("id")
-            .eq("owner_id", session.user.id);
+          const inviteCheckPromise = supabase
+            .from("workspace_invitations")
+            .select("id, workspace_id")
+            .eq("email", userEmail!)
+            .is("accepted_at", null)
+            .gt("expires_at", new Date().toISOString())
+            .limit(1)
+            .single();
 
-          const { data: memberWorkspaces, error: memberError } = await supabase
-            .from("workspace_members")
-            .select("workspace_id")
-            .eq("user_id", session.user.id);
-
-          if (ownedError || memberError) {
-            console.error("Workspace query error:", ownedError || memberError);
-            toast({
-              title: "Warning",
-              description: "Could not load workspace data. Redirecting to onboarding.",
-              variant: "default",
-            });
-            navigate("/onboarding");
+          const { data: invite, error: inviteError } = await Promise.race([
+            inviteCheckPromise,
+            timeoutPromise,
+          ]);
+          
+          if (invite && !inviteError) {
+            // Has pending invite - bypass waitlist
+            navigate(`/accept-invite?token=${invite.id}`);
             return;
           }
           
+          // PRIORITY 2: Check existing workspace membership
+          const { data: ownedWorkspaces } = await supabase
+            .from("workspaces")
+            .select("id")
+            .eq("owner_id", session.user.id)
+            .limit(1);
+            
+          const { data: memberWorkspaces } = await supabase
+            .from("workspace_members")
+            .select("workspace_id")
+            .eq("user_id", session.user.id)
+            .limit(1);
+          
           const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
           
-          // Navigate immediately after workspace check
-          if (!hasWorkspaces) {
-            navigate("/onboarding");
-          } else {
+          if (hasWorkspaces) {
             navigate("/dashboard");
+            return;
           }
+          
+          // PRIORITY 3: Check early access status
+          const { data: earlyAccess } = await supabase
+            .from("early_access_requests")
+            .select("status, access_level")
+            .eq("email", userEmail!)
+            .single();
+          
+          if (earlyAccess?.status === 'approved' && (earlyAccess?.access_level || 0) >= 2) {
+            // Approved - send to onboarding
+            navigate("/onboarding");
+          } else if (earlyAccess?.status === 'pending' || earlyAccess?.status === 'waitlisted') {
+            // Still on waitlist
+            navigate("/waitlist-pending");
+          } else {
+            // No early access record found - redirect to waitlist
+            navigate("/waitlist-pending");
+          }
+          
         } catch (err) {
-          console.error("Auth state change error:", err);
+          console.error("Access check error:", err);
           toast({
-            title: "Error",
-            description: "An error occurred during sign in. Please try again.",
+            title: "Access check failed",
+            description: err instanceof Error && err.message === 'Access check timed out' 
+              ? "Request timed out. Please try again." 
+              : "Please try again or contact support.",
             variant: "destructive",
           });
-          navigate("/onboarding");
+          // CRITICAL: Never leave stuck - show error state
+          setIsAuthenticating(false);
         } finally {
           setIsAuthenticating(false);
         }
