@@ -8,13 +8,15 @@ interface HintTooltipProps {
 
 export const HintTooltip = ({ content, className }: HintTooltipProps) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Info className={`h-4 w-4 text-muted-foreground cursor-help ${className || ''}`} />
+          <span className="inline-flex items-center justify-center p-1 rounded-full hover:bg-muted/50 transition-colors cursor-help">
+            <Info className={`h-5 w-5 text-muted-foreground ${className || ''}`} />
+          </span>
         </TooltipTrigger>
-        <TooltipContent className="max-w-xs">
-          <p className="text-sm">{content}</p>
+        <TooltipContent className="max-w-[280px]" side="top" align="start">
+          <p className="text-[13px] leading-relaxed">{content}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
