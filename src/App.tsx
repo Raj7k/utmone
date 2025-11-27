@@ -21,7 +21,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 
 // Lazy-loaded pages for code splitting
-// Lazy-loaded pages for code splitting
+const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
 const Dashboard = lazy(() => import("./pages/dashboard/Overview"));
 const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
 const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
@@ -294,7 +294,8 @@ const App = () => (
                <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
               
               {/* Dashboard Routes with DashboardLayout */}
-              <Route path="/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Dashboard /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/overview" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Dashboard /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/links" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/analytics" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
