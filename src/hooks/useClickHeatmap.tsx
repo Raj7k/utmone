@@ -46,7 +46,7 @@ export const useClickHeatmap = ({
 
       let query = supabase
         .from("link_clicks")
-        .select("clicked_at, link_id, links!inner(workspace_id)")
+        .select("clicked_at, click_hour, link_id, links!inner(workspace_id)")
         .gte("clicked_at", startDate.toISOString())
         .lte("clicked_at", endDate.toISOString());
 
@@ -75,7 +75,8 @@ export const useClickHeatmap = ({
         if (click.clicked_at) {
           const date = new Date(click.clicked_at);
           const day = getDay(date); // 0-6 (Sunday-Saturday)
-          const hour = getHours(date); // 0-23
+          // Use pre-computed click_hour from database, fallback to parsing for backward compatibility
+          const hour = click.click_hour ?? getHours(date); // 0-23
           const key = `${day}-${hour}`;
           grid.set(key, (grid.get(key) || 0) + 1);
         }
