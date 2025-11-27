@@ -16,7 +16,7 @@ import { UTMBuilderTool } from "@/components/tools/UTMBuilderTool";
 import { URLShortenerEnhanced } from "@/components/url-shortener/URLShortenerEnhanced";
 import { QRCodeTool } from "@/components/tools/QRCodeTool";
 import { BulkUploadTabs } from "@/components/bulk-upload/BulkUploadTabs";
-import { LinksURLShortener } from "@/components/url-shortener/LinksURLShortener";
+
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -60,8 +60,16 @@ export default function Links() {
         className="mb-content"
       />
 
-      {/* URL Shortener */}
-      <LinksURLShortener />
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-display font-semibold text-label">links</h2>
+          <p className="text-sm text-secondary-label mt-1">create and manage your short links</p>
+        </div>
+        <Button onClick={() => setCreateDialogOpen(true)} size="lg" className="gap-2">
+          <Plus className="h-5 w-5" />
+          create link
+        </Button>
+      </div>
 
       {!isMobile && (
         <LinkFilters
@@ -86,7 +94,7 @@ export default function Links() {
         </CardContent>
       </Card>
 
-      {/* Create Link Dialog with Selected Tool */}
+      {/* Create Link Dialog with Tool Selection */}
       <Dialog open={createDialogOpen} onOpenChange={(open) => {
         setCreateDialogOpen(open);
         if (!open) handleCloseTool();
@@ -96,18 +104,20 @@ export default function Links() {
             <div className="flex items-center justify-between">
               <div>
                 <DialogTitle className="text-title-2 heading">
-                  {selectedTool === "utm" && "UTM Builder"}
-                  {selectedTool === "shortener" && "URL Shortener"}
-                  {selectedTool === "bulk" && "Bulk URL Shortener"}
-                  {selectedTool === "qr" && "QR Code Generator"}
-                  {selectedTool === "forge" && "Link Forge"}
+                  {!selectedTool && "create link"}
+                  {selectedTool === "utm" && "utm builder"}
+                  {selectedTool === "shortener" && "url shortener"}
+                  {selectedTool === "bulk" && "bulk url shortener"}
+                  {selectedTool === "qr" && "qr code generator"}
+                  {selectedTool === "forge" && "link forge"}
                 </DialogTitle>
                 <DialogDescription>
-                  {selectedTool === "utm" && "Build UTM parameters with quick templates"}
-                  {selectedTool === "shortener" && "Create short, memorable links"}
-                  {selectedTool === "bulk" && "Process hundreds of URLs at once"}
-                  {selectedTool === "qr" && "Generate branded QR codes"}
-                  {selectedTool === "forge" && "All-in-one: UTM + Shortener + QR"}
+                  {!selectedTool && "choose a tool to get started"}
+                  {selectedTool === "utm" && "build utm parameters with quick templates"}
+                  {selectedTool === "shortener" && "create short, memorable links"}
+                  {selectedTool === "bulk" && "process hundreds of urls at once"}
+                  {selectedTool === "qr" && "generate branded qr codes"}
+                  {selectedTool === "forge" && "all-in-one: utm + shortener + qr"}
                 </DialogDescription>
               </div>
               <Button
@@ -119,6 +129,21 @@ export default function Links() {
               </Button>
             </div>
           </DialogHeader>
+
+          {!selectedTool && (
+            <ToolSelector onSelectTool={handleToolSelect} />
+          )}
+
+          {selectedTool && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSelectedTool(null)}
+              className="mb-4"
+            >
+              ← back to tools
+            </Button>
+          )}
 
           {selectedTool === "utm" && (
             <UTMBuilderTool
