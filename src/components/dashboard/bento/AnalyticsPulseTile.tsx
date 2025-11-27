@@ -29,30 +29,34 @@ export const AnalyticsPulseTile = () => {
     },
   });
 
-  const { data: hourlyData } = useQuery({
+  const { data: hourlyData } = useQuery<HourlyData[]>({
     queryKey: ["clicks-hourly", currentWorkspace?.id],
     enabled: !!currentWorkspace?.id,
-    queryFn: async () => {
-      if (!currentWorkspace?.id) return [] as HourlyData[];
+    queryFn: async (): Promise<HourlyData[]> => {
+      if (!currentWorkspace?.id) return [];
 
       // Check if user has access to analytics
       const access = await checkFeatureAccess(currentWorkspace.id, 'geo_analytics');
-      if (!access.allowed) return [] as HourlyData[];
+      if (!access.allowed) return [];
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      const { data, error } = await supabase
+      // @ts-ignore - Suppress deep type inference issue with large Supabase schema
+      const result: any = await supabase
         .from("link_clicks")
         .select("clicked_at")
         .eq("workspace_id", currentWorkspace.id)
         .gte("clicked_at", today.toISOString())
         .order("clicked_at");
 
+      const data: { clicked_at: string }[] | null = result.data;
+      const error: any = result.error;
+
       if (error) throw error;
 
       // Group by hour
-      const hourly = new Array(24).fill(0).map((_, hour) => ({
+      const hourly: HourlyData[] = new Array(24).fill(0).map((_, hour) => ({
         hour,
         clicks: 0,
       }));
