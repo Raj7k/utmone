@@ -1,15 +1,21 @@
+import { useState, useEffect } from "react";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import { useAdminSimulation } from "@/contexts/AdminSimulationContext";
 import { PlanTier } from "@/lib/planConfig";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+const STORAGE_KEY = 'SIMULATED_PLAN';
+
 export const AdminToolbar = () => {
   const { data: isAdmin, isLoading } = useIsAdmin();
-  const { simulatedPlan, setSimulatedPlan } = useAdminSimulation();
   const navigate = useNavigate();
+  
+  // Read from localStorage on mount
+  const [currentValue, setCurrentValue] = useState<string>(() => {
+    return localStorage.getItem(STORAGE_KEY) || 'real';
+  });
 
   // Don't render if not admin or still loading
   if (isLoading || !isAdmin) {
@@ -24,6 +30,21 @@ export const AdminToolbar = () => {
     { value: 'enterprise', label: 'Enterprise' },
   ];
 
+  const handlePlanChange = (value: string) => {
+    // Update local state
+    setCurrentValue(value);
+    
+    // Write to localStorage
+    if (value === 'real') {
+      localStorage.removeItem(STORAGE_KEY);
+    } else {
+      localStorage.setItem(STORAGE_KEY, value);
+    }
+    
+    // Dispatch custom event for instant UI update
+    window.dispatchEvent(new Event('storage-update'));
+  };
+
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-2 duration-300">
       <div className="bg-black/80 backdrop-blur-xl rounded-full px-6 py-3 shadow-2xl border border-white/10">
@@ -35,10 +56,8 @@ export const AdminToolbar = () => {
 
           {/* Plan Selector */}
           <Select
-            value={simulatedPlan || 'real'}
-            onValueChange={(value) => {
-              setSimulatedPlan(value === 'real' ? null : value as PlanTier);
-            }}
+            value={currentValue}
+            onValueChange={handlePlanChange}
           >
             <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white hover:bg-white/15 focus:ring-white/30">
               <SelectValue />
