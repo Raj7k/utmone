@@ -593,17 +593,16 @@ Deno.serve(async (req) => {
     const acceptLanguage = req.headers.get('accept-language') || '';
     const language = acceptLanguage.split(',')[0].split('-')[0] || 'en'; // e.g., "en-US,en" → "en"
     
-    // Get geolocation for targeting rules
-    let country = 'unknown';
-    try {
-      const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`);
-      if (geoResponse.ok) {
-        const geoData = await geoResponse.json();
-        country = geoData.country_code || 'unknown';
-      }
-    } catch (err) {
-      console.error('Geolocation error:', err);
-    }
+    // Extract Cloudflare geolocation headers (passed from Cloudflare Worker/DNS)
+    // These headers are set by Cloudflare and provide instant geolocation without API calls
+    const cfCountry = req.headers.get('cf-ipcountry') || req.headers.get('CF-IPCountry');
+    const cfCity = req.headers.get('cf-ipcity') || req.headers.get('CF-IPCity');
+    
+    // Use Cloudflare headers if available, fallback to 'unknown'
+    const country = cfCountry || 'unknown';
+    const city = cfCity || 'unknown';
+    
+    console.log(`Cloudflare geolocation: country=${country}, city=${city}`);
 
     // Evaluate targeting rules BEFORE redirect
     const targetedUrl = await evaluateTargetingRules(
@@ -634,6 +633,10 @@ Deno.serve(async (req) => {
       // Extract QR code ID from query params if present
       const qrCodeId = url.searchParams.get('qr') || null;
       
+      // Extract click hour (0-23) for "Best Time to Post" analytics
+      const clickedAt = new Date();
+      const clickHour = clickedAt.getUTCHours();
+      
       const clickData = {
         link_id: linkRecord.id,
         ip_address: ipAddress,
@@ -645,9 +648,10 @@ Deno.serve(async (req) => {
         is_unique: isUnique,
         qr_code_id: qrCodeId,
         og_variant_id: null,
-        clicked_at: new Date().toISOString(),
-        country: null,
-        city: null,
+        clicked_at: clickedAt.toISOString(),
+        country: country,
+        city: city,
+        click_hour: clickHour,
       };
 
       try {

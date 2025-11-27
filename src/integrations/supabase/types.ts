@@ -2105,6 +2105,7 @@ export type Database = {
         Row: {
           browser: string | null
           city: string | null
+          click_hour: number | null
           clicked_at: string | null
           country: string | null
           device_type: string | null
@@ -2123,6 +2124,7 @@ export type Database = {
         Insert: {
           browser?: string | null
           city?: string | null
+          click_hour?: number | null
           clicked_at?: string | null
           country?: string | null
           device_type?: string | null
@@ -2141,6 +2143,7 @@ export type Database = {
         Update: {
           browser?: string | null
           city?: string | null
+          click_hour?: number | null
           clicked_at?: string | null
           country?: string | null
           device_type?: string | null
