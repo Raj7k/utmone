@@ -1,12 +1,13 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain, User, LogOut, Palette } from "lucide-react";
+import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain, User, LogOut, Palette, Sun, Moon, Monitor } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "next-themes";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -29,6 +30,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setTheme } = useTheme();
 
   const { data: profile } = useQuery({
     queryKey: ['user-profile'],
@@ -118,15 +120,31 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               </div>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuContent align="end" className="w-56 vibrancy-thick">
             <DropdownMenuItem onClick={() => navigate('/settings')}>
               <User className="mr-2 h-4 w-4" />
               Profile Settings
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate('/settings')}>
-              <Palette className="mr-2 h-4 w-4" />
-              Appearance
-            </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <Palette className="mr-2 h-4 w-4" />
+                Appearance
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className="vibrancy-thick">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  <Sun className="mr-2 h-4 w-4" />
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  <Moon className="mr-2 h-4 w-4" />
+                  Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                  <Monitor className="mr-2 h-4 w-4" />
+                  Auto
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
               <LogOut className="mr-2 h-4 w-4" />
