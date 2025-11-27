@@ -27,6 +27,7 @@ All colors MUST be HSL.
 .tile-quick-create { grid-column: span 12; }
 .tile-analytics { grid-column: span 7; }
 .tile-your-plan { grid-column: span 5; }
+.tile-referral { grid-column: span 7; }
 .tile-recent-links { grid-column: span 12; }
 
 @media (max-width: 768px) {

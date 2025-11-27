@@ -29,8 +29,9 @@ export const AnalyticsPulseTile = () => {
     },
   });
 
-  const { data: hourlyData } = useQuery<HourlyData[]>({
-    queryKey: ["clicks-hourly", currentWorkspace?.id],
+  // Fetch 7-day data for sparkline
+  const { data: weeklyData } = useQuery<HourlyData[]>({
+    queryKey: ["clicks-weekly", currentWorkspace?.id],
     enabled: !!currentWorkspace?.id,
     queryFn: async (): Promise<HourlyData[]> => {
       if (!currentWorkspace?.id) return [];
@@ -39,15 +40,16 @@ export const AnalyticsPulseTile = () => {
       const access = await checkFeatureAccess(currentWorkspace.id, 'geo_analytics');
       if (!access.allowed) return [];
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      sevenDaysAgo.setHours(0, 0, 0, 0);
 
       // @ts-ignore - Suppress deep type inference issue with large Supabase schema
       const result: any = await supabase
         .from("link_clicks")
         .select("clicked_at")
         .eq("workspace_id", currentWorkspace.id)
-        .gte("clicked_at", today.toISOString())
+        .gte("clicked_at", sevenDaysAgo.toISOString())
         .order("clicked_at");
 
       const data: { clicked_at: string }[] | null = result.data;
@@ -55,22 +57,27 @@ export const AnalyticsPulseTile = () => {
 
       if (error) throw error;
 
-      // Group by hour
-      const hourly: HourlyData[] = new Array(24).fill(0).map((_, hour) => ({
-        hour,
-        clicks: 0,
-      }));
+      // Group by day
+      const daily: HourlyData[] = [];
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        daily.push({ hour: date.getDate(), clicks: 0 });
+      }
 
       data?.forEach((click) => {
-        const hour = new Date(click.clicked_at).getHours();
-        hourly[hour].clicks++;
+        const clickDate = new Date(click.clicked_at);
+        const dayIndex = daily.findIndex(d => d.hour === clickDate.getDate());
+        if (dayIndex !== -1) {
+          daily[dayIndex].clicks++;
+        }
       });
 
-      return hourly;
+      return daily;
     },
   });
 
-  const showChart = hourlyData && hourlyData.length > 0 && hourlyData.some(d => d.clicks > 0);
+  const showChart = weeklyData && weeklyData.length > 0 && weeklyData.some(d => d.clicks > 0);
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
@@ -89,7 +96,7 @@ export const AnalyticsPulseTile = () => {
       ) : (
         <div className="space-y-4">
           <div>
-            <p className="text-caption-1 text-tertiary-label">Clicks today</p>
+            <p className="text-caption-1 text-tertiary-label">Clicks last 7 days</p>
             <p className="text-5xl font-display font-bold text-label mt-1">
               {clicksToday || 0}
             </p>
@@ -98,7 +105,7 @@ export const AnalyticsPulseTile = () => {
           {showChart ? (
             <div className="h-20 -mx-2">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={hourlyData}>
+                <AreaChart data={weeklyData}>
                   <defs>
                     <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
@@ -126,7 +133,7 @@ export const AnalyticsPulseTile = () => {
             </div>
           ) : (
             <p className="text-caption-2 text-tertiary-label text-center py-4">
-              {!showChart && hourlyData ? "Upgrade to Pro for detailed analytics" : "No data yet today"}
+              {!showChart && weeklyData ? "Upgrade to Pro for detailed analytics" : "No clicks in the last 7 days"}
             </p>
           )}
         </div>
