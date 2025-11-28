@@ -101,25 +101,20 @@ export const QuickCreateTile = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <LinkIcon className="h-5 w-5 text-primary" />
-          <h3 className="text-title-3 font-display">Quick Create</h3>
-        </div>
-        
-        <form onSubmit={handleSubmit}>
+      <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 h-full flex flex-col">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-center">
           <div className="flex gap-2">
             <Input
               type="url"
               placeholder="Paste URL..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              className="flex-1 h-10"
+              className="flex-1 h-12"
               disabled={createLinkMutation.isPending}
             />
             <Button
               type="submit"
-              className="h-10 px-6"
+              className="h-12 px-6"
               disabled={!url || createLinkMutation.isPending}
             >
               {createLinkMutation.isPending ? (

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CircularProgress } from "@/components/ui/circular-progress";
-import { Crown, TrendingUp } from "lucide-react";
+import { Crown } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { checkPlanLimits } from "@/lib/planEnforcement";
 import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig";
@@ -36,20 +36,20 @@ export const YourPlanTile = () => {
   const daysUntilReset = 30 - new Date().getDate();
 
   return (
-    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+    <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 h-full flex flex-col">
       <div className="flex items-center gap-2 mb-3">
         <Crown className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Your Plan</h3>
       </div>
 
       {isLoading ? (
-        <div className="animate-pulse space-y-3">
+        <div className="animate-pulse space-y-3 flex-1">
           <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
           <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
           <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded" />
         </div>
       ) : limits && planConfig ? (
-        <div className="space-y-3">
+        <div className="space-y-3 flex-1 flex flex-col justify-between">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="capitalize">
               {planConfig.name}
@@ -63,8 +63,8 @@ export const YourPlanTile = () => {
 
           <div className="flex flex-col items-center py-2">
             <CircularProgress value={usagePercentage} size={80} strokeWidth={6} />
-            <p className="text-caption-1 text-secondary-label mt-2">
-              {limits.currentUsage.linksThisMonth} / {
+            <p className="text-caption-1 text-secondary-label mt-2 tracking-tight">
+              <span className="font-semibold">{limits.currentUsage.linksThisMonth}</span> / {
                 typeof limits.limits.monthlyLinks === 'number' 
                   ? limits.limits.monthlyLinks 
                   : '∞'
@@ -95,7 +95,7 @@ export const YourPlanTile = () => {
           )}
         </div>
       ) : (
-        <p className="text-caption-2 text-tertiary-label">Unable to load plan data</p>
+        <p className="text-caption-2 text-tertiary-label flex-1">Unable to load plan data</p>
       )}
     </div>
   );

@@ -6,12 +6,14 @@ import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
 import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 type HourlyData = { hour: number; clicks: number };
 
 export const AnalyticsPulseTile = () => {
   const { currentWorkspace } = useWorkspace();
   const { isPaidTier } = useCurrentPlan();
+  const navigate = useNavigate();
 
   const { data: clicksToday, isLoading } = useQuery<number>({
     queryKey: ["clicks-today", currentWorkspace?.id],
@@ -82,7 +84,10 @@ export const AnalyticsPulseTile = () => {
   const topCountry = "USA"; // TODO: Get from actual data
 
   return (
-    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+    <div 
+      className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 cursor-pointer hover:border-blue-200 transition-colors h-full" 
+      onClick={() => navigate('/dashboard/analytics')}
+    >
       <div className="flex items-center gap-2 mb-3">
         <Activity className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Analytics Pulse</h3>
@@ -101,15 +106,15 @@ export const AnalyticsPulseTile = () => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <p className="text-xs text-muted-foreground">Total Clicks</p>
-              <p className="text-2xl font-bold text-label">{clicksToday?.toLocaleString() || 0}</p>
+              <p className="text-2xl font-bold text-label tracking-tight">{clicksToday?.toLocaleString() || 0}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Active Links</p>
-              <p className="text-2xl font-bold text-label">{activeLinks}</p>
+              <p className="text-2xl font-bold text-label tracking-tight">{activeLinks}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Top Country</p>
-              <p className="text-2xl font-bold text-label">{topCountry}</p>
+              <p className="text-2xl font-bold text-label tracking-tight">{topCountry}</p>
             </div>
           </div>
 
