@@ -3,9 +3,10 @@ import { Gift, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const ReferralTile = () => {
-  const { data: profile } = useQuery({
+  const { data: profile, isLoading } = useQuery({
     queryKey: ["profile-referral"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -31,6 +32,25 @@ export const ReferralTile = () => {
       description: "Referral link copied to clipboard",
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-gradient-to-br from-system-blue/10 to-system-teal/10 rounded-xl border border-slate-200 shadow-sm p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Gift className="h-5 w-5 text-system-blue" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+        <div className="space-y-4">
+          <Skeleton className="h-4 w-full" />
+          <div className="p-3 bg-white rounded-lg border border-slate-200">
+            <Skeleton className="h-3 w-24 mb-2" />
+            <Skeleton className="h-5 w-full" />
+          </div>
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-br from-system-blue/10 to-system-teal/10 rounded-xl border border-slate-200 shadow-sm p-6">

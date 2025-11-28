@@ -25,6 +25,7 @@ export const AnalyticsPulseTile = () => {
       const { count, error } = await supabase
         .from("link_clicks")
         .select("id", { count: "exact", head: true })
+        .eq("workspace_id", currentWorkspace.id)
         .gte("clicked_at", today.toISOString());
 
       if (error) throw error;
