@@ -102,38 +102,6 @@ export const AppHeader = () => {
             <div className="hidden md:block">
               <WorkspaceSwitcher />
             </div>
-
-            {/* Navigation */}
-            <nav className="hidden lg:flex items-center gap-2">
-              <Button 
-                variant={isActive("/dashboard") ? "system" : "system-tertiary"}
-                size="sm"
-                onClick={() => navigate("/dashboard")}
-              >
-                dashboard
-              </Button>
-              <Button 
-                variant={isActive("/dashboard/links") || isActive("/links") ? "system" : "system-tertiary"}
-                size="sm"
-                onClick={() => navigate("/dashboard/links")}
-              >
-                links
-              </Button>
-              <Button 
-                variant={isActive("/dashboard/analytics") || isActive("/analytics") ? "system" : "system-tertiary"}
-                size="sm"
-                onClick={() => navigate("/dashboard/analytics")}
-              >
-                analytics
-              </Button>
-              <Button 
-                variant={isActive("/settings") ? "system" : "system-tertiary"}
-                size="sm"
-                onClick={() => navigate("/settings")}
-              >
-                settings
-              </Button>
-            </nav>
           </div>
 
           {/* Right Side */}
@@ -146,9 +114,6 @@ export const AppHeader = () => {
               <Plus className="h-4 w-4" />
               <span className="hidden md:inline">Create New</span>
             </Button>
-            <span className="text-footnote text-secondary-label hidden md:block">
-              {user?.email}
-            </span>
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={handleSignOut}>
               <LogOut className="h-4 w-4" />

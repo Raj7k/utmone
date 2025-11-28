@@ -39,16 +39,16 @@ export const BentoRecentLinksTile = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center gap-2 mb-4">
+      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+        <div className="flex items-center gap-2 mb-3">
           <Clock className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-display">Recent Links</h3>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="animate-pulse space-y-2">
-              <div className="h-4 bg-slate-200 rounded w-3/4" />
-              <div className="h-3 bg-slate-200 rounded w-1/2" />
+              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+              <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
             </div>
           ))}
         </div>
@@ -58,8 +58,8 @@ export const BentoRecentLinksTile = () => {
 
   if (!recentLinks || recentLinks.length === 0) {
     return (
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center gap-2 mb-4">
+      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+        <div className="flex items-center gap-2 mb-3">
           <Clock className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-display">Recent Links</h3>
         </div>
@@ -71,17 +71,17 @@ export const BentoRecentLinksTile = () => {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+      <div className="flex items-center gap-2 mb-3">
         <Clock className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Recent Links</h3>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1">
         {recentLinks.map((link) => (
           <div
             key={link.id}
-            className="group flex items-center justify-between gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
+            className="group flex items-center justify-between gap-3 py-2 px-3 rounded-lg border border-slate-100 dark:border-border hover:bg-muted/50 transition-colors cursor-pointer"
             onClick={() => navigate(`/links/${link.id}`)}
           >
             <div className="flex-1 min-w-0">
@@ -127,14 +127,6 @@ export const BentoRecentLinksTile = () => {
           </div>
         ))}
       </div>
-
-      <Button
-        variant="system-secondary"
-        className="w-full mt-4"
-        onClick={() => navigate("/links")}
-      >
-        View all links
-      </Button>
     </div>
   );
 };

@@ -33,21 +33,23 @@ export const YourPlanTile = () => {
 
   const showUpgrade = limits && limits.planTier === 'free';
 
+  const daysUntilReset = 30 - new Date().getDate();
+
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+      <div className="flex items-center gap-2 mb-3">
         <Crown className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Your Plan</h3>
       </div>
 
       {isLoading ? (
         <div className="animate-pulse space-y-3">
-          <div className="h-6 bg-slate-200 rounded w-1/2" />
-          <div className="h-4 bg-slate-200 rounded w-3/4" />
-          <div className="h-2 bg-slate-200 rounded" />
+          <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+          <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+          <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded" />
         </div>
       ) : limits && planConfig ? (
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="capitalize">
               {planConfig.name}
@@ -59,28 +61,19 @@ export const YourPlanTile = () => {
             )}
           </div>
 
-          <div className="flex flex-col items-center py-4">
-            <CircularProgress value={usagePercentage} size={100} strokeWidth={6} />
-            <p className="text-caption-1 text-secondary-label mt-3">
+          <div className="flex flex-col items-center py-2">
+            <CircularProgress value={usagePercentage} size={80} strokeWidth={6} />
+            <p className="text-caption-1 text-secondary-label mt-2">
               {limits.currentUsage.linksThisMonth} / {
                 typeof limits.limits.monthlyLinks === 'number' 
                   ? limits.limits.monthlyLinks 
                   : '∞'
               } links
             </p>
+            <p className="text-caption-2 text-tertiary-label mt-1">
+              Resets in {daysUntilReset} days
+            </p>
           </div>
-
-          {limits.currentUsage.clicksThisMonth !== undefined && (
-            <div className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-system-green" />
-                <span className="text-caption-1 text-secondary-label">Clicks this month</span>
-              </div>
-              <span className="text-body-apple font-medium text-label">
-                {limits.currentUsage.clicksThisMonth.toLocaleString()}
-              </span>
-            </div>
-          )}
 
           {showUpgrade && (
             <Button
