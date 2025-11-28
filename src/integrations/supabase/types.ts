@@ -2149,6 +2149,7 @@ export type Database = {
           targeting_rule_id: string | null
           targeting_rule_name: string | null
           user_agent: string | null
+          workspace_id: string | null
         }
         Insert: {
           browser?: string | null
@@ -2168,6 +2169,7 @@ export type Database = {
           targeting_rule_id?: string | null
           targeting_rule_name?: string | null
           user_agent?: string | null
+          workspace_id?: string | null
         }
         Update: {
           browser?: string | null
@@ -2187,6 +2189,7 @@ export type Database = {
           targeting_rule_id?: string | null
           targeting_rule_name?: string | null
           user_agent?: string | null
+          workspace_id?: string | null
         }
         Relationships: [
           {
@@ -2222,6 +2225,13 @@ export type Database = {
             columns: ["targeting_rule_id"]
             isOneToOne: false
             referencedRelation: "targeting_rules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_clicks_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
             referencedColumns: ["id"]
           },
         ]
