@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users, ShieldCheck } from "lucide-react";
+import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users, ShieldCheck, CreditCard } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
@@ -16,6 +16,7 @@ import { SecuritySettings } from "@/components/settings/SecuritySettings";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
+import BillingSettings from "./settings/Billing";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -50,6 +51,8 @@ export default function Settings() {
   useEffect(() => {
     if (location.pathname.includes("/domains")) {
       setActiveTab("domains");
+    } else if (location.pathname.includes("/billing")) {
+      setActiveTab("billing");
     }
 
     // Handle URL params for tab switching
@@ -90,6 +93,10 @@ export default function Settings() {
                 <Globe className="w-4 h-4" />
                 Domains
               </TabsTrigger>
+              <TabsTrigger value="billing" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
+                <CreditCard className="w-4 h-4" />
+                Billing
+              </TabsTrigger>
               <TabsTrigger value="branding" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
                 <Palette className="w-4 h-4" />
                 Branding
@@ -118,6 +125,10 @@ export default function Settings() {
 
             <TabsContent value="domains" className="space-y-6">
               {currentWorkspace && <Domains workspaceId={currentWorkspace.id} />}
+            </TabsContent>
+
+            <TabsContent value="billing" className="space-y-6">
+              <BillingSettings />
             </TabsContent>
 
             <TabsContent value="branding" className="space-y-6">
