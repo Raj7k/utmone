@@ -11,6 +11,7 @@ import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ChevronRight } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 const getBreadcrumbs = (pathname: string) => {
   const segments = pathname.split("/").filter(Boolean);
@@ -41,6 +42,7 @@ export const AppHeader = () => {
   const location = useLocation();
   const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { setCreateModalOpen } = useModal();
   
   const breadcrumbs = getBreadcrumbs(location.pathname);
 
@@ -107,7 +109,7 @@ export const AppHeader = () => {
           {/* Right Side */}
           <div className="flex items-center gap-4">
             <Button 
-              onClick={() => navigate('/dashboard/links')} 
+              onClick={() => setCreateModalOpen(true)} 
               size="sm" 
               className="gap-2"
             >
