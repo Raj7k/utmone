@@ -70,9 +70,12 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   return (
     <aside className="w-64 h-screen border-r border-separator bg-system-background vibrancy flex flex-col">
       {/* Logo */}
-      <div className="h-[72px] flex items-center px-6 border-b border-separator">
+      <Link 
+        to="/" 
+        className="h-[72px] flex items-center px-6 border-b border-separator hover:bg-fill-tertiary transition-apple"
+      >
         <UtmOneLogo size="md" />
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-6 space-y-1">

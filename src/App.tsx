@@ -300,7 +300,6 @@ const App = () => (
               
               {/* Dashboard Routes with DashboardLayout */}
               <Route path="/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense>} />
-              <Route path="/dashboard/overview" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Dashboard /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/links" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/analytics" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/qr-codes" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense>} />
