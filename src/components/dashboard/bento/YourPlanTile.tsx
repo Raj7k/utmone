@@ -25,13 +25,17 @@ export const YourPlanTile = () => {
     },
   });
 
+  // Safe data access with defaults
   const planConfig = limits ? PLAN_CONFIG[limits.planTier] : null;
+  const monthlyLinks = limits?.limits.monthlyLinks;
+  const linksUsed = limits?.currentUsage.linksThisMonth ?? 0;
+  
   const usagePercentage = 
-    limits && typeof limits.limits.monthlyLinks === 'number'
-      ? Math.min((limits.currentUsage.linksThisMonth / limits.limits.monthlyLinks) * 100, 100)
+    limits && typeof monthlyLinks === 'number' && monthlyLinks > 0
+      ? Math.min((linksUsed / monthlyLinks) * 100, 100)
       : 0;
 
-  const showUpgrade = limits && limits.planTier === 'free';
+  const showUpgrade = limits?.planTier === 'free';
 
   const daysUntilReset = 30 - new Date().getDate();
 
@@ -64,9 +68,9 @@ export const YourPlanTile = () => {
           <div className="flex flex-col items-center py-2">
             <CircularProgress value={usagePercentage} size={80} strokeWidth={6} />
             <p className="text-caption-1 text-secondary-label mt-2 tracking-tight">
-              <span className="font-semibold">{limits.currentUsage.linksThisMonth}</span> / {
-                typeof limits.limits.monthlyLinks === 'number' 
-                  ? limits.limits.monthlyLinks 
+              <span className="font-semibold">{linksUsed}</span> / {
+                typeof monthlyLinks === 'number' 
+                  ? monthlyLinks 
                   : '∞'
               } links
             </p>
