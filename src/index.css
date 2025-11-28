@@ -24,10 +24,15 @@ All colors MUST be HSL.
   gap: 1rem;
 }
 
-.tile-quick-create { grid-column: span 12; }
-.tile-analytics { grid-column: span 7; }
-.tile-your-plan { grid-column: span 5; }
-.tile-referral { grid-column: span 5; }
+/* Row 1: Quick Create (8 cols) + Plan Usage (4 cols) */
+.tile-quick-create { grid-column: span 8; }
+.tile-your-plan { grid-column: span 4; }
+
+/* Row 2: Analytics Pulse (8 cols) + Referral (4 cols) */
+.tile-analytics { grid-column: span 8; }
+.tile-referral { grid-column: span 4; }
+
+/* Row 3: Recent Links (Full Width) */
 .tile-recent-links { grid-column: span 12; }
 
 @media (max-width: 768px) {

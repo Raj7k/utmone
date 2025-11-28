@@ -78,10 +78,12 @@ export const AnalyticsPulseTile = () => {
   });
 
   const showChart = isPaidTier && weeklyData && weeklyData.length > 0 && weeklyData.some(d => d.clicks > 0);
+  const activeLinks = 45; // TODO: Get from actual data
+  const topCountry = "USA"; // TODO: Get from actual data
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
+    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+      <div className="flex items-center gap-2 mb-3">
         <Activity className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Analytics Pulse</h3>
       </div>
@@ -89,17 +91,26 @@ export const AnalyticsPulseTile = () => {
       {isLoading ? (
         <div className="h-32 flex items-center justify-center">
           <div className="animate-pulse space-y-2 w-full">
-            <div className="h-4 bg-slate-200 rounded w-1/2" />
-            <div className="h-20 bg-slate-200 rounded" />
+            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+            <div className="h-20 bg-slate-200 dark:bg-slate-700 rounded" />
           </div>
         </div>
       ) : (
         <div className="space-y-4">
-          <div>
-            <p className="text-caption-1 text-tertiary-label">Clicks last 7 days</p>
-            <p className="text-5xl font-display font-bold text-label mt-1">
-              {clicksToday || 0}
-            </p>
+          {/* Key Metrics */}
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <p className="text-xs text-muted-foreground">Total Clicks</p>
+              <p className="text-2xl font-bold text-label">{clicksToday?.toLocaleString() || 0}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Active Links</p>
+              <p className="text-2xl font-bold text-label">{activeLinks}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Top Country</p>
+              <p className="text-2xl font-bold text-label">{topCountry}</p>
+            </div>
           </div>
 
           {!isPaidTier ? (

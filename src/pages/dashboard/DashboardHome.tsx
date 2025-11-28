@@ -12,13 +12,7 @@ const DashboardHome = () => {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-display font-bold text-label">Dashboard</h1>
-          {/* DEBUG: Visual indicator of active plan */}
-          <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-            DEBUG: Current Active Plan = {activePlan}
-          </span>
-        </div>
+        <h1 className="text-4xl font-display font-bold text-label">Dashboard</h1>
         <p className="text-body-apple text-secondary-label mt-2">
           Create and manage your short links
         </p>
@@ -26,17 +20,17 @@ const DashboardHome = () => {
 
       {/* Bento Grid */}
       <div className="bento-grid">
-        {/* Row 1: Analytics Pulse + Your Plan */}
-        <div className="tile-analytics">
-          <AnalyticsPulseTile />
+        {/* Row 1: Quick Create + Plan Usage */}
+        <div className="tile-quick-create">
+          <QuickCreateTile />
         </div>
         <div className="tile-your-plan">
           <YourPlanTile />
         </div>
 
-        {/* Row 2: Quick Create + Referral */}
-        <div className="tile-quick-create">
-          <QuickCreateTile />
+        {/* Row 2: Analytics Pulse + Referral */}
+        <div className="tile-analytics">
+          <AnalyticsPulseTile />
         </div>
         <div className="tile-referral">
           <ReferralTile />

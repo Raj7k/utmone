@@ -35,58 +35,58 @@ export const ReferralTile = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-gradient-to-br from-system-blue/10 to-system-teal/10 rounded-xl border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Gift className="h-5 w-5 text-system-blue" />
-          <Skeleton className="h-6 w-32" />
-        </div>
-        <div className="space-y-4">
-          <Skeleton className="h-4 w-full" />
-          <div className="p-3 bg-white rounded-lg border border-slate-200">
-            <Skeleton className="h-3 w-24 mb-2" />
-            <Skeleton className="h-5 w-full" />
+      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm overflow-hidden">
+        <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
+          <div className="flex items-center gap-2">
+            <Gift className="h-5 w-5 text-primary" />
+            <Skeleton className="h-6 w-32" />
           </div>
+        </div>
+        <div className="p-4 space-y-3">
           <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-full" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-gradient-to-br from-system-blue/10 to-system-teal/10 rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Gift className="h-5 w-5 text-system-blue" />
-        <h3 className="text-title-3 font-display">Invite & Earn</h3>
-      </div>
-
-      <div className="space-y-4">
-        <p className="text-body-apple text-secondary-label">
-          Earn <span className="font-semibold text-label">1 month of Pro</span> for every referral
+    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm overflow-hidden">
+      {/* Gradient Header */}
+      <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
+        <div className="flex items-center gap-2">
+          <Gift className="h-5 w-5 text-primary" />
+          <h3 className="text-title-3 font-display">Invite & Earn</h3>
+        </div>
+        <p className="text-caption-1 text-secondary-label mt-1">
+          Earn <span className="font-semibold text-label">1 month of Pro</span> per referral
         </p>
-
-        <div className="p-3 bg-white rounded-lg border border-slate-200">
-          <p className="text-caption-2 text-tertiary-label mb-1">Your referral code</p>
+      </div>
+      
+      <div className="p-4 space-y-3">
+        <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+          <span className="text-xs text-muted-foreground">Your Code</span>
           <div className="flex items-center gap-2">
-            <code className="text-body-apple font-mono font-semibold text-system-blue flex-1">
+            <code className="text-sm font-mono font-medium">
               {referralCode}
             </code>
             <Button
               variant="ghost"
               size="icon"
+              className="h-6 w-6"
               onClick={copyReferralLink}
-              className="h-8 w-8 flex-shrink-0"
             >
-              <Copy className="h-3.5 w-3.5" />
+              <Copy className="h-3 w-3" />
             </Button>
           </div>
         </div>
 
         <Button
-          variant="system-secondary"
           className="w-full"
+          size="sm"
           onClick={copyReferralLink}
         >
-          Copy referral link
+          Copy link
         </Button>
       </div>
     </div>

@@ -101,41 +101,48 @@ export const QuickCreateTile = () => {
 
   return (
     <>
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center gap-2 mb-4">
+      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+        <div className="flex items-center gap-2 mb-3">
           <LinkIcon className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-display">Quick Create</h3>
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <Input
-            type="url"
-            placeholder="Paste your URL here..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="h-12 text-body-apple"
-            disabled={createLinkMutation.isPending}
-          />
-          
-          <Button
-            type="submit"
-            className="w-full h-12"
-            disabled={!url || createLinkMutation.isPending}
-          >
-            {createLinkMutation.isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
-              </>
-            ) : (
-              "Shorten"
-            )}
-          </Button>
+        <form onSubmit={handleSubmit}>
+          <div className="flex gap-2">
+            <Input
+              type="url"
+              placeholder="Paste URL..."
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              className="flex-1 h-10"
+              disabled={createLinkMutation.isPending}
+            />
+            <Button
+              type="submit"
+              className="h-10 px-6"
+              disabled={!url || createLinkMutation.isPending}
+            >
+              {createLinkMutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Shorten"
+              )}
+            </Button>
+          </div>
         </form>
 
-        <p className="text-caption-2 text-tertiary-label mt-3 text-center">
-          Paste any URL to create a short link instantly
-        </p>
+        {/* Recent Tags */}
+        <div className="flex gap-2 mt-3">
+          <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary cursor-pointer hover:bg-primary/20 transition-colors">
+            campaign
+          </span>
+          <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary cursor-pointer hover:bg-primary/20 transition-colors">
+            social
+          </span>
+          <span className="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary cursor-pointer hover:bg-primary/20 transition-colors">
+            email
+          </span>
+        </div>
       </div>
 
       <UpgradeModal
