@@ -10,14 +10,6 @@ const DashboardHome = () => {
 
   return (
     <div>
-      {/* Page Header */}
-      <div className="mb-6">
-        <h1 className="text-4xl font-display font-bold text-label">Dashboard</h1>
-        <p className="text-body-apple text-secondary-label mt-2">
-          Create and manage your short links
-        </p>
-      </div>
-
       {/* Strict 12-Column Bento Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Row 1: Quick Create (8 cols) + Plan Usage (4 cols) */}
