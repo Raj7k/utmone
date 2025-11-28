@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Gift, Copy } from "lucide-react";
+import { Gift, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const ReferralTile = () => {
+  const [copied, setCopied] = useState(false);
+  
   const { data: profile, isLoading } = useQuery({
     queryKey: ["profile-referral"],
     queryFn: async () => {
@@ -31,11 +34,13 @@ export const ReferralTile = () => {
     toast.success("Copied!", {
       description: "Referral link copied to clipboard",
     });
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm overflow-hidden h-full">
         <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
           <div className="flex items-center gap-2">
             <Gift className="h-5 w-5 text-primary" />
@@ -51,7 +56,7 @@ export const ReferralTile = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm overflow-hidden h-full flex flex-col">
       {/* Gradient Header */}
       <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
         <div className="flex items-center gap-2">
@@ -63,11 +68,11 @@ export const ReferralTile = () => {
         </p>
       </div>
       
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
         <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
           <span className="text-xs text-muted-foreground">Your Code</span>
           <div className="flex items-center gap-2">
-            <code className="text-sm font-mono font-medium">
+            <code className="text-sm font-mono font-medium tracking-tight">
               {referralCode}
             </code>
             <Button
@@ -76,7 +81,7 @@ export const ReferralTile = () => {
               className="h-6 w-6"
               onClick={copyReferralLink}
             >
-              <Copy className="h-3 w-3" />
+              {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
             </Button>
           </div>
         </div>
@@ -86,7 +91,17 @@ export const ReferralTile = () => {
           size="sm"
           onClick={copyReferralLink}
         >
-          Copy link
+          {copied ? (
+            <>
+              <Check className="h-4 w-4 mr-2" />
+              Copied!
+            </>
+          ) : (
+            <>
+              <Copy className="h-4 w-4 mr-2" />
+              Copy link
+            </>
+          )}
         </Button>
       </div>
     </div>

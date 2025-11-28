@@ -9,35 +9,35 @@ const DashboardHome = () => {
   const { id: activePlan, displayName } = useCurrentPlan();
 
   return (
-    <div className="space-y-6">
+    <div>
       {/* Page Header */}
-      <div>
+      <div className="mb-6">
         <h1 className="text-4xl font-display font-bold text-label">Dashboard</h1>
         <p className="text-body-apple text-secondary-label mt-2">
           Create and manage your short links
         </p>
       </div>
 
-      {/* Bento Grid */}
-      <div className="bento-grid">
-        {/* Row 1: Quick Create + Plan Usage */}
-        <div className="tile-quick-create">
+      {/* Strict 12-Column Bento Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Row 1: Quick Create (8 cols) + Plan Usage (4 cols) */}
+        <div className="lg:col-span-8">
           <QuickCreateTile />
         </div>
-        <div className="tile-your-plan">
+        <div className="lg:col-span-4">
           <YourPlanTile />
         </div>
 
-        {/* Row 2: Analytics Pulse + Referral */}
-        <div className="tile-analytics">
+        {/* Row 2: Analytics Pulse (8 cols) + Referral (4 cols) */}
+        <div className="lg:col-span-8">
           <AnalyticsPulseTile />
         </div>
-        <div className="tile-referral">
+        <div className="lg:col-span-4">
           <ReferralTile />
         </div>
 
-        {/* Row 3: Recent Links - Full Width */}
-        <div className="tile-recent-links">
+        {/* Row 3: Recent Links (Full Width) */}
+        <div className="lg:col-span-12">
           <BentoRecentLinksTile />
         </div>
       </div>
