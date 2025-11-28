@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
+import { ModalProvider } from "./contexts/ModalContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -277,10 +278,11 @@ const App = () => (
           <BrowserRouter>
             <WorkspaceProvider>
               <AdminSimulationProvider>
-                <SkipToContent />
-                <ScrollToTop />
-                <NetworkStatus />
-                <AppWithHelp>
+                <ModalProvider>
+                  <SkipToContent />
+                  <ScrollToTop />
+                  <NetworkStatus />
+                  <AppWithHelp>
                   <AnimatedRoutes>
                     <Routes>
               {/* Critical pages - not lazy loaded */}
@@ -541,6 +543,7 @@ const App = () => (
             </Routes>
             </AnimatedRoutes>
             </AppWithHelp>
+          </ModalProvider>
           </AdminSimulationProvider>
           </WorkspaceProvider>
         </BrowserRouter>

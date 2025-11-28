@@ -5,6 +5,7 @@ import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge"
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
+import { CreateLinkModal } from "@/components/CreateLinkModal";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -44,6 +45,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
         </main>
       </div>
+
+      {/* Global Create Link Modal */}
+      <CreateLinkModal />
 
       {/* Admin God Mode Toolbar */}
       <AdminToolbar />
