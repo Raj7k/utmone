@@ -88,7 +88,7 @@ export const YourPlanTile = () => {
             <Button
               variant="system-secondary"
               className="w-full"
-              onClick={() => navigate('/settings')}
+              onClick={() => navigate('/settings?tab=billing')}
             >
               Manage Plan
             </Button>

@@ -1,0 +1,331 @@
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useWorkspace } from "@/hooks/useWorkspace";
+import { useCurrentPlan } from "@/hooks/useCurrentPlan";
+import { checkPlanLimits } from "@/lib/planEnforcement";
+import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { Crown, Loader2 } from "lucide-react";
+import confetti from "canvas-confetti";
+
+const PLAN_HIERARCHY = {
+  free: 0,
+  pro: 1,
+  business: 2,
+  enterprise: 3,
+  lifetime: 1,
+};
+
+export default function BillingSettings() {
+  const { currentWorkspace } = useWorkspace();
+  const { id: currentPlanId } = useCurrentPlan();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const { data: limits, isLoading } = useQuery({
+    queryKey: ["plan-limits", currentWorkspace?.id, currentPlanId],
+    enabled: !!currentWorkspace?.id,
+    queryFn: async () => {
+      if (!currentWorkspace?.id) throw new Error("No workspace");
+      const simulatedPlan = localStorage.getItem('SIMULATED_PLAN');
+      return checkPlanLimits(currentWorkspace.id, simulatedPlan as PlanTier | undefined);
+    },
+  });
+
+  const upgradeMutation = useMutation({
+    mutationFn: async (newPlanTier: PlanTier) => {
+      if (!currentWorkspace?.id) throw new Error("No workspace");
+      
+      // Simulated processing delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Update workspace plan
+      const { error } = await supabase
+        .from('workspaces')
+        .update({ plan_tier: newPlanTier })
+        .eq('id', currentWorkspace.id);
+      
+      if (error) throw error;
+      return newPlanTier;
+    },
+    onSuccess: (newPlanTier) => {
+      // Success celebration
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      
+      const planName = PLAN_CONFIG[newPlanTier].name;
+      toast({
+        title: `🎉 Welcome to ${planName}!`,
+        description: "Your plan has been upgraded successfully.",
+      });
+      
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ["plan-limits"] });
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+      
+      // Redirect to dashboard after celebration
+      setTimeout(() => navigate('/dashboard'), 2000);
+    },
+    onError: (error) => {
+      toast({
+        title: "Upgrade failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      setIsProcessing(false);
+    },
+  });
+
+  const handleUpgrade = (newPlanTier: PlanTier) => {
+    setIsProcessing(true);
+    upgradeMutation.mutate(newPlanTier);
+  };
+
+  const planConfig = limits ? PLAN_CONFIG[limits.planTier] : null;
+  const daysUntilReset = 30 - new Date().getDate();
+
+  const getProgressColor = (percentage: number) => {
+    if (percentage < 50) return "bg-system-green";
+    if (percentage < 80) return "bg-system-yellow";
+    return "bg-system-red";
+  };
+
+  const calculatePercentage = (used: number, limit: number | 'unlimited') => {
+    if (limit === 'unlimited') return 0;
+    return Math.min((used / limit) * 100, 100);
+  };
+
+  const getPlanBadgeColor = (tier: PlanTier) => {
+    switch (tier) {
+      case 'free': return "bg-slate-100 text-slate-700";
+      case 'pro': return "bg-system-blue/10 text-system-blue";
+      case 'business': return "bg-purple-100 text-purple-700";
+      case 'enterprise': return "bg-amber-100 text-amber-700";
+      default: return "bg-slate-100 text-slate-700";
+    }
+  };
+
+  const getButtonState = (tier: PlanTier) => {
+    if (!limits) return { disabled: true, text: "Loading..." };
+    
+    const currentLevel = PLAN_HIERARCHY[limits.planTier];
+    const tierLevel = PLAN_HIERARCHY[tier];
+    
+    if (currentLevel === tierLevel) {
+      return { disabled: true, text: "Current Plan", variant: "outline" as const };
+    } else if (tierLevel > currentLevel) {
+      return { disabled: false, text: `Upgrade to ${PLAN_CONFIG[tier].name}`, variant: "default" as const };
+    } else {
+      return { disabled: false, text: `Downgrade to ${PLAN_CONFIG[tier].name}`, variant: "outline" as const };
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="h-48 bg-slate-200 rounded-2xl" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-80 bg-slate-200 rounded-2xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="space-y-6">
+        {/* Current Usage Card */}
+        {limits && planConfig && (
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <Crown className="h-6 w-6 text-primary" />
+                <div>
+                  <h2 className="text-xl font-display font-semibold">Current Plan</h2>
+                  <Badge className={`capitalize mt-1 ${getPlanBadgeColor(limits.planTier)}`}>
+                    {planConfig.name}
+                  </Badge>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-muted-foreground">Resets in</p>
+                <p className="text-lg font-semibold">{daysUntilReset} days</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 mt-6">
+              {/* Links Usage */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-muted-foreground">Links Used</span>
+                  <span className="font-medium">
+                    {limits.currentUsage.linksThisMonth} / {
+                      typeof limits.limits.monthlyLinks === 'number' 
+                        ? limits.limits.monthlyLinks 
+                        : 'Unlimited'
+                    }
+                  </span>
+                </div>
+                {typeof limits.limits.monthlyLinks === 'number' ? (
+                  <Progress 
+                    value={calculatePercentage(limits.currentUsage.linksThisMonth, limits.limits.monthlyLinks)} 
+                    className="h-2"
+                  />
+                ) : (
+                  <div className="h-2 bg-slate-100 rounded-full" />
+                )}
+              </div>
+
+              {/* Clicks Usage */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-muted-foreground">Clicks This Month</span>
+                  <span className="font-medium">
+                    {limits.currentUsage.clicksThisMonth.toLocaleString()} / {
+                      typeof limits.limits.monthlyClicks === 'number' 
+                        ? limits.limits.monthlyClicks.toLocaleString() 
+                        : 'Unlimited'
+                    }
+                  </span>
+                </div>
+                {typeof limits.limits.monthlyClicks === 'number' ? (
+                  <Progress 
+                    value={calculatePercentage(limits.currentUsage.clicksThisMonth, limits.limits.monthlyClicks)} 
+                    className="h-2"
+                  />
+                ) : (
+                  <div className="h-2 bg-slate-100 rounded-full" />
+                )}
+              </div>
+
+              {/* Custom Domains Usage */}
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-muted-foreground">Custom Domains</span>
+                  <span className="font-medium">
+                    {limits.currentUsage.customDomains} / {
+                      typeof limits.limits.customDomains === 'number' 
+                        ? limits.limits.customDomains 
+                        : 'Unlimited'
+                    }
+                  </span>
+                </div>
+                {typeof limits.limits.customDomains === 'number' ? (
+                  <Progress 
+                    value={calculatePercentage(limits.currentUsage.customDomains, limits.limits.customDomains)} 
+                    className="h-2"
+                  />
+                ) : (
+                  <div className="h-2 bg-slate-100 rounded-full" />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Available Plans Grid */}
+        <div>
+          <h3 className="text-lg font-display font-semibold mb-4">Available Plans</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {(['free', 'pro', 'business', 'enterprise'] as PlanTier[]).map((tier) => {
+              const plan = PLAN_CONFIG[tier];
+              const buttonState = getButtonState(tier);
+              const isCurrentPlan = limits?.planTier === tier;
+              
+              return (
+                <div
+                  key={tier}
+                  className={`bg-white rounded-2xl border shadow-sm p-6 flex flex-col ${
+                    plan.popular ? 'border-primary shadow-md scale-[1.02]' : 'border-slate-100'
+                  } ${isCurrentPlan ? 'opacity-50' : ''}`}
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-lg font-display font-semibold capitalize">{plan.name}</h4>
+                      {plan.popular && (
+                        <Badge className="bg-system-blue text-white">Popular</Badge>
+                      )}
+                    </div>
+                    
+                    <div className="mb-4">
+                      <span className="text-3xl font-bold">
+                        {typeof plan.price === 'number' ? `$${plan.price}` : plan.price || 'Free'}
+                      </span>
+                      {plan.billingPeriod && (
+                        <span className="text-sm text-muted-foreground">
+                          {plan.billingPeriod === 'lifetime' ? '' : `/${plan.billingPeriod}`}
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Links</span>
+                        <span className="font-medium">
+                          {typeof plan.features.monthlyLinks === 'number' 
+                            ? plan.features.monthlyLinks.toLocaleString() 
+                            : 'Unlimited'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Custom Domains</span>
+                        <span className="font-medium">
+                          {typeof plan.features.customDomains === 'number' 
+                            ? plan.features.customDomains 
+                            : 'Unlimited'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Clicks</span>
+                        <span className="font-medium">
+                          {typeof plan.features.monthlyClicks === 'number' 
+                            ? plan.features.monthlyClicks.toLocaleString() 
+                            : 'Unlimited'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button
+                    className="w-full mt-6"
+                    variant={buttonState.variant}
+                    disabled={buttonState.disabled}
+                    onClick={() => !buttonState.disabled && handleUpgrade(tier)}
+                  >
+                    {buttonState.text}
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Processing Modal */}
+      <Dialog open={isProcessing} onOpenChange={() => {}}>
+        <DialogContent className="sm:max-w-md [&>button]:hidden">
+          <div className="flex flex-col items-center justify-center py-8">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <h3 className="text-lg font-semibold mb-2">Processing Secure Payment...</h3>
+            <p className="text-sm text-muted-foreground text-center">
+              Please wait while we upgrade your plan
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
