@@ -83,6 +83,9 @@ export const AnalyticsPulseTile = () => {
   const activeLinks = 45; // TODO: Get from actual data
   const topCountry = "USA"; // TODO: Get from actual data
 
+  // Safe data access with defaults
+  const safeClicksToday = clicksToday ?? 0;
+
   return (
     <div 
       className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 cursor-pointer hover:border-blue-200 transition-colors h-full" 
@@ -106,7 +109,7 @@ export const AnalyticsPulseTile = () => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <p className="text-xs text-muted-foreground">Total Clicks</p>
-              <p className="text-2xl font-bold text-label tracking-tight">{clicksToday?.toLocaleString() || 0}</p>
+              <p className="text-2xl font-bold text-label tracking-tight">{safeClicksToday.toLocaleString()}</p>
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Active Links</p>

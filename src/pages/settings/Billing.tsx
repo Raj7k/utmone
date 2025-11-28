@@ -56,7 +56,14 @@ export default function BillingSettings() {
       if (error) throw error;
       return newPlanTier;
     },
-    onSuccess: (newPlanTier) => {
+    onSuccess: async (newPlanTier) => {
+      // CRITICAL: Invalidate cache FIRST before any UI updates
+      await queryClient.invalidateQueries({ queryKey: ["plan-limits"] });
+      await queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+      
+      // Wait for queries to settle
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       // Success celebration
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
@@ -66,12 +73,10 @@ export default function BillingSettings() {
         description: "Your plan has been upgraded successfully.",
       });
       
-      // Invalidate queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ["plan-limits"] });
-      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
-      
-      // Redirect to dashboard after celebration
-      setTimeout(() => navigate('/dashboard'), 2000);
+      // Force a hard reload to ensure clean state
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 2000);
     },
     onError: (error) => {
       toast({
