@@ -56,8 +56,6 @@ const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
-const BioPages = lazy(() => import("./pages/dashboard/BioPages"));
-const Referrals = lazy(() => import("./pages/dashboard/Referrals"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 
 // Admin pages
@@ -308,8 +306,6 @@ const App = () => (
               <Route path="/dashboard/targeting" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting/:linkId" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/onelink-validator" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense>} />
-              <Route path="/dashboard/bio" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BioPages /></DashboardLayout></Suspense>} />
-              <Route path="/dashboard/referrals" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Referrals /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/campaigns" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
