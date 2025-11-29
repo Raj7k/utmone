@@ -1,29 +1,67 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Link2, QrCode, BarChart3, Settings, Building2, Target, CheckSquare, Users, Brain, User, LogOut, Palette, Sun, Moon, Monitor } from "lucide-react";
+import { 
+  LayoutGrid, 
+  Link2, 
+  BarChart3, 
+  QrCode, 
+  Smartphone, 
+  Users, 
+  Megaphone, 
+  Briefcase, 
+  CreditCard, 
+  User,
+  LogOut, 
+  Palette, 
+  Sun, 
+  Moon, 
+  Monitor,
+  ChevronDown
+} from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, DropdownMenuPortal } from "@/components/ui/dropdown-menu";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger, 
+  DropdownMenuSub, 
+  DropdownMenuSubTrigger, 
+  DropdownMenuSubContent, 
+  DropdownMenuPortal 
+} from "@/components/ui/dropdown-menu";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
 }
 
-const navigation = [
-  { name: "overview", href: "/dashboard", icon: Home },
-  { name: "links", href: "/dashboard/links", icon: Link2 },
-  { name: "onelink validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "qr codes", href: "/dashboard/qr-codes", icon: QrCode },
-  { name: "analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "workspaces", href: "/client-workspaces", icon: Building2 },
-  { name: "targeting", href: "/dashboard/targeting", icon: Target },
-  { name: "approvals", href: "/approval-queue", icon: CheckSquare },
-  { name: "waitlist", href: "/admin/waitlist", icon: Users },
-  { name: "settings", href: "/settings", icon: Settings },
+const appNavigation = [
+  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
+  { name: "Links", href: "/dashboard/links", icon: Link2 },
+  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+];
+
+const toolsNavigation = [
+  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
+  { name: "Bio Pages", href: "/dashboard/bio", icon: Smartphone },
+];
+
+const growthNavigation = [
+  { name: "Referrals", href: "/dashboard/referrals", icon: Users },
+  { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
+];
+
+const settingsNavigation = [
+  { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
+  { name: "Billing", href: "/settings/billing", icon: CreditCard },
+  { name: "Account", href: "/settings/profile", icon: User },
 ];
 
 export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
@@ -31,6 +69,9 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setTheme } = useTheme();
+  
+  const [toolsOpen, setToolsOpen] = useState(true);
+  const [growthOpen, setGrowthOpen] = useState(true);
 
   const { data: profile } = useQuery({
     queryKey: ['user-profile'],
@@ -67,6 +108,10 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
+  // Check if current route is in any group to keep it open
+  const hasActiveToolsRoute = toolsNavigation.some(item => isActive(item.href));
+  const hasActiveGrowthRoute = growthNavigation.some(item => isActive(item.href));
+
   return (
     <aside className="w-64 h-screen border-r border-separator bg-system-background vibrancy flex flex-col">
       {/* Logo */}
@@ -78,8 +123,122 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
       </Link>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-6 space-y-1">
-        {navigation.map((item) => {
+      <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
+        {/* APP Category */}
+        <div className="space-y-1">
+          <div className="px-3 mb-2">
+            <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+              App
+            </p>
+          </div>
+          {appNavigation.map((item) => {
+            const active = isActive(item.href);
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.name}
+                to={item.href}
+                onClick={onNavigate}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
+                  active
+                    ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                    : "text-secondary-label hover:bg-fill-tertiary hover:text-label"
+                )}
+              >
+                <Icon className="h-5 w-5 flex-shrink-0" />
+                <span>{item.name}</span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* TOOLS Category */}
+        <Collapsible open={toolsOpen || hasActiveToolsRoute} onOpenChange={setToolsOpen}>
+          <div className="space-y-1">
+            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
+              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+                Tools
+              </p>
+              <ChevronDown className={cn(
+                "h-3 w-3 text-tertiary-label transition-transform",
+                (toolsOpen || hasActiveToolsRoute) && "rotate-180"
+              )} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-1">
+              {toolsNavigation.map((item) => {
+                const active = isActive(item.href);
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={onNavigate}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
+                      active
+                        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                        : "text-secondary-label hover:bg-fill-tertiary hover:text-label"
+                    )}
+                  >
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
+
+        {/* GROWTH Category */}
+        <Collapsible open={growthOpen || hasActiveGrowthRoute} onOpenChange={setGrowthOpen}>
+          <div className="space-y-1">
+            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
+              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+                Growth
+              </p>
+              <ChevronDown className={cn(
+                "h-3 w-3 text-tertiary-label transition-transform",
+                (growthOpen || hasActiveGrowthRoute) && "rotate-180"
+              )} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-1">
+              {growthNavigation.map((item) => {
+                const active = isActive(item.href);
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={onNavigate}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
+                      active
+                        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                        : "text-secondary-label hover:bg-fill-tertiary hover:text-label"
+                    )}
+                  >
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <span>{item.name}</span>
+                  </Link>
+                );
+              })}
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
+      </nav>
+
+      {/* SETTINGS (Bottom Section) */}
+      <div className="px-3 py-4 border-t border-separator space-y-1">
+        <div className="px-3 mb-2">
+          <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+            Settings
+          </p>
+        </div>
+        {settingsNavigation.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
 
@@ -91,7 +250,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                 active
-                  ? "bg-fill-primary text-label font-medium"
+                  ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
                   : "text-secondary-label hover:bg-fill-tertiary hover:text-label"
               )}
             >
@@ -100,7 +259,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
             </Link>
           );
         })}
-      </nav>
+      </div>
 
       {/* User Profile Footer */}
       <div className="p-3 border-t border-separator">
@@ -124,7 +283,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 vibrancy-thick">
-            <DropdownMenuItem onClick={() => navigate('/settings')}>
+            <DropdownMenuItem onClick={() => navigate('/settings/profile')}>
               <User className="mr-2 h-4 w-4" />
               Profile Settings
             </DropdownMenuItem>

@@ -56,6 +56,9 @@ const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
+const BioPages = lazy(() => import("./pages/dashboard/BioPages"));
+const Referrals = lazy(() => import("./pages/dashboard/Referrals"));
+const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
@@ -305,6 +308,9 @@ const App = () => (
               <Route path="/dashboard/targeting" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/targeting/:linkId" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense>} />
               <Route path="/dashboard/onelink-validator" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/bio" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BioPages /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/referrals" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Referrals /></DashboardLayout></Suspense>} />
+              <Route path="/dashboard/campaigns" element={<Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense>} />
               
               {/* Lazy loaded pages with Suspense fallback */}
               <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
@@ -325,6 +331,8 @@ const App = () => (
               <Route path="/admin/tests" element={<Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemTests /></AdminLayout></Suspense>} />
               
               <Route path="/settings" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
+              <Route path="/settings/workspace" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
+              <Route path="/settings/profile" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
               <Route path="/settings/domains" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
               <Route path="/settings/billing" element={<Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense>} />
               <Route path="/settings/backups" element={<Suspense fallback={<DashboardSkeleton />}><Backups /></Suspense>} />

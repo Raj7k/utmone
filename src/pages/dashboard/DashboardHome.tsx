@@ -4,6 +4,7 @@ import { YourPlanTile } from "@/components/dashboard/bento/YourPlanTile";
 import { ReferralTile } from "@/components/dashboard/bento/ReferralTile";
 import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLinksTile";
 import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
+import { QuickToolsTile } from "@/components/dashboard/bento/QuickToolsTile";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -33,25 +34,32 @@ const DashboardHome = () => {
             </ErrorBoundary>
           </div>
 
-          {/* Row 2: Analytics Pulse (8 cols) + AI Insights (4 cols) */}
-          <div className="lg:col-span-8">
+          {/* Row 2: Analytics Pulse (7 cols) + Quick Tools (5 cols) */}
+          <div className="lg:col-span-7">
             <ErrorBoundary section="analytics-pulse">
               <AnalyticsPulseTile />
             </ErrorBoundary>
           </div>
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-5">
+            <ErrorBoundary section="quick-tools">
+              <QuickToolsTile />
+            </ErrorBoundary>
+          </div>
+
+          {/* Row 3: AI Insights (5 cols) + Referral (7 cols) */}
+          <div className="lg:col-span-5">
             <ErrorBoundary section="ai-insights">
               <AIInsightsTile />
             </ErrorBoundary>
           </div>
-
-          {/* Row 3: Referral (4 cols) + Recent Links (8 cols) */}
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-7">
             <ErrorBoundary section="referral-tile">
               <ReferralTile />
             </ErrorBoundary>
           </div>
-          <div className="lg:col-span-8">
+
+          {/* Row 4: Recent Links (12 cols full width) */}
+          <div className="lg:col-span-12">
             <ErrorBoundary section="recent-links">
               <BentoRecentLinksTile />
             </ErrorBoundary>
