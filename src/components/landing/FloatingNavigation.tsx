@@ -46,23 +46,29 @@ export const FloatingNavigation = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
-              {/* Product Dropdown */}
+              {/* Features Dropdown */}
               <Popover>
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
                     className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
                   >
-                    product <ChevronUp className="ml-1 h-3 w-3" />
+                    features <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent 
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                  className="w-[400px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
-                  <ul className="grid gap-2">
+                  <ul className="grid grid-cols-2 gap-2">
+                    {/* Core */}
+                    <li className="col-span-2">
+                      <div className="px-2 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                        Core
+                      </div>
+                    </li>
                     <li>
                       <Link
                         to="/features/short-links"
@@ -104,6 +110,35 @@ export const FloatingNavigation = () => {
                         <div className="text-xs font-medium leading-none">Analytics</div>
                         <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
                           clear data, better decisions
+                        </p>
+                      </Link>
+                    </li>
+                    
+                    {/* Advanced */}
+                    <li className="col-span-2 mt-1">
+                      <div className="px-2 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                        Advanced
+                      </div>
+                    </li>
+                    <li>
+                      <Link
+                        to="/features/governance"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">Enterprise Control</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          governance made simple
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/features/clean-track"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium leading-none">Clean-Track</div>
+                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
+                          automated tracking rules
                         </p>
                       </Link>
                     </li>
