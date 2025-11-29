@@ -37,6 +37,8 @@ const Auth = () => {
   // Timer effects removed - we now navigate directly after workspace check
 
   useEffect(() => {
+    const redirectTo = searchParams.get("redirect_to");
+    
     // Load invitation context if invite token present
     if (inviteToken) {
       loadInvitationContext(inviteToken);
@@ -46,9 +48,11 @@ const Auth = () => {
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (session) {
-          // Existing session - navigate directly (no loading animation)
+          // Existing session - navigate to redirect_to or dashboard
           if (inviteToken) {
             navigate(`/accept-invite?token=${inviteToken}`);
+          } else if (redirectTo) {
+            navigate(redirectTo);
           } else {
             navigate("/dashboard");
           }
