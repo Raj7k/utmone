@@ -7,6 +7,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileActionSheet } from "@/components/mobile/MobileActionSheet";
 import { MobileLinkFilters } from "@/components/mobile/MobileLinkFilters";
 import { FeatureHint } from "@/components/FeatureHint";
+import { FeatureGuard } from "@/components/feature-gating";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 
 export default function Links() {
@@ -41,12 +44,20 @@ export default function Links() {
           <h2 className="text-2xl font-display font-semibold text-label">links</h2>
           <p className="text-sm text-secondary-label mt-1">create and manage your short links</p>
         </div>
-        {!isMobile && (
-          <LinkFilters
-            onSearchChange={setSearchQuery}
-            onStatusChange={setStatusFilter}
-          />
-        )}
+        <div className="flex items-center gap-3">
+          <FeatureGuard feature="csv_export">
+            <Button variant="outline" size="sm" className="gap-2">
+              <Download className="h-4 w-4" />
+              export csv
+            </Button>
+          </FeatureGuard>
+          {!isMobile && (
+            <LinkFilters
+              onSearchChange={setSearchQuery}
+              onStatusChange={setStatusFilter}
+            />
+          )}
+        </div>
       </div>
 
       <Card variant="grouped">
