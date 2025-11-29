@@ -1,24 +1,80 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2, Loader2, ArrowRight, ArrowLeft } from "lucide-react";
+import { 
+  CheckCircle2, 
+  Loader2, 
+  ArrowRight, 
+  ArrowLeft, 
+  Megaphone, 
+  Rocket, 
+  Video, 
+  Calendar,
+  Code,
+  TrendingUp,
+  Wand2
+} from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
-type Role = "marketer" | "developer" | "founder" | "sales" | "ops" | "creator";
+type Role = "marketer" | "developer" | "founder" | "sales" | "ops" | "creator" | "organizer";
 
-const roleData: Record<Role, { label: string; workspacePlaceholder: string }> = {
-  marketer: { label: "Marketer", workspacePlaceholder: "Marketing Hub" },
-  developer: { label: "Developer", workspacePlaceholder: "Dev Labs" },
-  founder: { label: "Founder", workspacePlaceholder: "The Next Big Thing" },
-  sales: { label: "Sales", workspacePlaceholder: "Sales Command" },
-  ops: { label: "Marketing Ops", workspacePlaceholder: "Growth Ops" },
-  creator: { label: "Creator", workspacePlaceholder: "Creator Studio" },
+interface RoleConfig {
+  label: string;
+  hint_workspace: string;
+  hint_link: string;
+  icon: React.ReactNode;
+}
+
+const ROLE_CONFIG: Record<Role, RoleConfig> = {
+  marketer: {
+    label: "Growth Marketer",
+    hint_workspace: "Acme Growth Team",
+    hint_link: "hubspot.com/summer-campaign",
+    icon: <Megaphone className="w-4 h-4" />,
+  },
+  founder: {
+    label: "Founder / CEO",
+    hint_workspace: "The Next Big Thing Inc",
+    hint_link: "ycombinator.com/apply",
+    icon: <Rocket className="w-4 h-4" />,
+  },
+  creator: {
+    label: "Content Creator",
+    hint_workspace: "Sarah's Community",
+    hint_link: "youtube.com/c/sarah",
+    icon: <Video className="w-4 h-4" />,
+  },
+  organizer: {
+    label: "Event Organizer",
+    hint_workspace: "Tech Summit 2025",
+    hint_link: "lu.ma/launch-party",
+    icon: <Calendar className="w-4 h-4" />,
+  },
+  developer: {
+    label: "Developer",
+    hint_workspace: "Dev Labs",
+    hint_link: "github.com/my-project",
+    icon: <Code className="w-4 h-4" />,
+  },
+  sales: {
+    label: "Sales",
+    hint_workspace: "Sales Command",
+    hint_link: "salesforce.com/q1-campaign",
+    icon: <TrendingUp className="w-4 h-4" />,
+  },
+  ops: {
+    label: "Marketing Ops",
+    hint_workspace: "Growth Ops",
+    hint_link: "marketo.com/lead-gen",
+    icon: <TrendingUp className="w-4 h-4" />,
+  },
 };
 
 const goals = [
@@ -39,13 +95,37 @@ export default function OnboardingWizard() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [completionPhase, setCompletionPhase] = useState<"creating" | "configuring" | "ready" | null>(null);
+  const [placeholderKey, setPlaceholderKey] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Update workspace placeholder based on role
+  // Animated placeholder update when role changes
   useEffect(() => {
-    if (selectedRole && !workspaceName) {
-      setWorkspaceName(roleData[selectedRole].workspacePlaceholder);
+    if (selectedRole) {
+      setPlaceholderKey(prev => prev + 1);
     }
-  }, [selectedRole, workspaceName]);
+  }, [selectedRole]);
+
+  const currentPlaceholder = selectedRole 
+    ? `e.g., ${ROLE_CONFIG[selectedRole].hint_workspace}`
+    : "e.g., My Workspace";
+
+  // Smart fill with typewriter effect
+  const handleSmartFill = () => {
+    if (!selectedRole) return;
+    
+    const hint = ROLE_CONFIG[selectedRole].hint_workspace;
+    setWorkspaceName("");
+    
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index <= hint.length) {
+        setWorkspaceName(hint.slice(0, index));
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50);
+  };
 
   const handleNext = () => {
     if (step === 1 && !fullName.trim()) {
@@ -252,36 +332,47 @@ export default function OnboardingWizard() {
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="p-8 space-y-6">
-                <div className="space-y-2 text-center">
-                  <h2 className="text-3xl font-bold">What's your role?</h2>
-                  <p className="text-muted-foreground">Help us personalize your experience</p>
-                </div>
+              <motion.div layout>
+                <Card className="p-8 space-y-6">
+                  <div className="space-y-2 text-center">
+                    <h2 className="text-3xl font-bold">What's your role?</h2>
+                    <p className="text-muted-foreground">Help us personalize your experience</p>
+                  </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  {(Object.keys(roleData) as Role[]).map((role) => (
-                    <Button
-                      key={role}
-                      variant={selectedRole === role ? "default" : "outline"}
-                      className="h-auto py-4"
-                      onClick={() => setSelectedRole(role)}
+                  <div className="space-y-2">
+                    <Label htmlFor="role">Your role</Label>
+                    <Select
+                      value={selectedRole || ""}
+                      onValueChange={(value) => setSelectedRole(value as Role)}
                     >
-                      {roleData[role].label}
-                    </Button>
-                  ))}
-                </div>
+                      <SelectTrigger className="h-12">
+                        <SelectValue placeholder="Select your role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(Object.keys(ROLE_CONFIG) as Role[]).map((role) => (
+                          <SelectItem key={role} value={role}>
+                            <div className="flex items-center gap-2">
+                              {ROLE_CONFIG[role].icon}
+                              <span>{ROLE_CONFIG[role].label}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={handleBack} className="flex-1">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back
-                  </Button>
-                  <Button onClick={handleNext} className="flex-1">
-                    Continue
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-              </Card>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={handleBack} className="flex-1">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back
+                    </Button>
+                    <Button onClick={handleNext} className="flex-1">
+                      Continue
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
             </motion.div>
           )}
 
@@ -293,22 +384,46 @@ export default function OnboardingWizard() {
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.3 }}
             >
-              <Card className="p-8 space-y-6">
-                <div className="space-y-2 text-center">
-                  <h2 className="text-3xl font-bold">Let's name your space</h2>
-                  <p className="text-muted-foreground">What brings you here?</p>
-                </div>
+              <motion.div layout>
+                <Card className="p-8 space-y-6">
+                  <div className="space-y-2 text-center">
+                    <h2 className="text-3xl font-bold">Let's name your space</h2>
+                    <p className="text-muted-foreground">What brings you here?</p>
+                  </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="workspaceName">Workspace name</Label>
-                  <Input
-                    id="workspaceName"
-                    placeholder={selectedRole ? roleData[selectedRole].workspacePlaceholder : "My Workspace"}
-                    value={workspaceName}
-                    onChange={(e) => setWorkspaceName(e.target.value)}
-                    className="text-lg h-12"
-                  />
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="workspaceName">Workspace name</Label>
+                    <div className="relative">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={placeholderKey}
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Input
+                            ref={inputRef}
+                            id="workspaceName"
+                            placeholder={currentPlaceholder}
+                            value={workspaceName}
+                            onChange={(e) => setWorkspaceName(e.target.value)}
+                            className="text-lg h-12 pr-12"
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10"
+                        onClick={handleSmartFill}
+                        disabled={!selectedRole}
+                      >
+                        <Wand2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
 
                 <div className="space-y-3">
                   <Label>What are you here for? (optional)</Label>
@@ -351,8 +466,9 @@ export default function OnboardingWizard() {
                 </div>
               </Card>
             </motion.div>
-          )}
-        </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
       </div>
     </div>
   );
