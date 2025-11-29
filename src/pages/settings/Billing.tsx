@@ -4,6 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { checkPlanLimits } from "@/lib/planEnforcement";
@@ -29,6 +39,8 @@ export default function BillingSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showDowngradeConfirm, setShowDowngradeConfirm] = useState(false);
+  const [pendingDowngradeTier, setPendingDowngradeTier] = useState<PlanTier | null>(null);
 
   const { data: limits, isLoading } = useQuery({
     queryKey: ["plan-limits", currentWorkspace?.id, currentPlanId],
@@ -90,9 +102,25 @@ export default function BillingSettings() {
     },
   });
 
+  const isDowngrade = (newTier: PlanTier) => {
+    if (!limits) return false;
+    const currentLevel = PLAN_HIERARCHY[limits.planTier];
+    const newLevel = PLAN_HIERARCHY[newTier];
+    return newLevel < currentLevel;
+  };
+
   const handleUpgrade = (newPlanTier: PlanTier) => {
     setIsProcessing(true);
     upgradeMutation.mutate(newPlanTier);
+  };
+
+  const handlePlanChange = (tier: PlanTier) => {
+    if (isDowngrade(tier)) {
+      setPendingDowngradeTier(tier);
+      setShowDowngradeConfirm(true);
+    } else {
+      handleUpgrade(tier);
+    }
   };
 
   const planConfig = limits ? PLAN_CONFIG[limits.planTier] : null;
@@ -308,7 +336,7 @@ export default function BillingSettings() {
                     className="w-full mt-6"
                     variant={buttonState.variant}
                     disabled={buttonState.disabled}
-                    onClick={() => !buttonState.disabled && handleUpgrade(tier)}
+                    onClick={() => !buttonState.disabled && handlePlanChange(tier)}
                   >
                     {buttonState.text}
                   </Button>
@@ -331,6 +359,42 @@ export default function BillingSettings() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Downgrade Confirmation Dialog */}
+      <AlertDialog open={showDowngradeConfirm} onOpenChange={setShowDowngradeConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Downgrade</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-2">
+              <p>
+                By downgrading to <strong className="text-foreground capitalize">{pendingDowngradeTier}</strong>, you'll lose access to:
+              </p>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Advanced analytics features</li>
+                <li>Additional custom domains</li>
+                <li>Higher monthly limits</li>
+                <li>Priority support</li>
+              </ul>
+              <p className="text-sm font-medium mt-3">
+                This change takes effect immediately.
+              </p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                if (pendingDowngradeTier) {
+                  handleUpgrade(pendingDowngradeTier);
+                  setShowDowngradeConfirm(false);
+                }
+              }}
+            >
+              Confirm Downgrade
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

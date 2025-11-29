@@ -10,6 +10,7 @@ import { UpgradeModal } from "@/components/UpgradeModal";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { PlanTier } from "@/lib/planConfig";
+import { BentoTileSkeleton } from "./BentoTileSkeleton";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
@@ -98,6 +99,10 @@ export const QuickCreateTile = () => {
       });
     }
   };
+
+  if (!currentWorkspace) {
+    return <BentoTileSkeleton variant="small" />;
+  }
 
   return (
     <>
