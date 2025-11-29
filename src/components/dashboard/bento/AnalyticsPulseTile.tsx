@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Activity, Lock } from "lucide-react";
+import { Activity } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
-import { checkFeatureAccess } from "@/lib/checkFeatureAccess";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { FeatureGuard } from "@/components/feature-gating";
 
 type HourlyData = { hour: number; clicks: number };
 
@@ -121,19 +120,47 @@ export const AnalyticsPulseTile = () => {
             </div>
           </div>
 
-          {!isPaidTier ? (
-            // FREE TIER: Show upgrade lock
-            <div className="flex flex-col items-center justify-center py-8 px-4 bg-muted/20 rounded-lg border border-border/50">
-              <Lock className="h-8 w-8 text-muted-foreground/40 mb-3" />
-              <p className="text-sm font-medium text-foreground mb-1">Analytics Chart Locked</p>
-              <p className="text-xs text-muted-foreground text-center mb-4">
-                Upgrade to Pro to see click trends over time
-              </p>
-              <Button size="sm" variant="default">
-                Upgrade to Pro
-              </Button>
-            </div>
-          ) : showChart ? (
+          <FeatureGuard 
+            feature="geo_analytics"
+            mode="lock"
+            fallback={
+              showChart ? (
+                <div className="h-20 -mx-2">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={weeklyData}>
+                      <defs>
+                        <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'white',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="clicks"
+                        stroke="hsl(var(--primary))"
+                        strokeWidth={2}
+                        fillOpacity={1}
+                        fill="url(#colorClicks)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              ) : (
+                <p className="text-caption-2 text-tertiary-label text-center py-4">
+                  No clicks in the last 7 days
+                </p>
+              )
+            }
+          >
+            {showChart ? (
             // PAID TIER: Show chart if data exists
             <div className="h-20 -mx-2">
               <ResponsiveContainer width="100%" height="100%">
@@ -164,11 +191,11 @@ export const AnalyticsPulseTile = () => {
               </ResponsiveContainer>
             </div>
           ) : (
-            // PAID TIER: No data yet
             <p className="text-caption-2 text-tertiary-label text-center py-4">
               No clicks in the last 7 days
             </p>
           )}
+          </FeatureGuard>
         </div>
       )}
     </div>
