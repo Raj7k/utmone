@@ -24,7 +24,6 @@ import ComingSoonPage from "./pages/ComingSoon";
 
 // Lazy-loaded pages for code splitting
 const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
-const Dashboard = lazy(() => import("./pages/dashboard/Overview"));
 const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
 const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
 const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
