@@ -94,23 +94,18 @@ export const Navigation = () => {
           <div className="hidden lg:flex items-center">
             <NavigationMenu>
               <NavigationMenuList className="gap-2">
-                {/* Product Dropdown */}
+                {/* Features Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
-                    product
+                    features
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-2 p-4">
-                      <li>
-                        <Link
-                          to="/how-it-works"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">How It Works</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            see how utm.one helps your team
-                          </p>
-                        </Link>
+                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
+                      {/* Core Features */}
+                      <li className="col-span-2">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          Core
+                        </div>
                       </li>
                       <li>
                         <Link
@@ -156,6 +151,13 @@ export const Navigation = () => {
                           </p>
                         </Link>
                       </li>
+                      
+                      {/* Advanced Features */}
+                      <li className="col-span-2 mt-2">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          Advanced
+                        </div>
+                      </li>
                       <li>
                         <Link
                           to="/features/governance"
@@ -186,17 +188,6 @@ export const Navigation = () => {
                           <div className="text-sm font-medium leading-none">Partner Program</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             attribution without spreadsheets
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/permanence"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Permanence</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            links that last forever
                           </p>
                         </Link>
                       </li>
@@ -283,6 +274,16 @@ export const Navigation = () => {
                       </li>
                     </ul>
                   </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* How It Works - Top Level Link */}
+                <NavigationMenuItem>
+                  <Link
+                    to="/how-it-works"
+                    className="inline-flex h-9 items-center px-3 text-small-text font-medium text-foreground/70 hover:text-foreground transition-apple"
+                  >
+                    how it works
+                  </Link>
                 </NavigationMenuItem>
 
                 {/* Resources Dropdown */}
@@ -438,8 +439,16 @@ export const Navigation = () => {
                 </div>
                 
                 <nav className="flex flex-col gap-4 mt-8">
+                  {/* How It Works */}
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
+                    <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors">
+                      <span>How It Works</span>
+                      <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Features</p>
                     <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>Short Links</span>
                       <ChevronRight className="h-4 w-4" />
