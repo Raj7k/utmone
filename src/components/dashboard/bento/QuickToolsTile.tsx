@@ -1,10 +1,9 @@
-import { Zap, QrCode, Users } from "lucide-react";
+import { Zap, QrCode } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const QuickToolsTile = () => {
   const tools = [
     { name: "Create QR Code", href: "/dashboard/qr-codes", icon: QrCode },
-    { name: "View Referrals", href: "/dashboard/referrals", icon: Users },
   ];
 
   return (

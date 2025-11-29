@@ -56,7 +56,7 @@ All colors MUST be HSL.
     
     /* Label Colors (Text) - Light Mode */
     --label: 0 0% 0%;                        /* #000000 */
-    --secondary-label: 220 9% 46% / 0.6;     /* #3C3C43 60% */
+    --secondary-label: 220 9% 46% / 0.8;     /* #3C3C43 80% - More readable */
     --tertiary-label: 220 9% 46% / 0.3;      /* #3C3C43 30% */
     --quaternary-label: 220 9% 46% / 0.18;   /* #3C3C43 18% */
     
