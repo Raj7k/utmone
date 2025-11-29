@@ -20,46 +20,52 @@ const DashboardHome = () => {
           <OnboardingChecklist />
         </ErrorBoundary>
 
-        {/* Strict 12-Column Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          {/* Row 1: Quick Create (8 cols) + Plan Usage (4 cols) */}
-          <div className="lg:col-span-8">
+        {/* Responsive Bento Grid with proper mobile ordering */}
+        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
+          {/* Row 1: Quick Create (mobile: full width, first; tablet: 6 cols; desktop: 8 cols) */}
+          <div className="md:col-span-6 lg:col-span-8 order-1">
             <ErrorBoundary section="quick-create">
               <QuickCreateTile />
             </ErrorBoundary>
           </div>
-          <div className="lg:col-span-4">
+          
+          {/* Row 1: Plan Usage (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
+          <div className="md:col-span-6 lg:col-span-4 order-2">
             <ErrorBoundary section="plan-tile">
               <YourPlanTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 2: Analytics Pulse (7 cols) + Quick Tools (5 cols) */}
-          <div className="lg:col-span-7">
+          {/* Row 2: Analytics Pulse (mobile: full width; tablet: 6 cols; desktop: 7 cols) */}
+          <div className="md:col-span-6 lg:col-span-7 order-3">
             <ErrorBoundary section="analytics-pulse">
               <AnalyticsPulseTile />
             </ErrorBoundary>
           </div>
-          <div className="lg:col-span-5">
+          
+          {/* Row 2: Quick Tools (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
+          <div className="md:col-span-6 lg:col-span-5 order-4">
             <ErrorBoundary section="quick-tools">
               <QuickToolsTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 3: AI Insights (5 cols) + Referral (7 cols) */}
-          <div className="lg:col-span-5">
+          {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
+          <div className="md:col-span-6 lg:col-span-5 order-5">
             <ErrorBoundary section="ai-insights">
               <AIInsightsTile />
             </ErrorBoundary>
           </div>
-          <div className="lg:col-span-7">
+          
+          {/* Row 3: Referral (mobile: full width; tablet: 6 cols; desktop: 7 cols) */}
+          <div className="md:col-span-6 lg:col-span-7 order-6">
             <ErrorBoundary section="referral-tile">
               <ReferralTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 4: Recent Links (12 cols full width) */}
-          <div className="lg:col-span-12">
+          {/* Row 4: Recent Links (full width on all breakpoints) */}
+          <div className="md:col-span-6 lg:col-span-12 order-7">
             <ErrorBoundary section="recent-links">
               <BentoRecentLinksTile />
             </ErrorBoundary>

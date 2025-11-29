@@ -59,18 +59,18 @@ export const AppHeader = () => {
   };
 
   return (
-    <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="container mx-auto px-4 md:px-8 h-full">
+    <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50 vibrancy-light">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-full">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-2 md:gap-8">
             {/* Mobile Menu Toggle */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Open navigation menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-72">
+              <SheetContent side="left" className="p-0 w-72 z-50">
                 <DashboardSidebar onNavigate={() => setMobileMenuOpen(false)} />
               </SheetContent>
             </Sheet>

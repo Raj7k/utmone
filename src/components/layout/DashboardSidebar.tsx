@@ -109,7 +109,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const hasActiveGrowthRoute = growthNavigation.some(item => isActive(item.href));
 
   return (
-    <aside className="w-64 h-screen border-r border-separator bg-system-background vibrancy flex flex-col">
+    <aside className="w-64 h-screen border-r border-separator bg-system-background vibrancy-light flex flex-col z-40">
       {/* Logo */}
       <Link 
         to="/" 
@@ -278,7 +278,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               </div>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 vibrancy-thick">
+          <DropdownMenuContent align="end" className="w-56 vibrancy-thick z-50 bg-white dark:bg-card">
             <DropdownMenuItem onClick={() => navigate('/settings/profile')}>
               <User className="mr-2 h-4 w-4" />
               Profile Settings

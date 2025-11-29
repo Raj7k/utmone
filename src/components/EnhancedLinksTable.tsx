@@ -25,6 +25,7 @@ import {
   ArrowDown,
   Eye,
   Target,
+  Link2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -161,14 +162,19 @@ export const EnhancedLinksTable = ({
 
   if (!data?.links || data.links.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center">
-        <p className="text-xl font-semibold text-label mb-2">
-          you don't have any links yet.
-        </p>
-        <p className="text-secondary-label">
+      <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+        <div className="h-12 w-12 rounded-full bg-muted/30 flex items-center justify-center mb-4">
+          <Link2 className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <h3 className="text-base font-medium text-label mb-2">
           {searchQuery || statusFilter !== "all"
-            ? "try adjusting your filters"
-            : "start by creating your first one."}
+            ? "no links match your filters"
+            : "no links yet"}
+        </h3>
+        <p className="text-sm text-secondary-label max-w-sm">
+          {searchQuery || statusFilter !== "all"
+            ? "try adjusting your search or filter criteria"
+            : "create your first short link to see magic happen"}
         </p>
       </div>
     );
@@ -180,7 +186,7 @@ export const EnhancedLinksTable = ({
         <Table aria-label="Links table with sortable columns">
           <TableHeader>
             <TableRow role="row">
-              <TableHead role="columnheader">
+              <TableHead role="columnheader" className="md:table-cell">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("title")}
@@ -193,10 +199,10 @@ export const EnhancedLinksTable = ({
                 </Button>
               </TableHead>
               <TableHead role="columnheader">Short URL</TableHead>
-              <TableHead role="columnheader">Destination</TableHead>
-              <TableHead role="columnheader">UTM Summary</TableHead>
-              <TableHead role="columnheader">Security</TableHead>
-              <TableHead role="columnheader">
+              <TableHead role="columnheader" className="hidden md:table-cell">Destination</TableHead>
+              <TableHead role="columnheader" className="hidden lg:table-cell">UTM Summary</TableHead>
+              <TableHead role="columnheader" className="hidden lg:table-cell">Security</TableHead>
+              <TableHead role="columnheader" className="hidden lg:table-cell">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("domain")}
@@ -208,8 +214,8 @@ export const EnhancedLinksTable = ({
                   <SortIcon column="domain" />
                 </Button>
               </TableHead>
-              <TableHead role="columnheader">Owner</TableHead>
-              <TableHead role="columnheader">
+              <TableHead role="columnheader" className="hidden xl:table-cell">Owner</TableHead>
+              <TableHead role="columnheader" className="hidden md:table-cell">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("created_at")}
@@ -233,7 +239,7 @@ export const EnhancedLinksTable = ({
                   <SortIcon column="total_clicks" />
                 </Button>
               </TableHead>
-              <TableHead role="columnheader">
+              <TableHead role="columnheader" className="hidden md:table-cell">
                 <Button
                   variant="ghost"
                   onClick={() => handleSort("status")}
@@ -257,7 +263,7 @@ export const EnhancedLinksTable = ({
                 aria-label={generateTableRowAriaLabel(link)}
               >
                 <TableCell 
-                  className="font-medium cursor-pointer hover:underline"
+                  className="font-medium cursor-pointer hover:underline md:table-cell"
                   onClick={() => navigate(`/links/${link.id}`)}
                   role="cell"
                 >
@@ -293,7 +299,7 @@ export const EnhancedLinksTable = ({
                     </div>
                   </LinkPreviewCard>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden md:table-cell">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -310,7 +316,7 @@ export const EnhancedLinksTable = ({
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden lg:table-cell">
                   <div className="text-sm" aria-label={`UTM parameters: ${link.utm_source || 'none'}, ${link.utm_medium || 'none'}, ${link.utm_campaign || 'none'}`}>
                     {link.utm_source || link.utm_medium || link.utm_campaign ? (
                       <span className="text-secondary-label">
@@ -326,7 +332,7 @@ export const EnhancedLinksTable = ({
                     )}
                   </div>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden lg:table-cell">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -372,17 +378,17 @@ export const EnhancedLinksTable = ({
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden lg:table-cell">
                   <span className="text-sm text-secondary-label">
                     {link.domain}
                   </span>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden xl:table-cell">
                   <span className="text-sm text-secondary-label">
                     {link.owner?.full_name || link.owner?.email || "Unknown"}
                   </span>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden md:table-cell">
                   <span className="text-sm text-secondary-label">
                     {formatDistanceToNow(new Date(link.created_at || ""), {
                       addSuffix: true,
@@ -399,7 +405,7 @@ export const EnhancedLinksTable = ({
                     </span>
                   </div>
                 </TableCell>
-                <TableCell role="cell">
+                <TableCell role="cell" className="hidden md:table-cell">
                   <div aria-label={generateStatusAriaLabel(link.status || "active")}>
                     {getStatusBadge(link.status || "active")}
                   </div>
@@ -415,7 +421,7 @@ export const EnhancedLinksTable = ({
                         <MoreVertical className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                     <DropdownMenuContent align="end" className="z-50 bg-white dark:bg-card">
                       <DropdownMenuItem onClick={() => navigate(`/links/${link.id}`)}>
                         <Eye className="mr-2 h-4 w-4" />
                         view analytics
