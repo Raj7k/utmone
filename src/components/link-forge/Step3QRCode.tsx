@@ -7,6 +7,7 @@ import { QrCode, ArrowLeft, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useActivationTracking } from "@/hooks/useActivationTracking";
 
 interface Step3QRCodeProps {
   linkId: string;
@@ -17,6 +18,7 @@ interface Step3QRCodeProps {
 export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { trackFirstQR } = useActivationTracking();
   const [qrSize, setQrSize] = useState("256");
   const [qrColor, setQrColor] = useState("#000000");
   const [qrBgColor, setQrBgColor] = useState("#FFFFFF");
@@ -53,7 +55,11 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
       return data;
     },
     onSuccess: () => {
+      // Track first QR for onboarding
+      trackFirstQR();
       queryClient.invalidateQueries({ queryKey: ["qr-codes"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
       toast({
         title: "qr code generated",
         description: "your qr code is ready to download",

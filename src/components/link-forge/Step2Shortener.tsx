@@ -8,16 +8,17 @@ import { Label } from "@/components/ui/label";
 import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
+import { useActivationTracking } from "@/hooks/useActivationTracking";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
   slug: z.string().min(3, "slug must be at least 3 characters").regex(/^[a-z0-9-]+$/, "only lowercase letters, numbers, and hyphens"),
   expires_at: z.string().optional(),
-  max_clicks: z.number().optional(),
+  max_clicks: z.number().min(1, "Must be at least 1").max(10000000, "Cannot exceed 10 million").optional().or(z.literal(NaN)),
   fallback_url: z.string().url().optional().or(z.literal("")),
 });
 
@@ -38,7 +39,9 @@ export const Step2Shortener = ({
   onBack,
 }: Step2ShortenerProps) => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const { triggerWebhook } = useLinkWebhooks(workspaceId);
+  const { trackFirstLink } = useActivationTracking();
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
@@ -147,6 +150,11 @@ export const Step2Shortener = ({
     },
     onSuccess: (link) => {
       const shortUrl = `https://${link.domain}/${link.slug}`;
+      
+      // Track first link for onboarding
+      trackFirstLink();
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
       toast({
         title: "link created",
         description: "your short link is ready",
@@ -260,38 +268,46 @@ export const Step2Shortener = ({
           )}
         </div>
 
-        <Accordion type="single" collapsible>
+        <Accordion type="single" collapsible className="overflow-hidden">
           <AccordionItem value="advanced">
             <AccordionTrigger className="text-sm">advanced options</AccordionTrigger>
-            <AccordionContent className="space-y-4 pt-4">
-              <div>
+            <AccordionContent className="space-y-4 pt-4 w-full overflow-hidden">
+              <div className="w-full">
                 <Label htmlFor="expires_at">expiry date (optional)</Label>
                 <Input
                   id="expires_at"
                   type="datetime-local"
                   {...form.register("expires_at")}
-                  className="mt-1.5"
+                  className="mt-1.5 w-full"
                 />
               </div>
 
-              <div>
+              <div className="w-full">
                 <Label htmlFor="max_clicks">max clicks (optional)</Label>
                 <Input
                   id="max_clicks"
                   type="number"
                   placeholder="1000"
                   {...form.register("max_clicks", { valueAsNumber: true })}
-                  className="mt-1.5"
+                  className="mt-1.5 w-full"
                 />
+                <p className="text-xs text-secondary-label mt-1">
+                  Limit total clicks for this link (leave empty for unlimited)
+                </p>
+                {form.formState.errors.max_clicks && (
+                  <p className="text-xs text-system-red mt-1">
+                    {form.formState.errors.max_clicks.message}
+                  </p>
+                )}
               </div>
 
-              <div>
+              <div className="w-full">
                 <Label htmlFor="fallback_url">fallback url (optional)</Label>
                 <Input
                   id="fallback_url"
                   placeholder="https://example.com/expired"
                   {...form.register("fallback_url")}
-                  className="mt-1.5"
+                  className="mt-1.5 w-full"
                 />
               </div>
             </AccordionContent>

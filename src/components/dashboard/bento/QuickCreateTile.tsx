@@ -11,6 +11,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { PlanTier } from "@/lib/planConfig";
 import { BentoTileSkeleton } from "./BentoTileSkeleton";
+import { useActivationTracking } from "@/hooks/useActivationTracking";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
@@ -19,6 +20,7 @@ export const QuickCreateTile = () => {
   const { currentWorkspace } = useWorkspace();
   const { id: currentPlanId } = useCurrentPlan();
   const queryClient = useQueryClient();
+  const { trackFirstLink } = useActivationTracking();
 
   const createLinkMutation = useMutation({
     mutationFn: async (destinationUrl: string) => {
@@ -70,12 +72,24 @@ export const QuickCreateTile = () => {
       return data;
     },
     onSuccess: (data) => {
+      // Track first link for onboarding
+      trackFirstLink();
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
       toast.success("Link created", {
         description: `Your short link is ready: ${data.short_url}`,
       });
       setUrl("");
       queryClient.invalidateQueries({ queryKey: ["recent-links"] });
       queryClient.invalidateQueries({ queryKey: ["links"] });
+      
+      // Auto-scroll to recent links section
+      setTimeout(() => {
+        const recentLinksSection = document.getElementById("recent-links");
+        if (recentLinksSection) {
+          recentLinksSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 500);
     },
     onError: (error: any) => {
       if (!error.message.includes("Upgrade")) {

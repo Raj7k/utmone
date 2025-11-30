@@ -21,6 +21,7 @@ export const useActivationTracking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["access-level"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
     },
     onError: (error: Error) => {
       console.error("Failed to track first link:", error);
@@ -42,6 +43,7 @@ export const useActivationTracking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["access-level"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
     },
     onError: (error: Error) => {
       console.error("Failed to track first QR:", error);
@@ -63,6 +65,7 @@ export const useActivationTracking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["access-level"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
     },
     onError: (error: Error) => {
       console.error("Failed to track first analytics view:", error);
@@ -91,6 +94,7 @@ export const useActivationTracking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["access-level"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
       toast({
         title: "Team invite tracked",
         description: "Your activation progress has been updated.",
