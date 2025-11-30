@@ -1182,6 +1182,47 @@ export type Database = {
           },
         ]
       }
+      campaigns: {
+        Row: {
+          color: string | null
+          created_at: string | null
+          created_by: string
+          id: string
+          name: string
+          status: string
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string | null
+          created_by: string
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string | null
+          created_by?: string
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       conversion_events: {
         Row: {
           attributed_at: string
@@ -2477,6 +2518,7 @@ export type Database = {
           approval_notes: string | null
           approval_status: string | null
           blacklist_status: string | null
+          campaign_id: string | null
           conversion_rate: number | null
           created_at: string | null
           created_by: string
@@ -2533,6 +2575,7 @@ export type Database = {
           approval_notes?: string | null
           approval_status?: string | null
           blacklist_status?: string | null
+          campaign_id?: string | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by: string
@@ -2591,6 +2634,7 @@ export type Database = {
           approval_notes?: string | null
           approval_status?: string | null
           blacklist_status?: string | null
+          campaign_id?: string | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by?: string
@@ -2644,6 +2688,13 @@ export type Database = {
             columns: ["ab_test_winner_id"]
             isOneToOne: false
             referencedRelation: "og_image_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
           {
