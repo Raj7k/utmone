@@ -20,6 +20,7 @@ import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3,
 import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
 import { useQuery } from "@tanstack/react-query";
+import { ShareReferralModal } from "@/components/waitlist/ShareReferralModal";
 
 const BenefitItem = ({ icon: Icon, title, description, delay = 0 }: { 
   icon: any; 
@@ -404,11 +405,19 @@ export default function EarlyAccess() {
                   your request has been received. we'll be in touch when a spot opens.
                 </p>
                 {referralCode && (
-                  <div className="mt-8 p-6 bg-muted/20 rounded-lg">
-                    <p className="text-sm text-muted-foreground mb-2">share your referral link</p>
-                    <code className="text-sm bg-white px-4 py-2 rounded border">
-                      {window.location.origin}/early-access?ref={referralCode}
-                    </code>
+                  <div className="mt-8 space-y-4">
+                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
+                      <h3 className="text-lg font-semibold mb-2">
+                        jump the queue with referrals
+                      </h3>
+                      <p className="text-secondary-label mb-4">
+                        share your unique link — every friend who joins and <span className="font-semibold text-primary">verifies their email</span> moves you up the queue!
+                      </p>
+                      <p className="text-sm text-primary font-semibold mb-4">
+                        🎁 you both get 1 month Pro free when we launch
+                      </p>
+                      <ShareReferralModal referralCode={referralCode} />
+                    </div>
                   </div>
                 )}
               </div>
