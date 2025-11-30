@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
-import APIKeysSettings from "./Settings/APIKeys";
+import DeveloperSettings from "./Settings/DeveloperSettings";
 import { WebhookManager } from "@/components/WebhookManager";
 import { IntegrationsManager } from "@/components/IntegrationsManager";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,7 +16,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
 import BillingSettings from "./settings/Billing";
-import { TrackingPixelCard } from "@/components/settings/TrackingPixelCard";
 import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
 
 export default function Settings() {
@@ -118,7 +117,9 @@ export default function Settings() {
                 <TeamMembers workspaceId={currentWorkspace.id} />
               )}
 
-              {activeTab === "api" && currentWorkspace && <APIKeysSettings />}
+              {activeTab === "developers" && currentWorkspace && (
+                <DeveloperSettings workspaceId={currentWorkspace.id} />
+              )}
 
               {activeTab === "integrations" && currentWorkspace && (
                 <>
@@ -130,10 +131,6 @@ export default function Settings() {
               {activeTab === "security" && <SecuritySettings />}
 
               {activeTab === "privacy" && <DataPrivacySettings />}
-
-              {activeTab === "pixel" && currentWorkspace && (
-                <TrackingPixelCard workspaceId={currentWorkspace.id} />
-              )}
             </div>
           </div>
         </div>
