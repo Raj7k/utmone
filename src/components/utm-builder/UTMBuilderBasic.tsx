@@ -108,91 +108,103 @@ export const UTMBuilderBasic = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
+        className="max-w-2xl mx-auto"
       >
-        <Card className="max-w-3xl mx-auto p-6 bg-white/80 backdrop-blur-sm border-slate-200">
-          <div className="space-y-4">
+        <Card className="p-8">
+          <div className="space-y-6">
             {/* Template Buttons */}
-            <div className="flex gap-2">
-              {TEMPLATES.map((template) => (
-                <Button
-                  key={template.name}
-                  variant="outline"
-                  size="sm"
-                  onClick={() => applyTemplate(template)}
-                  className="text-xs"
-                >
-                  {template.name}
-                </Button>
-              ))}
+            <div>
+              <Label className="mb-2 block">quick templates</Label>
+              <div className="flex flex-wrap gap-2">
+                {TEMPLATES.map((template) => (
+                  <Button
+                    key={template.name}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => applyTemplate(template)}
+                  >
+                    {template.name}
+                  </Button>
+                ))}
+              </div>
             </div>
 
             {/* URL Input */}
             <div className="space-y-2">
-              <Label>Destination URL</Label>
+              <Label htmlFor="utm-url">destination url</Label>
               <Input
+                id="utm-url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://yoursite.com/landing-page"
-                className="h-10"
+                className="h-11"
               />
             </div>
 
-            {/* UTM Parameters */}
-            <div className="grid md:grid-cols-2 gap-4">
+            {/* UTM Parameters - Stacked */}
+            <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Source</Label>
+                <Label htmlFor="utm-source">utm source</Label>
                 <Input
+                  id="utm-source"
                   value={source}
                   onChange={(e) => setSource(e.target.value)}
                   placeholder="facebook"
-                  className="h-10"
+                  className="h-11"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label>Medium</Label>
+                <Label htmlFor="utm-medium">utm medium</Label>
                 <Input
+                  id="utm-medium"
                   value={medium}
                   onChange={(e) => setMedium(e.target.value)}
                   placeholder="cpc"
-                  className="h-10"
+                  className="h-11"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label>Campaign</Label>
+                <Label htmlFor="utm-campaign">utm campaign</Label>
                 <Input
+                  id="utm-campaign"
                   value={campaign}
                   onChange={(e) => setCampaign(e.target.value)}
                   placeholder="summer-sale-2025"
-                  className="h-10"
+                  className="h-11"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label>Term (optional)</Label>
+                <Label htmlFor="utm-term">utm term (optional)</Label>
                 <Input
+                  id="utm-term"
                   value={term}
                   onChange={(e) => setTerm(e.target.value)}
                   placeholder="running-shoes"
-                  className="h-10"
+                  className="h-11"
                 />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label>Content (optional)</Label>
-              <Input
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="banner-ad"
-                className="h-10"
-              />
+              <div className="space-y-2">
+                <Label htmlFor="utm-content">utm content (optional)</Label>
+                <Input
+                  id="utm-content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="banner-ad"
+                  className="h-11"
+                />
+              </div>
             </div>
 
             {/* Preview */}
             {finalUrl && (
               <div className="space-y-2">
-                <Label>Final URL with UTM parameters</Label>
+                <Label>final url with utm parameters</Label>
                 <div className="relative">
-                  <div className="p-3 bg-muted rounded-lg pr-12 break-all text-sm font-mono text-secondary-label">
+                  <div className="p-4 bg-muted/30 rounded-lg pr-14 break-all text-sm font-mono text-secondary-label border border-border/40">
                     {finalUrl}
                   </div>
                   <Button
@@ -201,36 +213,47 @@ export const UTMBuilderBasic = () => {
                     onClick={copyToClipboard}
                     className="absolute right-2 top-2"
                   >
-                    {copied ? <CheckCircle2 className="h-4 w-4 text-system-green" /> : <Copy className="h-4 w-4" />}
+                    {copied ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>
             )}
 
             {/* Pro Features Nudge */}
-            <div className="border-t pt-4 mt-4">
-              <p className="text-xs text-secondary-label mb-3">Unlock with Pro:</p>
-              <div className="grid md:grid-cols-2 gap-2 text-xs text-secondary-label">
+            <div className="pt-6 border-t border-border/40">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                <Lock className="h-4 w-4" />
+                <span>unlock pro features</span>
+              </div>
+              <div className="space-y-2 text-sm text-secondary-label">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3 w-3" />
-                  <span>Syntax enforcement rules</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>utm templates</strong> — reusable, team-shared templates</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3 w-3" />
-                  <span>Team-wide templates</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>bulk url builder</strong> — create hundreds at once</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3 w-3" />
-                  <span>Approval workflows</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>governance rules</strong> — enforce naming conventions</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-3 w-3" />
-                  <span>Analytics integration</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>analytics integration</strong> — track utm performance</span>
                 </div>
               </div>
             </div>
           </div>
         </Card>
+
+        <p className="text-sm text-secondary-label text-center mt-6">
+          basic utm builder is free.{" "}
+          <a href="/pricing" className="text-primary hover:underline">
+            upgrade to pro
+          </a>{" "}
+          for team templates, bulk creation, and governance
+        </p>
       </motion.div>
     </AnimatePresence>
   );
