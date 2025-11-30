@@ -111,12 +111,12 @@ export const URLShortenerBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-6 shadow-lg border-border/60 bg-card">
+        <Card className="p-8 shadow-xl shadow-black/5 border-border/20 bg-background rounded-2xl">
           {/* Domain Badge */}
-          <div className="flex items-center justify-center gap-2 mb-4 text-sm text-secondary-label">
+          <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
             <span>links created on</span>
-            <span className="font-mono font-medium text-foreground bg-muted px-2 py-0.5 rounded">utm.click</span>
+            <span className="font-display font-semibold text-foreground bg-primary/5 border border-primary/10 px-2.5 py-1 rounded-lg">utm.click</span>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
@@ -129,7 +129,7 @@ export const URLShortenerBasic = () => {
                   setUrl(e.target.value);
                   setError("");
                 }}
-                className="h-12 text-base"
+                className="h-12 text-base placeholder:text-muted-foreground/50 border-border/30"
               />
               {error && (
                 <div className="flex items-center gap-2 mt-2 text-sm text-destructive">
@@ -151,16 +151,12 @@ export const URLShortenerBasic = () => {
           </div>
         </Card>
 
-        {/* Enhanced Footer */}
-        <div className="mt-8 pt-6 border-t border-border/40 text-center">
-          <div className="flex items-center justify-center gap-2 text-sm">
-            <span className="text-secondary-label">free links use</span>
-            <span className="font-mono font-semibold text-foreground">utm.click</span>
-            <span className="text-secondary-label">domain</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            <a href="/pricing" className="text-primary hover:underline">upgrade to pro</a>
-            {" "}for custom domains like yourbrand.com/link
+        {/* Elegant Footer */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-muted-foreground/80">
+            free links on <span className="font-display font-medium text-foreground">utm.click</span>
+            <span className="mx-2 text-border">•</span>
+            <a href="/pricing" className="text-primary hover:underline font-medium">upgrade for custom domains</a>
           </p>
         </div>
       </div>
@@ -176,12 +172,12 @@ export const URLShortenerBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8 shadow-lg border-border/60 bg-card">
+        <Card className="p-8 shadow-xl shadow-black/5 border-border/20 bg-background rounded-2xl">
           {/* Domain Badge */}
           <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
             <span>links created on</span>
-            <span className="font-mono font-medium text-foreground bg-muted px-2 py-0.5 rounded">utm.click</span>
+            <span className="font-display font-semibold text-foreground bg-primary/5 border border-primary/10 px-2.5 py-1 rounded-lg">utm.click</span>
           </div>
 
           <div className="space-y-6">
@@ -196,7 +192,7 @@ export const URLShortenerBasic = () => {
                   setUrl(e.target.value);
                   setError("");
                 }}
-                className="mt-2 h-11"
+                className="mt-2 h-11 placeholder:text-muted-foreground/50 border-border/30"
                 disabled={!!shortURL}
               />
               {error && (
@@ -211,7 +207,7 @@ export const URLShortenerBasic = () => {
               <Label htmlFor="customSlug">custom slug (optional)</Label>
               <div className="flex gap-2 mt-2">
                 <div className="flex items-center gap-0 flex-1">
-                  <span className="px-3 h-11 bg-muted border border-r-0 border-input rounded-l-md flex items-center text-sm text-muted-foreground font-mono">
+                  <span className="px-3 h-11 bg-muted/50 border border-r-0 border-input rounded-l-md flex items-center text-sm text-muted-foreground font-mono">
                     utm.click/
                   </span>
                   <Input
@@ -220,7 +216,7 @@ export const URLShortenerBasic = () => {
                     placeholder="your-custom-slug"
                     value={customSlug}
                     onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                    className="flex-1 h-11 rounded-l-none border-l-0"
+                    className="flex-1 h-11 rounded-l-none border-l-0 placeholder:text-muted-foreground/50"
                     disabled={!!shortURL}
                   />
                 </div>
@@ -333,16 +329,12 @@ export const URLShortenerBasic = () => {
           </div>
         </Card>
 
-        {/* Enhanced Footer */}
-        <div className="mt-8 pt-6 border-t border-border/40 text-center">
-          <div className="flex items-center justify-center gap-2 text-sm">
-            <span className="text-secondary-label">free links use</span>
-            <span className="font-mono font-semibold text-foreground">utm.click</span>
-            <span className="text-secondary-label">domain</span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            <a href="/pricing" className="text-primary hover:underline">upgrade to pro</a>
-            {" "}for custom domains like yourbrand.com/link
+        {/* Elegant Footer */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-muted-foreground/80">
+            free links on <span className="font-display font-medium text-foreground">utm.click</span>
+            <span className="mx-2 text-border">•</span>
+            <a href="/pricing" className="text-primary hover:underline font-medium">upgrade for custom domains</a>
           </p>
         </div>
       </motion.div>
