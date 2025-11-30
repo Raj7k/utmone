@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { OrganicShapes } from "@/components/landing/OrganicShapes";
-import { FeatureFloatingIcons } from "@/components/features/FeatureFloatingIcons";
 import { ReactNode } from "react";
 
 interface FeatureHeroWithToolProps {
@@ -17,15 +16,12 @@ export const FeatureHeroWithTool = ({
   toolComponent,
 }: FeatureHeroWithToolProps) => {
   return (
-    <section className="relative pt-8 pb-16 md:pt-12 md:pb-20 overflow-hidden bg-background">
+    <section className="relative pt-2 pb-12 md:pt-4 md:pb-16 overflow-hidden bg-background">
       {/* Subtle dot grid pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_hsl(var(--primary)/0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
       
       {/* Gradient glow behind headline */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent blur-3xl pointer-events-none" />
-      
-      {/* Floating decorative icons */}
-      <FeatureFloatingIcons />
       
       <OrganicShapes />
       
@@ -35,7 +31,7 @@ export const FeatureHeroWithTool = ({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-wrap justify-center gap-2 mb-6"
+          className="flex flex-wrap justify-center gap-2 mb-4"
         >
           <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
             ✓ free tier
