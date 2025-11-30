@@ -174,6 +174,18 @@ serve(async (req) => {
 
     console.log(`Sent ${emailType} email to ${user.email}`);
 
+    // Track sent email in drip_emails_sent column
+    const currentSent = user.drip_emails_sent || {};
+    currentSent[emailType] = new Date().toISOString();
+
+    await supabase
+      .from('early_access_requests')
+      .update({ 
+        drip_emails_sent: currentSent,
+        last_activity_timestamp: new Date().toISOString()
+      })
+      .eq('id', userId);
+
     return new Response(
       JSON.stringify({ success: true }),
       {

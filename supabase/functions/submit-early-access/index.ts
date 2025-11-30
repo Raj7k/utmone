@@ -88,10 +88,13 @@ serve(async (req) => {
 
     // Trigger confirmation email (Email 0 - instant confirmation)
     try {
-      await supabase.functions.invoke("trigger-approval-drip", {
+      await supabase.functions.invoke("send-applicant-confirmation", {
         body: {
-          userId: insertedData.id,
-          emailType: "instant_confirmation",
+          name,
+          email,
+          team_size,
+          referral_code: insertedData.referral_code,
+          request_id: insertedData.id,
         },
       });
     } catch (emailError) {
