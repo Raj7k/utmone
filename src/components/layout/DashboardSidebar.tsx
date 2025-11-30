@@ -8,7 +8,8 @@ import {
   Target,
   Layers,
   Brain,
-  Megaphone, 
+  Megaphone,
+  Clock,
   Briefcase, 
   CreditCard, 
   User,
@@ -38,6 +39,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
 import { useState } from "react";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -47,6 +49,7 @@ const appNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
 const toolsNavigation = [
@@ -71,9 +74,33 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setTheme } = useTheme();
+  const { currentWorkspace } = useWorkspaceContext();
   
   const [toolsOpen, setToolsOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
+
+  // Query for pending approvals count
+  const { data: pendingCount } = useQuery({
+    queryKey: ['pending-approvals-count', currentWorkspace?.id],
+    queryFn: async () => {
+      if (!currentWorkspace?.id) return 0;
+      
+      const { count, error } = await supabase
+        .from('links')
+        .select('*', { count: 'exact', head: true })
+        .eq('approval_status', 'pending')
+        .eq('workspace_id', currentWorkspace.id);
+      
+      if (error) {
+        console.error('Error fetching pending count:', error);
+        return 0;
+      }
+      
+      return count || 0;
+    },
+    enabled: !!currentWorkspace?.id,
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
 
   const { data: profile } = useQuery({
     queryKey: ['user-profile'],
@@ -136,6 +163,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
           {appNavigation.map((item) => {
             const active = isActive(item.href);
             const Icon = item.icon;
+            const showBadge = item.badge && pendingCount && pendingCount > 0;
 
             return (
               <Link
@@ -150,7 +178,12 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                 )}
               >
                 <Icon className="h-5 w-5 flex-shrink-0" />
-                <span>{item.name}</span>
+                <span className="flex-1">{item.name}</span>
+                {showBadge && (
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+                    {pendingCount > 9 ? '9+' : pendingCount}
+                  </span>
+                )}
               </Link>
             );
           })}

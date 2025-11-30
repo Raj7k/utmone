@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe } from "lucide-react";
+import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { GeoTargetingModal } from "./GeoTargetingModal";
 import { Badge as BadgeComponent } from "@/components/ui/badge";
+import { useUserWorkspaceRole, requiresApproval } from "@/hooks/useUserWorkspaceRole";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
@@ -48,6 +49,10 @@ export const Step2Shortener = ({
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
   const [geoTargets, setGeoTargets] = useState<Record<string, string>>({});
   const [showGeoModal, setShowGeoModal] = useState(false);
+  
+  // Check user role for approval workflow
+  const { data: userRole } = useUserWorkspaceRole(workspaceId);
+  const needsApproval = requiresApproval(userRole);
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -132,6 +137,8 @@ export const Step2Shortener = ({
           max_clicks: data.max_clicks || null,
           fallback_url: data.fallback_url || null,
           geo_targets: Object.keys(geoTargets).length > 0 ? geoTargets : null,
+          approval_status: needsApproval ? 'pending' : 'approved',
+          submitted_for_approval_at: needsApproval ? new Date().toISOString() : null,
         })
         .select()
         .single();
@@ -164,8 +171,10 @@ export const Step2Shortener = ({
       await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
       toast({
-        title: "link created",
-        description: "your short link is ready",
+        title: needsApproval ? "approval requested" : "link created",
+        description: needsApproval 
+          ? "an admin will review your link shortly" 
+          : "your short link is ready",
       });
       
       // Auto-scroll to recent links section
@@ -229,6 +238,15 @@ export const Step2Shortener = ({
             create a short, memorable link
           </p>
         </div>
+
+        {needsApproval && (
+          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg flex items-center gap-3">
+            <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+              Your role requires admin approval before links go live.
+            </p>
+          </div>
+        )}
 
         <div className="p-4 bg-muted/50 rounded-lg">
           <Label className="text-xs text-secondary-label">utm url from step 1</Label>
@@ -382,7 +400,11 @@ export const Step2Shortener = ({
             className="flex-1"
             disabled={createLinkMutation.isPending || !slugAvailable}
           >
-            {createLinkMutation.isPending ? "creating..." : "create short link"}
+            {createLinkMutation.isPending 
+              ? "creating..." 
+              : needsApproval 
+                ? "request approval" 
+                : "create short link"}
           </Button>
         </div>
       </form>

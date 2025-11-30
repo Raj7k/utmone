@@ -8,6 +8,7 @@ interface LinkRecord {
   id: string;
   final_url: string;
   status: string;
+  approval_status: string | null;
   expires_at: string | null;
   max_clicks: number | null;
   total_clicks: number;
@@ -283,7 +284,7 @@ Deno.serve(async (req) => {
     // Look up the link (now using optimized index)
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets')
+      .select('id, final_url, status, approval_status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets')
       .eq('domain', domain)
       .eq('path', path)
       .eq('slug', slug)
@@ -299,6 +300,51 @@ Deno.serve(async (req) => {
     }
     
     const linkRecord = link as LinkRecord;
+    
+    // Check approval status BEFORE any other checks
+    if (linkRecord.approval_status === 'pending') {
+      const pendingHtml = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Link Pending Approval - utm.one</title>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #f9fafb; }
+            .container { text-align: center; padding: 2rem; max-width: 500px; }
+            .icon { font-size: 64px; margin-bottom: 1rem; }
+            h1 { font-size: 2rem; margin-bottom: 1rem; color: #1f2937; font-weight: 600; }
+            p { color: #6b7280; margin: 0.5rem 0; line-height: 1.6; }
+            .footer { margin-top: 3rem; font-size: 0.875rem; color: #9ca3af; }
+            .footer a { color: #217BF4; text-decoration: none; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="icon">⏳</div>
+            <h1>Link Pending Approval</h1>
+            <p>This link is awaiting review by an administrator and is not yet active.</p>
+            <p>Please check back later or contact the link creator.</p>
+            <div class="footer">
+              <p>Links powered by <a href="https://utm.one">utm.one</a></p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
+      return new Response(pendingHtml, { 
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+      });
+    }
+
+    if (linkRecord.approval_status === 'rejected') {
+      return new Response('Link not found', { 
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'text/html' }
+      });
+    }
     
     // Check if link has password protection
     if (linkRecord.password_hash) {
