@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, Plus } from "lucide-react";
+import { formatText } from "@/utils/textFormatter";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { DashboardSidebar } from "./DashboardSidebar";
@@ -43,8 +44,19 @@ export const AppHeader = () => {
   const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { setCreateModalOpen } = useModal();
+  const [, setTextModeUpdate] = useState(0);
   
   const breadcrumbs = getBreadcrumbs(location.pathname);
+
+  // Listen for text mode changes
+  useEffect(() => {
+    const handleTextModeChange = () => {
+      setTextModeUpdate(prev => prev + 1);
+    };
+    
+    window.addEventListener('text-mode-change', handleTextModeChange);
+    return () => window.removeEventListener('text-mode-change', handleTextModeChange);
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -94,7 +106,7 @@ export const AppHeader = () => {
                       ? "text-label font-medium" 
                       : "hover:text-label transition-colors"}
                   >
-                    {crumb.label}
+                    {formatText(crumb.label)}
                   </button>
                 </div>
               ))}

@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { formatText } from "@/utils/textFormatter";
 import { 
   LayoutGrid, 
   Link2, 
@@ -38,7 +39,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 interface DashboardSidebarProps {
@@ -78,6 +79,17 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   
   const [toolsOpen, setToolsOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
+  const [, setTextModeUpdate] = useState(0);
+
+  // Listen for text mode changes
+  useEffect(() => {
+    const handleTextModeChange = () => {
+      setTextModeUpdate(prev => prev + 1);
+    };
+    
+    window.addEventListener('text-mode-change', handleTextModeChange);
+    return () => window.removeEventListener('text-mode-change', handleTextModeChange);
+  }, []);
 
   // Query for pending approvals count
   const { data: pendingCount } = useQuery({
@@ -178,7 +190,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                 )}
               >
                 <Icon className="h-5 w-5 flex-shrink-0" />
-                <span className="flex-1">{item.name}</span>
+                <span className="flex-1">{formatText(item.name)}</span>
                 {showBadge && (
                   <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
                     {pendingCount > 9 ? '9+' : pendingCount}
@@ -219,7 +231,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                     )}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span>{item.name}</span>
+                    <span>{formatText(item.name)}</span>
                   </Link>
                 );
               })}
@@ -257,7 +269,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                     )}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span>{item.name}</span>
+                    <span>{formatText(item.name)}</span>
                   </Link>
                 );
               })}
@@ -290,7 +302,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               )}
             >
               <Icon className="h-5 w-5 flex-shrink-0" />
-              <span>{item.name}</span>
+              <span>{formatText(item.name)}</span>
             </Link>
           );
         })}
