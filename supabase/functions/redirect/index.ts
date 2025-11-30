@@ -587,6 +587,20 @@ Deno.serve(async (req) => {
     const userAgent = req.headers.get('user-agent') || 'unknown';
     const referrer = req.headers.get('referer') || req.headers.get('referrer') || null;
     
+    // Get or generate visitor_id from cookie
+    const cookieHeader = req.headers.get('cookie') || '';
+    let visitorId = cookieHeader
+      .split(';')
+      .find(c => c.trim().startsWith('utm_visitor_id='))
+      ?.split('=')[1];
+    
+    if (!visitorId) {
+      visitorId = crypto.randomUUID();
+      console.log(`Generated new visitor_id: ${visitorId}`);
+    } else {
+      console.log(`Existing visitor_id: ${visitorId}`);
+    }
+    
     // Parse user agent
     const { deviceType, browser, os } = parseUserAgent(userAgent);
     
@@ -658,6 +672,7 @@ Deno.serve(async (req) => {
       
       const clickData = {
         link_id: linkRecord.id,
+        visitor_id: visitorId,
         ip_address: ipAddress,
         user_agent: userAgent,
         referrer: referrer,
@@ -776,10 +791,14 @@ Deno.serve(async (req) => {
     const endTime = performance.now();
     console.log(`Redirecting to: ${finalRedirectUrl} (${redirectStatus}) - Total time: ${(endTime - startTime).toFixed(2)}ms`);
     
+    // Set visitor_id cookie for conversion tracking (30 days)
+    const cookieValue = `utm_visitor_id=${visitorId}; Path=/; Max-Age=2592000; SameSite=Lax; Secure`;
+    
     return new Response(null, {
       status: redirectStatus,
       headers: {
         'Location': finalRedirectUrl,
+        'Set-Cookie': cookieValue,
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',

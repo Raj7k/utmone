@@ -17,6 +17,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
 import BillingSettings from "./settings/Billing";
+import { TrackingPixelCard } from "@/components/settings/TrackingPixelCard";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -121,6 +122,10 @@ export default function Settings() {
                 <Shield className="w-4 h-4" />
                 Data & Privacy
               </TabsTrigger>
+              <TabsTrigger value="pixel" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
+                <Shield className="w-4 h-4" />
+                Tracking Pixel
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="domains" className="space-y-6">
@@ -158,6 +163,10 @@ export default function Settings() {
 
             <TabsContent value="privacy" className="space-y-6">
               <DataPrivacySettings />
+            </TabsContent>
+
+            <TabsContent value="pixel" className="space-y-6">
+              {currentWorkspace && <TrackingPixelCard workspaceId={currentWorkspace.id} />}
             </TabsContent>
           </Tabs>
         </div>
