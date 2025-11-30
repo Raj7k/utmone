@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
+import { formatText } from "@/utils/textFormatter";
 
 interface FeatureMappedCardProps {
   icon: LucideIcon;
@@ -44,7 +45,7 @@ export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay
       <div className={`inline-flex p-3 rounded-xl ${colors.bg} mb-4`}>
         <Icon className={`w-6 h-6 ${colors.text}`} strokeWidth={2} />
       </div>
-      <h3 className="text-xl font-display font-semibold mb-2 lowercase">{title}</h3>
+      <h3 className="text-xl font-display font-semibold mb-2 lowercase">{formatText(title)}</h3>
       <p className="text-base text-muted-foreground">{description}</p>
     </motion.div>
   );

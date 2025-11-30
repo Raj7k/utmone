@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatText } from "@/utils/textFormatter";
 
 interface CTAButtonProps {
   children: React.ReactNode;
@@ -41,7 +42,7 @@ export const CTAButton = ({
           size="lg"
           className={`relative text-base px-8 py-6 rounded-full font-medium lowercase ${className}`}
         >
-          {children}
+          {typeof children === 'string' ? formatText(children) : children}
           {showArrow && (
             <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
           )}
@@ -55,7 +56,7 @@ export const CTAButton = ({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-sm text-secondary-label"
         >
-          {trustBadge}
+          {formatText(trustBadge)}
         </motion.p>
       )}
     </motion.div>

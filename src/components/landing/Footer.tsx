@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Linkedin } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+import { formatText } from "@/utils/textFormatter";
 
 export const Footer = () => {
   return (
@@ -19,7 +20,7 @@ export const Footer = () => {
           {/* Product Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              product
+              {formatText("product")}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -73,7 +74,7 @@ export const Footer = () => {
           {/* Solutions Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              solutions
+              {formatText("solutions")}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -107,7 +108,7 @@ export const Footer = () => {
           {/* Resources Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              resources
+              {formatText("resources")}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -167,7 +168,7 @@ export const Footer = () => {
           {/* Company Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              company
+              {formatText("company")}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -191,7 +192,7 @@ export const Footer = () => {
           {/* Legal Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              legal
+              {formatText("legal")}
             </h3>
             <ul className="space-y-3">
               <li>
