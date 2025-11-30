@@ -42,6 +42,14 @@ const Signup = () => {
       loadInvitationContext(inviteToken);
     }
 
+    // Add timeout to prevent infinite loading
+    const sessionCheckTimeout = setTimeout(() => {
+      if (isCheckingSession) {
+        console.warn("Session check timeout - proceeding to signup form");
+        setIsCheckingSession(false);
+      }
+    }, 5000); // 5 second timeout
+
     // Check if user is already logged in
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
@@ -68,6 +76,7 @@ const Signup = () => {
         });
       })
       .finally(() => {
+        clearTimeout(sessionCheckTimeout);
         setIsCheckingSession(false);
       });
 
