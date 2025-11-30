@@ -223,10 +223,14 @@ export default function WaitlistStatus() {
           <h2 className="text-2xl font-semibold mb-4">
             jump the queue with referrals
           </h2>
-          <p className="text-secondary-label mb-6">
-            share your unique referral link and earn points for every friend who joins.
-            3 referrals = instant level upgrade. 10 referrals = immediate early access.
+          <p className="text-secondary-label mb-4">
+            share your unique referral link and earn points for every friend who joins and <span className="font-semibold text-primary">verifies their email</span>.
           </p>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-amber-900">
+              <span className="font-semibold">⚠️ fraud protection:</span> referrals only count when your friends verify their email. this prevents fake signups and keeps the queue fair.
+            </p>
+          </div>
           <div className="flex gap-3">
             <Button onClick={copyReferralLink} variant="outline" className="gap-2">
               <Copy className="h-4 w-4" />
