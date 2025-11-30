@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
 import { Link2, Copy, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
+import { AnimatedCard } from "@/components/ui/AnimatedCard";
 
 export const URLShortenerBasic = () => {
   const { toast } = useToast();
@@ -111,7 +111,8 @@ export const URLShortenerBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-8 shadow-xl shadow-black/5 border-border/20 bg-background rounded-2xl">
+        <AnimatedCard className="group">
+          <div className="p-8">
           {/* Domain Badge */}
           <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
@@ -149,7 +150,8 @@ export const URLShortenerBasic = () => {
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </div>
-        </Card>
+          </div>
+        </AnimatedCard>
 
         {/* Elegant Footer */}
         <div className="mt-8 text-center">
@@ -172,7 +174,8 @@ export const URLShortenerBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8 shadow-xl shadow-black/5 border-border/20 bg-background rounded-2xl">
+        <AnimatedCard className="group">
+          <div className="p-8">
           {/* Domain Badge */}
           <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
@@ -327,7 +330,8 @@ export const URLShortenerBasic = () => {
               </div>
             </div>
           </div>
-        </Card>
+          </div>
+        </AnimatedCard>
 
         {/* Elegant Footer */}
         <div className="mt-8 text-center">
