@@ -17,17 +17,13 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useSearchParams } from "react-router-dom";
+import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
 
 const earlyAccessSchema = z.object({
   name: z.string().min(1, "name is required").max(100),
   email: z.string().email("please enter a valid email").max(255),
-  role: z.string().min(1, "please select a role"),
   team_size: z.string().min(1, "please select team size"),
-  reason_for_joining: z.string().min(1, "please tell us why"),
-  reason_details: z.string().max(500).optional(),
-  how_heard: z.string().min(1, "please tell us how you heard about us"),
-  company_domain: z.string().max(100).optional(),
-  desired_domain: z.string().max(100).optional(),
+  reason_for_joining: z.string().optional(),
 });
 
 type EarlyAccessForm = z.infer<typeof earlyAccessSchema>;
@@ -53,74 +49,56 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   } = useForm<EarlyAccessForm>({
     resolver: zodResolver(earlyAccessSchema),
     mode: "onChange",
+    defaultValues: {
+      email: prefillEmail || "",
+    },
   });
 
-  // Pre-fill email if provided from URL parameter
-  useState(() => {
-    if (prefillEmail) {
-      setValue('email', prefillEmail);
-    }
-  });
-
-  const role = watch("role");
   const team_size = watch("team_size");
   const reason_for_joining = watch("reason_for_joining");
-  const how_heard = watch("how_heard");
 
   const handleNext = async () => {
-    let fieldsToValidate: (keyof EarlyAccessForm)[] = [];
-    
-    if (currentStep === 1) {
-      fieldsToValidate = ["name", "email"];
-    } else if (currentStep === 2) {
-      fieldsToValidate = ["role", "team_size", "reason_for_joining"];
-    }
-
-    const isValid = await trigger(fieldsToValidate);
+    const isValid = await trigger(["name", "email"]);
     if (isValid) {
-      setCurrentStep(currentStep + 1);
+      setCurrentStep(2);
     }
   };
 
   const handleBack = () => {
-    setCurrentStep(currentStep - 1);
+    setCurrentStep(1);
   };
 
   const onSubmit = async (data: EarlyAccessForm) => {
     setIsSubmitting(true);
 
     try {
-      const referredBy = searchParams.get("ref");
+      const referredByCode = searchParams.get("ref");
 
       const { data: responseData, error } = await supabase.functions.invoke(
-        "submit-early-access",
+        "handle-referral-signup",
         {
           body: {
             name: data.name,
             email: data.email,
             team_size: data.team_size,
-            role: data.role,
-            reason_for_joining: data.reason_for_joining,
-            reason_details: data.reason_details || null,
-            how_heard: data.how_heard,
-            company_domain: data.company_domain || null,
-            desired_domain: data.desired_domain || null,
-            referred_by: referredBy,
+            reason_for_joining: data.reason_for_joining || "Not specified",
+            referral_code: referredByCode || undefined,
           },
         }
       );
 
       if (error) throw error;
 
-      onSuccess({
-        id: responseData.id,
-        referral_code: responseData.referral_code,
-      });
-
       toast({
         title: "you're on the list",
-        description: "check your email for next steps",
+        description: "redirecting to your waitlist status...",
       });
+
+      // Redirect to waitlist status page
+      setTimeout(() => {
+        window.location.href = `/waitlist-status?email=${encodeURIComponent(data.email)}`;
+      }, 1000);
+
     } catch (error: any) {
       console.error("Error submitting early access:", error);
       toast({
@@ -167,23 +145,23 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground font-medium">
-                step {currentStep} of 3
+                step {currentStep} of 2
               </span>
               <span className="text-primary font-semibold">
-                {Math.round((currentStep / 3) * 100)}%
+                {Math.round((currentStep / 2) * 100)}%
               </span>
             </div>
             <div className="relative h-2 bg-muted/30 rounded-full overflow-hidden">
               <motion.div
                 className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-primary/80 rounded-full"
                 initial={{ width: "0%" }}
-                animate={{ width: `${(currentStep / 3) * 100}%` }}
+                animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               />
               <motion.div
                 className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-transparent rounded-full opacity-50"
                 initial={{ width: "0%" }}
-                animate={{ width: `${(currentStep / 3) * 100}%` }}
+                animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
               />
             </div>
@@ -271,41 +249,16 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                   className="absolute inset-0"
                 >
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-display font-semibold">
-                      tell us about you
-                    </h3>
+                    <div className="text-center mb-2">
+                      <h3 className="text-2xl font-display font-semibold">
+                        quick context
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        helps us personalize your experience
+                      </p>
+                    </div>
 
                     <div className="space-y-3">
-                      <div className="space-y-2">
-                        <Label htmlFor="role">your role</Label>
-                        <Select
-                          value={role}
-                          onValueChange={(value) => setValue("role", value)}
-                        >
-                          <SelectTrigger id="role" className="h-11">
-                            <SelectValue placeholder="select your role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="marketing">marketing</SelectItem>
-                            <SelectItem value="sales">sales</SelectItem>
-                            <SelectItem value="marketing_ops">
-                              marketing ops
-                            </SelectItem>
-                            <SelectItem value="developer">developer</SelectItem>
-                            <SelectItem value="partner_manager">
-                              partner manager
-                            </SelectItem>
-                            <SelectItem value="agency">agency</SelectItem>
-                            <SelectItem value="other">other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        {errors.role && (
-                          <p className="text-sm text-destructive">
-                            {errors.role.message}
-                          </p>
-                        )}
-                      </div>
-
                       <div className="space-y-2">
                         <Label htmlFor="team_size">team size</Label>
                         <Select
@@ -332,33 +285,16 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="reason_for_joining">why utm.one?</Label>
-                        <Select
-                          value={reason_for_joining}
-                          onValueChange={(value) =>
-                            setValue("reason_for_joining", value)
-                          }
-                        >
-                          <SelectTrigger id="reason_for_joining" className="h-11">
-                            <SelectValue placeholder="what brings you here" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="link_management">
-                              link management
-                            </SelectItem>
-                            <SelectItem value="utm_tracking">
-                              utm tracking
-                            </SelectItem>
-                            <SelectItem value="qr_codes">qr codes</SelectItem>
-                            <SelectItem value="analytics">analytics</SelectItem>
-                            <SelectItem value="team_governance">
-                              team governance
-                            </SelectItem>
-                            <SelectItem value="all_of_the_above">
-                              all of the above
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Label htmlFor="reason_for_joining">
+                          what brings you to utm.one?{" "}
+                          <span className="text-muted-foreground">(optional)</span>
+                        </Label>
+                        <Textarea
+                          id="reason_for_joining"
+                          placeholder="tell us briefly about your use case..."
+                          {...register("reason_for_joining")}
+                          className="min-h-[80px]"
+                        />
                         {errors.reason_for_joining && (
                           <p className="text-sm text-destructive">
                             {errors.reason_for_joining.message}
@@ -369,128 +305,56 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                   </div>
                 </motion.div>
               )}
-
-              {currentStep === 3 && (
-                <motion.div
-                  key="step3"
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute inset-0"
-                >
-                  <motion.div 
-                    className="space-y-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="text-center mb-2">
-                      <h3 className="text-2xl font-display font-semibold">
-                        almost there
-                      </h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        you're one click away from the early circle
-                      </p>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="space-y-2">
-                        <Label htmlFor="how_heard">how did you hear about us?</Label>
-                        <Select
-                          value={how_heard}
-                          onValueChange={(value) => setValue("how_heard", value)}
-                        >
-                          <SelectTrigger id="how_heard" className="h-11">
-                            <SelectValue placeholder="select one" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="google_search">
-                              google search
-                            </SelectItem>
-                            <SelectItem value="social_media">
-                              social media
-                            </SelectItem>
-                            <SelectItem value="referral">referral</SelectItem>
-                            <SelectItem value="product_hunt">
-                              product hunt
-                            </SelectItem>
-                            <SelectItem value="blog">blog</SelectItem>
-                            <SelectItem value="podcast">podcast</SelectItem>
-                            <SelectItem value="other">other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        {errors.how_heard && (
-                          <p className="text-sm text-destructive">
-                            {errors.how_heard.message}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="reason_details">
-                          tell us more{" "}
-                          <span className="text-muted-foreground">(optional)</span>
-                        </Label>
-                        <Textarea
-                          id="reason_details"
-                          placeholder="anything else we should know?"
-                          {...register("reason_details")}
-                          className="min-h-[80px]"
-                        />
-                        {errors.reason_details && (
-                          <p className="text-sm text-destructive">
-                            {errors.reason_details.message}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
             </AnimatePresence>
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between pt-4">
+          <div className="flex items-center justify-between pt-2">
             {currentStep > 1 ? (
               <Button
                 type="button"
-                variant="outline"
                 onClick={handleBack}
-                disabled={isSubmitting}
-                className="hover:scale-105 transition-transform duration-200"
+                variant="ghost"
+                size="lg"
+                className="group"
               >
-                ← back
+                <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                back
               </Button>
             ) : (
               <div />
             )}
 
-            {currentStep < 3 ? (
+            {currentStep < 2 ? (
               <Button
                 type="button"
                 onClick={handleNext}
-                className="bg-[hsl(20_100%_51%)] hover:bg-[hsl(20_80%_45%)] text-white hover:scale-105 transition-transform duration-200"
+                size="lg"
+                variant="marketing"
+                className="group ml-auto"
               >
-                next →
+                continue
+                <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             ) : (
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="h-12 bg-gradient-to-r from-[hsl(20_100%_51%)] to-[hsl(20_80%_45%)] hover:from-[hsl(20_80%_45%)] hover:to-[hsl(20_100%_51%)] text-white font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
+                size="lg"
+                variant="marketing"
+                className="group ml-auto"
               >
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                  animate={{ x: ["-200%", "200%"] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                />
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {isSubmitting ? "submitting..." : "🚀 request early access"}
-                </span>
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                    joining...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    join waitlist
+                  </>
+                )}
               </Button>
             )}
           </div>

@@ -1594,15 +1594,18 @@ export type Database = {
           is_flagged: boolean | null
           last_activity_timestamp: string | null
           name: string
+          position: number | null
           reason_details: string | null
           reason_for_joining: string | null
           referral_code: string | null
+          referral_count: number | null
           referral_score: number | null
           referred_by: string | null
           role: string | null
           status: string | null
           team_size: string
           total_access_score: number | null
+          unlocked_via_referral: boolean | null
           updated_at: string | null
           use_case_tags: string[] | null
         }
@@ -1624,15 +1627,18 @@ export type Database = {
           is_flagged?: boolean | null
           last_activity_timestamp?: string | null
           name: string
+          position?: number | null
           reason_details?: string | null
           reason_for_joining?: string | null
           referral_code?: string | null
+          referral_count?: number | null
           referral_score?: number | null
           referred_by?: string | null
           role?: string | null
           status?: string | null
           team_size: string
           total_access_score?: number | null
+          unlocked_via_referral?: boolean | null
           updated_at?: string | null
           use_case_tags?: string[] | null
         }
@@ -1654,15 +1660,18 @@ export type Database = {
           is_flagged?: boolean | null
           last_activity_timestamp?: string | null
           name?: string
+          position?: number | null
           reason_details?: string | null
           reason_for_joining?: string | null
           referral_code?: string | null
+          referral_count?: number | null
           referral_score?: number | null
           referred_by?: string | null
           role?: string | null
           status?: string | null
           team_size?: string
           total_access_score?: number | null
+          unlocked_via_referral?: boolean | null
           updated_at?: string | null
           use_case_tags?: string[] | null
         }
@@ -3158,6 +3167,7 @@ export type Database = {
           activation_score: number | null
           avatar_url: string | null
           created_at: string | null
+          credit_months: number | null
           data_retention_days: number | null
           email: string
           first_analytics_viewed_at: string | null
@@ -3169,6 +3179,7 @@ export type Database = {
           is_super_admin: boolean | null
           onboarding_completed: boolean | null
           primary_use_case: string | null
+          referred_by_code: string | null
           team_members_invited_count: number | null
           team_size: string | null
           tracking_consent: boolean | null
@@ -3180,6 +3191,7 @@ export type Database = {
           activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
+          credit_months?: number | null
           data_retention_days?: number | null
           email: string
           first_analytics_viewed_at?: string | null
@@ -3191,6 +3203,7 @@ export type Database = {
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
+          referred_by_code?: string | null
           team_members_invited_count?: number | null
           team_size?: string | null
           tracking_consent?: boolean | null
@@ -3202,6 +3215,7 @@ export type Database = {
           activation_score?: number | null
           avatar_url?: string | null
           created_at?: string | null
+          credit_months?: number | null
           data_retention_days?: number | null
           email?: string
           first_analytics_viewed_at?: string | null
@@ -3213,6 +3227,7 @@ export type Database = {
           is_super_admin?: boolean | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
+          referred_by_code?: string | null
           team_members_invited_count?: number | null
           team_size?: string | null
           tracking_consent?: boolean | null
@@ -4678,6 +4693,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      increment_referral_count: {
+        Args: { referrer_id: string }
+        Returns: undefined
+      }
       is_workspace_member: {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
@@ -4715,6 +4734,7 @@ export type Database = {
       }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
+      update_waitlist_positions: { Args: never; Returns: undefined }
       verify_api_key: {
         Args: {
           p_key_hash: string
