@@ -5,6 +5,7 @@ import {
   Link2, 
   BarChart3, 
   QrCode, 
+  Target,
   Megaphone, 
   Briefcase, 
   CreditCard, 
@@ -48,6 +49,7 @@ const appNavigation = [
 
 const toolsNavigation = [
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
+  { name: "Targeting", href: "/dashboard/targeting", icon: Target },
 ];
 
 const growthNavigation = [

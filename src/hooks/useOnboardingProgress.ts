@@ -19,13 +19,27 @@ export const useOnboardingProgress = (): OnboardingProgress => {
     queryFn: async () => {
       if (!currentWorkspace) return null;
 
-      // Get current user's profile data
+      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
 
+      // Check for actual links created by user
+      const { count: linkCount } = await supabase
+        .from('links')
+        .select('*', { count: 'exact', head: true })
+        .eq('created_by', user.id)
+        .eq('workspace_id', currentWorkspace.id);
+
+      // Check for actual QR codes created by user
+      const { count: qrCount } = await supabase
+        .from('qr_codes')
+        .select('*', { count: 'exact', head: true })
+        .eq('created_by', user.id);
+
+      // Get profile data for analytics and team invites
       const { data: profile } = await supabase
         .from('profiles')
-        .select('first_link_created_at, first_qr_generated_at, first_analytics_viewed_at, team_members_invited_count')
+        .select('first_analytics_viewed_at, team_members_invited_count')
         .eq('id', user.id)
         .single();
 
@@ -39,8 +53,8 @@ export const useOnboardingProgress = (): OnboardingProgress => {
         .limit(1);
 
       return {
-        hasLinks: !!profile?.first_link_created_at,
-        hasQrCodes: !!profile?.first_qr_generated_at,
+        hasLinks: (linkCount || 0) > 0,
+        hasQrCodes: (qrCount || 0) > 0,
         hasViewedAnalytics: !!profile?.first_analytics_viewed_at,
         hasInvitedTeam: (profile?.team_members_invited_count || 0) > 0,
         hasCustomDomain: !!domains && domains.length > 0,

@@ -54,11 +54,14 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       // Track first QR for onboarding
       trackFirstQR();
-      queryClient.invalidateQueries({ queryKey: ["qr-codes"] });
-      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
+      // Invalidate and refetch queries immediately
+      await queryClient.invalidateQueries({ queryKey: ["qr-codes"] });
+      await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
       toast({
         title: "qr code generated",
