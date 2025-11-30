@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { AppHeader } from "./AppHeader";
 import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
+import { FeedbackWidget } from "@/components/FeedbackWidget";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 import { CreateLinkModal } from "@/components/CreateLinkModal";
@@ -52,6 +53,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       {/* Admin God Mode Toolbar */}
       <AdminToolbar />
+
+      {/* Floating Feedback Widget */}
+      <FeedbackWidget />
       </div>
     </SidebarProvider>
   );

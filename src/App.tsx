@@ -71,6 +71,7 @@ const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
 const WaitlistManagement = lazy(() => import("./pages/admin/WaitlistManagement"));
+const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
 const LandingManagement = lazy(() => import("./pages/admin/LandingManagement"));
 const ProductAnalytics = lazy(() => import("./pages/admin/ProductAnalytics"));
 const SystemMonitoring = lazy(() => import("./pages/admin/SystemMonitoring"));
@@ -343,6 +344,7 @@ const App = () => (
               <Route path="/admin/claim" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAdmin /></Suspense>} />
               <Route path="/admin" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminDashboard /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/waitlist" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><WaitlistManagement /></AdminLayout></Suspense></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><UserManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/landing" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><LandingManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/product" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><ProductAnalytics /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/system" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemMonitoring /></AdminLayout></Suspense></ProtectedRoute>} />
