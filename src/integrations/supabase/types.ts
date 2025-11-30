@@ -1388,34 +1388,40 @@ export type Database = {
       demo_requests: {
         Row: {
           challenge: string | null
+          country_code: string | null
           created_at: string | null
           email: string
           id: string
           interests: string[] | null
           message: string | null
           name: string
+          phone: string | null
           status: string | null
           updated_at: string | null
         }
         Insert: {
           challenge?: string | null
+          country_code?: string | null
           created_at?: string | null
           email: string
           id?: string
           interests?: string[] | null
           message?: string | null
           name: string
+          phone?: string | null
           status?: string | null
           updated_at?: string | null
         }
         Update: {
           challenge?: string | null
+          country_code?: string | null
           created_at?: string | null
           email?: string
           id?: string
           interests?: string[] | null
           message?: string | null
           name?: string
+          phone?: string | null
           status?: string | null
           updated_at?: string | null
         }
