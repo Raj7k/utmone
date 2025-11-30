@@ -26,34 +26,30 @@ export const EarlyAccessInlineCTA = () => {
   };
 
   return (
-    <div className="relative mt-8">
-      <div className="absolute inset-0 bg-gradient-radial from-blazeOrange/20 via-transparent to-transparent opacity-30 blur-2xl pointer-events-none" />
-      
+    <div className="flex justify-center mt-6">
       <form 
         onSubmit={handleSubmit}
-        className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-300"
+        className="inline-flex items-center bg-slate-100 border border-slate-200 rounded-full p-2 gap-2 max-w-md w-full hover:border-slate-300 transition-all duration-300"
       >
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Input
-            type="email"
-            placeholder="enter your email..."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-white/30 transition-all"
-            required
-          />
-          <Button
-            type="submit"
-            variant="marketing"
-            size="lg"
-            className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
-          >
-            get early access
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+        <Input
+          type="email"
+          placeholder="enter your email..."
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="flex-1 h-10 bg-white border-0 text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 rounded-full"
+          required
+        />
+        <Button
+          type="submit"
+          variant="marketing"
+          size="sm"
+          className="h-10 px-6 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap flex-shrink-0"
+        >
+          get early access
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
         {error && (
-          <p className="text-sm text-red-400 mt-2">{error}</p>
+          <p className="text-sm text-red-500 absolute -bottom-6 left-0 right-0 text-center">{error}</p>
         )}
       </form>
     </div>

@@ -142,34 +142,6 @@ const faqs: FAQItem[] = [
     ),
   },
   {
-    question: "how do i get started?",
-    answer: (
-      <>
-        <p>Sign up in under 30 seconds:</p>
-        <ol className="mt-3 space-y-2 ml-4">
-          <li className="flex items-start gap-2">
-            <span className="text-blazeOrange font-semibold">1.</span>
-            <span>Create your free account</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-blazeOrange font-semibold">2.</span>
-            <span>Create your first link with clean UTMs</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-blazeOrange font-semibold">3.</span>
-            <span>Generate a branded QR code</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="text-blazeOrange font-semibold">4.</span>
-            <span>Watch your clean data roll in</span>
-          </li>
-        </ol>
-        <p className="mt-3">No credit card required. No setup hassle. Just clean links that work.</p>
-        <EarlyAccessInlineCTA />
-      </>
-    ),
-  },
-  {
     question: "pricing that respects you",
     answer: (
       <>
@@ -201,6 +173,34 @@ const faqs: FAQItem[] = [
           </li>
         </ul>
         <p className="mt-4 text-lg font-semibold text-blazeOrange">The internet is tired of predatory pricing. We chose a different path.</p>
+      </>
+    ),
+  },
+  {
+    question: "how do i get started?",
+    answer: (
+      <>
+        <p>Sign up in under 30 seconds:</p>
+        <ol className="mt-3 space-y-2 ml-4">
+          <li className="flex items-start gap-2">
+            <span className="text-blazeOrange font-semibold">1.</span>
+            <span>Create your free account</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blazeOrange font-semibold">2.</span>
+            <span>Create your first link with clean UTMs</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blazeOrange font-semibold">3.</span>
+            <span>Generate a branded QR code</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blazeOrange font-semibold">4.</span>
+            <span>Watch your clean data roll in</span>
+          </li>
+        </ol>
+        <p className="mt-3">No credit card required. No setup hassle. Just clean links that work.</p>
+        <EarlyAccessInlineCTA />
       </>
     ),
   },
