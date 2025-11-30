@@ -17,6 +17,7 @@ interface ChecklistItem {
   completed: boolean;
   action: () => void;
   buttonLabel: string;
+  isWarning?: boolean;
 }
 
 export const OnboardingChecklist = () => {
@@ -31,6 +32,7 @@ export const OnboardingChecklist = () => {
     hasViewedAnalytics,
     hasInvitedTeam,
     hasCustomDomain,
+    hasInstalledPixel,
     isLoading,
   } = useOnboardingProgress();
 
@@ -58,6 +60,15 @@ export const OnboardingChecklist = () => {
       completed: hasViewedAnalytics,
       action: () => navigate('/dashboard/analytics'),
       buttonLabel: 'View →',
+    },
+    {
+      id: 'pixel',
+      label: 'install tracking pixel',
+      description: '⚠️ critical for conversion tracking',
+      completed: hasInstalledPixel,
+      action: () => navigate('/settings?tab=pixel'),
+      buttonLabel: 'Install →',
+      isWarning: true,
     },
     {
       id: 'team',
@@ -156,7 +167,8 @@ export const OnboardingChecklist = () => {
                 onClick={item.completed ? undefined : item.action}
                 className={cn(
                   "flex items-center gap-3 p-3 rounded-lg transition-apple",
-                  !item.completed && "hover:bg-fill-tertiary cursor-pointer group"
+                  !item.completed && "hover:bg-fill-tertiary cursor-pointer group",
+                  item.isWarning && !item.completed && "border-l-4 border-system-orange bg-system-orange/5"
                 )}
               >
                 <div className="flex-shrink-0">

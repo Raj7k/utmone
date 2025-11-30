@@ -8,6 +8,7 @@ interface OnboardingProgress {
   hasViewedAnalytics: boolean;
   hasInvitedTeam: boolean;
   hasCustomDomain: boolean;
+  hasInstalledPixel: boolean;
   isLoading: boolean;
 }
 
@@ -52,12 +53,20 @@ export const useOnboardingProgress = (): OnboardingProgress => {
         .not('domain', 'in', '(go.utm.one,utm.click)')
         .limit(1);
 
+      // Check for tracking pixel
+      const { data: pixels } = await supabase
+        .from('pixel_configs')
+        .select('id')
+        .eq('workspace_id', currentWorkspace.id)
+        .limit(1);
+
       return {
         hasLinks: (linkCount || 0) > 0,
         hasQrCodes: (qrCount || 0) > 0,
         hasViewedAnalytics: !!profile?.first_analytics_viewed_at,
         hasInvitedTeam: (profile?.team_members_invited_count || 0) > 0,
         hasCustomDomain: !!domains && domains.length > 0,
+        hasInstalledPixel: !!pixels && pixels.length > 0,
       };
     },
     enabled: !!currentWorkspace,
@@ -69,6 +78,7 @@ export const useOnboardingProgress = (): OnboardingProgress => {
     hasViewedAnalytics: data?.hasViewedAnalytics ?? false,
     hasInvitedTeam: data?.hasInvitedTeam ?? false,
     hasCustomDomain: data?.hasCustomDomain ?? false,
+    hasInstalledPixel: data?.hasInstalledPixel ?? false,
     isLoading,
   };
 };

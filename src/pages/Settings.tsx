@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, ArrowLeft, Key, Webhook, Shield, Palette, Users, ShieldCheck, CreditCard } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import APIKeysSettings from "./Settings/APIKeys";
@@ -18,6 +17,7 @@ import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
 import BillingSettings from "./settings/Billing";
 import { TrackingPixelCard } from "@/components/settings/TrackingPixelCard";
+import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -72,103 +72,70 @@ export default function Settings() {
     <div className="min-h-screen bg-grouped-background pb-20 md:pb-0">
       <AppHeader />
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-5xl mx-auto space-y-6">
-          <div className="flex items-center gap-4">
-            <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Dashboard
-            </Button>
-          </div>
+      <main className="flex h-[calc(100vh-72px)]">
+        {/* Sidebar - hidden on mobile */}
+        {!isMobile && (
+          <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        )}
 
-          <div>
-            <h1 className="text-large-title font-display font-bold mb-2 text-label">Settings</h1>
-            <p className="text-body-apple text-secondary-label">
-              Manage your workspace settings, domains, and preferences
-            </p>
-          </div>
+        {/* Main Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="container mx-auto px-4 py-8 max-w-5xl">
+            <div className="flex items-center gap-4 mb-6">
+              <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard")}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                back to dashboard
+              </Button>
+            </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className={`bg-fill-tertiary ${isMobile ? 'flex flex-col w-full h-auto' : ''}`}>
-              <TabsTrigger value="domains" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Globe className="w-4 h-4" />
-                Domains
-              </TabsTrigger>
-              <TabsTrigger value="billing" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <CreditCard className="w-4 h-4" />
-                Billing
-              </TabsTrigger>
-              <TabsTrigger value="branding" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Palette className="w-4 h-4" />
-                Branding
-              </TabsTrigger>
-              <TabsTrigger value="team" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Users className="w-4 h-4" />
-                Team
-              </TabsTrigger>
-              <TabsTrigger value="api" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Key className="w-4 h-4" />
-                API Keys
-              </TabsTrigger>
-              <TabsTrigger value="integrations" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Webhook className="w-4 h-4" />
-                Integrations
-              </TabsTrigger>
-              <TabsTrigger value="security" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <ShieldCheck className="w-4 h-4" />
-                Security
-              </TabsTrigger>
-              <TabsTrigger value="privacy" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Shield className="w-4 h-4" />
-                Data & Privacy
-              </TabsTrigger>
-              <TabsTrigger value="pixel" className="gap-2 data-[state=active]:bg-fill data-[state=active]:text-system-blue w-full">
-                <Shield className="w-4 h-4" />
-                Tracking Pixel
-              </TabsTrigger>
-            </TabsList>
+            <div className="mb-8">
+              <h1 className="text-large-title font-display font-bold mb-2 text-label">settings</h1>
+              <p className="text-body-apple text-secondary-label">
+                manage your workspace settings, domains, and preferences
+              </p>
+            </div>
 
-            <TabsContent value="domains" className="space-y-6">
-              {currentWorkspace && <Domains workspaceId={currentWorkspace.id} />}
-            </TabsContent>
+            {/* Mobile: Show dropdown for tab selection */}
+            {isMobile && (
+              <div className="mb-6">
+                <SettingsSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+              </div>
+            )}
 
-            <TabsContent value="billing" className="space-y-6">
-              <BillingSettings />
-            </TabsContent>
+            {/* Tab Content */}
+            <div className="space-y-6">
+              {activeTab === "domains" && currentWorkspace && (
+                <Domains workspaceId={currentWorkspace.id} />
+              )}
 
-            <TabsContent value="branding" className="space-y-6">
-              {currentWorkspace && <WorkspaceBranding workspaceId={currentWorkspace.id} />}
-            </TabsContent>
+              {activeTab === "billing" && <BillingSettings />}
 
-            <TabsContent value="team" className="space-y-6">
-              {currentWorkspace && <TeamMembers workspaceId={currentWorkspace.id} />}
-            </TabsContent>
+              {activeTab === "branding" && currentWorkspace && (
+                <WorkspaceBranding workspaceId={currentWorkspace.id} />
+              )}
 
-            <TabsContent value="api" className="space-y-6">
-              {currentWorkspace && <APIKeysSettings />}
-            </TabsContent>
+              {activeTab === "team" && currentWorkspace && (
+                <TeamMembers workspaceId={currentWorkspace.id} />
+              )}
 
-            <TabsContent value="integrations" className="space-y-6">
-              {currentWorkspace && (
+              {activeTab === "api" && currentWorkspace && <APIKeysSettings />}
+
+              {activeTab === "integrations" && currentWorkspace && (
                 <>
                   <WebhookManager workspaceId={currentWorkspace.id} />
                   <IntegrationsManager />
                 </>
               )}
-            </TabsContent>
 
-            <TabsContent value="security" className="space-y-6">
-              <SecuritySettings />
-            </TabsContent>
+              {activeTab === "security" && <SecuritySettings />}
 
-            <TabsContent value="privacy" className="space-y-6">
-              <DataPrivacySettings />
-            </TabsContent>
+              {activeTab === "privacy" && <DataPrivacySettings />}
 
-            <TabsContent value="pixel" className="space-y-6">
-              {currentWorkspace && <TrackingPixelCard workspaceId={currentWorkspace.id} />}
-            </TabsContent>
-          </Tabs>
+              {activeTab === "pixel" && currentWorkspace && (
+                <TrackingPixelCard workspaceId={currentWorkspace.id} />
+              )}
+            </div>
+          </div>
         </div>
       </main>
       
