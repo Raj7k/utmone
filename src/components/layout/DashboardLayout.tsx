@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import { DashboardSidebar } from "./DashboardSidebar";
 import { AppHeader } from "./AppHeader";
 import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
 import { CreateLinkModal } from "@/components/CreateLinkModal";
+import { SidebarProvider, DashboardSidebarV2 } from "./sidebar";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -15,11 +15,12 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { _source, displayName } = useCurrentPlan();
 
   return (
-    <div className="min-h-screen bg-grouped-background flex w-full overflow-hidden">
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block flex-shrink-0">
-        <DashboardSidebar />
-      </div>
+    <SidebarProvider>
+      <div className="min-h-screen bg-grouped-background flex w-full overflow-hidden">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block flex-shrink-0">
+          <DashboardSidebarV2 />
+        </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -51,6 +52,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
       {/* Admin God Mode Toolbar */}
       <AdminToolbar />
-    </div>
+      </div>
+    </SidebarProvider>
   );
 };
