@@ -28,6 +28,8 @@ export default function EarlyAccess() {
   const [email, setEmail] = useState("");
   const prefillEmail = searchParams.get('email');
   const refCode = searchParams.get('ref');
+  const hasEmailParam = Boolean(prefillEmail);
+  const [showFormInHero, setShowFormInHero] = useState(hasEmailParam);
 
   // Engagement tracking
   useTrackPageView('/early-access');
@@ -55,6 +57,15 @@ export default function EarlyAccess() {
     }
   };
 
+  // Auto-scroll to top when form mode is active
+  useEffect(() => {
+    if (prefillEmail && showFormInHero) {
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    }
+  }, [prefillEmail, showFormInHero]);
+
   const handleSuccess = (data: { id: string; referral_code: string; name: string }) => {
     setReferralCode(data.referral_code);
     setUserName(data.name);
@@ -79,88 +90,129 @@ export default function EarlyAccess() {
       {/* SECTION 1 - HERO (Personalized + Gamified) */}
       <section className="relative bg-gradient-to-br from-white via-primary/5 to-blazeOrange/10 py-24 md:py-32 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Referrer Landing Mode */}
-          {referrerName && (
-            <AnimatedHeadline>
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Trophy className="h-6 w-6 text-green-600" />
-                  <p className="text-2xl font-display font-bold text-green-900">
-                    you've been invited by {referrerName}
+          {showFormInHero ? (
+            /* FORM MODE: Show form directly when email parameter exists */
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl mx-auto"
+            >
+              {/* Referrer Landing Mode */}
+              {referrerName && (
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Trophy className="h-6 w-6 text-green-600" />
+                    <p className="text-2xl font-display font-bold text-green-900">
+                      you've been invited by {referrerName}
+                    </p>
+                  </div>
+                  <p className="text-lg text-green-700">
+                    join now and get <span className="font-bold">1 month free</span> when early access opens.
                   </p>
                 </div>
-                <p className="text-lg text-green-700">
-                  join now and get <span className="font-bold">1 month free</span> when early access opens.
+              )}
+
+              <h1 className="font-display font-extrabold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
+                let's get you signed up
+              </h1>
+              <p className="text-xl text-muted-foreground mb-12">
+                just a few quick details and you're in.
+              </p>
+
+              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
+              
+              <p className="text-sm text-center text-tertiary-label mt-4">
+                we'll send you your position instantly.
+              </p>
+            </motion.div>
+          ) : (
+            /* NORMAL MODE: Show full hero content */
+            <>
+              {/* Referrer Landing Mode */}
+              {referrerName && (
+                <AnimatedHeadline>
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Trophy className="h-6 w-6 text-green-600" />
+                      <p className="text-2xl font-display font-bold text-green-900">
+                        you've been invited by {referrerName}
+                      </p>
+                    </div>
+                    <p className="text-lg text-green-700">
+                      join now and get <span className="font-bold">1 month free</span> when early access opens.
+                    </p>
+                  </div>
+                </AnimatedHeadline>
+              )}
+
+              <AnimatedHeadline>
+                <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
+                  tracking is messy. we're fixing it.
+                </h1>
+              </AnimatedHeadline>
+              
+              <AnimatedHeadline delay={100}>
+                <p className="text-2xl md:text-3xl text-muted-foreground mb-12 leading-relaxed">
+                  utm.one launches soon. get early access. skip the waitlist with 3 referrals.
                 </p>
-              </div>
-            </AnimatedHeadline>
-          )}
+              </AnimatedHeadline>
 
-          <AnimatedHeadline>
-            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
-              tracking is messy. we're fixing it.
-            </h1>
-          </AnimatedHeadline>
-          
-          <AnimatedHeadline delay={100}>
-            <p className="text-2xl md:text-3xl text-muted-foreground mb-12 leading-relaxed">
-              utm.one launches soon. get early access. skip the waitlist with 3 referrals.
-            </p>
-          </AnimatedHeadline>
-
-          {/* Inline Email CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-[600px] mx-auto mb-6"
-          >
-            <form 
-              onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const emailValue = formData.get('email') as string;
-                setEmail(emailValue);
-                scrollToForm();
-              }}
-              className="bg-white border border-border/50 shadow-sm rounded-2xl p-4 hover:border-border transition-all duration-300"
-            >
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="enter your email..."
-                  className="flex-1 h-12 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/40 focus:border-primary transition-all"
-                  required
-                />
-                <Button
-                  type="submit"
-                  variant="marketing"
-                  size="lg"
-                  className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
+              {/* Inline Email CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="max-w-[600px] mx-auto mb-6"
+              >
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const emailValue = formData.get('email') as string;
+                    setEmail(emailValue);
+                    scrollToForm();
+                  }}
+                  className="bg-white border border-border/50 shadow-sm rounded-2xl p-4 hover:border-border transition-all duration-300"
                 >
-                  join early access
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </form>
-          </motion.div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="enter your email..."
+                      className="flex-1 h-12 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/40 focus:border-primary transition-all"
+                      required
+                    />
+                    <Button
+                      type="submit"
+                      variant="marketing"
+                      size="lg"
+                      className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
+                    >
+                      join early access
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </form>
+              </motion.div>
 
-          {/* Secondary Link */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-center"
-          >
-            <button 
-              onClick={scrollToForm}
-              className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
-            >
-              see how it works
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </motion.div>
+              {/* Secondary Link */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <button 
+                  onClick={scrollToForm}
+                  className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+                >
+                  see how it works
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </motion.div>
+            </>
+          )}
         </div>
 
         {/* Decorative gradient orbs */}
@@ -371,39 +423,40 @@ export default function EarlyAccess() {
       </section>
 
       {/* SECTION 10 - ENTER WAITLIST FORM */}
-      <section id="early-access-form" className="bg-white py-24 md:py-32 px-6">
-        <div className="max-w-2xl mx-auto">
-          {!isSubmitted ? (
-            <>
-              {referrerName && (
-                <AnimatedHeadline>
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-5 w-5 text-green-600" />
-                      <p className="font-semibold text-green-900">
-                        you've been invited by {referrerName}
+      {!showFormInHero && (
+        <section id="early-access-form" className="bg-white py-24 md:py-32 px-6">
+          <div className="max-w-2xl mx-auto">
+            {!isSubmitted ? (
+              <>
+                {referrerName && (
+                  <AnimatedHeadline>
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <Trophy className="h-5 w-5 text-green-600" />
+                        <p className="font-semibold text-green-900">
+                          you've been invited by {referrerName}
+                        </p>
+                      </div>
+                      <p className="text-sm text-green-700">
+                        join now to get <strong>1 month of Pro free</strong> when we launch
                       </p>
                     </div>
-                    <p className="text-sm text-green-700">
-                      join now to get <strong>1 month of Pro free</strong> when we launch
-                    </p>
-                  </div>
+                  </AnimatedHeadline>
+                )}
+
+                <AnimatedHeadline>
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center">
+                    enter the waitlist
+                  </h2>
                 </AnimatedHeadline>
-              )}
 
-              <AnimatedHeadline>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center">
-                  enter the waitlist
-                </h2>
-              </AnimatedHeadline>
-
-              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
-              
-              <p className="text-sm text-center text-tertiary-label mt-4">
-                we'll send you your position instantly.
-              </p>
-            </>
-          ) : (
+                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
+                
+                <p className="text-sm text-center text-tertiary-label mt-4">
+                  we'll send you your position instantly.
+                </p>
+              </>
+            ) : (
             <AnimatedHeadline>
               <div className="text-center space-y-6 py-12">
                 <CheckCircle2 className="w-20 h-20 text-primary mx-auto" />
@@ -437,8 +490,9 @@ export default function EarlyAccess() {
               </div>
             </AnimatedHeadline>
           )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* SECTION 12 - FAQ */}
       <EarlyAccessFAQ />
