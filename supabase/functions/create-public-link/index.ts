@@ -146,34 +146,31 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Get system workspace ID for public links (or create if needed)
-    let { data: systemWorkspace } = await supabase
+    // Get system workspace ID for public links
+    // Query for ANY existing workspace to use (preferably the oldest one)
+    const { data: systemWorkspace } = await supabase
       .from('workspaces')
-      .select('id')
-      .eq('name', 'public-links-system')
+      .select('id, owner_id')
+      .eq('is_system_domain', false)
+      .order('created_at', { ascending: true })
+      .limit(1)
       .maybeSingle();
 
     if (!systemWorkspace) {
-      // Create system workspace for public links
-      const { data: newWorkspace, error: workspaceError } = await supabase
-        .from('workspaces')
-        .insert({
-          name: 'public-links-system',
-          slug: 'public-links-system',
-          owner_id: '00000000-0000-0000-0000-000000000000', // System user
-        })
-        .select()
-        .single();
-
-      if (workspaceError) throw workspaceError;
-      systemWorkspace = newWorkspace;
+      // No workspaces exist yet - return error
+      console.error('❌ No workspaces available for public link creation');
+      return new Response(
+        JSON.stringify({ 
+          error: 'public link creation not available yet. please sign up for full features.' 
+        }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 503 
+        }
+      );
     }
 
-    if (!systemWorkspace) {
-      throw new Error('Failed to get or create system workspace');
-    }
-
-    // Create link
+    // Create link using the workspace's owner as creator
     const { data: link, error: linkError } = await supabase
       .from('links')
       .insert({
@@ -184,7 +181,7 @@ Deno.serve(async (req) => {
         destination_url: url,
         title: `Public Link ${slug}`,
         status: 'active',
-        created_by: '00000000-0000-0000-0000-000000000000', // System user
+        created_by: systemWorkspace.owner_id,
       })
       .select()
       .single();
