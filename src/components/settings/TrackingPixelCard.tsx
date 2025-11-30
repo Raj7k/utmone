@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Copy, Check, Code2, AlertCircle, Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -154,9 +155,16 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
 
       {!activePixel ? (
         <div className="text-center py-8">
+          <Alert className="bg-system-orange/10 border-system-orange/20 mb-6">
+            <AlertCircle className="h-4 w-4 text-system-orange" />
+            <AlertDescription className="text-body-apple text-label">
+              <strong>⚠️ critical for tracking:</strong> without the tracking pixel, you won't be able to track 
+              conversions, page views, or any analytics data.
+            </AlertDescription>
+          </Alert>
           <Code2 className="h-12 w-12 text-tertiary-label mx-auto mb-3" />
           <p className="text-body-apple text-secondary-label mb-4">
-            Track conversions on your website with the utm.one pixel
+            track conversions on your website with the utm.one pixel
           </p>
         </div>
       ) : (

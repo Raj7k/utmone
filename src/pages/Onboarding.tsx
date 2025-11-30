@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useAddDomain, useVerifyDomain, useWorkspaceDomains } from "@/hooks/useDomains";
 import { DomainDNSInstructions } from "@/components/DomainDNSInstructions";
-import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { CheckCircle2, Loader2, ArrowRight, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,7 +16,7 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { currentWorkspace } = useWorkspace();
-  const [step, setStep] = useState<"welcome" | "domain" | "verify" | "complete">("welcome");
+  const [step, setStep] = useState<"welcome" | "domain" | "verify" | "pixel" | "complete">("welcome");
   const [domainInput, setDomainInput] = useState("");
   const [addedDomain, setAddedDomain] = useState<any>(null);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -110,7 +110,7 @@ export default function Onboarding() {
     setIsVerifying(true);
     try {
       await verifyDomainMutation.mutateAsync(addedDomain.id);
-      setStep("complete");
+      setStep("pixel");
     } catch (error: any) {
       toast({
         title: "Verification failed",
@@ -123,6 +123,10 @@ export default function Onboarding() {
   };
 
   const handleSkip = async () => {
+    setStep("pixel");
+  };
+
+  const handleSkipPixel = async () => {
     if (!currentWorkspace) return;
 
     try {
@@ -135,7 +139,7 @@ export default function Onboarding() {
 
       toast({
         title: "Onboarding skipped",
-        description: "You can add a custom domain later in Settings.",
+        description: "You can install the tracking pixel later in Settings.",
       });
 
       navigate("/dashboard");
@@ -318,20 +322,74 @@ export default function Onboarding() {
           </Card>
         )}
 
+        {step === "pixel" && (
+          <Card variant="grouped">
+            <CardHeader>
+              <CardTitle className="text-title-2">install tracking pixel</CardTitle>
+              <CardDescription className="text-body-apple text-secondary-label">
+                track conversions and analytics on your website
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <Alert className="bg-system-orange/10 border-system-orange/20">
+                <AlertCircle className="h-4 w-4 text-system-orange" />
+                <AlertDescription className="text-body-apple text-label">
+                  <strong>⚠️ critical for tracking:</strong> without the tracking pixel, you won't be able to track 
+                  conversions, page views, or any analytics data from your website.
+                </AlertDescription>
+              </Alert>
+
+              <div className="space-y-3">
+                <Label className="text-subheadline text-label">what it does</Label>
+                <ul className="space-y-2 text-body-apple text-secondary-label">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <span>tracks link clicks and conversions</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <span>monitors user behavior and analytics</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <span>measures campaign performance</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="system"
+                  onClick={() => {
+                    navigate('/settings?tab=pixel');
+                  }}
+                  className="flex-1"
+                >
+                  install pixel
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button variant="system-tertiary" onClick={handleSkipPixel}>
+                  skip for now
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {step === "complete" && (
           <Card variant="grouped">
             <CardHeader className="text-center">
               <div className="mx-auto w-16 h-16 bg-system-green/10 rounded-full flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-8 h-8 text-system-green" />
               </div>
-              <CardTitle className="text-title-2">domain added successfully.</CardTitle>
+              <CardTitle className="text-title-2">setup complete.</CardTitle>
               <CardDescription className="text-body-apple text-secondary-label text-lg">
-                your domain is ready
+                you're ready to start creating links
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button variant="system" onClick={handleComplete} className="w-full" size="lg">
-                continue
+                go to dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </CardContent>
