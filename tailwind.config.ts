@@ -302,9 +302,12 @@ export default {
   			xl: 'var(--shadow-xl)'
   		},
   		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			'3xl': '1.5rem',    /* 24px - Large cards, dialogs */
+  			'2xl': '1rem',      /* 16px - Standard cards */
+  			'xl': '0.75rem',    /* 12px - Buttons, inputs */
+  			'lg': '0.5rem',     /* 8px - Small elements */
+  			'md': '0.375rem',   /* 6px - Chips, badges */
+  			'sm': '0.25rem'     /* 4px - Tiny elements */
   		},
   		keyframes: {
   			'accordion-down': {

@@ -70,13 +70,6 @@ export const CreateLinkModal = () => {
                 {selectedTool === "forge" && "all-in-one: utm + shortener + qr"}
               </DialogDescription>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleCloseTool}
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         </DialogHeader>
 

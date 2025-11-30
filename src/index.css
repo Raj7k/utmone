@@ -132,7 +132,7 @@ All colors MUST be HSL.
     --fill-tertiary: 240 5% 49% / 0.12;      /* #767680 12% */
     
     /* System Colors - Light Mode */
-    --system-blue: 217 91% 60%;              /* #3B82F6 */
+    --system-blue: 243 70% 24%;              /* #191265 - Rich Blue */
     --system-green: 142 71% 48%;             /* #28CD41 */
     --system-red: 4 90% 58%;                 /* #FF3B30 */
     --system-orange: 36 100% 50%;            /* #FF9500 */
@@ -188,10 +188,10 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 240 5% 9.6%;
 
-    /* Primary - Electric Blue */
-    --primary: 217 91% 60%;             /* #3B82F6 - Electric Blue */
+    /* Primary - Rich Blue */
+    --primary: 243 70% 24%;             /* #191265 - Rich Blue */
     --primary-foreground: 0 0% 100%;    /* White text on blue */
-    --primary-hover: 217 91% 50%;       /* Darker blue on hover */
+    --primary-hover: 243 70% 30%;       /* Lighter blue on hover */
 
     /* Secondary - Supporting color */
     --secondary: 210 40% 96.1%;
@@ -220,9 +220,9 @@ All colors MUST be HSL.
     /* Borders and inputs - Apple style */
     --border: 0 0% 0% / 0.08;           /* rgba(0,0,0,0.08) */
     --input: 0 0% 0% / 0.08;
-    --ring: 238 84% 74%;                /* Indigo light */
+    --ring: 243 70% 24%;                /* Rich Blue */
 
-    --radius: 0.375rem;
+    --radius: 0.75rem;
 
     --gradient-primary: linear-gradient(135deg, hsl(0, 0%, 4%) 0%, hsl(0, 0%, 10%) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 97%) 0%, hsl(0, 0%, 100%) 100%);
@@ -297,7 +297,7 @@ All colors MUST be HSL.
     --fill-tertiary: 240 5% 49% / 0.24;      /* #767680 24% */
     
     /* System Colors - Brighter for dark mode visibility */
-    --system-blue: 215 95% 65%;              /* #409CFF */
+    --system-blue: 243 65% 55%;              /* Brighter Rich Blue for dark mode */
     --system-green: 142 71% 55%;             /* #32D74B */
     --system-red: 3 100% 62%;                /* #FF453A */
     --system-orange: 38 100% 53%;            /* #FF9F0A */
@@ -340,9 +340,9 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 100%;
 
     /* Primary stays vibrant in dark mode */
-    --primary: 215 95% 65%;                  /* Brighter blue #409CFF */
+    --primary: 243 65% 55%;                  /* Brighter Rich Blue for dark mode */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 215 95% 55%;
+    --primary-hover: 243 65% 60%;
 
     --secondary: 240 5% 18%;                 /* Elevated surface */
     --secondary-foreground: 0 0% 100%;
@@ -362,7 +362,7 @@ All colors MUST be HSL.
 
     --border: 0 0% 100% / 0.1;
     --input: 0 0% 100% / 0.15;
-    --ring: 215 95% 65%;
+    --ring: 243 65% 55%;
 
     --gradient-primary: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(0, 0%, 90%) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 14.9%) 0%, hsl(0, 0%, 7%) 100%);
@@ -381,12 +381,12 @@ All colors MUST be HSL.
 
     --sidebar-background: 240 6% 9%;         /* Slightly darker than base */
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 215 95% 65%;
+    --sidebar-primary: 243 65% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 5% 18%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 0 0% 100% / 0.08;
-    --sidebar-ring: 215 95% 65%;
+    --sidebar-ring: 243 65% 55%;
 
     --chart-1: 264 24.3% 48.8%;
     --chart-2: 162 17% 69.6%;
