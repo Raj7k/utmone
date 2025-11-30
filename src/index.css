@@ -3,6 +3,58 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Animated border rotation for premium card effect */
+@keyframes border-rotate {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animated-border {
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0%,
+    hsl(217 91% 60% / 0.4) 10%,
+    hsl(20 100% 51% / 0.4) 20%,
+    transparent 30%,
+    transparent 100%
+  );
+  animation: border-rotate 8s linear infinite;
+}
+
+.animated-border-wrapper {
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0%,
+    hsl(217 91% 60% / 0.3) 10%,
+    hsl(20 100% 51% / 0.3) 20%,
+    transparent 30%,
+    transparent 100%
+  );
+  animation: border-rotate 8s linear infinite;
+}
+
+/* Subtle glow pulse animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

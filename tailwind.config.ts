@@ -326,7 +326,9 @@ export default {
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+  			'border-rotate': 'border-rotate 8s linear infinite',
+  			'glow-pulse': 'glow-pulse 4s ease-in-out infinite'
   		},
   		transitionDuration: {
   			apple: '200ms',
