@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatText } from "@/utils/textFormatter";
 
 interface CapabilityCardProps {
   icon: LucideIcon;
@@ -26,7 +27,7 @@ export const CapabilityCard = ({
         <Icon className="w-6 h-6" />
       </div>
       <h3 className="font-display text-xl font-semibold mb-3 text-foreground lowercase">
-        {title}
+        {formatText(title)}
       </h3>
       <p className="text-sm text-muted-foreground leading-relaxed">
         {description}

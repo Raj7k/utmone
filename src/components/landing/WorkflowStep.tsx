@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { formatText } from "@/utils/textFormatter";
 
 interface WorkflowStepProps {
   icon: LucideIcon;
@@ -56,7 +57,7 @@ export const WorkflowStep = ({
       </div>
 
       {/* Title */}
-      <h3 className="text-headline font-display font-semibold text-label mb-2 lowercase">{title}</h3>
+      <h3 className="text-headline font-display font-semibold text-label mb-2 lowercase">{formatText(title)}</h3>
 
       {/* Description */}
       <p className="text-body-apple text-secondary-label leading-relaxed max-w-[200px]">

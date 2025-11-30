@@ -18,6 +18,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { Menu, ChevronRight, Link as LinkIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { formatText } from "@/utils/textFormatter";
 
 export const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -102,7 +103,7 @@ export const Navigation = () => {
                 {/* Features Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
-                    features
+                    {formatText("features")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
@@ -117,9 +118,9 @@ export const Navigation = () => {
                           to="/features/short-links"
                           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
-                          <div className="text-sm font-medium leading-none">Short Links</div>
+                          <div className="text-sm font-medium leading-none">{formatText("Short Links")}</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            branded, memorable links that work
+                            {formatText("branded, memorable links that work")}
                           </p>
                         </Link>
                       </li>
@@ -203,7 +204,7 @@ export const Navigation = () => {
                 {/* Solutions Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
-                    solutions
+                    {formatText("solutions")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
@@ -287,14 +288,14 @@ export const Navigation = () => {
                     to="/how-it-works"
                     className="inline-flex h-9 items-center px-3 text-small-text font-medium text-foreground/70 hover:text-foreground transition-apple"
                   >
-                    how it works
+                    {formatText("how it works")}
                   </Link>
                 </NavigationMenuItem>
 
                 {/* Resources Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
-                    resources
+                    {formatText("resources")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">

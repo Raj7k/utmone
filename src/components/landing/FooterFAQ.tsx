@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
 import { RetroGradientMesh } from "./RetroGradientMesh";
+import { formatText } from "@/utils/textFormatter";
 
 interface FAQItem {
   question: string;
@@ -212,7 +213,7 @@ export const FooterFAQ = () => {
       <RetroGradientMesh />
       <div className="max-w-[980px] mx-auto relative z-10">
         <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 lowercase text-foreground">
-          ok, here's what we do. plain talk.
+          {formatText("ok, here's what we do. plain talk.")}
         </h2>
         
         {/* FAQ Items */}
@@ -230,7 +231,7 @@ export const FooterFAQ = () => {
               {/* Content */}
               <div className="pb-4 flex-1">
                 <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
-                  {faq.question}
+                  {formatText(faq.question)}
                 </h3>
                 <div className="text-muted-foreground space-y-3">
                   {faq.answer}

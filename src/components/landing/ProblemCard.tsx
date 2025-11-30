@@ -1,5 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { formatText } from "@/utils/textFormatter";
 
 interface ProblemCardProps {
   icon: LucideIcon;
@@ -21,7 +22,7 @@ export const ProblemCard = ({ icon: Icon, title, description, delay = 0 }: Probl
         <Icon className="w-6 h-6" />
       </div>
       <h3 className="text-xl font-display font-semibold text-label mb-3">
-        {title}
+        {formatText(title)}
       </h3>
       <p className="text-base text-secondary-label leading-relaxed">
         {description}

@@ -7,6 +7,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { Link2, Shield, Eye, Clock, Edit3, User } from "lucide-react";
+import { formatText } from "@/utils/textFormatter";
 
 const ShortLinks = () => {
   const capabilities = [
@@ -72,7 +73,7 @@ const ShortLinks = () => {
       <FeatureSection background="muted">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
-            Clarity Builds Trust
+            {formatText("Clarity Builds Trust")}
           </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>No broken links</p>
@@ -88,7 +89,7 @@ const ShortLinks = () => {
 
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
-          The Basics, Done Beautifully
+          {formatText("The Basics, Done Beautifully")}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (

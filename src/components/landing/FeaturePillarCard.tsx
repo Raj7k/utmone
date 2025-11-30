@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MagneticCard } from "@/components/magnetic";
+import { formatText } from "@/utils/textFormatter";
 
 interface FeaturePillarCardProps {
   icon: LucideIcon;
@@ -36,7 +37,7 @@ export const FeaturePillarCard = ({
             <Icon className="w-6 h-6" />
           </div>
           <h3 className="text-xl font-display font-semibold text-foreground lowercase">
-            {title}
+            {formatText(title)}
           </h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {description}
