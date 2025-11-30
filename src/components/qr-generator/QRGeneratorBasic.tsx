@@ -38,17 +38,27 @@ export const QRGeneratorBasic = () => {
       // Draw utm.one branding in center
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const logoSize = 80;
 
-      // White background circle for logo
+      // Larger white rounded rectangle background for better text visibility
+      const bgWidth = 100;
+      const bgHeight = 36;
+      const cornerRadius = 8;
+
+      // Draw rounded rectangle background
       ctx.fillStyle = '#FFFFFF';
       ctx.beginPath();
-      ctx.arc(centerX, centerY, logoSize / 2, 0, 2 * Math.PI);
+      ctx.roundRect(
+        centerX - bgWidth / 2, 
+        centerY - bgHeight / 2, 
+        bgWidth, 
+        bgHeight, 
+        cornerRadius
+      );
       ctx.fill();
 
-      // utm.one text
+      // utm.one text - much larger and bolder
       ctx.fillStyle = color;
-      ctx.font = 'bold 14px system-ui, -apple-system, sans-serif';
+      ctx.font = 'bold 20px system-ui, -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('utm.one', centerX, centerY);
