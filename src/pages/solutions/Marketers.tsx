@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Link as LinkIcon, Settings, QrCode, BarChart3, Shield, CheckCircle2, AlertCircle, Layers, FileText, Zap, TrendingUp } from "lucide-react";
+import { Link as LinkIcon, Settings, QrCode, BarChart3, Shield, CheckCircle2, AlertCircle, Layers, FileText, Zap, TrendingUp } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
@@ -13,6 +11,7 @@ import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkf
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 const Marketers = () => {
   return (
@@ -53,14 +52,9 @@ const Marketers = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
               utm.one gives marketers clean links, clean UTMs, clean QR codes, and clean reporting — all without slowing you down.
             </p>
-            <div className="pt-4">
-              <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
-                  Get Early Access
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                </Button>
-              </Link>
-            </div>
+            <CTAButton href="/early-access" variant="primary" pulse={true}>
+              Start Building Campaigns →
+            </CTAButton>
           </div>
         </div>
       </section>
@@ -216,7 +210,7 @@ const Marketers = () => {
       <PremiumCTASection
         headline="Ready to Transform Your Marketing?"
         subheadline="Join marketing teams who trust utm.one for clean links and clear attribution."
-        primaryCTA="Explore utm.one for Marketers"
+        primaryCTA="Start Free Today →"
       />
 
       <Footer />

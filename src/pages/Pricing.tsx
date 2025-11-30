@@ -91,8 +91,8 @@ const Pricing = () => {
                   get pro features forever with a one-time payment. limited to first 500 customers.
                 </p>
               </div>
-              <Button variant="marketing" size="lg" onClick={() => handlePlanSelect('lifetime')}>
-                claim lifetime deal
+              <Button variant="marketing-glow" size="lg" onClick={() => handlePlanSelect('lifetime')}>
+                Claim Lifetime Access →
               </Button>
             </div>
           </AnimatedSection>

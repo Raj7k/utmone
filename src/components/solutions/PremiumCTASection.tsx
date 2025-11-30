@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 import { GradientMeshBackground } from "./GradientMeshBackground";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 interface PremiumCTASectionProps {
   headline: string;
@@ -47,36 +47,32 @@ export const PremiumCTASection = ({
           </motion.p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-wrap gap-4 justify-center pt-4"
-          >
-            <Link to="/early-access">
-              <Button
-                size="lg"
-                className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] shadow-lg shadow-blazeOrange/25"
-              >
-                {primaryCTA}
-                <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-              </Button>
-            </Link>
+          <div className="flex flex-wrap gap-4 justify-center pt-4">
+            <CTAButton href="/early-access" variant="primary">
+              {primaryCTA}
+            </CTAButton>
 
             {secondaryCTA && secondaryCTALink && (
-              <Link to={secondaryCTALink}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
                 <Button
                   size="lg"
                   variant="outline"
+                  asChild
                   className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 hover:bg-background/50"
                 >
-                  {secondaryCTA}
-                  <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
+                  <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
+                    {secondaryCTA}
+                    <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
+                  </a>
                 </Button>
-              </Link>
+              </motion.div>
             )}
-          </motion.div>
+          </div>
         </div>
 
 
