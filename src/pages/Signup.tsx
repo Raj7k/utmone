@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,9 @@ const Signup = () => {
     role: string;
   } | null>(null);
 
+  // Navigation guard to prevent duplicate processing
+  const hasNavigated = useRef(false);
+
   useEffect(() => {
     const redirectTo = searchParams.get("redirect_to");
     
@@ -42,7 +45,10 @@ const Signup = () => {
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (session) {
-          // Existing session - navigate to redirect_to or dashboard
+          // Mark as navigated to prevent duplicate processing
+          hasNavigated.current = true;
+          
+          // Existing session - navigate immediately
           if (inviteToken) {
             navigate(`/accept-invite?token=${inviteToken}`);
           } else if (redirectTo) {
@@ -64,46 +70,23 @@ const Signup = () => {
         setIsCheckingSession(false);
       });
 
-    // Listen for auth changes with priority-based access gating
+    // Listen for auth changes - only process fresh sign-ins
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      // Skip if we already navigated (prevents duplicate processing for existing sessions)
+      if (hasNavigated.current) return;
+      
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
+        hasNavigated.current = true;
         
         try {
-          const userEmail = session.user.email;
-          
-          // Create timeout promise (10 seconds)
-          const timeoutPromise = new Promise<never>((_, reject) => 
-            setTimeout(() => reject(new Error('Access check timed out')), 10000)
-          );
-          
-          // PRIORITY 1: Check workspace invitations
+          // Handle invite token flow
           if (inviteToken) {
             navigate(`/accept-invite?token=${inviteToken}`);
             return;
           }
-
-          const inviteCheckPromise = supabase
-            .from("workspace_invitations")
-            .select("id, workspace_id")
-            .eq("email", userEmail!)
-            .is("accepted_at", null)
-            .gt("expires_at", new Date().toISOString())
-            .limit(1)
-            .single();
-
-          const { data: invite, error: inviteError } = await Promise.race([
-            inviteCheckPromise,
-            timeoutPromise,
-          ]);
           
-          if (invite && !inviteError) {
-            // Has pending invite - bypass waitlist
-            navigate(`/accept-invite?token=${invite.id}`);
-            return;
-          }
-          
-          // PRIORITY 2: Check existing workspace membership
+          // Check workspace ownership/membership
           const { data: ownedWorkspaces } = await supabase
             .from("workspaces")
             .select("id")
@@ -118,40 +101,27 @@ const Signup = () => {
           
           const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
           
+          // Show success toast
+          toast({
+            title: "Account created successfully",
+            description: hasWorkspaces ? "Taking you to your dashboard..." : "Setting up your workspace...",
+          });
+          
+          // Navigate based on workspace status
           if (hasWorkspaces) {
             navigate("/dashboard");
-            return;
-          }
-          
-          // PRIORITY 3: Check early access status
-          const { data: earlyAccess } = await supabase
-            .from("early_access_requests")
-            .select("status, access_level")
-            .eq("email", userEmail!)
-            .single();
-          
-          if (earlyAccess?.status === 'approved' && (earlyAccess?.access_level || 0) >= 2) {
-            // Approved - send to onboarding
-            navigate("/onboarding");
-          } else if (earlyAccess?.status === 'pending' || earlyAccess?.status === 'waitlisted') {
-            // Still on waitlist
-            navigate("/waitlist-pending");
           } else {
-            // No early access record found - redirect to waitlist
-            navigate("/waitlist-pending");
+            navigate("/onboarding");
           }
           
         } catch (err) {
           console.error("Access check error:", err);
+          hasNavigated.current = false;
           toast({
-            title: "Access check failed",
-            description: err instanceof Error && err.message === 'Access check timed out' 
-              ? "Request timed out. Please try again." 
-              : "Please try again or contact support.",
+            title: "Something went wrong",
+            description: "Please try signing in again.",
             variant: "destructive",
           });
-          setIsAuthenticating(false);
-        } finally {
           setIsAuthenticating(false);
         }
       }
