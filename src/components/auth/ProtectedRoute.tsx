@@ -49,9 +49,9 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  // Redirect to auth with return path if not authenticated
+  // Redirect to signup with return path if not authenticated
   if (!isAuthenticated) {
-    return <Navigate to={`/auth?redirect_to=${encodeURIComponent(location.pathname)}`} replace />;
+    return <Navigate to={`/signup?redirect_to=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
   // Render protected content
