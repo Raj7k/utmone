@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
-import { Search, Eye, UserCheck, RefreshCw, Trophy, BarChart3, Mail } from "lucide-react";
+import { Search, Eye, UserCheck, RefreshCw, Trophy, BarChart3, Mail, Zap } from "lucide-react";
 import { ReferralLeaderboard } from "@/components/admin/ReferralLeaderboard";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import FraudAlerts from "@/components/admin/FraudAlerts";
@@ -22,6 +22,7 @@ import { InviteTrackingDashboard } from "@/components/admin/InviteTrackingDashbo
 import { DripCampaignManager } from "@/components/admin/DripCampaignManager";
 import { AdminDirectInvite } from "@/components/admin/AdminDirectInvite";
 import { AddToWaitlist } from "@/components/admin/AddToWaitlist";
+import { BatchApproveModal } from "@/components/admin/BatchApproveModal";
 
 type EarlyAccessRequest = {
   id: string;
@@ -50,6 +51,7 @@ export default function WaitlistManagement() {
   const [selectedAccessLevel, setSelectedAccessLevel] = useState<number>(2);
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [batchInviteOpen, setBatchInviteOpen] = useState(false);
+  const [batchApproveOpen, setBatchApproveOpen] = useState(false);
 
   const updateScoresMutation = useMutation({
     mutationFn: async () => {
@@ -191,9 +193,39 @@ export default function WaitlistManagement() {
     setSelectedUserIds([]);
   };
 
+  const batchApproveMutation = useMutation({
+    mutationFn: async ({ count, accessLevel }: { count: number; accessLevel: number }) => {
+      const { data, error } = await supabase.functions.invoke("batch-approve-waitlist", {
+        body: { count, access_level: accessLevel },
+      });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
+      toast({ 
+        title: "batch approval complete", 
+        description: `${data.approved_count} users approved and notified` 
+      });
+    },
+    onError: (error) => {
+      toast({ 
+        title: "error during batch approval", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const handleBatchApprove = async (count: number, accessLevel: number) => {
+    await batchApproveMutation.mutateAsync({ count, accessLevel });
+  };
+
   const selectedUsers = filteredRequests?.filter(r => 
     selectedUserIds.includes(r.id)
   ) || [];
+
+  const pendingCount = filteredRequests?.filter(r => r.status === 'pending').length || 0;
 
   return (
     <div className="p-8">
@@ -204,14 +236,24 @@ export default function WaitlistManagement() {
               applications, referrals, and analytics
             </p>
           </div>
-          <Button
-            onClick={() => updateScoresMutation.mutate()}
-            disabled={updateScoresMutation.isPending}
-            variant="outline"
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${updateScoresMutation.isPending ? 'animate-spin' : ''}`} />
-            recalculate scores
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              onClick={() => setBatchApproveOpen(true)}
+              disabled={pendingCount === 0}
+              variant="default"
+            >
+              <Zap className="h-4 w-4 mr-2" />
+              bulk approve
+            </Button>
+            <Button
+              onClick={() => updateScoresMutation.mutate()}
+              disabled={updateScoresMutation.isPending}
+              variant="outline"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${updateScoresMutation.isPending ? 'animate-spin' : ''}`} />
+              recalculate scores
+            </Button>
+          </div>
         </div>
 
         <Tabs defaultValue="requests" className="space-y-6">
@@ -390,6 +432,14 @@ export default function WaitlistManagement() {
             <DripCampaignManager />
           </TabsContent>
         </Tabs>
+
+        {/* Batch Approve Modal */}
+        <BatchApproveModal
+          open={batchApproveOpen}
+          onOpenChange={setBatchApproveOpen}
+          onApprove={handleBatchApprove}
+          pendingCount={pendingCount}
+        />
 
         {/* Approve Dialog */}
         <Dialog open={approveDialogOpen} onOpenChange={setApproveDialogOpen}>

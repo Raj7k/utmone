@@ -79,35 +79,14 @@ Deno.serve(async (req) => {
       throw insertError;
     }
 
-    // Increment referrer's count if valid referral
+    // Store referral relationship but DON'T increment count yet
+    // Referral count will only be incremented when invited user verifies their email
+    // This prevents fraud from fake/unverified signups
     if (referrerId) {
-      const { error: countError } = await supabase.rpc('increment_referral_count', {
-        referrer_id: referrerId,
-      });
-
-      if (countError) {
-        console.error('[Referral Signup] Failed to increment referral count:', countError);
-      } else {
-        console.log('[Referral Signup] Incremented referral count for:', referrerId);
-        
-        // Check if referrer just unlocked access
-        const { data: updatedReferrer } = await supabase
-          .from('early_access_requests')
-          .select('referral_count, status, email, name')
-          .eq('id', referrerId)
-          .single();
-
-        if (updatedReferrer?.status === 'approved' && updatedReferrer.referral_count === 3) {
-          // Send "You're In!" email to referrer
-          await supabase.functions.invoke('send-referral-unlock-email', {
-            body: {
-              email: updatedReferrer.email,
-              name: updatedReferrer.name,
-              referral_count: updatedReferrer.referral_count,
-            },
-          });
-        }
-      }
+      console.log(`[Referral Signup] Referral recorded for ${referrerId}, pending verification`);
+      
+      // Note: increment_referral_count will be called by database trigger
+      // when the new user verifies their email via auth.users confirmation
     }
 
     // Send confirmation email to new signup
