@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { OrganicShapes } from "@/components/landing/OrganicShapes";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 interface FeatureHeroProps {
   headline: string;
@@ -39,20 +38,9 @@ export const FeatureHero = ({
           {subheadline}
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-        >
-          <Button
-            variant="marketing"
-            asChild
-            size="lg"
-            className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
-          >
-            <Link to={ctaLink}>{ctaText}</Link>
-          </Button>
-        </motion.div>
+        <CTAButton href={ctaLink} variant="primary">
+          {ctaText}
+        </CTAButton>
       </div>
     </section>
   );

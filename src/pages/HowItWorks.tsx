@@ -2,9 +2,8 @@ import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { CTAButton } from "@/components/ui/CTAButton";
 import { 
   Link as LinkIcon, 
   Sparkles, 
@@ -74,14 +73,9 @@ const HowItWorks = () => {
             <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-[800px] mx-auto">
               A simple system that helps you create links people trust, data you can rely on, and structure your entire GTM engine can follow.
             </p>
-            <div className="pt-4">
-              <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white">
-                  Get Early Access
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
+            <CTAButton href="/early-access" variant="primary" trustBadge="Setup in 2 minutes">
+              See It In Action →
+            </CTAButton>
           </motion.div>
         </div>
       </section>
@@ -526,7 +520,7 @@ const HowItWorks = () => {
       <PremiumCTASection
         headline="See how simple link management can be"
         subheadline="We onboard in batches. Clarity first."
-        primaryCTA="Get Early Access"
+        primaryCTA="Get Started Free →"
       />
 
       <Footer />

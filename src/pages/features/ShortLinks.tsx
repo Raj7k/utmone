@@ -5,8 +5,7 @@ import { URLShortenerBasic } from "@/components/url-shortener/URLShortenerBasic"
 import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { CTAButton } from "@/components/ui/CTAButton";
 import { Link2, Shield, Eye, Clock, Edit3, User } from "lucide-react";
 
 const ShortLinks = () => {
@@ -158,14 +157,9 @@ const ShortLinks = () => {
           <p className="text-body-apple text-secondary-label mb-8">
             Start building links your audience can trust.
           </p>
-          <Button
-            variant="marketing"
-            asChild
-            size="lg"
-            className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
-          >
-            <Link to="/early-access">Get Early Access</Link>
-          </Button>
+          <CTAButton href="/early-access" variant="primary" trustBadge="Free to start · No credit card">
+            Start Building Links →
+          </CTAButton>
         </div>
       </FeatureSection>
     </FeatureLayout>
