@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -12,15 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,18 +28,8 @@ import { Building2, Plus, Settings, Trash2 } from "lucide-react";
 export default function ClientWorkspaces() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [isClient, setIsClient] = useState(false);
-  const { workspaces, isLoading, createWorkspace, deleteWorkspace } = useClientWorkspaces();
+  const { workspaces, isLoading, deleteWorkspace } = useClientWorkspaces();
   const { currentWorkspace, switchWorkspace } = useWorkspaceContext();
-
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    createWorkspace({ name, isClient });
-    setName("");
-    setIsClient(false);
-    setOpen(false);
-  };
 
   const handleSwitchAndNavigate = (workspaceId: string) => {
     switchWorkspace(workspaceId);
@@ -69,49 +49,16 @@ export default function ClientWorkspaces() {
             manage your workspaces and client workspaces
           </p>
         </div>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              new workspace
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>create new workspace</DialogTitle>
-              <DialogDescription>
-                create a new workspace for your team or a client
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleCreate}>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">workspace name</Label>
-                  <Input
-                    id="name"
-                    placeholder="My Company"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="isClient"
-                    checked={isClient}
-                    onChange={(e) => setIsClient(e.target.checked)}
-                  />
-                  <Label htmlFor="isClient">this is a client workspace</Label>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">create workspace</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          new workspace
+        </Button>
       </div>
+
+      <CreateWorkspaceDialog 
+        open={open} 
+        onOpenChange={setOpen}
+      />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {workspaces?.map((workspace) => (

@@ -25,7 +25,8 @@ import {
   Plus
 } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 
 const allNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid, category: "Workspace" },
@@ -46,6 +47,7 @@ export const SidebarSearch = () => {
   const navigate = useNavigate();
   const { closeSearch } = useSidebar();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   useEffect(() => {
     // Auto-focus search input when mounted
@@ -96,17 +98,35 @@ export const SidebarSearch = () => {
             </CommandGroup>
           ))}
           <CommandGroup heading="TEAM">
-            <CommandItem className="flex items-center gap-3 px-3 py-2.5">
+            <CommandItem 
+              onSelect={() => {
+                navigate('/client-workspaces');
+                closeSearch();
+              }}
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer"
+            >
               <Building2 className="h-4 w-4 text-secondary-label" />
               <span>Switch workspace</span>
             </CommandItem>
-            <CommandItem className="flex items-center gap-3 px-3 py-2.5">
+            <CommandItem 
+              onSelect={() => {
+                setCreateDialogOpen(true);
+                closeSearch();
+              }}
+              className="flex items-center gap-3 px-3 py-2.5 cursor-pointer"
+            >
               <Plus className="h-4 w-4 text-secondary-label" />
               <span>Add new team</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
+
+      {/* Create Workspace Dialog */}
+      <CreateWorkspaceDialog 
+        open={createDialogOpen} 
+        onOpenChange={setCreateDialogOpen}
+      />
     </aside>
   );
 };

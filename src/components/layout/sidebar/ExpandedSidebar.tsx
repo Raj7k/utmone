@@ -29,6 +29,7 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useSidebar } from "./SidebarProvider";
 import { SidebarUserFooter } from "./SidebarUserFooter";
 import { Button } from "@/components/ui/button";
+import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 
 const appNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
@@ -61,6 +62,7 @@ export const ExpandedSidebar = () => {
   
   const [toolsOpen, setToolsOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const { data: pendingCount } = useQuery({
     queryKey: ['pending-approvals-count', currentWorkspace?.id],
@@ -260,7 +262,12 @@ export const ExpandedSidebar = () => {
               {currentWorkspace?.name || 'Workspace'}
             </span>
           </div>
-          <Button variant="ghost" size="sm" className="w-full justify-start gap-2 h-9 text-secondary-label hover:text-label">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="w-full justify-start gap-2 h-9 text-secondary-label hover:text-label"
+            onClick={() => setCreateDialogOpen(true)}
+          >
             <Plus className="h-4 w-4" />
             Add new team
           </Button>
@@ -269,6 +276,12 @@ export const ExpandedSidebar = () => {
 
       {/* User Footer */}
       <SidebarUserFooter />
+
+      {/* Create Workspace Dialog */}
+      <CreateWorkspaceDialog 
+        open={createDialogOpen} 
+        onOpenChange={setCreateDialogOpen}
+      />
     </aside>
   );
 };
