@@ -135,6 +135,7 @@ export const URLShortenerBasic = () => {
               onClick={handleInitialShorten}
               disabled={!url}
               size="lg"
+              variant="marketing"
               className="h-12 px-6"
             >
               shorten
@@ -261,6 +262,7 @@ export const URLShortenerBasic = () => {
                 disabled={!url || isLoading}
                 className="w-full"
                 size="lg"
+                variant="marketing"
               >
                 <Link2 className="h-4 w-4 mr-2" />
                 {isLoading ? "creating link…" : "create short link"}
