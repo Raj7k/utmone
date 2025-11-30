@@ -165,7 +165,56 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Company Column */}
+          {/* Compare Column */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              {formatText("compare")}
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link to="/compare/bitly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Bitly
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/rebrandly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Rebrandly
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/short-io" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Short.io
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/bl-ink" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Bl.ink
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/rewardful" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Rewardful
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/partnerstack" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Partnerstack
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/firstpromoter" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Firstpromoter
+                </Link>
+              </li>
+              <li>
+                <Link to="/compare/tolt" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  vs Tolt
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company & Legal Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
               {formatText("company")}
@@ -186,15 +235,6 @@ export const Footer = () => {
                   Contact
                 </a>
               </li>
-            </ul>
-          </div>
-
-          {/* Legal Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("legal")}
-            </h3>
-            <ul className="space-y-3">
               <li>
                 <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Privacy Policy
