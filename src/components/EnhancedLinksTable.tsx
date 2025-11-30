@@ -437,8 +437,8 @@ export const EnhancedLinksTable = ({
                       >
                         <MoreVertical className="h-4 w-4" aria-hidden="true" />
                       </Button>
-                    </DropdownMenuTrigger>
-                     <DropdownMenuContent align="end" className="z-50 bg-white dark:bg-card">
+                     </DropdownMenuTrigger>
+                     <DropdownMenuContent align="end" className="z-50 bg-card">
                       <DropdownMenuItem onClick={() => navigate(`/links/${link.id}`)}>
                         <Eye className="mr-2 h-4 w-4" />
                         view analytics

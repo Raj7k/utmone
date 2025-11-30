@@ -123,7 +123,7 @@ export const QuickCreateTile = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 h-full flex flex-col">
+      <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-center">
           <div className="flex gap-2">
             <Input

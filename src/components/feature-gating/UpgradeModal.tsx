@@ -44,14 +44,14 @@ export const UpgradeModal = ({
 
         <div className="space-y-4">
           {/* Current vs Required Plan */}
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+          <div className="rounded-lg border border-border bg-muted/30 p-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-600">your plan</span>
-              <span className="font-medium text-slate-900">{currentPlan}</span>
+              <span className="text-muted-foreground">your plan</span>
+              <span className="font-medium text-foreground">{currentPlan}</span>
             </div>
-            <div className="my-2 border-t border-slate-200" />
+            <div className="my-2 border-t border-border" />
             <div className="flex items-center justify-between text-sm">
-              <span className="text-slate-600">required plan</span>
+              <span className="text-muted-foreground">required plan</span>
               <div className="flex items-center gap-1 font-medium text-primary">
                 <Sparkles className="h-4 w-4" />
                 {requiredPlan}
@@ -61,7 +61,7 @@ export const UpgradeModal = ({
 
           {/* Feature Highlights */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-slate-700">included in {requiredPlan}:</p>
+            <p className="text-sm font-medium text-foreground">included in {requiredPlan}:</p>
             <div className="space-y-1">
               {requiredPlan === 'pro' && (
                 <>
@@ -94,7 +94,7 @@ export const UpgradeModal = ({
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center">
             <div className="text-3xl font-bold text-primary">
               ${planDetails.price}
-              <span className="text-base font-normal text-slate-600">/month</span>
+              <span className="text-base font-normal text-muted-foreground">/month</span>
             </div>
           </div>
 
@@ -118,7 +118,7 @@ export const UpgradeModal = ({
 };
 
 const FeatureItem = ({ text }: { text: string }) => (
-  <div className="flex items-center gap-2 text-sm text-slate-600">
+  <div className="flex items-center gap-2 text-sm text-muted-foreground">
     <Check className="h-4 w-4 text-primary" />
     <span>{text}</span>
   </div>

@@ -139,11 +139,11 @@ export default function BillingSettings() {
 
   const getPlanBadgeColor = (tier: PlanTier) => {
     switch (tier) {
-      case 'free': return "bg-slate-100 text-slate-700";
+      case 'free': return "bg-muted/50 text-muted-foreground";
       case 'pro': return "bg-system-blue/10 text-system-blue";
       case 'business': return "bg-purple-100 text-purple-700";
       case 'enterprise': return "bg-amber-100 text-amber-700";
-      default: return "bg-slate-100 text-slate-700";
+      default: return "bg-muted/50 text-muted-foreground";
     }
   };
 
@@ -165,10 +165,10 @@ export default function BillingSettings() {
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-48 bg-slate-200 rounded-2xl" />
+        <div className="h-48 bg-muted rounded-2xl" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-80 bg-slate-200 rounded-2xl" />
+            <div key={i} className="h-80 bg-muted rounded-2xl" />
           ))}
         </div>
       </div>
@@ -180,7 +180,7 @@ export default function BillingSettings() {
       <div className="space-y-6">
         {/* Current Usage Card */}
         {limits && planConfig && (
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+          <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <Crown className="h-6 w-6 text-primary" />
@@ -216,7 +216,7 @@ export default function BillingSettings() {
                     className="h-2"
                   />
                 ) : (
-                  <div className="h-2 bg-slate-100 rounded-full" />
+                  <div className="h-2 bg-muted/30 rounded-full" />
                 )}
               </div>
 
@@ -238,7 +238,7 @@ export default function BillingSettings() {
                     className="h-2"
                   />
                 ) : (
-                  <div className="h-2 bg-slate-100 rounded-full" />
+                  <div className="h-2 bg-muted/30 rounded-full" />
                 )}
               </div>
 
@@ -260,7 +260,7 @@ export default function BillingSettings() {
                     className="h-2"
                   />
                 ) : (
-                  <div className="h-2 bg-slate-100 rounded-full" />
+                  <div className="h-2 bg-muted/30 rounded-full" />
                 )}
               </div>
             </div>
@@ -279,8 +279,8 @@ export default function BillingSettings() {
               return (
                 <div
                   key={tier}
-                  className={`bg-white rounded-2xl border shadow-sm p-6 flex flex-col ${
-                    plan.popular ? 'border-primary shadow-md scale-[1.02]' : 'border-slate-100'
+                  className={`bg-card rounded-2xl border shadow-sm p-6 flex flex-col ${
+                    plan.popular ? 'border-primary shadow-md scale-[1.02]' : 'border-border'
                   } ${isCurrentPlan ? 'opacity-50' : ''}`}
                 >
                   <div className="flex-1">

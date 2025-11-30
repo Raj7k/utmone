@@ -316,7 +316,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         </div>
 
         <Card className="p-6 flex flex-col items-center gap-4">
-          <div className="bg-white p-4 rounded-lg">
+          <div className="bg-card p-4 rounded-lg">
             <QRCode
               value={(() => {
                 const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
@@ -504,7 +504,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
 
         <TabsContent value="preview" className="mt-4">
           <Card className="p-6 flex flex-col items-center gap-4">
-            <div className="bg-white p-4 rounded-lg">
+            <div className="bg-card p-4 rounded-lg">
               <QRCode
                 value={(() => {
                   const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
