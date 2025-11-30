@@ -42,13 +42,25 @@ const Signup = () => {
       loadInvitationContext(inviteToken);
     }
 
-    // Add timeout to prevent infinite loading
+    // Add timeout to prevent infinite loading - use functional update to avoid stale closure
     const sessionCheckTimeout = setTimeout(() => {
-      if (isCheckingSession) {
-        console.warn("Session check timeout - proceeding to signup form");
-        setIsCheckingSession(false);
-      }
-    }, 5000); // 5 second timeout
+      setIsCheckingSession(prev => {
+        if (prev) {
+          console.warn("Session check timeout - proceeding to signup form");
+        }
+        return false;
+      });
+    }, 5000);
+
+    // Safety timeout for isAuthenticating state
+    const authTimeout = setTimeout(() => {
+      setIsAuthenticating(prev => {
+        if (prev) {
+          console.warn("Authentication timeout - showing form");
+        }
+        return false;
+      });
+    }, 10000);
 
     // Check if user is already logged in
     supabase.auth.getSession()
@@ -137,8 +149,12 @@ const Signup = () => {
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [navigate, inviteToken, searchParams, toast]);
+    return () => {
+      clearTimeout(sessionCheckTimeout);
+      clearTimeout(authTimeout);
+      subscription.unsubscribe();
+    };
+  }, [navigate, inviteToken]);
 
   const loadInvitationContext = async (token: string) => {
     try {
