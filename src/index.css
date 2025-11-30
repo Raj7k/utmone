@@ -3,56 +3,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Animated border rotation for premium card effect */
-@keyframes border-rotate {
-  from {
-    --angle: 0deg;
-  }
+/* Animated border - simple rotating light beam */
+@keyframes rotate-border {
   to {
-    --angle: 360deg;
+    --border-angle: 360deg;
   }
 }
 
-@property --angle {
+@property --border-angle {
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
 }
 
-.animated-border {
-  background: conic-gradient(
-    from var(--angle),
-    transparent 0%,
-    hsl(217 91% 60% / 0.4) 10%,
-    hsl(20 100% 51% / 0.4) 20%,
-    transparent 30%,
-    transparent 100%
-  );
-  animation: border-rotate 8s linear infinite;
+.animated-border-card {
+  position: relative;
+  border-radius: 1rem;
 }
 
-.animated-border-wrapper {
-  background: conic-gradient(
-    from var(--angle),
-    transparent 0%,
-    hsl(217 91% 60% / 0.3) 10%,
-    hsl(20 100% 51% / 0.3) 20%,
-    transparent 30%,
-    transparent 100%
+.animated-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1.5px;
+  background: linear-gradient(
+    var(--border-angle, 0deg),
+    transparent 40%,
+    hsl(217 91% 60%) 50%,
+    transparent 60%
   );
-  animation: border-rotate 8s linear infinite;
-}
-
-/* Subtle glow pulse animation */
-@keyframes glow-pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.02);
-  }
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: rotate-border 4s linear infinite;
+  pointer-events: none;
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
