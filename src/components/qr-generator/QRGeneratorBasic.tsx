@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { Download, Lock, ArrowRight, Sparkles } from "lucide-react";
 import QRCodeLib from "qrcode";
 import { useToast } from "@/hooks/use-toast";
@@ -93,8 +93,9 @@ export const QRGeneratorBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-6 shadow-lg border-border/60 bg-card">
-          <div className="flex flex-col sm:flex-row gap-3">
+        <AnimatedCard>
+          <div className="p-6">
+            <div className="flex flex-col sm:flex-row gap-3">
             <Input
               type="url"
               placeholder="paste your url to generate qr code..."
@@ -112,8 +113,9 @@ export const QRGeneratorBasic = () => {
               generate qr
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
+            </div>
           </div>
-        </Card>
+        </AnimatedCard>
 
         <p className="text-sm text-secondary-label text-center mt-6">
           create branded qr codes instantly.{" "}
@@ -135,8 +137,9 @@ export const QRGeneratorBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8 shadow-lg border-border/60 bg-card">
-          <div className="space-y-6">
+        <AnimatedCard>
+          <div className="p-8">
+            <div className="space-y-6">
             {/* URL Input */}
             <div className="space-y-2">
               <Label htmlFor="qr-url">destination url</Label>
@@ -218,8 +221,9 @@ export const QRGeneratorBasic = () => {
                 </div>
               </div>
             </div>
+            </div>
           </div>
-        </Card>
+        </AnimatedCard>
 
         <p className="text-sm text-secondary-label text-center mt-6">
           utm.one branding is included in free tier.{" "}

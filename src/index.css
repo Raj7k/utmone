@@ -21,6 +21,23 @@
   border-radius: 1rem;
   border: 1px solid hsl(var(--border) / 0.4);
   background: hsl(var(--background));
+  
+  /* 3D depth and shadow */
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 10px 25px -5px rgba(0, 0, 0, 0.08),
+    0 20px 50px -12px rgba(0, 0, 0, 0.12);
+  transform: perspective(1000px) rotateX(1deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Subtle hover lift effect */
+.animated-border-card:hover {
+  transform: perspective(1000px) rotateX(0deg) translateY(-2px);
+  box-shadow: 
+    0 8px 12px -2px rgba(0, 0, 0, 0.08),
+    0 16px 35px -8px rgba(0, 0, 0, 0.12),
+    0 25px 60px -15px rgba(0, 0, 0, 0.15);
 }
 
 .animated-border-card::before {
@@ -32,7 +49,7 @@
   background: linear-gradient(
     var(--border-angle, 0deg),
     transparent 35%,
-    hsl(217 91% 60% / 0.8) 50%,
+    hsl(20 100% 51% / 0.9) 50%,
     transparent 65%
   );
   -webkit-mask: 
