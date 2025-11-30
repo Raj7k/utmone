@@ -145,7 +145,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                   active
-                    ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                    ? "bg-muted text-foreground font-medium"
                     : "text-label hover:bg-fill-tertiary"
                 )}
               >
@@ -181,7 +181,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                     className={cn(
                       "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                       active
-                        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                        ? "bg-muted text-foreground font-medium"
                         : "text-label hover:bg-fill-tertiary"
                     )}
                   >
@@ -219,7 +219,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                     className={cn(
                       "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                       active
-                        ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                        ? "bg-muted text-foreground font-medium"
                         : "text-label hover:bg-fill-tertiary"
                     )}
                   >
@@ -252,7 +252,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                 active
-                  ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                  ? "bg-muted text-foreground font-medium"
                   : "text-label hover:bg-fill-tertiary"
               )}
             >
@@ -284,7 +284,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               </div>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 vibrancy-thick z-50 bg-white dark:bg-card">
+          <DropdownMenuContent align="end" className="w-56 vibrancy-thick z-50 bg-card">
             <DropdownMenuItem onClick={() => navigate('/settings/profile')}>
               <User className="mr-2 h-4 w-4" />
               Profile Settings

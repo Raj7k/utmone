@@ -87,7 +87,7 @@ export const AnalyticsPulseTile = () => {
 
   return (
     <div 
-      className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 cursor-pointer hover:border-blue-200 transition-colors h-full" 
+      className="bg-card rounded-2xl border border-border shadow-sm p-4 cursor-pointer hover:border-blue-200 transition-colors h-full"
       onClick={() => navigate('/dashboard/analytics')}
     >
       <div className="flex items-center gap-2 mb-3">
@@ -98,8 +98,8 @@ export const AnalyticsPulseTile = () => {
       {isLoading ? (
         <div className="h-32 flex items-center justify-center">
           <div className="animate-pulse space-y-2 w-full">
-            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
-            <div className="h-20 bg-slate-200 dark:bg-slate-700 rounded" />
+            <div className="h-4 bg-muted rounded w-1/2" />
+            <div className="h-20 bg-muted rounded" />
           </div>
         </div>
       ) : (

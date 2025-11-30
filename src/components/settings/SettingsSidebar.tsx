@@ -109,7 +109,7 @@ export const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps
                         className={cn(
                           "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
                           isActive
-                            ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-medium"
+                            ? "bg-muted text-foreground font-medium"
                             : "text-label hover:bg-fill-tertiary"
                         )}
                       >

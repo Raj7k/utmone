@@ -40,7 +40,7 @@ export const ReferralTile = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm overflow-hidden h-full">
+      <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden h-full">
         <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
           <div className="flex items-center gap-2">
             <Gift className="h-5 w-5 text-primary" />
@@ -56,7 +56,7 @@ export const ReferralTile = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm overflow-hidden h-full flex flex-col">
+    <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden h-full flex flex-col">
       {/* Gradient Header */}
       <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
         <div className="flex items-center gap-2">

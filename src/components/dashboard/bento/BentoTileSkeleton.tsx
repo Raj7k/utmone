@@ -8,7 +8,7 @@ interface BentoTileSkeletonProps {
 export const BentoTileSkeleton = ({ variant = 'default' }: BentoTileSkeletonProps) => {
   if (variant === 'small') {
     return (
-      <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 h-full flex flex-col justify-center gap-3 animate-pulse">
+      <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col justify-center gap-3 animate-pulse">
         <div className="flex items-center gap-2">
           <Skeleton className="h-5 w-5 rounded" />
           <Skeleton className="h-5 w-24 rounded" />

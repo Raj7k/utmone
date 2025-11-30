@@ -39,7 +39,7 @@ export const BentoRecentLinksTile = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+      <div className="bg-card rounded-xl border border-border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-3">
           <Clock className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-display">Recent Links</h3>
@@ -47,8 +47,8 @@ export const BentoRecentLinksTile = () => {
         <div className="space-y-2">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="animate-pulse space-y-2">
-              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
-              <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
+              <div className="h-4 bg-muted rounded w-3/4" />
+              <div className="h-3 bg-muted rounded w-1/2" />
             </div>
           ))}
         </div>
@@ -58,7 +58,7 @@ export const BentoRecentLinksTile = () => {
 
   if (!recentLinks || recentLinks.length === 0) {
     return (
-      <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+      <div className="bg-card rounded-xl border border-border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-3">
           <Clock className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-display">Recent Links</h3>
@@ -71,7 +71,7 @@ export const BentoRecentLinksTile = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-card rounded-xl border border-slate-100 dark:border-border shadow-sm p-4">
+    <div className="bg-card rounded-xl border border-border shadow-sm p-4">
       <div className="flex items-center gap-2 mb-3">
         <Clock className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Recent Links</h3>
@@ -81,7 +81,7 @@ export const BentoRecentLinksTile = () => {
         {recentLinks.map((link) => (
           <div
             key={link.id}
-            className="group flex items-center justify-between gap-3 py-2 px-3 rounded-lg border border-slate-100 dark:border-border hover:bg-muted/50 transition-colors cursor-pointer"
+            className="group flex items-center justify-between gap-3 py-2 px-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer"
             onClick={() => navigate(`/links/${link.id}`)}
           >
             <div className="flex-1 min-w-0">

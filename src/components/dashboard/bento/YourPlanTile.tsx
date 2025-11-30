@@ -40,7 +40,7 @@ export const YourPlanTile = () => {
   const daysUntilReset = 30 - new Date().getDate();
 
   return (
-    <div className="bg-white dark:bg-card rounded-2xl border border-slate-100 dark:border-border shadow-sm p-4 h-full flex flex-col">
+    <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
       <div className="flex items-center gap-2 mb-3">
         <Crown className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Your Plan</h3>
@@ -48,9 +48,9 @@ export const YourPlanTile = () => {
 
       {isLoading ? (
         <div className="animate-pulse space-y-3 flex-1">
-          <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-1/2" />
-          <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
-          <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded" />
+          <div className="h-6 bg-muted rounded w-1/2" />
+          <div className="h-4 bg-muted rounded w-3/4" />
+          <div className="h-2 bg-muted rounded" />
         </div>
       ) : limits && planConfig ? (
         <div className="space-y-3 flex-1 flex flex-col justify-between">

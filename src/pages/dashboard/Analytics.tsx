@@ -95,19 +95,19 @@ export default function Analytics() {
 
       {/* Top Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 rounded-2xl shadow-sm border-slate-100">
+        <Card className="p-6 rounded-2xl shadow-sm border-border">
           <div className="text-sm text-secondary-label mb-2">total clicks</div>
           <div className="text-4xl font-bold text-label tracking-tight">
             {analytics.totalClicks.toLocaleString()}
           </div>
         </Card>
-        <Card className="p-6 rounded-2xl shadow-sm border-slate-100">
+        <Card className="p-6 rounded-2xl shadow-sm border-border">
           <div className="text-sm text-secondary-label mb-2">unique visitors</div>
           <div className="text-4xl font-bold text-label tracking-tight">
             {analytics.uniqueVisitors.toLocaleString()}
           </div>
         </Card>
-        <Card className="p-6 rounded-2xl shadow-sm border-slate-100">
+        <Card className="p-6 rounded-2xl shadow-sm border-border">
           <div className="text-sm text-secondary-label mb-2">click rate</div>
           <div className="text-4xl font-bold text-label tracking-tight">
             {analytics.clickRate}
@@ -147,7 +147,7 @@ export default function Analytics() {
         </TabsList>
 
         <TabsContent value="when">
-          <Card className="rounded-2xl shadow-sm border-slate-100">
+          <Card className="rounded-2xl shadow-sm border-border">
             <CardHeader>
               <CardTitle>activity heatmap</CardTitle>
               <CardDescription>when your audience is most active</CardDescription>
@@ -233,7 +233,7 @@ export default function Analytics() {
 
         <TabsContent value="where">
           <div className="grid gap-6">
-            <Card className="rounded-2xl shadow-sm border-slate-100">
+            <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
                 <CardTitle>top countries</CardTitle>
                 <CardDescription>where your audience is located</CardDescription>
@@ -261,7 +261,7 @@ export default function Analytics() {
               </CardContent>
             </Card>
 
-            <Card className="rounded-2xl shadow-sm border-slate-100">
+            <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
                 <CardTitle>top cities</CardTitle>
                 <CardDescription>most active cities</CardDescription>
@@ -293,7 +293,7 @@ export default function Analytics() {
 
         <TabsContent value="who">
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="rounded-2xl shadow-sm border-slate-100">
+            <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
                 <CardTitle>devices</CardTitle>
                 <CardDescription>mobile vs desktop breakdown</CardDescription>
@@ -327,7 +327,7 @@ export default function Analytics() {
               </CardContent>
             </Card>
 
-            <Card className="rounded-2xl shadow-sm border-slate-100">
+            <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
                 <CardTitle>top referrers</CardTitle>
                 <CardDescription>where your traffic comes from</CardDescription>
