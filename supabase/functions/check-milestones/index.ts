@@ -49,40 +49,52 @@ const handler = async (req: Request): Promise<Response> => {
       .select("*", { count: "exact", head: true })
       .eq("referred_by", userId);
 
+    // Connector (Bronze) - 1 referral
     if (referralCount && referralCount >= 1) {
-      await checkAndAwardMilestone(supabase, userId, "first_referral", awardedBadges);
+      await checkAndAwardBadge(supabase, userId, "connector", awardedBadges);
     }
+    // Networker (Silver) - 5 referrals
     if (referralCount && referralCount >= 5) {
-      await checkAndAwardMilestone(supabase, userId, "five_referrals", awardedBadges);
+      await checkAndAwardBadge(supabase, userId, "networker", awardedBadges);
     }
+    // Influencer (Gold) - 10+ referrals
     if (referralCount && referralCount >= 10) {
-      await checkAndAwardMilestone(supabase, userId, "ten_referrals", awardedBadges);
+      await checkAndAwardBadge(supabase, userId, "influencer", awardedBadges);
     }
 
-    // Check engagement score milestones
-    if (user.engagement_score >= 40) {
-      await checkAndAwardMilestone(supabase, userId, "super_engaged", awardedBadges);
+    // Early Bird (Gold) - First 100 users
+    const { count: totalUsers } = await supabase
+      .from("early_access_requests")
+      .select("*", { count: "exact", head: true });
+    
+    if (totalUsers && totalUsers <= 100) {
+      await checkAndAwardBadge(supabase, userId, "early_bird", awardedBadges);
     }
 
-    // Check profile completion
+    // Detailed (Bronze) - Complete profile
     if (user.name && user.email && user.role && user.team_size && user.company_domain) {
-      await checkAndAwardMilestone(supabase, userId, "profile_complete", awardedBadges);
+      await checkAndAwardBadge(supabase, userId, "detailed", awardedBadges);
     }
 
-    // Check email engagement
-    const { count: emailOpens } = await supabase
-      .from("email_queue")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", userId)
-      .not("opened_at", "is", null);
-
-    if (emailOpens && emailOpens >= 5) {
-      await checkAndAwardMilestone(supabase, userId, "engaged_reader", awardedBadges);
+    // Early Circle (Gold) - Access granted
+    if (user.status === "approved" || user.status === "skipped_line") {
+      await checkAndAwardBadge(supabase, userId, "early_circle", awardedBadges);
     }
 
-    // Check full early access
-    if (user.status === "approved" || user.access_level >= 3) {
-      await checkAndAwardMilestone(supabase, userId, "early_circle", awardedBadges);
+    // Super Fan (Silver) - 40+ engagement score
+    if (user.engagement_score >= 40) {
+      await checkAndAwardBadge(supabase, userId, "super_fan", awardedBadges);
+    }
+
+    // Engaged (Silver) - Check login count from profiles table
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("login_count")
+      .eq("email", email)
+      .single();
+    
+    if (profileData && profileData.login_count >= 5) {
+      await checkAndAwardBadge(supabase, userId, "engaged", awardedBadges);
     }
 
     // Send notification emails for newly awarded badges
@@ -131,52 +143,49 @@ const handler = async (req: Request): Promise<Response> => {
   }
 };
 
-async function checkAndAwardMilestone(
+async function checkAndAwardBadge(
   supabase: any,
   userId: string,
-  milestoneType: string,
+  badgeKey: string,
   awardedBadges: string[]
 ) {
-  // Check if milestone already exists
+  // Get badge definition
+  const { data: badge } = await supabase
+    .from("waitlist_badges")
+    .select("id, badge_key, name")
+    .eq("badge_key", badgeKey)
+    .single();
+
+  if (!badge) {
+    console.log(`Badge ${badgeKey} not found`);
+    return;
+  }
+
+  // Check if user already has this badge
   const { data: existing } = await supabase
-    .from("waitlist_milestones")
+    .from("user_badges")
     .select("id")
     .eq("user_id", userId)
-    .eq("milestone_type", milestoneType)
+    .eq("badge_id", badge.id)
     .single();
 
   if (existing) {
-    return; // Milestone already awarded
+    return; // Badge already awarded
   }
 
-  // Record milestone
-  await supabase.from("waitlist_milestones").insert({
-    user_id: userId,
-    milestone_type: milestoneType,
-  });
+  // Award badge
+  const { error: badgeError } = await supabase
+    .from("user_badges")
+    .insert({
+      user_id: userId,
+      badge_id: badge.id,
+    });
 
-  // Get corresponding badge
-  const { data: badge } = await supabase
-    .from("waitlist_badges")
-    .select("id, badge_key")
-    .eq("badge_key", milestoneType)
-    .single();
-
-  if (badge) {
-    // Award badge
-    const { error: badgeError } = await supabase
-      .from("user_badges")
-      .insert({
-        user_id: userId,
-        badge_id: badge.id,
-      })
-      .select()
-      .single();
-
-    if (!badgeError) {
-      awardedBadges.push(badge.badge_key);
-      console.log(`Awarded badge ${badge.badge_key} to user ${userId}`);
-    }
+  if (!badgeError) {
+    awardedBadges.push(badge.badge_key);
+    console.log(`✨ Awarded ${badge.name} badge to user ${userId}`);
+  } else {
+    console.error(`Failed to award badge ${badgeKey}:`, badgeError);
   }
 }
 
