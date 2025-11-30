@@ -33,7 +33,7 @@ export default function Campaigns() {
 
   // Fetch links and clicks for each campaign
   const { data: campaignStats } = useQuery({
-    queryKey: ["campaign-stats", currentWorkspace?.id, campaigns?.map(c => c.id)],
+    queryKey: ["campaign-stats", currentWorkspace?.id, JSON.stringify(campaigns?.map(c => c.id) || [])],
     queryFn: async () => {
       if (!campaigns || campaigns.length === 0) return {};
 
