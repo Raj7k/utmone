@@ -37,7 +37,7 @@ export const FeatureLayout = ({
       <BreadcrumbSchema items={breadcrumbs} />
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="pt-20">{children}</main>
+        <main className="pt-16">{children}</main>
         <Footer />
       </div>
     </>
