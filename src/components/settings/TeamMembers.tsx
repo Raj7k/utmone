@@ -35,9 +35,9 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
   } = useTeamMembers(workspaceId);
 
   const resendInviteMutation = useMutation({
-    mutationFn: async ({ email, role }: { email: string; role: string }) => {
-      const { error } = await supabase.functions.invoke("invite-team-member", {
-        body: { workspaceId, email, role },
+    mutationFn: async (invitationId: string) => {
+      const { error } = await supabase.functions.invoke("resend-team-invitation", {
+        body: { invitationId },
       });
       if (error) throw error;
     },
@@ -63,7 +63,45 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
 
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
-    inviteTeamMember({ email, role });
+    
+    const normalizedEmail = email.toLowerCase().trim();
+    
+    // Check if already a member
+    const existingMember = members?.find(
+      m => m.profiles?.email?.toLowerCase() === normalizedEmail
+    );
+    
+    if (existingMember) {
+      toast({
+        title: "Already a member",
+        description: `${email} is already a member of this workspace.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Check if already has pending invitation
+    const existingPending = invitations?.find(
+      inv => inv.email.toLowerCase() === normalizedEmail
+    );
+    
+    if (existingPending) {
+      toast({
+        title: "Invitation already pending",
+        description: "Would you like to resend the invitation email?",
+        action: (
+          <Button 
+            size="sm" 
+            onClick={() => resendInviteMutation.mutate(existingPending.id)}
+          >
+            Resend
+          </Button>
+        ),
+      });
+      return;
+    }
+    
+    inviteTeamMember({ email: normalizedEmail, role });
     setEmail("");
     setRole("viewer");
   };
@@ -191,10 +229,7 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => resendInviteMutation.mutate({
-                            email: invitation.email,
-                            role: invitation.role,
-                          })}
+                          onClick={() => resendInviteMutation.mutate(invitation.id)}
                           disabled={resendInviteMutation.isPending}
                         >
                           <Send className="h-4 w-4" />
