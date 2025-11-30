@@ -86,43 +86,43 @@ export default function BookDemo() {
         <meta name="description" content="Turn confusion into clarity. Book a demo to see how utm.one can transform your link management and analytics." />
       </Helmet>
 
-      <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
         {/* Left Panel - Brand Experience */}
-        <div className="relative bg-gradient-to-br from-mirage to-black p-8 lg:p-16 flex flex-col justify-between min-h-[40vh] lg:min-h-screen overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-white p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Gradient Orbs */}
-            <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-            <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+            <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+            <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
             
             {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-5" style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            <div className="absolute inset-0 opacity-[0.02]" style={{
+              backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
               backgroundSize: '50px 50px'
             }} />
           </div>
 
           {/* Content */}
-          <div className="relative z-10 space-y-3">
+          <div className="relative z-10 space-y-2">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-blazeOrange text-blazeOrange" />
+                <Star key={i} className="w-4 h-4 fill-blazeOrange text-blazeOrange" />
               ))}
             </div>
-            <p className="text-white/70 text-sm">trusted by growth teams at 50+ companies</p>
+            <p className="text-label/70 text-sm">trusted by growth teams at 50+ companies</p>
           </div>
 
           {/* Center - Headline */}
-          <div className="relative z-10 flex-1 flex flex-col justify-center space-y-6">
-            <h1 className="text-4xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight">
+          <div className="relative z-10 flex-1 flex flex-col justify-center space-y-4">
+            <h1 className="text-3xl lg:text-5xl xl:text-6xl font-display font-bold leading-tight">
               <span className="hero-gradient">
                 every link<br />tells a story.<br />let's write yours.
               </span>
             </h1>
-            <p className="text-white/60 text-lg lg:text-xl max-w-md">
+            <p className="text-secondary-label text-base lg:text-lg max-w-md">
               schedule a demo to see how utm.one brings clarity to your campaigns
             </p>
-            <p className="text-white/40 text-sm italic">
+            <p className="text-tertiary-label text-sm italic">
               clarity creates confidence
             </p>
           </div>
@@ -133,11 +133,11 @@ export default function BookDemo() {
               <div className="logo-marquee-content">
                 {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
                   <div key={i} className="logo-item">
-                    <span className="text-white/50 text-sm font-medium whitespace-nowrap">
+                    <span className="text-label/50 text-sm font-medium whitespace-nowrap">
                       {item}
                     </span>
                     {i < MARQUEE_ITEMS.length * 2 - 1 && (
-                      <span className="text-white/30 mx-4">•</span>
+                      <span className="text-label/30 mx-4">•</span>
                     )}
                   </div>
                 ))}
@@ -147,17 +147,17 @@ export default function BookDemo() {
         </div>
 
         {/* Right Panel - Interactive Form */}
-        <div className="bg-[#FDFCF8] p-8 lg:p-16 flex items-center border-l-4 border-blazeOrange/20">
+        <div className="bg-[#FDFCF8] h-full overflow-y-auto p-8 lg:p-12 flex items-center border-l-4 border-blazeOrange/20">
           <div className="w-full max-w-xl mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name & Email */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
                   <Input
                     placeholder="your name"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="h-12 bg-white border-border/20"
+                    className="h-11 bg-white border-border/20"
                     required
                   />
                 </div>
@@ -167,14 +167,14 @@ export default function BookDemo() {
                     placeholder="work email"
                     value={formData.email}
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="h-12 bg-white border-border/20"
+                    className="h-11 bg-white border-border/20"
                     required
                   />
                 </div>
               </div>
 
               {/* Interest Pills */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-label">
                   what are you looking for?
                 </label>
@@ -188,7 +188,7 @@ export default function BookDemo() {
                     <ToggleGroupItem
                       key={interest.value}
                       value={interest.value}
-                      className="rounded-full px-4 py-2 border border-border/20 data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:border-primary"
+                      className="rounded-full px-3 py-1.5 text-sm border border-border/20 data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:border-primary"
                     >
                       {interest.label}
                     </ToggleGroupItem>
@@ -197,23 +197,23 @@ export default function BookDemo() {
               </div>
 
               {/* Challenge Cards */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-label">
                   what's your biggest challenge?
                 </label>
-                <div className="grid gap-3">
+                <div className="grid gap-2">
                   {CHALLENGES.map((challenge) => (
                     <Card
                       key={challenge.value}
-                      className={`p-4 cursor-pointer transition-all border-2 ${
+                      className={`p-3 cursor-pointer transition-all border-2 ${
                         formData.challenge === challenge.value
                           ? 'border-primary bg-primary text-white'
                           : 'border-border/20 bg-white hover:border-primary/30'
                       }`}
                       onClick={() => setFormData(prev => ({ ...prev, challenge: challenge.value }))}
                     >
-                      <h4 className="font-medium mb-1">{challenge.label}</h4>
-                      <p className={`text-sm ${
+                      <h4 className="font-medium mb-0.5 text-sm">{challenge.label}</h4>
+                      <p className={`text-xs ${
                         formData.challenge === challenge.value ? 'text-white/70' : 'text-secondary-label'
                       }`}>
                         {challenge.description}
@@ -224,7 +224,7 @@ export default function BookDemo() {
               </div>
 
               {/* Message */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <label className="text-sm font-medium text-label">
                   what are you trying to solve?
                 </label>
@@ -232,19 +232,19 @@ export default function BookDemo() {
                   placeholder="tell us more about your team's needs..."
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  className="min-h-[120px] bg-white border-border/20"
+                  className="min-h-[80px] bg-white border-border/20"
                 />
               </div>
 
               {/* CTA Button */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-14 bg-blazeOrange text-white hover:bg-blazeOrange/90 text-lg font-medium rounded-xl group"
+                  className="w-full h-12 bg-blazeOrange text-white hover:bg-blazeOrange/90 text-base font-medium rounded-xl group"
                 >
                   {isSubmitting ? "submitting..." : "book a demo"}
-                  <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Button>
                 <p className="text-xs text-secondary-label text-center">
                   free 15-minute consultation • no commitment
