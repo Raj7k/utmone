@@ -112,6 +112,13 @@ export const URLShortenerBasic = () => {
     return (
       <div className="max-w-2xl mx-auto">
         <Card className="p-6 shadow-lg border-border/60 bg-card">
+          {/* Domain Badge */}
+          <div className="flex items-center justify-center gap-2 mb-4 text-sm text-secondary-label">
+            <Link2 className="h-4 w-4" />
+            <span>links created on</span>
+            <span className="font-mono font-medium text-foreground bg-muted px-2 py-0.5 rounded">utm.click</span>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <Input
@@ -144,13 +151,18 @@ export const URLShortenerBasic = () => {
           </div>
         </Card>
 
-        <p className="text-sm text-secondary-label text-center mt-6">
-          free links use utm.click domain.{" "}
-          <a href="/pricing" className="text-primary hover:underline">
-            upgrade to pro
-          </a>{" "}
-          for custom domains and analytics
-        </p>
+        {/* Enhanced Footer */}
+        <div className="mt-8 pt-6 border-t border-border/40 text-center">
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <span className="text-secondary-label">free links use</span>
+            <span className="font-mono font-semibold text-foreground">utm.click</span>
+            <span className="text-secondary-label">domain</span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            <a href="/pricing" className="text-primary hover:underline">upgrade to pro</a>
+            {" "}for custom domains like yourbrand.com/link
+          </p>
+        </div>
       </div>
     );
   }
@@ -165,6 +177,13 @@ export const URLShortenerBasic = () => {
         className="max-w-2xl mx-auto"
       >
         <Card className="p-8 shadow-lg border-border/60 bg-card">
+          {/* Domain Badge */}
+          <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
+            <Link2 className="h-4 w-4" />
+            <span>links created on</span>
+            <span className="font-mono font-medium text-foreground bg-muted px-2 py-0.5 rounded">utm.click</span>
+          </div>
+
           <div className="space-y-6">
             <div>
               <Label htmlFor="url">destination url</Label>
@@ -191,15 +210,20 @@ export const URLShortenerBasic = () => {
             <div>
               <Label htmlFor="customSlug">custom slug (optional)</Label>
               <div className="flex gap-2 mt-2">
-                <Input
-                  id="customSlug"
-                  type="text"
-                  placeholder="leave blank for auto-generate"
-                  value={customSlug}
-                  onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                  className="flex-1 h-11"
-                  disabled={!!shortURL}
-                />
+                <div className="flex items-center gap-0 flex-1">
+                  <span className="px-3 h-11 bg-muted border border-r-0 border-input rounded-l-md flex items-center text-sm text-muted-foreground font-mono">
+                    utm.click/
+                  </span>
+                  <Input
+                    id="customSlug"
+                    type="text"
+                    placeholder="your-custom-slug"
+                    value={customSlug}
+                    onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                    className="flex-1 h-11 rounded-l-none border-l-0"
+                    disabled={!!shortURL}
+                  />
+                </div>
                 <Button
                   type="button"
                   variant="outline"
@@ -226,7 +250,10 @@ export const URLShortenerBasic = () => {
                 </div>
 
                 <div className="bg-muted/30 p-4 rounded-lg border border-border/40">
-                  <div className="text-xs text-secondary-label mb-1">short url</div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs text-secondary-label">short url</span>
+                    <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded font-mono">utm.click</span>
+                  </div>
                   <div className="text-base font-medium text-foreground break-all">
                     {shortURL}
                   </div>
@@ -306,14 +333,18 @@ export const URLShortenerBasic = () => {
           </div>
         </Card>
 
-
-        <p className="text-sm text-secondary-label text-center mt-6">
-          free links use utm.click domain.{" "}
-          <a href="/pricing" className="text-primary hover:underline">
-            upgrade to pro
-          </a>{" "}
-          for custom domains, geo-targeting, and team collaboration
-        </p>
+        {/* Enhanced Footer */}
+        <div className="mt-8 pt-6 border-t border-border/40 text-center">
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <span className="text-secondary-label">free links use</span>
+            <span className="font-mono font-semibold text-foreground">utm.click</span>
+            <span className="text-secondary-label">domain</span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            <a href="/pricing" className="text-primary hover:underline">upgrade to pro</a>
+            {" "}for custom domains like yourbrand.com/link
+          </p>
+        </div>
       </motion.div>
     </AnimatePresence>
   );

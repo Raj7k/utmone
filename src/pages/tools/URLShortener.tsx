@@ -26,7 +26,7 @@ export default function URLShortener() {
             free url shortener
           </h1>
           <p className="text-lg text-secondary-label max-w-2xl mx-auto">
-            create short links instantly. no signup required.
+            create short links instantly on <span className="font-mono font-medium text-foreground">utm.click</span>. no signup required.
           </p>
         </div>
 
