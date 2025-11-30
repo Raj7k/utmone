@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { getTextMode, setTextMode } from "@/utils/textFormatter";
 
 const STORAGE_KEY = 'SIMULATED_PLAN';
 
@@ -15,6 +16,10 @@ export const AdminToolbar = () => {
   // Read from localStorage on mount
   const [currentValue, setCurrentValue] = useState<string>(() => {
     return localStorage.getItem(STORAGE_KEY) || 'real';
+  });
+  
+  const [textMode, setTextModeState] = useState<'minimal' | 'grammar'>(() => {
+    return getTextMode();
   });
 
   // Don't render if not admin or still loading
@@ -50,6 +55,11 @@ export const AdminToolbar = () => {
     window.dispatchEvent(new Event('storage-update'));
   };
 
+  const handleTextModeChange = (mode: 'minimal' | 'grammar') => {
+    setTextModeState(mode);
+    setTextMode(mode);
+  };
+
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-2 duration-300">
       <div className="bg-black/80 backdrop-blur-xl rounded-full px-4 py-2 shadow-2xl border border-white/10">
@@ -70,6 +80,35 @@ export const AdminToolbar = () => {
                 {plan.label}
               </button>
             ))}
+          </div>
+
+          {/* Separator */}
+          <div className="h-4 w-px bg-white/20" />
+
+          {/* Text Mode Toggle */}
+          <div className="flex items-center bg-white/5 rounded-lg p-0.5">
+            <button
+              onClick={() => handleTextModeChange('minimal')}
+              className={cn(
+                "px-3 py-1 text-xs font-medium rounded-md transition-all duration-200",
+                textMode === 'minimal'
+                  ? "bg-white/20 text-white shadow-sm"
+                  : "text-white/60 hover:text-white/80"
+              )}
+            >
+              minimal
+            </button>
+            <button
+              onClick={() => handleTextModeChange('grammar')}
+              className={cn(
+                "px-3 py-1 text-xs font-medium rounded-md transition-all duration-200",
+                textMode === 'grammar'
+                  ? "bg-white/20 text-white shadow-sm"
+                  : "text-white/60 hover:text-white/80"
+              )}
+            >
+              Grammar
+            </button>
           </div>
 
           {/* Separator */}
