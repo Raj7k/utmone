@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/magnetic";
 import { 
   Link as LinkIcon, 
   QrCode, 
@@ -26,7 +27,9 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
@@ -78,44 +81,69 @@ const Index = () => {
         <FloatingNavigation />
         <FloatingActionButton />
 
-        {/* Hero Section - Minimalist */}
-        <section className="relative py-32 md:py-48 lg:py-56 bg-muted/10 overflow-hidden">
-          <div className="relative z-10 max-w-4xl mx-auto px-8">
-            <motion.div 
-              className="text-center space-y-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <div className="space-y-2">
-                <motion.p 
-                  className="text-4xl md:text-5xl lg:text-6xl text-secondary-label font-medium"
+        {/* Hero Section with Organic Shapes */}
+        <HeroVariantManager>
+          {(variant) => (
+            <section className="relative py-32 md:py-40 bg-white overflow-hidden">
+              <RetroGradientMesh />
+              <div className="relative z-10 max-w-[980px] mx-auto px-8">
+                <motion.div 
+                  className="text-center space-y-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
+                  transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 >
-                  No clutter.
-                </motion.p>
-                <motion.p 
-                  className="text-4xl md:text-5xl lg:text-6xl text-secondary-label font-medium"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  No noise.
-                </motion.p>
-                <motion.p 
-                  className="text-4xl md:text-5xl lg:text-6xl text-blazeOrange font-semibold"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                >
-                  Just clarity.
-                </motion.p>
+                  <motion.div className="hero-glow">
+                    <motion.h1 
+                      className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                    >
+                      {variant.headlineLine1}<br />{variant.headlineLine2}
+                    </motion.h1>
+                  </motion.div>
+                  <motion.p 
+                    className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto text-balance leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  >
+                    {variant.subheadline}
+                  </motion.p>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                  >
+                    <MagneticButton
+                      size="lg"
+                      variant="marketing"
+                      className="text-base px-8 py-6 rounded-full font-medium"
+                      onClick={() => trackCTAClick('hero-cta')}
+                      asChild
+                      strength={0.25}
+                    >
+                      <Link to="/early-access">
+                        {variant.cta}
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </MagneticButton>
+                  </motion.div>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                    className="text-sm text-secondary-label"
+                  >
+                    {variant.microcopy}
+                  </motion.p>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
-        </section>
+            </section>
+          )}
+        </HeroVariantManager>
 
         {/* Fold 2: The Real Problem */}
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
@@ -378,41 +406,64 @@ const Index = () => {
                 delay={0.6}
               />
             </div>
+            <div className="text-center mt-12 space-y-2">
+              <p className="text-title-2 font-medium text-secondary-label">No clutter.</p>
+              <p className="text-title-2 font-medium text-secondary-label">No noise.</p>
+              <p className="text-title-2 font-display font-semibold text-blazeOrange">Just clarity.</p>
+            </div>
           </div>
         </AnimatedSection>
 
-        {/* Fold 7: We Chose a Different Path */}
+        {/* Fold 7: Pricing Clarity */}
         <AnimatedSection className="py-20 md:py-32 bg-white">
-          <div className="max-w-4xl mx-auto px-8 text-center space-y-3">
-            <motion.p 
-              className="text-2xl md:text-3xl lg:text-4xl text-secondary-label"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              The internet is tired of predatory pricing.
-            </motion.p>
-            <motion.p 
-              className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-electricBlue"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              we chose a different path.
-            </motion.p>
+          <div className="max-w-4xl mx-auto px-8">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+                Pricing That Respects You
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { icon: DollarSign, label: "Generous Free Plan" },
+                { icon: Users, label: "Flat Team Pricing" },
+                { icon: CheckCircle2, label: "No Per-Seat Surprises" },
+                { icon: TrendingUp, label: "Simple Upgrades" },
+                { icon: Shield, label: "Fair Limits" },
+                { icon: Eye, label: "Transparent Communication" }
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-start space-x-4 p-6 bg-muted/30 rounded-xl"
+                >
+                  <item.icon className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <p className="text-base font-medium text-label">{item.label}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-center mt-12 space-y-2">
+              <p className="text-2xl md:text-3xl text-secondary-label">
+                The internet is tired of predatory pricing.
+              </p>
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
+                We chose a different path.
+              </p>
+            </div>
           </div>
         </AnimatedSection>
 
         {/* Fold 8: Analytics Clarity */}
-        <AnimatedSection className="py-20 md:py-32 bg-white">
+        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-label">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 See What Matters First
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               {[
                 "Top metrics at a glance",
                 "Zero-config reports",
@@ -426,32 +477,32 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-white border border-separator rounded-xl p-8 text-center hover:shadow-sm transition-shadow"
+                  className="bg-white border border-border rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
                 >
-                  <p className="text-base font-medium text-label">{item}</p>
+                  <p className="text-sm font-medium text-label">{item}</p>
                 </motion.div>
               ))}
             </div>
-            <div className="text-center space-y-2">
+            <div className="text-center mt-12 space-y-2">
               <p className="text-2xl md:text-3xl text-secondary-label">
                 Analytics shouldn't overwhelm.
               </p>
-              <p className="text-2xl md:text-3xl font-display font-semibold text-electricBlue">
+              <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
                 They should guide.
               </p>
             </div>
           </div>
         </AnimatedSection>
 
-        {/* Fold 9: Built for Modern Teams */}
-        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-3xl mx-auto px-8">
+        {/* Fold 9: Collaboration */}
+        <AnimatedSection className="py-20 md:py-32 bg-white">
+          <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 Built for Modern Teams
               </h2>
             </div>
-            <div className="space-y-8">
+            <div className="space-y-6">
               {[
                 "Unlimited users on paid plans",
                 "Client workspaces",
@@ -465,15 +516,16 @@ const Index = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start space-x-6"
+                  className="flex items-center space-x-4 p-6 bg-muted/30 rounded-xl"
                 >
-                  <div className="w-10 h-10 rounded-full bg-electricBlue/10 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-5 h-5 text-electricBlue" />
-                  </div>
-                  <p className="text-lg font-medium text-label pt-2">{item}</p>
+                  <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0" />
+                  <p className="text-base font-medium text-label">{item}</p>
                 </motion.div>
               ))}
             </div>
+            <p className="text-center text-2xl md:text-3xl text-secondary-label mt-12">
+              Finally — link management designed for agencies, teams, and cross-functional workflows.
+            </p>
           </div>
         </AnimatedSection>
 
@@ -522,44 +574,26 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 11: Final CTA */}
-        <AnimatedSection className="py-24 md:py-32 bg-white">
-          <div className="max-w-4xl mx-auto px-8 text-center space-y-10">
-            <motion.h2 
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
+        <AnimatedSection className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-white to-primary/10">
+          <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
               Change the Way Your Team Shares the Internet
-            </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+            </h2>
+            <Button
+              size="lg"
+              variant="marketing"
+              className="text-base px-10 py-7 rounded-full font-medium hover:scale-105 transition-transform"
+              onClick={() => trackCTAClick('final-cta')}
+              asChild
             >
-              <Button
-                size="lg"
-                variant="marketing"
-                className="text-lg px-12 py-7 rounded-full font-medium hover:scale-105 transition-transform"
-                onClick={() => trackCTAClick('final-cta')}
-                asChild
-              >
-                <Link to="/early-access">
-                  Get Early Access
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-            </motion.div>
-            <motion.p 
-              className="text-lg text-secondary-label"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-            >
+              <Link to="/early-access">
+                Get Early Access
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <p className="text-body-apple text-secondary-label">
               Join thousands of teams moving toward clarity, trust, and cleaner data.
-            </motion.p>
+            </p>
           </div>
         </AnimatedSection>
 
