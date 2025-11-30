@@ -69,14 +69,22 @@ export const FeatureGuard = ({
       <>
         <div
           className={`cursor-pointer hover:opacity-70 transition-opacity ${className}`}
-          onClick={() => setIsUpgradeModalOpen(true)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsUpgradeModalOpen(true);
+          }}
+          role="button"
+          tabIndex={0}
           title={`Upgrade to ${minPlanRequired} to unlock this feature`}
         >
-          {lockedContent}
+          <div className="pointer-events-none select-none">
+            {lockedContent}
+          </div>
         </div>
         <UpgradeModal
           open={isUpgradeModalOpen}
-          onClose={() => setIsUpgradeModalOpen(false)}
+          onOpenChange={(open) => setIsUpgradeModalOpen(open)}
           feature={feature}
           upgradeToTier={minPlanRequired as PlanTier}
           reason={description || `This feature requires ${minPlanRequired} plan`}
