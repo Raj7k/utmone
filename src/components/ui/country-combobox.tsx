@@ -37,7 +37,7 @@ export function CountryCombobox({ value, onChange, disabled, excludedCountries =
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
-          className="w-full justify-between pl-3 font-normal bg-white hover:bg-muted/50 border-border"
+          className="w-full justify-between pl-3 font-normal bg-card hover:bg-muted/50 border-border"
         >
           {value ? (
             <span className="flex items-center gap-2 truncate">
