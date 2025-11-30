@@ -71,10 +71,13 @@ export const QuickCreateTile = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       // Track first link for onboarding
       trackFirstLink();
-      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
+      // Invalidate and refetch onboarding progress immediately
+      await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
       toast.success("Link created", {
         description: `Your short link is ready: ${data.short_url}`,

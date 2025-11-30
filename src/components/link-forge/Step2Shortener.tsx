@@ -153,17 +153,29 @@ export const Step2Shortener = ({
       
       return link;
     },
-    onSuccess: (link) => {
+    onSuccess: async (link) => {
       const shortUrl = `https://${link.domain}/${link.slug}`;
       
       // Track first link for onboarding
       trackFirstLink();
-      queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      
+      // Invalidate and refetch onboarding progress immediately
+      await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
+      await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
       toast({
         title: "link created",
         description: "your short link is ready",
       });
+      
+      // Auto-scroll to recent links section
+      setTimeout(() => {
+        const recentLinksSection = document.getElementById("recent-links");
+        if (recentLinksSection) {
+          recentLinksSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }, 300);
+      
       onComplete(link.id, shortUrl);
     },
     onError: (error: Error) => {
