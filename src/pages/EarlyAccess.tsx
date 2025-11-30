@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
@@ -14,21 +15,9 @@ import { DoubleSidedReward } from "@/components/early-access/DoubleSidedReward";
 import { EarlyAccessFAQ } from "@/components/early-access/EarlyAccessFAQ";
 import { ShareReferralModal } from "@/components/waitlist/ShareReferralModal";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle2, Sparkles, Shield, AlertCircle, TrendingUp, Share2, Trophy } from "lucide-react";
+import { CheckCircle2, Sparkles, Shield, AlertCircle, TrendingUp, Share2, Trophy, ArrowRight } from "lucide-react";
 import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
 import { motion } from "framer-motion";
-
-const ValueBullet = ({ text }: { text: string }) => (
-  <motion.li
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true }}
-    className="flex items-center gap-3"
-  >
-    <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-    <span className="text-lg text-secondary-label">{text}</span>
-  </motion.li>
-);
 
 export default function EarlyAccess() {
   const [searchParams] = useSearchParams();
@@ -36,6 +25,7 @@ export default function EarlyAccess() {
   const [referralCode, setReferralCode] = useState("");
   const [userName, setUserName] = useState("");
   const [referrerName, setReferrerName] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
   const prefillEmail = searchParams.get('email');
   const refCode = searchParams.get('ref');
 
@@ -118,25 +108,59 @@ export default function EarlyAccess() {
             </p>
           </AnimatedHeadline>
 
-          {/* Value Bullets */}
-          <AnimatedHeadline delay={200}>
-            <ul className="space-y-3 mb-12 max-w-xl mx-auto">
-              <ValueBullet text="clean-track built in" />
-              <ValueBullet text="link shortener + QR + tracking in one" />
-              <ValueBullet text="perfect for marketers, founders, and agencies" />
-              <ValueBullet text="simple, beautiful, and accurate from day one" />
-            </ul>
-          </AnimatedHeadline>
-
-          <AnimatedHeadline delay={300}>
-            <Button
-              size="lg"
-              onClick={scrollToForm}
-              className="rounded-full px-10 py-7 text-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold shadow-lg hover:shadow-xl"
+          {/* Inline Email CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-[600px] mx-auto mb-6"
+          >
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const emailValue = formData.get('email') as string;
+                setEmail(emailValue);
+                scrollToForm();
+              }}
+              className="bg-white border border-border/50 shadow-sm rounded-2xl p-4 hover:border-border transition-all duration-300"
             >
-              join early access
-            </Button>
-          </AnimatedHeadline>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="enter your email..."
+                  className="flex-1 h-12 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/40 focus:border-primary transition-all"
+                  required
+                />
+                <Button
+                  type="submit"
+                  variant="marketing"
+                  size="lg"
+                  className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
+                >
+                  join early access
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </form>
+          </motion.div>
+
+          {/* Secondary Link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="text-center"
+          >
+            <button 
+              onClick={scrollToForm}
+              className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+            >
+              see how it works
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </motion.div>
         </div>
 
         {/* Decorative gradient orbs */}
@@ -373,7 +397,7 @@ export default function EarlyAccess() {
                 </h2>
               </AnimatedHeadline>
 
-              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
+              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
               
               <p className="text-sm text-center text-tertiary-label mt-4">
                 we'll send you your position instantly.
