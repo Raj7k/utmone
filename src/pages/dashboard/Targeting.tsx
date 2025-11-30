@@ -17,11 +17,9 @@ export default function Targeting() {
   const { data: links, isLoading } = useQuery({
     queryKey: ['links-with-targeting'],
     queryFn: async () => {
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return [];
 
-      // Get user's workspace (either as owner or member)
       const { data: ownedWorkspace } = await supabase
         .from('workspaces')
         .select('id')
@@ -37,7 +35,6 @@ export default function Targeting() {
       const workspaceId = ownedWorkspace?.id || memberWorkspace?.workspace_id;
       if (!workspaceId) return [];
 
-      // Fetch links with targeting rule counts
       const { data, error } = await supabase
         .from('links')
         .select(`
@@ -57,6 +54,26 @@ export default function Targeting() {
       return data;
     }
   });
+
+  // Detect if search query is a full URL and extract slug
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    
+    // Check if it's a full URL
+    try {
+      const url = new URL(value);
+      const pathParts = url.pathname.split('/').filter(Boolean);
+      const slug = pathParts[pathParts.length - 1];
+      
+      // Find matching link by slug
+      const matchingLink = links?.find(link => link.slug === slug);
+      if (matchingLink) {
+        navigate(`/dashboard/targeting/${matchingLink.id}`);
+      }
+    } catch {
+      // Not a URL, continue with normal search
+    }
+  };
 
   const filteredLinks = links?.filter(link =>
     link.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -86,12 +103,17 @@ export default function Targeting() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Search links..."
+                placeholder="Search links or paste short URL..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="pl-10"
               />
             </div>
+            {searchQuery && !filteredLinks?.length && links?.length ? (
+              <div className="text-xs text-muted-foreground px-1">
+                💡 Tip: Paste your full short URL (e.g., https://utm.one/abc123) to jump directly to its targeting rules
+              </div>
+            ) : null}
 
             {isLoading ? (
               <div className="text-sm text-muted-foreground">Loading links...</div>
