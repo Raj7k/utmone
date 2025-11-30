@@ -26,7 +26,7 @@ export const EarlyAccessInlineCTA = () => {
   };
 
   return (
-    <div className="flex justify-center mt-6">
+    <div className="flex justify-end mt-6">
       <form 
         onSubmit={handleSubmit}
         className="inline-flex items-center bg-slate-100 border border-slate-200 rounded-full p-2 gap-2 max-w-md w-full hover:border-slate-300 transition-all duration-300"
