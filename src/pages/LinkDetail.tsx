@@ -9,6 +9,7 @@ import { LinkDetailOverview } from "@/components/links/LinkDetailOverview";
 import { LinkDetailAnalytics } from "@/components/links/LinkDetailAnalytics";
 import { LinkDetailQRCodes } from "@/components/links/LinkDetailQRCodes";
 import { QRPerformanceComparison } from "@/components/links/QRPerformanceComparison";
+import { EnhancedTargetingRulesManager } from "@/components/links/EnhancedTargetingRulesManager";
 import { DuplicateLinkDialog } from "@/components/links/DuplicateLinkDialog";
 import { DeleteLinkDialog } from "@/components/links/DeleteLinkDialog";
 import { ArrowLeft, Copy, Archive, Trash2 } from "lucide-react";
@@ -114,9 +115,10 @@ const LinkDetail = () => {
 
       <div className="max-w-6xl mx-auto p-6">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6 bg-fill-tertiary">
+          <TabsList className="grid w-full grid-cols-5 mb-6 bg-fill-tertiary">
             <TabsTrigger value="overview" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Overview</TabsTrigger>
             <TabsTrigger value="analytics" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Analytics</TabsTrigger>
+            <TabsTrigger value="targeting" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Targeting</TabsTrigger>
             <TabsTrigger value="qr-codes" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR Codes ({link.qr_code_count})</TabsTrigger>
             <TabsTrigger value="qr-performance" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">QR Performance</TabsTrigger>
           </TabsList>
@@ -127,6 +129,10 @@ const LinkDetail = () => {
 
           <TabsContent value="analytics">
             <LinkDetailAnalytics linkId={link.id} />
+          </TabsContent>
+
+          <TabsContent value="targeting">
+            <EnhancedTargetingRulesManager linkId={link.id} />
           </TabsContent>
 
           <TabsContent value="qr-codes">
