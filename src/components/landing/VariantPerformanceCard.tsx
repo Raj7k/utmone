@@ -18,7 +18,7 @@ export const VariantPerformanceCard = ({ metrics, isWinner }: VariantPerformance
           <CardTitle className="text-lg">Variant {metrics.variant_id}</CardTitle>
           {isWinner && <Badge variant="default">Winner</Badge>}
         </div>
-        <p className="text-sm text-muted-foreground mt-2">{variant.headline}</p>
+        <p className="text-sm text-muted-foreground mt-2">{variant.headlineLine1} {variant.headlineLine2}</p>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">

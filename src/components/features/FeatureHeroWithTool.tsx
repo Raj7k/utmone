@@ -3,13 +3,15 @@ import { OrganicShapes } from "@/components/landing/OrganicShapes";
 import { ReactNode } from "react";
 
 interface FeatureHeroWithToolProps {
-  headline: string;
+  headlineLine1: string;
+  headlineLine2: string;
   subheadline: string;
   toolComponent: ReactNode;
 }
 
 export const FeatureHeroWithTool = ({
-  headline,
+  headlineLine1,
+  headlineLine2,
   subheadline,
   toolComponent,
 }: FeatureHeroWithToolProps) => {
@@ -29,13 +31,13 @@ export const FeatureHeroWithTool = ({
           className="flex flex-wrap justify-center gap-2 mb-6"
         >
           <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
-            ✓ Free tier
+            ✓ free tier
           </span>
           <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
-            ✓ No signup
+            ✓ no signup
           </span>
           <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
-            ✓ Instant
+            ✓ instant
           </span>
         </motion.div>
 
@@ -46,7 +48,7 @@ export const FeatureHeroWithTool = ({
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4 hero-gradient leading-tight"
           >
-            {headline}
+            {headlineLine1}<br />{headlineLine2}
           </motion.h1>
 
           <motion.p

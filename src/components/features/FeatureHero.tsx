@@ -3,16 +3,18 @@ import { OrganicShapes } from "@/components/landing/OrganicShapes";
 import { CTAButton } from "@/components/ui/CTAButton";
 
 interface FeatureHeroProps {
-  headline: string;
+  headlineLine1: string;
+  headlineLine2: string;
   subheadline: string;
   ctaText?: string;
   ctaLink?: string;
 }
 
 export const FeatureHero = ({
-  headline,
+  headlineLine1,
+  headlineLine2,
   subheadline,
-  ctaText = "Get Early Access",
+  ctaText = "get early access",
   ctaLink = "/early-access",
 }: FeatureHeroProps) => {
   return (
@@ -26,7 +28,7 @@ export const FeatureHero = ({
                     transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                     className="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-6 hero-gradient leading-[1.05]"
                   >
-                    {headline}
+                    {headlineLine1}<br />{headlineLine2}
                   </motion.h1>
 
         <motion.p

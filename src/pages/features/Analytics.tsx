@@ -63,7 +63,8 @@ const Analytics = () => {
       ]}
     >
       <FeatureHero
-        headline="Clean Data, Clear Insight"
+        headlineLine1="clean data,"
+        headlineLine2="clear insight."
         subheadline="utm.one shows you only what matters — no clutter, no confusion, no analytics fatigue."
       />
 

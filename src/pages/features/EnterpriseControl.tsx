@@ -63,7 +63,8 @@ const EnterpriseControl = () => {
       ]}
     >
       <FeatureHero
-        headline="Governance Without Slowing Your Team"
+        headlineLine1="governance without"
+        headlineLine2="slowing your team."
         subheadline="utm.one gives you control over links, UTMs, rules, permissions, and metadata — without adding friction."
       />
 

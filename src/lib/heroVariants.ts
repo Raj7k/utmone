@@ -1,6 +1,7 @@
 export interface HeroVariant {
   id: number;
-  headline: string;
+  headlineLine1: string;
+  headlineLine2: string;
   subheadline: string;
   cta: string;
   microcopy: string;
@@ -9,65 +10,74 @@ export interface HeroVariant {
 export const HERO_VARIANTS: HeroVariant[] = [
   {
     id: 0,
-    headline: "A Cleaner, Safer Way to Share the Internet",
+    headlineLine1: "a cleaner, safer way",
+    headlineLine2: "to share the internet.",
     subheadline: "utm.one gives every link, UTM, QR code, and partner touchpoint a meaning humans can trust and machines can understand — with transparency, accessibility, permanence, and clean-track governance built in.",
-    cta: "Get Early Access",
+    cta: "get early access",
     microcopy: "invite-only. clarity creates confidence."
   },
   {
     id: 1,
-    headline: "Links That Make Sense at First Sight",
+    headlineLine1: "links that make sense",
+    headlineLine2: "at first sight.",
     subheadline: "utm.one builds short links, UTMs, QR codes, and clean-track rules that stay readable, accessible, transparent, and reliable—no matter how or where they're shared.",
-    cta: "Get Early Access",
+    cta: "get early access",
     microcopy: "invite-only. clarity creates confidence."
   },
   {
     id: 2,
-    headline: "Clean Links. Clean Data. Clean Decisions.",
+    headlineLine1: "clean links. clean data.",
+    headlineLine2: "clean decisions.",
     subheadline: "utm.one brings structure to every link your team creates—so your tracking, analytics, partners, and reporting never fall apart again.",
-    cta: "Get Early Access",
+    cta: "get early access",
     microcopy: "no clutter. no guesswork. no broken attribution."
   },
   {
     id: 3,
-    headline: "Links That Humans Trust and Machines Understand",
+    headlineLine1: "links that humans trust",
+    headlineLine2: "and machines understand.",
     subheadline: "utm.one adds structure, meaning, and metadata to every link—short links, UTMs, QR codes, partner links—making your content discoverable in LLMs and dependable everywhere else.",
-    cta: "Get Early Access",
+    cta: "get early access",
     microcopy: "built for the next era of search and sharing."
   },
   {
     id: 4,
-    headline: "Make Every Link Last Forever",
+    headlineLine1: "make every link",
+    headlineLine2: "last forever.",
     subheadline: "utm.one gives you transparent previews, clean UTMs, semantic slugs, QR codes, partner links, and a permanence guarantee—so your links stay clear, safe, and stable for years.",
-    cta: "Get Early Access",
+    cta: "get early access",
     microcopy: "trust begins with consistency."
   },
   {
     id: 5,
-    headline: "give every link a purpose",
-    subheadline: "Your links shouldn't be messy, duplicated, or confusing. utm.one turns every URL into a clean, trusted, machine-readable signal — so your data, dashboards, and decisions are always right.",
-    cta: "Get Early Access",
+    headlineLine1: "give every link",
+    headlineLine2: "a purpose.",
+    subheadline: "your links shouldn't be messy, duplicated, or confusing. utm.one turns every URL into a clean, trusted, machine-readable signal — so your data, dashboards, and decisions are always right.",
+    cta: "get early access",
     microcopy: "clarity creates confidence."
   },
   {
     id: 6,
-    headline: "clean links. clean data. clear decisions.",
-    subheadline: "Stop letting broken UTMs and inconsistent naming ruin your reporting. utm.one applies Clean-Track governance from the moment a link is created — so everything stays structured, accurate, and audit-ready.",
-    cta: "Get Early Access",
+    headlineLine1: "clean links. clean data.",
+    headlineLine2: "clear decisions.",
+    subheadline: "stop letting broken UTMs and inconsistent naming ruin your reporting. utm.one applies Clean-Track governance from the moment a link is created — so everything stays structured, accurate, and audit-ready.",
+    cta: "get early access",
     microcopy: "no more messy dashboards."
   },
   {
     id: 7,
-    headline: "links you can trust. data you can defend.",
-    subheadline: "No more mystery traffic. No more 'who created this link?'. utm.one gives you traceability, ownership, and machine-readable metadata built into every short link you create.",
-    cta: "Get Early Access",
+    headlineLine1: "links you can trust.",
+    headlineLine2: "data you can defend.",
+    subheadline: "no more mystery traffic. no more 'who created this link?'. utm.one gives you traceability, ownership, and machine-readable metadata built into every short link you create.",
+    cta: "get early access",
     microcopy: "transparency built in."
   },
   {
     id: 8,
-    headline: "finally, a short link your analytics can rely on",
-    subheadline: "Every link you create follows the same rules, the same syntax, the same naming. utm.one eliminates duplicates, chaos, and guesswork — so your campaigns scale without breaking your data.",
-    cta: "Get Early Access",
+    headlineLine1: "finally, a short link",
+    headlineLine2: "your analytics can rely on.",
+    subheadline: "every link you create follows the same rules, the same syntax, the same naming. utm.one eliminates duplicates, chaos, and guesswork — so your campaigns scale without breaking your data.",
+    cta: "get early access",
     microcopy: "campaigns that scale."
   }
 ];

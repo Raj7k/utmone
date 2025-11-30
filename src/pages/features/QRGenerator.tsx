@@ -64,7 +64,8 @@ const QRGenerator = () => {
       ]}
     >
       <FeatureHeroWithTool
-        headline="QR Codes With Real Attribution"
+        headlineLine1="qr codes with real"
+        headlineLine2="attribution."
         subheadline="utm.one connects every QR code to its link, metadata, analytics, and UTM parameters automatically."
         toolComponent={<QRGeneratorBasic />}
       />
