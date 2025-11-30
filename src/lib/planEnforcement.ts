@@ -10,11 +10,13 @@ export interface PlanLimits {
     linksThisMonth: number;
     clicksThisMonth: number;
     customDomains: number;
+    qrCodesThisMonth: number;
   };
   limits: {
     monthlyLinks: number | 'unlimited';
     monthlyClicks: number | 'unlimited';
     customDomains: number | 'unlimited';
+    qrMonthlyLimit: number | 'unlimited';
   };
 }
 
@@ -66,19 +68,32 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
         .gte('clicked_at', startOfMonth)
     : { count: 0 };
 
+  // Count QR codes created this month (QR codes are linked to links, not directly to workspaces)
+  const { count: qrCodesCount } = linkIds.length > 0 
+    ? await supabase
+        .from('qr_codes')
+        .select('id', { count: 'exact', head: true })
+        .in('link_id', linkIds)
+        .gte('created_at', startOfMonth)
+    : { count: 0 };
+
   const linksThisMonth = linksCount || 0;
   const customDomains = domainsCount || 0;
   const clicksThisMonth = clicksCount || 0;
+  const qrCodesThisMonth = qrCodesCount || 0;
 
   const monthlyLinksLimit = planConfig.features.monthlyLinks;
   const customDomainsLimit = planConfig.features.customDomains;
   const monthlyClicksLimit = planConfig.features.monthlyClicks;
+  const qrMonthlyLimit = planConfig.features.qrMonthlyLimit;
 
   const canCreateLink = 
-    monthlyLinksLimit === 'unlimited' || linksThisMonth < monthlyLinksLimit;
+    monthlyLinksLimit === 'unlimited' || 
+    (typeof monthlyLinksLimit === 'number' && linksThisMonth < monthlyLinksLimit);
 
   const canAddDomain = 
-    customDomainsLimit === 'unlimited' || customDomains < customDomainsLimit;
+    customDomainsLimit === 'unlimited' || 
+    (typeof customDomainsLimit === 'number' && customDomains < customDomainsLimit);
 
   let reason: string | undefined;
   if (!canCreateLink) {
@@ -97,11 +112,13 @@ export async function checkPlanLimits(workspaceId: string, overridePlanTier?: Pl
       linksThisMonth,
       clicksThisMonth,
       customDomains,
+      qrCodesThisMonth,
     },
     limits: {
       monthlyLinks: monthlyLinksLimit,
       monthlyClicks: monthlyClicksLimit,
       customDomains: customDomainsLimit,
+      qrMonthlyLimit,
     },
   };
 }

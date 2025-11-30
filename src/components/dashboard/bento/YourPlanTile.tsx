@@ -1,41 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CircularProgress } from "@/components/ui/circular-progress";
-import { Crown } from "lucide-react";
-import { useWorkspace } from "@/hooks/useWorkspace";
-import { checkPlanLimits } from "@/lib/planEnforcement";
-import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig";
+import { UsageProgressBar } from "@/components/ui/usage-progress-bar";
+import { Crown, Lock, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useCurrentPlan } from "@/hooks/useCurrentPlan";
+import { usePlanLimits } from "@/hooks/usePlanLimits";
+import { PLAN_CONFIG } from "@/lib/planConfig";
 
 export const YourPlanTile = () => {
-  const { currentWorkspace } = useWorkspace();
   const navigate = useNavigate();
-  const { id: currentPlanId } = useCurrentPlan();
+  const { links, clicks, qrCodes, planTier, isLoading } = usePlanLimits();
 
-  const { data: limits, isLoading } = useQuery({
-    queryKey: ["plan-limits", currentWorkspace?.id, currentPlanId],
-    enabled: !!currentWorkspace?.id,
-    queryFn: async () => {
-      if (!currentWorkspace?.id) throw new Error("No workspace");
-      // Pass simulated plan if it exists (from localStorage)
-      const simulatedPlan = localStorage.getItem('SIMULATED_PLAN');
-      return checkPlanLimits(currentWorkspace.id, simulatedPlan as PlanTier | undefined);
-    },
-  });
-
-  // Safe data access with defaults
-  const planConfig = limits ? PLAN_CONFIG[limits.planTier] : null;
-  const monthlyLinks = limits?.limits.monthlyLinks;
-  const linksUsed = limits?.currentUsage.linksThisMonth ?? 0;
-  
-  const usagePercentage = 
-    limits && typeof monthlyLinks === 'number' && monthlyLinks > 0
-      ? Math.min((linksUsed / monthlyLinks) * 100, 100)
-      : 0;
-
-  const showUpgrade = limits?.planTier === 'free';
+  const planConfig = PLAN_CONFIG[planTier as keyof typeof PLAN_CONFIG];
+  const showUpgrade = planTier === 'free';
 
   const daysUntilReset = 30 - new Date().getDate();
 
@@ -43,7 +19,7 @@ export const YourPlanTile = () => {
     <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
       <div className="flex items-center gap-2 mb-3">
         <Crown className="h-5 w-5 text-primary" />
-        <h3 className="text-title-3 font-display">Your Plan</h3>
+        <h3 className="text-title-3 font-display">your plan</h3>
       </div>
 
       {isLoading ? (
@@ -52,8 +28,8 @@ export const YourPlanTile = () => {
           <div className="h-4 bg-muted rounded w-3/4" />
           <div className="h-2 bg-muted rounded" />
         </div>
-      ) : limits && planConfig ? (
-        <div className="space-y-3 flex-1 flex flex-col justify-between">
+      ) : planConfig ? (
+        <div className="space-y-4 flex-1 flex flex-col">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="capitalize">
               {planConfig.name}
@@ -65,38 +41,65 @@ export const YourPlanTile = () => {
             )}
           </div>
 
-          <div className="flex flex-col items-center py-2">
-            <CircularProgress value={usagePercentage} size={80} strokeWidth={6} />
-            <p className="text-caption-1 text-secondary-label mt-2 tracking-tight">
-              <span className="font-semibold">{linksUsed}</span> / {
-                typeof monthlyLinks === 'number' 
-                  ? monthlyLinks 
-                  : '∞'
-              } links
-            </p>
-            <p className="text-caption-2 text-tertiary-label mt-1">
-              Resets in {daysUntilReset} days
-            </p>
+          {/* Usage Stats */}
+          <div className="space-y-3">
+            <UsageProgressBar 
+              label="links" 
+              used={links.used} 
+              limit={links.limit} 
+            />
+            <UsageProgressBar 
+              label="qr codes" 
+              used={qrCodes.used} 
+              limit={qrCodes.limit} 
+            />
+            <UsageProgressBar 
+              label="clicks" 
+              used={clicks.used} 
+              limit={clicks.limit} 
+            />
           </div>
 
+          {/* Constraint Hints for Free Tier */}
           {showUpgrade && (
-            <Button
-              className="w-full"
-              onClick={() => navigate('/pricing')}
-            >
-              Upgrade to Pro
-            </Button>
+            <div className="space-y-2 pt-2 border-t border-border">
+              <div className="flex items-start gap-2 text-xs text-tertiary-label">
+                <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                <span>analytics: 90-day retention</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-tertiary-label">
+                <Lock className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                <span>custom domains not available</span>
+              </div>
+              <div className="flex items-start gap-2 text-xs text-tertiary-label">
+                <Lock className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+                <span>qr watermark required</span>
+              </div>
+            </div>
           )}
 
-          {!showUpgrade && (
-            <Button
-              variant="system-secondary"
-              className="w-full"
-              onClick={() => navigate('/settings?tab=billing')}
-            >
-              Manage Plan
-            </Button>
-          )}
+          <div className="mt-auto pt-2">
+            <p className="text-caption-2 text-tertiary-label mb-3">
+              resets in {daysUntilReset} days
+            </p>
+
+            {showUpgrade ? (
+              <Button
+                className="w-full"
+                onClick={() => navigate('/pricing')}
+              >
+                upgrade to pro
+              </Button>
+            ) : (
+              <Button
+                variant="system-secondary"
+                className="w-full"
+                onClick={() => navigate('/settings?tab=billing')}
+              >
+                manage plan
+              </Button>
+            )}
+          </div>
         </div>
       ) : (
         <p className="text-caption-2 text-tertiary-label flex-1">Unable to load plan data</p>
