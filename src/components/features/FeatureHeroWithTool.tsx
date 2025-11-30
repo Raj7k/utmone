@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { OrganicShapes } from "@/components/landing/OrganicShapes";
+import { FeatureFloatingIcons } from "@/components/features/FeatureFloatingIcons";
 import { ReactNode } from "react";
 
 interface FeatureHeroWithToolProps {
@@ -16,9 +17,15 @@ export const FeatureHeroWithTool = ({
   toolComponent,
 }: FeatureHeroWithToolProps) => {
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden bg-background">
+    <section className="relative pt-8 pb-16 md:pt-12 md:pb-20 overflow-hidden bg-background">
+      {/* Subtle dot grid pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_hsl(var(--primary)/0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
+      
       {/* Gradient glow behind headline */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent blur-3xl pointer-events-none" />
+      
+      {/* Floating decorative icons */}
+      <FeatureFloatingIcons />
       
       <OrganicShapes />
       

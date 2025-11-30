@@ -5,7 +5,7 @@ export const OrganicShapes = () => {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Top-left yellow curve */}
       <motion.div
-        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-accent-yellow/20 via-accent-orange/15 to-transparent rounded-full blur-3xl"
+        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-accent-yellow/25 via-accent-orange/18 to-transparent rounded-full blur-3xl"
         animate={{
           scale: [1, 1.1, 1],
           rotate: [0, 10, 0],
@@ -19,7 +19,7 @@ export const OrganicShapes = () => {
       
       {/* Top-right orange curve */}
       <motion.div
-        className="absolute -top-1/3 -right-1/4 w-[900px] h-[900px] bg-gradient-to-bl from-accent-orange/25 via-accent-teal/10 to-transparent rounded-full blur-3xl"
+        className="absolute -top-1/3 -right-1/4 w-[900px] h-[900px] bg-gradient-to-bl from-accent-orange/30 via-accent-teal/12 to-transparent rounded-full blur-3xl"
         animate={{
           scale: [1, 1.15, 1],
           rotate: [0, -15, 0],
