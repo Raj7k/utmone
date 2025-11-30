@@ -2174,6 +2174,7 @@ export type Database = {
       link_clicks: {
         Row: {
           browser: string | null
+          campaign_id: string | null
           city: string | null
           click_hour: number | null
           clicked_at: string | null
@@ -2194,6 +2195,7 @@ export type Database = {
         }
         Insert: {
           browser?: string | null
+          campaign_id?: string | null
           city?: string | null
           click_hour?: number | null
           clicked_at?: string | null
@@ -2214,6 +2216,7 @@ export type Database = {
         }
         Update: {
           browser?: string | null
+          campaign_id?: string | null
           city?: string | null
           click_hour?: number | null
           clicked_at?: string | null
@@ -2233,6 +2236,13 @@ export type Database = {
           workspace_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "link_clicks_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "link_clicks_link_id_fkey"
             columns: ["link_id"]

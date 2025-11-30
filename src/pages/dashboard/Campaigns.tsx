@@ -92,12 +92,7 @@ export default function Campaigns() {
           </p>
         </div>
 
-        <FeatureGuard feature="campaigns" fallback={
-          <Button onClick={() => setShowCreateModal(true)} variant="outline">
-            <Plus className="h-4 w-4 mr-2" />
-            Create Campaign
-          </Button>
-        }>
+        <FeatureGuard feature="campaigns" showUpgradeModal>
           <Button onClick={() => setShowCreateModal(true)}>
             <Plus className="h-4 w-4 mr-2" />
             Create Campaign
@@ -135,10 +130,12 @@ export default function Campaigns() {
           <p className="text-sm text-secondary-label mb-4">
             Create your first campaign to organize links and track performance
           </p>
-          <Button onClick={() => setShowCreateModal(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Create Campaign
-          </Button>
+          <FeatureGuard feature="campaigns" showUpgradeModal>
+            <Button onClick={() => setShowCreateModal(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Campaign
+            </Button>
+          </FeatureGuard>
         </div>
       )}
 

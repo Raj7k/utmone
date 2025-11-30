@@ -66,19 +66,17 @@ export default function CampaignDetails() {
     enabled: !!id,
   });
 
-  // Fetch click analytics for channel breakdown
+  // Fetch click analytics for channel breakdown (optimized with campaign_id)
   const { data: channelData, isLoading: analyticsLoading } = useQuery({
     queryKey: ["campaign-analytics", id],
     queryFn: async () => {
       if (!links) return [];
 
-      const linkIds = links.map(l => l.id);
-      
-      // Get all clicks for links in this campaign
+      // Use denormalized campaign_id for faster queries
       const { data: clicks, error } = await supabase
         .from("link_clicks")
         .select("link_id, id")
-        .in("link_id", linkIds);
+        .eq("campaign_id", id);
 
       if (error) throw error;
 
