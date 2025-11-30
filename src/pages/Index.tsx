@@ -38,6 +38,7 @@ import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { Footer } from "@/components/landing/Footer";
 import { FooterFAQ } from "@/components/landing/FooterFAQ";
+import { BrandStatement3D } from "@/components/landing/BrandStatement3D";
 import { ProblemCard } from "@/components/landing/ProblemCard";
 import { 
   useTrackPageView, 
@@ -442,6 +443,7 @@ const Index = () => {
           </div>
         </AnimatedSection>
 
+        <BrandStatement3D />
         <FooterFAQ />
         <Footer />
       </div>
