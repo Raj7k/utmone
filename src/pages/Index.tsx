@@ -30,6 +30,7 @@ import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
@@ -84,23 +85,28 @@ const Index = () => {
         {/* Hero Section with Organic Shapes */}
         <HeroVariantManager>
           {(variant) => (
-            <section className="relative py-32 md:py-40 bg-white overflow-hidden">
-              <RetroGradientMesh />
+            <section className="relative py-32 md:py-40 lg:py-48 bg-white overflow-hidden">
+              <div className="absolute inset-0 opacity-30 pointer-events-none">
+                <RetroGradientMesh />
+              </div>
               <div className="relative z-10 max-w-[980px] mx-auto px-8">
                 <motion.div 
-                  className="text-center space-y-8"
+                  className="text-center space-y-12"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
                 >
-                  <motion.div className="hero-glow">
+                  <motion.div className="hero-glow space-y-2">
                     <motion.h1 
                       className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     >
-                      {variant.headlineLine1}<br />{variant.headlineLine2}
+                      {variant.headlineLine1}<br />
+                      <span className="inline-block bg-primary/10 px-6 py-2 rounded-xl">
+                        {variant.headlineLine2}
+                      </span>
                     </motion.h1>
                   </motion.div>
                   <motion.p 
@@ -111,34 +117,24 @@ const Index = () => {
                   >
                     {variant.subheadline}
                   </motion.p>
+                  
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                    className="space-y-4"
                   >
-                    <MagneticButton
-                      size="lg"
-                      variant="marketing"
-                      className="text-base px-8 py-6 rounded-full font-medium"
-                      onClick={() => trackCTAClick('hero-cta')}
-                      asChild
-                      strength={0.25}
+                    <HeroInlineCTA />
+                    
+                    <Link 
+                      to="/how-it-works" 
+                      className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+                      onClick={() => trackCTAClick('hero-secondary-cta')}
                     >
-                      <Link to="/early-access">
-                        {variant.cta}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </MagneticButton>
+                      see how it works
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </motion.div>
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="text-sm text-secondary-label"
-                  >
-                    {variant.microcopy}
-                  </motion.p>
                 </motion.div>
               </div>
             </section>
