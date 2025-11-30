@@ -26,6 +26,7 @@ import {
   Eye,
   Target,
   Link2,
+  Globe,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -278,6 +279,22 @@ export const EnhancedLinksTable = ({
                       <span className="text-sm text-secondary-label cursor-help hover:underline">
                         {link.short_url}
                       </span>
+                      {link.geo_targets && Object.keys(link.geo_targets).length > 0 && (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div className="flex items-center">
+                                <Globe className="h-3.5 w-3.5 text-primary" aria-label="Geo-targeting enabled" />
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="text-xs">
+                                {Object.keys(link.geo_targets).length} geo-targeting {Object.keys(link.geo_targets).length === 1 ? 'rule' : 'rules'} active
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )}
                       <Button
                         variant="ghost"
                         size="icon"

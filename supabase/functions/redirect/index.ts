@@ -24,6 +24,7 @@ interface LinkRecord {
   path: string;
   slug: string;
   workspace_id: string;
+  geo_targets: Record<string, string> | null;
 }
 
 interface OGVariant {
@@ -282,7 +283,7 @@ Deno.serve(async (req) => {
     // Look up the link (now using optimized index)
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id')
+      .select('id, final_url, status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets')
       .eq('domain', domain)
       .eq('path', path)
       .eq('slug', slug)
@@ -604,18 +605,36 @@ Deno.serve(async (req) => {
     
     console.log(`Cloudflare geolocation: country=${country}, city=${city}`);
 
-    // Evaluate targeting rules BEFORE redirect
-    const targetedUrl = await evaluateTargetingRules(
-      supabase, 
-      linkRecord.id, 
-      country, 
-      deviceType, 
-      os, 
-      browser,
-      language
-    );
+    // Step 1: Check geo_targets first (simple JSON lookup)
+    let finalRedirectUrl = linkRecord.final_url;
+    let triggeredRule = 'default';
     
-    const finalRedirectUrl = targetedUrl || linkRecord.final_url;
+    if (linkRecord.geo_targets && Object.keys(linkRecord.geo_targets).length > 0) {
+      const geoTargetUrl = linkRecord.geo_targets[country];
+      if (geoTargetUrl) {
+        finalRedirectUrl = geoTargetUrl;
+        triggeredRule = country;
+        console.log(`Geo-targeting matched: ${country} -> ${geoTargetUrl}`);
+      }
+    }
+    
+    // Step 2: If no geo match, evaluate advanced targeting rules
+    if (triggeredRule === 'default') {
+      const targetedUrl = await evaluateTargetingRules(
+        supabase, 
+        linkRecord.id, 
+        country, 
+        deviceType, 
+        os, 
+        browser,
+        language
+      );
+      
+      if (targetedUrl) {
+        finalRedirectUrl = targetedUrl;
+        triggeredRule = 'targeting_rule';
+      }
+    }
     
     // Check if unique click
     const isUnique = await isUniqueClick(supabase, linkRecord.id, ipAddress, userAgent);
@@ -652,6 +671,7 @@ Deno.serve(async (req) => {
         country: country,
         city: city,
         click_hour: clickHour,
+        metadata: { triggered_rule: triggeredRule },
       };
 
       try {
