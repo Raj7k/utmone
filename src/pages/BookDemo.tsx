@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Helmet } from "react-helmet";
+import { phoneCountryCodes } from "@/lib/phoneCountryCodes";
 
 const MARQUEE_ITEMS = [
   "marketing teams", "sales ops", "events", "partner programs", "enterprise"
@@ -31,10 +33,28 @@ export default function BookDemo() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    countryCode: "US",
+    phone: "",
     interests: [] as string[],
     challenge: "",
     message: ""
   });
+
+  // Auto-detect country from IP
+  useEffect(() => {
+    const detectLocation = async () => {
+      try {
+        const { data } = await supabase.functions.invoke('detect-location');
+        if (data?.country_code) {
+          setFormData(prev => ({ ...prev, countryCode: data.country_code }));
+        }
+      } catch (error) {
+        console.error('Failed to detect location:', error);
+        // Default to US if detection fails
+      }
+    };
+    detectLocation();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,9 +167,9 @@ export default function BookDemo() {
         </div>
 
         {/* Right Panel - Interactive Form */}
-        <div className="bg-[#FDFCF8] h-full overflow-y-auto p-8 lg:p-12 flex items-center border-l-4 border-blazeOrange/20">
+        <div className="bg-[#FDFCF8] h-full overflow-y-auto p-8 lg:p-12 flex flex-col justify-start pt-8 lg:pt-12 border-l-4 border-blazeOrange/20">
           <div className="w-full max-w-xl mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name & Email */}
               <div className="space-y-3">
                 <div>
@@ -169,6 +189,37 @@ export default function BookDemo() {
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                     className="h-11 bg-white border-border/20"
                     required
+                  />
+                </div>
+                <div className="grid grid-cols-[120px_1fr] gap-2">
+                  <Select
+                    value={formData.countryCode}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, countryCode: value }))}
+                  >
+                    <SelectTrigger className="h-11 bg-white border-border/20">
+                      <SelectValue>
+                        {phoneCountryCodes.find(c => c.code === formData.countryCode)?.flag}{' '}
+                        {phoneCountryCodes.find(c => c.code === formData.countryCode)?.dialCode}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[300px]">
+                      {phoneCountryCodes.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          <span className="flex items-center gap-2">
+                            <span>{country.flag}</span>
+                            <span className="text-xs">{country.dialCode}</span>
+                            <span className="text-xs text-muted-foreground">{country.name}</span>
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    type="tel"
+                    placeholder="phone number"
+                    value={formData.phone}
+                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    className="h-11 bg-white border-border/20"
                   />
                 </div>
               </div>
@@ -232,7 +283,7 @@ export default function BookDemo() {
                   placeholder="tell us more about your team's needs..."
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  className="min-h-[80px] bg-white border-border/20"
+                  className="min-h-[60px] bg-white border-border/20"
                 />
               </div>
 
