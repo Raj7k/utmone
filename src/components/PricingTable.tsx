@@ -88,18 +88,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
     return value?.toString() || '—';
   };
 
-  const getBadge = (tier: string) => {
-    if (tier === 'pro') {
-      return (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-          <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
-            most popular
-          </span>
-        </div>
-      );
-    }
-    return null;
-  };
+  // Badge is now rendered outside the table structure
 
   return (
     <>
@@ -147,49 +136,66 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         </div>
       </div>
 
-      {/* Desktop Grid View */}
-      <div className="hidden md:block border border-gray-200 rounded-2xl overflow-hidden bg-white">
-        {/* Header Row */}
-        <div className="grid grid-cols-4 divide-x divide-gray-100 border-b border-gray-100">
-          {/* Column 1: Empty or Label */}
-          <div className="p-6">
-            <p className="text-sm text-muted-foreground font-medium">choose your plan</p>
-          </div>
-          
-          {/* Columns 2-4: Plan Headers */}
-          {plans.slice(0, 3).map((plan) => (
-            <div key={plan.tier} className="p-6 space-y-4 relative">
-              {getBadge(plan.tier)}
-              <div className="space-y-2">
+      {/* Desktop Grid View - Wrapper with badge */}
+      <div className="hidden md:block relative">
+        {/* MOST POPULAR Badge - Floating above table */}
+        <div className="absolute -top-4 z-20" style={{ left: '62.5%', transform: 'translateX(-50%)' }}>
+          <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
+            most popular
+          </span>
+        </div>
+
+        {/* Table Structure */}
+        <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white">
+          {/* Header Row 1: Plan Names & Prices */}
+          <div className="grid grid-cols-4 divide-x divide-gray-100 border-b border-gray-100">
+            {/* Column 1: Label */}
+            <div className="p-6">
+              <p className="text-sm text-muted-foreground font-medium">choose your plan</p>
+            </div>
+            
+            {/* Columns 2-4: Plan Names & Prices */}
+            {plans.slice(0, 3).map((plan) => (
+              <div key={plan.tier} className="p-6 space-y-2">
                 <h3 className="text-xl font-display font-bold text-foreground brand-lowercase">
                   {plan.name}
                 </h3>
-              </div>
-              
-              <div className="space-y-1">
-                <div className="text-3xl font-display font-bold text-foreground">
-                  {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
-                </div>
-                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                  <div className="text-xs text-primary font-medium">
-                    save ${getAnnualSavings(plan.tier)}/year
+                
+                <div className="space-y-1">
+                  <div className="text-3xl font-display font-bold text-foreground">
+                    {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
                   </div>
-                )}
+                  <div className="text-sm text-muted-foreground">
+                    /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
+                  </div>
+                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                    <div className="text-xs text-primary font-medium">
+                      save ${getAnnualSavings(plan.tier)}/year
+                    </div>
+                  )}
+                </div>
               </div>
+            ))}
+          </div>
 
-              <Button
-                size="lg"
-                onClick={() => onSelect(plan.tier)}
-                className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
-              >
-                {plan.cta}
-              </Button>
-            </div>
-          ))}
-        </div>
+          {/* Header Row 2: CTA Buttons - All Aligned */}
+          <div className="grid grid-cols-4 divide-x divide-gray-100 border-b border-gray-100">
+            {/* Column 1: Empty */}
+            <div className="p-6"></div>
+            
+            {/* Columns 2-4: CTA Buttons */}
+            {plans.slice(0, 3).map((plan) => (
+              <div key={`cta-${plan.tier}`} className="p-6">
+                <Button
+                  size="lg"
+                  onClick={() => onSelect(plan.tier)}
+                  className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
+                >
+                  {plan.cta}
+                </Button>
+              </div>
+            ))}
+          </div>
 
         {/* Feature Rows */}
         {PRICING_FEATURES.map((feature) => (
@@ -216,23 +222,24 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
           </div>
         ))}
         
-        {/* Enterprise Row */}
-        <div className="bg-gray-50 p-6 text-center border-t border-gray-200">
-          <div className="space-y-3">
-            <h3 className="text-lg font-display font-bold text-foreground brand-lowercase">
-              enterprise
-            </h3>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              custom pricing with unlimited everything, dedicated support, and white-label options.
-            </p>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => onSelect('enterprise')}
-              className="brand-lowercase"
-            >
-              contact sales
-            </Button>
+          {/* Enterprise Row */}
+          <div className="bg-gray-50 p-6 text-center border-t border-gray-200">
+            <div className="space-y-3">
+              <h3 className="text-lg font-display font-bold text-foreground brand-lowercase">
+                enterprise
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                custom pricing with unlimited everything, dedicated support, and white-label options.
+              </p>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => onSelect('enterprise')}
+                className="brand-lowercase"
+              >
+                contact sales
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -258,8 +265,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
 
         {/* Selected Plan Content */}
         {plans.slice(0, 3).filter(plan => plan.tier === selectedTab).map((plan) => (
-          <div key={plan.tier} className="border border-gray-200 rounded-2xl overflow-hidden bg-white relative">
-            {getBadge(plan.tier)}
+          <div key={plan.tier} className="relative">
+            {/* Badge for mobile */}
+            {plan.tier === 'pro' && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
+                  most popular
+                </span>
+              </div>
+            )}
+            <div className="border border-gray-200 rounded-2xl overflow-hidden bg-white">
             {/* Plan Header */}
             <div className="p-6 space-y-4 border-b border-gray-100">
               <div className="space-y-2">
@@ -304,6 +319,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   </span>
                 </div>
               ))}
+            </div>
             </div>
           </div>
         ))}
