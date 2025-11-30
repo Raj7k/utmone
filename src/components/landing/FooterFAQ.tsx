@@ -1,4 +1,7 @@
 import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 interface FAQItem {
   question: string;
@@ -103,6 +106,10 @@ const faqs: FAQItem[] = [
             <span><strong className="text-white">Partner managers</strong> — clear attribution for every affiliate and partner</span>
           </li>
         </ul>
+        <Link to="/solutions/marketers" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
+          learn more about your role
+          <ArrowRight className="ml-1 h-3 w-3" />
+        </Link>
       </>
     ),
   },
@@ -130,6 +137,10 @@ const faqs: FAQItem[] = [
           </li>
         </ul>
         <p className="mt-3">All plans include UTM builder, QR generator, and clean-track governance.</p>
+        <Link to="/pricing" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
+          see full pricing
+          <ArrowRight className="ml-1 h-3 w-3" />
+        </Link>
       </>
     ),
   },
@@ -157,6 +168,12 @@ const faqs: FAQItem[] = [
           </li>
         </ol>
         <p className="mt-3">No credit card required. No setup hassle. Just clean links that work.</p>
+        <Link to="/early-access#early-access-form">
+          <Button variant="marketing" className="mt-6 rounded-full lowercase">
+            get your link page
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </>
     ),
   },
