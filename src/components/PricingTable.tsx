@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { PLAN_CONFIG } from "@/lib/planConfig";
 import { useState } from "react";
 
+type BillingPeriod = 'monthly' | 'annual';
+
 interface PricingTableProps {
   onSelect: (tier: string) => void;
 }
@@ -32,11 +34,38 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
   ];
 
   const [selectedTab, setSelectedTab] = useState<'free' | 'pro' | 'business'>('pro');
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
+
+  const getPrice = (plan: typeof plans[0]) => {
+    const basePrice = typeof plan.price === 'number' ? plan.price : 0;
+    
+    if (billingPeriod === 'monthly' || basePrice === 0) {
+      return basePrice;
+    }
+    // Annual discounts
+    if (plan.tier === 'pro') {
+      return Math.round(basePrice * 0.85); // 15% off → $17
+    }
+    if (plan.tier === 'business') {
+      return Math.round(basePrice * 0.80); // 20% off → $79
+    }
+    return basePrice;
+  };
+
+  const getAnnualSavings = (tier: string) => {
+    if (tier === 'pro') {
+      return (20 * 12) - (17 * 12); // $36/year
+    }
+    if (tier === 'business') {
+      return (99 * 12) - (79 * 12); // $240/year
+    }
+    return 0;
+  };
 
   const formatValue = (value: any, type?: string) => {
     if (type === 'boolean') {
       return value ? (
-        <Check className="w-5 h-5 text-emerald-600 mx-auto" />
+        <Check className="w-5 h-5 text-system-green mx-auto" />
       ) : (
         <span className="text-muted-foreground/40">—</span>
       );
@@ -51,7 +80,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
     
     if (typeof value === 'string') {
       if (value.toLowerCase().includes('unlimited')) {
-        return <span className="text-emerald-600 font-medium">unlimited</span>;
+        return <span className="text-primary font-medium">unlimited</span>;
       }
       return value;
     }
@@ -62,7 +91,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
   const getBadge = (tier: string) => {
     if (tier === 'pro') {
       return (
-        <span className="border border-emerald-500 text-emerald-600 rounded-full text-[10px] px-2 py-0.5 uppercase tracking-wide font-semibold">
+        <span className="border border-primary text-primary rounded-full text-[10px] px-2 py-0.5 uppercase tracking-wide font-semibold">
           most popular
         </span>
       );
@@ -72,6 +101,30 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
 
   return (
     <>
+      {/* Billing Period Toggle */}
+      <div className="flex items-center justify-center gap-4 mb-8">
+        <span className={`text-sm ${billingPeriod === 'monthly' ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+          monthly
+        </span>
+        <button
+          onClick={() => setBillingPeriod(prev => prev === 'monthly' ? 'annual' : 'monthly')}
+          className="relative w-14 h-7 bg-muted rounded-full transition-colors hover:bg-muted/80"
+          aria-label="Toggle billing period"
+        >
+          <span 
+            className={`absolute top-1 w-5 h-5 bg-blazeOrange rounded-full transition-transform duration-200 ${
+              billingPeriod === 'annual' ? 'translate-x-8' : 'translate-x-1'
+            }`} 
+          />
+        </button>
+        <span className={`text-sm ${billingPeriod === 'annual' ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
+          annual
+          {billingPeriod === 'annual' && (
+            <span className="ml-2 text-xs text-system-green font-medium">save up to 20%</span>
+          )}
+        </span>
+      </div>
+
       {/* Desktop Grid View */}
       <div className="hidden md:block border border-gray-200 rounded-2xl overflow-hidden bg-white">
         {/* Header Row */}
@@ -93,11 +146,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
               
               <div className="space-y-1">
                 <div className="text-3xl font-display font-bold text-foreground">
-                  {plan.price === 0 ? '$0' : `$${plan.price}`}
+                  {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  /{plan.billingPeriod}
+                  /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                 </div>
+                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                  <div className="text-xs text-system-green font-medium">
+                    save ${getAnnualSavings(plan.tier)}/year
+                  </div>
+                )}
               </div>
 
               <Button
@@ -107,7 +165,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                 className={`w-full brand-lowercase ${
                   plan.price === 0 
                     ? 'bg-white border-gray-200 text-foreground hover:bg-gray-50' 
-                    : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                    : 'bg-blazeOrange text-white hover:bg-blazeOrange/90'
                 }`}
               >
                 {plan.cta}
@@ -195,11 +253,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
               
               <div className="space-y-1">
                 <div className="text-4xl font-display font-bold text-foreground">
-                  {plan.price === 0 ? '$0' : `$${plan.price}`}
+                  {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  /{plan.billingPeriod}
+                  /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                 </div>
+                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                  <div className="text-xs text-system-green font-medium">
+                    save ${getAnnualSavings(plan.tier)}/year
+                  </div>
+                )}
               </div>
 
               <Button
@@ -209,7 +272,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                 className={`w-full brand-lowercase ${
                   plan.price === 0 
                     ? 'bg-white border-gray-200 text-foreground hover:bg-gray-50' 
-                    : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                    : 'bg-blazeOrange text-white hover:bg-blazeOrange/90'
                 }`}
               >
                 {plan.cta}
