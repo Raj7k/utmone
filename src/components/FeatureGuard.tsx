@@ -57,7 +57,9 @@ export const FeatureGuard = ({
   const lockedContent = fallback || (
     <div className="relative inline-flex items-center gap-2 opacity-50 cursor-not-allowed">
       <Lock className="h-4 w-4 text-muted-foreground" />
-      {children}
+      <div className="pointer-events-none">
+        {children}
+      </div>
     </div>
   );
 
