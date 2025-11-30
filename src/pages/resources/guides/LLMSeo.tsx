@@ -17,6 +17,9 @@ import { PromptOptimizationTool } from "@/components/resources/llm/PromptOptimiz
 import { AIAnswerEngineTracker } from "@/components/resources/llm/AIAnswerEngineTracker";
 import { RoadmapTimeline } from "@/components/resources/utm/RoadmapTimeline";
 import { Link } from "react-router-dom";
+import { ShiftCard } from "@/components/resources/ShiftCard";
+import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { Search, Bot, Sparkles } from "lucide-react";
 
 const LLMSeo = () => {
   const breadcrumbs = [
@@ -162,25 +165,45 @@ const LLMSeo = () => {
         LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems like ChatGPT, Gemini, Claude, and Perplexity. It uses 7 principles: semantic naming, dense definitions, schema markup, internal cross-linking, FAQ sections, clear hierarchies, and citation-worthy sources. This guide includes 9 interactive tools to optimize your content for AI citation.
       </QuickAnswer>
 
-      {/* Narrative Introduction */}
-      <section className="space-y-6">
+      {/* The Evolution Grid */}
+      <section className="space-y-8">
         <h2 className="text-3xl font-display font-bold text-foreground">the shift from SEO to answer engine optimization</h2>
         
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          Search is changing. People don't just Google "what are UTM parameters"—they ask ChatGPT, Perplexity, Claude, and Gemini.
-        </p>
-
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          These AI systems don't show 10 blue links. They generate answers, synthesize sources, and cite references. If your content isn't structured for AI extraction, you don't exist in this new discovery layer.
-        </p>
-
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          LLM-SEO (Answer Engine Optimization) is the discipline of making your content discoverable, extractable, and citable by AI systems. It's the successor to traditional SEO—not a replacement, but an evolution.
-        </p>
-
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          This guide explains the 7 principles of LLM-SEO and how to structure content so AI systems surface your brand as the authoritative source.
-        </p>
+        <StaggerContainer className="grid md:grid-cols-3 gap-6">
+          <StaggerItem>
+            <ShiftCard
+              icon={Search}
+              title="old search"
+              bullets={[
+                "Google keywords",
+                "10 blue links",
+                "Click and hope"
+              ]}
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <ShiftCard
+              icon={Bot}
+              title="new search"
+              bullets={[
+                "Ask ChatGPT, Claude, Gemini",
+                "AI synthesizes answers",
+                "AI cites sources"
+              ]}
+            />
+          </StaggerItem>
+          <StaggerItem>
+            <ShiftCard
+              icon={Sparkles}
+              title="llm-seo"
+              bullets={[
+                "Structure for AI extraction",
+                "Build citation-worthy content",
+                "Become the canonical source"
+              ]}
+            />
+          </StaggerItem>
+        </StaggerContainer>
 
         <p className="text-lg text-foreground leading-relaxed">
           For a complete 90-day implementation roadmap with embedded tools and real-world case studies, see our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline font-semibold">LLM Ranking Playbook</Link>.

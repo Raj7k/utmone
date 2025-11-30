@@ -70,9 +70,9 @@ const PartnerProgram = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Simple For Partners, Powerful For You
-          </h1>
+          </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>Partners share</p>
             <p>You see everything</p>
@@ -81,9 +81,9 @@ const PartnerProgram = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Predictable Performance
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -101,9 +101,9 @@ const PartnerProgram = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Partners Shouldn't Need Training
-        </h1>
+        </h2>
         <FeatureComparison
           title="utm.one vs Complex Partner Systems"
           items={comparisonItems}
@@ -114,9 +114,9 @@ const PartnerProgram = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Invite → Assign Link → Track → Payout
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
           <WorkflowStep
             icon={Users}
@@ -146,9 +146,9 @@ const PartnerProgram = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Build Your Partner Program
-          </h1>
+          </h2>
           <p className="text-body-apple text-secondary-label mb-8">
             Start scaling with partners who have the tools they need.
           </p>

@@ -70,9 +70,9 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Control The System, Not Your People
-          </h1>
+          </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>The guardrails are invisible</p>
             <p>The workflow stays fast</p>
@@ -81,9 +81,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Scale
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -102,9 +102,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Finally, Governance That Feels Light
-        </h1>
+        </h2>
         <FeatureComparison
           title="utm.one vs Heavy Enterprise Tools"
           items={comparisonItems}
@@ -115,9 +115,9 @@ const EnterpriseControl = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Manage → Approve → Track
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={Shield}
@@ -142,9 +142,9 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Explore Enterprise Control
-          </h1>
+          </h2>
           <p className="text-body-apple text-secondary-label mb-8">
             Give your team the governance they need without the friction they hate.
           </p>

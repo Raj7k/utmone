@@ -71,9 +71,9 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Clarity Builds Trust
-          </h1>
+          </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>No broken links</p>
             <p>No suspicious URLs</p>
@@ -87,9 +87,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           The Basics, Done Beautifully
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -107,9 +107,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           More Trustworthy Than Any Shortener
-        </h1>
+        </h2>
         <FeatureComparison
           title="utm.one vs Competitors"
           items={comparisonItems}
@@ -120,9 +120,9 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Speed
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={Edit3}
@@ -152,9 +152,9 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Create Your First Link
-          </h1>
+          </h2>
           <p className="text-body-apple text-secondary-label mb-8">
             Start building links your audience can trust.
           </p>

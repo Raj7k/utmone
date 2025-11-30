@@ -72,9 +72,9 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Track QR Like It's Digital
-          </h1>
+          </h2>
           <p className="text-title-2 text-label font-medium max-w-2xl mx-auto">
             Offline → online attribution made simple
           </p>
@@ -82,9 +82,9 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Everything You Expect, Done Better
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -102,9 +102,9 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           QR Codes That Feel Safe To Scan
-        </h1>
+        </h2>
         <FeatureComparison
           title="utm.one vs Standard QR Generators"
           items={comparisonItems}
@@ -115,9 +115,9 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Scan → Understand → Convert
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={QrCode}
@@ -142,9 +142,9 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Generate A QR Code
-          </h1>
+          </h2>
           <p className="text-body-apple text-secondary-label mb-8">
             Create QR codes with real tracking built in.
           </p>
