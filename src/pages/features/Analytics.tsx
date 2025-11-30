@@ -70,9 +70,9 @@ const Analytics = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Analytics That Feel Effortless
-          </h1>
+          </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
             <p>Zero noise</p>
             <p>Zero overwhelm</p>
@@ -82,9 +82,9 @@ const Analytics = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Designed Around Clarity
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
             <CapabilityCard
@@ -102,9 +102,9 @@ const Analytics = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           No Dashboards That Fight You
-        </h1>
+        </h2>
         <FeatureComparison
           title="utm.one vs Complex Analytics Tools"
           items={comparisonItems}
@@ -115,9 +115,9 @@ const Analytics = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Click → Understand → Act
-        </h1>
+        </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <WorkflowStep
             icon={BarChart3}
@@ -142,9 +142,9 @@ const Analytics = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             See Your Insights
-          </h1>
+          </h2>
           <p className="text-body-apple text-secondary-label mb-8">
             Start understanding your link performance today.
           </p>
