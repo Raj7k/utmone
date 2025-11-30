@@ -1236,6 +1236,7 @@ export type Database = {
           link_id: string
           metadata: Json | null
           user_identifier: string | null
+          visitor_id: string | null
           workspace_id: string
         }
         Insert: {
@@ -1250,6 +1251,7 @@ export type Database = {
           link_id: string
           metadata?: Json | null
           user_identifier?: string | null
+          visitor_id?: string | null
           workspace_id: string
         }
         Update: {
@@ -1264,6 +1266,7 @@ export type Database = {
           link_id?: string
           metadata?: Json | null
           user_identifier?: string | null
+          visitor_id?: string | null
           workspace_id?: string
         }
         Relationships: [
@@ -2191,6 +2194,7 @@ export type Database = {
           targeting_rule_id: string | null
           targeting_rule_name: string | null
           user_agent: string | null
+          visitor_id: string | null
           workspace_id: string | null
         }
         Insert: {
@@ -2212,6 +2216,7 @@ export type Database = {
           targeting_rule_id?: string | null
           targeting_rule_name?: string | null
           user_agent?: string | null
+          visitor_id?: string | null
           workspace_id?: string | null
         }
         Update: {
@@ -2233,6 +2238,7 @@ export type Database = {
           targeting_rule_id?: string | null
           targeting_rule_name?: string | null
           user_agent?: string | null
+          visitor_id?: string | null
           workspace_id?: string | null
         }
         Relationships: [
@@ -3088,6 +3094,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "partners_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pixel_configs: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          domain_whitelist: string[] | null
+          id: string
+          is_active: boolean | null
+          pixel_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          domain_whitelist?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          pixel_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          domain_whitelist?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          pixel_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pixel_configs_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
