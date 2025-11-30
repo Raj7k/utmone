@@ -34,9 +34,10 @@ type EarlyAccessForm = z.infer<typeof earlyAccessSchema>;
 
 interface EarlyAccessStepFormProps {
   onSuccess: (data: { id: string; referral_code: string }) => void;
+  prefillEmail?: string | null;
 }
 
-export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => {
+export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStepFormProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchParams] = useSearchParams();
@@ -52,6 +53,13 @@ export const EarlyAccessStepForm = ({ onSuccess }: EarlyAccessStepFormProps) => 
   } = useForm<EarlyAccessForm>({
     resolver: zodResolver(earlyAccessSchema),
     mode: "onChange",
+  });
+
+  // Pre-fill email if provided from URL parameter
+  useState(() => {
+    if (prefillEmail) {
+      setValue('email', prefillEmail);
+    }
   });
 
   const role = watch("role");

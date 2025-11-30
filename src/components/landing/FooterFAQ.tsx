@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
 
 interface FAQItem {
   question: string;
@@ -106,10 +104,9 @@ const faqs: FAQItem[] = [
             <span><strong className="text-white">Partner managers</strong> — clear attribution for every affiliate and partner</span>
           </li>
         </ul>
-        <Link to="/solutions/marketers" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
-          learn more about your role
-          <ArrowRight className="ml-1 h-3 w-3" />
-        </Link>
+        <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
+          learn more about your role →
+        </a>
       </>
     ),
   },
@@ -137,10 +134,9 @@ const faqs: FAQItem[] = [
           </li>
         </ul>
         <p className="mt-3">All plans include UTM builder, QR generator, and clean-track governance.</p>
-        <Link to="/pricing" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
-          see full pricing
-          <ArrowRight className="ml-1 h-3 w-3" />
-        </Link>
+        <a href="/pricing" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
+          see full pricing →
+        </a>
       </>
     ),
   },
@@ -168,12 +164,7 @@ const faqs: FAQItem[] = [
           </li>
         </ol>
         <p className="mt-3">No credit card required. No setup hassle. Just clean links that work.</p>
-        <Link to="/early-access#early-access-form">
-          <Button variant="marketing" className="mt-6 rounded-full lowercase">
-            get your link page
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
+        <EarlyAccessInlineCTA />
       </>
     ),
   },
@@ -181,10 +172,9 @@ const faqs: FAQItem[] = [
 
 export const FooterFAQ = () => {
   return (
-    <section className="bg-mirage py-20 md:py-32">
-      <div className="max-w-4xl mx-auto px-8">
-        {/* Header */}
-        <h2 className="text-3xl md:text-4xl font-display text-white text-center mb-16 lowercase">
+    <section className="bg-mirage text-white py-24 md:py-32 px-8 relative overflow-hidden">
+      <div className="max-w-[980px] mx-auto relative z-10">
+        <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 lowercase">
           ok, here's what we do. plain talk.
         </h2>
         
@@ -202,10 +192,10 @@ export const FooterFAQ = () => {
               
               {/* Content */}
               <div className="pb-4 flex-1">
-                <h3 className="text-xl font-semibold text-white mb-3 lowercase">
+                <h3 className="text-xl font-display font-semibold mb-3 lowercase">
                   {faq.question}
                 </h3>
-                <div className="text-gray-400 space-y-3">
+                <div className="text-white/70 space-y-3">
                   {faq.answer}
                 </div>
               </div>

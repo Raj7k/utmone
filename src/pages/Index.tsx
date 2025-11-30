@@ -573,30 +573,6 @@ const Index = () => {
           </div>
         </AnimatedSection>
 
-        {/* Fold 11: Final CTA */}
-        <AnimatedSection className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-white to-primary/10">
-          <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
-              Change the Way Your Team Shares the Internet
-            </h2>
-            <Button
-              size="lg"
-              variant="marketing"
-              className="text-base px-10 py-7 rounded-full font-medium hover:scale-105 transition-transform"
-              onClick={() => trackCTAClick('final-cta')}
-              asChild
-            >
-              <Link to="/early-access">
-                Get Early Access
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <p className="text-body-apple text-secondary-label">
-              Join thousands of teams moving toward clarity, trust, and cleaner data.
-            </p>
-          </div>
-        </AnimatedSection>
-
         <FooterFAQ />
         <Footer />
       </div>

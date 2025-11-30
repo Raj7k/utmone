@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/magnetic";
 import { Navigation } from "@/components/landing/Navigation";
@@ -70,9 +71,11 @@ const AudienceItem = ({ icon: Icon, label, delay = 0, color = "primary" }: {
 };
 
 export default function EarlyAccess() {
+  const [searchParams] = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referralCode, setReferralCode] = useState("");
   const [heroVariant, setHeroVariant] = useState(getOrCreateEarlyAccessVariant());
+  const prefillEmail = searchParams.get('email');
 
   // Engagement tracking
   useTrackPageView('/early-access');
@@ -345,7 +348,7 @@ export default function EarlyAccess() {
               </AnimatedHeadline>
               
               <AnimatedHeadline delay={200}>
-                <EarlyAccessStepForm onSuccess={handleSuccess} />
+                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
               </AnimatedHeadline>
             </>
           ) : (
