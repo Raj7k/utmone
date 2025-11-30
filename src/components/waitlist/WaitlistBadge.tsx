@@ -75,9 +75,12 @@ export const WaitlistBadge = ({
         </p>
       )}
 
-      {/* Locked Overlay */}
+      {/* Locked Overlay with Lock Icon */}
       {!awarded && (
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-muted/20 pointer-events-none" />
+        <>
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent to-muted/20 pointer-events-none" />
+          <Icons.Lock className="absolute top-4 right-4 h-5 w-5 text-muted-foreground/40" />
+        </>
       )}
     </div>
   );
