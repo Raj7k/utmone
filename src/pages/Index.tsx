@@ -18,7 +18,12 @@ import {
   CheckCircle2,
   Accessibility,
   Database,
-  Globe
+  Globe,
+  AlertTriangle,
+  Shuffle,
+  LineChart,
+  Link2Off,
+  UserX
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
@@ -32,6 +37,7 @@ import { FloatingActionButton } from "@/components/landing/FloatingActionButton"
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { Footer } from "@/components/landing/Footer";
+import { ProblemCard } from "@/components/landing/ProblemCard";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -140,30 +146,70 @@ const Index = () => {
 
         {/* Fold 2: The Real Problem */}
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-[800px] mx-auto px-8 text-center space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-title-1 font-display font-bold text-label">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-12 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
                 Most Link Tools Focus on Shortening
-              </h1>
-              <p className="text-title-2 font-display font-semibold text-blazeOrange">
+              </h2>
+              <p className="text-xl md:text-2xl font-display font-semibold text-blazeOrange">
                 Few Focus on Trust
               </p>
             </div>
-            <div className="prose prose-lg mx-auto text-secondary-label space-y-6 text-left">
-              <p className="text-headline font-semibold text-label">Today's Internet Has a Trust Gap</p>
-              <ul className="space-y-3 text-body-apple text-secondary-label leading-relaxed">
-                <li>People hesitate to click unknown links</li>
-                <li>Teams struggle with inconsistent naming</li>
-                <li>Screen readers hate random slugs</li>
-                <li>Dashboards collapse under messy UTMs</li>
-                <li>QR codes have no ownership</li>
-                <li>Partner attribution gets lost</li>
-                <li>And when tools shut down, links die</li>
-              </ul>
-              <p className="text-headline font-display font-semibold text-blazeOrange pt-8">
-                utm.one fixes the fundamentals — not the symptoms.
-              </p>
-            </div>
+            
+            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <StaggerItem>
+                <ProblemCard
+                  icon={AlertTriangle}
+                  title="Link Fear"
+                  description="People hesitate to click unknown links — shortening makes trust worse"
+                  delay={0}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <ProblemCard
+                  icon={Shuffle}
+                  title="UTM Chaos"
+                  description="Teams struggle with inconsistent naming, breaking dashboards and reports"
+                  delay={0.1}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <ProblemCard
+                  icon={Accessibility}
+                  title="Accessibility Disaster"
+                  description="Screen readers hate random slugs — semantic naming is ignored"
+                  delay={0.2}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <ProblemCard
+                  icon={LineChart}
+                  title="Dirty Data"
+                  description="Dashboards collapse under messy UTMs and fragmented tracking"
+                  delay={0.3}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <ProblemCard
+                  icon={Link2Off}
+                  title="Link Death"
+                  description="When tools shut down, links die — your campaigns break"
+                  delay={0.4}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <ProblemCard
+                  icon={UserX}
+                  title="Lost Attribution"
+                  description="Partner and QR attribution gets lost in translation"
+                  delay={0.5}
+                />
+              </StaggerItem>
+            </StaggerContainer>
+            
+            <p className="text-center text-xl md:text-2xl font-display font-semibold text-blazeOrange">
+              utm.one fixes the fundamentals — not the symptoms.
+            </p>
           </div>
         </AnimatedSection>
 
@@ -171,9 +217,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-grouped-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-large-title font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 Click With Confidence
-              </h1>
+              </h2>
             </div>
             <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <StaggerItem>
@@ -228,9 +274,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-large-title font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 Links That Include Everyone
-              </h1>
+              </h2>
             </div>
             <div className="grid md:grid-cols-5 gap-6 max-w-5xl mx-auto mb-12">
               {[
@@ -265,10 +311,10 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-system-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-large-title font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
                 Your Links Outlive Your Tools
-              </h1>
-              <p className="text-title-3 text-secondary-label">
+              </h2>
+              <p className="text-xl text-secondary-label">
                 Platform shutdowns shouldn't break the web
               </p>
             </div>
@@ -311,9 +357,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-title-1 font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
                 Everything Your GTM Team Needs, in One Place
-              </h1>
+              </h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeaturePillarCard
@@ -371,9 +417,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h1 className="text-title-1 font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
                 Pricing That Respects You
-              </h1>
+              </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
@@ -412,9 +458,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 See What Matters First
-              </h1>
+              </h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               {[
@@ -451,9 +497,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-white">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 Built for Modern Teams
-              </h1>
+              </h2>
             </div>
             <div className="space-y-6">
               {[
@@ -486,9 +532,9 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 A Clean API for a Cleaner Stack
-              </h1>
+              </h2>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               {[
@@ -529,9 +575,9 @@ const Index = () => {
         {/* Fold 11: Final CTA */}
         <AnimatedSection className="py-20 md:py-32 bg-gradient-to-br from-primary/5 via-white to-primary/10">
           <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
-            <h1 className="text-large-title font-bold text-label">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
               Change the Way Your Team Shares the Internet
-            </h1>
+            </h2>
             <Button
               size="lg"
               variant="marketing"
