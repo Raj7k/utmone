@@ -20,6 +20,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 
@@ -290,6 +291,7 @@ const App = () => (
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
                
