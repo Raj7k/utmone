@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { Copy, Lock, CheckCircle2, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -69,8 +69,9 @@ export const UTMBuilderBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-6 shadow-lg border-border/60 bg-card">
-          <div className="flex flex-col sm:flex-row gap-3">
+        <AnimatedCard>
+          <div className="p-6">
+            <div className="flex flex-col sm:flex-row gap-3">
             <Input
               type="url"
               placeholder="paste your destination url here..."
@@ -88,8 +89,9 @@ export const UTMBuilderBasic = () => {
               build utm
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
+            </div>
           </div>
-        </Card>
+        </AnimatedCard>
 
         <p className="text-sm text-secondary-label text-center mt-6">
           add utm parameters to track your campaigns.{" "}
@@ -111,8 +113,9 @@ export const UTMBuilderBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8 shadow-lg border-border/60 bg-card">
-          <div className="space-y-6">
+        <AnimatedCard>
+          <div className="p-8">
+            <div className="space-y-6">
             {/* Template Buttons */}
             <div>
               <Label className="mb-2 block">quick templates</Label>
@@ -245,8 +248,9 @@ export const UTMBuilderBasic = () => {
                 </div>
               </div>
             </div>
+            </div>
           </div>
-        </Card>
+        </AnimatedCard>
 
         <p className="text-sm text-secondary-label text-center mt-6">
           basic utm builder is free.{" "}
