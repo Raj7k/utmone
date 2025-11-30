@@ -31,12 +31,6 @@ const settingsGroups = [
     ],
   },
   {
-    name: "Tracking",
-    items: [
-      { id: "pixel", label: "Tracking Pixel", icon: Code2, badge: "!" },
-    ],
-  },
-  {
     name: "Billing",
     items: [
       { id: "billing", label: "Plans & Billing", icon: CreditCard },
@@ -45,7 +39,7 @@ const settingsGroups = [
   {
     name: "Developer",
     items: [
-      { id: "api", label: "API Keys", icon: Key },
+      { id: "developers", label: "API & Pixel", icon: Code2, badge: "!" },
       { id: "integrations", label: "Integrations", icon: Webhook },
     ],
   },
