@@ -22,6 +22,110 @@ serve(async (req) => {
       throw new Error("Missing required fields");
     }
 
+    // Normalize email
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if user is already a workspace member
+    const { data: existingMember } = await supabase
+      .from("workspace_members")
+      .select(`
+        id,
+        profiles!inner(email)
+      `)
+      .eq("workspace_id", workspaceId)
+      .eq("profiles.email", normalizedEmail)
+      .maybeSingle();
+
+    if (existingMember) {
+      throw new Error("This user is already a member of this workspace");
+    }
+
+    // Check for existing pending invitation
+    const { data: existingInvite } = await supabase
+      .from("workspace_invitations")
+      .select("*")
+      .eq("workspace_id", workspaceId)
+      .eq("email", normalizedEmail)
+      .is("accepted_at", null)
+      .gt("expires_at", new Date().toISOString())
+      .maybeSingle();
+
+    if (existingInvite) {
+      // Resend email for existing invitation
+      console.log(`📧 Resending invitation to ${normalizedEmail}...`);
+      
+      const inviteUrl = `${req.headers.get("origin") || "https://utm.one"}/accept-invite?token=${existingInvite.token}`;
+      const resendApiKey = Deno.env.get("RESEND_API_KEY");
+      
+      if (resendApiKey) {
+        try {
+          const emailResponse = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${resendApiKey}`,
+            },
+            body: JSON.stringify({
+              from: "utm.one <invites@utm.one>",
+              to: [normalizedEmail],
+              subject: `Reminder: You're invited to join ${existingInvite.workspace_name || "a workspace"} on utm.one`,
+              html: `
+                <!DOCTYPE html>
+                <html>
+                  <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                  </head>
+                  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: #f5f5f7; padding: 40px 20px; border-radius: 12px; text-align: center;">
+                      <h1 style="font-size: 24px; font-weight: 700; margin: 0 0 8px 0;">Reminder: You're invited!</h1>
+                      <p style="font-size: 16px; color: #666; margin: 0;">Your invitation is still active</p>
+                    </div>
+                    
+                    <div style="padding: 32px 0;">
+                      <p style="font-size: 16px; margin: 0 0 16px 0;">Hi there,</p>
+                      <p style="font-size: 16px; margin: 0 0 16px 0;">This is a reminder that you've been invited to join <strong>${existingInvite.workspace_name || "a workspace"}</strong> on utm.one.</p>
+                      <p style="font-size: 16px; margin: 0 0 24px 0;">Your role: <strong>${role}</strong></p>
+                      
+                      <div style="text-align: center; margin: 32px 0;">
+                        <a href="${inviteUrl}" style="display: inline-block; background: #007aff; color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 16px;">Accept Invitation →</a>
+                      </div>
+                      
+                      <p style="font-size: 14px; color: #666; margin: 24px 0 0 0;">This invitation expires on ${new Date(existingInvite.expires_at).toLocaleDateString()}.</p>
+                      <p style="font-size: 14px; color: #666; margin: 8px 0 0 0;">If the button doesn't work, copy and paste this link:</p>
+                      <p style="font-size: 12px; color: #999; word-break: break-all; margin: 8px 0 0 0;">${inviteUrl}</p>
+                    </div>
+                    
+                    <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; text-align: center;">
+                      <p style="font-size: 14px; color: #999; margin: 0;">utm.one – clarity creates confidence</p>
+                    </div>
+                  </body>
+                </html>
+              `,
+            }),
+          });
+
+          if (emailResponse.ok) {
+            console.log(`✅ Reminder email sent successfully to ${normalizedEmail}`);
+          } else {
+            const errorData = await emailResponse.json();
+            console.error("⚠️ Email sending failed:", errorData);
+          }
+        } catch (emailError) {
+          console.error("⚠️ Email sending error:", emailError);
+        }
+      }
+
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          invitation: existingInvite,
+          isResend: true 
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // Verify the requesting user has permission
     const authHeader = req.headers.get("Authorization")!;
     const token = authHeader.replace("Bearer ", "");
@@ -61,12 +165,12 @@ serve(async (req) => {
     
     const inviterName = inviterProfile?.full_name || inviterProfile?.email || user.email || "A team member";
 
-    // Create invitation
+    // Create invitation with normalized email
     const { data: invitation, error: inviteError } = await supabase
       .from("workspace_invitations")
       .insert({
         workspace_id: workspaceId,
-        email,
+        email: normalizedEmail,
         role,
         invited_by: user.id,
         invited_by_name: inviterName,
@@ -94,9 +198,9 @@ serve(async (req) => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${resendApiKey}`,
           },
-          body: JSON.stringify({
+            body: JSON.stringify({
             from: "utm.one <invites@utm.one>",
-            to: [email],
+            to: [normalizedEmail],
             subject: `You're invited to join ${workspace?.name || "a workspace"} on utm.one`,
             html: `
               <!DOCTYPE html>
@@ -137,7 +241,7 @@ serve(async (req) => {
         console.log(`Email API response status: ${emailResponse.status}`);
 
         if (emailResponse.ok) {
-          console.log(`✅ Email sent successfully to ${email}`);
+          console.log(`✅ Email sent successfully to ${normalizedEmail}`);
         } else {
           const errorData = await emailResponse.json();
           console.error("⚠️ Email sending failed:", errorData);
@@ -150,7 +254,7 @@ serve(async (req) => {
       // Don't throw - invitation is created, email is bonus
     }
 
-    console.log(`Invitation created for ${email} to workspace ${workspaceId}`);
+    console.log(`Invitation created for ${normalizedEmail} to workspace ${workspaceId}`);
     console.log(`Invitation token: ${invitation.token}`);
 
     return new Response(

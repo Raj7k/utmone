@@ -201,10 +201,16 @@ const Auth = () => {
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
+    
+    // Preserve invite token in redirect URL
+    const redirectUrl = inviteToken 
+      ? `${window.location.origin}/accept-invite?token=${inviteToken}`
+      : `${window.location.origin}/dashboard`;
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/dashboard`,
+        redirectTo: redirectUrl,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -224,10 +230,16 @@ const Auth = () => {
 
   const handleMicrosoftLogin = async () => {
     setIsLoading(true);
+    
+    // Preserve invite token in redirect URL
+    const redirectUrl = inviteToken 
+      ? `${window.location.origin}/accept-invite?token=${inviteToken}`
+      : `${window.location.origin}/dashboard`;
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'azure',
       options: {
-        redirectTo: `${window.location.origin}/dashboard`,
+        redirectTo: redirectUrl,
         scopes: 'email profile openid',
       }
     });
