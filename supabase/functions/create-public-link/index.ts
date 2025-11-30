@@ -170,8 +170,6 @@ Deno.serve(async (req) => {
     }
 
     // Create link using the workspace's owner as creator
-    const shortUrl = `https://utm.click/${slug}`;
-    
     const { data: link, error: linkError } = await supabase
       .from('links')
       .insert({
@@ -181,7 +179,7 @@ Deno.serve(async (req) => {
         slug: slug,
         destination_url: url,
         final_url: url,
-        short_url: shortUrl,
+        // short_url is a generated column - computed automatically by database
         title: `Public Link ${slug}`,
         status: 'active',
         created_by: systemWorkspace.owner_id,
@@ -190,6 +188,9 @@ Deno.serve(async (req) => {
       .single();
 
     if (linkError) throw linkError;
+
+    // Get the auto-generated short_url from the returned link
+    const shortUrl = link.short_url;
 
     console.log(`✅ Created public link: ${shortUrl} → ${url} (IP: ${ip})`);
 
