@@ -24,6 +24,21 @@ export const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
+                <Link to="/features/short-links" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  Short Links →
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/utm-builder" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  UTM Builder →
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/qr-generator" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  QR Generator →
+                </Link>
+              </li>
+              <li>
                 <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   How It Works
                 </Link>
@@ -31,21 +46,6 @@ export const Footer = () => {
               <li>
                 <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Pricing
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/short-links" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Short Links
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  UTM Builder
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/qr-generator" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  QR Generator
                 </Link>
               </li>
               <li>
