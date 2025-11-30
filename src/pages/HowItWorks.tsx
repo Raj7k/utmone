@@ -122,7 +122,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4 lowercase">
               The utm.one flow
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -197,7 +197,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6 lowercase">
               Every link carries meaning
             </h2>
             <p className="text-lg text-muted-foreground">

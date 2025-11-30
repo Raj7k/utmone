@@ -39,7 +39,7 @@ export const CTAButton = ({
         <Button
           variant={variant === "primary" ? "marketing-glow" : "outline"}
           size="lg"
-          className={`relative text-base px-8 py-6 rounded-full font-medium ${className}`}
+          className={`relative text-base px-8 py-6 rounded-full font-medium lowercase ${className}`}
         >
           {children}
           {showArrow && (

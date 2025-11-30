@@ -35,7 +35,7 @@ export const FeaturePillarCard = ({
           <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
             <Icon className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-display font-semibold text-foreground">
+          <h3 className="text-xl font-display font-semibold text-foreground lowercase">
             {title}
           </h3>
           <p className="text-sm text-muted-foreground leading-relaxed">

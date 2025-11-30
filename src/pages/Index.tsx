@@ -148,7 +148,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-12 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
                 Most Link Tools Focus on Shortening
               </h2>
               <p className="text-xl md:text-2xl font-display font-semibold text-blazeOrange">
@@ -217,7 +217,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-grouped-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4 lowercase">
                 Click With Confidence
               </h2>
             </div>
@@ -274,7 +274,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4 lowercase">
                 Links That Include Everyone
               </h2>
             </div>
