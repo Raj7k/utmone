@@ -3170,6 +3170,7 @@ export type Database = {
           credit_months: number | null
           data_retention_days: number | null
           email: string
+          email_open_count: number | null
           first_analytics_viewed_at: string | null
           first_link_created_at: string | null
           first_qr_generated_at: string | null
@@ -3194,6 +3195,7 @@ export type Database = {
           credit_months?: number | null
           data_retention_days?: number | null
           email: string
+          email_open_count?: number | null
           first_analytics_viewed_at?: string | null
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null
@@ -3218,6 +3220,7 @@ export type Database = {
           credit_months?: number | null
           data_retention_days?: number | null
           email?: string
+          email_open_count?: number | null
           first_analytics_viewed_at?: string | null
           first_link_created_at?: string | null
           first_qr_generated_at?: string | null

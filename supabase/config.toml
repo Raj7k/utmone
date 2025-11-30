@@ -186,6 +186,9 @@ verify_jwt = false
 [functions.batch-approve-waitlist]
 verify_jwt = false
 
+[functions.resend-webhook]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
