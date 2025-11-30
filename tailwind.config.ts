@@ -292,7 +292,8 @@ export default {
   			'gradient-nature-1': 'var(--gradient-nature-1)',
   			'gradient-nature-2': 'var(--gradient-nature-2)',
   			'gradient-nature-3': 'var(--gradient-nature-3)',
-  			'gradient-nature-4': 'var(--gradient-nature-4)'
+  			'gradient-nature-4': 'var(--gradient-nature-4)',
+			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
   		},
   		boxShadow: {
   			sm: 'var(--shadow-sm)',

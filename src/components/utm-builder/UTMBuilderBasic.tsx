@@ -69,7 +69,7 @@ export const UTMBuilderBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-6">
+        <Card className="p-6 shadow-lg border-border/60 bg-card">
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
               type="url"
@@ -111,7 +111,7 @@ export const UTMBuilderBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8">
+        <Card className="p-8 shadow-lg border-border/60 bg-card">
           <div className="space-y-6">
             {/* Template Buttons */}
             <div>

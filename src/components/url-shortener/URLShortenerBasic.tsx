@@ -111,7 +111,7 @@ export const URLShortenerBasic = () => {
   if (!isExpanded) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card className="p-6">
+        <Card className="p-6 shadow-lg border-border/60 bg-card">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
               <Input
@@ -164,7 +164,7 @@ export const URLShortenerBasic = () => {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="max-w-2xl mx-auto"
       >
-        <Card className="p-8">
+        <Card className="p-8 shadow-lg border-border/60 bg-card">
           <div className="space-y-6">
             <div>
               <Label htmlFor="url">destination url</Label>
