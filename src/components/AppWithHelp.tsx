@@ -16,7 +16,6 @@ export const AppWithHelp = ({ children }: AppWithHelpProps) => {
     '/analytics',
     '/settings',
     '/onboarding',
-    '/approval-queue',
     '/workspaces'
   ].some(path => location.pathname.startsWith(path));
 

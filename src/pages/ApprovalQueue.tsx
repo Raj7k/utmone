@@ -5,6 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, XCircle, ExternalLink } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 interface PendingLink {
   id: string;
@@ -21,7 +25,11 @@ interface PendingLink {
 export default function ApprovalQueue() {
   const [pendingLinks, setPendingLinks] = useState<PendingLink[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showRejectDialog, setShowRejectDialog] = useState(false);
+  const [selectedLinkId, setSelectedLinkId] = useState<string | null>(null);
+  const [rejectionReason, setRejectionReason] = useState("");
   const { toast } = useToast();
+  const { currentWorkspace } = useWorkspaceContext();
 
   useEffect(() => {
     fetchPendingLinks();
@@ -40,6 +48,7 @@ export default function ApprovalQueue() {
       .from("links")
       .select("*")
       .eq("approval_status", "pending")
+      .eq("workspace_id", currentWorkspace?.id)
       .order("submitted_for_approval_at", { ascending: false });
 
     if (!error && data) {
@@ -61,9 +70,15 @@ export default function ApprovalQueue() {
   };
 
   const handleApprove = async (linkId: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    
     const { error } = await supabase
       .from("links")
-      .update({ approval_status: "approved" })
+      .update({ 
+        approval_status: "approved",
+        approved_by: user?.id,
+        approved_at: new Date().toISOString(),
+      })
       .eq("id", linkId);
 
     if (error) {
@@ -81,11 +96,30 @@ export default function ApprovalQueue() {
     }
   };
 
-  const handleReject = async (linkId: string) => {
+  const openRejectDialog = (linkId: string) => {
+    setSelectedLinkId(linkId);
+    setShowRejectDialog(true);
+  };
+
+  const handleReject = async () => {
+    if (!rejectionReason.trim()) {
+      toast({
+        title: "Reason Required",
+        description: "Please provide a reason for rejection",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!selectedLinkId) return;
+
     const { error } = await supabase
       .from("links")
-      .update({ approval_status: "rejected" })
-      .eq("id", linkId);
+      .update({ 
+        approval_status: "rejected",
+        approval_notes: rejectionReason,
+      })
+      .eq("id", selectedLinkId);
 
     if (error) {
       toast({
@@ -98,6 +132,9 @@ export default function ApprovalQueue() {
         title: "Rejected",
         description: "Link has been rejected",
       });
+      setShowRejectDialog(false);
+      setRejectionReason("");
+      setSelectedLinkId(null);
       fetchPendingLinks();
     }
   };
@@ -169,7 +206,7 @@ export default function ApprovalQueue() {
                     approve
                   </Button>
                   <Button
-                    onClick={() => handleReject(link.id)}
+                    onClick={() => openRejectDialog(link.id)}
                     variant="destructive"
                     size="sm"
                     className="gap-1.5"
@@ -183,6 +220,50 @@ export default function ApprovalQueue() {
           ))}
         </div>
       )}
+
+      {/* Rejection Dialog */}
+      <Dialog open={showRejectDialog} onOpenChange={setShowRejectDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject Link</DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting this link. The creator will see this message.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="rejection-reason">Reason for rejection *</Label>
+              <Textarea
+                id="rejection-reason"
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                placeholder="e.g., Destination URL violates policy, incorrect UTM parameters..."
+                className="mt-1.5 min-h-[100px]"
+              />
+            </div>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowRejectDialog(false);
+                  setRejectionReason("");
+                  setSelectedLinkId(null);
+                }}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleReject}
+                className="flex-1"
+              >
+                Reject Link
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

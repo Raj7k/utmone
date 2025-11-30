@@ -344,7 +344,7 @@ const App = () => (
               <Route path="/settings/backups" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backups /></Suspense></ProtectedRoute>} />
               <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
-              <Route path="/approval-queue" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/password-protected" element={<Suspense fallback={<DashboardSkeleton />}><PasswordProtected /></Suspense>} />
               <Route path="/accessibility" element={<Suspense fallback={<DashboardSkeleton />}><Accessibility /></Suspense>} />
               <Route path="/permanence" element={<Suspense fallback={<DashboardSkeleton />}><Permanence /></Suspense>} />

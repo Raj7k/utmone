@@ -2533,6 +2533,8 @@ export type Database = {
           activation_at: string | null
           approval_notes: string | null
           approval_status: string | null
+          approved_at: string | null
+          approved_by: string | null
           blacklist_status: string | null
           campaign_id: string | null
           conversion_rate: number | null
@@ -2590,6 +2592,8 @@ export type Database = {
           activation_at?: string | null
           approval_notes?: string | null
           approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           blacklist_status?: string | null
           campaign_id?: string | null
           conversion_rate?: number | null
@@ -2649,6 +2653,8 @@ export type Database = {
           activation_at?: string | null
           approval_notes?: string | null
           approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           blacklist_status?: string | null
           campaign_id?: string | null
           conversion_rate?: number | null
@@ -2704,6 +2710,13 @@ export type Database = {
             columns: ["ab_test_winner_id"]
             isOneToOne: false
             referencedRelation: "og_image_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
@@ -4327,6 +4340,7 @@ export type Database = {
           plan_started_at: string | null
           plan_tier: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain: string | null
+          require_approval_for_contributors: boolean | null
           slug: string
           updated_at: string | null
         }
@@ -4353,6 +4367,7 @@ export type Database = {
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain?: string | null
+          require_approval_for_contributors?: boolean | null
           slug: string
           updated_at?: string | null
         }
@@ -4379,6 +4394,7 @@ export type Database = {
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
           primary_domain?: string | null
+          require_approval_for_contributors?: boolean | null
           slug?: string
           updated_at?: string | null
         }
@@ -4728,7 +4744,12 @@ export type Database = {
         | "monthly_overview"
         | "campaign_performance"
       security_status: "safe" | "threats_detected" | "not_scanned" | "pending"
-      user_role: "super_admin" | "workspace_admin" | "editor" | "viewer"
+      user_role:
+        | "super_admin"
+        | "workspace_admin"
+        | "editor"
+        | "viewer"
+        | "contributor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -4866,7 +4887,13 @@ export const Constants = {
         "campaign_performance",
       ],
       security_status: ["safe", "threats_detected", "not_scanned", "pending"],
-      user_role: ["super_admin", "workspace_admin", "editor", "viewer"],
+      user_role: [
+        "super_admin",
+        "workspace_admin",
+        "editor",
+        "viewer",
+        "contributor",
+      ],
     },
   },
 } as const
