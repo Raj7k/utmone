@@ -1,12 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Shield, ShieldAlert, Lock, Globe } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { TrustBadge } from "./TrustBadge";
+import { Button } from "./ui/button";
+import { useState } from "react";
 
 interface LinkPreviewCardProps {
   linkId: string;
@@ -15,6 +17,9 @@ interface LinkPreviewCardProps {
 }
 
 export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPreviewCardProps) => {
+  const queryClient = useQueryClient();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const { data: preview, isLoading } = useQuery({
     queryKey: ['link-preview', linkId],
     queryFn: async () => {
@@ -27,6 +32,13 @@ export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPrevie
     },
     staleTime: 1000 * 60 * 60, // 1 hour
   });
+
+  const handleRefreshPreview = async () => {
+    setIsRefreshing(true);
+    await queryClient.invalidateQueries({ queryKey: ['link-preview', linkId] });
+    await queryClient.refetchQueries({ queryKey: ['link-preview', linkId] });
+    setIsRefreshing(false);
+  };
 
   return (
     <HoverCard openDelay={200}>
@@ -76,7 +88,7 @@ export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPrevie
             )}
 
             {/* Security indicators */}
-            <div className="flex flex-wrap gap-2 pt-2 border-t">
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
               {preview.is_ssl_secure && (
                 <TrustBadge variant="ssl-secure" size="sm" />
               )}
@@ -87,6 +99,20 @@ export const LinkPreviewCard = ({ linkId, destinationUrl, children }: LinkPrevie
               )}
               <TrustBadge variant="utm-verified" size="sm" />
             </div>
+
+            {/* Refresh button for missing metadata */}
+            {(!preview.page_title || !preview.favicon_url) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRefreshPreview}
+                disabled={isRefreshing}
+                className="w-full mt-2"
+              >
+                <RefreshCw className={`h-3 w-3 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+                refresh preview
+              </Button>
+            )}
           </div>
         ) : (
           <div className="text-sm text-secondary-label">

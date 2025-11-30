@@ -22,7 +22,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Check cache first
+    // Check cache first - delete stale entries with null metadata
     const { data: cached } = await supabase
       .from('link_previews')
       .select('*')
@@ -30,7 +30,10 @@ serve(async (req) => {
       .gt('expires_at', new Date().toISOString())
       .single();
 
-    if (cached) {
+    // If cached but has no metadata, delete and refetch
+    if (cached && !cached.page_title && !cached.favicon_url) {
+      await supabase.from('link_previews').delete().eq('link_id', linkId);
+    } else if (cached) {
       return new Response(
         JSON.stringify(cached),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -44,19 +47,40 @@ serve(async (req) => {
     let isSslSecure = destinationUrl.startsWith('https://');
 
     try {
+      // Browser-like headers to avoid bot detection
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch(destinationUrl, {
-        headers: { 'User-Agent': 'utm.one-preview-bot/1.0' },
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.9',
+        },
+        signal: controller.signal,
       });
+
+      clearTimeout(timeout);
 
       if (response.ok) {
         const html = await response.text();
 
-        // Extract title
+        // Extract title - try OG title first, then page title
+        const ogTitleMatch = html.match(/<meta[^>]*(?:property|name)=["'](?:og:title|twitter:title)["'][^>]*content=["']([^"']+)["']/i) ||
+                           html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*(?:property|name)=["'](?:og:title|twitter:title)["']/i);
         const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-        if (titleMatch) pageTitle = titleMatch[1].trim();
+        
+        if (ogTitleMatch) {
+          pageTitle = ogTitleMatch[1].trim();
+        } else if (titleMatch) {
+          pageTitle = titleMatch[1].trim();
+        }
 
-        // Extract OG image
-        const ogImageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
+        // Extract OG image - try multiple patterns
+        const ogImageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i) ||
+                           html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i) ||
+                           html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i) ||
+                           html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i);
         if (ogImageMatch) ogImageUrl = ogImageMatch[1];
 
         // Extract favicon
@@ -68,9 +92,23 @@ serve(async (req) => {
             faviconUrl = `${url.protocol}//${url.host}${faviconUrl.startsWith('/') ? '' : '/'}${faviconUrl}`;
           }
         }
+
+        // Fallback favicon sources
+        if (!faviconUrl) {
+          const parsedUrl = new URL(destinationUrl);
+          faviconUrl = `https://www.google.com/s2/favicons?domain=${parsedUrl.hostname}&sz=64`;
+        }
       }
     } catch (error) {
       console.error('Error fetching page:', error);
+      
+      // Even on error, provide fallback favicon
+      try {
+        const parsedUrl = new URL(destinationUrl);
+        faviconUrl = `https://www.google.com/s2/favicons?domain=${parsedUrl.hostname}&sz=64`;
+      } catch (e) {
+        console.error('Error parsing URL for fallback favicon:', e);
+      }
     }
 
     // Check security scan results
