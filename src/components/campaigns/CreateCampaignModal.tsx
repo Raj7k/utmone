@@ -99,7 +99,9 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
         url.searchParams.set("utm_medium", "campaign");
         url.searchParams.set("utm_campaign", data.name.toLowerCase().replace(/\s+/g, "-"));
 
-        const slug = `${data.name.toLowerCase().replace(/\s+/g, "-")}-${channel.utmSource}`;
+        // Add unique suffix to prevent slug collisions
+        const uniqueId = Math.random().toString(36).substring(2, 8);
+        const slug = `${data.name.toLowerCase().replace(/\s+/g, "-")}-${channel.utmSource}-${uniqueId}`;
 
         const { data: link, error: linkError } = await supabase
           .from("links")
@@ -111,7 +113,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             slug: slug,
             destination_url: url.toString(),
             final_url: url.toString(),
-            domain: "utm.click",
+            domain: "utm.one",
             path: "",
           })
           .select()
