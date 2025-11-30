@@ -2,9 +2,11 @@ import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Check, X } from "lucide-react";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { useNavigate } from "react-router-dom";
+import { EarlyAccessDialog } from "@/components/early-access/EarlyAccessDialog";
+import { useState } from "react";
 
 interface ComparisonFeature {
   capability: string;
@@ -49,7 +51,8 @@ export const ComparisonPage = ({
   whoUtmOneIsFor,
   ctaText,
 }: ComparisonPageProps) => {
-  const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   const renderValue = (value: string | boolean) => {
     if (typeof value === 'boolean') {
@@ -82,9 +85,34 @@ export const ComparisonPage = ({
             <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto brand-lowercase">
               {subheadline}
             </p>
+            
+            {/* Inline Email CTA */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto pt-4">
+              <Input
+                type="email"
+                placeholder="your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 h-12 text-base brand-lowercase"
+              />
+              <Button
+                size="lg"
+                onClick={() => setDialogOpen(true)}
+                className="bg-blazeOrange hover:bg-blazeOrange/90 text-white px-8 h-12 brand-lowercase whitespace-nowrap"
+              >
+                get early access
+              </Button>
+            </div>
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Early Access Dialog */}
+      <EarlyAccessDialog 
+        open={dialogOpen} 
+        onOpenChange={setDialogOpen}
+        prefillEmail={email}
+      />
 
       {/* One-line Summary */}
       <section className="py-16 bg-muted/20">
@@ -208,8 +236,8 @@ export const ComparisonPage = ({
             <Button 
               variant="default"
               size="lg"
-              onClick={() => navigate('/early-access')}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white brand-lowercase"
+              onClick={() => setDialogOpen(true)}
+              className="bg-blazeOrange hover:bg-blazeOrange/90 text-white brand-lowercase"
             >
               {ctaText}
             </Button>
