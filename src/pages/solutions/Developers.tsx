@@ -71,9 +71,9 @@ const Developers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6">
               The Real Pain
-            </h1>
+            </h2>
             <p className="text-xl text-muted-foreground italic">
               Developers shouldn't fight the tools they integrate.
             </p>
@@ -94,9 +94,9 @@ const Developers = () => {
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6">
               What You Get
-            </h1>
+            </h2>
             <p className="text-xl text-muted-foreground">
               Fast. Predictable. Developer-friendly.
             </p>
@@ -125,9 +125,9 @@ const Developers = () => {
       <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight">
               Built for Developers
-            </h1>
+            </h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -183,9 +183,9 @@ const Developers = () => {
         
         <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6">
               Your Workflow, Simplified
-            </h1>
+            </h2>
             <p className="text-xl text-white/70">
               A link system that fits into your infra
             </p>
