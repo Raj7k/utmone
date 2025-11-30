@@ -9,21 +9,21 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Helmet } from "react-helmet";
 
-const CLIENT_LOGOS = [
-  "Client A", "Client B", "Client C", "Client D", "Client E",
-  "Client F", "Client G", "Client H", "Client I", "Client J"
+const MARQUEE_ITEMS = [
+  "marketing teams", "sales ops", "events", "partner programs", "enterprise"
 ];
 
 const INTERESTS = [
-  { value: "ai-assessment", label: "AI Assessment" },
-  { value: "workflow-automation", label: "Workflow Automation" },
-  { value: "custom-ai-tools", label: "Custom AI Tools" }
+  { value: "utm-governance", label: "UTM Governance" },
+  { value: "branded-qr", label: "Branded QR Codes" },
+  { value: "campaign-analytics", label: "Campaign Analytics" },
+  { value: "link-management", label: "Link Management" }
 ];
 
 const CHALLENGES = [
-  { value: "manual-tasks", label: "Too many manual tasks", description: "Repetitive work taking up too much time" },
-  { value: "unclear-start", label: "Unclear where to start", description: "Not sure how to begin with AI" },
-  { value: "need-scale", label: "Need to scale", description: "Current processes can't keep up with growth" }
+  { value: "inconsistent-utms", label: "Inconsistent UTMs", description: "our dashboards break from messy naming" },
+  { value: "no-visibility", label: "No link visibility", description: "can't track what's working across teams" },
+  { value: "qr-attribution", label: "QR attribution gaps", description: "can't connect offline to online conversions" }
 ];
 
 export default function BookDemo() {
@@ -88,33 +88,57 @@ export default function BookDemo() {
 
       <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
         {/* Left Panel - Brand Experience */}
-        <div className="relative bg-gradient-to-br from-[hsl(205,29%,13%)] to-black p-8 lg:p-16 flex flex-col justify-between min-h-[40vh] lg:min-h-screen">
-          {/* Top - Rating */}
-          <div className="space-y-3">
+        <div className="relative bg-gradient-to-br from-mirage to-black p-8 lg:p-16 flex flex-col justify-between min-h-[40vh] lg:min-h-screen overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Gradient Orbs */}
+            <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+            <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+            
+            {/* Grid Pattern */}
+            <div className="absolute inset-0 opacity-5" style={{
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+              backgroundSize: '50px 50px'
+            }} />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 space-y-3">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-[hsl(20,100%,51%)] text-[hsl(20,100%,51%)]" />
+                <Star key={i} className="w-5 h-5 fill-blazeOrange text-blazeOrange" />
               ))}
             </div>
-            <p className="text-white/70 text-sm">helped over 100+ businesses</p>
+            <p className="text-white/70 text-sm">trusted by growth teams at 50+ companies</p>
           </div>
 
           {/* Center - Headline */}
-          <div className="flex-1 flex items-center">
-            <h1 className="text-4xl lg:text-6xl xl:text-7xl font-serif text-white leading-tight">
-              turn confusion<br />into clarity,<br />today.
+          <div className="relative z-10 flex-1 flex flex-col justify-center space-y-6">
+            <h1 className="text-4xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight">
+              <span className="hero-gradient">
+                every link<br />tells a story.<br />let's write yours.
+              </span>
             </h1>
+            <p className="text-white/60 text-lg lg:text-xl max-w-md">
+              schedule a demo to see how utm.one brings clarity to your campaigns
+            </p>
+            <p className="text-white/40 text-sm italic">
+              clarity creates confidence
+            </p>
           </div>
 
-          {/* Bottom - Logo Marquee */}
-          <div className="overflow-hidden">
+          {/* Bottom - Category Marquee */}
+          <div className="relative z-10 overflow-hidden">
             <div className="logo-marquee">
               <div className="logo-marquee-content">
-                {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => (
+                {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
                   <div key={i} className="logo-item">
-                    <span className="text-white/30 text-sm font-medium whitespace-nowrap">
-                      {logo}
+                    <span className="text-white/50 text-sm font-medium whitespace-nowrap">
+                      {item}
                     </span>
+                    {i < MARQUEE_ITEMS.length * 2 - 1 && (
+                      <span className="text-white/30 mx-4">•</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -123,7 +147,7 @@ export default function BookDemo() {
         </div>
 
         {/* Right Panel - Interactive Form */}
-        <div className="bg-[#FDFCF8] p-8 lg:p-16 flex items-center">
+        <div className="bg-[#FDFCF8] p-8 lg:p-16 flex items-center border-l-4 border-blazeOrange/20">
           <div className="w-full max-w-xl mx-auto">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Name & Email */}
@@ -140,7 +164,7 @@ export default function BookDemo() {
                 <div>
                   <Input
                     type="email"
-                    placeholder="your email"
+                    placeholder="work email"
                     value={formData.email}
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                     className="h-12 bg-white border-border/20"
@@ -152,7 +176,7 @@ export default function BookDemo() {
               {/* Interest Pills */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-label">
-                  what services are you interested in?
+                  what are you looking for?
                 </label>
                 <ToggleGroup
                   type="multiple"
@@ -164,7 +188,7 @@ export default function BookDemo() {
                     <ToggleGroupItem
                       key={interest.value}
                       value={interest.value}
-                      className="rounded-full px-4 py-2 border border-border/20 data-[state=on]:bg-label data-[state=on]:text-white data-[state=on]:border-label"
+                      className="rounded-full px-4 py-2 border border-border/20 data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:border-primary"
                     >
                       {interest.label}
                     </ToggleGroupItem>
@@ -175,7 +199,7 @@ export default function BookDemo() {
               {/* Challenge Cards */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-label">
-                  what is your biggest challenge?
+                  what's your biggest challenge?
                 </label>
                 <div className="grid gap-3">
                   {CHALLENGES.map((challenge) => (
@@ -183,8 +207,8 @@ export default function BookDemo() {
                       key={challenge.value}
                       className={`p-4 cursor-pointer transition-all border-2 ${
                         formData.challenge === challenge.value
-                          ? 'border-label bg-label text-white'
-                          : 'border-border/20 bg-white hover:border-label/30'
+                          ? 'border-primary bg-primary text-white'
+                          : 'border-border/20 bg-white hover:border-primary/30'
                       }`}
                       onClick={() => setFormData(prev => ({ ...prev, challenge: challenge.value }))}
                     >
@@ -202,10 +226,10 @@ export default function BookDemo() {
               {/* Message */}
               <div className="space-y-3">
                 <label className="text-sm font-medium text-label">
-                  tell us about your business...
+                  what are you trying to solve?
                 </label>
                 <Textarea
-                  placeholder="share more about what you're looking for"
+                  placeholder="tell us more about your team's needs..."
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                   className="min-h-[120px] bg-white border-border/20"
@@ -217,13 +241,13 @@ export default function BookDemo() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-14 bg-label text-white hover:bg-label/90 text-lg font-medium rounded-xl group"
+                  className="w-full h-14 bg-blazeOrange text-white hover:bg-blazeOrange/90 text-lg font-medium rounded-xl group"
                 >
-                  {isSubmitting ? "submitting..." : "book a call"}
+                  {isSubmitting ? "submitting..." : "book a demo"}
                   <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Button>
                 <p className="text-xs text-secondary-label text-center">
-                  by submitting, you agree to our terms and privacy policy
+                  free 15-minute consultation • no commitment
                 </p>
               </div>
             </form>
