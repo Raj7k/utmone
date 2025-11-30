@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BadgeGrid } from "@/components/waitlist/BadgeGrid";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, TrendingUp } from "lucide-react";
-import { showSuccessToast } from "@/lib/enhancedToast";
+import { TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ShareReferralModal } from "@/components/waitlist/ShareReferralModal";
 
 export default function WaitlistStatus() {
   const navigate = useNavigate();
@@ -88,25 +88,6 @@ export default function WaitlistStatus() {
     },
     enabled: !!userData,
   });
-
-  const copyReferralLink = () => {
-    const link = `${window.location.origin}/early-access?ref=${userData?.referral_code}`;
-    navigator.clipboard.writeText(link);
-    showSuccessToast("referral link copied to clipboard");
-  };
-
-  const shareReferralLink = async () => {
-    const link = `${window.location.origin}/early-access?ref=${userData?.referral_code}`;
-    if (navigator.share) {
-      await navigator.share({
-        title: "Join utm.one Early Access",
-        text: "Join me in early access for utm.one",
-        url: link,
-      });
-    } else {
-      copyReferralLink();
-    }
-  };
 
   if (!email) {
     return (
@@ -226,21 +207,36 @@ export default function WaitlistStatus() {
           <p className="text-secondary-label mb-4">
             share your unique referral link and earn points for every friend who joins and <span className="font-semibold text-primary">verifies their email</span>.
           </p>
+          
+          {/* Referral Progress */}
+          <div className="bg-white rounded-lg border border-border p-4 mb-6">
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-tertiary-label">referrals</span>
+              <span className="font-semibold text-foreground">{userData.referral_count || 0} friends</span>
+            </div>
+            <div className="w-full bg-muted/30 rounded-full h-2">
+              <div
+                className="bg-primary h-2 rounded-full transition-all"
+                style={{ width: `${Math.min(((userData.referral_count || 0) / 10) * 100, 100)}%` }}
+              />
+            </div>
+            <p className="text-xs text-tertiary-label mt-2">
+              {userData.referral_count >= 10 
+                ? "🎉 max referral bonus achieved!" 
+                : `${10 - (userData.referral_count || 0)} more to max bonus`}
+            </p>
+          </div>
+
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-amber-900">
               <span className="font-semibold">⚠️ fraud protection:</span> referrals only count when your friends verify their email. this prevents fake signups and keeps the queue fair.
             </p>
           </div>
-          <div className="flex gap-3">
-            <Button onClick={copyReferralLink} variant="outline" className="gap-2">
-              <Copy className="h-4 w-4" />
-              copy link
-            </Button>
-            <Button onClick={shareReferralLink} className="gap-2">
-              <Share2 className="h-4 w-4" />
-              share
-            </Button>
-          </div>
+          
+          <ShareReferralModal 
+            referralCode={userData.referral_code} 
+            userName={userData.name}
+          />
         </div>
 
         {/* Badges */}
