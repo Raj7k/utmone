@@ -1,6 +1,7 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
 import { FeatureSection } from "@/components/features/FeatureSection";
+import { QRGeneratorBasic } from "@/components/qr-generator/QRGeneratorBasic";
 import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
@@ -62,9 +63,10 @@ const QRGenerator = () => {
         { name: "QR Generator", url: "https://utm.one/features/qr-generator" },
       ]}
     >
-      <FeatureHero
+      <FeatureHeroWithTool
         headline="QR Codes With Real Attribution"
         subheadline="utm.one connects every QR code to its link, metadata, analytics, and UTM parameters automatically."
+        toolComponent={<QRGeneratorBasic />}
       />
 
       <FeatureSection background="muted">

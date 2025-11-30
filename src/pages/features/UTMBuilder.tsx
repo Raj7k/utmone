@@ -1,6 +1,7 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/FeatureHero";
+import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
 import { FeatureSection } from "@/components/features/FeatureSection";
+import { UTMBuilderBasic } from "@/components/utm-builder/UTMBuilderBasic";
 import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
@@ -62,9 +63,10 @@ const UTMBuilder = () => {
         { name: "UTM Builder", url: "https://utm.one/features/utm-builder" },
       ]}
     >
-      <FeatureHero
-        headline="Your Parameters, Always Consistent"
-        subheadline="utm.one makes messy UTMs impossible. Every link follows the rules you define."
+      <FeatureHeroWithTool
+        headline="UTM Builder That Enforces Rules"
+        subheadline="utm.one prevents link chaos with built-in governance, templates, and validation."
+        toolComponent={<UTMBuilderBasic />}
       />
 
       <FeatureSection background="muted">
