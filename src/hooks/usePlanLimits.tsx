@@ -13,6 +13,7 @@ export interface PlanLimitsResult {
   links: UsageStat;
   clicks: UsageStat;
   domains: UsageStat;
+  qrCodes: UsageStat;
   canCreateLink: boolean;
   canAddDomain: boolean;
   planTier: string;
@@ -60,6 +61,12 @@ export const usePlanLimits = () => {
     ? 'unlimited'
     : Math.max(0, (domainsLimit as number) - domainsUsed);
 
+  const qrCodesLimit = data?.limits.qrMonthlyLimit;
+  const qrCodesUsed = data?.currentUsage.qrCodesThisMonth || 0;
+  const qrCodesRemaining = qrCodesLimit === 'unlimited'
+    ? 'unlimited'
+    : Math.max(0, (qrCodesLimit as number) - qrCodesUsed);
+
   return {
     ...query,
     links: {
@@ -76,6 +83,11 @@ export const usePlanLimits = () => {
       used: domainsUsed,
       limit: domainsLimit || 0,
       remaining: domainsRemaining,
+    },
+    qrCodes: {
+      used: qrCodesUsed,
+      limit: qrCodesLimit || 0,
+      remaining: qrCodesRemaining,
     },
     canCreateLink: data?.canCreateLink || false,
     canAddDomain: data?.canAddDomain || false,
