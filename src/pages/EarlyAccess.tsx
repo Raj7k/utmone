@@ -16,7 +16,7 @@ import { DiagonalLines, FloatingShapes, GridOverlay, GradientDivider } from "@/c
 import { EarlyAccessStepForm } from "@/components/early-access/EarlyAccessStepForm";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock } from "lucide-react";
+import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock, Trophy } from "lucide-react";
 import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
 import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
 import { useQuery } from "@tanstack/react-query";
@@ -75,10 +75,35 @@ export default function EarlyAccess() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referralCode, setReferralCode] = useState("");
   const [heroVariant, setHeroVariant] = useState(getOrCreateEarlyAccessVariant());
+  const [referrerName, setReferrerName] = useState<string | null>(null);
   const prefillEmail = searchParams.get('email');
+  const refCode = searchParams.get('ref');
 
   // Engagement tracking
   useTrackPageView('/early-access');
+
+  // Fetch referrer info if ref code exists
+  useEffect(() => {
+    if (refCode) {
+      fetchReferrerInfo(refCode);
+    }
+  }, [refCode]);
+
+  const fetchReferrerInfo = async (code: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('early_access_requests')
+        .select('name')
+        .eq('referral_code', code)
+        .single();
+      
+      if (!error && data) {
+        setReferrerName(data.name);
+      }
+    } catch (error) {
+      console.error('Error fetching referrer:', error);
+    }
+  };
 
   // Fetch waitlist stats for FOMO counter using edge function (bypasses RLS)
   const { data: stats } = useQuery({
@@ -338,6 +363,23 @@ export default function EarlyAccess() {
         <div className="max-w-[680px] mx-auto">
           {!isSubmitted ? (
             <>
+              {/* Referral Banner */}
+              {referrerName && (
+                <AnimatedHeadline>
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Trophy className="h-5 w-5 text-green-600" />
+                      <p className="font-semibold text-green-900">
+                        you've been invited by {referrerName}
+                      </p>
+                    </div>
+                    <p className="text-sm text-green-700">
+                      join now to get <strong>1 month of Pro free</strong> when we launch
+                    </p>
+                  </div>
+                </AnimatedHeadline>
+              )}
+              
               <AnimatedHeadline>
                 <h2 className="text-2xl md:text-3xl font-display font-bold mb-2 text-center tracking-tight text-muted-foreground">
                   join the early circle
