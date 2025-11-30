@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -333,7 +334,7 @@ const Signup = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSignUp} className="space-y-5">
+            <form onSubmit={handleSignUp} className="space-y-6">
               <div className="space-y-2">
                 <label htmlFor="fullname" className="text-sm font-medium text-foreground">
                   Full name
@@ -345,7 +346,7 @@ const Signup = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-2 focus-visible:ring-primary"
+                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
                   disabled={isLoading}
                 />
               </div>
@@ -361,7 +362,7 @@ const Signup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-2 focus-visible:ring-primary"
+                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
                   disabled={isLoading || !!invitationContext}
                   readOnly={!!invitationContext}
                 />
@@ -371,15 +372,13 @@ const Signup = () => {
                 <label htmlFor="password" className="text-sm font-medium text-foreground">
                   Password
                 </label>
-                <Input
+                <PasswordInput
                   id="password"
-                  type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={8}
-                  className="h-12 rounded-xl border-2 focus-visible:ring-primary"
                   disabled={isLoading}
                 />
                 <p className="text-xs text-muted-foreground">
@@ -389,14 +388,14 @@ const Signup = () => {
 
               <Button 
                 type="submit" 
-                className="w-full h-12 rounded-xl text-base font-semibold bg-primary hover:bg-primary/90 transition-all"
+                className="w-full h-14 rounded-xl text-base font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
             </form>
 
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-xs text-muted-foreground">
               Already have an account?{" "}
               <Link to="/auth" className="text-primary hover:underline font-medium">
                 Sign in

@@ -12,6 +12,7 @@ import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { MFAChallenge } from "@/components/auth/MFAChallenge";
+import { PasswordInput } from "@/components/auth/PasswordInput";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -382,7 +383,7 @@ const Auth = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSignIn} className="space-y-5">
+            <form onSubmit={handleSignIn} className="space-y-6">
               <div className="space-y-2">
                 <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
                   Email
@@ -394,37 +395,35 @@ const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="rounded-xl"
+                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
                 />
               </div>
               <div className="space-y-2">
                 <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
                   Password
                 </label>
-                <Input
+                <PasswordInput
                   id="signin-password"
-                  type="password"
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="rounded-xl"
                 />
               </div>
-              <Button type="submit" className="w-full rounded-full" disabled={isLoading}>
+              <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={isLoading}>
                 {isLoading ? "Signing in…" : "Sign in"}
               </Button>
               <Button
                 type="button"
                 variant="ghost"
-                className="w-full rounded-full"
+                className="w-full h-14 rounded-xl text-base"
                 onClick={handleForgotPassword}
               >
                 Forgot password?
               </Button>
             </form>
 
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-xs text-muted-foreground">
               New user?{" "}
               <Link to="/signup" className="text-primary hover:underline font-medium">
                 Sign up
