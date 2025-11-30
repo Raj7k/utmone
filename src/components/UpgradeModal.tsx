@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 interface UpgradeModalProps {
   open: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   feature: string;
   currentUsage?: number;
   limit?: number | 'unlimited';
@@ -17,7 +17,7 @@ interface UpgradeModalProps {
 
 export const UpgradeModal = ({
   open,
-  onClose,
+  onOpenChange,
   feature,
   currentUsage,
   limit,
@@ -43,7 +43,7 @@ export const UpgradeModal = ({
   ].filter(Boolean) as string[];
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
@@ -87,14 +87,14 @@ export const UpgradeModal = ({
             className="flex-1"
             onClick={() => {
               navigate('/pricing');
-              onClose();
+              onOpenChange(false);
             }}
           >
             Upgrade to {targetPlan.name}
           </Button>
           <Button
             variant="ghost"
-            onClick={onClose}
+            onClick={() => onOpenChange(false)}
             className="flex-1"
           >
             Maybe later
