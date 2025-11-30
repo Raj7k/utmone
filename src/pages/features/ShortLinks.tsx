@@ -71,7 +71,7 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             Clarity Builds Trust
           </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
@@ -87,7 +87,7 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           The Basics, Done Beautifully
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -107,7 +107,7 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           More Trustworthy Than Any Shortener
         </h2>
         <FeatureComparison
@@ -120,7 +120,7 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           Built For Speed
         </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -152,7 +152,7 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             Create Your First Link
           </h2>
           <p className="text-body-apple text-secondary-label mb-8">

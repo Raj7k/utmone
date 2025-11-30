@@ -72,7 +72,7 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             Consistency Is The Foundation Of Clean Data
           </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
@@ -88,7 +88,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           Built With Clean-Track
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,7 +108,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           The Only UTM Builder That Prevents Errors
         </h2>
         <FeatureComparison
@@ -123,7 +123,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           UTMs In One Motion
         </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -155,7 +155,7 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             Build A Clean UTM Now
           </h2>
           <p className="text-body-apple text-secondary-label mb-8">

@@ -78,6 +78,11 @@ All colors MUST be HSL.
   animation: gradient 3s ease infinite;
 }
 
+/* Brand typography - lowercase system */
+.brand-lowercase {
+  text-transform: lowercase;
+}
+
 /* Bento Grid Layout */
 .bento-grid {
   display: grid;

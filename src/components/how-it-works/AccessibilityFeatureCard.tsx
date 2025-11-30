@@ -21,7 +21,7 @@ export const AccessibilityFeatureCard = ({ title, icon: Icon, delay = 0 }: Acces
           <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
             <Icon className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
-          <p className="text-base font-medium text-foreground">
+          <p className="text-base font-medium text-foreground lowercase">
             {title}
           </p>
         </div>

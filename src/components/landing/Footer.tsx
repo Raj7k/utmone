@@ -18,8 +18,8 @@ export const Footer = () => {
 
           {/* Product Column */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              Product
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              product
             </h3>
             <ul className="space-y-3">
               <li>
@@ -72,8 +72,8 @@ export const Footer = () => {
 
           {/* Solutions Column */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              Solutions
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              solutions
             </h3>
             <ul className="space-y-3">
               <li>
@@ -106,8 +106,8 @@ export const Footer = () => {
 
           {/* Resources Column */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              Resources
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              resources
             </h3>
             <ul className="space-y-3">
               <li>
@@ -166,8 +166,8 @@ export const Footer = () => {
 
           {/* Company Column */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              Company
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              company
             </h3>
             <ul className="space-y-3">
               <li>
@@ -190,8 +190,8 @@ export const Footer = () => {
 
           {/* Legal Column */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-foreground/90">
-              Legal
+            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+              legal
             </h3>
             <ul className="space-y-3">
               <li>
