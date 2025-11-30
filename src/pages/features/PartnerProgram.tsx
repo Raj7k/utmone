@@ -63,7 +63,8 @@ const PartnerProgram = () => {
       ]}
     >
       <FeatureHero
-        headline="Partner Attribution Without Spreadsheets"
+        headlineLine1="partner attribution"
+        headlineLine2="without spreadsheets."
         subheadline="utm.one gives each partner clean links, clean QR codes, and clean attribution — powered by clean-track."
       />
 

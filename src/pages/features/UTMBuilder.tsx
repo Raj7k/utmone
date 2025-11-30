@@ -64,7 +64,8 @@ const UTMBuilder = () => {
       ]}
     >
       <FeatureHeroWithTool
-        headline="UTM Builder That Enforces Rules"
+        headlineLine1="utm builder that"
+        headlineLine2="enforces rules."
         subheadline="utm.one prevents link chaos with built-in governance, templates, and validation."
         toolComponent={<UTMBuilderBasic />}
       />

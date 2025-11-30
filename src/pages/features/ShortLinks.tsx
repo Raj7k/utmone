@@ -63,7 +63,8 @@ const ShortLinks = () => {
       ]}
     >
       <FeatureHeroWithTool
-        headline="Short Links Without Guesswork"
+        headlineLine1="short links without"
+        headlineLine2="guesswork."
         subheadline="utm.one's short links include ownership, metadata, edit history, and destination previews."
         toolComponent={<URLShortenerBasic />}
       />

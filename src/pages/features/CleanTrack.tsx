@@ -63,8 +63,9 @@ const CleanTrack = () => {
       ]}
     >
       <FeatureHero
-        headline="Your Tracking Rules, Automated"
-        subheadline="Syntax, naming, governance, and reporting — standardized in one quiet layer inside utm.one."
+        headlineLine1="your tracking rules,"
+        headlineLine2="automated."
+        subheadline="syntax, naming, governance, and reporting — standardized in one quiet layer inside utm.one."
       />
 
       <FeatureSection background="muted">
