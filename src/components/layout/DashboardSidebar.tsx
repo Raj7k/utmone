@@ -6,6 +6,8 @@ import {
   BarChart3, 
   QrCode, 
   Target,
+  Layers,
+  Brain,
   Megaphone, 
   Briefcase, 
   CreditCard, 
@@ -50,6 +52,8 @@ const appNavigation = [
 const toolsNavigation = [
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
+  { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
+  { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
 ];
 
 const growthNavigation = [

@@ -30,6 +30,7 @@ const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
 const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
 const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
 const Targeting = lazy(() => import("./pages/dashboard/Targeting"));
+const BulkCreate = lazy(() => import("./pages/dashboard/BulkCreate"));
 const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
@@ -310,6 +311,7 @@ const App = () => (
               <Route path="/dashboard/qr-codes" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/targeting" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/targeting/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/bulk-create" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BulkCreate /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/onelink-validator" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns/:id" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CampaignDetails /></DashboardLayout></Suspense></ProtectedRoute>} />
