@@ -79,7 +79,7 @@ export default function EarlyAccess() {
     <div className="min-h-screen bg-white">
       <SEO 
         title="Early Access — utm.one"
-        description="join the early access list and skip the line by inviting a few friends. the cleanest way to track your campaigns is almost here."
+        description="tracking is messy. utm.one launches soon. get early access. skip the waitlist with 3 referrals."
         canonical="https://utm.one/early-access"
         keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics']}
       />
@@ -108,13 +108,13 @@ export default function EarlyAccess() {
 
           <AnimatedHeadline>
             <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
-              the cleanest way to track your campaigns is almost here.
+              tracking is messy. we're fixing it.
             </h1>
           </AnimatedHeadline>
           
           <AnimatedHeadline delay={100}>
             <p className="text-2xl md:text-3xl text-muted-foreground mb-12 leading-relaxed">
-              join the early access list and skip the line by inviting a few friends.
+              utm.one launches soon. get early access. skip the waitlist with 3 referrals.
             </p>
           </AnimatedHeadline>
 
