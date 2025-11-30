@@ -1,9 +1,7 @@
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { PricingCard } from "@/components/PricingCard";
-import { PricingComparison } from "@/components/PricingComparison";
+import { PricingTable } from "@/components/PricingTable";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { PLAN_CONFIG } from "@/lib/planConfig";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/landing/Footer";
@@ -22,13 +20,6 @@ const Pricing = () => {
       navigate('/early-access');
     }
   };
-
-  const mainPlans = [
-    PLAN_CONFIG.free,
-    PLAN_CONFIG.pro,
-    PLAN_CONFIG.business,
-    PLAN_CONFIG.enterprise,
-  ];
 
   return (
     <>
@@ -63,22 +54,15 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* Pricing Cards */}
+      {/* Pricing Table */}
       <section className="py-24 md:py-32 bg-muted/20">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {mainPlans.map((plan, idx) => (
-              <AnimatedSection key={plan.tier} delay={idx * 0.1}>
-                <PricingCard
-                  plan={plan}
-                  onSelect={handlePlanSelect}
-                />
-              </AnimatedSection>
-            ))}
-          </div>
+        <div className="max-w-[1400px] mx-auto px-8">
+          <AnimatedSection>
+            <PricingTable onSelect={handlePlanSelect} />
+          </AnimatedSection>
 
           {/* Lifetime Deal Banner */}
-          <AnimatedSection delay={0.4}>
+          <AnimatedSection delay={0.2}>
             <div className="mt-16 text-center space-y-6 p-12 bg-gradient-nature-1 rounded-2xl border border-primary/20">
               <div className="space-y-3">
                 <div className="inline-block px-4 py-1 bg-system-orange/20 text-system-orange text-subheadline font-semibold rounded-full">
@@ -95,15 +79,6 @@ const Pricing = () => {
                 Claim Lifetime Access →
               </Button>
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Comparison Table */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <AnimatedSection>
-            <PricingComparison />
           </AnimatedSection>
         </div>
       </section>
