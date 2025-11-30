@@ -16,14 +16,27 @@ export default function Targeting() {
   const { data: links, isLoading } = useQuery({
     queryKey: ['links-with-targeting'],
     queryFn: async () => {
-      const { data: workspace } = await supabase
-        .from('workspace_members')
-        .select('workspace_id')
-        .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+
+      // Get user's workspace (either as owner or member)
+      const { data: ownedWorkspace } = await supabase
+        .from('workspaces')
+        .select('id')
+        .eq('owner_id', user.id)
         .single();
 
-      if (!workspace) return [];
+      const { data: memberWorkspace } = await supabase
+        .from('workspace_members')
+        .select('workspace_id')
+        .eq('user_id', user.id)
+        .single();
 
+      const workspaceId = ownedWorkspace?.id || memberWorkspace?.workspace_id;
+      if (!workspaceId) return [];
+
+      // Fetch links with targeting rule counts
       const { data, error } = await supabase
         .from('links')
         .select(`
@@ -35,7 +48,7 @@ export default function Targeting() {
           path,
           targeting_rules(count)
         `)
-        .eq('workspace_id', workspace.workspace_id)
+        .eq('workspace_id', workspaceId)
         .eq('status', 'active')
         .order('created_at', { ascending: false });
 
