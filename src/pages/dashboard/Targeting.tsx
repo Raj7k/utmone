@@ -3,10 +3,11 @@ import { EnhancedTargetingRulesManager } from "@/components/links/EnhancedTarget
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
-import { Search, Link2 } from "lucide-react";
+import { Search, Link2, Plus, ArrowRight } from "lucide-react";
 
 export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
@@ -94,6 +95,28 @@ export default function Targeting() {
 
             {isLoading ? (
               <div className="text-sm text-muted-foreground">Loading links...</div>
+            ) : !links || links.length === 0 ? (
+              <div className="text-center py-12 space-y-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-2">
+                  <Link2 className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">No links yet</h3>
+                  <p className="text-sm text-muted-foreground max-w-md mx-auto mb-4">
+                    To use targeting rules, you need to create a short link first. Then you can add conditional redirects based on country, device, or browser.
+                  </p>
+                </div>
+                <div className="flex items-center justify-center gap-3">
+                  <Button onClick={() => navigate('/dashboard/links')}>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create your first link
+                  </Button>
+                  <Button variant="outline" onClick={() => navigate('/dashboard')}>
+                    <ArrowRight className="w-4 h-4 mr-2" />
+                    Go to dashboard
+                  </Button>
+                </div>
+              </div>
             ) : filteredLinks && filteredLinks.length > 0 ? (
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {filteredLinks.map((link) => (
@@ -121,7 +144,7 @@ export default function Targeting() {
               </div>
             ) : (
               <div className="text-center py-8 text-sm text-muted-foreground">
-                {searchQuery ? 'No links match your search' : 'No links found. Create a link first.'}
+                No links match your search
               </div>
             )}
           </CardContent>
