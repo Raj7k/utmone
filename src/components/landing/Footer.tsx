@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
 import { Linkedin } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { FooterFAQ } from "./FooterFAQ";
 
 export const Footer = () => {
   return (
     <footer className="border-t border-border/50 bg-white">
       <div className="max-w-[1280px] mx-auto px-8 py-20">
-        {/* FAQ Section */}
-        <FooterFAQ />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-12">
           
           {/* Brand Column (spans 2 on desktop) */}
