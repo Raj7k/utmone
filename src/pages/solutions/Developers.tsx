@@ -47,7 +47,7 @@ const Developers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05]">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               A Clean API for a Cleaner Stack
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
@@ -71,7 +71,7 @@ const Developers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
               The Real Pain
             </h2>
             <p className="text-xl text-muted-foreground italic">
@@ -94,7 +94,7 @@ const Developers = () => {
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
               What You Get
             </h2>
             <p className="text-xl text-muted-foreground">
@@ -125,7 +125,7 @@ const Developers = () => {
       <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
               Built for Developers
             </h2>
           </div>
@@ -183,7 +183,7 @@ const Developers = () => {
         
         <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6 lowercase">
               Your Workflow, Simplified
             </h2>
             <p className="text-xl text-white/70">

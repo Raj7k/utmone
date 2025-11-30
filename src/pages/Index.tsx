@@ -151,7 +151,7 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
                 Most Link Tools Focus on Shortening
               </h2>
-              <p className="text-xl md:text-2xl font-display font-semibold text-blazeOrange">
+              <p className="text-xl md:text-2xl font-display font-semibold text-blazeOrange lowercase">
                 Few Focus on Trust
               </p>
             </div>
@@ -207,7 +207,7 @@ const Index = () => {
               </StaggerItem>
             </StaggerContainer>
             
-            <p className="text-center text-xl md:text-2xl font-display font-semibold text-blazeOrange">
+            <p className="text-center text-xl md:text-2xl font-display font-semibold text-blazeOrange lowercase">
               utm.one fixes the fundamentals — not the symptoms.
             </p>
           </div>
@@ -225,7 +225,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Eye className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Link Previews</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Link Previews</h2>
                   <p className="text-subheadline text-secondary-label">
                     See the destination before you click — title, favicon, page summary
                   </p>
@@ -234,7 +234,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Shield className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Safety Indicators</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Safety Indicators</h2>
                   <p className="text-subheadline text-secondary-label">
                     Malware scan, blacklist check, SSL validation
                   </p>
@@ -243,7 +243,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <BarChart3 className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Transparent Analytics</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Transparent Analytics</h2>
                   <p className="text-subheadline text-secondary-label">
                     You always know what's collected and why
                   </p>
@@ -252,7 +252,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Lock className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Privacy by Default</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Privacy by Default</h2>
                   <p className="text-subheadline text-secondary-label">
                     GDPR-ready, easy export, simple opt-out
                   </p>
@@ -260,10 +260,10 @@ const Index = () => {
               </StaggerItem>
             </StaggerContainer>
             <div className="text-center mt-12 space-y-2">
-              <p className="text-title-2 text-label">
+              <p className="text-title-2 text-label lowercase">
                 Trust drives engagement.
               </p>
-              <p className="text-title-2 font-semibold text-blazeOrange">
+              <p className="text-title-2 font-semibold text-blazeOrange lowercase">
                 Clarity drives trust.
               </p>
             </div>
@@ -311,7 +311,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-system-background">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
                 Your Links Outlive Your Tools
               </h2>
               <p className="text-xl text-secondary-label">
@@ -322,7 +322,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Infinity className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Permanent Redirects</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Permanent Redirects</h2>
                   <p className="text-subheadline text-secondary-label">
                     Your links keep working, always
                   </p>
@@ -331,7 +331,7 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Database className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Self-Hosted Option</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Self-Hosted Option</h2>
                   <p className="text-subheadline text-secondary-label">
                     Run utm.one locally, keep full control
                   </p>
@@ -340,14 +340,14 @@ const Index = () => {
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <GitBranch className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3">Link Backups</h2>
+                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Link Backups</h2>
                   <p className="text-subheadline text-secondary-label">
                     Auto-backup to your GitHub or storage
                   </p>
                 </div>
               </StaggerItem>
             </StaggerContainer>
-            <p className="text-center text-title-2 font-semibold text-blazeOrange mt-12">
+            <p className="text-center text-title-2 font-semibold text-blazeOrange mt-12 lowercase">
               Reliability is a feature, not a nice-to-have.
             </p>
           </div>
@@ -357,7 +357,7 @@ const Index = () => {
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-8">
             <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
                 Everything Your GTM Team Needs, in One Place
               </h2>
             </div>
