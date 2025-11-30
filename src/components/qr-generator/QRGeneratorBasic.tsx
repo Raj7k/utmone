@@ -17,7 +17,7 @@ export const QRGeneratorBasic = () => {
 
   // Generate QR with embedded utm.one branding
   useEffect(() => {
-    if (!url || !canvasRef.current) return;
+    if (!url || !canvasRef.current || !isExpanded) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -53,7 +53,7 @@ export const QRGeneratorBasic = () => {
       ctx.textBaseline = 'middle';
       ctx.fillText('utm.one', centerX, centerY);
     });
-  }, [url, color]);
+  }, [url, color, isExpanded]);
 
   const downloadPNG = async () => {
     if (!url || !canvasRef.current) {
@@ -174,27 +174,33 @@ export const QRGeneratorBasic = () => {
             </div>
 
             {/* QR Preview with Internal Branding */}
-            {url && (
-              <div className="space-y-4">
-                <Label>preview with utm.one branding</Label>
-                <div className="bg-muted/20 p-8 rounded-xl border border-border/40 flex justify-center">
+            <div className="space-y-4">
+              <Label>preview with utm.one branding</Label>
+              <div className="bg-muted/20 p-8 rounded-xl border border-border/40 flex justify-center items-center min-h-[400px]">
+                {url ? (
                   <canvas 
                     ref={canvasRef} 
                     className="rounded-lg"
                     style={{ maxWidth: '100%', height: 'auto' }}
                   />
-                </div>
-
-                <Button onClick={downloadPNG} size="lg" variant="marketing" className="w-full">
-                  <Download className="h-4 w-4 mr-2" />
-                  download qr code
-                </Button>
-
-                <p className="text-xs text-center text-muted-foreground">
-                  utm.one branding is embedded inside the qr code
-                </p>
+                ) : (
+                  <div className="text-muted-foreground text-sm">enter url to preview qr code</div>
+                )}
               </div>
-            )}
+
+              {url && (
+                <>
+                  <Button onClick={downloadPNG} size="lg" variant="marketing" className="w-full">
+                    <Download className="h-4 w-4 mr-2" />
+                    download qr code
+                  </Button>
+
+                  <p className="text-xs text-center text-muted-foreground">
+                    utm.one branding is embedded inside the qr code
+                  </p>
+                </>
+              )}
+            </div>
 
             {/* Pro Features Nudge */}
             <div className="pt-6 border-t border-border/40">
