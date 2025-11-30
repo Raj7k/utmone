@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Link2, Copy, Sparkles, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Link2, Copy, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -161,13 +161,12 @@ export const URLShortenerBasic = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto"
+        className="max-w-2xl mx-auto"
       >
-        {/* Left: Input */}
         <Card className="p-8">
           <div className="space-y-6">
             <div>
-              <Label htmlFor="url">long url</Label>
+              <Label htmlFor="url">destination url</Label>
               <Input
                 id="url"
                 type="url"
@@ -177,7 +176,7 @@ export const URLShortenerBasic = () => {
                   setUrl(e.target.value);
                   setError("");
                 }}
-                className="mt-2"
+                className="mt-2 h-11"
                 disabled={!!shortURL}
               />
               {error && (
@@ -197,7 +196,7 @@ export const URLShortenerBasic = () => {
                   placeholder="leave blank for auto-generate"
                   value={customSlug}
                   onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                  className="flex-1"
+                  className="flex-1 h-11"
                   disabled={!!shortURL}
                 />
                 <Button
@@ -207,6 +206,7 @@ export const URLShortenerBasic = () => {
                   onClick={generateRandomSlug}
                   disabled={!!shortURL}
                   title="generate random slug"
+                  className="h-11 w-11"
                 >
                   <Sparkles className="h-4 w-4" />
                 </Button>
@@ -216,6 +216,45 @@ export const URLShortenerBasic = () => {
               </p>
             </div>
 
+            {/* Result Preview */}
+            {shortURL && (
+              <div className="space-y-4 pt-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <CheckCircle2 className="h-5 w-5 text-green-500" />
+                  <span>your short link is ready</span>
+                </div>
+
+                <div className="bg-muted/30 p-4 rounded-lg border border-border/40">
+                  <div className="text-xs text-secondary-label mb-1">short url</div>
+                  <div className="text-base font-medium text-foreground break-all">
+                    {shortURL}
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Button
+                    onClick={handleCopy}
+                    className="flex-1"
+                    size="lg"
+                  >
+                    <Copy className="h-4 w-4 mr-2" />
+                    copy link
+                  </Button>
+                  <a
+                    href={shortURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
+                  >
+                    <Button variant="outline" className="w-full" size="lg">
+                      test link →
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            )}
+
+            {/* Action Button */}
             {!shortURL ? (
               <Button
                 onClick={handleShorten}
@@ -237,111 +276,42 @@ export const URLShortenerBasic = () => {
               </Button>
             )}
 
+            {/* Pro Features Nudge */}
             <div className="pt-6 border-t border-border/40">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                 <Sparkles className="h-4 w-4" />
                 <span>unlock pro features</span>
               </div>
               <div className="space-y-2 text-sm text-secondary-label">
                 <div className="flex items-center gap-2">
-                  <span className="text-primary">🔒</span>
-                  <span>custom branded domains</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>geo-targeting</strong> — different urls for different countries</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-primary">🔒</span>
-                  <span>link analytics & qr codes</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>team workspace</strong> — collaborate with unlimited members</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-primary">🔒</span>
-                  <span>expiry dates & click limits</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>analytics dashboard</strong> — clicks, devices, locations</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-primary">🔒</span>
-                  <span>edit history tracking</span>
+                  <Lock className="h-4 w-4 text-primary" />
+                  <span><strong>campaign manager</strong> — group links, track performance</span>
                 </div>
               </div>
             </div>
           </div>
         </Card>
 
-        {/* Right: Preview */}
-        <div className="flex flex-col items-center justify-center">
-          <Card className="p-8 w-full">
-            {shortURL ? (
-              <div className="space-y-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="h-5 w-5 text-green-500" />
-                  <span>your short link is ready</span>
-                </div>
 
-                <div className="bg-muted/30 p-4 rounded-lg border border-border/40">
-                  <div className="text-sm text-secondary-label mb-1">short url</div>
-                  <div className="text-lg font-medium text-foreground break-all">
-                    {shortURL}
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <Button
-                    onClick={handleCopy}
-                    className="w-full"
-                    size="lg"
-                  >
-                    <Copy className="h-4 w-4 mr-2" />
-                    copy link
-                  </Button>
-
-                  <a
-                    href={shortURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <Button variant="outline" className="w-full" size="lg">
-                      test link →
-                    </Button>
-                  </a>
-                </div>
-
-                <div className="pt-4 border-t border-border/40 text-center">
-                  <p className="text-sm text-secondary-label mb-3">
-                    want custom domains and analytics?
-                  </p>
-                  <a href="/early-access" className="block">
-                    <Button variant="default" className="w-full">
-                      <Sparkles className="h-4 w-4 mr-2" />
-                      upgrade to pro
-                    </Button>
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="h-[400px] flex items-center justify-center">
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto bg-muted/20 rounded-full flex items-center justify-center">
-                    <Link2 className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-medium text-foreground mb-1">
-                      customize your link
-                    </div>
-                    <div className="text-sm text-secondary-label">
-                      add a custom slug or create your link
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </Card>
-
-          <p className="text-sm text-secondary-label text-center mt-6 max-w-md">
-            free links use utm.click domain.{" "}
-            <a href="/pricing" className="text-primary hover:underline">
-              upgrade to pro
-            </a>{" "}
-            for custom domains, analytics, and advanced features.
-          </p>
-        </div>
+        <p className="text-sm text-secondary-label text-center mt-6">
+          free links use utm.click domain.{" "}
+          <a href="/pricing" className="text-primary hover:underline">
+            upgrade to pro
+          </a>{" "}
+          for custom domains, geo-targeting, and team collaboration
+        </p>
       </motion.div>
     </AnimatePresence>
   );
