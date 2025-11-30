@@ -41,7 +41,7 @@ const Pricing = () => {
       {/* Hero Section */}
       <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <AnimatedSection className="text-center space-y-6">
+          <AnimatedSection className="text-center space-y-8">
             <div className="hero-glow">
               <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance">
                 simple pricing.<br />generous limits.
@@ -50,12 +50,56 @@ const Pricing = () => {
             <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto">
               no per-seat charges. no hidden fees. just straightforward pricing that scales with your links, not your team size.
             </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Button 
+                size="lg" 
+                className="bg-blazeOrange text-white hover:bg-blazeOrange/90 min-w-[200px]"
+                onClick={() => navigate('/early-access')}
+              >
+                start free →
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="border-2 min-w-[200px]"
+                onClick={() => {
+                  const pricingSection = document.getElementById('pricing-table');
+                  pricingSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                compare plans
+              </Button>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>no credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>cancel anytime</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>99.9% uptime</span>
+              </div>
+            </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Pricing Table */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section id="pricing-table" className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[1400px] mx-auto px-8">
           <AnimatedSection>
             <PricingTable onSelect={handlePlanSelect} />
