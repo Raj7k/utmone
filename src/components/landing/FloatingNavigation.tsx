@@ -203,6 +203,99 @@ export const FloatingNavigation = () => {
                 </PopoverContent>
               </Popover>
 
+              {/* Compare Dropdown */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                  >
+                    compare <ChevronUp className="ml-1 h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  side="top" 
+                  align="center" 
+                  sideOffset={12}
+                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                >
+                  <ul className="grid gap-2 max-h-[400px] overflow-y-auto">
+                    <li>
+                      <Link
+                        to="/compare/bitly"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Bitly</div>
+                        <p className="text-xs text-muted-foreground">trust, not just shortening</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/rebrandly"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Rebrandly</div>
+                        <p className="text-xs text-muted-foreground">branding ≠ clarity</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/short-io"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Short.io</div>
+                        <p className="text-xs text-muted-foreground">functional vs foundational</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/bl-ink"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Bl.ink</div>
+                        <p className="text-xs text-muted-foreground">enterprise-clear</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/rewardful"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Rewardful</div>
+                        <p className="text-xs text-muted-foreground">attribution over payouts</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/partnerstack"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs PartnerStack</div>
+                        <p className="text-xs text-muted-foreground">simple & predictable</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/firstpromoter"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs FirstPromoter</div>
+                        <p className="text-xs text-muted-foreground">clarity first</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/compare/tolt"
+                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="text-xs font-medium">utm.one vs Tolt</div>
+                        <p className="text-xs text-muted-foreground">structured trust</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
+
               {/* Resources Dropdown */}
               <Popover>
                 <PopoverTrigger asChild>
