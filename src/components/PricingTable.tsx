@@ -102,27 +102,48 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
   return (
     <>
       {/* Billing Period Toggle */}
-      <div className="flex items-center justify-center gap-4 mb-8">
-        <span className={`text-sm ${billingPeriod === 'monthly' ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-          monthly
-        </span>
-        <button
-          onClick={() => setBillingPeriod(prev => prev === 'monthly' ? 'annual' : 'monthly')}
-          className="relative w-14 h-7 bg-muted rounded-full transition-colors hover:bg-muted/80"
-          aria-label="Toggle billing period"
-        >
-          <span 
-            className={`absolute top-1 w-5 h-5 bg-blazeOrange rounded-full transition-transform duration-200 ${
-              billingPeriod === 'annual' ? 'translate-x-8' : 'translate-x-1'
-            }`} 
-          />
-        </button>
-        <span className={`text-sm ${billingPeriod === 'annual' ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
-          annual
-          {billingPeriod === 'annual' && (
-            <span className="ml-2 text-xs text-system-green font-medium">save up to 20%</span>
-          )}
-        </span>
+      <div className="flex flex-col items-center justify-center gap-3 mb-12">
+        <div className="flex items-center justify-center gap-4 bg-card border border-border rounded-full px-6 py-3 shadow-sm">
+          <button
+            onClick={() => setBillingPeriod('monthly')}
+            className={`text-sm font-medium transition-colors ${
+              billingPeriod === 'monthly' 
+                ? 'text-foreground font-semibold' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            monthly
+          </button>
+          <button
+            onClick={() => setBillingPeriod(prev => prev === 'monthly' ? 'annual' : 'monthly')}
+            className="relative w-12 h-6 bg-muted rounded-full transition-all hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-blazeOrange focus:ring-offset-2"
+            aria-label="Toggle billing period"
+          >
+            <span 
+              className={`absolute top-0.5 w-5 h-5 bg-blazeOrange rounded-full shadow-sm transition-transform duration-300 ease-in-out ${
+                billingPeriod === 'annual' ? 'translate-x-[26px]' : 'translate-x-0.5'
+              }`} 
+            />
+          </button>
+          <button
+            onClick={() => setBillingPeriod('annual')}
+            className={`text-sm font-medium transition-colors ${
+              billingPeriod === 'annual' 
+                ? 'text-foreground font-semibold' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            annual
+          </button>
+        </div>
+        {billingPeriod === 'annual' && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-system-green/10 border border-system-green/20 rounded-full">
+            <svg className="w-4 h-4 text-system-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <span className="text-xs font-medium text-system-green">save up to 20% with annual billing</span>
+          </div>
+        )}
       </div>
 
       {/* Desktop Grid View */}
