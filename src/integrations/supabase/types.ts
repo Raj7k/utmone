@@ -2489,6 +2489,7 @@ export type Database = {
           fallback_url: string | null
           final_url: string
           folder_id: string | null
+          geo_targets: Json | null
           id: string
           is_ab_test: boolean | null
           last_clicked_at: string | null
@@ -2544,6 +2545,7 @@ export type Database = {
           fallback_url?: string | null
           final_url: string
           folder_id?: string | null
+          geo_targets?: Json | null
           id?: string
           is_ab_test?: boolean | null
           last_clicked_at?: string | null
@@ -2601,6 +2603,7 @@ export type Database = {
           fallback_url?: string | null
           final_url?: string
           folder_id?: string | null
+          geo_targets?: Json | null
           id?: string
           is_ab_test?: boolean | null
           last_clicked_at?: string | null
