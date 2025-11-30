@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { formatText } from "@/utils/textFormatter";
 import {
   Command,
@@ -22,11 +22,13 @@ import {
   CreditCard, 
   User,
   Building2,
-  Plus
+  Plus,
+  X
 } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 import { useEffect, useRef, useState } from "react";
 import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const allNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid, category: "Workspace" },
@@ -69,13 +71,28 @@ export const SidebarSearch = () => {
 
   return (
     <aside className="w-[280px] h-screen bg-card border-r border-separator flex flex-col z-40">
+      {/* Header with Logo and Close Button */}
+      <div className="h-[72px] flex items-center justify-between px-4 border-b border-separator">
+        <Link to="/dashboard" onClick={closeSearch}>
+          <UtmOneLogo size="sm" />
+        </Link>
+        <button
+          onClick={closeSearch}
+          className="w-8 h-8 rounded-lg flex items-center justify-center text-secondary-label hover:text-label hover:bg-muted transition-colors"
+          aria-label="Close search"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+
       <Command className="h-full rounded-none border-0">
         <div className="border-b border-separator">
           <CommandInput 
             ref={inputRef}
             placeholder="Search navigation..." 
-            className="h-[72px] border-0 focus:ring-0"
+            className="h-12 border-0 focus:ring-0"
           />
+          <p className="text-xs text-tertiary-label px-3 pb-2">Press ESC to close</p>
         </div>
         <CommandList className="max-h-none">
           <CommandEmpty>No results found.</CommandEmpty>
