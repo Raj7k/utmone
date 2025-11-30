@@ -24,6 +24,10 @@ import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 
+// Auth callback gatekeeper and waitlist pages
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
+const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
+
 // Lazy-loaded pages for code splitting
 const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
 const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
@@ -303,9 +307,11 @@ const App = () => (
               {/* Critical pages - not lazy loaded */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/callback" element={<Suspense fallback={<DashboardSkeleton />}><AuthCallback /></Suspense>} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
+              <Route path="/waitlist-locked" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistLocked /></Suspense>} />
                
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />

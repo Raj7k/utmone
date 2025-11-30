@@ -43,6 +43,12 @@ const Auth = () => {
     // Load invitation context if invite token present
     if (inviteToken) {
       loadInvitationContext(inviteToken);
+    } else {
+      // Also check localStorage for pending invite token
+      const pendingInvite = localStorage.getItem("pending_invite_token");
+      if (pendingInvite) {
+        loadInvitationContext(pendingInvite);
+      }
     }
 
     // Add timeout to prevent infinite loading - use functional update to avoid stale closure
@@ -228,15 +234,16 @@ const Auth = () => {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     
-    // Preserve invite token in redirect URL
-    const redirectUrl = inviteToken 
-      ? `${window.location.origin}/accept-invite?token=${inviteToken}`
-      : `${window.location.origin}/dashboard`;
+    // Store invite token in localStorage to survive OAuth redirect
+    if (inviteToken) {
+      localStorage.setItem("pending_invite_token", inviteToken);
+    }
     
+    // Always redirect to auth callback for gatekeeper logic
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -257,15 +264,16 @@ const Auth = () => {
   const handleMicrosoftLogin = async () => {
     setIsLoading(true);
     
-    // Preserve invite token in redirect URL
-    const redirectUrl = inviteToken 
-      ? `${window.location.origin}/accept-invite?token=${inviteToken}`
-      : `${window.location.origin}/dashboard`;
+    // Store invite token in localStorage to survive OAuth redirect
+    if (inviteToken) {
+      localStorage.setItem("pending_invite_token", inviteToken);
+    }
     
+    // Always redirect to auth callback for gatekeeper logic
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'azure',
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: `${window.location.origin}/auth/callback`,
         scopes: 'email profile openid',
       }
     });
