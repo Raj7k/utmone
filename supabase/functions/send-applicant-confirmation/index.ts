@@ -43,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
     const referralUrl = `https://utm.one/invite/${referral_code}`;
 
     const emailResponse = await resend.emails.send({
-      from: "utm.one <onboarding@resend.dev>",
+      from: "utm.one <onboarding@utm.one>",
       to: [email],
       subject: "you're in the queue — utm.one early access",
       html: `

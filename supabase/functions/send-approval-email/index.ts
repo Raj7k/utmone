@@ -55,7 +55,7 @@ const handler = async (req: Request): Promise<Response> => {
       : '';
 
     const emailResponse = await resend.emails.send({
-      from: "utm.one <onboarding@resend.dev>",
+      from: "utm.one <onboarding@utm.one>",
       to: [email],
       subject: "You've been selected for utm.one early access",
       html: `

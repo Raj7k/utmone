@@ -47,7 +47,7 @@ serve(async (req) => {
     for (const email of pendingEmails) {
       try {
         const { error: sendError } = await resend.emails.send({
-          from: 'utm.one <onboarding@resend.dev>',
+          from: 'utm.one <onboarding@utm.one>',
           to: [email.user_id.email],
           subject: email.campaign_id.subject,
           html: email.campaign_id.html_content
