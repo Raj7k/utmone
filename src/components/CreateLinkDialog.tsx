@@ -35,6 +35,14 @@ export const CreateLinkDialog = ({ workspaceId, open: externalOpen, onOpenChange
   const handleSuccess = (linkId: string, shortUrl: string) => {
     // LinkForge handles the complete journey, just close dialog
     setOpen(false);
+    
+    // Auto-scroll to recent links section after a brief delay
+    setTimeout(() => {
+      const recentLinksSection = document.getElementById("recent-links");
+      if (recentLinksSection) {
+        recentLinksSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 500);
   };
 
   const handleClose = () => {

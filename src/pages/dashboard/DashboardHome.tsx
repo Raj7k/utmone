@@ -65,7 +65,7 @@ const DashboardHome = () => {
           </div>
 
           {/* Row 4: Recent Links (full width on all breakpoints) */}
-          <div className="md:col-span-6 lg:col-span-12 order-7">
+          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-7 scroll-mt-6">
             <ErrorBoundary section="recent-links">
               <BentoRecentLinksTile />
             </ErrorBoundary>
