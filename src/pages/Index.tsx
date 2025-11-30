@@ -34,7 +34,6 @@ import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
-import { FloatingActionButton } from "@/components/landing/FloatingActionButton";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
 import { Footer } from "@/components/landing/Footer";
@@ -81,7 +80,6 @@ const Index = () => {
         <AnnouncementBar dismissible={true} />
         <Navigation />
         <FloatingNavigation />
-        <FloatingActionButton />
 
         {/* Hero Section - Pure White Background */}
         <HeroVariantManager>
