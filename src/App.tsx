@@ -94,6 +94,16 @@ const MarketingOps = lazy(() => import("./pages/solutions/MarketingOps"));
 const Developers = lazy(() => import("./pages/solutions/Developers"));
 const PartnerManagers = lazy(() => import("./pages/solutions/PartnerManagers"));
 
+// Comparison Pages
+const UtmOneVsBitly = lazy(() => import("./pages/compare/UtmOneVsBitly"));
+const UtmOneVsRebrandly = lazy(() => import("./pages/compare/UtmOneVsRebrandly"));
+const UtmOneVsShortIo = lazy(() => import("./pages/compare/UtmOneVsShortIo"));
+const UtmOneVsBlInk = lazy(() => import("./pages/compare/UtmOneVsBlInk"));
+const UtmOneVsRewardful = lazy(() => import("./pages/compare/UtmOneVsRewardful"));
+const UtmOneVsPartnerstack = lazy(() => import("./pages/compare/UtmOneVsPartnerstack"));
+const UtmOneVsFirstpromoter = lazy(() => import("./pages/compare/UtmOneVsFirstpromoter"));
+const UtmOneVsTolt = lazy(() => import("./pages/compare/UtmOneVsTolt"));
+
 // Resource Pages
 const Resources = lazy(() => import("./pages/Resources"));
 const Guides = lazy(() => import("./pages/resources/Guides"));
@@ -369,6 +379,17 @@ const App = () => (
               <Route path="/features/governance" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseControl /></Suspense>} />
               <Route path="/features/clean-track" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrack /></Suspense>} />
               <Route path="/features/partner-program" element={<Suspense fallback={<DashboardSkeleton />}><PartnerProgram /></Suspense>} />
+              
+              {/* Comparison Pages */}
+              <Route path="/compare/bitly" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsBitly /></Suspense>} />
+              <Route path="/compare/rebrandly" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsRebrandly /></Suspense>} />
+              <Route path="/compare/short-io" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsShortIo /></Suspense>} />
+              <Route path="/compare/bl-ink" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsBlInk /></Suspense>} />
+              <Route path="/compare/rewardful" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsRewardful /></Suspense>} />
+              <Route path="/compare/partnerstack" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsPartnerstack /></Suspense>} />
+              <Route path="/compare/firstpromoter" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsFirstpromoter /></Suspense>} />
+              <Route path="/compare/tolt" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsTolt /></Suspense>} />
+              
               <Route path="/resources" element={<Suspense fallback={<DashboardSkeleton />}><Resources /></Suspense>} />
               <Route path="/resources/guides" element={<Suspense fallback={<DashboardSkeleton />}><Guides /></Suspense>} />
               <Route path="/resources/guides/utm-guide" element={<Suspense fallback={<DashboardSkeleton />}><UTMGuide /></Suspense>} />
