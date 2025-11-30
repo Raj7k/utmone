@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { 
   CheckCircle2, 
   Loader2, 
@@ -87,6 +88,7 @@ const goals = [
 export default function OnboardingWizard() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [fullName, setFullName] = useState("");
@@ -104,6 +106,16 @@ export default function OnboardingWizard() {
       setPlaceholderKey(prev => prev + 1);
     }
   }, [selectedRole]);
+
+  // Auto-redirect to dashboard when ready (safety net)
+  useEffect(() => {
+    if (completionPhase === "ready") {
+      const timer = setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [completionPhase, navigate]);
 
   const currentPlaceholder = selectedRole 
     ? `e.g., ${ROLE_CONFIG[selectedRole].hint_workspace}`
@@ -201,6 +213,9 @@ export default function OnboardingWizard() {
 
       if (workspaceError) throw workspaceError;
 
+      // Invalidate workspace cache to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: ["client-workspaces"] });
+
       setCompletionPhase("ready");
       await new Promise(resolve => setTimeout(resolve, 600));
 
@@ -252,11 +267,20 @@ export default function OnboardingWizard() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="space-y-4"
             >
               <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-12 h-12 text-green-500" />
               </div>
               <p className="text-lg font-medium">All set!</p>
+              <p className="text-sm text-muted-foreground">Redirecting to dashboard...</p>
+              <Button 
+                onClick={() => navigate("/dashboard")} 
+                variant="outline"
+                className="mt-4"
+              >
+                Go to Dashboard
+              </Button>
             </motion.div>
           )}
         </motion.div>
