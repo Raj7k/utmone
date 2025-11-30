@@ -33,7 +33,7 @@ export default function BookDemo() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    countryCode: "US",
+    country_code: "US",
     phone: "",
     interests: [] as string[],
     challenge: "",
@@ -46,7 +46,7 @@ export default function BookDemo() {
       try {
         const { data } = await supabase.functions.invoke('detect-location');
         if (data?.country_code) {
-          setFormData(prev => ({ ...prev, countryCode: data.country_code }));
+          setFormData(prev => ({ ...prev, country_code: data.country_code }));
         }
       } catch (error) {
         console.error('Failed to detect location:', error);
@@ -193,13 +193,13 @@ export default function BookDemo() {
                 </div>
                 <div className="grid grid-cols-[120px_1fr] gap-2">
                   <Select
-                    value={formData.countryCode}
-                    onValueChange={(value) => setFormData(prev => ({ ...prev, countryCode: value }))}
+                    value={formData.country_code}
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, country_code: value }))}
                   >
                     <SelectTrigger className="h-11 bg-white border-border/20">
                       <SelectValue>
-                        {phoneCountryCodes.find(c => c.code === formData.countryCode)?.flag}{' '}
-                        {phoneCountryCodes.find(c => c.code === formData.countryCode)?.dialCode}
+                        {phoneCountryCodes.find(c => c.code === formData.country_code)?.flag}{' '}
+                        {phoneCountryCodes.find(c => c.code === formData.country_code)?.dialCode}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent className="max-h-[300px]">
