@@ -19,19 +19,21 @@
 .animated-border-card {
   position: relative;
   border-radius: 1rem;
+  border: 1px solid hsl(var(--border) / 0.4);
+  background: hsl(var(--background));
 }
 
 .animated-border-card::before {
   content: '';
   position: absolute;
-  inset: 0;
+  inset: -1px;
   border-radius: 1rem;
-  padding: 1.5px;
+  padding: 1px;
   background: linear-gradient(
     var(--border-angle, 0deg),
-    transparent 40%,
-    hsl(217 91% 60%) 50%,
-    transparent 60%
+    transparent 35%,
+    hsl(217 91% 60% / 0.8) 50%,
+    transparent 65%
   );
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
@@ -41,7 +43,7 @@
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   mask-composite: exclude;
-  animation: rotate-border 4s linear infinite;
+  animation: rotate-border 10s linear infinite;
   pointer-events: none;
 }
 
