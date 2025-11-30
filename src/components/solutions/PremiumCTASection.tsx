@@ -31,7 +31,7 @@ export const PremiumCTASection = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase"
           >
             {headline}
           </motion.h2>
