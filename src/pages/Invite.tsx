@@ -11,12 +11,14 @@ export default function Invite() {
   const trackClick = useTrackClick();
 
   useEffect(() => {
-    // Redirect to early access page with referral code
+    // Store invite token in localStorage for OAuth flow
     if (code) {
       trackClick('referral_link_clicked', { referral_code: code });
-      // Small delay for tracking
+      localStorage.setItem("pending_invite_token", code);
+      
+      // Redirect to auth page so user can sign in with Google/Microsoft
       setTimeout(() => {
-        navigate(`/early-access?ref=${code}`);
+        navigate('/auth');
       }, 100);
     } else {
       navigate('/early-access');
