@@ -91,9 +91,11 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
   const getBadge = (tier: string) => {
     if (tier === 'pro') {
       return (
-        <span className="border border-primary text-primary rounded-full text-[10px] px-2 py-0.5 uppercase tracking-wide font-semibold">
-          most popular
-        </span>
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+          <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
+            most popular
+          </span>
+        </div>
       );
     }
     return null;
@@ -129,16 +131,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         {/* Savings badge - always visible but styled differently */}
         <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200 ${
           billingPeriod === 'annual'
-            ? 'bg-system-green/10 border border-system-green/20'
+            ? 'bg-primary/10 border border-primary/20'
             : 'bg-transparent'
         }`}>
           <svg className={`w-4 h-4 transition-colors ${
-            billingPeriod === 'annual' ? 'text-system-green' : 'text-muted-foreground'
+            billingPeriod === 'annual' ? 'text-primary' : 'text-muted-foreground'
           }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
           <span className={`text-xs font-medium transition-colors ${
-            billingPeriod === 'annual' ? 'text-system-green' : 'text-muted-foreground'
+            billingPeriod === 'annual' ? 'text-primary' : 'text-muted-foreground'
           }`}>
             save up to 20% with annual billing
           </span>
@@ -156,12 +158,12 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
           
           {/* Columns 2-4: Plan Headers */}
           {plans.slice(0, 3).map((plan) => (
-            <div key={plan.tier} className="p-6 space-y-4">
+            <div key={plan.tier} className="p-6 space-y-4 relative">
+              {getBadge(plan.tier)}
               <div className="space-y-2">
                 <h3 className="text-xl font-display font-bold text-foreground brand-lowercase">
                   {plan.name}
                 </h3>
-                {getBadge(plan.tier)}
               </div>
               
               <div className="space-y-1">
@@ -172,21 +174,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                 </div>
                 {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                  <div className="text-xs text-system-green font-medium">
+                  <div className="text-xs text-primary font-medium">
                     save ${getAnnualSavings(plan.tier)}/year
                   </div>
                 )}
               </div>
 
               <Button
-                variant={plan.price === 0 ? "outline" : "default"}
                 size="lg"
                 onClick={() => onSelect(plan.tier)}
-                className={`w-full brand-lowercase ${
-                  plan.price === 0 
-                    ? 'bg-white border-gray-200 text-foreground hover:bg-gray-50' 
-                    : 'bg-blazeOrange text-white hover:bg-blazeOrange/90'
-                }`}
+                className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
               >
                 {plan.cta}
               </Button>
@@ -261,14 +258,14 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
 
         {/* Selected Plan Content */}
         {plans.slice(0, 3).filter(plan => plan.tier === selectedTab).map((plan) => (
-          <div key={plan.tier} className="border border-gray-200 rounded-2xl overflow-hidden bg-white">
+          <div key={plan.tier} className="border border-gray-200 rounded-2xl overflow-hidden bg-white relative">
+            {getBadge(plan.tier)}
             {/* Plan Header */}
             <div className="p-6 space-y-4 border-b border-gray-100">
               <div className="space-y-2">
                 <h3 className="text-2xl font-display font-bold text-foreground brand-lowercase">
                   {plan.name}
                 </h3>
-                {getBadge(plan.tier)}
               </div>
               
               <div className="space-y-1">
@@ -279,21 +276,16 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                 </div>
                 {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                  <div className="text-xs text-system-green font-medium">
+                  <div className="text-xs text-primary font-medium">
                     save ${getAnnualSavings(plan.tier)}/year
                   </div>
                 )}
               </div>
 
               <Button
-                variant={plan.price === 0 ? "outline" : "default"}
                 size="lg"
                 onClick={() => onSelect(plan.tier)}
-                className={`w-full brand-lowercase ${
-                  plan.price === 0 
-                    ? 'bg-white border-gray-200 text-foreground hover:bg-gray-50' 
-                    : 'bg-blazeOrange text-white hover:bg-blazeOrange/90'
-                }`}
+                className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
               >
                 {plan.cta}
               </Button>
