@@ -8,10 +8,12 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
+import { useCanAccessFeature } from "@/hooks/useCanAccessFeature";
 
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const { currentWorkspace } = useWorkspace();
+  const { allowed: canAccessCampaigns } = useCanAccessFeature("campaigns");
 
   // Fetch campaigns
   const { data: campaigns, isLoading } = useQuery({
@@ -139,8 +141,10 @@ export default function Campaigns() {
         </div>
       )}
 
-      {/* Create Campaign Modal */}
-      <CreateCampaignModal open={showCreateModal} onOpenChange={setShowCreateModal} />
+      {/* Create Campaign Modal - only render if user has access */}
+      {canAccessCampaigns && (
+        <CreateCampaignModal open={showCreateModal} onOpenChange={setShowCreateModal} />
+      )}
     </div>
   );
 }
