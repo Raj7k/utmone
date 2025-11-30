@@ -47,13 +47,7 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h3 className="text-2xl font-display font-semibold text-label">url shortener</h3>
-        <p className="text-sm text-secondary-label">choose how you'd like to shorten</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {modes.map((mode) => {
           const Icon = mode.icon;
           return (
@@ -80,7 +74,6 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
             </Card>
           );
         })}
-      </div>
     </div>
   );
 };
