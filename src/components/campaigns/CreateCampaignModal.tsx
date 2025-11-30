@@ -268,7 +268,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                     >
                       <Checkbox
                         checked={selectedChannels.includes(channel.id)}
-                        onCheckedChange={() => toggleChannel(channel.id)}
+                        className="pointer-events-none"
                       />
                       <div className="flex-1">
                         <p className="font-medium text-sm">{channel.name}</p>
