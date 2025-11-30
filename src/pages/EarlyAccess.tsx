@@ -1,81 +1,40 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MagneticButton } from "@/components/magnetic";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
-import { WhitespaceAdvantageCard } from "@/components/early-access/WhitespaceAdvantageCard";
-import { OnboardingTimeline } from "@/components/early-access/OnboardingTimeline";
-import { TrustNarrativeCard } from "@/components/early-access/TrustNarrativeCard";
-import { PublicLeaderboard } from "@/components/early-access/PublicLeaderboard";
-import { SocialProofStats } from "@/components/early-access/SocialProofStats";
-import { DiagonalLines, FloatingShapes, GridOverlay, GradientDivider } from "@/components/early-access/EarlyAccessDecorations";
 import { EarlyAccessStepForm } from "@/components/early-access/EarlyAccessStepForm";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { CheckCircle2, Sparkles, Shield, Zap, Users, Code, Building2, BarChart3, Clock, Trophy } from "lucide-react";
-import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
-import { getOrCreateEarlyAccessVariant } from "@/lib/heroVariants";
-import { useQuery } from "@tanstack/react-query";
+import { HowItWorksSteps } from "@/components/early-access/HowItWorksSteps";
+import { ViralDashboardPreview } from "@/components/early-access/ViralDashboardPreview";
+import { GoldenTicket } from "@/components/early-access/GoldenTicket";
+import { DoubleSidedReward } from "@/components/early-access/DoubleSidedReward";
+import { EarlyAccessFAQ } from "@/components/early-access/EarlyAccessFAQ";
 import { ShareReferralModal } from "@/components/waitlist/ShareReferralModal";
+import { supabase } from "@/integrations/supabase/client";
+import { CheckCircle2, Sparkles, Shield, AlertCircle, TrendingUp, Share2, Trophy } from "lucide-react";
+import { useTrackPageView } from "@/hooks/useWaitlistEngagement";
+import { motion } from "framer-motion";
 
-const BenefitItem = ({ icon: Icon, title, description, delay = 0 }: { 
-  icon: any; 
-  title: string; 
-  description: string; 
-  delay?: number;
-}) => (
-  <AnimatedHeadline delay={delay}>
-    <div className="flex items-start gap-4">
-      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-        <Icon className="w-6 h-6 text-primary" />
-      </div>
-      <div>
-        <h2 className="text-lg font-display font-semibold mb-1">{title}</h2>
-        <p className="text-base text-secondary-label">{description}</p>
-      </div>
-    </div>
-  </AnimatedHeadline>
+const ValueBullet = ({ text }: { text: string }) => (
+  <motion.li
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    className="flex items-center gap-3"
+  >
+    <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+    <span className="text-lg text-secondary-label">{text}</span>
+  </motion.li>
 );
-
-const AudienceItem = ({ icon: Icon, label, delay = 0, color = "primary" }: { 
-  icon: any; 
-  label: string; 
-  delay?: number;
-  color?: string;
-}) => {
-  const colorClasses = {
-    primary: "bg-primary/10 text-primary hover:border-primary/30",
-    blazeOrange: "bg-blazeOrange/10 text-blazeOrange hover:border-blazeOrange/30",
-    deepSea: "bg-deepSea/10 text-deepSea hover:border-deepSea/30",
-  };
-
-  const iconColorClasses = {
-    primary: "text-primary",
-    blazeOrange: "text-blazeOrange",
-    deepSea: "text-deepSea",
-  };
-
-  return (
-    <AnimatedHeadline delay={delay}>
-      <div className={`flex items-center gap-3 p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-border/50 hover:shadow-md transition-all duration-300 group ${colorClasses[color as keyof typeof colorClasses]}`}>
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 ${colorClasses[color as keyof typeof colorClasses]}`}>
-          <Icon className={`w-6 h-6 ${iconColorClasses[color as keyof typeof iconColorClasses]}`} />
-        </div>
-        <span className="text-base font-medium text-foreground">{label}</span>
-      </div>
-    </AnimatedHeadline>
-  );
-};
 
 export default function EarlyAccess() {
   const [searchParams] = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referralCode, setReferralCode] = useState("");
-  const [heroVariant, setHeroVariant] = useState(getOrCreateEarlyAccessVariant());
+  const [userName, setUserName] = useState("");
   const [referrerName, setReferrerName] = useState<string | null>(null);
   const prefillEmail = searchParams.get('email');
   const refCode = searchParams.get('ref');
@@ -106,265 +65,292 @@ export default function EarlyAccess() {
     }
   };
 
-  // Fetch waitlist stats for FOMO counter using edge function (bypasses RLS)
-  const { data: stats } = useQuery({
-    queryKey: ["waitlist-stats"],
-    queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke("get-waitlist-stats");
-      if (error) {
-        console.error("Error fetching waitlist stats:", error);
-        return { total: 0 };
-      }
-      return { total: data?.totalCount || 0 };
-    },
-  });
-
-  const handleSuccess = (data: { id: string; referral_code: string }) => {
+  const handleSuccess = (data: { id: string; referral_code: string; name: string }) => {
     setReferralCode(data.referral_code);
+    setUserName(data.name);
     setIsSubmitted(true);
+  };
+
+  const scrollToForm = () => {
+    document.getElementById('early-access-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-white">
       <SEO 
-        title="Get Early Access"
-        description="Join the early circle for utm.one — the cleanest way to manage links, UTMs, QR codes, and analytics. Request early access to transform your campaign tracking."
+        title="Early Access — utm.one"
+        description="join the early access list and skip the line by inviting a few friends. the cleanest way to track your campaigns is almost here."
         canonical="https://utm.one/early-access"
-        keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics', 'UTM builder']}
+        keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics']}
       />
       <Navigation />
       <FloatingNavigation />
-      {/* FOLD 1 - Hero (A/B tested) */}
-      <section className="relative bg-white py-24 md:py-32 px-6 overflow-hidden">
-        <DiagonalLines />
-        <div className="hero-glow" />
-        <div className="max-w-[900px] mx-auto text-center relative z-10">
+
+      {/* SECTION 1 - HERO (Personalized + Gamified) */}
+      <section className="relative bg-gradient-to-br from-white via-primary/5 to-blazeOrange/10 py-24 md:py-32 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Referrer Landing Mode */}
+          {referrerName && (
+            <AnimatedHeadline>
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Trophy className="h-6 w-6 text-green-600" />
+                  <p className="text-2xl font-display font-bold text-green-900">
+                    you've been invited by {referrerName}
+                  </p>
+                </div>
+                <p className="text-lg text-green-700">
+                  join now and get <span className="font-bold">1 month free</span> when early access opens.
+                </p>
+              </div>
+            </AnimatedHeadline>
+          )}
+
           <AnimatedHeadline>
-            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-8 tracking-tighter hero-gradient leading-[1.05]">
-              {heroVariant.headline}
+            <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
+              the cleanest way to track your campaigns is almost here.
             </h1>
           </AnimatedHeadline>
-          <AnimatedHeadline delay={200}>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-12">
-              {heroVariant.subheadline}
-            </p>
-          </AnimatedHeadline>
-          <AnimatedHeadline delay={300}>
-            <MagneticButton 
-              size="lg" 
-              className="rounded-full px-10 py-7 text-lg shadow-lg hover:shadow-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold"
-              onClick={() => {
-                document.getElementById('early-access-form')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              strength={0.25}
-            >
-              {heroVariant.cta}
-            </MagneticButton>
-            <p className="text-sm text-muted-foreground/70 mt-4">
-              {heroVariant.microcopy}
-            </p>
-          </AnimatedHeadline>
-          
-          {/* FOMO Counter */}
-          <AnimatedHeadline delay={400}>
-            <a 
-              href="#leaderboard"
-              className="inline-block mt-6 text-sm text-muted-foreground hover:text-primary transition-colors"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector('#leaderboard')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              <span className="font-bold text-foreground">
-                {stats?.total && stats.total >= 1000 
-                  ? `${Math.floor(stats.total / 1000)}K+` 
-                  : stats?.total || 0} waiting
-              </span> • <span className="underline">see where you stand</span>
-            </a>
-          </AnimatedHeadline>
-        </div>
-        {/* Hero glow effect - brand colors */}
-        <div className="absolute inset-0 bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent opacity-30 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-wildSand to-transparent pointer-events-none" />
-      </section>
-
-      {/* Stats Bar */}
-      <SocialProofStats />
-
-      <GradientDivider />
-
-      {/* FOLD 2 - Why Early Access Exists */}
-      <section className="bg-muted/20 py-24 md:py-32 px-6 relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-deepSea/10 text-deepSea text-sm font-medium mb-6">
-              <Sparkles className="w-4 h-4" />
-              limited availability
-            </div>
-            <AnimatedHeadline>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
-                we want the right people in first
-              </h2>
-            </AnimatedHeadline>
-          </div>
           
           <AnimatedHeadline delay={100}>
-            <p className="text-xl md:text-2xl text-muted-foreground text-center mb-12">
-              utm.one is built for teams who
+            <p className="text-2xl md:text-3xl text-muted-foreground mb-12 leading-relaxed">
+              join the early access list and skip the line by inviting a few friends.
             </p>
           </AnimatedHeadline>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+
+          {/* Value Bullets */}
+          <AnimatedHeadline delay={200}>
+            <ul className="space-y-3 mb-12 max-w-xl mx-auto">
+              <ValueBullet text="clean-track built in" />
+              <ValueBullet text="link shortener + QR + tracking in one" />
+              <ValueBullet text="perfect for marketers, founders, and agencies" />
+              <ValueBullet text="simple, beautiful, and accurate from day one" />
+            </ul>
+          </AnimatedHeadline>
+
+          <AnimatedHeadline delay={300}>
+            <Button
+              size="lg"
+              onClick={scrollToForm}
+              className="rounded-full px-10 py-7 text-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold shadow-lg hover:shadow-xl"
+            >
+              join early access
+            </Button>
+          </AnimatedHeadline>
+        </div>
+
+        {/* Decorative gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blazeOrange/20 rounded-full blur-3xl opacity-30" />
+      </section>
+
+      {/* SECTION 2 - HOW IT WORKS */}
+      <HowItWorksSteps />
+
+      {/* SECTION 3 - VIRAL DASHBOARD PREVIEW */}
+      <ViralDashboardPreview />
+
+      {/* SECTION 4 - GOLDEN TICKET */}
+      <section className="bg-muted/20 py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+              your golden ticket to skip the entire line
+            </h2>
+            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+              every user gets a golden ticket with their name on it. it stays locked until you refer 3 people. after that, it transforms into an animated "ACCESS GRANTED" badge in green.
+            </p>
+          </motion.div>
+
+          <GoldenTicket
+            userName="Your Name"
+            referralCode="DEMO-123"
+            referralCount={0}
+            status="locked"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-12 grid md:grid-cols-5 gap-4 text-center"
+          >
             {[
-              "value clarity",
-              "care about tracking hygiene",
-              "want safer links",
-              "need better attribution",
-              "believe trust should be part of every click"
-            ].map((value, index) => (
-              <AnimatedHeadline key={index} delay={150 + index * 50}>
-                <div className="text-center">
-                  <p className="text-lg text-label">{value}</p>
-                </div>
-              </AnimatedHeadline>
+              "your name on the ticket",
+              "your referral code",
+              "live progress bar",
+              "unlock animation",
+              "auto-approval email",
+            ].map((feature, index) => (
+              <div key={index} className="bg-card border border-border rounded-xl p-4">
+                <p className="text-sm text-secondary-label">{feature}</p>
+              </div>
             ))}
-          </div>
-          
-          <AnimatedHeadline delay={500}>
-            <p className="text-lg text-secondary-label text-center">
-              the early access program helps us onboard these teams thoughtfully.
-            </p>
-          </AnimatedHeadline>
+          </motion.div>
         </div>
       </section>
 
-      <GradientDivider />
+      {/* SECTION 5 - DOUBLE-SIDED REWARD */}
+      <DoubleSidedReward />
 
-      {/* FOLD 3 - What You Get (gray background with icons) */}
+      {/* SECTION 6 - WHY BUILD VIRAL WAITLIST */}
       <section className="bg-white py-24 md:py-32 px-6">
-        <div className="max-w-[1000px] mx-auto">
-          <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
-              you get more than a login
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+              why build a viral waitlist at all?
             </h2>
-          </AnimatedHeadline>
-          
-          <div className="space-y-8">
-            <BenefitItem
-              icon={Sparkles}
-              title="priority access"
-              description="first to try new features"
-              delay={0}
-            />
-            <BenefitItem
-              icon={Shield}
-              title="governed onboarding"
-              description="we set your naming rules & clean-track foundations"
-              delay={100}
-            />
-            <BenefitItem
-              icon={Zap}
-              title="private roadmap previews"
-              description="see what's coming before anyone else"
-              delay={200}
-            />
-            <BenefitItem
-              icon={Users}
-              title="direct product influence"
-              description="your feedback shapes our priorities"
-              delay={300}
-            />
-            <BenefitItem
-              icon={CheckCircle2}
-              title="founding member badge"
-              description="visible on your workspace"
-              delay={400}
-            />
-          </div>
+            <p className="text-xl text-secondary-label leading-relaxed">
+              utm.one is built for teams who care about clean, trustworthy tracking. we don't want noise in our data — and we don't want noise in our launch.
+            </p>
+            <p className="text-xl text-secondary-label leading-relaxed mt-6">
+              a viral waitlist rewards the people who help us shape the product early.
+            </p>
+            <p className="text-xl text-secondary-label leading-relaxed mt-6">
+              it also keeps the early access community small, focused, and full of power users who value clean-track best practices.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* FOLD 4 - Whitespace Advantage (split screen) */}
-      <WhitespaceAdvantageCard />
-
-      {/* FOLD 5 - Onboarding Flow (vertical timeline) */}
-      <OnboardingTimeline />
-
-      {/* FOLD 6 - Trust Narrative (soft gradient card) */}
-      <TrustNarrativeCard />
-
-      <GradientDivider />
-
-      {/* Referral Leaderboard */}
-      <PublicLeaderboard />
-
-      <GradientDivider />
-
-      {/* FOLD 7 - Who This Is For (audience grid) */}
-      <section className="bg-muted/20 py-24 md:py-32 px-6 relative overflow-hidden">
-        <div className="max-w-[800px] mx-auto relative z-10">
-          <AnimatedHeadline>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
-              who this is for
+      {/* SECTION 7 - BEHIND THE SCENES (TRUST) */}
+      <section className="bg-muted/20 py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+              zero spam. zero tricks. pure transparency.
             </h2>
-          </AnimatedHeadline>
-          
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <AudienceItem 
-              icon={Users} 
-              label="marketing teams who need governance" 
-              delay={0}
-              color="blazeOrange"
-            />
-            <AudienceItem 
-              icon={Zap} 
-              label="sales teams who need speed" 
-              delay={50}
-              color="deepSea"
-            />
-            <AudienceItem 
-              icon={Shield} 
-              label="compliance-focused organizations" 
-              delay={100}
-              color="primary"
-            />
-            <AudienceItem 
-              icon={BarChart3} 
-              label="data teams who need clean UTMs" 
-              delay={150}
-              color="blazeOrange"
-            />
-            <AudienceItem 
-              icon={CheckCircle2} 
-              label="agencies managing multiple clients" 
-              delay={200}
-              color="deepSea"
-            />
-            <AudienceItem 
-              icon={Clock} 
-              label="teams tired of broken links" 
-              delay={250}
-              color="primary"
-            />
-          </div>
-          
-          <AnimatedHeadline delay={350}>
-            <p className="text-lg text-muted-foreground text-center mb-4">
-              anyone who is tired of cleaning data at the end
-            </p>
-            <p className="text-xl text-foreground text-center font-semibold">
-              if you care about clarity, you'll feel at home here.
-            </p>
-          </AnimatedHeadline>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 gap-6"
+          >
+            {[
+              "no buying referrals",
+              "no bot detection loopholes",
+              "no fake positions",
+              "every referral is verified",
+              "same IP = auto disqualified",
+              "duplicate emails = rejected",
+              "you can see your movement live",
+            ].map((item, index) => (
+              <div key={index} className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
+                <Shield className="w-5 h-5 text-primary shrink-0" />
+                <p className="text-secondary-label">{item}</p>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* FOLD 8 - Final CTA with Comprehensive Form */}
-      <section id="early-access-form" className="bg-white py-16 md:py-24 px-6 relative overflow-hidden">
-        <div className="max-w-[680px] mx-auto">
+      {/* SECTION 8 - VIRAL ENGINE */}
+      <section className="bg-white py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+              one share can move you 500 places.
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-card border-2 border-primary/30 rounded-2xl p-8"
+          >
+            <p className="text-xl text-secondary-label mb-6">your dashboard includes:</p>
+            <ul className="space-y-3 mb-8">
+              {[
+                "your unique link",
+                "one-click share to LinkedIn & Twitter",
+                "prewritten post text",
+                "email invite tool",
+                "progress bar",
+                "referral counter",
+                "leaderboard movement animation",
+              ].map((item, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                  <p className="text-secondary-label">{item}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="bg-muted/20 rounded-xl p-6 border border-border">
+              <p className="text-sm text-tertiary-label mb-2">sample text for social share:</p>
+              <p className="text-base text-foreground italic">
+                "i just joined the private beta for utm.one — the new clean-track powered link shortener. use my link to skip the line."
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* SECTION 9 - WHY PEOPLE ARE JOINING */}
+      <section className="bg-muted/20 py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+              why people are joining the waitlist
+            </h2>
+          </motion.div>
+
+          <motion.ul
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-4 max-w-2xl mx-auto"
+          >
+            {[
+              "clean, predictable tracking (no messy UTMs)",
+              "no more duplicate campaign names",
+              "analytics that always match your spend",
+              "short links + QR + partner tracking in one place",
+              "perfect for marketers, founders, creators, and agencies",
+            ].map((reason, index) => (
+              <li key={index} className="flex items-start gap-3 bg-card border border-border rounded-xl p-4">
+                <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <p className="text-secondary-label">{reason}</p>
+              </li>
+            ))}
+          </motion.ul>
+        </div>
+      </section>
+
+      {/* SECTION 10 - ENTER WAITLIST FORM */}
+      <section id="early-access-form" className="bg-white py-24 md:py-32 px-6">
+        <div className="max-w-2xl mx-auto">
           {!isSubmitted ? (
             <>
-              {/* Referral Banner */}
               {referrerName && (
                 <AnimatedHeadline>
                   <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
@@ -380,49 +366,78 @@ export default function EarlyAccess() {
                   </div>
                 </AnimatedHeadline>
               )}
-              
+
               <AnimatedHeadline>
-                <h2 className="text-2xl md:text-3xl font-display font-bold mb-2 text-center tracking-tight text-muted-foreground">
-                  join the early circle
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center">
+                  enter the waitlist
                 </h2>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center tracking-tight">
-                  be among the first to use utm.one
-                </h1>
               </AnimatedHeadline>
+
+              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
               
-              <AnimatedHeadline delay={200}>
-                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
-              </AnimatedHeadline>
+              <p className="text-sm text-center text-tertiary-label mt-4">
+                we'll send you your position instantly.
+              </p>
             </>
           ) : (
             <AnimatedHeadline>
               <div className="text-center space-y-6 py-12">
-                <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
-                <h2 className="text-3xl md:text-4xl font-display font-bold">
-                  thanks — we'll reach out soon.
+                <CheckCircle2 className="w-20 h-20 text-primary mx-auto" />
+                <h2 className="text-4xl md:text-5xl font-display font-bold">
+                  you're in! 🎉
                 </h2>
-                <p className="text-lg text-secondary-label">
-                  your request has been received. we'll be in touch when a spot opens.
+                <p className="text-xl text-secondary-label">
+                  check your email for your waitlist position and golden ticket.
                 </p>
+                
                 {referralCode && (
-                  <div className="mt-8 space-y-4">
-                    <div className="bg-primary/5 border border-primary/20 rounded-xl p-6">
-                      <h3 className="text-lg font-semibold mb-2">
-                        jump the queue with referrals
+                  <div className="mt-12 space-y-6">
+                    <GoldenTicket
+                      userName={userName}
+                      referralCode={referralCode}
+                      referralCount={0}
+                      status="locked"
+                    />
+                    
+                    <div className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-8">
+                      <h3 className="text-2xl font-display font-bold mb-3">
+                        skip the line now
                       </h3>
-                      <p className="text-secondary-label mb-4">
-                        share your unique link — every friend who joins and <span className="font-semibold text-primary">verifies their email</span> moves you up the queue!
+                      <p className="text-secondary-label mb-6">
+                        share your unique link — refer 3 friends and unlock instant access + 1 month Pro free!
                       </p>
-                      <p className="text-sm text-primary font-semibold mb-4">
-                        🎁 you both get 1 month Pro free when we launch
-                      </p>
-                      <ShareReferralModal referralCode={referralCode} />
+                      <ShareReferralModal referralCode={referralCode} userName={userName} />
                     </div>
                   </div>
                 )}
               </div>
             </AnimatedHeadline>
           )}
+        </div>
+      </section>
+
+      {/* SECTION 12 - FAQ */}
+      <EarlyAccessFAQ />
+
+      {/* SECTION 13 - FOOTER CTA */}
+      <section className="bg-gradient-to-br from-primary/10 to-blazeOrange/10 py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+              join early access now. unlock your golden ticket.
+            </h2>
+            <Button
+              size="lg"
+              onClick={scrollToForm}
+              className="rounded-full px-12 py-8 text-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold shadow-xl hover:shadow-2xl"
+            >
+              join the waitlist
+            </Button>
+          </motion.div>
         </div>
       </section>
 
