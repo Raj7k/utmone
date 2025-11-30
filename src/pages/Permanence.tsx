@@ -57,9 +57,9 @@ const Permanence = () => {
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <GitBranch className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-foreground">
+              <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Auto-Backup to GitHub
-              </h3>
+              </h2>
               <p className="text-muted-foreground mb-6">
                 Nightly automated backups of your entire link database to your private GitHub repository. You own the data.
               </p>
@@ -74,9 +74,9 @@ const Permanence = () => {
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <Server className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-foreground">
+              <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Self-Hosting Option
-              </h3>
+              </h2>
               <p className="text-muted-foreground mb-6">
                 Deploy utm.one's redirect engine on your own infrastructure using Docker. Zero vendor lock-in.
               </p>
@@ -91,9 +91,9 @@ const Permanence = () => {
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <CheckCircle2 className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-display text-2xl font-bold mb-4 text-foreground">
+              <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Legal Commitment
-              </h3>
+              </h2>
               <p className="text-muted-foreground mb-6">
                 Contractual obligation to maintain redirects for 365 days post-shutdown and release all source code.
               </p>
@@ -119,9 +119,9 @@ const Permanence = () => {
                 1
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold mb-2 text-foreground">
+                <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Campaigns Outlive Platforms
-                </h3>
+                </h2>
                 <p className="text-muted-foreground">
                   Your QR codes on packaging, print ads, and conference materials can't be updated. Links must work for years.
                 </p>
@@ -133,9 +133,9 @@ const Permanence = () => {
                 2
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold mb-2 text-foreground">
+                <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Trust Requires Transparency
-                </h3>
+                </h2>
                 <p className="text-muted-foreground">
                   Other shorteners can disappear overnight. We publish our shutdown plan before you need it.
                 </p>
@@ -147,9 +147,9 @@ const Permanence = () => {
                 3
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold mb-2 text-foreground">
+                <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Enterprise Requires Accountability
-                </h3>
+                </h2>
                 <p className="text-muted-foreground">
                   Legal teams demand enforceable SLAs. This guarantee passes procurement review.
                 </p>

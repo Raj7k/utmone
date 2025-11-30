@@ -48,7 +48,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">1,000 links/month</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">1,000 links/month</h2>
                   <p className="text-small-text text-secondary-label">
                     create up to 1,000 short links every month
                   </p>
@@ -57,7 +57,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">unlimited domains</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">unlimited domains</h2>
                   <p className="text-small-text text-secondary-label">
                     connect as many custom domains as you need
                   </p>
@@ -66,7 +66,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">100k clicks/month</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">100k clicks/month</h2>
                   <p className="text-small-text text-secondary-label">
                     track up to 100,000 clicks monthly
                   </p>
@@ -75,7 +75,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">1-year analytics</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">1-year analytics</h2>
                   <p className="text-small-text text-secondary-label">
                     365 days of historical analytics data
                   </p>
@@ -84,7 +84,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">unlimited team members</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">unlimited team members</h2>
                   <p className="text-small-text text-secondary-label">
                     invite your entire team at no extra cost
                   </p>
@@ -93,7 +93,7 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="text-heading-3 font-display font-semibold mb-2">priority support</h3>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">priority support</h2>
                   <p className="text-small-text text-secondary-label">
                     get help faster with priority email support
                   </p>

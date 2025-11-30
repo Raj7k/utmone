@@ -126,9 +126,9 @@ const Resources = () => {
             {/* 2026 Salary Benchmark Report - Coming Soon */}
             <div className="group block p-8 rounded-2xl border-2 border-border/50 bg-gradient-to-br from-muted/30 to-white opacity-60 pointer-events-none relative">
               <Badge className="mb-4 bg-muted text-muted-foreground border border-border">Coming Soon</Badge>
-              <h3 className="text-2xl font-display font-bold text-foreground mb-3">
+              <h2 className="text-2xl font-display font-bold text-foreground mb-3">
                 2026 Global Salary Benchmark Report
-              </h3>
+              </h2>
               <p className="text-base text-secondary-label mb-4 leading-relaxed">
                 Complete salary data across 15+ countries, 50+ roles, with 10 interactive tools and regional deep dives.
               </p>
@@ -141,9 +141,9 @@ const Resources = () => {
               className="group block p-8 rounded-2xl border-2 border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-primary/5 to-white"
             >
               <Badge className="mb-4 animate-pulse">NEW</Badge>
-              <h3 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+              <h2 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
                 LLM Ranking Playbook — The Complete Implementation Guide
-              </h3>
+              </h2>
               <p className="text-base text-secondary-label mb-4 leading-relaxed">
                 90-day roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools and real-world case studies.
               </p>
@@ -180,9 +180,9 @@ const Resources = () => {
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-4">
                     <div className="flex-1 space-y-2">
-                    <h3 className="text-xl font-display font-semibold text-foreground">
+                    <h2 className="text-xl font-display font-semibold text-foreground">
                       {category.title}
-                    </h3>
+                    </h2>
                       <p className="text-sm text-secondary-label leading-relaxed">
                         {category.description}
                       </p>

@@ -32,7 +32,7 @@ const BenefitItem = ({ icon: Icon, title, description, delay = 0 }: {
         <Icon className="w-6 h-6 text-primary" />
       </div>
       <div>
-        <h3 className="text-lg font-display font-semibold mb-1">{title}</h3>
+        <h2 className="text-lg font-display font-semibold mb-1">{title}</h2>
         <p className="text-base text-secondary-label">{description}</p>
       </div>
     </div>
@@ -173,9 +173,9 @@ export default function EarlyAccess() {
               limited availability
             </div>
             <AnimatedHeadline>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
                 we want the right people in first
-              </h1>
+              </h2>
             </AnimatedHeadline>
           </div>
           
@@ -215,9 +215,9 @@ export default function EarlyAccess() {
       <section className="bg-white py-24 md:py-32 px-6">
         <div className="max-w-[1000px] mx-auto">
           <AnimatedHeadline>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
               you get more than a login
-            </h1>
+            </h2>
           </AnimatedHeadline>
           
           <div className="space-y-8">
@@ -275,9 +275,9 @@ export default function EarlyAccess() {
       <section className="bg-muted/20 py-24 md:py-32 px-6 relative overflow-hidden">
         <div className="max-w-[800px] mx-auto relative z-10">
           <AnimatedHeadline>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-16 text-center tracking-tight">
               who this is for
-            </h1>
+            </h2>
           </AnimatedHeadline>
           
           <div className="grid md:grid-cols-2 gap-6 mb-12">

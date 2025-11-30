@@ -107,7 +107,7 @@ const Support = () => {
             >
               <Book className="w-8 h-8 text-primary" />
               <div>
-                <h3 className="font-semibold text-foreground mb-1">Documentation</h3>
+                <h2 className="font-semibold text-foreground mb-1">Documentation</h2>
                 <p className="text-sm text-muted-foreground">
                   Comprehensive guides and tutorials
                 </p>
@@ -120,7 +120,7 @@ const Support = () => {
             >
               <MessageSquare className="w-8 h-8 text-primary" />
               <div>
-                <h3 className="font-semibold text-foreground mb-1">FAQ</h3>
+                <h2 className="font-semibold text-foreground mb-1">FAQ</h2>
                 <p className="text-sm text-muted-foreground">
                   Common questions, answered
                 </p>
@@ -133,7 +133,7 @@ const Support = () => {
             >
               <Book className="w-8 h-8 text-primary" />
               <div>
-                <h3 className="font-semibold text-foreground mb-1">API Docs</h3>
+                <h2 className="font-semibold text-foreground mb-1">API Docs</h2>
                 <p className="text-sm text-muted-foreground">
                   Developer reference and examples
                 </p>

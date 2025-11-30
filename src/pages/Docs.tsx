@@ -116,7 +116,7 @@ const Docs = () => {
                         1
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">Sign up and verify your domain</h3>
+                        <h2 className="text-lg font-semibold text-foreground mb-2">Sign up and verify your domain</h2>
                         <p className="text-muted-foreground">
                           Create your account and add your custom domain. We'll guide you through DNS verification.
                         </p>
@@ -130,7 +130,7 @@ const Docs = () => {
                         2
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">Create your first short link</h3>
+                        <h2 className="text-lg font-semibold text-foreground mb-2">Create your first short link</h2>
                         <p className="text-muted-foreground">
                           Paste your destination URL, add UTM parameters, and generate a clean short link.
                         </p>
@@ -144,7 +144,7 @@ const Docs = () => {
                         3
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">Generate a branded QR code</h3>
+                        <h2 className="text-lg font-semibold text-foreground mb-2">Generate a branded QR code</h2>
                         <p className="text-muted-foreground">
                           Customize colors, add your logo, and export in multiple formats.
                         </p>
@@ -158,7 +158,7 @@ const Docs = () => {
                         4
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2">Track your analytics</h3>
+                        <h2 className="text-lg font-semibold text-foreground mb-2">Track your analytics</h2>
                         <p className="text-muted-foreground">
                           View real-time click data, device breakdowns, and geographic insights.
                         </p>
@@ -180,7 +180,7 @@ const Docs = () => {
                 </p>
 
                 <div className="bg-muted/20 border border-border rounded-2xl p-8 mb-6">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Required Fields</h3>
+                  <h2 className="text-xl font-semibold text-foreground mb-4">Required Fields</h2>
                   <ul className="space-y-3 text-muted-foreground">
                     <li><strong className="text-foreground">Title:</strong> Internal name for your link (not visible to users)</li>
                     <li><strong className="text-foreground">Destination URL:</strong> Where the link will redirect</li>
@@ -189,7 +189,7 @@ const Docs = () => {
                 </div>
 
                 <div className="bg-muted/20 border border-border rounded-2xl p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Optional Fields</h3>
+                  <h2 className="text-xl font-semibold text-foreground mb-4">Optional Fields</h2>
                   <ul className="space-y-3 text-muted-foreground">
                     <li><strong className="text-foreground">UTM Parameters:</strong> Track campaign performance (source, medium, campaign, term, content)</li>
                     <li><strong className="text-foreground">Description:</strong> Add notes for your team</li>
@@ -238,7 +238,7 @@ const Docs = () => {
                 </p>
 
                 <div className="bg-muted/20 border border-border rounded-2xl p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Customization Options</h3>
+                  <h2 className="text-xl font-semibold text-foreground mb-4">Customization Options</h2>
                   <ul className="space-y-3 text-muted-foreground">
                     <li><strong className="text-foreground">Colors:</strong> Customize QR code colors to match your brand</li>
                     <li><strong className="text-foreground">Logo:</strong> Add your brand logo to the center</li>
@@ -261,7 +261,7 @@ const Docs = () => {
                 </p>
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Available Triggers</h3>
+                  <h2 className="text-xl font-semibold text-foreground mb-4">Available Triggers</h2>
                   <ul className="space-y-2 text-muted-foreground">
                     <li>• Link created</li>
                     <li>• Link clicked</li>
@@ -288,7 +288,7 @@ const Docs = () => {
                     { role: "Viewer", desc: "View links and analytics only" },
                   ].map((role) => (
                     <div key={role.role} className="border border-border rounded-xl p-6 bg-card">
-                      <h4 className="text-lg font-semibold text-foreground mb-2">{role.role}</h4>
+                      <h2 className="text-lg font-semibold text-foreground mb-2">{role.role}</h2>
                       <p className="text-muted-foreground">{role.desc}</p>
                     </div>
                   ))}
