@@ -27,11 +27,16 @@ interface SidebarProviderProps {
 export const SidebarProvider = ({ children }: SidebarProviderProps) => {
   const [sidebarState, setSidebarState] = useState<SidebarState>(() => {
     const stored = localStorage.getItem('sidebar_state');
-    return (stored as SidebarState) || 'expanded';
+    // Never restore to 'searching' state - only collapsed or expanded
+    if (stored === 'collapsed' || stored === 'expanded') return stored;
+    return 'expanded';
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar_state', sidebarState);
+    // Only persist collapsed/expanded states, not transient 'searching'
+    if (sidebarState !== 'searching') {
+      localStorage.setItem('sidebar_state', sidebarState);
+    }
   }, [sidebarState]);
 
   useEffect(() => {
