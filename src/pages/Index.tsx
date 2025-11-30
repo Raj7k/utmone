@@ -29,7 +29,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
-import { OrganicShapes } from "@/components/landing/OrganicShapes";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
@@ -84,7 +84,7 @@ const Index = () => {
         <HeroVariantManager>
           {(variant) => (
             <section className="relative py-32 md:py-40 bg-white overflow-hidden">
-              <OrganicShapes />
+              <RetroGradientMesh />
               <div className="relative z-10 max-w-[980px] mx-auto px-8">
                 <motion.div 
                   className="text-center space-y-8"
