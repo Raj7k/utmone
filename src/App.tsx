@@ -60,6 +60,7 @@ const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
+const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
@@ -311,6 +312,7 @@ const App = () => (
               <Route path="/dashboard/targeting/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/onelink-validator" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/campaigns/:id" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CampaignDetails /></DashboardLayout></Suspense></ProtectedRoute>} />
               
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
