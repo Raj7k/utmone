@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
+import { RetroGradientMesh } from "./RetroGradientMesh";
 
 interface FAQItem {
   question: string;
@@ -58,19 +59,19 @@ const faqs: FAQItem[] = [
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Syntax layer</strong> — standardized UTM structure across all links</span>
+            <span><strong className="text-foreground">Syntax layer</strong> — standardized UTM structure across all links</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Naming rules layer</strong> — consistent campaign naming so data doesn't fragment</span>
+            <span><strong className="text-foreground">Naming rules layer</strong> — consistent campaign naming so data doesn't fragment</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Governance layer</strong> — templates, approvals, and team rules</span>
+            <span><strong className="text-foreground">Governance layer</strong> — templates, approvals, and team rules</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Reporting layer</strong> — clean data that actually rolls up correctly</span>
+            <span><strong className="text-foreground">Reporting layer</strong> — clean data that actually rolls up correctly</span>
           </li>
         </ul>
         <p className="mt-3">With clean-track, your links don't just work — they make sense.</p>
@@ -85,23 +86,23 @@ const faqs: FAQItem[] = [
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Marketers</strong> — launch campaigns without worrying about UTM chaos</span>
+            <span><strong className="text-foreground">Marketers</strong> — launch campaigns without worrying about UTM chaos</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Sales teams</strong> — track which content moves deals forward</span>
+            <span><strong className="text-foreground">Sales teams</strong> — track which content moves deals forward</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Marketing Ops</strong> — enforce clean data without slowing down teams</span>
+            <span><strong className="text-foreground">Marketing Ops</strong> — enforce clean data without slowing down teams</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Developers</strong> — self-host, API access, full control</span>
+            <span><strong className="text-foreground">Developers</strong> — self-host, API access, full control</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Partner managers</strong> — clear attribution for every affiliate and partner</span>
+            <span><strong className="text-foreground">Partner managers</strong> — clear attribution for every affiliate and partner</span>
           </li>
         </ul>
         <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-blazeOrange hover:underline text-sm lowercase">
@@ -118,19 +119,19 @@ const faqs: FAQItem[] = [
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Free</strong> — 100 links, basic analytics, community support</span>
+            <span><strong className="text-foreground">Free</strong> — 100 links, basic analytics, community support</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Pro ($20/mo)</strong> — 1,000 links, 1 custom domain, advanced analytics</span>
+            <span><strong className="text-foreground">Pro ($20/mo)</strong> — 1,000 links, 1 custom domain, advanced analytics</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Business ($99/mo)</strong> — 10,000 links, 5 custom domains, priority support</span>
+            <span><strong className="text-foreground">Business ($99/mo)</strong> — 10,000 links, 5 custom domains, priority support</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
-            <span><strong className="text-white">Enterprise ($300/mo)</strong> — unlimited links, unlimited domains, dedicated SLA</span>
+            <span><strong className="text-foreground">Enterprise ($300/mo)</strong> — unlimited links, unlimited domains, dedicated SLA</span>
           </li>
         </ul>
         <p className="mt-3">All plans include UTM builder, QR generator, and clean-track governance.</p>
@@ -168,13 +169,49 @@ const faqs: FAQItem[] = [
       </>
     ),
   },
+  {
+    question: "pricing that respects you",
+    answer: (
+      <>
+        <p>We believe in transparent, fair pricing:</p>
+        <ul className="mt-3 space-y-2 ml-4">
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">Generous Free Plan</strong> — start without a credit card</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">Flat Team Pricing</strong> — unlimited users on paid plans</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">No Per-Seat Surprises</strong> — your cost stays predictable</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">Simple Upgrades</strong> — move up when you're ready</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">Fair Limits</strong> — designed for real usage patterns</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blazeOrange mt-2 flex-shrink-0" />
+            <span><strong className="text-foreground">Transparent Communication</strong> — no hidden fees, no gotchas</span>
+          </li>
+        </ul>
+        <p className="mt-4 text-lg font-semibold text-blazeOrange">The internet is tired of predatory pricing. We chose a different path.</p>
+      </>
+    ),
+  },
 ];
 
 export const FooterFAQ = () => {
   return (
-    <section className="bg-mirage text-white py-24 md:py-32 px-8 relative overflow-hidden">
+    <section className="relative py-24 md:py-32 px-8 overflow-hidden bg-white">
+      <RetroGradientMesh />
       <div className="max-w-[980px] mx-auto relative z-10">
-        <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 lowercase text-foreground">
           ok, here's what we do. plain talk.
         </h2>
         
@@ -186,16 +223,16 @@ export const FooterFAQ = () => {
               <div className="flex flex-col items-center flex-shrink-0">
                 <div className="w-3 h-3 rounded-full bg-blazeOrange" />
                 {index < faqs.length - 1 && (
-                  <div className="w-0.5 flex-1 bg-blazeOrange/30 mt-2" />
+                  <div className="w-0.5 flex-1 bg-blazeOrange/40 mt-2" />
                 )}
               </div>
               
               {/* Content */}
               <div className="pb-4 flex-1">
-                <h3 className="text-xl font-display font-semibold mb-3 lowercase">
+                <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
                   {faq.question}
                 </h3>
-                <div className="text-white/70 space-y-3">
+                <div className="text-muted-foreground space-y-3">
                   {faq.answer}
                 </div>
               </div>
