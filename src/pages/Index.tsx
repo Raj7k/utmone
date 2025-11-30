@@ -81,23 +81,13 @@ const Index = () => {
         <FloatingNavigation />
         <FloatingActionButton />
 
-        {/* Hero Section - Clean Minimal */}
+        {/* Hero Section - Pure White Background */}
         <HeroVariantManager>
           {(variant) => (
-            <section className="relative py-32 md:py-40 lg:py-48 bg-white overflow-hidden">
-              {/* Simple top gradient only */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div 
-                  className="absolute top-0 left-0 right-0 h-[400px]"
-                  style={{
-                    background: "linear-gradient(180deg, hsl(30 50% 95% / 0.8) 0%, transparent 100%)"
-                  }}
-                />
-              </div>
-              
+            <section className="relative py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
               <div className="relative z-10 max-w-[980px] mx-auto px-8">
                 <motion.div 
-                  className="text-center space-y-8"
+                  className="text-center space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
@@ -109,9 +99,7 @@ const Index = () => {
                     transition={{ duration: 0.6 }}
                   >
                     {variant.headlineLine1}<br />
-                    <span className="inline-block bg-[#E8EDFF] px-8 py-4 rounded-2xl">
-                      {variant.headlineLine2}
-                    </span>
+                    {variant.headlineLine2}
                   </motion.h1>
                   
                   <motion.p 

@@ -77,9 +77,14 @@ export const Navigation = () => {
         hideNav ? "opacity-0 pointer-events-none -translate-y-full" : "opacity-100"
       }`}
     >
-      <nav className={`max-w-[1280px] mx-auto bg-white/95 backdrop-blur-xl shadow-xl rounded-full border-2 border-border/10 px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
-        isScrolled ? "shadow-xl" : "shadow-lg"
-      }`}>
+      <nav 
+        className={`max-w-[1280px] mx-auto bg-white backdrop-blur-xl rounded-full border border-gray-200 px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
+          isScrolled ? 'scale-95' : 'scale-100'
+        }`}
+        style={{
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03)"
+        }}
+      >
         {/* Scroll Progress Bar */}
         <motion.div
           className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left rounded-full"
