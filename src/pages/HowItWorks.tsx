@@ -122,9 +122,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4">
               The utm.one flow
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               Simple, visual, effective
             </p>
@@ -197,9 +197,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Every link carries meaning
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               utm.one adds structured metadata that:
             </p>
@@ -236,9 +236,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               You see where the link goes before you click
-            </h1>
+            </h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
@@ -273,9 +273,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Links that include everyone
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               utm.one makes link creation accessible by default:
             </p>
@@ -312,9 +312,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
               Your links last forever
-            </h1>
+            </h2>
             <div className="space-y-2 text-lg text-white/70">
               <p>platforms shut down</p>
               <p>urls break</p>
@@ -353,9 +353,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               Everyone follows the same standard
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               utm.one removes the guesswork:
             </p>
@@ -404,9 +404,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               See only what matters
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               utm.one gives you clarity, not dashboards that fight you.
             </p>
@@ -463,9 +463,9 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
               One workspace, many roles
-            </h1>
+            </h2>
             <p className="text-lg text-muted-foreground">
               utm.one works the same way across your teams:
             </p>

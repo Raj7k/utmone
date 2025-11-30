@@ -47,9 +47,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 what is utm.one
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -76,9 +76,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the idea behind it
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -120,9 +120,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 what makes utm.one different
-              </h1>
+              </h2>
               <ProgressiveReveal>
                 <p className="text-body-apple text-secondary-label italic">
                   minimal on the outside. structured to perfection inside.
@@ -181,9 +181,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 why it matters
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -212,9 +212,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the philosophy
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -247,9 +247,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 who is it for
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>
@@ -276,9 +276,9 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
                 the promise
-              </h1>
+              </h2>
               <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
                 <ProgressiveReveal>
                   <p>

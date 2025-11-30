@@ -126,9 +126,9 @@ const Features = () => {
                         <Icon className="w-6 h-6" />
                       </div>
                       
-                      <h3 className="text-title-3 font-display font-semibold mb-3 text-label">
+                      <h2 className="text-title-3 font-display font-semibold mb-3 text-label">
                         {feature.title}
-                      </h3>
+                      </h2>
                       
                       <p className="text-subheadline text-secondary-label leading-relaxed">
                         {feature.description}
