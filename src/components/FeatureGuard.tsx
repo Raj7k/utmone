@@ -82,13 +82,17 @@ export const FeatureGuard = ({
             {lockedContent}
           </div>
         </div>
-        <UpgradeModal
-          open={isUpgradeModalOpen}
-          onOpenChange={(open) => setIsUpgradeModalOpen(open)}
-          feature={feature}
-          upgradeToTier={minPlanRequired as PlanTier}
-          reason={description || `This feature requires ${minPlanRequired} plan`}
-        />
+        {isUpgradeModalOpen && (
+          <UpgradeModal
+            open={true}
+            onOpenChange={(open) => {
+              if (!open) setIsUpgradeModalOpen(false);
+            }}
+            feature={feature}
+            upgradeToTier={minPlanRequired as PlanTier}
+            reason={description || `This feature requires ${minPlanRequired} plan`}
+          />
+        )}
       </>
     );
   }
