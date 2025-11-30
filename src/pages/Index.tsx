@@ -29,7 +29,6 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { Navigation } from "@/components/landing/Navigation";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
@@ -82,46 +81,52 @@ const Index = () => {
         <FloatingNavigation />
         <FloatingActionButton />
 
-        {/* Hero Section with Organic Shapes */}
+        {/* Hero Section - Clean Minimal */}
         <HeroVariantManager>
           {(variant) => (
             <section className="relative py-32 md:py-40 lg:py-48 bg-white overflow-hidden">
-              <div className="absolute inset-0 opacity-30 pointer-events-none">
-                <RetroGradientMesh />
+              {/* Simple top gradient only */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div 
+                  className="absolute top-0 left-0 right-0 h-[400px]"
+                  style={{
+                    background: "linear-gradient(180deg, hsl(30 50% 95% / 0.8) 0%, transparent 100%)"
+                  }}
+                />
               </div>
+              
               <div className="relative z-10 max-w-[980px] mx-auto px-8">
                 <motion.div 
-                  className="text-center space-y-12"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="text-center space-y-8"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
                 >
-                  <motion.div className="hero-glow space-y-2">
-                    <motion.h1 
-                      className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                    >
-                      {variant.headlineLine1}<br />
-                      <span className="inline-block bg-primary/10 px-6 py-2 rounded-xl">
-                        {variant.headlineLine2}
-                      </span>
-                    </motion.h1>
-                  </motion.div>
+                  <motion.h1 
+                    className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    {variant.headlineLine1}<br />
+                    <span className="inline-block bg-[#E8EDFF] px-8 py-4 rounded-2xl">
+                      {variant.headlineLine2}
+                    </span>
+                  </motion.h1>
+                  
                   <motion.p 
-                    className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto text-balance leading-relaxed"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="text-lg md:text-xl text-gray-500 max-w-[720px] mx-auto text-balance leading-relaxed"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
                   >
                     {variant.subheadline}
                   </motion.p>
                   
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
                     className="space-y-4"
                   >
                     <HeroInlineCTA />
