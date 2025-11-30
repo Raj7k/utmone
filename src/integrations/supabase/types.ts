@@ -1385,6 +1385,42 @@ export type Database = {
           },
         ]
       }
+      demo_requests: {
+        Row: {
+          challenge: string | null
+          created_at: string | null
+          email: string
+          id: string
+          interests: string[] | null
+          message: string | null
+          name: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          challenge?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          interests?: string[] | null
+          message?: string | null
+          name: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          challenge?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          interests?: string[] | null
+          message?: string | null
+          name?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       domain_health_logs: {
         Row: {
           check_type: string

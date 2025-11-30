@@ -252,6 +252,7 @@ const GlossaryRevenueRecognition = lazy(() => import("./pages/resources/glossary
 const EarlyAccess = lazy(() => import("./pages/EarlyAccess"));
 const Invite = lazy(() => import("./pages/Invite"));
 const ClaimAccess = lazy(() => import("./pages/ClaimAccess"));
+const BookDemo = lazy(() => import("./pages/BookDemo"));
 const Partners = lazy(() => import("./pages/Partners"));
 const PartnerApply = lazy(() => import("./pages/Partners/Apply"));
 const PartnerDashboard = lazy(() => import("./pages/Partners/Dashboard"));
@@ -558,6 +559,8 @@ const App = () => (
               <Route path="/waitlist-status" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistStatus /></Suspense>} />
               <Route path="/invite/:code" element={<Suspense fallback={<DashboardSkeleton />}><Invite /></Suspense>} />
               <Route path="/claim-access" element={<Suspense fallback={<DashboardSkeleton />}><ClaimAccess /></Suspense>} />
+              <Route path="/book-demo" element={<Suspense fallback={<DashboardSkeleton />}><BookDemo /></Suspense>} />
+              <Route path="/contact" element={<Suspense fallback={<DashboardSkeleton />}><BookDemo /></Suspense>} />
               <Route path="/partners" element={<Suspense fallback={<DashboardSkeleton />}><Partners /></Suspense>} />
               <Route path="/partners/apply" element={<Suspense fallback={<DashboardSkeleton />}><PartnerApply /></Suspense>} />
               <Route path="/partners/dashboard" element={<Suspense fallback={<DashboardSkeleton />}><PartnerDashboard /></Suspense>} />
