@@ -106,6 +106,7 @@ export const QRGeneratorBasic = () => {
               onClick={handleInitialGenerate}
               disabled={!url}
               size="lg"
+              variant="marketing"
               className="h-12 px-6"
             >
               generate qr
@@ -181,7 +182,7 @@ export const QRGeneratorBasic = () => {
                   />
                 </div>
 
-                <Button onClick={downloadPNG} size="lg" className="w-full">
+                <Button onClick={downloadPNG} size="lg" variant="marketing" className="w-full">
                   <Download className="h-4 w-4 mr-2" />
                   download qr code
                 </Button>

@@ -151,7 +151,6 @@ Deno.serve(async (req) => {
     const { data: systemWorkspace } = await supabase
       .from('workspaces')
       .select('id, owner_id')
-      .eq('is_system_domain', false)
       .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();

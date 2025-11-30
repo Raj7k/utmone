@@ -82,6 +82,7 @@ export const UTMBuilderBasic = () => {
               onClick={handleInitialBuild}
               disabled={!url}
               size="lg"
+              variant="marketing"
               className="h-12 px-6"
             >
               build utm
