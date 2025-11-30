@@ -523,6 +523,13 @@ All colors MUST be HSL.
     @apply backdrop-blur-[40px] bg-card/90;
   }
   
+  /* Sidebar Width Variables */
+  :root {
+    --sidebar-width-collapsed: 56px;
+    --sidebar-width-expanded: 256px;
+    --sidebar-width-search: 280px;
+  }
+  
   /* Image dimming for dark mode */
   .dark-image-dim {
     @apply dark:brightness-[0.85] dark:contrast-[1.05];

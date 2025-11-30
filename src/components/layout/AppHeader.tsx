@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { DashboardSidebar } from "./DashboardSidebar";
+import { ExpandedSidebar } from "./sidebar/ExpandedSidebar";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ChevronRight } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
@@ -83,7 +83,7 @@ export const AppHeader = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-72 z-50">
-                <DashboardSidebar onNavigate={() => setMobileMenuOpen(false)} />
+                <ExpandedSidebar />
               </SheetContent>
             </Sheet>
 
