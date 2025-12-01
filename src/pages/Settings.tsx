@@ -19,6 +19,8 @@ import BillingSettings from "./settings/Billing";
 import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
 import { AuditLogViewer } from "@/components/security/AuditLogViewer";
 import { RoleRecommender } from "@/components/security/RoleRecommender";
+import { TimelineAuditViewer } from "@/components/security/TimelineAuditViewer";
+import { SecurityAlertsWidget } from "@/components/security/SecurityAlertsWidget";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -132,7 +134,13 @@ export default function Settings() {
 
               {activeTab === "security" && (
                 <>
-                  <SecuritySettings />
+                  <SecurityAlertsWidget />
+                  <div className="mt-8">
+                    <SecuritySettings />
+                  </div>
+                  <div className="mt-8">
+                    <TimelineAuditViewer />
+                  </div>
                   <div className="mt-8">
                     <AuditLogViewer />
                   </div>
