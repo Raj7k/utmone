@@ -54,22 +54,22 @@ export const Footer = () => {
                 </h3>
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                <Link to="/features/short-links" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
-                  <Link2 className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                <Link to="/features/short-links" className="text-sm text-muted-foreground hover:text-primary hover:underline hover:scale-105 transition-all flex items-center gap-2 group/link">
+                  <Link2 className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
                   Short Links
                 </Link>
-                <Link to="/features/utm-builder" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
-                  <Settings className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                <Link to="/features/utm-builder" className="text-sm text-muted-foreground hover:text-primary hover:underline hover:scale-105 transition-all flex items-center gap-2 group/link">
+                  <Settings className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
                   UTM Builder
                 </Link>
-                <Link to="/features/qr-generator" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
-                  <QrCode className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                <Link to="/features/qr-generator" className="text-sm text-muted-foreground hover:text-primary hover:underline hover:scale-105 transition-all flex items-center gap-2 group/link">
+                  <QrCode className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
                   QR Generator
                 </Link>
-                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary hover:underline hover:scale-105 transition-all">
                   Pricing
                 </Link>
-                <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-primary hover:underline hover:scale-105 transition-all">
                   How It Works
                 </Link>
               </div>
@@ -127,16 +127,20 @@ export const Footer = () => {
                 </h3>
               </div>
               <div className="space-y-2">
-                <Link to="/features/predictive-analytics" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/features/predictive-analytics" className="group/ai block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover/ai:opacity-100 transition-opacity" />
                   Predictive Analytics
                 </Link>
-                <Link to="/features/attribution-graph" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/features/attribution-graph" className="group/ai block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover/ai:opacity-100 transition-opacity" />
                   Attribution Graph
                 </Link>
-                <Link to="/features/smart-routing" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/features/smart-routing" className="group/ai block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover/ai:opacity-100 transition-opacity" />
                   Smart Routing
                 </Link>
-                <Link to="/features/link-immunity" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/features/link-immunity" className="group/ai block text-sm text-muted-foreground hover:text-foreground hover:translate-x-1 transition-all flex items-center gap-2">
+                  <ArrowRight className="w-3 h-3 opacity-0 group-hover/ai:opacity-100 transition-opacity" />
                   Link Immunity
                 </Link>
               </div>
@@ -194,25 +198,25 @@ export const Footer = () => {
                 </h3>
               </div>
               <div className="space-y-2">
-                <Link to="/docs" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/docs" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                   Guides
                 </Link>
                 <div className="space-y-1">
-                  <Link to="/resources/playbooks" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <Link to="/resources/playbooks" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                     Playbooks
                   </Link>
-                  <Link to="/resources/llm-ranking-playbook" className="block text-sm text-primary hover:text-primary/80 transition-colors flex items-center gap-2 pl-4">
-                    <Sparkles className="w-3 h-3" />
+                  <Link to="/resources/llm-ranking-playbook" className="group/llm block text-sm text-primary hover:text-primary/80 hover:translate-x-1 transition-all flex items-center gap-2 pl-4">
+                    <Sparkles className="w-3 h-3 group-hover/llm:scale-125 transition-transform" />
                     LLM Ranking Playbook
                   </Link>
                 </div>
-                <Link to="/resources/templates" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/resources/templates" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                   Templates
                 </Link>
-                <Link to="/resources/frameworks" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/resources/frameworks" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                   Frameworks
                 </Link>
-                <Link to="/resources/glossary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/resources/glossary" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                   Glossary
                 </Link>
               </div>
@@ -232,18 +236,27 @@ export const Footer = () => {
                 compare utm.one
               </h3>
               <div className="grid grid-cols-2 gap-3">
-                <Link to="/compare/bitly" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
-                  vs Bitly
+                <Link to="/compare/bitly" className="group/comp p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 hover:scale-105 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  <span className="flex items-center gap-2">
+                    vs Bitly
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
+                  </span>
                 </Link>
-                <Link to="/compare/rebrandly" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
-                  vs Rebrandly
+                <Link to="/compare/rebrandly" className="group/comp p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 hover:scale-105 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  <span className="flex items-center gap-2">
+                    vs Rebrandly
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
+                  </span>
                 </Link>
-                <Link to="/compare/shortio" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
-                  vs Short.io
+                <Link to="/compare/shortio" className="group/comp p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 hover:scale-105 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  <span className="flex items-center gap-2">
+                    vs Short.io
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
+                  </span>
                 </Link>
-                <Link to="/compare" className="p-3 rounded-lg bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-all duration-200 text-sm text-primary hover:text-foreground flex items-center justify-center gap-2">
+                <Link to="/compare" className="group/comp p-3 rounded-lg bg-primary/10 border border-primary/30 hover:bg-primary/20 hover:scale-105 transition-all duration-200 text-sm text-primary hover:text-foreground flex items-center justify-center gap-2">
                   See all comparisons
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-3 h-3 group-hover/comp:translate-x-1 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -266,7 +279,7 @@ export const Footer = () => {
                   <Link
                     key={role.href}
                     to={role.href}
-                    className="group p-4 rounded-xl bg-card/50 border border-border hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center backdrop-blur-sm"
+                    className="group p-4 rounded-xl bg-card/50 border border-border hover:border-primary hover:bg-primary/5 hover:scale-105 hover:shadow-md transition-all duration-300 text-center backdrop-blur-sm"
                   >
                     <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground lowercase transition-colors">
                       {role.label}
@@ -340,11 +353,11 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/70">
             <p>© 2025 utm.one. all rights reserved.</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/legal/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
-              <Link to="/legal/terms" className="hover:text-foreground transition-colors">Terms</Link>
-              <Link to="/legal/data-security" className="hover:text-foreground transition-colors">Security</Link>
-              <Link to="/legal/dpa" className="hover:text-foreground transition-colors">DPA</Link>
-              <Link to="/trust" className="hover:text-foreground transition-colors">Trust Center</Link>
+              <Link to="/legal/privacy" className="hover:text-foreground hover:underline transition-all">Privacy</Link>
+              <Link to="/legal/terms" className="hover:text-foreground hover:underline transition-all">Terms</Link>
+              <Link to="/legal/data-security" className="hover:text-foreground hover:underline transition-all">Security</Link>
+              <Link to="/legal/dpa" className="hover:text-foreground hover:underline transition-all">DPA</Link>
+              <Link to="/trust" className="hover:text-foreground hover:underline transition-all">Trust Center</Link>
             </div>
           </div>
         </div>

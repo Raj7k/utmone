@@ -11,6 +11,7 @@ import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 import { Code, Webhook, FileText, CheckCircle2, Layers, Terminal, Zap, Database } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -212,7 +213,31 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Fold 5: Code Example */}
+      {/* Fold 5: Your Workflow Transformed */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+              your workflow, transformed
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              How your day changes with utm.one
+            </p>
+          </div>
+          
+          <WorkflowTimeline 
+            steps={[
+              { icon: Code, label: "API call" },
+              { icon: CheckCircle2, label: "Link created" },
+              { icon: Terminal, label: "Type-safe response" },
+              { icon: Webhook, label: "Analytics webhook" }
+            ]}
+            description="From API call to production-ready link—all type-safe, all documented, all reliable."
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: Code Example */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
@@ -252,7 +277,7 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Fold 6: Feature Cards */}
+      {/* Fold 7: Feature Cards */}
       <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
@@ -314,14 +339,14 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Fold 7: FAQs */}
+      {/* Fold 8: FAQs */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="developers" faqs={faqs} />
         </div>
       </section>
 
-      {/* Fold 8: CTA */}
+      {/* Fold 9: CTA */}
       <PremiumCTASection
         headline="ready to build with utm.one?"
         subheadline="join developer teams who trust utm.one for reliable APIs and clean data."

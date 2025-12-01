@@ -11,6 +11,7 @@ import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 import { Link as LinkIcon, QrCode, BarChart3, CheckCircle2, Layers, Settings, TrendingUp } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -232,7 +233,31 @@ const Sales = () => {
         </div>
       </section>
 
-      {/* Fold 5: Feature Cards */}
+      {/* Fold 5: Your Workflow Transformed */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+              your workflow, transformed
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              How your day changes with utm.one
+            </p>
+          </div>
+          
+          <WorkflowTimeline 
+            steps={[
+              { icon: LinkIcon, label: "Send outreach" },
+              { icon: TrendingUp, label: "Track clicks" },
+              { icon: BarChart3, label: "See engagement spike" },
+              { icon: CheckCircle2, label: "Time the call" }
+            ]}
+            description="From first touchpoint to perfect timing—utm.one tells you when prospects are ready."
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: Feature Cards */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
@@ -294,14 +319,14 @@ const Sales = () => {
         </div>
       </section>
 
-      {/* Fold 6: FAQs */}
+      {/* Fold 7: FAQs */}
       <section className="py-24 md:py-32 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="sales teams" faqs={faqs} />
         </div>
       </section>
 
-      {/* Fold 7: CTA */}
+      {/* Fold 8: CTA */}
       <PremiumCTASection
         headline="ready to track your influence?"
         subheadline="join sales teams who trust utm.one for clear attribution and faster follow-ups."

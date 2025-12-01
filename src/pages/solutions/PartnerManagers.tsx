@@ -6,7 +6,8 @@ import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { PartnerROICalculator } from "@/components/growth/PartnerROICalculator";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
@@ -145,21 +146,58 @@ const PartnerManagers = () => {
       {/* Fold 3: Before vs After */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              spreadsheet chaos vs automated tracking
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Same partners. Different data quality.
-            </p>
-          </div>
-          
-          <BeforeAfterComparison
-            beforeImage="/placeholder.svg"
-            afterImage="/placeholder.svg"
-            beforeLabel="manual attribution"
-            afterLabel="automated tracking"
-            caption="100% audit trail = zero disputes = happy partners"
+          <ContentComparison
+            beforeTitle="Excel spreadsheet (manual)"
+            afterTitle="utm.one dashboard (automated)"
+            beforeContent={
+              <div className="space-y-3">
+                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                  <div className="text-destructive font-semibold mb-2 text-sm">Partner A Attribution:</div>
+                  <div className="space-y-1 text-muted-foreground">
+                    <div className="flex justify-between">
+                      <span>Your count:</span>
+                      <span>8 referrals</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Partner claims:</span>
+                      <span>15 referrals</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Disputed revenue:</span>
+                      <span>$36,750</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-border text-destructive text-xs">
+                    No audit trail. No timestamps. No proof.
+                  </div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-3">
+                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-primary font-semibold mb-2 text-sm">Partner A Attribution:</div>
+                  <div className="space-y-1 text-foreground">
+                    <div className="flex justify-between">
+                      <span>Tracked referrals:</span>
+                      <span>15 referrals</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Revenue generated:</span>
+                      <span>$78,750</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Commission owed:</span>
+                      <span>$11,812</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-primary/20 text-primary text-xs">
+                    100% audit trail. Timestamps. Click-level proof.
+                  </div>
+                </div>
+              </div>
+            }
+            caption="Same partners. Automated tracking = zero disputes = happy partnerships."
           />
         </div>
       </section>
@@ -176,22 +214,38 @@ const PartnerManagers = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              "Partner-specific links (auto-attributed)",
-              "QR codes for offline distribution",
-              "Clean attribution (no disputes)",
-              "Signup + conversion tracking",
-              "Payout history (exportable CSV)",
-              "Partner dashboards (self-service)",
-              "One-click reporting (no manual work)",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: LinkIcon,
+              title: "partner-specific links",
+              description: "Every partner gets unique tracked links—auto-attributed, no manual work."
+            },
+            {
+              icon: QrCode,
+              title: "QR codes for offline",
+              description: "Branded QR for events, booths, flyers—tracked just like digital links."
+            },
+            {
+              icon: CheckCircle2,
+              title: "clean attribution",
+              description: "Click-level audit trail with timestamps—zero disputes, ever."
+            },
+            {
+              icon: BarChart3,
+              title: "signup + conversion tracking",
+              description: "Track the full funnel: clicks → signups → conversions → revenue."
+            },
+            {
+              icon: DollarSign,
+              title: "automated payout calculations",
+              description: "Commission calculated automatically based on partner rates—export as CSV."
+            },
+            {
+              icon: Users,
+              title: "partner self-service dashboards",
+              description: "Partners see their own performance—you don't answer 'how am I doing?' emails."
+            }
+          ]} />
         </div>
       </section>
 

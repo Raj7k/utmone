@@ -327,6 +327,18 @@ export const Navigation = () => {
                           >
                             <div className="text-sm font-medium leading-none">RevOps</div>
                             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              unified revenue tracking
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/partner-managers"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/partner-managers" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Partner Managers</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                               one truth, click to close
                             </p>
                           </Link>
