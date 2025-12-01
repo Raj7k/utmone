@@ -4,8 +4,7 @@ import { YourPlanTile } from "@/components/dashboard/bento/YourPlanTile";
 import { ReferralTile } from "@/components/dashboard/bento/ReferralTile";
 import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLinksTile";
 import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
-import { QuickToolsTile } from "@/components/dashboard/bento/QuickToolsTile";
-import { CachePerformanceWidget } from "@/components/analytics/CachePerformanceWidget";
+import { QuickActionsTile } from "@/components/dashboard/bento/QuickActionsTile";
 import { LinkHealthWidget } from "@/components/analytics/LinkHealthWidget";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
@@ -40,38 +39,31 @@ const DashboardHome = () => {
             </ErrorBoundary>
           </div>
 
-          {/* Row 2: Analytics Pulse (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
-          <div className="md:col-span-6 lg:col-span-5 order-3">
+          {/* Row 2: Analytics Pulse (mobile: full width; tablet: 6 cols; desktop: 8 cols) */}
+          <div className="md:col-span-6 lg:col-span-8 order-3">
             <ErrorBoundary section="analytics-pulse">
               <AnalyticsPulseTile />
             </ErrorBoundary>
           </div>
           
-          {/* Row 2: Cache Performance (mobile: full width; tablet: 3 cols; desktop: 4 cols) */}
-          <div className="md:col-span-3 lg:col-span-4 order-4">
-            <ErrorBoundary section="cache-performance">
-              <CachePerformanceWidget workspaceId={currentWorkspace?.id || ''} />
-            </ErrorBoundary>
-          </div>
-
-          {/* Row 2: Link Health (mobile: full width; tablet: 3 cols; desktop: 3 cols) */}
-          <div className="md:col-span-3 lg:col-span-3 order-5">
-            <ErrorBoundary section="link-health">
-              <LinkHealthWidget />
-            </ErrorBoundary>
-          </div>
-
-          {/* Row 3: Quick Tools (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
-          <div className="md:col-span-6 lg:col-span-6 order-6">
-            <ErrorBoundary section="quick-tools">
-              <QuickToolsTile />
+          {/* Row 2: Quick Actions (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
+          <div className="md:col-span-6 lg:col-span-4 order-4">
+            <ErrorBoundary section="quick-actions">
+              <QuickActionsTile />
             </ErrorBoundary>
           </div>
 
           {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
-          <div className="md:col-span-6 lg:col-span-6 order-6">
+          <div className="md:col-span-6 lg:col-span-6 order-5">
             <ErrorBoundary section="ai-insights">
               <AIInsightsTile />
+            </ErrorBoundary>
+          </div>
+
+          {/* Row 3: Link Health (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
+          <div className="md:col-span-6 lg:col-span-6 order-6">
+            <ErrorBoundary section="link-health">
+              <LinkHealthWidget />
             </ErrorBoundary>
           </div>
           
