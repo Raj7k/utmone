@@ -137,6 +137,7 @@ export const Step2Shortener = ({
           max_clicks: data.max_clicks || null,
           fallback_url: data.fallback_url || null,
           geo_targets: Object.keys(geoTargets).length > 0 ? geoTargets : null,
+          status: needsApproval ? 'pending' : 'active',
           approval_status: needsApproval ? 'pending' : 'approved',
           submitted_for_approval_at: needsApproval ? new Date().toISOString() : null,
         })
