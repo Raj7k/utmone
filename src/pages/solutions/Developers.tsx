@@ -103,18 +103,18 @@ const Developers = () => {
             timestamp="Wednesday, 3:17 AM"
             scenario="Your link shortener API returns 500. Production is down. 50,000 campaign links are broken. Your CEO is awake. You're scrambling to find a replacement provider, but every other service requires migration, new DNS setup, and breaking changes to your codebase. By morning, you've lost $200K in campaign spend."
             visual={
-              <div className="bg-[#1e1e1e] rounded-xl p-6 font-mono text-sm">
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <span className="ml-2 text-gray-400 text-xs">PagerDuty Alert</span>
+              <div className="bg-card border border-border rounded-xl p-6 font-mono text-sm">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
+                  <div className="w-3 h-3 rounded-full bg-destructive" />
+                  <div className="w-3 h-3 rounded-full bg-warning" />
+                  <div className="w-3 h-3 rounded-full bg-success" />
+                  <span className="ml-2 text-muted-foreground text-xs">PagerDuty Alert</span>
                 </div>
-                <div className="space-y-2 text-gray-300">
-                  <div className="text-red-400">❌ API Error 500: Service Unavailable</div>
-                  <div className="text-gray-500">Source: shortener-api.thirdparty.com</div>
-                  <div className="text-gray-500">Impact: 50,000 production links</div>
-                  <div className="text-gray-500">Status: CRITICAL</div>
+                <div className="space-y-2 text-foreground">
+                  <div className="text-destructive">❌ API Error 500: Service Unavailable</div>
+                  <div className="text-muted-foreground">Source: shortener-api.thirdparty.com</div>
+                  <div className="text-muted-foreground">Impact: 50,000 production links</div>
+                  <div className="text-muted-foreground">Status: CRITICAL</div>
                   <div className="mt-4 text-destructive">Campaign spend wasted: $200K</div>
                 </div>
               </div>
@@ -140,16 +140,16 @@ const Developers = () => {
             afterTitle="utm.one API"
             beforeContent={
               <div className="space-y-3">
-                <div className="bg-[#1e1e1e] rounded-lg p-4 font-mono text-xs">
-                  <div className="text-red-400 mb-2 font-semibold">Error Response:</div>
-                  <div className="space-y-1 text-gray-400">
+                <div className="bg-card border border-border rounded-lg p-4 font-mono text-xs">
+                  <div className="text-destructive mb-2 font-semibold">Error Response:</div>
+                  <div className="space-y-1 text-muted-foreground">
                     <div>{'{'}</div>
                     <div className="pl-4">"error": "Internal Server Error",</div>
                     <div className="pl-4">"status": 500,</div>
                     <div className="pl-4">"message": "Something went wrong"</div>
                     <div>{'}'}</div>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-gray-700 text-red-400 text-xs">
+                  <div className="mt-3 pt-3 border-t border-border text-destructive text-xs">
                     ❌ 50,000 links broken
                   </div>
                 </div>
@@ -157,16 +157,16 @@ const Developers = () => {
             }
             afterContent={
               <div className="space-y-3">
-                <div className="bg-[#1e1e1e] rounded-lg p-4 font-mono text-xs">
-                  <div className="text-green-400 mb-2 font-semibold">Success Response:</div>
-                  <div className="space-y-1 text-gray-300">
+                <div className="bg-card border border-border rounded-lg p-4 font-mono text-xs">
+                  <div className="text-success mb-2 font-semibold">Success Response:</div>
+                  <div className="space-y-1 text-foreground">
                     <div>{'{'}</div>
                     <div className="pl-4">"shortUrl": "utm.one/q4-sale",</div>
                     <div className="pl-4">"status": "active",</div>
                     <div className="pl-4">"clicks": 0</div>
                     <div>{'}'}</div>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-gray-700 text-primary text-xs">
+                  <div className="mt-3 pt-3 border-t border-border text-primary text-xs">
                     ✓ 99.99% uptime SLA
                   </div>
                 </div>
@@ -293,29 +293,29 @@ const Developers = () => {
             </p>
           </div>
           
-          <div className="bg-[#1e1e1e] rounded-2xl p-8 font-mono text-sm overflow-x-auto">
-            <div className="flex items-center gap-2 mb-6 pb-3 border-b border-gray-700">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-              <span className="ml-2 text-gray-400 text-xs">api-example.ts</span>
+          <div className="bg-card border border-border rounded-2xl p-8 font-mono text-sm overflow-x-auto">
+            <div className="flex items-center gap-2 mb-6 pb-3 border-b border-border">
+              <div className="w-3 h-3 rounded-full bg-destructive" />
+              <div className="w-3 h-3 rounded-full bg-warning" />
+              <div className="w-3 h-3 rounded-full bg-success" />
+              <span className="ml-2 text-muted-foreground text-xs">api-example.ts</span>
             </div>
-            <div className="space-y-2 text-gray-300">
-              <div><span className="text-purple-400">import</span> {'{'} createLink {'}'} <span className="text-purple-400">from</span> <span className="text-green-400">'@utm-one/sdk'</span>;</div>
+            <div className="space-y-2 text-foreground">
+              <div><span className="text-primary">import</span> {'{'} createLink {'}'} <span className="text-primary">from</span> <span className="text-success">'@utm-one/sdk'</span>;</div>
               <div className="h-4" />
-              <div><span className="text-blue-400">const</span> link = <span className="text-blue-400">await</span> createLink({'{'}</div>
-              <div className="pl-4">destination: <span className="text-green-400">"https://acme.com/campaign"</span>,</div>
-              <div className="pl-4">slug: <span className="text-green-400">"q4-sale"</span>,</div>
+              <div><span className="text-accent">const</span> link = <span className="text-accent">await</span> createLink({'{'}</div>
+              <div className="pl-4">destination: <span className="text-success">"https://acme.com/campaign"</span>,</div>
+              <div className="pl-4">slug: <span className="text-success">"q4-sale"</span>,</div>
               <div className="pl-4">utm: {'{'}</div>
-              <div className="pl-8">source: <span className="text-green-400">"linkedin"</span>,</div>
-              <div className="pl-8">medium: <span className="text-green-400">"cpc"</span>,</div>
-              <div className="pl-8">campaign: <span className="text-green-400">"q4-2025-sale"</span></div>
+              <div className="pl-8">source: <span className="text-success">"linkedin"</span>,</div>
+              <div className="pl-8">medium: <span className="text-success">"cpc"</span>,</div>
+              <div className="pl-8">campaign: <span className="text-success">"q4-2025-sale"</span></div>
               <div className="pl-4">{'}'}</div>
               <div>{'}'});</div>
               <div className="h-4" />
-              <div className="text-green-400">// ✓ Link created: utm.one/q4-sale</div>
-              <div className="text-gray-500">// ✓ UTMs validated against Clean-Track rules</div>
-              <div className="text-gray-500">// ✓ Ready for production use</div>
+              <div className="text-success">// ✓ Link created: utm.one/q4-sale</div>
+              <div className="text-muted-foreground">// ✓ UTMs validated against Clean-Track rules</div>
+              <div className="text-muted-foreground">// ✓ Ready for production use</div>
             </div>
           </div>
         </div>
