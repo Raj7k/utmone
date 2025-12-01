@@ -113,13 +113,13 @@ export const Navigation = () => {
                           <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
                             <Layers className="w-5 h-5 text-primary" />
                           </div>
-                          <h3 className="text-sm font-semibold mb-2">the complete link platform</h3>
+                          <h3 className="text-sm font-semibold mb-2">customer-journey</h3>
                           <p className="text-xs text-muted-foreground leading-relaxed">
                             from shortening to attribution, manage every link touchpoint in one place
                           </p>
                         </div>
                         <Link 
-                          to="/" 
+                          to="/product" 
                           className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
                         >
                           explore platform <ChevronRight className="w-3 h-3" />
