@@ -6,6 +6,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { Target, FileText, CheckCircle2, Tag, Clock, Link2, AlertCircle } from "lucide-react";
 
 const CleanTrack = () => {
@@ -129,31 +130,8 @@ const CleanTrack = () => {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">validation in action</h4>
-            <div className="space-y-3">
-              <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-green-800 dark:text-green-200">utm_source</p>
-                  <p className="text-xs text-green-600 dark:text-green-400 font-mono">google</p>
-                </div>
-              </div>
-              <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-green-800 dark:text-green-200">utm_medium</p>
-                  <p className="text-xs text-green-600 dark:text-green-400 font-mono">cpc</p>
-                </div>
-              </div>
-              <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-red-800 dark:text-red-200">utm_campaign</p>
-                  <p className="text-xs text-red-600 dark:text-red-400">Required field cannot be empty</p>
-                </div>
-              </div>
-            </div>
+          <div>
+            <ProductMockup type="validation" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -237,7 +215,7 @@ const CleanTrack = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>

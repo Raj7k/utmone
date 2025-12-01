@@ -7,6 +7,7 @@ import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { GlossaryTooltip } from "@/components/llm/GlossaryTooltip";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { BarChart3, Zap, PieChart, TrendingUp, Globe, Sparkles } from "lucide-react";
 
 const Analytics = () => {
@@ -70,14 +71,23 @@ const Analytics = () => {
       />
 
       <FeatureSection background="muted">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
-            Analytics That Feel Effortless
-          </h2>
-          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
-            <p>Zero noise</p>
-            <p>Zero overwhelm</p>
-            <p>Zero configuration</p>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+              analytics that feel effortless
+            </h2>
+            <div className="space-y-4 text-body-apple text-secondary-label">
+              <p>Zero noise</p>
+              <p>Zero overwhelm</p>
+              <p>Zero configuration</p>
+            </div>
+            <p className="text-headline text-label font-medium">
+              Just the metrics that matter.
+            </p>
+          </div>
+          
+          <div>
+            <ProductMockup type="dashboard" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -300,7 +310,7 @@ const Analytics = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>

@@ -2,6 +2,7 @@ import { FeatureHero } from "@/components/features/FeatureHero";
 import { FeatureSection } from "@/components/features/FeatureSection";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/seo/SEO";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { Zap, Globe, Target, Brain, Users, TrendingUp } from "lucide-react";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 
@@ -131,29 +132,8 @@ export default function SmartRouting() {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">example: global campaign</h4>
-            <div className="space-y-4">
-              <div className="bg-card border border-border rounded-lg p-4">
-                <p className="text-sm text-tertiary-label mb-1">🇺🇸 United States</p>
-                <p className="text-secondary-label font-mono text-xs">example.com/us-pricing</p>
-              </div>
-              <div className="bg-card border border-border rounded-lg p-4">
-                <p className="text-sm text-tertiary-label mb-1">🇬🇧 United Kingdom</p>
-                <p className="text-secondary-label font-mono text-xs">example.com/uk-pricing</p>
-              </div>
-              <div className="bg-card border border-border rounded-lg p-4">
-                <p className="text-sm text-tertiary-label mb-1">🇩🇪 Germany</p>
-                <p className="text-secondary-label font-mono text-xs">example.com/de-pricing</p>
-              </div>
-              <div className="bg-card border border-border rounded-lg p-4">
-                <p className="text-sm text-tertiary-label mb-1">🌍 All Other Countries</p>
-                <p className="text-secondary-label font-mono text-xs">example.com/global</p>
-              </div>
-            </div>
-            <p className="text-sm text-secondary-label mt-4 text-center">
-              One link. Four destinations. Zero confusion.
-            </p>
+          <div>
+            <ProductMockup type="geo-map" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -178,10 +158,10 @@ export default function SmartRouting() {
           </div>
           <div className="pt-6">
             <a
-              href="/early-access"
+              href="/book-demo"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold hover:bg-primary/90 transition-colors lowercase"
             >
-              make your links smarter
+              book a demo
             </a>
           </div>
         </div>

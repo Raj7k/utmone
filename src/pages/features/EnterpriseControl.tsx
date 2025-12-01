@@ -6,6 +6,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { Shield, Users, GitBranch, UserCheck, Clock, FileText } from "lucide-react";
 
 const EnterpriseControl = () => {
@@ -127,34 +128,8 @@ const EnterpriseControl = () => {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">approval flow</h4>
-            <div className="space-y-4">
-              <div className="bg-card border border-border rounded-lg p-4 flex items-center gap-4">
-                <div className="bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">1</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Draft</p>
-                  <p className="text-xs text-secondary-label">Created by Sarah • Marketing</p>
-                </div>
-                <span className="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-600 px-2 py-1 rounded">Draft</span>
-              </div>
-              <div className="bg-card border-2 border-amber-200 dark:border-amber-800 rounded-lg p-4 flex items-center gap-4">
-                <div className="bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">2</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Pending Review</p>
-                  <p className="text-xs text-secondary-label">Awaiting John • Manager</p>
-                </div>
-                <span className="text-xs bg-amber-100 dark:bg-amber-900/20 text-amber-600 px-2 py-1 rounded">Review</span>
-              </div>
-              <div className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 opacity-50">
-                <div className="bg-muted text-secondary-label rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">3</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Approved</p>
-                  <p className="text-xs text-secondary-label">Ready to deploy</p>
-                </div>
-                <span className="text-xs bg-muted text-secondary-label px-2 py-1 rounded">Pending</span>
-              </div>
-            </div>
+          <div>
+            <ProductMockup type="governance" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -233,7 +208,7 @@ const EnterpriseControl = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>

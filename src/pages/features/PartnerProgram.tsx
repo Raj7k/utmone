@@ -6,6 +6,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { Users, Link2, QrCode, MousePointerClick, DollarSign, Activity } from "lucide-react";
 
 const PartnerProgram = () => {
@@ -127,34 +128,8 @@ const PartnerProgram = () => {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">partner dashboard</h4>
-            <div className="bg-card rounded-lg p-6 space-y-4">
-              <div className="pb-3 border-b border-border">
-                <p className="text-sm text-secondary-label mb-1">Partner</p>
-                <p className="text-lg font-bold text-label">Acme Corp</p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-secondary-label mb-1">Clicks</p>
-                  <p className="text-2xl font-bold text-label">1,234</p>
-                </div>
-                <div>
-                  <p className="text-xs text-secondary-label mb-1">Conversions</p>
-                  <p className="text-2xl font-bold text-label">56</p>
-                </div>
-              </div>
-              <div className="pt-3 border-t border-border">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-secondary-label">Commission</span>
-                  <span className="text-xl font-bold text-green-600">$280.00</span>
-                </div>
-              </div>
-              <div className="bg-muted/50 rounded p-3">
-                <p className="text-xs text-secondary-label mb-1">Conversion Rate</p>
-                <p className="text-sm font-semibold text-label">4.54%</p>
-              </div>
-            </div>
+          <div>
+            <ProductMockup type="dashboard" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -237,7 +212,7 @@ const PartnerProgram = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>
