@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { MagneticButton } from "@/components/magnetic";
 import { formatText } from "@/utils/textFormatter";
 import { 
   Link as LinkIcon, 
@@ -132,97 +131,65 @@ const Index = () => {
         {/* Fold 2: One Link. Five Layers. */}
         <LinkLayersSection />
 
-        {/* Fold 3: Trust and Transparency */}
-        <AnimatedSection className="py-20 md:py-32 bg-grouped-background">
+        {/* Fold 3: Accessibility */}
+        <AnimatedSection className="py-20 md:py-32 bg-system-background">
           <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4 lowercase">
-                {formatText("Click With Confidence")}
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-6 lowercase">
+                {formatText("Links That Include Everyone")}
               </h2>
+              <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+                Finally — a link system government, education, nonprofit, and public institutions can use confidently.
+              </p>
             </div>
-            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <StaggerContainer className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Eye className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Link Previews</h2>
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
+                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <CheckCircle2 className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-title-2 font-semibold text-label lowercase">WCAG AAA Certified</h3>
                   <p className="text-subheadline text-secondary-label">
-                    See the destination before you click — title, favicon, page summary
+                    Full accessibility compliance for dashboards, links, and QR codes
                   </p>
                 </div>
               </StaggerItem>
+              
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Shield className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Safety Indicators</h2>
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
+                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <Eye className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-title-2 font-semibold text-label lowercase">Screen Reader Ready</h3>
                   <p className="text-subheadline text-secondary-label">
-                    Malware scan, blacklist check, SSL validation
+                    Semantic HTML, ARIA labels, and keyboard-first navigation throughout
                   </p>
                 </div>
               </StaggerItem>
+              
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <BarChart3 className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Transparent Analytics</h2>
+                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
+                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <Globe className="w-10 h-10" />
+                  </div>
+                  <h3 className="text-title-2 font-semibold text-label lowercase">Semantic Slugs</h3>
                   <p className="text-subheadline text-secondary-label">
-                    You always know what's collected and why
-                  </p>
-                </div>
-              </StaggerItem>
-              <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
-                  <Lock className="w-10 h-10 text-primary mb-4" />
-                  <h2 className="text-title-3 font-semibold text-label mb-3 lowercase">Privacy by Default</h2>
-                  <p className="text-subheadline text-secondary-label">
-                    GDPR-ready, easy export, simple opt-out
+                    Descriptive, readable URLs that work for everyone
                   </p>
                 </div>
               </StaggerItem>
             </StaggerContainer>
-            <div className="text-center mt-12 space-y-2">
-              <p className="text-title-2 text-label lowercase">
-                Trust drives engagement.
-              </p>
-              <p className="text-title-2 font-semibold text-blazeOrange lowercase">
-                Clarity drives trust.
-              </p>
-            </div>
-          </div>
-        </AnimatedSection>
 
-        {/* Fold 4: Accessibility */}
-        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4 lowercase">
-                {formatText("Links That Include Everyone")}
-              </h2>
+            <div className="text-center mt-12">
+              <Link 
+                to="/features/accessibility" 
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+              >
+                Learn More About Accessibility
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
-            <div className="grid md:grid-cols-5 gap-6 max-w-5xl mx-auto mb-12">
-              {[
-                { label: "Semantic Slugs", icon: Globe },
-                { label: "ARIA Labels", icon: Accessibility },
-                { label: "Screen Reader Clarity", icon: Eye },
-                { label: "WCAG AAA Dashboards", icon: CheckCircle2 },
-                { label: "Keyboard-First Navigation", icon: Code }
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex flex-col items-center text-center space-y-3"
-                >
-                  <div className="p-4 rounded-xl bg-primary/10 text-primary">
-                    <item.icon className="w-8 h-8" />
-                  </div>
-                  <p className="text-sm font-medium text-label">{item.label}</p>
-                </motion.div>
-              ))}
-            </div>
-            <p className="text-center text-title-2 text-secondary-label max-w-3xl mx-auto">
-              Finally — a link system government, education, nonprofit, and public institutions can use confidently.
-            </p>
           </div>
         </AnimatedSection>
 
@@ -285,42 +252,49 @@ const Index = () => {
                 icon={LinkIcon}
                 title="Short Links"
                 description="Branded links that always work"
+                href="/features/short-links"
                 delay={0}
               />
               <FeaturePillarCard
                 icon={BarChart3}
                 title="UTM Builder"
                 description="Consistent parameters, every time"
+                href="/features/utm-builder"
                 delay={0.1}
               />
               <FeaturePillarCard
                 icon={QrCode}
                 title="QR Generator"
                 description="On-brand codes with real attribution"
+                href="/features/qr-generator"
                 delay={0.2}
               />
               <FeaturePillarCard
                 icon={TrendingUp}
                 title="Analytics"
                 description="Clean data, clear insight"
+                href="/features/analytics"
                 delay={0.3}
               />
               <FeaturePillarCard
                 icon={Shield}
                 title="Enterprise Control"
                 description="Roles, permissions, approvals"
+                href="/features/enterprise-control"
                 delay={0.4}
               />
               <FeaturePillarCard
                 icon={CheckCircle2}
                 title="Clean-Track"
                 description="Your tracking rules, automated"
+                href="/features/clean-track"
                 delay={0.5}
               />
               <FeaturePillarCard
                 icon={Users}
                 title="Partner Program"
                 description="Links, QR codes, payouts, attribution"
+                href="/features/partner-program"
                 delay={0.6}
               />
             </div>

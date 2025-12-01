@@ -7,17 +7,17 @@ const layers = [
     number: 1,
     icon: Link2,
     title: "short url",
-    description: "Clean, semantic, memorable",
-    detail: "utm.one/acme-webinar — not u7x2k9",
-    color: "text-electricBlue",
+    headline: "Clean, Semantic Links",
+    description: "utm.one/acme-webinar — not u7x2k9. Every link is readable, memorable, and trustworthy.",
+    color: "text-primary",
     bgColor: "bg-white"
   },
   {
     number: 2,
     icon: Tags,
     title: "utm structure",
-    description: "Enforced naming rules",
-    detail: "source=linkedin&medium=paid&campaign=q1-webinar",
+    headline: "Enforced Naming Rules",
+    description: "source=linkedin&medium=paid&campaign=q1-webinar. Consistent parameters across every campaign.",
     color: "text-primary",
     bgColor: "bg-muted/30"
   },
@@ -25,28 +25,28 @@ const layers = [
     number: 3,
     icon: Shield,
     title: "safety layer",
-    description: "Real-time security scanning",
-    detail: "✓ SSL secured • ✓ Scanned & safe • ✓ No malware",
-    color: "text-green-600",
-    bgColor: "bg-primary/5"
+    headline: "Real-Time Security",
+    description: "✓ SSL secured • ✓ Scanned & safe • ✓ No malware. Every link is verified before you share it.",
+    color: "text-primary",
+    bgColor: "bg-white"
   },
   {
     number: 4,
     icon: BarChart3,
     title: "analytics layer",
-    description: "Full funnel visibility",
-    detail: "Clicks • Devices • Geo • Conversions • Attribution",
-    color: "text-purple-600",
+    headline: "Full Funnel Visibility",
+    description: "Clicks • Devices • Geo • Conversions • Attribution. See exactly what's working and why.",
+    color: "text-primary",
     bgColor: "bg-muted/30"
   },
   {
     number: 5,
     icon: FileCheck,
     title: "governance layer",
-    description: "Templates, rules, audit logs",
-    detail: "Who created what, when, why — full traceability",
-    color: "text-blazeOrange",
-    bgColor: "bg-blazeOrange/10"
+    headline: "Templates & Audit Logs",
+    description: "Who created what, when, why — full traceability. Your team stays aligned, your data stays clean.",
+    color: "text-primary",
+    bgColor: "bg-white"
   }
 ];
 
@@ -58,7 +58,7 @@ export const LinkLayersSection = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative min-h-[400vh] py-20 bg-muted/20">
+    <div ref={containerRef} className="relative min-h-[500vh] py-20 bg-muted/20">
       {/* Header */}
       <div className="text-center mb-12 px-8">
         <motion.h2
@@ -80,67 +80,69 @@ export const LinkLayersSection = () => {
       </div>
 
       {/* Stacking Cards Container */}
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        <div className="w-full max-w-6xl mx-auto px-8">
+      <div className="sticky top-20 h-[80vh] flex items-center justify-center px-8">
+        <div className="relative w-full max-w-6xl">
           {layers.map((layer, index) => {
             const Icon = layer.icon;
-            const cardStart = index / layers.length;
-            const cardEnd = (index + 1) / layers.length;
+            const totalCards = layers.length;
+            const cardStart = index / totalCards;
+            const cardEnd = (index + 1) / totalCards;
             
-            const scale = useTransform(
-              scrollYProgress,
-              [Math.max(0, cardStart - 0.1), cardStart, cardEnd],
-              [0.85 + (index * 0.03), 1, 1]
-            );
-            
-            const opacity = useTransform(
-              scrollYProgress,
-              [Math.max(0, cardStart - 0.05), cardStart],
-              [0.4, 1]
-            );
-            
+            // Card slides up from below viewport
             const y = useTransform(
               scrollYProgress,
-              [0, cardStart, cardEnd],
-              [index * 40, 0, -40]
+              [Math.max(0, cardStart - 0.1), cardStart, cardEnd, 1],
+              [600, 0, 0, -100]
+            );
+            
+            // Active card is 1, previous cards scale down progressively
+            const scale = useTransform(
+              scrollYProgress,
+              [cardStart, cardEnd, 1],
+              [1, 0.95 - (index * 0.02), 0.95 - (index * 0.02)]
+            );
+            
+            // Fade in as card approaches
+            const opacity = useTransform(
+              scrollYProgress,
+              [Math.max(0, cardStart - 0.1), cardStart],
+              [0, 1]
             );
             
             return (
               <motion.div
                 key={index}
                 style={{
+                  y,
                   scale,
                   opacity,
-                  y,
-                  zIndex: layers.length - index,
+                  zIndex: totalCards - index,
                 }}
-                className={`absolute inset-0 ${layer.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden`}
+                className={`absolute left-0 right-0 ${layer.bgColor} rounded-3xl shadow-2xl border border-border min-h-[500px]`}
               >
-                <div className="h-full flex flex-col md:flex-row items-center justify-between p-8 md:p-16 gap-8 md:gap-12">
+                <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 lg:p-16 gap-8 md:gap-12 h-full">
                   {/* Left: Content */}
                   <div className="flex-1 space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary/10 border-2 border-current ${layer.color} flex items-center justify-center font-display font-bold text-xl md:text-2xl`}>
-                        {layer.number}
-                      </div>
-                      <h3 className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold ${layer.color} lowercase`}>
-                        {layer.title}
-                      </h3>
+                    {/* Number Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                      <span className="text-2xl font-display font-bold text-primary">
+                        {layer.number}/5
+                      </span>
                     </div>
                     
-                    <p className="text-xl md:text-2xl text-label font-medium">
-                      {layer.description}
-                    </p>
+                    <h3 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+                      {layer.headline}
+                    </h3>
                     
-                    <p className="text-base md:text-lg text-secondary-label font-mono bg-card/50 rounded-xl p-4 border border-border">
-                      {layer.detail}
+                    <p className="text-lg md:text-xl text-secondary-label leading-relaxed max-w-xl">
+                      {layer.description}
                     </p>
                   </div>
 
                   {/* Right: Visual */}
                   <div className="flex-1 flex items-center justify-center">
-                    <div className={`w-48 h-48 md:w-64 md:h-64 rounded-3xl bg-primary/5 border-2 border-current ${layer.color} flex items-center justify-center`}>
-                      <Icon className={`w-24 h-24 md:w-32 md:h-32 ${layer.color}`} strokeWidth={1.5} />
+                    <div className={`w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-3xl bg-primary/5 border-2 border-primary/20 flex items-center justify-center`}>
+                      <Icon className={`w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 text-primary`} strokeWidth={1.5} />
                     </div>
                   </div>
                 </div>
