@@ -4,6 +4,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { motion } from "framer-motion";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { ProductMockup } from "@/components/product/ProductMockup";
+import { AnimatedFlowDiagram } from "@/components/product/AnimatedFlowDiagram";
 import { 
   Link as LinkIcon, 
   Sparkles, 
@@ -61,34 +62,102 @@ const HowItWorks = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Idea */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <div className="container max-w-[900px] mx-auto px-6">
+      {/* Fold 2: The Idea - Enhanced with Split Screen */}
+      <section className="relative py-24 md:py-32 bg-gradient-to-br from-muted/10 via-background to-muted/20 overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0" style={{ 
+            backgroundImage: 'radial-gradient(circle at 2px 2px, hsl(var(--primary)) 1px, transparent 0)',
+            backgroundSize: '32px 32px'
+          }} />
+        </div>
+
+        <div className="container max-w-7xl mx-auto px-6 relative z-10">
+          {/* Split-Screen Layout */}
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center mb-16">
+            {/* Left: Concept Text */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7 }}
+              className="space-y-6"
+            >
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+                <span className="text-foreground">Everything starts with </span>
+                <span className="hero-gradient">one clean link</span>
+              </h2>
+              <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
+                <p>
+                  utm.one takes the moment you create a link —<br />
+                  <span className="text-foreground font-medium">the first moment</span> —<br />
+                  and turns it into a clean, governed, trustworthy action.
+                </p>
+                <p className="pt-2">
+                  not after the campaign.<br />
+                  not during reporting.<br />
+                  <span className="text-foreground font-semibold">right at creation.</span>
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Right: Clean vs Messy Comparison */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="space-y-6"
+            >
+              {/* Clean Link Example */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-primary/10 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300" />
+                <div className="relative bg-card border border-primary/20 rounded-lg p-6 shadow-lg">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-primary" />
+                    </div>
+                    <span className="text-sm font-semibold text-primary uppercase tracking-wide">Clean Link</span>
+                  </div>
+                  <div className="bg-muted/50 rounded-md p-4 font-mono text-sm md:text-base">
+                    <span className="text-primary font-semibold">utm.one/webinar</span>
+                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Simple. Branded. Semantic. Safe to click.
+                  </p>
+                </div>
+              </div>
+
+              {/* Messy Link Example */}
+              <div className="relative opacity-60">
+                <div className="bg-card border border-border rounded-lg p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                    <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Messy Link</span>
+                  </div>
+                  <div className="bg-muted/50 rounded-md p-4 font-mono text-xs break-all">
+                    <span className="text-muted-foreground">
+                      bit.ly/3xF7kLm?utm_source=email&utm_medium=newsletter&utm_campaign=Q4_2024...
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    Cryptic. Unbranded. Impossible to remember.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Animated Flow Diagram */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="space-y-8 text-center"
+            transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground lowercase">
-              Everything starts with one clean link
-            </h2>
-            <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
-              <p>
-                utm.one takes the moment you create a link —<br />
-                the first moment —<br />
-                and turns it into a clean, governed, trustworthy action.
-              </p>
-              <p className="pt-4">
-                not after the campaign.<br />
-                not during reporting.<br />
-                right at creation.
-              </p>
-              <p className="pt-8 font-medium text-foreground">
-                clean links → clean UTMs → clean QR → clean analytics → clean decisions.
-              </p>
-            </div>
+            <AnimatedFlowDiagram />
           </motion.div>
         </div>
       </section>
