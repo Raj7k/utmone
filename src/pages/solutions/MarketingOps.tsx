@@ -195,6 +195,7 @@ const MarketingOps = () => {
               description="The backbone of your tracking discipline"
               color="blazeOrange"
               delay={0}
+              href="/features/clean-track"
             />
             <FeatureMappedCard
               icon={Shield}
@@ -202,6 +203,7 @@ const MarketingOps = () => {
               description="Roles, permissions, approvals"
               color="deepSea"
               delay={0.1}
+              href="/features/enterprise-control"
             />
             <FeatureMappedCard
               icon={Lock}
@@ -209,6 +211,7 @@ const MarketingOps = () => {
               description="Ownership, lifespan, history"
               color="primary"
               delay={0.2}
+              href="/features/link-immunity"
             />
             <FeatureMappedCard
               icon={FileText}
@@ -216,6 +219,7 @@ const MarketingOps = () => {
               description="A standard the entire team follows"
               color="blazeOrange"
               delay={0.3}
+              href="/features/clean-track"
             />
             <FeatureMappedCard
               icon={Settings}
@@ -223,6 +227,7 @@ const MarketingOps = () => {
               description="Zero-error parameters"
               color="deepSea"
               delay={0.4}
+              href="/features/utm-builder"
             />
           </div>
         </div>

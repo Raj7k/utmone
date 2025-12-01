@@ -259,6 +259,7 @@ const Developers = () => {
               description="Create, edit, manage links programmatically"
               color="blazeOrange"
               delay={0}
+              href="/features/short-links"
             />
             <FeatureMappedCard
               icon={Layers}
@@ -266,6 +267,7 @@ const Developers = () => {
               description="Validate UTMs before saving"
               color="deepSea"
               delay={0.1}
+              href="/features/clean-track"
             />
             <FeatureMappedCard
               icon={Database}
@@ -273,6 +275,7 @@ const Developers = () => {
               description="Add structured meaning for AI"
               color="primary"
               delay={0.2}
+              href="/features/integrations"
             />
             <FeatureMappedCard
               icon={Code}
@@ -280,6 +283,7 @@ const Developers = () => {
               description="Generate QR via code"
               color="blazeOrange"
               delay={0.3}
+              href="/features/qr-generator"
             />
             <FeatureMappedCard
               icon={Webhook}
@@ -287,6 +291,7 @@ const Developers = () => {
               description="Listen to clicks, scans, conversions"
               color="deepSea"
               delay={0.4}
+              href="/features/integrations"
             />
             <FeatureMappedCard
               icon={FileText}
@@ -294,6 +299,7 @@ const Developers = () => {
               description="Copy-paste examples in 8 languages"
               color="primary"
               delay={0.5}
+              href="/features/integrations"
             />
           </div>
         </div>
