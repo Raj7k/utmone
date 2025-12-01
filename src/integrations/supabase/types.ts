@@ -3401,6 +3401,7 @@ export type Database = {
           path: string
           pending_approval_by: string | null
           redirect_type: string | null
+          rejection_reason: string | null
           routing_strategy: string | null
           security_status: Database["public"]["Enums"]["security_status"] | null
           short_url: string | null
@@ -3473,6 +3474,7 @@ export type Database = {
           path?: string
           pending_approval_by?: string | null
           redirect_type?: string | null
+          rejection_reason?: string | null
           routing_strategy?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
@@ -3547,6 +3549,7 @@ export type Database = {
           path?: string
           pending_approval_by?: string | null
           redirect_type?: string | null
+          rejection_reason?: string | null
           routing_strategy?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
@@ -6085,7 +6088,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
-      link_status: "active" | "paused" | "archived" | "scheduled"
+      link_status:
+        | "active"
+        | "paused"
+        | "archived"
+        | "scheduled"
+        | "pending"
+        | "rejected"
       plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
       report_frequency: "daily" | "weekly" | "monthly" | "custom"
       report_template:
@@ -6245,7 +6254,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
-      link_status: ["active", "paused", "archived", "scheduled"],
+      link_status: [
+        "active",
+        "paused",
+        "archived",
+        "scheduled",
+        "pending",
+        "rejected",
+      ],
       plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
       report_frequency: ["daily", "weekly", "monthly", "custom"],
       report_template: [

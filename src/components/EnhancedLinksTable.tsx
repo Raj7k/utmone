@@ -49,6 +49,7 @@ import { LinkPreviewCard } from "./LinkPreviewCard";
 import { TrustBadge } from "./TrustBadge";
 import { generateLinkAriaLabel, generateTableRowAriaLabel, generateDropdownAriaLabel, generateStatusAriaLabel } from "@/lib/accessibility";
 import { Shield } from "lucide-react";
+import { LinkStatusBadge } from "./LinkStatusBadge";
 
 type LinkStatus = Database["public"]["Enums"]["link_status"];
 
@@ -424,7 +425,10 @@ export const EnhancedLinksTable = ({
                 </TableCell>
                 <TableCell role="cell" className="hidden md:table-cell">
                   <div aria-label={generateStatusAriaLabel(link.status || "active")}>
-                    {getStatusBadge(link.status || "active")}
+                    <LinkStatusBadge 
+                      status={link.status || "active"} 
+                      rejectionReason={link.rejection_reason}
+                    />
                   </div>
                 </TableCell>
                 <TableCell className="text-right" role="cell">
