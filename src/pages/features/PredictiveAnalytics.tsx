@@ -1,148 +1,178 @@
-import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { MainLayout } from "@/components/layout/MainLayout";
-import { SEO } from "@/components/seo/SEO";
-import { ProductMockup } from "@/components/product/ProductMockup";
-import { LineChart, TrendingUp, Brain, Zap, Target, Activity } from "lucide-react";
-import { motion } from "framer-motion";
-import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
+import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
+import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
+import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
+import { ROICalculator } from "@/components/growth/ROICalculator";
+import { LineChart, TrendingUp, Users, Briefcase, GitBranch } from "lucide-react";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 export default function PredictiveAnalytics() {
+  const faqs = [
+    {
+      question: "How accurate are the predictions?",
+      answer: "Our pattern recognition AI learns from your historical data—the more clicks you have, the more accurate predictions become. We show confidence intervals (e.g., ±150 clicks) so you know the range, not fake precision."
+    },
+    {
+      question: "What if I don't have much historical data yet?",
+      answer: "The system starts making predictions after just 7 days of data. Early predictions have wider confidence bands, which narrow as we learn your traffic patterns."
+    },
+    {
+      question: "Does this replace Google Analytics?",
+      answer: "No—it complements GA4. utm.one predicts future traffic based on link-level patterns. Use both: GA4 for overall site analytics, utm.one for campaign forecasting."
+    },
+    {
+      question: "Can I see 'best times to post' for my audience?",
+      answer: "Yes. The system shows hourly and daily patterns—you'll see exactly when your audience is most active, not just generic advice."
+    },
+    {
+      question: "What happens if my campaign goes viral?",
+      answer: "The model detects anomalies and updates predictions in real-time. If traffic suddenly spikes, the forecast adjusts within 6 hours."
+    }
+  ];
+
   return (
-    <MainLayout>
-      <SEO
-        title="Predictive Analytics - Don't Just Track Clicks. Predict Them."
-        description="Gaussian Process traffic forecasting, Monte Carlo risk modeling, and probabilistic attribution. Intelligence that sees what's coming, not just what happened."
-        canonical="https://utm.one/features/predictive-analytics"
-        keywords={["predictive analytics", "traffic forecasting", "gaussian process", "monte carlo simulation", "probabilistic attribution"]}
-      />
-
-      <FeatureHero
-        headlineLine1="don't just track clicks."
-        headlineLine2="predict them."
-        subheadline="Gaussian Process traffic forecasting, Monte Carlo risk modeling, and probabilistic attribution. Intelligence that sees what's coming, not just what happened."
-      />
-
-      <FeatureSection background="muted" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            traffic forecasting with gaussian processes
-          </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
-            7-day historical patterns + 7-day future predictions with expanding confidence intervals
+    <FeatureLayout
+      title="Predictive Analytics - Stop Guessing. Start Knowing."
+      description="Ever been asked 'what will traffic look like next week?' and just guessed? utm.one's pattern recognition AI predicts future clicks with confidence intervals, so you can plan campaigns around real data."
+      canonical="https://utm.one/features/predictive-analytics"
+      keywords={["predictive analytics", "traffic forecasting", "campaign planning", "click prediction"]}
+      breadcrumbs={[
+        { name: 'Home', url: 'https://utm.one' },
+        { name: 'Features', url: 'https://utm.one/features' },
+        { name: 'Predictive Analytics', url: 'https://utm.one/features/predictive-analytics' }
+      ]}
+    >
+      {/* Hero */}
+      <section className="relative py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
+          <SocialProofCounter variant="minimal" />
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold hero-gradient lowercase mt-8 mb-6">
+            stop guessing. start knowing.
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            ever been asked "what will traffic look like next week?" and just guessed? utm.one's pattern recognition AI predicts future clicks with confidence intervals, so you can plan campaigns around real data.
           </p>
+          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
         </div>
+      </section>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-8 mb-16">
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <LineChart className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">pattern recognition</h3>
-              <p className="text-secondary-label">
-                Learns weekly patterns, seasonal trends, and campaign cycles automatically
-              </p>
-            </div>
-          </StaggerItem>
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <TrendingUp className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">confidence bands</h3>
-              <p className="text-secondary-label">
-                95% confidence intervals expand into the future—honest uncertainty, not fake precision
-              </p>
-            </div>
-          </StaggerItem>
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <Activity className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">real-time updates</h3>
-              <p className="text-secondary-label">
-                Model retrains every 6 hours with new click data—predictions get smarter over time
-              </p>
-            </div>
-          </StaggerItem>
-        </StaggerContainer>
-
-        <div className="bg-muted/30 rounded-2xl p-8 border border-border">
-          <p className="text-center text-lg text-secondary-label">
-            <span className="font-semibold text-label">Example:</span> "Your summer-sale link will hit ~1,200 clicks ± 150 by Friday" — not guesswork, probabilistic math.
-          </p>
+      {/* Problem */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <HorrorStorySection
+            title="the blind campaign planning trap"
+            description="You're launching a Black Friday campaign. Your boss asks: 'How much server capacity do we need?' You look at last year's data, add 20%, and pray. The campaign launches. Traffic is 3x higher than predicted. Your site crashes. Customers rage on Twitter. Revenue lost: $50K. All because you were guessing instead of predicting."
+            stats={[
+              { label: "Campaigns over-provisioned", value: "40%" },
+              { label: "Campaigns under-provisioned", value: "35%" },
+              { label: "Lost revenue from bad guesses", value: "$50K+" }
+            ]}
+          />
         </div>
-      </FeatureSection>
+      </section>
 
-      <FeatureSection background="white" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            risk-adjusted roi with monte carlo
-          </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
-            10,000 simulations reveal the true range of possible outcomes
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <Brain className="w-6 h-6" />
+      {/* Solution */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how prediction should work</h2>
+            <p className="text-xl text-muted-foreground">no more guessing. just math.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-card border border-border rounded-xl p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <LineChart className="w-8 h-8 text-primary" />
+                <h3 className="text-2xl font-display font-semibold lowercase">pattern recognition</h3>
               </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">campaign uncertainty quantified</h3>
-                <p className="text-secondary-label">
-                  "Campaign X has 30% chance of 10x ROI, 60% chance of 2x ROI, 10% chance of loss"
-                </p>
+              <p className="text-muted-foreground mb-4">
+                The AI learns your weekly patterns, seasonal trends, and campaign cycles automatically. No setup required.
+              </p>
+              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">Example:</span> Your webinar links always spike on Tuesdays at 10 AM. The system learns this and adjusts predictions.
               </div>
             </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <Target className="w-6 h-6" />
+
+            <div className="bg-card border border-border rounded-xl p-8">
+              <div className="flex items-center gap-3 mb-4">
+                <TrendingUp className="w-8 h-8 text-primary" />
+                <h3 className="text-2xl font-display font-semibold lowercase">confidence intervals</h3>
               </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">rare event probability</h3>
-                <p className="text-secondary-label">
-                  Cross-entropy method estimates "What's the chance this goes viral?" with confidence intervals
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">portfolio optimization</h3>
-                <p className="text-secondary-label">
-                  Pareto frontier shows efficient campaigns—maximum clicks for minimum spend
-                </p>
+              <p className="text-muted-foreground mb-4">
+                Every prediction includes a confidence range. Not fake precision—honest uncertainty.
+              </p>
+              <div className="bg-primary/10 rounded-lg p-4 text-sm">
+                <span className="font-semibold text-primary">Your summer sale link:</span>
+                <div className="mt-2 text-foreground font-medium">~1,200 clicks ± 150 by Friday</div>
+                <div className="text-xs text-muted-foreground mt-1">85% confidence</div>
               </div>
             </div>
           </div>
 
-          <div>
-            <ProductMockup type="dashboard" delay={0.2} />
+          <div className="bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/20 rounded-2xl p-8">
+            <h3 className="text-xl font-semibold lowercase mb-4">real-time learning</h3>
+            <p className="text-muted-foreground">
+              The model retrains every 6 hours with new click data. As your campaigns evolve, predictions get smarter. No manual recalibration needed.
+            </p>
           </div>
         </div>
-      </FeatureSection>
+      </section>
 
-      <FeatureSection background="muted" maxWidth="narrow">
-        <div className="text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
-            the difference between tracking and predicting
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 text-left">
-            <div className="bg-card border border-border rounded-xl p-6">
-              <p className="text-sm text-tertiary-label mb-2 uppercase tracking-wide">Old Way</p>
-              <p className="text-secondary-label">"You got 1,000 clicks last week."</p>
+      {/* Real Example */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">see the difference</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-card border border-destructive/30 rounded-xl p-6">
+              <div className="text-sm text-destructive mb-2 uppercase tracking-wide font-semibold">without utm.one</div>
+              <p className="text-muted-foreground mb-4">"You got 1,000 clicks last week."</p>
+              <p className="text-sm text-muted-foreground italic">Now what? Still guessing for next week.</p>
             </div>
             <div className="bg-primary/5 border-2 border-primary rounded-xl p-6">
-              <p className="text-sm text-primary mb-2 uppercase tracking-wide">utm.one</p>
-              <p className="text-label font-medium">"You'll get ~1,200 clicks ± 150 next week. 85% confidence."</p>
+              <div className="text-sm text-primary mb-2 uppercase tracking-wide font-semibold">with utm.one</div>
+              <p className="text-foreground font-medium mb-4">"You'll get ~1,200 clicks ± 150 next week. 85% confidence."</p>
+              <p className="text-sm text-primary font-medium">Plan server capacity. Schedule content. Make decisions with data.</p>
             </div>
           </div>
-          <p className="text-xl text-secondary-label pt-4">
-            One tells you what happened. The other tells you what's coming.
-          </p>
         </div>
-      </FeatureSection>
-    </MainLayout>
+      </section>
+
+      {/* Personas */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
+          </div>
+          <PersonaCalloutCards callouts={[
+            { icon: Users, title: "for marketers", benefit: "Plan campaign launches around predicted traffic peaks—no more 'hope it works' launch days." },
+            { icon: Briefcase, title: "for ops", benefit: "Right-size infrastructure spending—never over-provision or under-provision server capacity again." },
+            { icon: GitBranch, title: "for enterprise", benefit: "Forecast quarterly traffic trends across 50+ campaigns—board-ready projections with confidence intervals." }
+          ]} />
+        </div>
+      </section>
+
+      {/* Growth Loop */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">calculate your savings</h2>
+            <p className="text-xl text-muted-foreground">see how much time utm.one saves your team</p>
+          </div>
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-4xl mx-auto px-8">
+          <RoleSpecificFAQ role="teams" faqs={faqs} />
+        </div>
+      </section>
+    </FeatureLayout>
   );
 }
