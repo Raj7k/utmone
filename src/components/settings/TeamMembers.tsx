@@ -6,10 +6,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useTeamMembers } from "@/hooks/useTeamMembers";
-import { Trash2, Copy, CheckCircle, Send } from "lucide-react";
+import { Trash2, Copy, CheckCircle, Send, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SmartContactRanking } from "@/components/workspace/SmartContactRanking";
+import { RoleRecommenderWizard } from "@/components/workspace/RoleRecommenderWizard";
+import type { Contact } from "@/lib/optimizations/contactRanking";
 
 interface TeamMembersProps {
   workspaceId: string;
@@ -21,6 +24,14 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Mock contacts for smart ranking (in production, fetch from Google/Microsoft OAuth)
+  const mockContacts: Contact[] = [
+    { name: "Sarah Johnson", email: "sarah@utm.one", domain: "utm.one", jobTitle: "Marketing Manager", lastContactDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) },
+    { name: "Mike Chen", email: "mike@utm.one", domain: "utm.one", jobTitle: "Growth Lead", lastContactDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) },
+    { name: "Alex Rivera", email: "alex@external.com", domain: "external.com", jobTitle: "Developer", lastContactDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000) },
+    { name: "Jane Smith", email: "jane@utm.one", domain: "utm.one", jobTitle: "Product Manager", lastContactDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) },
+  ];
   
   const {
     members,
@@ -117,8 +128,20 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
     setTimeout(() => setCopiedToken(null), 2000);
   };
 
+  const handleSmartInvite = (contactEmail: string, contactName: string) => {
+    setEmail(contactEmail);
+    // Scroll to form
+    document.getElementById('invite-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="space-y-6">
+      {/* Smart Contact Ranking */}
+      <SmartContactRanking 
+        contacts={mockContacts}
+        onInvite={handleSmartInvite}
+      />
+
       <Card>
         <CardHeader>
           <CardTitle>invite team member</CardTitle>
@@ -127,7 +150,7 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={handleInvite} className="space-y-4">
+          <form onSubmit={handleInvite} className="space-y-4" id="invite-form">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <label htmlFor="email" className="text-callout text-label">email address</label>
@@ -141,7 +164,18 @@ export function TeamMembers({ workspaceId }: TeamMembersProps) {
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="role" className="text-callout text-label">role</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="role" className="text-callout text-label">role</label>
+                  <RoleRecommenderWizard 
+                    onRoleSelect={(selectedRole) => setRole(selectedRole)}
+                    trigger={
+                      <Button variant="ghost" size="sm" type="button">
+                        <HelpCircle className="h-4 w-4 mr-1" />
+                        help me choose
+                      </Button>
+                    }
+                  />
+                </div>
                 <Select value={role} onValueChange={setRole}>
                   <SelectTrigger id="role">
                     <SelectValue />

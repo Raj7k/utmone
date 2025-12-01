@@ -54,6 +54,32 @@ export const useTeamMembers = (workspaceId: string | undefined) => {
     mutationFn: async ({ email, role }: { email: string; role: string }) => {
       if (!workspaceId) throw new Error("No workspace selected");
 
+      // Step 1: Check for fraud risk before sending invite
+      const { data: fraudCheck, error: fraudError } = await supabase.functions.invoke("check-invite-fraud", {
+        body: { 
+          targetEmail: email,
+          senderEmail: (await supabase.auth.getUser()).data.user?.email,
+          workspaceId 
+        },
+      });
+
+      if (fraudError) throw fraudError;
+
+      // Block high-risk invites
+      if (!fraudCheck.allowed) {
+        throw new Error(`Invitation blocked: ${fraudCheck.reasons.join(", ")}. Please contact support if this is a mistake.`);
+      }
+
+      // Show warning for medium risk but allow
+      if (fraudCheck.riskLevel === 'medium') {
+        toast({
+          title: "Unusual activity detected",
+          description: "This invitation looks suspicious but will be sent. Please verify the email address.",
+          variant: "destructive",
+        });
+      }
+
+      // Step 2: Send the actual invite
       const { data, error } = await supabase.functions.invoke("invite-team-member", {
         body: { workspaceId, email, role },
       });
