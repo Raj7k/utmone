@@ -15,9 +15,17 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-card border-t border-border/50 overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-background via-muted/10 to-background border-t border-border/50 overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div className="absolute inset-0" style={{ 
+          backgroundImage: 'radial-gradient(circle at 2px 2px, hsl(var(--primary)) 1px, transparent 0)',
+          backgroundSize: '32px 32px'
+        }} />
+      </div>
+      
       {/* Bento Grid Layout */}
-      <div className="max-w-[1400px] mx-auto px-8 py-16">
+      <div className="max-w-[1400px] mx-auto px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           
           {/* Brand Tile - Spans 4 columns */}
