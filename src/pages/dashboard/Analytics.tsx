@@ -9,6 +9,10 @@ import { TrendingUp, Activity, Sparkles, Link as LinkIcon } from "lucide-react";
 import { useRealAnalytics } from "@/hooks/useRealAnalytics";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip as RechartsTooltip } from "recharts";
 import { Link } from "react-router-dom";
+import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";
+import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
+import { useTrafficForecast } from "@/hooks/useTrafficForecast";
+import { useCampaignPerformance } from "@/hooks/useCampaignPerformance";
 
 const COLORS = {
   mobile: "hsl(var(--primary))",
@@ -26,6 +30,12 @@ export default function Analytics() {
     workspaceId: currentWorkspace?.id || '',
     dateRange: 30 
   });
+  
+  // Feature 2: Traffic Forecasting
+  const { data: forecastData } = useTrafficForecast(currentWorkspace?.id || '', 7);
+  
+  // Feature 3: Pareto Optimization
+  const { data: campaignPerformance } = useCampaignPerformance(currentWorkspace?.id || '');
 
   useEffect(() => {
     trackFirstAnalyticsView();
@@ -140,10 +150,12 @@ export default function Analytics() {
 
       {/* Google-Style Tabs */}
       <Tabs defaultValue="when" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 rounded-2xl">
+        <TabsList className="grid w-full grid-cols-5 rounded-2xl">
           <TabsTrigger value="when">when</TabsTrigger>
           <TabsTrigger value="where">where</TabsTrigger>
           <TabsTrigger value="who">who</TabsTrigger>
+          <TabsTrigger value="trajectory">trajectory</TabsTrigger>
+          <TabsTrigger value="optimize">optimize</TabsTrigger>
         </TabsList>
 
         <TabsContent value="when">
@@ -357,6 +369,30 @@ export default function Analytics() {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        <TabsContent value="trajectory">
+          <TrafficForecastChart
+            historical={forecastData?.historical || []}
+            forecast={forecastData?.forecast || []}
+            needsMoreData={forecastData?.needsMoreData || true}
+          />
+        </TabsContent>
+
+        <TabsContent value="optimize">
+          {campaignPerformance && campaignPerformance.length > 0 ? (
+            <ParetoFrontier links={campaignPerformance} />
+          ) : (
+            <Card>
+              <CardContent className="pt-12 pb-12 text-center">
+                <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-label mb-2">no campaign data yet</h3>
+                <p className="text-sm text-secondary-label max-w-md mx-auto">
+                  campaign optimization insights will appear here once you have links with conversions.
+                </p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>

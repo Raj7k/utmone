@@ -4,6 +4,13 @@ import { ApiError, ErrorCode, handleEdgeFunctionError } from '../_shared/error-h
 
 const corsHeaders = getSecureCorsHeaders();
 
+interface Destination {
+  url: string;
+  weight: number;
+  clicks: number;
+  conversions: number;
+}
+
 interface LinkRecord {
   id: string;
   final_url: string;
@@ -26,6 +33,8 @@ interface LinkRecord {
   slug: string;
   workspace_id: string;
   geo_targets: Record<string, string> | null;
+  destinations: Destination[] | null;
+  smart_rotate: boolean;
 }
 
 interface OGVariant {
@@ -284,7 +293,7 @@ Deno.serve(async (req) => {
     // Look up the link (now using optimized index)
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('id, final_url, status, approval_status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets')
+      .select('id, final_url, status, approval_status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets, destinations, smart_rotate')
       .eq('domain', domain)
       .eq('path', path)
       .eq('slug', slug)
@@ -665,11 +674,42 @@ Deno.serve(async (req) => {
     
     console.log(`Cloudflare geolocation: country=${country}, city=${city}`);
 
-    // Step 1: Check geo_targets first (simple JSON lookup)
+    // Step 0: Check smart rotation (Feature 4)
+    let selectedDestinationIndex = -1;
     let finalRedirectUrl = linkRecord.final_url;
     let triggeredRule = 'default';
     
-    if (linkRecord.geo_targets && Object.keys(linkRecord.geo_targets).length > 0) {
+    if (linkRecord.smart_rotate && linkRecord.destinations && linkRecord.destinations.length > 1) {
+      const destinations = linkRecord.destinations;
+      
+      // Epsilon-Greedy: 90% exploit (best performer), 10% explore (random)
+      const explore = Math.random() < 0.1;
+      
+      if (explore) {
+        // Random selection (exploration)
+        selectedDestinationIndex = Math.floor(Math.random() * destinations.length);
+        console.log(`Smart rotation: exploring destination ${selectedDestinationIndex}`);
+      } else {
+        // Thompson Sampling selection (exploitation)
+        // Use simplified Beta sampling: higher conversion rate = higher probability
+        const sampledValues = destinations.map((dest) => {
+          const alpha = dest.conversions + 1; // Add 1 for prior
+          const beta = dest.clicks - dest.conversions + 1;
+          // Sample from Beta distribution (simplified)
+          const sample = Math.random();
+          return Math.pow(sample, 1 / alpha) * Math.pow(1 - sample, 1 / beta);
+        });
+        
+        selectedDestinationIndex = sampledValues.indexOf(Math.max(...sampledValues));
+        console.log(`Smart rotation: Thompson Sampling selected destination ${selectedDestinationIndex}`);
+      }
+      
+      finalRedirectUrl = destinations[selectedDestinationIndex].url;
+      triggeredRule = 'smart_rotation';
+    }
+    
+    // Step 1: Check geo_targets (if not already rotated)
+    if (triggeredRule === 'default' && linkRecord.geo_targets && Object.keys(linkRecord.geo_targets).length > 0) {
       const geoTargetUrl = linkRecord.geo_targets[country];
       if (geoTargetUrl) {
         finalRedirectUrl = geoTargetUrl;
@@ -732,13 +772,29 @@ Deno.serve(async (req) => {
         country: country,
         city: city,
         click_hour: clickHour,
-        metadata: { triggered_rule: triggeredRule },
+        metadata: { 
+          triggered_rule: triggeredRule,
+          destination_index: selectedDestinationIndex >= 0 ? selectedDestinationIndex : null,
+        },
       };
 
       try {
         // Direct insert to database
         await supabase.from('link_clicks').insert(clickData);
         console.log('Click logged directly');
+        
+        // Update destination click count if smart rotation was used
+        if (selectedDestinationIndex >= 0 && linkRecord.destinations) {
+          const destinations = [...linkRecord.destinations];
+          destinations[selectedDestinationIndex].clicks += 1;
+          
+          await supabase
+            .from('links')
+            .update({ destinations })
+            .eq('id', linkRecord.id);
+          
+          console.log(`Updated destination ${selectedDestinationIndex} click count`);
+        }
       } catch (error) {
         console.error('Error logging click:', error);
       }

@@ -2624,6 +2624,7 @@ export type Database = {
           custom_expiry_message: string | null
           description: string | null
           destination_url: string
+          destinations: Json | null
           domain: string
           duplicate_strategy: string | null
           expires_at: string | null
@@ -2647,6 +2648,7 @@ export type Database = {
           security_status: Database["public"]["Enums"]["security_status"] | null
           short_url: string | null
           slug: string
+          smart_rotate: boolean | null
           status: Database["public"]["Enums"]["link_status"] | null
           submitted_for_approval_at: string | null
           title: string
@@ -2683,6 +2685,7 @@ export type Database = {
           custom_expiry_message?: string | null
           description?: string | null
           destination_url: string
+          destinations?: Json | null
           domain?: string
           duplicate_strategy?: string | null
           expires_at?: string | null
@@ -2708,6 +2711,7 @@ export type Database = {
             | null
           short_url?: string | null
           slug: string
+          smart_rotate?: boolean | null
           status?: Database["public"]["Enums"]["link_status"] | null
           submitted_for_approval_at?: string | null
           title: string
@@ -2744,6 +2748,7 @@ export type Database = {
           custom_expiry_message?: string | null
           description?: string | null
           destination_url?: string
+          destinations?: Json | null
           domain?: string
           duplicate_strategy?: string | null
           expires_at?: string | null
@@ -2769,6 +2774,7 @@ export type Database = {
             | null
           short_url?: string | null
           slug?: string
+          smart_rotate?: boolean | null
           status?: Database["public"]["Enums"]["link_status"] | null
           submitted_for_approval_at?: string | null
           title?: string
