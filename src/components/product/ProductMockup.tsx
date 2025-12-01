@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { BarChart3, CheckCircle2, Globe, Shield, TrendingUp, Zap, AlertCircle } from "lucide-react";
 
 interface ProductMockupProps {
-  type: "browser" | "utm" | "security" | "analytics" | "governance" | "dashboard" | "geo-map" | "qr-customizer" | "validation" | "identity-stitching" | "attribution-graph" | "state-value";
+  type: "browser" | "utm" | "security" | "analytics" | "governance" | "dashboard" | "geo-map" | "qr-customizer" | "validation" | "identity-stitching" | "attribution-graph" | "state-value" | "golden-path";
   delay?: number;
   size?: "default" | "large";
 }
@@ -30,6 +30,7 @@ export const ProductMockup = ({ type, delay = 0, size = "default" }: ProductMock
       {type === "identity-stitching" && <IdentityStitchingMockup size={size} />}
       {type === "attribution-graph" && <AttributionGraphMockup size={size} />}
       {type === "state-value" && <StateValueMockup size={size} />}
+      {type === "golden-path" && <GoldenPathMockup size={size} />}
     </motion.div>
   );
 };
@@ -401,6 +402,65 @@ const StateValueMockup = ({ size = "default" }: { size?: "default" | "large" }) 
     </div>
     <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
       MDP-calculated state values
+    </div>
+  </div>
+);
+
+const GoldenPathMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
+  <div className={`bg-card border border-border rounded-xl shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+    <div className="flex items-center justify-between mb-2">
+      <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Top Conversion Paths</h4>
+      <Zap className={`text-primary ${size === "large" ? "w-5 h-5" : "w-4 h-4"}`} />
+    </div>
+    <div className="space-y-3">
+      <div className={`bg-primary/10 border-2 border-primary/30 rounded-lg ${size === "large" ? "p-4" : "p-3"} relative`}>
+        <div className="absolute top-2 right-2">
+          <span className={`bg-primary text-white px-2 py-0.5 rounded-full font-bold ${size === "large" ? "text-xs" : "text-[10px]"}`}>GOLDEN</span>
+        </div>
+        <div className={`text-secondary-label mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>Path 1</div>
+        <div className={`flex items-center gap-2 mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+          <span className="text-label font-medium">Blog</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Webinar</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Demo</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Conv. Rate</span>
+          <span className={`font-bold text-primary ${size === "large" ? "text-lg" : "text-base"}`}>68%</span>
+        </div>
+      </div>
+      <div className={`bg-muted/50 rounded-lg ${size === "large" ? "p-4" : "p-3"}`}>
+        <div className={`text-secondary-label mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>Path 2</div>
+        <div className={`flex items-center gap-2 mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+          <span className="text-label font-medium">LinkedIn</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Pricing</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Trial</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Conv. Rate</span>
+          <span className={`font-bold text-label ${size === "large" ? "text-lg" : "text-base"}`}>52%</span>
+        </div>
+      </div>
+      <div className={`bg-muted/50 rounded-lg ${size === "large" ? "p-4" : "p-3"}`}>
+        <div className={`text-secondary-label mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>Path 3</div>
+        <div className={`flex items-center gap-2 mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+          <span className="text-label font-medium">Search</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Blog</span>
+          <span className="text-secondary-label">→</span>
+          <span className="text-label font-medium">Demo</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Conv. Rate</span>
+          <span className={`font-bold text-label ${size === "large" ? "text-lg" : "text-base"}`}>45%</span>
+        </div>
+      </div>
+    </div>
+    <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+      Pareto-optimized paths
     </div>
   </div>
 );

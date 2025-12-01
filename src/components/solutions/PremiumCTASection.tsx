@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -73,17 +74,31 @@ export const PremiumCTASection = ({
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.1 }}
                 >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    asChild
-                    className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10"
-                  >
-                    <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
-                      {secondaryCTA}
-                      <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
-                    </a>
-                  </Button>
+                  {secondaryCTALink.startsWith('http') ? (
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      asChild
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10 bg-white/5"
+                    >
+                      <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
+                        {secondaryCTA}
+                        <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
+                      </a>
+                    </Button>
+                  ) : (
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      asChild
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10 bg-white/5"
+                    >
+                      <Link to={secondaryCTALink}>
+                        {secondaryCTA}
+                        <ArrowRight className="ml-2 h-4 w-4" strokeWidth={2} />
+                      </Link>
+                    </Button>
+                  )}
                 </motion.div>
               )}
             </div>

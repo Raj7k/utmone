@@ -1,225 +1,165 @@
 import { motion } from "framer-motion";
 import { ProductMockup } from "@/components/product/ProductMockup";
-import { ArrowRight } from "lucide-react";
-
-const workflowSteps = [
-  {
-    number: "01",
-    title: "identity resolution",
-    problem: "Anonymous visitors with no journey history",
-    solution: "Time-Travel Stitching backfills entire history",
-    outcome: "2.3x increase in attribution accuracy",
-    mockupType: "identity-stitching" as const,
-    link: "/features/identity-resolution"
-  },
-  {
-    number: "02",
-    title: "bayesian attribution",
-    problem: "Last-click gives 100% credit to wrong channel",
-    solution: "Probabilistic lift models show true influence",
-    outcome: "Stop defunding channels that work",
-    mockupType: "attribution-graph" as const,
-    link: "/features/bayesian-attribution"
-  },
-  {
-    number: "03",
-    title: "journey valuation",
-    problem: "No idea which pages drive revenue",
-    solution: "Markov models calculate page value in dollars",
-    outcome: "Optimize high-value paths first",
-    mockupType: "state-value" as const,
-    link: "/features/journey-valuation"
-  },
-  {
-    number: "04",
-    title: "golden path discovery",
-    problem: "Guessing which sequences convert best",
-    solution: "Pareto optimization finds efficient paths",
-    outcome: "Double conversion rates on key flows",
-    mockupType: "attribution-graph" as const,
-    link: "/features/customer-journey"
-  }
-];
 
 export const WorkflowTransformSection = () => {
+  const steps = [
+    {
+      number: "01",
+      title: "identity resolution",
+      metric: "2.3x accuracy",
+      mockupType: "identity-stitching" as const,
+    },
+    {
+      number: "02",
+      title: "bayesian attribution",
+      metric: "true roi",
+      mockupType: "attribution-graph" as const,
+    },
+    {
+      number: "03",
+      title: "journey valuation",
+      metric: "$ per page",
+      mockupType: "state-value" as const,
+    },
+    {
+      number: "04",
+      title: "golden path discovery",
+      metric: "optimal routes",
+      mockupType: "golden-path" as const,
+    },
+  ];
+
   return (
-    <section className="py-24 md:py-32 bg-muted/20 relative overflow-hidden">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-[0.02]" style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
+    <section className="relative py-24 md:py-32 bg-muted/20 overflow-hidden">
+      {/* Section Header */}
+      <div className="relative max-w-7xl mx-auto px-6 mb-16 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-display font-bold text-label mb-4 brand-lowercase"
+        >
+          how it transforms your workflow
+        </motion.h2>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 lowercase">
-            how it transforms your workflow
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
-            Real problems. Real solutions. Real outcomes.
-          </p>
-        </div>
-
+      {/* Timeline Container */}
+      <div className="relative max-w-7xl mx-auto px-6">
         {/* Desktop: Horizontal Timeline */}
         <div className="hidden lg:block">
-          {/* Step Numbers with Connecting Lines */}
-          <div className="flex items-center justify-between mb-8 px-12">
-            {workflowSteps.map((step, index) => (
-              <div key={step.number} className="flex items-center">
+          <div className="relative">
+            {/* Connecting Line */}
+            <svg
+              className="absolute top-12 left-0 w-full h-2 pointer-events-none"
+              style={{ zIndex: 0 }}
+            >
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+              <line
+                x1="12%"
+                y1="4"
+                x2="88%"
+                y2="4"
+                stroke="url(#lineGradient)"
+                strokeWidth="2"
+                strokeDasharray="8 4"
+              />
+            </svg>
+
+            {/* Steps Grid */}
+            <div className="grid grid-cols-4 gap-6 relative" style={{ zIndex: 1 }}>
+              {steps.map((step, index) => (
                 <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  key={step.number}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="relative"
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-display font-bold text-lg shadow-lg">
-                    {step.number}
-                  </div>
-                </motion.div>
-                {index < workflowSteps.length - 1 && (
-                  <motion.svg
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    whileInView={{ pathLength: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
-                    className="w-32 h-2 mx-4"
-                    viewBox="0 0 128 8"
-                  >
-                    <motion.path
-                      d="M 0 4 L 128 4"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth="2"
-                      strokeDasharray="4 4"
-                      fill="none"
-                    />
-                    <motion.circle
-                      r="3"
-                      fill="hsl(var(--primary))"
-                      initial={{ cx: 0 }}
-                      animate={{ cx: 128 }}
-                      transition={{
-                        duration: 1.5,
-                        delay: index * 0.1 + 0.5,
-                        repeat: Infinity,
-                        repeatDelay: 2,
-                        ease: "easeInOut"
-                      }}
-                      cy="4"
-                    />
-                  </motion.svg>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Cards Row */}
-          <div className="grid grid-cols-4 gap-6">
-            {workflowSteps.map((step, index) => (
-              <motion.a
-                key={step.number}
-                href={step.link}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group block"
-              >
-                <div className="bg-card/80 backdrop-blur-sm border-2 border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full flex flex-col">
-                  {/* Mockup */}
-                  <div className="mb-6 flex-shrink-0">
-                    <ProductMockup type={step.mockupType} size="large" />
+                  {/* Number Badge */}
+                  <div className="flex justify-center mb-6">
+                    <div className="relative">
+                      <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-lg">
+                        {step.number}
+                      </div>
+                      {/* Pulse ring */}
+                      <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" style={{ animationDuration: '2s', animationDelay: `${index * 0.2}s` }} />
+                    </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="space-y-3 flex-1 flex flex-col">
-                    <h3 className="text-lg font-display font-bold lowercase text-label">
+                  {/* Card */}
+                  <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    {/* Mockup */}
+                    <div className="mb-6">
+                      <ProductMockup type={step.mockupType} size="default" />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-lg font-display font-semibold text-label mb-2 brand-lowercase text-center">
                       {step.title}
                     </h3>
-                    
-                    <div className="space-y-2 flex-1 text-xs">
-                      <div>
-                        <p className="font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
-                        <p className="text-muted-foreground">{step.problem}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
-                        <p className="text-muted-foreground">{step.solution}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
-                        <p className="text-foreground font-medium">{step.outcome}</p>
-                      </div>
-                    </div>
 
-                    <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
-                      Learn more <ArrowRight className="w-4 h-4" />
+                    {/* Metric */}
+                    <div className="text-center">
+                      <span className="inline-block px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary">
+                        {step.metric}
+                      </span>
                     </div>
                   </div>
-                </div>
-              </motion.a>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden space-y-8">
-          {workflowSteps.map((step, index) => (
-            <motion.a
+          {steps.map((step, index) => (
+            <motion.div
               key={step.number}
-              href={step.link}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group block relative"
+              className="relative pl-12"
             >
-              {/* Connecting Line (except last) */}
-              {index < workflowSteps.length - 1 && (
-                <div className="absolute left-6 top-20 bottom-0 w-0.5 bg-primary/30" />
+              {/* Vertical Line */}
+              {index < steps.length - 1 && (
+                <div className="absolute left-5 top-12 bottom-0 w-0.5 bg-primary/30" />
               )}
 
-              <div className="flex gap-6">
-                {/* Step Number */}
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-display font-bold text-lg shadow-lg relative z-10">
-                    {step.number}
-                  </div>
-                </div>
-
-                {/* Card */}
-                <div className="flex-1 bg-card/80 backdrop-blur-sm border-2 border-border rounded-2xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-xl">
-                  <div className="mb-4">
-                    <ProductMockup type={step.mockupType} size="large" />
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-display font-bold lowercase text-label">
-                      {step.title}
-                    </h3>
-                    
-                    <div className="space-y-2 text-sm">
-                      <div>
-                        <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
-                        <p className="text-muted-foreground">{step.problem}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
-                        <p className="text-muted-foreground">{step.solution}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
-                        <p className="text-foreground font-medium">{step.outcome}</p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
-                      Learn more <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </div>
+              {/* Number Badge */}
+              <div className="absolute left-0 top-0">
+                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-lg">
+                  {step.number}
                 </div>
               </div>
-            </motion.a>
+
+              {/* Card */}
+              <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-6 shadow-lg">
+                {/* Mockup */}
+                <div className="mb-4">
+                  <ProductMockup type={step.mockupType} size="default" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-lg font-display font-semibold text-label mb-2 brand-lowercase">
+                  {step.title}
+                </h3>
+
+                {/* Metric */}
+                <span className="inline-block px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary">
+                  {step.metric}
+                </span>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
