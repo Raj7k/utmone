@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
-import { SemanticFooter } from "./SemanticFooter";
+import { Footer } from "@/components/landing/Footer";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -23,7 +23,7 @@ export const MainLayout = ({ children, showAnnouncement = true }: MainLayoutProp
         {children}
       </main>
 
-      <SemanticFooter />
+      <Footer />
     </div>
   );
 };
