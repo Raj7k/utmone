@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Gift, Copy, Check } from "lucide-react";
+import { Gift, Copy, Check, Users, Award } from "lucide-react";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useReferralStats } from "@/hooks/useReferralStats";
 
 export const ReferralTile = () => {
   const [copied, setCopied] = useState(false);
   
-  const { data: profile, isLoading } = useQuery({
+  const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ["profile-referral"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -26,8 +27,13 @@ export const ReferralTile = () => {
     },
   });
 
-  const referralCode = profile?.id?.substring(0, 8) || "loading...";
+  const { data: stats, isLoading: statsLoading } = useReferralStats(profile?.id || "");
+  
+  const isLoading = profileLoading || statsLoading;
+  const referralCode = stats?.referral_code || profile?.id?.substring(0, 8) || "loading...";
   const referralLink = `${window.location.origin}/invite/${referralCode}`;
+  const successfulReferrals = stats?.successful_referrals || 0;
+  const monthsEarned = successfulReferrals;
 
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink);
@@ -61,18 +67,42 @@ export const ReferralTile = () => {
       <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
         <div className="flex items-center gap-2">
           <Gift className="h-5 w-5 text-primary" />
-          <h3 className="text-title-3 font-display">Invite & Earn</h3>
+          <h3 className="text-title-3 font-display">invite & earn</h3>
         </div>
         <p className="text-caption-1 text-secondary-label mt-1">
-          Earn <span className="font-semibold text-label">1 month of Pro</span> per referral
+          earn <span className="font-semibold text-label">1 month of pro</span> per referral
         </p>
       </div>
       
-      <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
-        <div className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
-          <span className="text-xs text-muted-foreground">Your Code</span>
+      <div className="p-4 space-y-4 flex-1 flex flex-col justify-between">
+        {/* Your Stats */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+            <div className="flex items-center gap-2 mb-1">
+              <Users className="h-4 w-4 text-primary" />
+              <span className="text-xs text-muted-foreground">referrals</span>
+            </div>
+            <p className="text-2xl font-bold text-foreground">
+              {successfulReferrals}
+            </p>
+          </div>
+          
+          <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+            <div className="flex items-center gap-2 mb-1">
+              <Award className="h-4 w-4 text-primary" />
+              <span className="text-xs text-muted-foreground">earned</span>
+            </div>
+            <p className="text-2xl font-bold text-foreground">
+              {monthsEarned} mo
+            </p>
+          </div>
+        </div>
+
+        {/* Your Code */}
+        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border/50">
+          <span className="text-xs text-muted-foreground">your code</span>
           <div className="flex items-center gap-2">
-            <code className="text-sm font-mono font-medium tracking-tight">
+            <code className="text-sm font-mono font-medium tracking-tight text-foreground">
               {referralCode}
             </code>
             <Button
@@ -86,6 +116,7 @@ export const ReferralTile = () => {
           </div>
         </div>
 
+        {/* Copy Link Button */}
         <Button
           className="w-full"
           size="sm"
@@ -94,12 +125,12 @@ export const ReferralTile = () => {
           {copied ? (
             <>
               <Check className="h-4 w-4 mr-2" />
-              Copied!
+              copied!
             </>
           ) : (
             <>
               <Copy className="h-4 w-4 mr-2" />
-              Copy link
+              copy link
             </>
           )}
         </Button>

@@ -25,7 +25,15 @@ const getBreadcrumbs = (pathname: string) => {
       "analytics": "Analytics",
       "settings": "Settings",
       "onelink-validator": "OneLink Validator",
-      "targeting": "Targeting"
+      "targeting": "Targeting",
+      "bulk-create": "Bulk Create",
+      "campaigns": "Campaigns",
+      "experiments": "The Lab",
+      "cache-monitoring": "Cache",
+      "analytics-performance": "Performance",
+      "link-health": "Link Health",
+      "billing": "Billing",
+      "team": "Team"
     };
     
     const page = segments[1];
