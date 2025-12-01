@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Crown, Loader2 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { UsageForecastWidget } from "@/components/workspace/UsageForecastWidget";
+import type { UsageDataPoint } from "@/lib/optimizations/usageForecasting";
 
 const PLAN_HIERARCHY = {
   free: 0,
@@ -49,6 +51,49 @@ export default function BillingSettings() {
       if (!currentWorkspace?.id) throw new Error("No workspace");
       const simulatedPlan = localStorage.getItem('SIMULATED_PLAN');
       return checkPlanLimits(currentWorkspace.id, simulatedPlan as PlanTier | undefined);
+    },
+  });
+
+  // Fetch usage history for forecasting
+  const { data: usageHistory } = useQuery({
+    queryKey: ["usage-history", currentWorkspace?.id],
+    enabled: !!currentWorkspace?.id,
+    queryFn: async () => {
+      if (!currentWorkspace?.id) throw new Error("No workspace");
+      
+      // Get last 30 days of link creation counts
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      
+      const { data, error } = await supabase
+        .from("links")
+        .select("created_at")
+        .eq("workspace_id", currentWorkspace.id)
+        .gte("created_at", thirtyDaysAgo.toISOString())
+        .order("created_at", { ascending: true });
+      
+      if (error) throw error;
+      
+      // Group by day and count
+      const countsByDay = new Map<string, number>();
+      data?.forEach(link => {
+        const date = new Date(link.created_at).toISOString().split('T')[0];
+        countsByDay.set(date, (countsByDay.get(date) || 0) + 1);
+      });
+      
+      // Convert to UsageDataPoint array
+      const usageData: UsageDataPoint[] = [];
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        usageData.push({
+          date: new Date(dateStr),
+          count: countsByDay.get(dateStr) || 0,
+        });
+      }
+      
+      return usageData;
     },
   });
 
@@ -265,6 +310,17 @@ export default function BillingSettings() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Usage Forecast Widget */}
+        {limits && usageHistory && typeof limits.limits.monthlyLinks === 'number' && (
+          <UsageForecastWidget
+            usageHistory={usageHistory}
+            currentUsage={limits.currentUsage.linksThisMonth}
+            limit={limits.limits.monthlyLinks}
+            resourceName="Links"
+            upgradeLink="/settings/billing"
+          />
         )}
 
         {/* Available Plans Grid */}
