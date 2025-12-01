@@ -128,7 +128,7 @@ const Support = () => {
             </Link>
 
             <Link
-              to="/api"
+              to="/docs/api"
               className="flex flex-col items-start gap-3 p-6 border border-border rounded-xl bg-card hover:bg-muted/20 transition-colors"
             >
               <Book className="w-8 h-8 text-primary" />
