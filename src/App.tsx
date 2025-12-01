@@ -66,6 +66,8 @@ const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator")
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
+const AIOptimization = lazy(() => import("./pages/dashboard/AIOptimization"));
+const AITimeOptimizer = lazy(() => import("./pages/dashboard/AITimeOptimizer"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
@@ -331,6 +333,8 @@ const App = () => (
               <Route path="/dashboard/targeting/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Targeting /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/bulk-create" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><BulkCreate /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/onelink-validator" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><OneLinkValidator /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/ai-optimization" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AIOptimization /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/ai-send-time" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AITimeOptimizer /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns/:id" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CampaignDetails /></DashboardLayout></Suspense></ProtectedRoute>} />
               
