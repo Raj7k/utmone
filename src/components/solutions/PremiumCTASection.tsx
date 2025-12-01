@@ -46,37 +46,17 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase bg-gradient-to-br from-[hsl(280,70%,25%)] via-[hsl(260,65%,30%)] to-[hsl(240,60%,35%)] bg-clip-text text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(135deg, hsl(280,70%,25%) 0%, hsl(260,65%,30%) 50%, hsl(240,60%,35%) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'url(#noise)'
-              }}
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase hero-gradient"
             >
               {headline}
             </motion.h2>
-            
-            {/* SVG Noise Filter */}
-            <svg width="0" height="0" className="absolute">
-              <filter id="noise">
-                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" />
-                <feColorMatrix type="saturate" values="0" />
-                <feBlend mode="multiply" in="SourceGraphic" />
-              </filter>
-            </svg>
             
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-xl bg-gradient-to-br from-[hsl(280,70%,25%)]/90 via-[hsl(260,65%,30%)]/90 to-[hsl(240,60%,35%)]/90 bg-clip-text text-transparent max-w-[640px] mx-auto"
-              style={{
-                backgroundImage: 'linear-gradient(135deg, hsl(280,70%,25%, 0.9) 0%, hsl(260,65%,30%, 0.9) 50%, hsl(240,60%,35%, 0.9) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}
+              className="text-xl text-white/90 max-w-[640px] mx-auto"
             >
               {subheadline}
             </motion.p>
