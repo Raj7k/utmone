@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { useClickHeatmap } from "@/hooks/useClickHeatmap";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
@@ -49,6 +51,14 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
     isBest: i === bestDay.day
   }));
 
+  // Accessibility data
+  const accessibilityData = useChartAccessibility(
+    chartData,
+    "Day of Week Click Distribution",
+    "day",
+    ["clicks"]
+  );
+
   return (
     <Card>
       <CardHeader>
@@ -58,7 +68,8 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ChartWrapper height={300} accessibilityData={accessibilityData}>
+          <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
             <XAxis
               dataKey="day"
@@ -101,6 +112,7 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
             </Bar>
           </BarChart>
         </ResponsiveContainer>
+        </ChartWrapper>
 
         {/* Legend */}
         <div className="flex items-center justify-center gap-4 mt-4 text-sm">

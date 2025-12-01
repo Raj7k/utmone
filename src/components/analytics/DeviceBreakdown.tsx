@@ -1,6 +1,8 @@
 import { useCachedDeviceAnalytics } from "@/hooks/useAnalyticsCache";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { usePieChartAccessibility, useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 interface DeviceBreakdownProps {
@@ -47,6 +49,11 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
     };
   })() : { devices: [], browsers: [], os: [] };
 
+  // Accessibility data
+  const devicesAccessibility = usePieChartAccessibility(data.devices, "Device Type Distribution", "name", "value");
+  const browsersAccessibility = useChartAccessibility(data.browsers, "Top Browsers", "name", ["value"]);
+  const osAccessibility = useChartAccessibility(data.os, "Operating Systems", "name", ["value"]);
+
   if (isLoading) {
     return <div className="text-center py-8 text-secondary-label">loading device data…</div>;
   }
@@ -71,9 +78,10 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
             <CardDescription>Click distribution by device</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
+            <ChartWrapper height={300} accessibilityData={devicesAccessibility}>
+              <ChartContainer config={chartConfig} className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
                   <Pie
                     data={data.devices}
                     dataKey="value"
@@ -91,6 +99,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
                 </PieChart>
               </ResponsiveContainer>
             </ChartContainer>
+            </ChartWrapper>
           </CardContent>
         </Card>
 
@@ -100,9 +109,10 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
             <CardDescription>Most used browsers</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data.browsers}>
+            <ChartWrapper height={300} accessibilityData={browsersAccessibility}>
+              <ChartContainer config={chartConfig} className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={data.browsers}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
                   <YAxis stroke="hsl(var(--secondary-label))" />
@@ -111,6 +121,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
+            </ChartWrapper>
           </CardContent>
         </Card>
 
@@ -120,9 +131,10 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
             <CardDescription>Distribution by OS</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data.os}>
+            <ChartWrapper height={300} accessibilityData={osAccessibility}>
+              <ChartContainer config={chartConfig} className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={data.os}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
                   <YAxis stroke="hsl(var(--secondary-label))" />
@@ -131,6 +143,7 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
+            </ChartWrapper>
           </CardContent>
         </Card>
       </div>

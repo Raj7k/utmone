@@ -1,6 +1,8 @@
 import { useCachedGeolocationAnalytics } from "@/hooks/useAnalyticsCache";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import { Globe } from "lucide-react";
 
@@ -42,6 +44,10 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
     return { countries, cities };
   })() : { countries: [], cities: [] };
 
+  // Accessibility data
+  const countriesAccessibility = useChartAccessibility(data.countries, "Top Countries by Clicks", "name", ["value"]);
+  const citiesAccessibility = useChartAccessibility(data.cities, "Top Cities by Clicks", "name", ["value"]);
+
   if (isLoading) {
     return <div className="text-center py-8 text-secondary-label">loading location data…</div>;
   }
@@ -68,9 +74,10 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
           <CardDescription>Click distribution by country</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data.countries} layout="vertical">
+          <ChartWrapper height={400} accessibilityData={countriesAccessibility}>
+            <ChartContainer config={chartConfig} className="h-[400px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={data.countries} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis type="number" stroke="hsl(var(--secondary-label))" />
                   <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--secondary-label))" />
@@ -78,7 +85,8 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
                   <Bar dataKey="value" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
-          </ChartContainer>
+            </ChartContainer>
+          </ChartWrapper>
         </CardContent>
       </Card>
 
@@ -88,9 +96,10 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
           <CardDescription>Most active cities</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-[400px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data.cities} layout="vertical">
+          <ChartWrapper height={400} accessibilityData={citiesAccessibility}>
+            <ChartContainer config={chartConfig} className="h-[400px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={data.cities} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis type="number" stroke="hsl(var(--secondary-label))" />
                   <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--secondary-label))" />
@@ -98,7 +107,8 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
                   <Bar dataKey="value" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
-          </ChartContainer>
+            </ChartContainer>
+          </ChartWrapper>
         </CardContent>
       </Card>
     </div>

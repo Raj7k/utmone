@@ -6,6 +6,8 @@
 import { useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, ComposedChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartWrapper } from '@/components/charts/ChartWrapper';
+import { useChartAccessibility } from '@/hooks/useChartAccessibility';
 import { useAISendTimePredictor } from '@/hooks/useAISendTimePredictor';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -36,6 +38,14 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
       ei: slot.prediction.expectedImprovement.toFixed(2),
     }));
   }, [data, selectedDay]);
+
+  // Accessibility data
+  const accessibilityData = useChartAccessibility(
+    chartData,
+    `Hourly Click Predictions for ${selectedDay !== undefined ? DAY_NAMES[selectedDay] : 'Monday'}`,
+    "hour",
+    ["mean", "lower", "upper"]
+  );
 
   if (isLoading) {
     return (
@@ -79,7 +89,8 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ChartWrapper height={300} accessibilityData={accessibilityData}>
+          <ResponsiveContainer width="100%" height={300}>
           <ComposedChart data={chartData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
             <XAxis 
@@ -163,6 +174,7 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
             />
           </ComposedChart>
         </ResponsiveContainer>
+        </ChartWrapper>
 
         <div className="mt-4 p-3 rounded-lg bg-muted/30 text-xs text-tertiary-label">
           <p>

@@ -1,7 +1,6 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { motion } from "framer-motion";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { 
@@ -45,14 +44,28 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 
 const HowItWorks = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="How utm.one Works"
         description="Discover how utm.one creates clean links, structured UTMs, branded QR codes, and reliable analytics — all from one simple system. Learn the utm.one flow."
         canonical="https://utm.one/how-it-works"
         keywords={['how utm.one works', 'link shortener', 'UTM builder', 'QR generator', 'analytics platform']}
       />
-      <Navigation />
+      <LLMSchemaGenerator 
+        type="howto" 
+        data={{
+          title: "How utm.one Works",
+          description: "Learn how utm.one creates clean links with structured UTMs and branded QR codes",
+          steps: [
+            { name: "Create a link", description: "Simple, branded, semantic link creation" },
+            { name: "Apply Clean-track rules", description: "Automatic syntax and naming validation" },
+            { name: "Generate UTMs", description: "Consistent parameters without errors" },
+            { name: "Create QR code", description: "Branded QR codes with attribution" },
+            { name: "Track analytics", description: "Clear metrics and attribution" },
+            { name: "Team synchronization", description: "Unified standards across organization" }
+          ]
+        }}
+      />
       
       {/* Fold 1: Hero */}
       <section className="relative py-32 md:py-40 bg-white overflow-hidden">
@@ -522,9 +535,7 @@ const HowItWorks = () => {
         subheadline="We onboard in batches. Clarity first."
         primaryCTA="Get Started Free →"
       />
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

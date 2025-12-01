@@ -1,5 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Line } from "recharts";
 import { TrendingUp, Award, AlertTriangle } from "lucide-react";
 
@@ -47,6 +49,14 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
   // Calculate averages for reference lines
   const avgCTR = links.reduce((sum, l) => sum + l.ctr, 0) / links.length;
   const avgConversion = links.reduce((sum, l) => sum + l.conversionRate, 0) / links.length;
+
+  // Accessibility data
+  const accessibilityData = useChartAccessibility(
+    chartData,
+    "Campaign Performance - Click-through Rate vs Conversion Rate",
+    "name",
+    ["ctr", "conversionRate"]
+  );
 
   // Custom tooltip
   const CustomTooltip = ({ active, payload }: any) => {
@@ -103,7 +113,8 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
             </Badge>
           </div>
 
-          <ResponsiveContainer width="100%" height={400}>
+          <ChartWrapper height={400} accessibilityData={accessibilityData}>
+            <ResponsiveContainer width="100%" height={400}>
             <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
@@ -168,6 +179,7 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
               )}
             </ScatterChart>
           </ResponsiveContainer>
+          </ChartWrapper>
 
           <div className="flex items-center gap-6 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
