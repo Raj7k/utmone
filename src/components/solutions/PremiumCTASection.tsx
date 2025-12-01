@@ -46,7 +46,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-white"
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-[hsl(243,60%,59%)]"
             >
               {headline}
             </motion.h2>
@@ -56,7 +56,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-xl text-white/80 max-w-[640px] mx-auto"
+              className="text-xl text-[hsl(243,60%,59%)]/80 max-w-[640px] mx-auto"
             >
               {subheadline}
             </motion.p>

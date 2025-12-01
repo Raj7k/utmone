@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProductMockup } from "@/components/product/ProductMockup";
 import { useSwipeGesture } from "@/hooks/useSwipeGesture";
-import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const WorkflowTransformSection = () => {
@@ -92,9 +91,9 @@ export const WorkflowTransformSection = () => {
   };
 
   return (
-    <section className="relative py-24 md:py-32 bg-muted/20 overflow-hidden">
+    <section className="relative min-h-screen py-16 bg-muted/20 overflow-hidden flex flex-col justify-center">
       {/* Section Header */}
-      <div className="relative max-w-7xl mx-auto px-6 mb-16 text-center">
+      <div className="relative max-w-7xl mx-auto px-6 mb-12 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -106,86 +105,145 @@ export const WorkflowTransformSection = () => {
         </motion.h2>
       </div>
 
-      {/* Carousel Container */}
-      <div className="relative max-w-6xl mx-auto px-6">
-        <div {...bind()} className="relative overflow-hidden" style={{ touchAction: "pan-y" }}>
-          <AnimatePresence mode="wait" custom={direction}>
+      {/* Three-Card Carousel Container */}
+      <div className="relative max-w-[1400px] mx-auto w-full px-6">
+        <div className="relative h-[600px] flex items-center justify-center">
+          
+          {/* Left Peek Card */}
+          {activeIndex > 0 && (
             <motion.div
-              key={activeIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="w-full"
+              key={`left-${activeIndex - 1}`}
+              onClick={handlePrev}
+              className="absolute left-0 w-[30%] cursor-pointer transition-opacity hover:opacity-50"
+              style={{ 
+                opacity: 0.3,
+                filter: 'blur(4px)',
+                transform: 'scale(0.75) translateX(-20%)',
+                zIndex: 1
+              }}
+              initial={false}
+              animate={{ opacity: 0.3 }}
+              transition={{ duration: 0.8 }}
             >
-              {/* Large Card */}
-              <div className="bg-card/80 backdrop-blur-sm border border-border rounded-3xl p-8 md:p-12 shadow-2xl">
-                <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
-                  {/* Mockup */}
-                  <div className="w-full md:w-1/2 flex-shrink-0">
-                    <ProductMockup type={steps[activeIndex].mockupType} size="large" />
+              <div className="bg-card/60 backdrop-blur-sm border border-border rounded-3xl p-6 shadow-lg">
+                <div className="flex flex-col gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-lg">
+                    {steps[activeIndex - 1].number}
                   </div>
-
-                  {/* Content */}
-                  <div className="w-full md:w-1/2 space-y-6">
-                    {/* Step Counter */}
-                    <div className="inline-flex items-center gap-2">
-                      <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg shadow-lg">
-                        {steps[activeIndex].number}
-                      </div>
-                      <span className="text-sm font-medium text-muted-foreground">
-                        Step {activeIndex + 1} of {steps.length}
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-3xl md:text-4xl font-display font-bold text-label brand-lowercase">
-                      {steps[activeIndex].title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                      {steps[activeIndex].description}
-                    </p>
-
-                    {/* Metric */}
-                    <div className="inline-flex items-center px-6 py-3 bg-primary/10 rounded-full">
-                      <span className="text-base font-semibold text-primary">
-                        {steps[activeIndex].metric}
-                      </span>
-                    </div>
-                  </div>
+                  <h3 className="text-2xl font-display font-bold text-label brand-lowercase">
+                    {steps[activeIndex - 1].title}
+                  </h3>
                 </div>
               </div>
             </motion.div>
-          </AnimatePresence>
+          )}
+
+          {/* Center Active Card */}
+          <div className="relative w-[70%] max-w-5xl z-10" {...bind()} style={{ touchAction: "pan-y" }}>
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeIndex}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="w-full"
+              >
+                <div className="bg-card/90 backdrop-blur-md border border-border rounded-3xl p-8 md:p-12 shadow-[0_25px_100px_-12px_rgba(0,0,0,0.15)]">
+                  <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                    {/* Mockup */}
+                    <div className="w-full md:w-1/2 flex-shrink-0">
+                      <ProductMockup type={steps[activeIndex].mockupType} size="large" />
+                    </div>
+
+                    {/* Content */}
+                    <div className="w-full md:w-1/2 space-y-6">
+                      {/* Step Counter */}
+                      <div className="inline-flex items-center gap-2">
+                        <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl shadow-lg">
+                          {steps[activeIndex].number}
+                        </div>
+                        <span className="text-sm font-medium text-muted-foreground">
+                          Step {activeIndex + 1} of {steps.length}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-3xl md:text-4xl font-display font-bold text-label brand-lowercase">
+                        {steps[activeIndex].title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-lg text-muted-foreground leading-relaxed">
+                        {steps[activeIndex].description}
+                      </p>
+
+                      {/* Metric */}
+                      <div className="inline-flex items-center px-6 py-3 bg-primary/10 rounded-full">
+                        <span className="text-base font-semibold text-primary">
+                          {steps[activeIndex].metric}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Right Peek Card */}
+          {activeIndex < steps.length - 1 && (
+            <motion.div
+              key={`right-${activeIndex + 1}`}
+              onClick={handleNext}
+              className="absolute right-0 w-[30%] cursor-pointer transition-opacity hover:opacity-50"
+              style={{ 
+                opacity: 0.3,
+                filter: 'blur(4px)',
+                transform: 'scale(0.75) translateX(20%)',
+                zIndex: 1
+              }}
+              initial={false}
+              animate={{ opacity: 0.3 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="bg-card/60 backdrop-blur-sm border border-border rounded-3xl p-6 shadow-lg">
+                <div className="flex flex-col gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-lg">
+                    {steps[activeIndex + 1].number}
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-label brand-lowercase">
+                    {steps[activeIndex + 1].title}
+                  </h3>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
 
-        {/* Navigation Controls */}
-        <div className="flex items-center justify-between mt-8 gap-4">
+        {/* Minimal Navigation Controls */}
+        <div className="flex items-center justify-center gap-8 mt-12">
           {/* Previous Button */}
-          <Button
+          <button
             onClick={handlePrev}
             disabled={activeIndex === 0}
-            variant="outline"
-            size="lg"
-            className="gap-2"
+            className="w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center transition-all hover:bg-muted hover:scale-105 disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:scale-100"
+            aria-label="Previous step"
           >
-            <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Previous</span>
-          </Button>
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
 
           {/* Progress Dots */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {steps.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToStep(index)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
+                className={`h-2 rounded-full transition-all duration-300 ${
                   index === activeIndex
-                    ? "w-12 bg-primary"
-                    : "w-2.5 bg-primary/20 hover:bg-primary/40"
+                    ? "w-8 bg-primary"
+                    : "w-2 bg-primary/20 hover:bg-primary/40"
                 }`}
                 aria-label={`Go to step ${index + 1}`}
               />
@@ -193,17 +251,14 @@ export const WorkflowTransformSection = () => {
           </div>
 
           {/* Next Button */}
-          <Button
+          <button
             onClick={handleNext}
             disabled={activeIndex === steps.length - 1}
-            variant="default"
-            size="lg"
-            className="gap-2"
+            className="w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center transition-all hover:bg-muted hover:scale-105 disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:scale-100"
+            aria-label="Next step"
           >
-            <span className="hidden sm:inline">Next Step</span>
-            <span className="sm:hidden">Next</span>
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
         </div>
 
         {/* Mobile Swipe Hint */}
