@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Trophy } from "lucide-react";
+import { ABTestDecisionEngine } from "@/components/links/ABTestDecisionEngine";
 
 interface QRPerformanceComparisonProps {
   linkId: string;
@@ -80,8 +81,17 @@ export const QRPerformanceComparison = ({ linkId }: QRPerformanceComparisonProps
 
   const maxClicks = Math.max(...qrPerformance.map((q) => q.totalClicks), 1);
 
+  const variants = qrPerformance.map(qr => ({
+    id: qr.id,
+    name: qr.name,
+    clicks: qr.totalClicks,
+    conversions: 0, // Would need conversion tracking
+  }));
+
   return (
     <div className="space-y-6 p-6">
+      {variants.length >= 2 && <ABTestDecisionEngine variants={variants} />}
+      
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-display font-semibold">QR Code Performance Comparison</h3>
         <Badge variant="secondary">{qrPerformance.length} variants</Badge>

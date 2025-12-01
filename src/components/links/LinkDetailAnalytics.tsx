@@ -9,6 +9,9 @@ import { ClicksOverTime } from "@/components/analytics/ClicksOverTime";
 import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
 import { useConversionMetrics } from "@/hooks/useConversionMetrics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TrafficAnomalyDetector } from "@/components/links/TrafficAnomalyDetector";
+import { StatisticalReadiness } from "@/components/links/StatisticalReadiness";
+import { ClickTrendPredictor } from "@/components/links/ClickTrendPredictor";
 
 interface LinkDetailAnalyticsProps {
   linkId: string;
@@ -142,6 +145,14 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
+      {/* Clean Track Intelligence */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TrafficAnomalyDetector linkId={linkId} />
+        <StatisticalReadiness linkId={linkId} />
+      </div>
+
+      <ClickTrendPredictor linkId={linkId} />
+
       {/* Date Range Selector */}
       <div className="flex justify-between items-center flex-wrap gap-4">
         <h3 className="text-lg font-display font-semibold">Analytics Overview</h3>

@@ -13,6 +13,7 @@ import { EnhancedTargetingRulesManager } from "@/components/links/EnhancedTarget
 import { DuplicateLinkDialog } from "@/components/links/DuplicateLinkDialog";
 import { DeleteLinkDialog } from "@/components/links/DeleteLinkDialog";
 import { FunnelChart } from "@/components/analytics/FunnelChart";
+import { LinkHealthScore } from "@/components/links/LinkHealthScore";
 import { ArrowLeft, Copy, Archive, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -126,7 +127,10 @@ const LinkDetail = () => {
           </TabsList>
 
           <TabsContent value="overview">
-            <LinkDetailOverview link={link} />
+            <div className="space-y-6">
+              <LinkHealthScore linkId={link.id} />
+              <LinkDetailOverview link={link} />
+            </div>
           </TabsContent>
 
           <TabsContent value="analytics">
