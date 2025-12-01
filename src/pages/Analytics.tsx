@@ -38,6 +38,7 @@ import { useRealtimeClicks } from "@/hooks/useRealtimeClicks";
 import { Activity } from "lucide-react";
 import { FeatureHint } from "@/components/FeatureHint";
 import { InfluenceGraph } from "@/components/analytics/InfluenceGraph";
+import { PipelineFunnel } from "@/components/analytics/PipelineFunnel";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -300,15 +301,20 @@ const Analytics = () => {
                     {
                       id: "conversions",
                       label: "Conversions",
-                      content: conversionMetrics.data ? (
-                        <ConversionFunnel
-                          clicks={conversionMetrics.data.totalClicks}
-                          leads={conversionMetrics.data.leads}
-                          signups={conversionMetrics.data.signups}
-                          purchases={conversionMetrics.data.purchases}
-                          revenue={conversionMetrics.data.totalRevenue}
-                        />
-                      ) : null,
+                      content: (
+                        <>
+                          <PipelineFunnel workspaceId={currentWorkspace.id} />
+                          {conversionMetrics.data && (
+                            <ConversionFunnel
+                              clicks={conversionMetrics.data.totalClicks}
+                              leads={conversionMetrics.data.leads}
+                              signups={conversionMetrics.data.signups}
+                              purchases={conversionMetrics.data.purchases}
+                              revenue={conversionMetrics.data.totalRevenue}
+                            />
+                          )}
+                        </>
+                      ),
                     },
                     {
                       id: "devices",
@@ -374,6 +380,7 @@ const Analytics = () => {
                   </TabsContent>
 
                   <TabsContent value="conversions" className="space-y-6">
+                    <PipelineFunnel workspaceId={currentWorkspace.id} />
                     {conversionMetrics.data && (
                       <ConversionFunnel
                         clicks={conversionMetrics.data.totalClicks}

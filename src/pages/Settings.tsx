@@ -6,6 +6,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import Domains from "./Settings/Domains";
 import DeveloperSettings from "./Settings/DeveloperSettings";
 import { Tracking } from "./Settings/Tracking";
+import { PipelineIntegration } from "./Settings/PipelineIntegration";
 import { WebhookManager } from "@/components/WebhookManager";
 import { IntegrationsManager } from "@/components/IntegrationsManager";
 import { supabase } from "@/integrations/supabase/client";
@@ -154,6 +155,8 @@ export default function Settings() {
               {activeTab === "privacy" && <DataPrivacySettings />}
               
               {activeTab === "tracking" && <Tracking />}
+              
+              {activeTab === "pipeline" && <PipelineIntegration />}
             </div>
           </div>
         </div>

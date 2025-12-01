@@ -11,7 +11,8 @@ import {
   CreditCard,
   Code2,
   ChevronDown,
-  Activity
+  Activity,
+  TrendingUp
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -41,6 +42,7 @@ const settingsGroups = [
     name: "Tracking",
     items: [
       { id: "tracking", label: "Tracking Pixel", icon: Activity, badge: "!" },
+      { id: "pipeline", label: "Pipeline Sync", icon: TrendingUp },
     ],
   },
   {
