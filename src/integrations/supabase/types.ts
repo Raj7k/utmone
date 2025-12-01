@@ -145,6 +145,7 @@ export type Database = {
         Row: {
           action: string
           admin_user_id: string
+          changed_by_role: string | null
           created_at: string
           id: string
           ip_address: string | null
@@ -152,11 +153,14 @@ export type Database = {
           old_values: Json | null
           resource_id: string | null
           resource_type: string
+          session_id: string | null
           user_agent: string | null
+          workspace_id: string | null
         }
         Insert: {
           action: string
           admin_user_id: string
+          changed_by_role?: string | null
           created_at?: string
           id?: string
           ip_address?: string | null
@@ -164,11 +168,14 @@ export type Database = {
           old_values?: Json | null
           resource_id?: string | null
           resource_type: string
+          session_id?: string | null
           user_agent?: string | null
+          workspace_id?: string | null
         }
         Update: {
           action?: string
           admin_user_id?: string
+          changed_by_role?: string | null
           created_at?: string
           id?: string
           ip_address?: string | null
@@ -176,9 +183,19 @@ export type Database = {
           old_values?: Json | null
           resource_id?: string | null
           resource_type?: string
+          session_id?: string | null
           user_agent?: string | null
+          workspace_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "admin_audit_logs_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ai_insights: {
         Row: {
@@ -4070,6 +4087,27 @@ export type Database = {
           },
         ]
       }
+      role_capabilities: {
+        Row: {
+          capability: Database["public"]["Enums"]["workspace_capability"]
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+        }
+        Insert: {
+          capability: Database["public"]["Enums"]["workspace_capability"]
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["user_role"]
+        }
+        Update: {
+          capability?: Database["public"]["Enums"]["workspace_capability"]
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+        }
+        Relationships: []
+      }
       scheduled_reports: {
         Row: {
           created_at: string | null
@@ -5397,6 +5435,14 @@ export type Database = {
           workspace_id: string
         }[]
       }
+      has_capability: {
+        Args: {
+          _capability: Database["public"]["Enums"]["workspace_capability"]
+          _user_id: string
+          _workspace_id: string
+        }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -5455,6 +5501,31 @@ export type Database = {
         }
         Returns: string
       }
+      log_workspace_action: {
+        Args: {
+          p_action: string
+          p_admin_user_id: string
+          p_ip_address?: string
+          p_new_values?: Json
+          p_old_values?: Json
+          p_resource_id: string
+          p_resource_type: string
+          p_user_agent?: string
+          p_workspace_id: string
+        }
+        Returns: string
+      }
+      recommend_role: {
+        Args: {
+          _required_capabilities: Database["public"]["Enums"]["workspace_capability"][]
+        }
+        Returns: {
+          excess_capabilities: number
+          matched_capabilities: number
+          missing_capabilities: number
+          recommended_role: Database["public"]["Enums"]["user_role"]
+        }[]
+      }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
       update_link_cache_scores: { Args: never; Returns: undefined }
@@ -5495,6 +5566,24 @@ export type Database = {
         | "editor"
         | "viewer"
         | "contributor"
+      workspace_capability:
+        | "can_view_billing"
+        | "can_manage_billing"
+        | "can_create_links"
+        | "can_update_links"
+        | "can_delete_links"
+        | "can_view_analytics"
+        | "can_export_analytics"
+        | "can_invite_members"
+        | "can_remove_members"
+        | "can_manage_roles"
+        | "can_manage_domains"
+        | "can_manage_integrations"
+        | "can_manage_webhooks"
+        | "can_create_qr"
+        | "can_manage_campaigns"
+        | "can_view_audit_logs"
+        | "can_manage_workspace_settings"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -5638,6 +5727,25 @@ export const Constants = {
         "editor",
         "viewer",
         "contributor",
+      ],
+      workspace_capability: [
+        "can_view_billing",
+        "can_manage_billing",
+        "can_create_links",
+        "can_update_links",
+        "can_delete_links",
+        "can_view_analytics",
+        "can_export_analytics",
+        "can_invite_members",
+        "can_remove_members",
+        "can_manage_roles",
+        "can_manage_domains",
+        "can_manage_integrations",
+        "can_manage_webhooks",
+        "can_create_qr",
+        "can_manage_campaigns",
+        "can_view_audit_logs",
+        "can_manage_workspace_settings",
       ],
     },
   },
