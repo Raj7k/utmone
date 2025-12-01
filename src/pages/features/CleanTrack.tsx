@@ -6,7 +6,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Target, FileText, CheckCircle2, Tag, Clock, Link2 } from "lucide-react";
+import { Target, FileText, CheckCircle2, Tag, Clock, Link2, AlertCircle } from "lucide-react";
 
 const CleanTrack = () => {
   const capabilities = [
@@ -78,6 +78,82 @@ const CleanTrack = () => {
             <p>No more mismatched names</p>
             <p>No more broken UTMs</p>
             <p>No more dashboard chaos</p>
+          </div>
+        </div>
+      </FeatureSection>
+
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            real-time validation
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Errors caught before they reach your analytics
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Target className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">syntax enforcement</h3>
+                <p className="text-secondary-label">
+                  Invalid characters, spaces, and formatting issues are blocked instantly with clear error messages
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">naming rules</h3>
+                <p className="text-secondary-label">
+                  Your workspace's naming conventions are enforced automatically—no manual checking required
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">required fields</h3>
+                <p className="text-secondary-label">
+                  Missing critical parameters? The system prevents submission until all required fields are complete
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">validation in action</h4>
+            <div className="space-y-3">
+              <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-green-800 dark:text-green-200">utm_source</p>
+                  <p className="text-xs text-green-600 dark:text-green-400 font-mono">google</p>
+                </div>
+              </div>
+              <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-4 flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-green-800 dark:text-green-200">utm_medium</p>
+                  <p className="text-xs text-green-600 dark:text-green-400 font-mono">cpc</p>
+                </div>
+              </div>
+              <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-red-800 dark:text-red-200">utm_campaign</p>
+                  <p className="text-xs text-red-600 dark:text-red-400">Required field cannot be empty</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </FeatureSection>

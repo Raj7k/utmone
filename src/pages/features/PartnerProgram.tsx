@@ -80,6 +80,85 @@ const PartnerProgram = () => {
         </div>
       </FeatureSection>
 
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            partner performance dashboard
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Everything partners need in one clean view
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <MousePointerClick className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">click attribution</h3>
+                <p className="text-secondary-label">
+                  Every click from partner links is tracked with full UTM parameters and referrer data
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Activity className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">conversion tracking</h3>
+                <p className="text-secondary-label">
+                  See signups, purchases, and other conversions attributed to each partner
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <DollarSign className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">payout calculations</h3>
+                <p className="text-secondary-label">
+                  Automatic commission calculation based on conversion values and agreed rates
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">partner dashboard</h4>
+            <div className="bg-card rounded-lg p-6 space-y-4">
+              <div className="pb-3 border-b border-border">
+                <p className="text-sm text-secondary-label mb-1">Partner</p>
+                <p className="text-lg font-bold text-label">Acme Corp</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs text-secondary-label mb-1">Clicks</p>
+                  <p className="text-2xl font-bold text-label">1,234</p>
+                </div>
+                <div>
+                  <p className="text-xs text-secondary-label mb-1">Conversions</p>
+                  <p className="text-2xl font-bold text-label">56</p>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-border">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-secondary-label">Commission</span>
+                  <span className="text-xl font-bold text-green-600">$280.00</span>
+                </div>
+              </div>
+              <div className="bg-muted/50 rounded p-3">
+                <p className="text-xs text-secondary-label mb-1">Conversion Rate</p>
+                <p className="text-sm font-semibold text-label">4.54%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Predictable Performance

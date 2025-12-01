@@ -6,7 +6,7 @@ import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { Link2, Shield, Eye, Clock, Edit3, User } from "lucide-react";
+import { Link2, Shield, Eye, Clock, Edit3, User, CheckCircle2, Lock } from "lucide-react";
 import { formatText } from "@/utils/textFormatter";
 
 const ShortLinks = () => {
@@ -84,6 +84,78 @@ const ShortLinks = () => {
           <p className="mt-8 text-headline text-label font-medium">
             Every link tells its own story.
           </p>
+        </div>
+      </FeatureSection>
+
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            link preview intelligence
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Show users where they're going before they click
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Eye className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">destination preview</h3>
+                <p className="text-secondary-label">
+                  Hover over any short link to see the full destination URL, page title, and favicon before clicking
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Shield className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">security scan badge</h3>
+                <p className="text-secondary-label">
+                  Every link shows security status—scanned & safe, SSL secured, or not yet scanned
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">verified owner</h3>
+                <p className="text-secondary-label">
+                  See who created the link and when—full transparency builds trust with your audience
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">link preview card</h4>
+            <div className="space-y-4 bg-card border border-border rounded-lg p-6">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-primary/10 rounded flex items-center justify-center shrink-0">
+                  <Link2 className="w-4 h-4 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-label mb-1">Landing Page</p>
+                  <p className="text-xs font-mono text-secondary-label truncate">https://example.com/landing</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 pt-2 border-t border-border">
+                <Shield className="w-4 h-4 text-green-600" />
+                <span className="text-xs text-green-600 font-semibold">✓ Scanned & Safe</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-green-600" />
+                <span className="text-xs text-green-600 font-semibold">✓ SSL Secured</span>
+              </div>
+            </div>
+          </div>
         </div>
       </FeatureSection>
 
