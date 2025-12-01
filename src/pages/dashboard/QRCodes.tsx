@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -87,18 +88,17 @@ export default function QRCodes() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-large-title font-bold text-label mb-2 heading">QR Codes</h1>
-          <p className="text-body-apple text-secondary-label">
-            Create and manage branded QR Codes
-          </p>
-        </div>
-        <Button onClick={() => setShowCreateDialog(true)} size="lg">
-          <Plus className="h-4 w-4 mr-2" />
-          Create QR Code
-        </Button>
-      </div>
+      <PageHeader
+        title="QR Codes"
+        description="create and manage branded QR codes with real-time scan health monitoring"
+        breadcrumbs={[{ label: "QR Codes" }]}
+        action={
+          <Button onClick={() => setShowCreateDialog(true)} size="lg">
+            <Plus className="h-4 w-4 mr-2" />
+            create qr code
+          </Button>
+        }
+      />
 
       <Tabs defaultValue="all" className="w-full">
         <div className="flex items-center justify-between mb-6">

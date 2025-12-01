@@ -1,5 +1,6 @@
 import { BulkUploadTabs } from '@/components/bulk-upload/BulkUploadTabs';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
+import { PageHeader } from '@/components/layout/PageHeader';
 
 export default function BulkCreatePage() {
   const { currentWorkspace } = useWorkspaceContext();
@@ -13,15 +14,12 @@ export default function BulkCreatePage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-display font-semibold text-label mb-2">
-          bulk create
-        </h1>
-        <p className="text-secondary-label">
-          create multiple short links at once with advanced features
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeader
+        title="bulk create"
+        description="create multiple short links at once with smart routing and A/B testing"
+        breadcrumbs={[{ label: "bulk create" }]}
+      />
       
       <BulkUploadTabs workspaceId={currentWorkspace.id} />
     </div>

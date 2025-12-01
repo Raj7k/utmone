@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, ArrowLeft, Megaphone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Plus, Megaphone } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -75,30 +75,19 @@ export default function Campaigns() {
 
   return (
     <div className="space-y-6 w-full max-w-full overflow-hidden">
-      {/* Back to Dashboard Link */}
-      <Link 
-        to="/dashboard" 
-        className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-apple"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to Dashboard
-      </Link>
-
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-2xl font-display font-semibold text-label">Campaigns</h2>
-          <p className="text-sm text-secondary-label mt-1">
-            Organize links by campaign and track channel performance
-          </p>
-        </div>
-
-        <FeatureGuard feature="campaigns" showUpgradeModal>
-          <Button onClick={() => setShowCreateModal(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Create Campaign
-          </Button>
-        </FeatureGuard>
-      </div>
+      <PageHeader
+        title="campaigns"
+        description="organize links by campaign and track channel performance"
+        breadcrumbs={[{ label: "campaigns" }]}
+        action={
+          <FeatureGuard feature="campaigns" showUpgradeModal>
+            <Button onClick={() => setShowCreateModal(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              create campaign
+            </Button>
+          </FeatureGuard>
+        }
+      />
 
       {/* Campaigns Grid */}
       {isLoading ? (

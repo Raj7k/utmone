@@ -10,6 +10,7 @@ import { FeatureHint } from "@/components/FeatureHint";
 import { FeatureGuard } from "@/components/feature-gating";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 
 export default function Links() {
@@ -32,33 +33,34 @@ export default function Links() {
 
   return (
     <div className="space-y-6 w-full max-w-full overflow-hidden">
+      <PageHeader
+        title="links"
+        description="create and manage short links with smart slug optimization and A/B testing"
+        breadcrumbs={[{ label: "links" }]}
+        action={
+          <div className="flex items-center gap-3">
+            <FeatureGuard feature="csv_export">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Download className="h-4 w-4" />
+                export csv
+              </Button>
+            </FeatureGuard>
+            {!isMobile && (
+              <LinkFilters
+                onSearchChange={setSearchQuery}
+                onStatusChange={setStatusFilter}
+              />
+            )}
+          </div>
+        }
+      />
+      
       <FeatureHint
         id="links-first-visit"
-        title="Create Your First Short Link"
-        description="Add UTM parameters for better campaign tracking. Choose a tool to get started."
+        title="create your first short link"
+        description="add UTM parameters for better campaign tracking. choose a tool to get started."
         className="mb-content"
       />
-
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-2xl font-display font-semibold text-label">links</h2>
-          <p className="text-sm text-secondary-label mt-1">create and manage your short links</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <FeatureGuard feature="csv_export">
-            <Button variant="outline" size="sm" className="gap-2">
-              <Download className="h-4 w-4" />
-              export csv
-            </Button>
-          </FeatureGuard>
-          {!isMobile && (
-            <LinkFilters
-              onSearchChange={setSearchQuery}
-              onStatusChange={setStatusFilter}
-            />
-          )}
-        </div>
-      </div>
 
       <Card variant="grouped">
         <CardHeader className="p-0">

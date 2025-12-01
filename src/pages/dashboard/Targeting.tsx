@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Search, Link2, Plus, ArrowRight } from "lucide-react";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
@@ -82,12 +83,11 @@ export default function Targeting() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">targeting rules</h1>
-        <p className="text-muted-foreground mt-2">
-          create conditional redirects based on country, device, browser, and more
-        </p>
-      </div>
+      <PageHeader
+        title="geo-targeting"
+        description="create conditional redirects based on country, device, browser, and more"
+        breadcrumbs={[{ label: "geo-targeting" }]}
+      />
 
       {linkId ? (
         <EnhancedTargetingRulesManager linkId={linkId} />

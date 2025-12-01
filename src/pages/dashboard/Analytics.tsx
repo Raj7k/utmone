@@ -13,6 +13,7 @@ import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChar
 import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
 import { useTrafficForecast } from "@/hooks/useTrafficForecast";
 import { useCampaignPerformance } from "@/hooks/useCampaignPerformance";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 const COLORS = {
   mobile: "hsl(var(--primary))",
@@ -96,7 +97,12 @@ export default function Analytics() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <PageHeader
+        title="analytics"
+        description="real-time insights, traffic forecasting, and campaign optimization"
+        breadcrumbs={[{ label: "analytics" }]}
+      />
+      <div className="hidden">
         <h1 className="text-4xl font-bold text-label mb-2">analytics</h1>
         <p className="text-sm text-secondary-label">
           real-time insights into your link performance
