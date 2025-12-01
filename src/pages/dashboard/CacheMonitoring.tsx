@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Zap, Database, HardDrive, RefreshCw, TrendingUp, Activity } from "lucide-react";
+import { Zap, Database, HardDrive, RefreshCw, Clock, Link as LinkIcon } from "lucide-react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { Link } from "react-router-dom";
 
 export default function CacheMonitoring() {
   const { currentWorkspace } = useWorkspaceContext();
@@ -32,7 +33,7 @@ export default function CacheMonitoring() {
       return links;
     },
     enabled: !!currentWorkspace?.id,
-    refetchInterval: 30000, // Refresh every 30 seconds
+    refetchInterval: 30000,
   });
 
   // Manual cache optimization trigger
@@ -46,14 +47,14 @@ export default function CacheMonitoring() {
       return data;
     },
     onSuccess: (data) => {
-      toast.success('Cache optimized successfully', {
-        description: `${data.stats.hot_cache.count} links in hot cache, ${data.stats.hot_cache.capacity_used_percent}% capacity used`,
+      toast.success('cache optimized', {
+        description: `${data.stats.hot_cache.count} links ready for instant access`,
       });
       queryClient.invalidateQueries({ queryKey: ['cache-stats'] });
       setIsOptimizing(false);
     },
     onError: (error: Error) => {
-      toast.error('Failed to optimize cache', {
+      toast.error('optimization failed', {
         description: error.message,
       });
       setIsOptimizing(false);
@@ -77,20 +78,20 @@ export default function CacheMonitoring() {
   const getTierBadge = (priority: string | null) => {
     switch (priority) {
       case 'hot':
-        return <Badge className="bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400">Hot &lt;100ms</Badge>;
+        return <Badge className="bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400">instant &lt;100ms</Badge>;
       case 'warm':
-        return <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400">Warm ~200ms</Badge>;
+        return <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400">fast ~200ms</Badge>;
       default:
-        return <Badge variant="outline">Cold ~500ms</Badge>;
+        return <Badge variant="outline">standard ~500ms</Badge>;
     }
   };
 
   return (
     <div className="space-y-8">
       <PageHeader
-        title="cache monitoring"
-        description="Knapsack optimization for sub-100ms redirects"
-        breadcrumbs={[{ label: "cache" }]}
+        title="instant links"
+        description="your most popular links load in under 100 milliseconds"
+        breadcrumbs={[{ label: "instant links" }]}
         action={
           <Button
             onClick={handleOptimize}
@@ -98,7 +99,7 @@ export default function CacheMonitoring() {
             variant="marketing"
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isOptimizing ? 'animate-spin' : ''}`} />
-            Optimize Cache
+            optimize now
           </Button>
         }
       />
@@ -107,39 +108,39 @@ export default function CacheMonitoring() {
       <div className="grid md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">hot cache</CardTitle>
+            <CardTitle className="text-sm font-medium">instant links</CardTitle>
             <Zap className="w-4 h-4 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{hotLinks.length}</div>
             <p className="text-xs text-muted-foreground">
-              {hotClickPercent.toFixed(1)}% of traffic
+              {hotClickPercent.toFixed(1)}% of your traffic
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">warm cache</CardTitle>
+            <CardTitle className="text-sm font-medium">fast links</CardTitle>
             <HardDrive className="w-4 h-4 text-amber-500" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{warmLinks.length}</div>
             <p className="text-xs text-muted-foreground">
-              mid-priority links
+              medium priority
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">cold (database)</CardTitle>
+            <CardTitle className="text-sm font-medium">standard links</CardTitle>
             <Database className="w-4 h-4 text-slate-400" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{coldLinks.length}</div>
             <p className="text-xs text-muted-foreground">
-              infrequent access
+              occasional use
             </p>
           </CardContent>
         </Card>
@@ -149,11 +150,11 @@ export default function CacheMonitoring() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="w-5 h-5 text-primary" />
-            how knapsack optimization works
+            <Zap className="w-5 h-5 text-primary" />
+            how instant links work
           </CardTitle>
           <CardDescription>
-            intelligent caching for enterprise-grade performance
+            automatic speed optimization for your most important links
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -163,9 +164,9 @@ export default function CacheMonitoring() {
                 <span className="text-sm font-semibold text-primary">1</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">score calculation</p>
+                <p className="text-sm font-medium text-foreground">we track which links get the most traffic</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Score = (Clicks_Last_Hour × 10) + (Total_Clicks × 1)
+                  your busiest links are identified automatically based on recent clicks.
                 </p>
               </div>
             </div>
@@ -175,9 +176,9 @@ export default function CacheMonitoring() {
                 <span className="text-sm font-semibold text-primary">2</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">knapsack allocation</p>
+                <p className="text-sm font-medium text-foreground">popular links are kept ready for instant access</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Links sorted by score, allocated to hot/warm/cold tiers by memory capacity
+                  high-traffic links load in under 100 milliseconds—faster than a blink.
                 </p>
               </div>
             </div>
@@ -187,9 +188,9 @@ export default function CacheMonitoring() {
                 <span className="text-sm font-semibold text-primary">3</span>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">two-tier routing</p>
+                <p className="text-sm font-medium text-foreground">less popular links still work, just slightly slower</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Hot links cached in-memory (sub-100ms), others query database with 1-hour TTL
+                  occasional-use links load in around 500ms—still very fast.
                 </p>
               </div>
             </div>
@@ -197,8 +198,8 @@ export default function CacheMonitoring() {
 
           <div className="pt-4 border-t border-border">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <TrendingUp className="w-4 h-4 text-primary" />
-              <span>Cache refreshes automatically every 10 minutes</span>
+              <Clock className="w-4 h-4 text-primary" />
+              <span>optimization happens automatically every 10 minutes</span>
             </div>
           </div>
         </CardContent>
@@ -207,25 +208,35 @@ export default function CacheMonitoring() {
       {/* Top Cached Links Table */}
       <Card>
         <CardHeader>
-          <CardTitle>top cached links</CardTitle>
-          <CardDescription>
-            highest-scoring links optimized for speed
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>your fastest links</CardTitle>
+              <CardDescription>
+                links optimized for speed
+              </CardDescription>
+            </div>
+            <Button variant="outline" asChild>
+              <Link to="/dashboard/links">
+                <LinkIcon className="w-4 h-4 mr-2" />
+                view all links
+              </Link>
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">Loading...</p>
+            <p className="text-sm text-muted-foreground">loading...</p>
           ) : (
             <div className="rounded-lg border border-border">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Link</TableHead>
-                    <TableHead>Cache Tier</TableHead>
-                    <TableHead className="text-right">Score</TableHead>
-                    <TableHead className="text-right">Last Hour</TableHead>
-                    <TableHead className="text-right">Total Clicks</TableHead>
-                    <TableHead>Last Cached</TableHead>
+                    <TableHead>link</TableHead>
+                    <TableHead>speed tier</TableHead>
+                    <TableHead className="text-right">score</TableHead>
+                    <TableHead className="text-right">recent clicks</TableHead>
+                    <TableHead className="text-right">total clicks</TableHead>
+                    <TableHead>last updated</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -252,7 +263,7 @@ export default function CacheMonitoring() {
                       <TableCell className="text-sm text-muted-foreground">
                         {link.last_cached_at
                           ? formatDistanceToNow(new Date(link.last_cached_at), { addSuffix: true })
-                          : 'Never'}
+                          : 'not yet'}
                       </TableCell>
                     </TableRow>
                   ))}

@@ -51,15 +51,15 @@ export default function Experiments() {
     <div className="space-y-6">
       {/* Header */}
       <PageHeader 
-        title="the lab"
-        description="bayesian a/b testing with statistical confidence"
+        title="smart testing"
+        description="find out which version of your link performs better"
         breadcrumbs={[
-          { label: "the lab" }
+          { label: "smart testing" }
         ]}
         action={
-          <Button>
+          <Button variant="marketing">
             <Plus className="h-4 w-4 mr-2" />
-            new experiment
+            new test
           </Button>
         }
       />
@@ -79,15 +79,15 @@ export default function Experiments() {
             </div>
             <div>
               <h3 className="text-xl font-display font-semibold text-foreground">
-                no experiments yet
+                create your first test
               </h3>
               <p className="text-muted-foreground mt-2">
-                create your first bayesian experiment to scientifically test which variant performs better
+                compare two versions of a link to see which one gets more clicks or conversions
               </p>
             </div>
-            <Button className="mt-4">
+            <Button className="mt-4" variant="marketing">
               <Plus className="h-4 w-4 mr-2" />
-              start first experiment
+              start testing
             </Button>
           </div>
         </Card>
@@ -176,11 +176,11 @@ function ExperimentCard({ experiment }: ExperimentCardProps) {
             <p className="text-sm font-medium text-foreground">
               {experiment.started_at
                 ? new Date(experiment.started_at).toLocaleDateString()
-                : "Not started"}
+                : "not started yet"}
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-muted-foreground">total samples</p>
+            <p className="text-xs text-muted-foreground">total clicks</p>
             <p className="text-sm font-medium text-foreground">
               {experiment.variant_a_clicks + experiment.variant_b_clicks}
             </p>
