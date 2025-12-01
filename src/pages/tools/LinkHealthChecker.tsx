@@ -14,13 +14,20 @@ import {
   AlertTriangle,
   Loader2,
   Zap,
-  Globe
+  Globe,
+  TrendingUp,
+  BarChart3,
+  Bell
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { MarketingLayout } from "@/components/layout/MarketingLayout";
 import { HowToUse } from "@/components/tools/HowToUse";
+import { ToolHero } from "@/components/tools/ToolHero";
+import { FreeVsProTable } from "@/components/tools/FreeVsProTable";
+import { LockedFeaturePreview } from "@/components/tools/LockedFeaturePreview";
+import { ToolUseCases } from "@/components/tools/ToolUseCases";
 
 interface HealthCheckResult {
   url: string;
@@ -50,6 +57,45 @@ export default function LinkHealthChecker() {
     {
       title: "Review results",
       description: "See issues and get recommendations"
+    }
+  ];
+
+  const freeVsProFeatures = [
+    { name: "One-time link health check", free: true, pro: true },
+    { name: "HTTP status code detection", free: true, pro: true },
+    { name: "SSL verification", free: true, pro: true },
+    { name: "Response time measurement", free: true, pro: true },
+    { name: "24/7 automated monitoring", free: false, pro: true },
+    { name: "Uptime alerts & notifications", free: false, pro: true },
+    { name: "Historical performance data", free: false, pro: true },
+    { name: "Bulk link checking", free: false, pro: "1000+ links" },
+    { name: "Link Immunity auto-failover", free: false, pro: true },
+  ];
+
+  const useCases = [
+    {
+      icon: TrendingUp,
+      title: "marketers",
+      description: "Verify all campaign links are working before launch to avoid wasted ad spend.",
+      example: "Check 50 campaign URLs before launch"
+    },
+    {
+      icon: BarChart3,
+      title: "seo specialists",
+      description: "Monitor backlinks and redirect chains to prevent link rot hurting rankings.",
+      example: "Track 500 backlinks for 404s and broken redirects"
+    },
+    {
+      icon: Bell,
+      title: "devops teams",
+      description: "Get instant alerts when critical landing pages go down or SSL expires.",
+      example: "Slack alert: pricing page returned 500 error"
+    },
+    {
+      icon: Shield,
+      title: "compliance teams",
+      description: "Ensure all public-facing links meet security standards with SSL verification.",
+      example: "Audit 1000+ links for HTTPS compliance"
     }
   ];
 
@@ -115,30 +161,8 @@ export default function LinkHealthChecker() {
     }
   };
 
-  return (
-    <MarketingLayout
-      title="Free Link Health Checker - Verify URL Status & Security | utm.one"
-      description="Check if your links are working, secure, and fast. Free link health scanner with SSL verification and response time analysis. No signup required."
-    >
-      <div className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Hero */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-foreground mb-4">
-              link health checker
-            </h1>
-            <p className="text-lg text-secondary-label max-w-2xl mx-auto">
-              check if your links are working, secure, and fast. no signup required.
-            </p>
-          </div>
-
-          {/* How To Use */}
-          <div className="max-w-4xl mx-auto mb-12">
-            <HowToUse steps={steps} />
-          </div>
-
-          {/* Tool */}
-          <div className="max-w-4xl mx-auto space-y-8">
+  const toolContent = (
+    <div className="max-w-4xl mx-auto space-y-8">
           {/* Input */}
           <Card className="p-8">
             <div className="space-y-4">
@@ -242,23 +266,57 @@ export default function LinkHealthChecker() {
             </Card>
           )}
 
-          {/* Pro Callout */}
-          <Card className="p-8 bg-muted/20 border-border/40">
-            <h3 className="text-lg font-semibold text-foreground mb-4">
-              want automated monitoring?
-            </h3>
-            <p className="text-sm text-secondary-label mb-6">
-              Pro users get automatic health checks, uptime monitoring, broken link alerts, and historical performance data.
-            </p>
-            <Link to="/pricing">
-              <Button variant="default">
-                see pro features →
-              </Button>
-            </Link>
-          </Card>
-          </div>
+    </div>
+  );
+
+  return (
+    <MarketingLayout
+      title="Free Link Health Checker - Verify URL Status & Security | utm.one"
+      description="Check if your links are working, secure, and fast. Free link health scanner with SSL verification and response time analysis. No signup required."
+    >
+      {/* Hero with Tool */}
+      <ToolHero
+        title="check if your links work."
+        description="verify link status, SSL, and response time instantly. no signup required."
+      >
+        {toolContent}
+      </ToolHero>
+
+      {/* How To Use */}
+      <section className="py-16 bg-muted/20">
+        <div className="max-w-4xl mx-auto px-8">
+          <HowToUse steps={steps} />
         </div>
-      </div>
+      </section>
+
+      {/* Free vs Pro Comparison */}
+      <FreeVsProTable features={freeVsProFeatures} />
+
+      {/* Locked Feature Preview */}
+      <LockedFeaturePreview
+        title="24/7 automated monitoring"
+        description="Pro users get automated health checks, uptime monitoring with instant alerts, historical performance data, bulk link checking (1000+ links), and Link Immunity auto-failover."
+      />
+
+      {/* Use Cases */}
+      <ToolUseCases useCases={useCases} />
+
+      {/* Final CTA */}
+      <section className="py-24 bg-background">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
+            ready for more?
+          </h2>
+          <p className="text-body text-secondary-label mb-8">
+            upgrade to pro and unlock 24/7 monitoring, instant alerts, bulk checking, and Link Immunity failover.
+          </p>
+          <Link to="/pricing">
+            <Button size="lg" variant="marketing">
+              see pro features →
+            </Button>
+          </Link>
+        </div>
+      </section>
     </MarketingLayout>
   );
 }
