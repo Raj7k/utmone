@@ -2327,6 +2327,67 @@ export type Database = {
         }
         Relationships: []
       }
+      link_bandits: {
+        Row: {
+          a_matrix: Json
+          b_vector: Json
+          context_key: string
+          conversions: number | null
+          created_at: string | null
+          destination_index: number
+          id: string
+          impressions: number | null
+          last_updated_at: string | null
+          link_id: string
+        }
+        Insert: {
+          a_matrix?: Json
+          b_vector?: Json
+          context_key: string
+          conversions?: number | null
+          created_at?: string | null
+          destination_index: number
+          id?: string
+          impressions?: number | null
+          last_updated_at?: string | null
+          link_id: string
+        }
+        Update: {
+          a_matrix?: Json
+          b_vector?: Json
+          context_key?: string
+          conversions?: number | null
+          created_at?: string | null
+          destination_index?: number
+          id?: string
+          impressions?: number | null
+          last_updated_at?: string | null
+          link_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_bandits_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_bandits_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_bandits_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_cache_metadata: {
         Row: {
           access_count: number | null
@@ -2899,6 +2960,7 @@ export type Database = {
           cache_score: number | null
           campaign_id: string | null
           clicks_last_hour: number | null
+          contextual_routing: boolean | null
           conversion_rate: number | null
           created_at: string | null
           created_by: string
@@ -2931,6 +2993,7 @@ export type Database = {
           path: string
           pending_approval_by: string | null
           redirect_type: string | null
+          routing_strategy: string | null
           security_status: Database["public"]["Enums"]["security_status"] | null
           short_url: string | null
           slug: string
@@ -2969,6 +3032,7 @@ export type Database = {
           cache_score?: number | null
           campaign_id?: string | null
           clicks_last_hour?: number | null
+          contextual_routing?: boolean | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by: string
@@ -3001,6 +3065,7 @@ export type Database = {
           path?: string
           pending_approval_by?: string | null
           redirect_type?: string | null
+          routing_strategy?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
             | null
@@ -3041,6 +3106,7 @@ export type Database = {
           cache_score?: number | null
           campaign_id?: string | null
           clicks_last_hour?: number | null
+          contextual_routing?: boolean | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by?: string
@@ -3073,6 +3139,7 @@ export type Database = {
           path?: string
           pending_approval_by?: string | null
           redirect_type?: string | null
+          routing_strategy?: string | null
           security_status?:
             | Database["public"]["Enums"]["security_status"]
             | null

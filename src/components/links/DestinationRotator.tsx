@@ -8,12 +8,15 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Trophy, Zap } from "lucide-react";
 import { useSmartRotator, Destination } from "@/hooks/useSmartRotator";
 import { Progress } from "@/components/ui/progress";
+import { ContextualRoutingToggle } from "./ContextualRoutingToggle";
 
 interface DestinationRotatorProps {
   destinations: Destination[];
   onChange: (destinations: Destination[]) => void;
   smartRotate: boolean;
   onSmartRotateChange: (enabled: boolean) => void;
+  contextualRouting?: boolean;
+  onContextualRoutingChange?: (enabled: boolean) => void;
 }
 
 export function DestinationRotator({
@@ -21,6 +24,8 @@ export function DestinationRotator({
   onChange,
   smartRotate,
   onSmartRotateChange,
+  contextualRouting = false,
+  onContextualRoutingChange,
 }: DestinationRotatorProps) {
   const [newUrl, setNewUrl] = useState("");
 
@@ -71,6 +76,15 @@ export function DestinationRotator({
           </div>
         )}
       </div>
+
+      {/* Contextual Routing Toggle */}
+      {destinations.length >= 2 && onContextualRoutingChange && (
+        <ContextualRoutingToggle
+          enabled={contextualRouting}
+          onToggle={onContextualRoutingChange}
+          destinationCount={destinations.length}
+        />
+      )}
 
       {/* Destination List */}
       <div className="space-y-2">
