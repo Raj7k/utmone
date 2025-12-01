@@ -37,6 +37,7 @@ import { DashboardCustomizer } from "@/components/analytics/DashboardCustomizer"
 import { useRealtimeClicks } from "@/hooks/useRealtimeClicks";
 import { Activity } from "lucide-react";
 import { FeatureHint } from "@/components/FeatureHint";
+import { InfluenceGraph } from "@/components/analytics/InfluenceGraph";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -319,10 +320,15 @@ const Analytics = () => {
                       label: "Geography",
                       content: <GeolocationMap workspaceId={currentWorkspace.id} />,
                     },
-                    {
+                     {
                       id: "campaigns",
                       label: "Campaigns",
                       content: <UTMCampaignRollups workspaceId={currentWorkspace.id} />,
+                    },
+                    {
+                      id: "attribution",
+                      label: "Attribution",
+                      content: <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />,
                     },
                     {
                       id: "timing",
@@ -346,10 +352,11 @@ const Analytics = () => {
                 />
               ) : (
                 <Tabs defaultValue="overview" className="space-y-6">
-                  <TabsList>
+                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
                     <TabsTrigger value="team">Team Performance</TabsTrigger>
                     <TabsTrigger value="conversions">Conversions</TabsTrigger>
+                    <TabsTrigger value="attribution">Attribution</TabsTrigger>
                     <TabsTrigger value="devices">Devices</TabsTrigger>
                     <TabsTrigger value="geography">Geography</TabsTrigger>
                     <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
@@ -388,6 +395,10 @@ const Analytics = () => {
 
                   <TabsContent value="campaigns">
                     <UTMCampaignRollups workspaceId={currentWorkspace.id} />
+                  </TabsContent>
+
+                  <TabsContent value="attribution">
+                    <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />
                   </TabsContent>
 
                   <TabsContent value="timing" className="space-y-6">
