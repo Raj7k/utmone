@@ -19,7 +19,8 @@ import {
   Sun, 
   Moon, 
   Monitor,
-  ChevronDown
+  ChevronDown,
+  Zap
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -58,6 +59,7 @@ const toolsNavigation = [
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
+  { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
 ];
 
 const growthNavigation = [
