@@ -8,6 +8,7 @@ import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { EarlyAccessStepForm } from "@/components/early-access/EarlyAccessStepForm";
+import { SuccessScreen } from "@/components/early-access/SuccessScreen";
 import { HowItWorksSteps } from "@/components/early-access/HowItWorksSteps";
 import { ViralDashboardPreview } from "@/components/early-access/ViralDashboardPreview";
 import { GoldenTicket } from "@/components/early-access/GoldenTicket";
@@ -24,6 +25,7 @@ export default function EarlyAccess() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [referralCode, setReferralCode] = useState("");
   const [userName, setUserName] = useState("");
+  const [queuePosition, setQueuePosition] = useState(0);
   const [referrerName, setReferrerName] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const prefillEmail = searchParams.get('email');
@@ -66,9 +68,17 @@ export default function EarlyAccess() {
     }
   }, [prefillEmail, showFormInHero]);
 
-  const handleSuccess = (data: { id: string; referral_code: string; name: string }) => {
+  const handleSuccess = (data: { 
+    id: string; 
+    referral_code: string; 
+    name: string;
+    position: number;
+    email: string;
+  }) => {
     setReferralCode(data.referral_code);
     setUserName(data.name);
+    setQueuePosition(data.position);
+    setEmail(data.email);
     setIsSubmitted(true);
   };
 
@@ -91,41 +101,50 @@ export default function EarlyAccess() {
       <section className="relative bg-gradient-to-br from-white via-primary/5 to-blazeOrange/10 py-24 md:py-32 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {showFormInHero ? (
-            /* FORM MODE: Show form directly when email parameter exists */
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl mx-auto"
-            >
-              {/* Referrer Landing Mode */}
-              {referrerName && (
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <Trophy className="h-6 w-6 text-green-600" />
-                    <p className="text-2xl font-display font-bold text-green-900">
-                      you've been invited by {referrerName}
+            /* FORM MODE: Show form or success when email parameter exists */
+            !isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="max-w-2xl mx-auto"
+              >
+                {/* Referrer Landing Mode */}
+                {referrerName && (
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <Trophy className="h-6 w-6 text-green-600" />
+                      <p className="text-2xl font-display font-bold text-green-900">
+                        you've been invited by {referrerName}
+                      </p>
+                    </div>
+                    <p className="text-lg text-green-700">
+                      join now and get <span className="font-bold">1 month free</span> when early access opens.
                     </p>
                   </div>
-                  <p className="text-lg text-green-700">
-                    join now and get <span className="font-bold">1 month free</span> when early access opens.
-                  </p>
-                </div>
-              )}
+                )}
 
-              <h1 className="font-display font-extrabold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
-                let's get you signed up
-              </h1>
-              <p className="text-xl text-muted-foreground mb-12">
-                just a few quick details and you're in.
-              </p>
+                <h1 className="font-display font-extrabold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
+                  let's get you signed up
+                </h1>
+                <p className="text-xl text-muted-foreground mb-12">
+                  just a few quick details and you're in.
+                </p>
 
-              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
-              
-              <p className="text-sm text-center text-tertiary-label mt-4">
-                we'll send you your position instantly.
-              </p>
-            </motion.div>
+                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
+                
+                <p className="text-sm text-center text-tertiary-label mt-4">
+                  we'll send you your position instantly.
+                </p>
+              </motion.div>
+            ) : (
+              <SuccessScreen
+                userName={userName}
+                referralCode={referralCode}
+                queuePosition={queuePosition}
+                email={email}
+              />
+            )
           ) : (
             /* NORMAL MODE: Show full hero content */
             <>
@@ -422,12 +441,12 @@ export default function EarlyAccess() {
         </div>
       </section>
 
-      {/* SECTION 10 - ENTER WAITLIST FORM */}
+      {/* SECTION 10 - ENTER WAITLIST FORM OR SUCCESS */}
       {!showFormInHero && (
         <section id="early-access-form" className="bg-white py-24 md:py-32 px-6">
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {!isSubmitted ? (
-              <>
+              <div className="max-w-2xl mx-auto">
                 {referrerName && (
                   <AnimatedHeadline>
                     <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
@@ -455,41 +474,15 @@ export default function EarlyAccess() {
                 <p className="text-sm text-center text-tertiary-label mt-4">
                   we'll send you your position instantly.
                 </p>
-              </>
-            ) : (
-            <AnimatedHeadline>
-              <div className="text-center space-y-6 py-12">
-                <CheckCircle2 className="w-20 h-20 text-primary mx-auto" />
-                <h2 className="text-4xl md:text-5xl font-display font-bold">
-                  you're in! 🎉
-                </h2>
-                <p className="text-xl text-secondary-label">
-                  check your email for your waitlist position and golden ticket.
-                </p>
-                
-                {referralCode && (
-                  <div className="mt-12 space-y-6">
-                    <GoldenTicket
-                      userName={userName}
-                      referralCode={referralCode}
-                      referralCount={0}
-                      status="locked"
-                    />
-                    
-                    <div className="bg-primary/5 border-2 border-primary/20 rounded-2xl p-8">
-                      <h3 className="text-2xl font-display font-bold mb-3">
-                        skip the line now
-                      </h3>
-                      <p className="text-secondary-label mb-6">
-                        share your unique link — refer 3 friends and unlock instant access + 1 month Pro free!
-                      </p>
-                      <ShareReferralModal referralCode={referralCode} userName={userName} />
-                    </div>
-                  </div>
-                )}
               </div>
-            </AnimatedHeadline>
-          )}
+            ) : (
+              <SuccessScreen
+                userName={userName}
+                referralCode={referralCode}
+                queuePosition={queuePosition}
+                email={email}
+              />
+            )}
           </div>
         </section>
       )}
