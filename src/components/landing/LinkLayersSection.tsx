@@ -69,10 +69,10 @@ export const LinkLayersSection = () => {
         </div>
 
         {/* Stacking Cards */}
-        <div className="relative min-h-[2000px]">
+        <div className="relative min-h-[2500px]">
           {layers.map((layer, index) => {
-            // Each card uses 18% of scroll progress
-            const segmentSize = 0.18;
+            // Each card uses 22% of scroll progress for smoother transitions
+            const segmentSize = 0.22;
             const startProgress = 0.02 + (index * segmentSize);
             const midProgress = startProgress + 0.06;
             const exitStart = startProgress + segmentSize - 0.04;
@@ -92,11 +92,11 @@ export const LinkLayersSection = () => {
               [0.95, 1, 1, 0.92]
             );
             
-            // Opacity: stay visible until next card covers
+            // Opacity: fade completely to 0 (not 0.5) for clean transitions
             const opacity = useTransform(
               scrollYProgress,
-              [startProgress, startProgress + 0.03, exitStart + 0.02, exitEnd],
-              [0, 1, 1, 0.5]
+              [startProgress, startProgress + 0.04, exitStart, exitEnd],
+              [0, 1, 1, 0]
             );
 
             const isEven = index % 2 === 0;
@@ -105,9 +105,9 @@ export const LinkLayersSection = () => {
               <motion.div
                 key={index}
                 style={{ y, scale, opacity, zIndex: 10 + index, willChange: 'transform, opacity' }}
-                className="sticky top-20 bg-card border-2 border-border rounded-3xl p-10 md:p-16 shadow-2xl min-h-[500px] md:min-h-[600px]"
+                className="sticky top-20 bg-white dark:bg-[#1C1C1E] border-2 border-border rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px]"
               >
-                <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16 h-full`}>
+                <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-16 md:gap-20 h-full`}>
                   {/* Left: Content */}
                   <div className="flex-1 space-y-6">
                     {/* Number Badge */}
