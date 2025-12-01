@@ -17,6 +17,7 @@ import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
+import type { Json } from "@/integrations/supabase/types";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -118,7 +119,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
       const { data: link, error } = await supabase
         .from("links")
-        .insert({
+        .insert([{
           workspace_id: workspaceId,
           created_by: user.id,
           title: data.title,
@@ -130,9 +131,9 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
           fallback_url: data.fallback_url || null,
-          destinations: destinations.length > 0 ? destinations : null,
+          destinations: destinations.length > 0 ? (destinations as unknown as Json) : null,
           smart_rotate: destinations.length >= 2 ? smartRotate : false,
-        })
+        }])
         .select()
         .single();
 
