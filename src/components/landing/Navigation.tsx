@@ -455,12 +455,6 @@ export const Navigation = () => {
                           </p>
                         </Link>
                       </li>
-                          <div className="text-sm font-medium leading-none">Glossary</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            70+ defined terms
-                          </p>
-                        </Link>
-                      </li>
                       <li>
                         <span className="block select-none space-y-1 rounded-md p-3 leading-none opacity-50 pointer-events-none">
                           <div className="flex items-center gap-2">
