@@ -61,9 +61,8 @@ export const FAQSearchFilter = ({
       <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
         <Button
           variant={selectedCategory === null ? "default" : "outline"}
-          size="sm"
           onClick={() => onCategoryChange(null)}
-          className="rounded-full whitespace-nowrap"
+          className="rounded-full whitespace-nowrap h-9 px-4 text-sm"
         >
           all categories
         </Button>
@@ -71,9 +70,8 @@ export const FAQSearchFilter = ({
           <Button
             key={category}
             variant={selectedCategory === category ? "default" : "outline"}
-            size="sm"
             onClick={() => onCategoryChange(category)}
-            className="rounded-full whitespace-nowrap"
+            className="rounded-full whitespace-nowrap h-9 px-4 text-sm flex-shrink-0"
           >
             {category}
           </Button>
