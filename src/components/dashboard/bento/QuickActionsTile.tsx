@@ -1,6 +1,8 @@
 import { Zap, Link2, QrCode, BarChart3, Shield, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
+import { MagneticCard } from "@/components/magnetic";
+import { motion } from "framer-motion";
 
 export const QuickActionsTile = () => {
   const { setCreateModalOpen } = useModal();
@@ -40,56 +42,58 @@ export const QuickActionsTile = () => {
   ];
 
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="bg-card rounded-2xl border border-border shadow-sm p-6 h-full">
+      <div className="flex items-center gap-2 mb-6">
         <Zap className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">quick actions</h3>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-        {actions.map((action) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {actions.map((action, index) => {
           const Icon = action.icon;
           
+          const CardContent = (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.4 }}
+              className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col items-center text-center group"
+            >
+              {/* Icon with gradient background */}
+              <div className="flex justify-center mb-4">
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-colors">
+                  <Icon className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+              
+              {/* Title */}
+              <h4 className="font-semibold text-sm text-foreground mb-1 group-hover:text-primary transition-colors">
+                {action.name}
+              </h4>
+              
+              {/* Description */}
+              <p className="text-xs text-muted-foreground">
+                {action.description}
+              </p>
+            </motion.div>
+          );
+
           if (action.href) {
             return (
-              <Link
-                key={action.name}
-                to={action.href}
-                className="flex items-start gap-3 px-3 py-3 rounded-lg text-body-apple transition-apple hover:bg-muted group"
-              >
-                <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-4 w-4 text-primary flex-shrink-0" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-label group-hover:text-primary transition-colors">
-                    {action.name}
-                  </div>
-                  <div className="text-xs text-secondary-label">
-                    {action.description}
-                  </div>
-                </div>
-              </Link>
+              <MagneticCard key={action.name} strength={0.15} enableTilt={true} enableGlow={true}>
+                <Link to={action.href} className="block h-full">
+                  {CardContent}
+                </Link>
+              </MagneticCard>
             );
           }
 
           return (
-            <button
-              key={action.name}
-              onClick={action.onClick}
-              className="flex items-start gap-3 px-3 py-3 rounded-lg text-body-apple transition-apple hover:bg-muted group text-left"
-            >
-              <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                <Icon className="h-4 w-4 text-primary flex-shrink-0" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-medium text-label group-hover:text-primary transition-colors">
-                  {action.name}
-                </div>
-                <div className="text-xs text-secondary-label">
-                  {action.description}
-                </div>
-              </div>
-            </button>
+            <MagneticCard key={action.name} strength={0.15} enableTilt={true} enableGlow={true}>
+              <button onClick={action.onClick} className="w-full h-full">
+                {CardContent}
+              </button>
+            </MagneticCard>
           );
         })}
       </div>
