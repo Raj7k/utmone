@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { CTAButton } from "@/components/ui/CTAButton";
 import { ArrowRight, Link as LinkIcon, QrCode, BarChart3, CheckCircle2, AlertCircle, Layers, Users, DollarSign, TrendingUp, UserPlus } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
@@ -54,12 +54,9 @@ const PartnerManagers = () => {
               utm.one makes partner programs easier to run — with clean links, clean QR, and clean reporting.
             </p>
             <div className="pt-4">
-              <Link to="/early-access">
-                <Button size="lg" className="bg-blazeOrange hover:bg-blazeOrange/90 text-white text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02]">
-                  Get Early Access
-                  <ArrowRight className="ml-2 h-5 w-5" strokeWidth={2} />
-                </Button>
-              </Link>
+              <CTAButton href="/early-access" variant="primary" pulse>
+                get early access
+              </CTAButton>
             </div>
           </div>
         </div>
