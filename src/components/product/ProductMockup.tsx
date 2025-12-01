@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { BarChart3, CheckCircle2, Globe, Shield, TrendingUp, Zap, AlertCircle } from "lucide-react";
 
 interface ProductMockupProps {
-  type: "browser" | "utm" | "security" | "analytics" | "governance" | "dashboard" | "geo-map" | "qr-customizer" | "validation";
+  type: "browser" | "utm" | "security" | "analytics" | "governance" | "dashboard" | "geo-map" | "qr-customizer" | "validation" | "identity-stitching" | "attribution-graph" | "state-value";
   delay?: number;
   size?: "default" | "large";
 }
@@ -27,6 +27,9 @@ export const ProductMockup = ({ type, delay = 0, size = "default" }: ProductMock
       {type === "geo-map" && <GeoMapMockup size={size} />}
       {type === "qr-customizer" && <QRCustomizerMockup size={size} />}
       {type === "validation" && <ValidationMockup size={size} />}
+      {type === "identity-stitching" && <IdentityStitchingMockup size={size} />}
+      {type === "attribution-graph" && <AttributionGraphMockup size={size} />}
+      {type === "state-value" && <StateValueMockup size={size} />}
     </motion.div>
   );
 };
@@ -304,6 +307,100 @@ const ValidationMockup = ({ size = "default" }: { size?: "default" | "large" }) 
           <p className="text-xs text-red-600 dark:text-red-400">Required field</p>
         </div>
       </div>
+    </div>
+  </div>
+);
+
+const IdentityStitchingMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
+  <div className={`bg-card border border-border rounded-xl shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+    <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Identity Resolution</h4>
+    <div className="space-y-3">
+      <div className={`bg-muted/50 rounded-lg ${size === "large" ? "p-4" : "p-3"}`}>
+        <div className="flex items-center gap-2 mb-2">
+          <div className={`rounded-full bg-muted ${size === "large" ? "w-10 h-10" : "w-8 h-8"} flex items-center justify-center`}>
+            <span className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>?</span>
+          </div>
+          <div>
+            <p className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Anonymous Visitor 582</p>
+            <p className={`text-tertiary-label ${size === "large" ? "text-xs" : "text-[10px]"}`}>3 weeks ago • Blog visit</p>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <div className={`text-primary ${size === "large" ? "text-2xl" : "text-xl"}`}>↓</div>
+      </div>
+      <div className={`bg-primary/10 border border-primary/20 rounded-lg ${size === "large" ? "p-4" : "p-3"}`}>
+        <div className="flex items-center gap-2">
+          <div className={`rounded-full bg-primary/20 ${size === "large" ? "w-10 h-10" : "w-8 h-8"} flex items-center justify-center`}>
+            <span className={`text-primary font-bold ${size === "large" ? "text-sm" : "text-xs"}`}>SJ</span>
+          </div>
+          <div>
+            <p className={`font-semibold text-label ${size === "large" ? "text-sm" : "text-xs"}`}>Sarah Johnson</p>
+            <p className={`text-secondary-label ${size === "large" ? "text-xs" : "text-[10px]"}`}>sarah@nike.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+      Time-travel stitching backfills history
+    </div>
+  </div>
+);
+
+const AttributionGraphMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
+  <div className={`bg-card border border-border rounded-xl shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+    <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Bayesian Attribution</h4>
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <div className={`bg-blue-100 dark:bg-blue-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
+          <p className={`font-semibold text-blue-700 dark:text-blue-300 ${size === "large" ? "text-sm" : "text-xs"}`}>LinkedIn</p>
+          <p className={`text-blue-600 dark:text-blue-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>42%</p>
+        </div>
+        <div className={`bg-green-100 dark:bg-green-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
+          <p className={`font-semibold text-green-700 dark:text-green-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Webinar</p>
+          <p className={`text-green-600 dark:text-green-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>31%</p>
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <div className={`bg-purple-100 dark:bg-purple-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
+          <p className={`font-semibold text-purple-700 dark:text-purple-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Blog</p>
+          <p className={`text-purple-600 dark:text-purple-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>18%</p>
+        </div>
+        <div className={`bg-orange-100 dark:bg-orange-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
+          <p className={`font-semibold text-orange-700 dark:text-orange-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Direct</p>
+          <p className={`text-orange-600 dark:text-orange-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>9%</p>
+        </div>
+      </div>
+    </div>
+    <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+      True causal influence, not last-click
+    </div>
+  </div>
+);
+
+const StateValueMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
+  <div className={`bg-card border border-border rounded-xl shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+    <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Page Value Heatmap</h4>
+    <div className="space-y-2">
+      <div className={`flex items-center justify-between bg-green-50 dark:bg-green-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+        <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/pricing</span>
+        <span className={`text-green-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$45.00</span>
+      </div>
+      <div className={`flex items-center justify-between bg-blue-50 dark:bg-blue-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+        <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/features</span>
+        <span className={`text-blue-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$28.50</span>
+      </div>
+      <div className={`flex items-center justify-between bg-yellow-50 dark:bg-yellow-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+        <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/blog</span>
+        <span className={`text-yellow-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$12.20</span>
+      </div>
+      <div className={`flex items-center justify-between bg-muted/50 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+        <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/about</span>
+        <span className={`text-secondary-label font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$0.50</span>
+      </div>
+    </div>
+    <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
+      MDP-calculated state values
     </div>
   </div>
 );
