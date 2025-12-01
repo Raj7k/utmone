@@ -2,10 +2,18 @@ import { Link } from "react-router-dom";
 import { Shield, Lock, Database, Eye, FileCheck, AlertTriangle, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { SEO } from "@/components/seo/SEO";
 
 export default function Trust() {
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
+      <SEO 
+        title="Security & Trust - utm.one"
+        description="Enterprise-grade security with field-level encryption, comprehensive audit logs, and GDPR compliance built into utm.one."
+        canonical="https://utm.one/trust"
+      />
+      <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="border-b border-border/40 bg-gradient-to-b from-muted/20 to-background">
         <div className="max-w-7xl mx-auto px-6 py-24 text-center">
@@ -210,5 +218,6 @@ export default function Trust() {
         </div>
       </section>
     </div>
+    </MainLayout>
   );
 }

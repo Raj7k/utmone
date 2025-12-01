@@ -1,10 +1,18 @@
 import { Shield, GitBranch, Server, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { SEO } from "@/components/seo/SEO";
 
 const Permanence = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
+      <SEO 
+        title="Permanence Guarantee - utm.one"
+        description="A legal commitment that your links work forever. utm.one ensures your short links remain functional in perpetuity."
+        canonical="https://utm.one/permanence"
+      />
+      <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -176,6 +184,7 @@ const Permanence = () => {
         </div>
       </section>
     </div>
+    </MainLayout>
   );
 };
 

@@ -319,6 +319,7 @@ const Index = () => {
                   icon={FlaskConical}
                   title="Smart Testing"
                   description="Bayesian A/B testing with automatic winner detection and confidence scoring"
+                  href="/features/analytics"
                   delay={0}
                 />
               </StaggerItem>
@@ -327,6 +328,7 @@ const Index = () => {
                   icon={ShieldCheck}
                   title="Link Guard"
                   description="Real-time security scanning, malware detection, and blacklist monitoring"
+                  href="/features/link-immunity"
                   delay={0.1}
                 />
               </StaggerItem>
@@ -335,6 +337,7 @@ const Index = () => {
                   icon={Globe}
                   title="Geo Targeting"
                   description="Route visitors to different destinations based on their country"
+                  href="/features/smart-routing"
                   delay={0.2}
                 />
               </StaggerItem>
@@ -343,6 +346,7 @@ const Index = () => {
                   icon={Layers}
                   title="Bulk Create"
                   description="Generate hundreds of branded links at once with CSV import"
+                  href="/features/short-links"
                   delay={0.3}
                 />
               </StaggerItem>
@@ -367,6 +371,7 @@ const Index = () => {
                   icon={Zap}
                   title="Instant Links"
                   description="AI generates title, slug, and UTM parameters from any URL in seconds"
+                  href="/features/short-links"
                   delay={0}
                 />
               </StaggerItem>
@@ -375,6 +380,7 @@ const Index = () => {
                   icon={Brain}
                   title="Fast Insights"
                   description="Natural language analytics summaries and anomaly detection"
+                  href="/features/predictive-analytics"
                   delay={0.1}
                 />
               </StaggerItem>
@@ -383,6 +389,7 @@ const Index = () => {
                   icon={FileSearch}
                   title="OneLink Validator"
                   description="Intelligent duplicate detection, version management, and link optimization"
+                  href="/features/clean-track"
                   delay={0.2}
                 />
               </StaggerItem>

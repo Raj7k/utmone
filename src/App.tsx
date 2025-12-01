@@ -56,7 +56,7 @@ const Accessibility = lazy(() => import("./pages/Accessibility"));
 const Permanence = lazy(() => import("./pages/Permanence"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const LifetimeDeal = lazy(() => import("./pages/LifetimeDeal"));
-const About = lazy(() => import("./pages/About"));
+const About = lazy(() => import("./pages/AboutNew"));
 const Docs = lazy(() => import("./pages/Docs"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Changelog = lazy(() => import("./pages/Changelog"));
@@ -93,7 +93,7 @@ const ClaimAdmin = lazy(() => import("./pages/admin/ClaimAdmin"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
-const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const HowItWorks = lazy(() => import("./pages/HowItWorksNew"));
 const ShortLinks = lazy(() => import("./pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("./pages/features/UTMBuilder"));
 const QRGenerator = lazy(() => import("./pages/features/QRGenerator"));
