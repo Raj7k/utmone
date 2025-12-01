@@ -2427,6 +2427,123 @@ export type Database = {
           },
         ]
       }
+      journey_events: {
+        Row: {
+          browser: string | null
+          campaign: string | null
+          city: string | null
+          click_id: string | null
+          content: string | null
+          country: string | null
+          created_at: string
+          currency: string | null
+          device_type: string | null
+          event_name: string | null
+          event_type: string
+          id: string
+          landing_page: string | null
+          link_id: string | null
+          medium: string | null
+          metadata: Json | null
+          os: string | null
+          referrer: string | null
+          revenue: number | null
+          source: string | null
+          term: string | null
+          user_id: string | null
+          visitor_id: string
+          workspace_id: string
+        }
+        Insert: {
+          browser?: string | null
+          campaign?: string | null
+          city?: string | null
+          click_id?: string | null
+          content?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          device_type?: string | null
+          event_name?: string | null
+          event_type: string
+          id?: string
+          landing_page?: string | null
+          link_id?: string | null
+          medium?: string | null
+          metadata?: Json | null
+          os?: string | null
+          referrer?: string | null
+          revenue?: number | null
+          source?: string | null
+          term?: string | null
+          user_id?: string | null
+          visitor_id: string
+          workspace_id: string
+        }
+        Update: {
+          browser?: string | null
+          campaign?: string | null
+          city?: string | null
+          click_id?: string | null
+          content?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string | null
+          device_type?: string | null
+          event_name?: string | null
+          event_type?: string
+          id?: string
+          landing_page?: string | null
+          link_id?: string | null
+          medium?: string | null
+          metadata?: Json | null
+          os?: string | null
+          referrer?: string | null
+          revenue?: number | null
+          source?: string | null
+          term?: string | null
+          user_id?: string | null
+          visitor_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_events_click_id_fkey"
+            columns: ["click_id"]
+            isOneToOne: false
+            referencedRelation: "link_clicks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "journey_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       landing_page_events: {
         Row: {
           created_at: string | null
@@ -5467,9 +5584,55 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_linear_attribution: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          campaign: string
+          linear_credit: number
+          medium: string
+          source: string
+          total_conversions: number
+          total_revenue: number
+        }[]
+      }
       calculate_link_cache_score: {
         Args: { p_link_id: string }
         Returns: number
+      }
+      calculate_position_attribution: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          campaign: string
+          medium: string
+          position_credit: number
+          source: string
+          total_conversions: number
+          total_revenue: number
+        }[]
+      }
+      calculate_time_decay_attribution: {
+        Args: {
+          p_end_date?: string
+          p_half_life_days?: number
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          campaign: string
+          decay_credit: number
+          medium: string
+          source: string
+          total_conversions: number
+          total_revenue: number
+        }[]
       }
       calculate_traffic_score: { Args: { p_link_id: string }; Returns: number }
       check_key_rotation: { Args: never; Returns: undefined }
@@ -5504,6 +5667,22 @@ export type Database = {
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
+      get_customer_journey: {
+        Args: { p_user_id: string; p_workspace_id: string }
+        Returns: {
+          campaign: string
+          created_at: string
+          device_type: string
+          event_id: string
+          event_name: string
+          event_type: string
+          landing_page: string
+          medium: string
+          referrer: string
+          revenue: number
+          source: string
+        }[]
+      }
       get_device_analytics: {
         Args: { p_workspace_id: string }
         Returns: {
@@ -5524,6 +5703,19 @@ export type Database = {
           country: string
           unique_clicks: number
           workspace_id: string
+        }[]
+      }
+      get_journey_flow: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          conversion_rate: number
+          flow_value: number
+          source_node: string
+          target_node: string
         }[]
       }
       get_link_analytics: {
@@ -5684,6 +5876,10 @@ export type Database = {
       }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
+      stitch_visitor_identity: {
+        Args: { p_user_id: string; p_visitor_id: string }
+        Returns: number
+      }
       update_link_cache_scores: { Args: never; Returns: undefined }
       update_traffic_scores: { Args: never; Returns: undefined }
       update_waitlist_positions: { Args: never; Returns: undefined }
