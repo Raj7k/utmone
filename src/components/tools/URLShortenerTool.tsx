@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Link2, Shuffle, CheckCircle2, AlertCircle } from "lucide-react";
+import { Link2, Shuffle, CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -18,6 +18,8 @@ import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
 import type { Json } from "@/integrations/supabase/types";
+import { useSlugGenerator } from "@/hooks/useSlugGenerator";
+import { SmartSlugSuggestions } from "./SmartSlugSuggestions";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -47,6 +49,11 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   // Feature 4: Smart Link Rotator state
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [smartRotate, setSmartRotate] = useState<boolean>(false);
+  
+  // Feature 1: Smart Slug Generator state
+  const { generateSuggestions } = useSlugGenerator();
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [slugSuggestions, setSlugSuggestions] = useState<any[]>([]);
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -83,9 +90,15 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         const generatedSlug = generateSlugFromTitle(value.title);
         form.setValue("slug", generatedSlug);
       }
+      
+      // Generate smart suggestions when URL changes
+      if (name === "url" && value.url) {
+        const suggestions = generateSuggestions(value.url);
+        setSlugSuggestions(suggestions);
+      }
     });
     return () => subscription.unsubscribe();
-  }, [form]);
+  }, [form, generateSuggestions]);
 
   // Check slug availability
   useEffect(() => {
@@ -262,6 +275,16 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
               >
                 <Shuffle className="h-4 w-4" />
               </Button>
+              <Button
+                type="button"
+                variant="default"
+                size="icon"
+                onClick={() => setShowSuggestions(!showSuggestions)}
+                title="✨ optimize slug"
+                className="bg-violet-600 hover:bg-violet-700"
+              >
+                <Sparkles className="h-4 w-4" />
+              </Button>
             </div>
             {form.formState.errors.slug && (
               <p className="text-xs text-system-red mt-1">
@@ -272,6 +295,20 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
               <p className="text-xs text-system-red mt-1">
                 this slug is already taken
               </p>
+            )}
+            
+            {/* Smart Slug Suggestions */}
+            {showSuggestions && slugSuggestions.length > 0 && (
+              <div className="mt-3">
+                <SmartSlugSuggestions
+                  suggestions={slugSuggestions}
+                  onSelect={(slug) => {
+                    form.setValue("slug", slug);
+                    setShowSuggestions(false);
+                  }}
+                  currentSlug={values.slug}
+                />
+              </div>
             )}
           </div>
 
