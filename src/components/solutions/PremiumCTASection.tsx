@@ -23,62 +23,83 @@ export const PremiumCTASection = ({
     <section className="relative py-32 overflow-hidden">
       <RetroGradientMesh />
 
+      {/* Animated Gradient Orbs (like BookDemo) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+        
+        {/* Grid Pattern Overlay */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
+
       <div className="relative max-w-[1100px] mx-auto px-8 z-10">
-        {/* Main Content */}
-        <div className="text-center space-y-8 mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase"
-          >
-            {headline}
-          </motion.h2>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-xl text-muted-foreground max-w-[640px] mx-auto"
-          >
-            {subheadline}
-          </motion.p>
+        {/* Glassmorphism Container */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/10">
+          {/* Main Content */}
+          <div className="text-center space-y-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-white"
+            >
+              {headline}
+            </motion.h2>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="text-xl text-white/80 max-w-[640px] mx-auto"
+            >
+              {subheadline}
+            </motion.p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 justify-center pt-4">
-            <CTAButton href="/early-access" variant="primary">
-              {primaryCTA}
-            </CTAButton>
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4 justify-center pt-4">
+              <CTAButton href="/early-access" variant="primary">
+                {primaryCTA}
+              </CTAButton>
 
-            {secondaryCTA && secondaryCTALink && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <Button
-                  size="lg"
-                  variant="outline"
-                  asChild
-                  className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 hover:bg-background/50"
+              {secondaryCTA && secondaryCTALink && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
                 >
-                  <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
-                    {secondaryCTA}
-                    <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
-                  </a>
-                </Button>
-              </motion.div>
-            )}
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    asChild
+                    className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10"
+                  >
+                    <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
+                      {secondaryCTA}
+                      <ExternalLink className="ml-2 h-4 w-4" strokeWidth={2} />
+                    </a>
+                  </Button>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Trust Text */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-sm text-white/60 pt-2"
+            >
+              free 14-day trial • no credit card required
+            </motion.p>
           </div>
         </div>
-
-
-        {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-2 h-20 bg-gradient-to-b from-blazeOrange to-transparent rounded-full blur-sm" />
-        <div className="absolute bottom-10 right-10 w-2 h-20 bg-gradient-to-t from-deepSea to-transparent rounded-full blur-sm" />
       </div>
     </section>
   );
