@@ -10,6 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { QrCode as QrCodeIcon, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import QRCode from "react-qr-code";
+import { useQRHealth } from "@/hooks/useQRHealth";
+import { QRHealthGauge } from "@/components/qr/QRHealthGauge";
 
 const qrSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -27,6 +29,7 @@ interface QRCodeToolProps {
 export const QRCodeTool = ({ initialURL }: QRCodeToolProps) => {
   const { toast } = useToast();
   const [qrData, setQRData] = useState<QRFormData | null>(null);
+  const { calculateHealth, autoFixContrast } = useQRHealth();
 
   const form = useForm<QRFormData>({
     resolver: zodResolver(qrSchema),
@@ -181,36 +184,56 @@ export const QRCodeTool = ({ initialURL }: QRCodeToolProps) => {
           </Button>
 
           {qrData && (
-            <div className="space-y-4">
-              <div className="flex justify-center p-6 bg-muted/50 rounded-lg">
-                <div id="qr-code-display">
-                  <QRCode
-                    value={qrData.url}
-                    size={Math.min(qrData.size, 256)}
-                    fgColor={qrData.fgColor}
-                    bgColor={qrData.bgColor}
-                  />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* QR Code Preview */}
+              <div className="space-y-4">
+                <div className="flex justify-center p-6 bg-muted/50 rounded-lg">
+                  <div id="qr-code-display">
+                    <QRCode
+                      value={qrData.url}
+                      size={Math.min(qrData.size, 256)}
+                      fgColor={qrData.fgColor}
+                      bgColor={qrData.bgColor}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => downloadQR("png")}
+                    className="flex-1"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PNG
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => downloadQR("svg")}
+                    className="flex-1"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download SVG
+                  </Button>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => downloadQR("png")}
-                  className="flex-1"
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Download PNG
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => downloadQR("svg")}
-                  className="flex-1"
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Download SVG
-                </Button>
+
+              {/* QR Health Gauge */}
+              <div>
+                <QRHealthGauge
+                  health={calculateHealth(qrData.fgColor, qrData.bgColor, qrData.url)}
+                  onAutoFix={() => {
+                    const fixedColor = autoFixContrast(qrData.fgColor, qrData.bgColor);
+                    form.setValue("fgColor", fixedColor);
+                    // Regenerate with fixed color
+                    generateQR({ ...qrData, fgColor: fixedColor });
+                    toast({
+                      title: "Contrast fixed",
+                      description: "Foreground color adjusted for optimal scannability",
+                    });
+                  }}
+                />
               </div>
             </div>
           )}
