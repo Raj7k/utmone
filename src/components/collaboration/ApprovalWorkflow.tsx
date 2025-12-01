@@ -39,6 +39,7 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
     const { error } = await supabase
       .from("links")
       .update({
+        status: "pending",
         approval_status: "pending",
         submitted_for_approval_at: new Date().toISOString(),
       })
