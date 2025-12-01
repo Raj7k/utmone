@@ -1,31 +1,57 @@
-import { Link } from "react-router-dom";
-import { CTAButton } from "@/components/ui/CTAButton";
-import { ArrowRight, Code, Webhook, FileText, CheckCircle2, AlertCircle, Layers, Terminal, Zap, GitBranch, Database } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
-import { PainPointCard } from "@/components/solutions/PainPointCard";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
+import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
+import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
-import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
-import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
-import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
+import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { Code, Webhook, FileText, CheckCircle2, Layers, Terminal, Zap, Database } from "lucide-react";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 const Developers = () => {
+  const faqs = [
+    {
+      question: "Is there a GraphQL API?",
+      answer: "Yes. utm.one provides both REST and GraphQL APIs. Use whichever fits your stack. Full documentation with copy-paste examples in 8 languages."
+    },
+    {
+      question: "What's the rate limit on the free tier?",
+      answer: "600 requests per minute on the free tier. Pro tier gets 6,000 req/min. Enterprise gets custom limits based on your needs."
+    },
+    {
+      question: "Can I self-host utm.one?",
+      answer: "Yes. utm.one provides a Docker image and full deployment guide for self-hosting on AWS, GCP, Azure, or your own infrastructure. You get the same features, just hosted on your servers."
+    },
+    {
+      question: "Does utm.one have webhooks?",
+      answer: "Yes. Webhooks fire on every click, scan, and conversion. You can stream events to your data warehouse, CRM, or internal systems in real-time."
+    },
+    {
+      question: "How do I validate UTMs before creating links?",
+      answer: "Use the Clean-Track validation endpoint. POST your UTM parameters and get back a validation result with errors/warnings before creating the link."
+    },
+    {
+      question: "Can I generate QR codes via API?",
+      answer: "Yes. Pass your link ID and design parameters (colors, logo, style) to the QR API. Returns PNG, SVG, or PDF. No frontend needed."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <SEO 
         title="utm.one for Developers"
-        description="A clean API for a cleaner stack. utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure."
+        description="Type-safe APIs. Clean docs. utm.one gives developers reliable APIs, fast performance, and control over link structure."
         canonical="https://utm.one/solutions/developers"
         keywords={['developer API', 'link shortener API', 'REST API', 'GraphQL API', 'webhooks', 'developer tools']}
       />
       <WebPageSchema 
         name="utm.one for Developers"
-        description="A clean API for a cleaner stack. utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure."
+        description="Type-safe APIs. Clean docs. utm.one gives developers reliable APIs, fast performance, and control over link structure."
         url="https://utm.one/solutions/developers"
       />
       <BreadcrumbSchema 
@@ -39,130 +65,106 @@ const Developers = () => {
       <FloatingNavigation />
 
       {/* Fold 1: Hero */}
-      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
-        <HeroFloatingShapes />
-        <HeroGlow />
-        <DiagonalAccent position="top-left" />
-        <DiagonalAccent position="bottom-right" />
+      <section className="relative py-32 overflow-hidden">
+        <RetroGradientMesh />
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
+            <SocialProofCounter role="developers" variant="minimal" />
+            
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
-              A Clean API for a Cleaner Stack
+              type-safe APIs. clean docs. zero surprises.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
-              utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure.
+              utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure. build once, ship fast.
             </p>
             <div className="pt-4">
               <CTAButton href="/early-access" variant="primary" pulse>
                 get early access
               </CTAButton>
             </div>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <span>Free for 14 days • No credit card required</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Fold 2: Day in the Life */}
-      <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
-        <DotPattern />
-        
-        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
+      {/* Fold 2: The Moment Story */}
+      <section className="py-24 md:py-32 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <TheMomentStoryCard
+            title="the 3 AM PagerDuty alert"
+            timestamp="Wednesday, 3:17 AM"
+            scenario="Your link shortener API returns 500. Production is down. 50,000 campaign links are broken. Your CEO is awake. You're scrambling to find a replacement provider, but every other service requires migration, new DNS setup, and breaking changes to your codebase. By morning, you've lost $200K in campaign spend."
+            visual={
+              <div className="bg-[#1e1e1e] rounded-xl p-6 font-mono text-sm">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700">
+                  <div className="w-3 h-3 rounded-full bg-red-500" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <span className="ml-2 text-gray-400 text-xs">PagerDuty Alert</span>
+                </div>
+                <div className="space-y-2 text-gray-300">
+                  <div className="text-red-400">❌ API Error 500: Service Unavailable</div>
+                  <div className="text-gray-500">Source: shortener-api.thirdparty.com</div>
+                  <div className="text-gray-500">Impact: 50,000 production links</div>
+                  <div className="text-gray-500">Status: CRITICAL</div>
+                  <div className="mt-4 text-destructive">Campaign spend wasted: $200K</div>
+                </div>
+              </div>
+            }
+          />
+        </div>
+      </section>
+
+      {/* Fold 3: Before vs After */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              Ship Day, Not Debug Day
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
+              unreliable APIs vs rock-solid infrastructure
             </h2>
-            <p className="text-xl text-muted-foreground italic">
-              Type-safe from day one means production-ready from day one
+            <p className="text-xl text-muted-foreground">
+              Same traffic. Different reliability.
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
-            {/* Terminal Example */}
-            <div className="bg-[#1e1e1e] rounded-xl p-6 font-mono text-sm overflow-hidden">
-              <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <span className="ml-2 text-gray-400 text-xs">terminal</span>
-              </div>
-              
-              <div className="space-y-2 text-gray-300">
-                <div><span className="text-blue-400">const</span> link = <span className="text-blue-400">await</span> createLink({'{'}</div>
-                <div className="pl-4">destination: <span className="text-green-400">"https://acme.com"</span>,</div>
-                <div className="pl-4">utm: {'{'}</div>
-                <div className="pl-8">source: <span className="text-green-400">"linkedin"</span>,</div>
-                <div className="pl-8">medium: <span className="text-green-400">"cpc"</span></div>
-                <div className="pl-4">{'}'}</div>
-                <div>{'}'});</div>
-                <div className="pt-2 text-green-400">✓ Link created successfully</div>
-                <div className="text-gray-500">→ utm.one/acme-campaign</div>
-              </div>
-            </div>
-
-            {/* Features List */}
-            <div className="space-y-6">
-              <div className="space-y-3">
-                <h3 className="text-xl font-display font-bold text-label lowercase">what you get</h3>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-semibold text-foreground">TypeScript SDK</div>
-                      <div className="text-sm text-muted-foreground">Autocomplete for every method</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-semibold text-foreground">REST & GraphQL APIs</div>
-                      <div className="text-sm text-muted-foreground">Pick your preference</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-semibold text-foreground">Webhooks</div>
-                      <div className="text-sm text-muted-foreground">Real-time click events</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-semibold text-foreground">Self-host option</div>
-                      <div className="text-sm text-muted-foreground">Docker + full control</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BeforeAfterComparison
+            beforeImage="/placeholder.svg"
+            afterImage="/placeholder.svg"
+            beforeLabel="frequent downtime"
+            afterLabel="99.99% uptime SLA"
+            caption="Production-grade infrastructure = no 3 AM PagerDuty alerts"
+          />
         </div>
       </section>
 
-      {/* Fold 3: What You Get */}
-      <section className="py-24 md:py-32 bg-white">
+      {/* Fold 4: What You Get */}
+      <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              What You Get
+              what you get
             </h2>
             <p className="text-xl text-muted-foreground">
               Fast. Predictable. Developer-friendly.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {[
-              "GraphQL + REST APIs",
-              "600 req/min on free tier",
-              "Webhooks for everything",
-              "Interactive playground",
-              "Metadata endpoints",
-              "Semantic slug generation",
-              "Transparent error handling",
+              "GraphQL + REST APIs (pick your preference)",
+              "600 req/min on free tier (6,000 on Pro)",
+              "Webhooks for everything (clicks, scans, conversions)",
+              "Interactive API playground (test before deploying)",
+              "Metadata endpoints (Open Graph, Twitter Cards)",
+              "Semantic slug generation (readable URLs)",
+              "Transparent error handling (no cryptic 500s)",
             ].map((benefit, index) => (
               <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
+                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
                 <p className="text-lg text-foreground">{benefit}</p>
               </div>
             ))}
@@ -170,89 +172,59 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* API Response Examples Section */}
-      <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-[1200px] mx-auto px-8">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
-              API response examples
+      {/* Fold 5: Code Example */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+              from idea to production in 3 minutes
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Predictable structure, every single time
+            <p className="text-lg text-muted-foreground">
+              Type-safe SDK with autocomplete. No guessing.
             </p>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                  <Code className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">type-safe responses</h3>
-                  <p className="text-muted-foreground">
-                    TypeScript definitions for every endpoint—autocomplete in your IDE, zero guessing
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                  <AlertCircle className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">predictable errors</h3>
-                  <p className="text-muted-foreground">
-                    Clear error codes and human-readable messages—no cryptic server errors
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                  <Zap className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">rate limit headers</h3>
-                  <p className="text-muted-foreground">
-                    X-RateLimit headers in every response so you never hit unexpected throttles
-                  </p>
-                </div>
-              </div>
+          
+          <div className="bg-[#1e1e1e] rounded-2xl p-8 font-mono text-sm overflow-x-auto">
+            <div className="flex items-center gap-2 mb-6 pb-3 border-b border-gray-700">
+              <div className="w-3 h-3 rounded-full bg-red-500" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
+              <span className="ml-2 text-gray-400 text-xs">api-example.ts</span>
             </div>
-
-            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-700 font-mono text-sm">
-              <div className="text-green-400 mb-2">// POST /api/v1/links</div>
-              <div className="text-slate-300">{`{`}</div>
-              <div className="text-slate-300 pl-4">{`"success": true,`}</div>
-              <div className="text-slate-300 pl-4">{`"data": {`}</div>
-              <div className="text-slate-300 pl-8">{`"short_url": "utm.one/abc123",`}</div>
-              <div className="text-slate-300 pl-8">{`"slug": "abc123",`}</div>
-              <div className="text-slate-300 pl-8">{`"original_url": "https://example.com",`}</div>
-              <div className="text-slate-300 pl-8">{`"clicks": 0,`}</div>
-              <div className="text-slate-300 pl-8">{`"created_at": "2025-12-01T12:00:00Z"`}</div>
-              <div className="text-slate-300 pl-4">{`},`}</div>
-              <div className="text-slate-300 pl-4">{`"rate_limit": {`}</div>
-              <div className="text-slate-300 pl-8">{`"remaining": 599,`}</div>
-              <div className="text-slate-300 pl-8">{`"reset_at": "2025-12-01T13:00:00Z"`}</div>
-              <div className="text-slate-300 pl-4">{`}`}</div>
-              <div className="text-slate-300">{`}`}</div>
+            <div className="space-y-2 text-gray-300">
+              <div><span className="text-purple-400">import</span> {'{'} createLink {'}'} <span className="text-purple-400">from</span> <span className="text-green-400">'@utm-one/sdk'</span>;</div>
+              <div className="h-4" />
+              <div><span className="text-blue-400">const</span> link = <span className="text-blue-400">await</span> createLink({'{'}</div>
+              <div className="pl-4">destination: <span className="text-green-400">"https://acme.com/campaign"</span>,</div>
+              <div className="pl-4">slug: <span className="text-green-400">"q4-sale"</span>,</div>
+              <div className="pl-4">utm: {'{'}</div>
+              <div className="pl-8">source: <span className="text-green-400">"linkedin"</span>,</div>
+              <div className="pl-8">medium: <span className="text-green-400">"cpc"</span>,</div>
+              <div className="pl-8">campaign: <span className="text-green-400">"q4-2025-sale"</span></div>
+              <div className="pl-4">{'}'}</div>
+              <div>{'}'});</div>
+              <div className="h-4" />
+              <div className="text-green-400">// ✓ Link created: utm.one/q4-sale</div>
+              <div className="text-gray-500">// ✓ UTMs validated against Clean-Track rules</div>
+              <div className="text-gray-500">// ✓ Ready for production use</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Fold 4: Mapped Features */}
-      <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
+      {/* Fold 6: Feature Cards */}
+      <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
-              Built for Developers
+              built for developers
             </h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureMappedCard
               icon={Code}
-              title="Short Links API"
+              title="short links API"
               description="Create, edit, manage links programmatically"
               color="blazeOrange"
               delay={0}
@@ -260,7 +232,7 @@ const Developers = () => {
             />
             <FeatureMappedCard
               icon={Layers}
-              title="Clean-Track API"
+              title="clean-track API"
               description="Validate UTMs before saving"
               color="deepSea"
               delay={0.1}
@@ -268,8 +240,8 @@ const Developers = () => {
             />
             <FeatureMappedCard
               icon={Database}
-              title="LLM Metadata API"
-              description="Add structured meaning for AI"
+              title="metadata API"
+              description="Add structured meaning for AI systems"
               color="primary"
               delay={0.2}
               href="/features/integrations"
@@ -284,7 +256,7 @@ const Developers = () => {
             />
             <FeatureMappedCard
               icon={Webhook}
-              title="Webhooks"
+              title="webhooks"
               description="Listen to clicks, scans, conversions"
               color="deepSea"
               delay={0.4}
@@ -292,7 +264,7 @@ const Developers = () => {
             />
             <FeatureMappedCard
               icon={FileText}
-              title="Docs"
+              title="docs"
               description="Copy-paste examples in 8 languages"
               color="primary"
               delay={0.5}
@@ -302,45 +274,18 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Fold 5: Workflow */}
-      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
-        <WorkflowBackground />
-        
-        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6 lowercase">
-              Your Workflow, Simplified
-            </h2>
-            <p className="text-xl text-white/70">
-              A link system that fits into your infra
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6 relative max-w-4xl mx-auto">
-            {[
-              { icon: Terminal, label: "Build", step: "01" },
-              { icon: Zap, label: "Test", step: "02" },
-              { icon: GitBranch, label: "Ship", step: "03" },
-            ].map((workflow, index) => (
-              <div key={index} className="relative">
-                <InteractiveWorkflowCard
-                  icon={workflow.icon}
-                  label={workflow.label}
-                  stepNumber={workflow.step}
-                  delay={index * 0.15}
-                />
-                <AnimatedConnectingLine index={index} total={3} />
-              </div>
-            ))}
-          </div>
+      {/* Fold 7: FAQs */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <RoleSpecificFAQ role="developers" faqs={faqs} />
         </div>
       </section>
 
-      {/* Fold 6: CTA */}
+      {/* Fold 8: CTA */}
       <PremiumCTASection
-        headline="Ready to Build with utm.one?"
-        subheadline="Join developer teams who trust utm.one for reliable APIs and clean data."
-        primaryCTA="Explore utm.one for Developers"
+        headline="ready to build with utm.one?"
+        subheadline="join developer teams who trust utm.one for reliable APIs and clean data."
+        primaryCTA="get early access →"
       />
 
       <Footer />

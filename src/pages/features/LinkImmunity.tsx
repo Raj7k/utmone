@@ -1,163 +1,94 @@
-import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { MainLayout } from "@/components/layout/MainLayout";
-import { SEO } from "@/components/seo/SEO";
-import { ShieldCheck, Activity, Zap, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
-import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
+import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
+import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
+import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
+import { ShieldCheck, Users, Briefcase, Code } from "lucide-react";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 export default function LinkImmunity() {
+  const faqs = [
+    {
+      question: "What happens if my website goes down during a campaign?",
+      answer: "Link Immunity automatically routes traffic to your configured fallback URL. Your campaign links never show 404 errors, even when your website is down."
+    },
+    {
+      question: "How often are links checked?",
+      answer: "Top 100 links are checked every hour. High-traffic links are checked every 15 minutes. All links are checked at least once per day."
+    },
+    {
+      question: "Can I set up multiple fallback URLs?",
+      answer: "Yes. Configure primary, fallback 1, fallback 2, etc. If primary fails, it tries fallback 1. If that fails, it tries fallback 2. Cascade failover ensures your links never break."
+    }
+  ];
+
   return (
-    <MainLayout>
-      <SEO
-        title="Link Immunity - Zero Broken Links. Guaranteed."
-        description="Automated health probes, instant fallback routing, and 24/7 uptime monitoring. Your links never break, even when destinations do."
-        canonical="https://utm.one/features/link-immunity"
-        keywords={["link monitoring", "uptime monitoring", "broken link detection", "automatic fallback", "link health"]}
-      />
-
-      <FeatureHero
-        headlineLine1="zero broken links."
-        headlineLine2="guaranteed."
-        subheadline="Automated health probes detect failures in seconds. Instant fallback routing ensures visitors never hit 404s. Your reputation stays intact."
-      />
-
-      <FeatureSection background="muted" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            robustness probes that never sleep
-          </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
-            Every link checked every hour. 404s, 500s, and timeouts detected instantly.
+    <FeatureLayout
+      title="Link Immunity - Never Show a 404 Again"
+      description="Your campaign goes viral and your website crashes. What happens to those clicks? With Link Immunity, they go to your fallback page—not a 404 error."
+      canonical="https://utm.one/features/link-immunity"
+      keywords={["link monitoring", "uptime monitoring", "broken link detection", "automatic fallback"]}
+      breadcrumbs={[
+        { name: 'Home', url: 'https://utm.one' },
+        { name: 'Features', url: 'https://utm.one/features' },
+        { name: 'Link Immunity', url: 'https://utm.one/features/link-immunity' }
+      ]}
+    >
+      {/* Hero */}
+      <section className="relative py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
+          <SocialProofCounter variant="minimal" />
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold hero-gradient lowercase mt-8 mb-6">
+            never show a 404 again.
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            your campaign goes viral and your website crashes. what happens to those clicks? with link immunity, they go to your fallback page—not a 404 error.
           </p>
+          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
         </div>
+      </section>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-8 mb-16">
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <Activity className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">continuous monitoring</h3>
-              <p className="text-secondary-label">
-                Top 100 links probed every hour. High-traffic links checked every 15 minutes.
-              </p>
-            </div>
-          </StaggerItem>
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <AlertCircle className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">instant alerts</h3>
-              <p className="text-secondary-label">
-                Slack, email, or webhook notifications sent within 60 seconds of failure detection
-              </p>
-            </div>
-          </StaggerItem>
-          <StaggerItem>
-            <div className="bg-card border border-border rounded-2xl p-8">
-              <CheckCircle2 className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-display font-semibold mb-3 lowercase">historical uptime</h3>
-              <p className="text-secondary-label">
-                99.99% uptime dashboard shows reliability over time—build trust with stakeholders
-              </p>
-            </div>
-          </StaggerItem>
-        </StaggerContainer>
+      {/* Problem */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <HorrorStorySection
+            title="404 errors destroy trust"
+            description="Your Black Friday campaign launches at midnight. Traffic surge crashes your website. 50,000 people click your ads and see 404 errors. By morning, you've burned $80K in ad spend sending people to broken pages. Your reputation is ruined."
+            stats={[
+              { label: "Clicks wasted", value: "50K" },
+              { label: "Ad spend lost", value: "$80K" },
+              { label: "Brand damage", value: "∞" }
+            ]}
+          />
+        </div>
+      </section>
 
-        <div className="bg-muted/30 rounded-2xl p-8 border border-border">
-          <h4 className="text-center text-lg font-semibold mb-6 lowercase text-label">what gets monitored</h4>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <p className="text-2xl font-bold text-primary mb-1">404</p>
-              <p className="text-sm text-secondary-label">Page Not Found</p>
-            </div>
-            <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <p className="text-2xl font-bold text-primary mb-1">500</p>
-              <p className="text-sm text-secondary-label">Server Error</p>
-            </div>
-            <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <p className="text-2xl font-bold text-primary mb-1">Timeout</p>
-              <p className="text-sm text-secondary-label">&gt;10s Response</p>
-            </div>
-            <div className="bg-card border border-border rounded-lg p-4 text-center">
-              <p className="text-2xl font-bold text-primary mb-1">SSL</p>
-              <p className="text-sm text-secondary-label">Certificate Expiry</p>
-            </div>
+      {/* Solution */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how link immunity works</h2>
+            <p className="text-xl text-muted-foreground">automatic failover in under 60 seconds</p>
           </div>
-        </div>
-      </FeatureSection>
-
-      <FeatureSection background="white" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            automatic fallback routing
-          </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
-            When primary destination fails, traffic routes to backup—no manual intervention required
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <Zap className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">zero-downtime failover</h3>
-                <p className="text-secondary-label">
-                  If primary URL returns 404/500, visitors instantly routed to fallback—no 404 page shown
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <RefreshCw className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">automatic recovery</h3>
-                <p className="text-secondary-label">
-                  When primary destination recovers, traffic automatically switches back—no config change needed
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">cascade fallback</h3>
-                <p className="text-secondary-label">
-                  Configure multiple fallback URLs—if backup 1 fails, tries backup 2, then backup 3
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">fallback flow</h4>
+          <div className="bg-card border border-border rounded-xl p-8 max-w-3xl mx-auto">
+            <h3 className="text-lg font-semibold lowercase mb-6 text-foreground">fallback flow</h3>
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm">1</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Primary Destination</p>
-                  <p className="text-xs font-mono text-secondary-label">example.com/campaign</p>
+              {[
+                { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy" },
+                { num: "2", label: "Fallback 1", url: "example.com/backup", status: "Standby" },
+                { num: "3", label: "Fallback 2", url: "example.com/final", status: "Standby" }
+              ].map((item, i) => (
+                <div key={i} className={`flex items-center gap-4 ${i > 0 ? 'opacity-50' : ''}`}>
+                  <div className={`${i === 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-secondary-label'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`}>{item.num}</div>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-label mb-1">{item.label}</p>
+                    <p className="text-xs font-mono text-secondary-label">{item.url}</p>
+                  </div>
+                  <div className={`text-xs font-semibold ${i === 0 ? 'text-green-600' : 'text-secondary-label'}`}>{item.status}</div>
                 </div>
-                <div className="text-xs text-green-600 font-semibold">✓ Healthy</div>
-              </div>
-              <div className="flex items-center gap-4 opacity-50">
-                <div className="bg-muted text-secondary-label rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm">2</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Fallback 1</p>
-                  <p className="text-xs font-mono text-secondary-label">example.com/backup</p>
-                </div>
-                <div className="text-xs text-secondary-label">Standby</div>
-              </div>
-              <div className="flex items-center gap-4 opacity-30">
-                <div className="bg-muted text-secondary-label rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm">3</div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-label mb-1">Fallback 2</p>
-                  <p className="text-xs font-mono text-secondary-label">example.com/final</p>
-                </div>
-                <div className="text-xs text-secondary-label">Standby</div>
-              </div>
+              ))}
             </div>
             <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg">
               <p className="text-sm text-green-800 dark:text-green-200 text-center">
@@ -166,36 +97,28 @@ export default function LinkImmunity() {
             </div>
           </div>
         </div>
-      </FeatureSection>
+      </section>
 
-      <FeatureSection background="muted" maxWidth="narrow">
-        <div className="text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
-            broken links destroy trust
-          </h2>
-          <p className="text-xl text-secondary-label">
-            404 errors cost you customers. Link Immunity ensures your campaigns never break—even when your website does.
-          </p>
-          <div className="grid md:grid-cols-2 gap-6 text-left">
-            <div className="bg-card border border-border rounded-xl p-6">
-              <p className="text-sm text-tertiary-label mb-2 uppercase tracking-wide">Without Immunity</p>
-              <p className="text-secondary-label">Website goes down → links break → campaigns fail → customers churn.</p>
-            </div>
-            <div className="bg-primary/5 border-2 border-primary rounded-xl p-6">
-              <p className="text-sm text-primary mb-2 uppercase tracking-wide">With Immunity</p>
-              <p className="text-label font-medium">Website goes down → fallback activates → campaigns continue → customers convert.</p>
-            </div>
+      {/* Personas */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
           </div>
-          <div className="pt-6">
-            <a
-              href="/book-demo"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold hover:bg-primary/90 transition-colors lowercase"
-            >
-              book a demo
-            </a>
-          </div>
+          <PersonaCalloutCards callouts={[
+            { icon: Users, title: "for marketers", benefit: "Protect your campaign spend—never waste budget sending traffic to 404 errors." },
+            { icon: Briefcase, title: "for ops", benefit: "99.99% uptime guarantee—your links stay live even when your website goes down." },
+            { icon: Code, title: "for enterprise", benefit: "Zero-downtime deployments—update your website without breaking 50,000 campaign links." }
+          ]} />
         </div>
-      </FeatureSection>
-    </MainLayout>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-4xl mx-auto px-8">
+          <RoleSpecificFAQ role="teams" faqs={faqs} />
+        </div>
+      </section>
+    </FeatureLayout>
   );
 }
