@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ChevronRight, Link as LinkIcon } from "lucide-react";
+import { Menu, ChevronRight, Link as LinkIcon, Link2, Network, QrCode, Database, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
 
@@ -100,6 +100,103 @@ export const Navigation = () => {
           <div className="hidden lg:flex items-center">
             <NavigationMenu>
               <NavigationMenuList className="gap-2">
+                {/* Product Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                    {formatText("product")}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="w-[650px] p-4 flex gap-4">
+                      {/* Featured Card - Left */}
+                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
+                        <div>
+                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
+                            <Layers className="w-5 h-5 text-primary" />
+                          </div>
+                          <h3 className="text-sm font-semibold mb-2">the complete link platform</h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            from shortening to attribution, manage every link touchpoint in one place
+                          </p>
+                        </div>
+                        <Link 
+                          to="/" 
+                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
+                        >
+                          explore platform <ChevronRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+
+                      {/* Products Grid - Right */}
+                      <div className="flex-1">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Products
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link
+                            to="/products/link-orchestration"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Link2 className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Link Orchestration</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              control & reliability
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/products/journey-intelligence"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Network className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Journey Intelligence</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              truth & revenue
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/products/qr-studio"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <QrCode className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">QR Studio</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              physical reliability
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/products/data-pipeline"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Database className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Data Pipeline</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              freedom & scale
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
                 {/* Features Dropdown */}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
@@ -579,6 +676,30 @@ export const Navigation = () => {
                     <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors">
                       <span>How It Works</span>
                       <ChevronRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
+                    <Link to="/products/link-orchestration" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <Link2 className="h-4 w-4 text-primary" />
+                      <span>Link Orchestration</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                    <Link to="/products/journey-intelligence" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <Network className="h-4 w-4 text-primary" />
+                      <span>Journey Intelligence</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                    <Link to="/products/qr-studio" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <QrCode className="h-4 w-4 text-primary" />
+                      <span>QR Studio</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                    <Link to="/products/data-pipeline" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                      <Database className="h-4 w-4 text-primary" />
+                      <span>Data Pipeline</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" />
                     </Link>
                   </div>
 

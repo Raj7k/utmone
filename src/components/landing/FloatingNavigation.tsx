@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, Link2, Network, QrCode, Database, Layers } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -46,6 +46,86 @@ export const FloatingNavigation = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
+              {/* Product Dropdown */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                  >
+                    product <ChevronUp className="ml-1 h-3 w-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent 
+                  side="top" 
+                  align="center" 
+                  sideOffset={12}
+                  className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                >
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link
+                      to="/products/link-orchestration"
+                      className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Link2 className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <div className="text-xs font-medium leading-none">Link Orchestration</div>
+                      </div>
+                      <p className="text-[10px] leading-snug text-muted-foreground">
+                        control & reliability
+                      </p>
+                    </Link>
+
+                    <Link
+                      to="/products/journey-intelligence"
+                      className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Network className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <div className="text-xs font-medium leading-none">Journey Intelligence</div>
+                      </div>
+                      <p className="text-[10px] leading-snug text-muted-foreground">
+                        truth & revenue
+                      </p>
+                    </Link>
+
+                    <Link
+                      to="/products/qr-studio"
+                      className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <QrCode className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <div className="text-xs font-medium leading-none">QR Studio</div>
+                      </div>
+                      <p className="text-[10px] leading-snug text-muted-foreground">
+                        physical reliability
+                      </p>
+                    </Link>
+
+                    <Link
+                      to="/products/data-pipeline"
+                      className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Database className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <div className="text-xs font-medium leading-none">Data Pipeline</div>
+                      </div>
+                      <p className="text-[10px] leading-snug text-muted-foreground">
+                        freedom & scale
+                      </p>
+                    </Link>
+                  </div>
+                </PopoverContent>
+              </Popover>
+
               {/* Features Dropdown */}
               <Popover>
                 <PopoverTrigger asChild>
