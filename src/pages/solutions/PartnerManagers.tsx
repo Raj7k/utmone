@@ -65,27 +65,95 @@ const PartnerManagers = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Real Pain */}
+      {/* Fold 2: Day in the Life */}
       <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              The Real Pain
+              Partner Onboarding in 60 Seconds
             </h2>
             <p className="text-xl text-muted-foreground italic">
-              Partner managers deserve tools, not templates.
+              From invite to first commission in under a minute
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <PainPointCard icon={AlertCircle} text="Spreadsheet tracking" delay={0} />
-            <PainPointCard icon={AlertCircle} text="Manual payouts" delay={0.1} />
-            <PainPointCard icon={AlertCircle} text="Inconsistent partner links" delay={0.2} />
-            <PainPointCard icon={AlertCircle} text="Unreliable attribution" delay={0.3} />
-            <PainPointCard icon={AlertCircle} text="Confused partners" delay={0.4} />
-            <PainPointCard icon={AlertCircle} text="Broken QR codes" delay={0.5} />
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* Timeline */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <UserPlus className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">0:00</div>
+                  <div className="text-sm text-foreground font-medium">Send email invite</div>
+                  <div className="text-xs text-muted-foreground">partner@company.com</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <LinkIcon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">0:30</div>
+                  <div className="text-sm text-foreground font-medium">Partner accepts & creates first link</div>
+                  <div className="text-xs text-muted-foreground">utm.one/partner-acme</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-green-600 uppercase tracking-wide mb-1">0:60</div>
+                  <div className="text-sm text-foreground font-medium">First click tracked & attributed</div>
+                  <div className="text-xs text-muted-foreground">Commission calculated automatically</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Partner Dashboard Visual */}
+            <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <div className="text-sm font-semibold text-label">Acme Partner Portal</div>
+                <div className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full font-semibold">ACTIVE</div>
+              </div>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">This Month</div>
+                  <div className="text-3xl font-bold text-primary">$2,340</div>
+                  <div className="text-xs text-muted-foreground">earned from 47 conversions</div>
+                </div>
+                
+                <div className="pt-3 border-t border-border">
+                  <div className="flex items-center justify-between text-sm mb-2">
+                    <span className="text-muted-foreground">Clicks</span>
+                    <span className="font-semibold text-foreground">1,283</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm mb-2">
+                    <span className="text-muted-foreground">Conversions</span>
+                    <span className="font-semibold text-foreground">47</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Conversion Rate</span>
+                    <span className="font-semibold text-primary">3.7%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

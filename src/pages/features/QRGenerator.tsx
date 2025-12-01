@@ -7,7 +7,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { QrCode, Palette, Repeat, Download, Image, BarChart3 } from "lucide-react";
+import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2 } from "lucide-react";
 
 const QRGenerator = () => {
   const capabilities = [
@@ -214,6 +214,69 @@ const QRGenerator = () => {
         <p className="text-center text-title-2 text-secondary-label mt-12">
           All connected.
         </p>
+      </FeatureSection>
+
+      <FeatureSection>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+              from scan to sale
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Track the complete journey from QR scan through conversion with utm.one's pixel-based tracking.
+            </p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <QrCode className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <div className="font-semibold text-foreground">User scans QR</div>
+                  <div className="text-sm text-muted-foreground">Attribution starts here</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <Repeat className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <div className="font-semibold text-foreground">Redirects through utm.one</div>
+                  <div className="text-sm text-muted-foreground">Click data captured</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                  <BarChart3 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <div className="font-semibold text-foreground">Conversion tracked</div>
+                  <div className="text-sm text-muted-foreground">Full funnel attribution</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl blur-3xl" />
+            <div className="relative bg-card border border-border rounded-xl p-8 text-center space-y-6">
+              <div className="inline-flex p-6 bg-primary/10 rounded-2xl">
+                <div className="w-32 h-32 bg-foreground/90 rounded-lg flex items-center justify-center">
+                  <QrCode className="w-20 h-20 text-background" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm font-semibold text-label">Event Booth QR</div>
+                <div className="text-xs text-muted-foreground font-mono">utm.one/booth-demo</div>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-sm text-green-600">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>127 scans → 23 conversions</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </FeatureSection>
 
       <FeatureSection background="muted">

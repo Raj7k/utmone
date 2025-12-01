@@ -59,27 +59,88 @@ const Marketers = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Real Pain */}
+      {/* Fold 2: Day in the Life */}
       <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              The Real Pain
+              Monday Morning Campaign Launch
             </h2>
             <p className="text-xl text-muted-foreground italic">
-              Marketing shouldn't require detective work.
+              From idea to live campaign in under 3 minutes
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <PainPointCard icon={AlertCircle} text="Scattered links across tools" delay={0} />
-            <PainPointCard icon={AlertCircle} text="Broken UTMs ruining attribution" delay={0.1} />
-            <PainPointCard icon={AlertCircle} text="Messy dashboards with no clarity" delay={0.2} />
-            <PainPointCard icon={AlertCircle} text="Inconsistent naming conventions" delay={0.3} />
-            <PainPointCard icon={AlertCircle} text="QR chaos without tracking" delay={0.4} />
-            <PainPointCard icon={AlertCircle} text="Stakeholder confusion on performance" delay={0.5} />
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* Timeline */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <FileText className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">8:30 AM</div>
+                  <div className="text-sm text-foreground font-medium">Create link with clean UTMs</div>
+                  <div className="text-xs text-muted-foreground mt-1">utm_source=linkedin • utm_medium=cpc • utm_campaign=q4-webinar</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <QrCode className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">8:31 AM</div>
+                  <div className="text-sm text-foreground font-medium">Generate branded QR code</div>
+                  <div className="text-xs text-muted-foreground mt-1">Brand colors applied • High-res PNG ready</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">8:32 AM</div>
+                  <div className="text-sm text-foreground font-medium">Shared to 3 channels</div>
+                  <div className="text-xs text-muted-foreground mt-1">LinkedIn ad • Email campaign • Event page</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual */}
+            <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <div className="text-sm font-semibold text-label">Campaign Link Created</div>
+                <div className="text-xs text-primary">✓ Active</div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-xs text-muted-foreground">Short URL</div>
+                <div className="font-mono text-sm text-primary bg-primary/5 p-2 rounded">utm.one/q4-webinar</div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-xs text-muted-foreground">UTM Parameters</div>
+                <div className="space-y-1 text-xs font-mono">
+                  <div className="flex justify-between"><span>source:</span><span className="text-primary">linkedin</span></div>
+                  <div className="flex justify-between"><span>medium:</span><span className="text-primary">cpc</span></div>
+                  <div className="flex justify-between"><span>campaign:</span><span className="text-primary">q4-webinar</span></div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-green-600 pt-3 border-t border-border">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Clean-Track Validated</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

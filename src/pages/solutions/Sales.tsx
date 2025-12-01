@@ -65,25 +65,96 @@ const Sales = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Real Pain */}
+      {/* Fold 2: Day in the Life */}
       <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              The Real Pain
+              The Prospect Who Actually Clicked
             </h2>
             <p className="text-xl text-muted-foreground italic">
-              Sales should focus on conversations, not cleanup.
+              Know exactly which content moves deals forward
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <PainPointCard icon={AlertCircle} text="Broken outreach links" delay={0} />
-            <PainPointCard icon={AlertCircle} text="Unclear handoffs to marketing" delay={0.1} />
-            <PainPointCard icon={AlertCircle} text="Lost partner traffic" delay={0.2} />
-            <PainPointCard icon={AlertCircle} text="No visibility into which touchpoint mattered" delay={0.3} />
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* CRM Integration Visual */}
+            <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <div className="text-sm font-semibold text-label">John Smith - Acme Corp</div>
+                <div className="text-xs px-2 py-1 bg-green-500/10 text-green-600 rounded-full font-semibold">HOT LEAD</div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">Recent Activity</div>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-3 p-3 bg-primary/5 rounded-lg">
+                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-foreground">Viewed pricing page</div>
+                      <div className="text-xs text-muted-foreground">via utm.one/pricing-deck • 3 times today</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+                    <div className="w-2 h-2 rounded-full bg-muted-foreground mt-2" />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-foreground">Downloaded case study</div>
+                      <div className="text-xs text-muted-foreground">via utm.one/enterprise-case • Yesterday</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-3 border-t border-border">
+                <div className="flex items-center gap-2 text-sm text-primary">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>High engagement signal - follow up now</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Timeline */}
+            <div className="space-y-4">
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <LinkIcon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Day 1</div>
+                  <div className="text-sm text-foreground font-medium">Share pricing deck via tracked link</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <BarChart3 className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="w-0.5 h-8 bg-primary/20 mt-2" />
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Day 2</div>
+                  <div className="text-sm text-foreground font-medium">See John viewed it 3x</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                    <UserPlus className="w-5 h-5 text-green-600" />
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <div className="text-xs font-semibold text-green-600 uppercase tracking-wide mb-1">Day 3</div>
+                  <div className="text-sm text-foreground font-medium">Perfect timing for follow-up call</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

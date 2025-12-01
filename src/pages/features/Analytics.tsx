@@ -219,6 +219,73 @@ const Analytics = () => {
         </p>
       </FeatureSection>
 
+      <FeatureSection>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+              insights that write themselves
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              AI-powered summaries turn raw click data into plain-English insights your team can act on immediately.
+            </p>
+            <div className="space-y-3">
+              <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-semibold text-primary uppercase">AI Insight</span>
+                </div>
+                <p className="text-sm text-foreground font-medium">
+                  Traffic up 23% from LinkedIn this week
+                </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Based on 1,847 clicks across 12 links
+                </p>
+              </div>
+              <div className="p-4 bg-muted rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase">Trend</span>
+                </div>
+                <p className="text-sm text-foreground">
+                  Mobile traffic peaks at 2-4 PM
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual */}
+          <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+            <div className="text-sm font-semibold text-label">Weekly Summary</div>
+            <div className="space-y-3">
+              <div className="p-4 bg-primary/5 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-foreground">Total Clicks</span>
+                  <span className="text-2xl font-bold text-primary">2,847</span>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-green-600">
+                  <TrendingUp className="w-3 h-3" />
+                  <span>+18% vs last week</span>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-muted/50 rounded-lg">
+                <div className="text-xs text-muted-foreground mb-2">Top Source</div>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-foreground">linkedin</span>
+                  <span className="text-sm text-primary">847 clicks</span>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-muted/50 rounded-lg">
+                <div className="text-xs text-muted-foreground mb-2">Best Performing Link</div>
+                <div className="font-mono text-xs text-primary">utm.one/q4-webinar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
