@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { Navigation } from "@/components/landing/Navigation";
+import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -67,7 +68,7 @@ export default function LinkOrchestration() {
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
-        <AppHeader />
+        <Navigation />
         
         {/* Hero Section */}
         <section className="pt-32 pb-20 md:pt-40 md:pb-32">
@@ -164,6 +165,7 @@ export default function LinkOrchestration() {
           </div>
         </section>
 
+        <FloatingNavigation />
         <Footer />
       </div>
     </>
