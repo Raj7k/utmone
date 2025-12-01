@@ -1,24 +1,32 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
-import { LinkFilters } from "@/components/LinkFilters";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { MobileActionSheet } from "@/components/mobile/MobileActionSheet";
-import { MobileLinkFilters } from "@/components/mobile/MobileLinkFilters";
-import { FeatureHint } from "@/components/FeatureHint";
-import { FeatureGuard } from "@/components/feature-gating";
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { useEnhancedLinks } from "@/hooks/useEnhancedLinks";
 import { PageHeader } from "@/components/layout/PageHeader";
-
+import { LinksHeroStats } from "@/components/links/LinksHeroStats";
+import { SmartLinkFilters } from "@/components/links/SmartLinkFilters";
+import { LinkCardGrid } from "@/components/links/LinkCardGrid";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LayoutGrid, List, Download } from "lucide-react";
+import { FeatureGuard } from "@/components/feature-gating";
+import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [performanceFilter, setPerformanceFilter] = useState<string[]>([]);
+  const [healthFilter, setHealthFilter] = useState<string[]>([]);
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const { currentWorkspace } = useWorkspace();
   const isMobile = useIsMobile();
+
+  const { data, isLoading } = useEnhancedLinks({
+    workspaceId: currentWorkspace?.id || "",
+    searchQuery,
+    statusFilter,
+    pageSize: 50,
+  });
 
   if (!currentWorkspace) {
     return (
@@ -35,7 +43,7 @@ export default function Links() {
     <div className="space-y-6 w-full max-w-full overflow-hidden">
       <PageHeader
         title="links"
-        description="create and manage short links with smart slug optimization and A/B testing"
+        description="decision intelligence dashboard with health scores and AI insights"
         breadcrumbs={[{ label: "links" }]}
         action={
           <div className="flex items-center gap-3">
@@ -45,55 +53,56 @@ export default function Links() {
                 export csv
               </Button>
             </FeatureGuard>
-            {!isMobile && (
-              <LinkFilters
-                onSearchChange={setSearchQuery}
-                onStatusChange={setStatusFilter}
-              />
-            )}
+            
+            {/* View Toggle */}
+            <div className="hidden md:flex items-center border rounded-lg p-1">
+              <Button
+                variant={viewMode === "cards" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-8 px-3"
+                onClick={() => setViewMode("cards")}
+              >
+                <LayoutGrid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "table" ? "secondary" : "ghost"}
+                size="sm"
+                className="h-8 px-3"
+                onClick={() => setViewMode("table")}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         }
       />
       
-      <FeatureHint
-        id="links-first-visit"
-        title="create your first short link"
-        description="add UTM parameters for better campaign tracking. choose a tool to get started."
-        className="mb-content"
+      {/* Hero Stats Bar */}
+      {currentWorkspace && (
+        <LinksHeroStats workspaceId={currentWorkspace.id} />
+      )}
+
+      {/* Smart Filters */}
+      <SmartLinkFilters
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        performanceFilter={performanceFilter}
+        onPerformanceFilterChange={setPerformanceFilter}
+        healthFilter={healthFilter}
+        onHealthFilterChange={setHealthFilter}
+        statusFilter={statusFilter}
+        onStatusChange={setStatusFilter}
       />
 
-      <Card variant="grouped">
-        <CardHeader className="p-0">
-          <CardTitle className="sr-only">your links</CardTitle>
-          <CardDescription className="sr-only">
-            view and manage all links in your workspace
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          <EnhancedLinksTable 
-            workspaceId={currentWorkspace.id}
-            searchQuery={searchQuery}
-            statusFilter={statusFilter}
-          />
-        </CardContent>
-      </Card>
-
-      {/* Mobile Filters */}
-      {isMobile && (
-        <MobileActionSheet
-          open={mobileFiltersOpen}
-          onOpenChange={setMobileFiltersOpen}
-          title="filter links"
-          description="narrow down your links"
-        >
-          <MobileLinkFilters
-            searchQuery={searchQuery}
-            statusFilter={statusFilter}
-            onSearchChange={setSearchQuery}
-            onStatusChange={setStatusFilter}
-            onClose={() => setMobileFiltersOpen(false)}
-          />
-        </MobileActionSheet>
+      {/* View Content */}
+      {viewMode === "cards" ? (
+        <LinkCardGrid links={data?.links || []} />
+      ) : (
+        <EnhancedLinksTable 
+          workspaceId={currentWorkspace?.id || ""}
+          searchQuery={searchQuery}
+          statusFilter={statusFilter}
+        />
       )}
     </div>
   );
