@@ -189,6 +189,9 @@ verify_jwt = false
 [functions.resend-webhook]
 verify_jwt = false
 
+[functions.predict-optimal-time]
+verify_jwt = true
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
