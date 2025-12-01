@@ -826,6 +826,91 @@ export type Database = {
           },
         ]
       }
+      audit_events: {
+        Row: {
+          actor_id: string
+          changes: Json | null
+          created_at: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          resource_id: string | null
+          workspace_id: string
+        }
+        Insert: {
+          actor_id: string
+          changes?: Json | null
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          resource_id?: string | null
+          workspace_id: string
+        }
+        Update: {
+          actor_id?: string
+          changes?: Json | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          resource_id?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_velocity_tracking: {
+        Row: {
+          actor_id: string
+          event_count: number
+          event_type: string
+          flagged: boolean | null
+          flagged_at: string | null
+          id: string
+          window_end: string
+          window_start: string
+          workspace_id: string
+        }
+        Insert: {
+          actor_id: string
+          event_count?: number
+          event_type: string
+          flagged?: boolean | null
+          flagged_at?: string | null
+          id?: string
+          window_end?: string
+          window_start?: string
+          workspace_id: string
+        }
+        Update: {
+          actor_id?: string
+          event_count?: number
+          event_type?: string
+          flagged?: boolean | null
+          flagged_at?: string | null
+          id?: string
+          window_end?: string
+          window_start?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_velocity_tracking_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       backup_logs: {
         Row: {
           backup_type: string
@@ -5181,6 +5266,24 @@ export type Database = {
       }
     }
     Views: {
+      audit_statistics: {
+        Row: {
+          event_count: number | null
+          event_type: string | null
+          last_event_at: string | null
+          unique_actors: number | null
+          workspace_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hot_links_view: {
         Row: {
           cache_priority: string | null
@@ -5338,6 +5441,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      cleanup_audit_velocity_tracking: { Args: never; Returns: undefined }
       decrypt_sensitive_data: {
         Args: { ciphertext: string; encryption_key: string }
         Returns: string
@@ -5488,6 +5592,17 @@ export type Database = {
           p_resource_id: string
           p_resource_type: string
           p_user_agent?: string
+        }
+        Returns: string
+      }
+      log_audit_event: {
+        Args: {
+          p_actor_id: string
+          p_changes: Json
+          p_event_type: string
+          p_metadata: Json
+          p_resource_id: string
+          p_workspace_id: string
         }
         Returns: string
       }
