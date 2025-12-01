@@ -115,6 +115,9 @@ const Automation = lazy(() => import("./pages/features/Automation"));
 const EnterpriseSolution = lazy(() => import("./pages/solutions/Enterprise"));
 const AgenciesSolution = lazy(() => import("./pages/solutions/Agencies"));
 const DevelopersSolution = lazy(() => import("./pages/solutions/Developers"));
+const Startups = lazy(() => import("./pages/solutions/Startups"));
+const ReportingTeam = lazy(() => import("./pages/solutions/ReportingTeam"));
+const RevOps = lazy(() => import("./pages/solutions/RevOps"));
 
 // Solution Pages
 const Marketers = lazy(() => import("./pages/solutions/Marketers"));
@@ -438,7 +441,14 @@ const App = () => (
               {/* Solution Pages */}
               <Route path="/solutions/enterprise" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseSolution /></Suspense>} />
               <Route path="/solutions/agencies" element={<Suspense fallback={<DashboardSkeleton />}><AgenciesSolution /></Suspense>} />
+              <Route path="/solutions/startups" element={<Suspense fallback={<DashboardSkeleton />}><Startups /></Suspense>} />
+              <Route path="/solutions/marketers" element={<Suspense fallback={<DashboardSkeleton />}><Marketers /></Suspense>} />
+              <Route path="/solutions/sales" element={<Suspense fallback={<DashboardSkeleton />}><Sales /></Suspense>} />
+              <Route path="/solutions/marketing-ops" element={<Suspense fallback={<DashboardSkeleton />}><MarketingOps /></Suspense>} />
               <Route path="/solutions/developers" element={<Suspense fallback={<DashboardSkeleton />}><DevelopersSolution /></Suspense>} />
+              <Route path="/solutions/revops" element={<Suspense fallback={<DashboardSkeleton />}><RevOps /></Suspense>} />
+              <Route path="/solutions/reporting-team" element={<Suspense fallback={<DashboardSkeleton />}><ReportingTeam /></Suspense>} />
+              <Route path="/solutions/partner-managers" element={<Suspense fallback={<DashboardSkeleton />}><PartnerManagers /></Suspense>} />
               
               {/* Comparison Pages */}
               <Route path="/compare/bitly" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsBitly /></Suspense>} />

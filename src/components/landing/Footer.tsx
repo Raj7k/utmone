@@ -1,394 +1,232 @@
 import { Link } from "react-router-dom";
-import { Linkedin } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { formatText } from "@/utils/textFormatter";
+import { Badge } from "@/components/ui/badge";
+import { Link2, QrCode, Settings, TrendingUp, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Footer = () => {
-  return (
-    <footer className="border-t border-border/50 bg-white">
-      {/* Upper Footer - Main Navigation */}
-      <div className="max-w-[1280px] mx-auto px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-12">
-          
-          {/* Brand Column (spans 2 on desktop) */}
-          <div className="lg:col-span-2 space-y-6">
-            <UtmOneLogo size="lg" />
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-              utm.one gives every link a meaning machines can understand and humans can trust.
-            </p>
-          </div>
+  const roleLinks = [
+    { label: "marketing", href: "/solutions/marketers" },
+    { label: "sales", href: "/solutions/sales" },
+    { label: "ops", href: "/solutions/marketing-ops" },
+    { label: "dev", href: "/solutions/developers" },
+    { label: "revops", href: "/solutions/revops" },
+    { label: "reporting", href: "/solutions/reporting-team" },
+  ];
 
-          {/* Product Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("product")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/features/short-links" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  Short Links →
+  return (
+    <footer className="relative bg-card border-t border-border/50 overflow-hidden">
+      {/* Bento Grid Layout */}
+      <div className="max-w-[1400px] mx-auto px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          {/* Brand Tile - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/20 to-background border border-border/50 backdrop-blur-xl"
+          >
+            <div className="space-y-6">
+              <UtmOneLogo size="lg" />
+              <p className="text-sm text-muted-foreground leading-relaxed font-medium lowercase">
+                clarity creates confidence.
+              </p>
+              <p className="text-xs text-muted-foreground/70 leading-relaxed">
+                utm.one gives every link a meaning machines can understand and humans can trust.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Quick Links Tile - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 group backdrop-blur-xl"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                  product
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                <Link to="/features/short-links" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
+                  <Link2 className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                  Short Links
                 </Link>
-              </li>
-              <li>
-                <Link to="/features/utm-builder" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  UTM Builder →
+                <Link to="/features/utm-builder" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
+                  <Settings className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                  UTM Builder
                 </Link>
-              </li>
-              <li>
-                <Link to="/features/qr-generator" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  QR Generator →
+                <Link to="/features/qr-generator" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
+                  <QrCode className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                  QR Generator
                 </Link>
-              </li>
-              <li>
-                <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  How It Works
+                <Link to="/features/predictive-analytics" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
+                  <TrendingUp className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
+                  Intelligence
                 </Link>
-              </li>
-              <li>
-                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Pricing
                 </Link>
-              </li>
-              <li>
-                <Link to="/features/analytics" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Analytics
+                <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  How It Works
                 </Link>
-              </li>
-              <li>
-                <Link to="/features/predictive-analytics" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  Predictive Analytics →
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/attribution-graph" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Attribution Graph
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/smart-routing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Smart Routing
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/link-immunity" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Link Immunity
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/governance" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Enterprise Control
-                </Link>
-              </li>
-              <li>
-                <Link to="/permanence" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Permanence
-                </Link>
-              </li>
-              <li>
-                <Link to="/features/integrations" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Integrations
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Solutions Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("solutions")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/solutions/marketers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  For Marketers
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/sales" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  For Sales
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/marketing-ops" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  For Marketing Ops
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/developers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  For Developers
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/partner-managers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  For Partner Managers
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/agencies" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  For Agencies →
-                </Link>
-              </li>
-              <li>
-                <Link to="/solutions/enterprise" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  Enterprise →
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("resources")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/resources/guides" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Guides
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources/playbooks" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Playbooks
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources/playbooks/llm-ranking" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  LLM Ranking Playbook →
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources/templates" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Templates
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources/frameworks" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Frameworks
-                </Link>
-              </li>
-              <li>
-                <Link to="/resources/glossary" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Glossary
-                </Link>
-              </li>
-              <li>
-                <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Docs
-                </Link>
-              </li>
-              <li>
-                <Link to="/changelog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Changelog
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("company")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/partners" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Partners
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:hello@utm.one" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Contact
-                </a>
-              </li>
-              <li>
-                <Link to="/trust" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                  Security →
-                </Link>
-              </li>
-              <li>
-                <Link to="/status" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Status
-                </Link>
-              </li>
-              <li>
-                <span className="text-sm text-muted-foreground/50 cursor-not-allowed flex items-center gap-2">
-                  2026 Salary Report
-                  <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">Coming Soon</span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Lower Footer - Secondary Links */}
-      <div className="border-t border-border/50 bg-muted/20">
-        <div className="max-w-[1280px] mx-auto px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            
-            {/* Free Tools */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-                {formatText("free tools")}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link to="/tools/shorten" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    URL Shortener
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tools/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    UTM Builder
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tools/qr" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    QR Generator
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tools/link-health-checker" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Link Health Checker
-                  </Link>
-                </li>
-              </ul>
+              </div>
             </div>
+          </motion.div>
 
-            {/* Compare */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-                {formatText("compare")}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link to="/compare/bitly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Bitly
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/rebrandly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Rebrandly
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/short-io" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Short.io
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/bl-ink" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Bl.ink
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/rewardful" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Rewardful
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/partnerstack" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Partnerstack
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/firstpromoter" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Firstpromoter
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/compare/tolt" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    vs Tolt
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-                {formatText("legal")}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/data-security" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Data & Security
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Cookie Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/acceptable-use" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Acceptable Use
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/subprocessors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Subprocessors
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/dpa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    DPA
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Support Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/legal/permanence-terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Permanence Guarantee
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="border-t border-border/50 bg-white">
-        <div className="max-w-[1280px] mx-auto px-8 py-8 text-center space-y-4">
-          <p className="text-sm text-muted-foreground font-medium">
-            clarity creates confidence.
-          </p>
-          
-          {/* Social Links */}
-          <a 
-            href="https://www.linkedin.com/company/utmone/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Follow utm.one on LinkedIn"
+          {/* Free Tools Mini-Previews - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/5 via-background to-background border border-primary/20 backdrop-blur-xl"
           >
-            <Linkedin className="w-5 h-5" />
-          </a>
-          
-          <p className="text-xs text-muted-foreground/60">
-            © 2025 utm.one. All rights reserved.
-          </p>
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                free tools
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "URL Shortener", href: "/tools/shorten" },
+                  { label: "UTM Builder", href: "/tools/utm-builder" },
+                  { label: "QR Generator", href: "/tools/qr" },
+                  { label: "Link Health", href: "/tools/link-health-checker" },
+                ].map((tool) => (
+                  <Link
+                    key={tool.href}
+                    to={tool.href}
+                    className="p-3 rounded-lg bg-card/50 border border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-xs text-muted-foreground hover:text-foreground group"
+                  >
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary/70 group-hover:text-primary" />
+                      {tool.label}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Role Carousel - Spans 8 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="md:col-span-8 p-8 rounded-2xl bg-muted/20 border border-border/50 backdrop-blur-xl"
+          >
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground mb-4">
+                explore by role
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {roleLinks.map((role, index) => (
+                  <Link
+                    key={role.href}
+                    to={role.href}
+                    className="px-4 py-2 rounded-full bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground lowercase backdrop-blur-sm"
+                  >
+                    {role.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Status + Resources - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 backdrop-blur-xl"
+          >
+            <div className="space-y-6">
+              {/* Status Badge */}
+              <Link to="/status" className="inline-block">
+                <Badge variant="outline" className="bg-primary/10 border-primary/30 hover:bg-primary/20 transition-colors">
+                  <span className="flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    <span className="text-xs lowercase">all systems operational</span>
+                  </span>
+                </Badge>
+              </Link>
+              
+              {/* Resources Links */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                  resources
+                </h3>
+                <div className="space-y-2">
+                  <Link to="/docs" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Documentation
+                  </Link>
+                  <Link to="/changelog" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Changelog
+                  </Link>
+                  <Link to="/resources/glossary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Glossary
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* News Ticker - Full Width */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-primary/5 via-background to-primary/5 border border-primary/20 overflow-hidden backdrop-blur-xl"
+        >
+          <motion.div
+            animate={{ x: [0, -1000] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex gap-8 whitespace-nowrap text-xs text-muted-foreground lowercase"
+          >
+            <span>🎉 predictive analytics: forecast clicks before they happen</span>
+            <span>•</span>
+            <span>🔗 link immunity: zero broken links, guaranteed uptime</span>
+            <span>•</span>
+            <span>📊 attribution graph: bayesian multi-touch attribution</span>
+            <span>•</span>
+            <span>🌍 smart routing: geo-targeting with contextual bandits</span>
+            <span>•</span>
+            <span>🎉 predictive analytics: forecast clicks before they happen</span>
+            <span>•</span>
+            <span>🔗 link immunity: zero broken links, guaranteed uptime</span>
+            <span>•</span>
+            <span>📊 attribution graph: bayesian multi-touch attribution</span>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Bottom Legal Bar */}
+      <div className="border-t border-border/50">
+        <div className="max-w-[1400px] mx-auto px-8 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/70">
+            <p>© 2025 utm.one. all rights reserved.</p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link to="/legal/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+              <Link to="/legal/terms" className="hover:text-foreground transition-colors">Terms</Link>
+              <Link to="/legal/data-security" className="hover:text-foreground transition-colors">Security</Link>
+              <Link to="/legal/dpa" className="hover:text-foreground transition-colors">DPA</Link>
+              <Link to="/trust" className="hover:text-foreground transition-colors">Trust Center</Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
