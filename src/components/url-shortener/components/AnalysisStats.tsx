@@ -13,7 +13,7 @@ export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
           <span className="text-xs text-muted-foreground">total clicks</span>
         </div>
         <div className="text-xl font-bold text-foreground">
-          {analysis.totalClicks?.toLocaleString() || 0}
+          {(analysis.totalClicks || 0).toLocaleString()}
         </div>
       </div>
 
