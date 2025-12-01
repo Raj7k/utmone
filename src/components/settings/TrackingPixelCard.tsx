@@ -99,18 +99,22 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
   const activePixel = pixelConfigs?.[0];
 
   const getPixelSnippet = (pixelId: string) => {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     return `<!-- utm.one Pixel -->
 <script>
 (function(w,d,p){
   w.utmone=w.utmone||function(){(w.utmone.q=w.utmone.q||[]).push(arguments)};
   var s=d.createElement('script');s.async=1;
-  s.src='${window.location.origin}/functions/v1/pixel.js?id='+p;
+  s.src='${supabaseUrl}/functions/v1/pixel-js?id='+p;
   d.head.appendChild(s);
 })(window,document,'${pixelId}');
 
 // Track custom events:
 // utmone('track', 'lead');
 // utmone('track', 'purchase', { revenue: 99.99 });
+
+// Identify users (on login/signup success):
+// utmone('identify', 'user@email.com', 'User Name');
 </script>`;
   };
 
@@ -238,15 +242,32 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
             )}
           </div>
 
-          {/* Usage Example */}
-          <div className="p-4 bg-system-blue/5 rounded-lg border border-system-blue/10">
-            <div className="flex items-start gap-2">
-              <AlertCircle className="h-5 w-5 text-system-blue flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-caption-1 font-medium text-label mb-1">Usage Example</p>
-                <code className="text-caption-2 font-mono text-secondary-label block">
-                  utmone('track', 'purchase', &#123; revenue: 99.99 &#125;);
-                </code>
+          {/* Usage Examples */}
+          <div className="space-y-3">
+            <div className="p-4 bg-system-blue/5 rounded-lg border border-system-blue/10">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="h-5 w-5 text-system-blue flex-shrink-0 mt-0.5" />
+                <div className="space-y-2 flex-1">
+                  <p className="text-caption-1 font-medium text-label">Track Conversions</p>
+                  <code className="text-caption-2 font-mono text-secondary-label block">
+                    utmone('track', 'purchase', &#123; revenue: 99.99 &#125;);
+                  </code>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-system-green/5 rounded-lg border border-system-green/10">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                <div className="space-y-2 flex-1">
+                  <p className="text-caption-1 font-medium text-label">Identify Users</p>
+                  <p className="text-caption-2 text-secondary-label mb-2">
+                    Call on login success or thank you pages:
+                  </p>
+                  <code className="text-caption-2 font-mono text-secondary-label block">
+                    utmone('identify', 'user@email.com', 'User Name');
+                  </code>
+                </div>
               </div>
             </div>
           </div>
