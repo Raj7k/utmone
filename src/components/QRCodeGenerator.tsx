@@ -14,9 +14,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Download, Loader2, CheckCircle2 } from "lucide-react";
 import { QRDownloadOptions } from "./qr/QRDownloadOptions";
+import { AIStyleRecommendation } from "./qr/AIStyleRecommendation";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGTMEvents } from "./integrations/GTMProvider";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 const qrFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -40,6 +42,7 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { trackQRGeneration } = useGTMEvents();
+  const { currentWorkspace } = useWorkspaceContext();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [generatedQRCode, setGeneratedQRCode] = useState<{ png_url: string; svg_url: string } | null>(null);
@@ -361,6 +364,22 @@ export const QRCodeGenerator = ({ linkId, shortUrl, onSuccess }: QRCodeGenerator
         </TabsList>
 
         <TabsContent value="customize" className="space-y-4 mt-4">
+          {/* Clean Track AI Recommendation */}
+          {currentWorkspace && (
+            <AIStyleRecommendation 
+              workspaceId={currentWorkspace.id}
+              onApplyStyle={(style) => {
+                setValue("primaryColor", style.primaryColor);
+                setValue("secondaryColor", style.secondaryColor);
+                setValue("cornerStyle", style.cornerStyle as "square" | "rounded");
+                toast({
+                  title: "Style Applied",
+                  description: "clean track recommended style applied",
+                });
+              }}
+            />
+          )}
+
           <div className="grid gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2">

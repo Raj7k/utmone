@@ -31,7 +31,7 @@ export function AIStyleRecommendation({ workspaceId, onApplyStyle }: AIStyleReco
       <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-sm">ai-optimized style</h3>
+          <h3 className="font-semibold text-sm">clean track recommends</h3>
         </div>
 
         <div className="space-y-3">
@@ -79,14 +79,14 @@ export function AIStyleRecommendation({ workspaceId, onApplyStyle }: AIStyleReco
             <div className="flex items-start gap-2 p-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
               <AlertCircle className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
               <p className="text-xs text-amber-700">
-                need at least 5 qr codes with scan data for nelder-mead optimization. currently using best observed style.
+                need at least 5 qr codes with scan data. currently showing best observed style.
               </p>
             </div>
           )}
 
           {recommendation.isOptimizing && (
             <p className="text-xs text-muted-foreground">
-              optimized using nelder-mead simplex algorithm on {recommendation.expectedScans > 0 ? 'historical' : 'available'} scan data
+              based on analyzing {recommendation.expectedScans > 0 ? 'your scan' : 'available'} data
             </p>
           )}
 
@@ -101,7 +101,7 @@ export function AIStyleRecommendation({ workspaceId, onApplyStyle }: AIStyleReco
             variant="default"
           >
             <Sparkles className="h-4 w-4 mr-2" />
-            apply ai style
+            apply recommended style
           </Button>
         </div>
       </div>

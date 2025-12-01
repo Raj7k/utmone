@@ -107,7 +107,7 @@ export function RareEventEstimator({ linkId, workspaceId, title = "conversion pr
         {probEstimate.reliable && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <TrendingUp className="h-3 w-3" />
-            <span>estimated using wilson score confidence interval (cross-entropy method)</span>
+            <span>estimated based on your conversion data</span>
           </div>
         )}
 
