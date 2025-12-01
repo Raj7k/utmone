@@ -112,12 +112,6 @@ const Reporting = lazy(() => import("./pages/features/Reporting"));
 const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
 const Automation = lazy(() => import("./pages/features/Automation"));
 
-// Product Pages
-const LinkOrchestration = lazy(() => import("./pages/products/LinkOrchestration"));
-const JourneyIntelligence = lazy(() => import("./pages/products/JourneyIntelligence"));
-const QRStudio = lazy(() => import("./pages/products/QRStudio"));
-const DataPipeline = lazy(() => import("./pages/products/DataPipeline"));
-
 // Solution Pages
 const EnterpriseSolution = lazy(() => import("./pages/solutions/Enterprise"));
 const AgenciesSolution = lazy(() => import("./pages/solutions/Agencies"));
@@ -434,12 +428,6 @@ const App = () => (
               <Route path="/features/qr-generator" element={<Suspense fallback={<DashboardSkeleton />}><QRGenerator /></Suspense>} />
               <Route path="/features/analytics" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsFeature /></Suspense>} />
               <Route path="/features/governance" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseControl /></Suspense>} />
-              
-              {/* Product Pages */}
-              <Route path="/products/link-orchestration" element={<Suspense fallback={<DashboardSkeleton />}><LinkOrchestration /></Suspense>} />
-              <Route path="/products/journey-intelligence" element={<Suspense fallback={<DashboardSkeleton />}><JourneyIntelligence /></Suspense>} />
-              <Route path="/products/qr-studio" element={<Suspense fallback={<DashboardSkeleton />}><QRStudio /></Suspense>} />
-              <Route path="/products/data-pipeline" element={<Suspense fallback={<DashboardSkeleton />}><DataPipeline /></Suspense>} />
               <Route path="/features/integrations" element={<Suspense fallback={<DashboardSkeleton />}><Integrations /></Suspense>} />
               <Route path="/features/clean-track" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrack /></Suspense>} />
               <Route path="/features/partner-program" element={<Suspense fallback={<DashboardSkeleton />}><PartnerProgram /></Suspense>} />
