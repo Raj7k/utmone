@@ -12,6 +12,7 @@ import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 import { Shield, Settings, FileText, CheckCircle2, Layers, Lock, BarChart3 } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -226,7 +227,31 @@ const MarketingOps = () => {
         </div>
       </section>
 
-      {/* Fold 5: Growth Loop - ROI Calculator */}
+      {/* Fold 5: Your Workflow Transformed */}
+      <section className="py-24 md:py-32 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+              your workflow, transformed
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              How your day changes with utm.one
+            </p>
+          </div>
+          
+          <WorkflowTimeline 
+            steps={[
+              { icon: Settings, label: "Set template" },
+              { icon: CheckCircle2, label: "Team creates links" },
+              { icon: Shield, label: "All compliant" },
+              { icon: FileText, label: "Report auto-generated" }
+            ]}
+            description="From governance setup to automated compliance—zero manual audits, zero data chaos."
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: Growth Loop - ROI Calculator */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
@@ -242,7 +267,7 @@ const MarketingOps = () => {
         </div>
       </section>
 
-      {/* Fold 6: Feature Cards */}
+      {/* Fold 7: Feature Cards */}
       <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
@@ -304,14 +329,14 @@ const MarketingOps = () => {
         </div>
       </section>
 
-      {/* Fold 7: FAQs */}
+      {/* Fold 8: FAQs */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="marketing ops teams" faqs={faqs} />
         </div>
       </section>
 
-      {/* Fold 8: CTA */}
+      {/* Fold 9: CTA */}
       <PremiumCTASection
         headline="ready to enforce quality?"
         subheadline="join marketing ops teams who trust utm.one for governance without friction."

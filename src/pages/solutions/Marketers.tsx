@@ -12,6 +12,7 @@ import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
 import { Link as LinkIcon, QrCode, BarChart3, Shield, CheckCircle2, Layers, Settings } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -215,7 +216,31 @@ const Marketers = () => {
         </div>
       </section>
 
-      {/* Fold 5: Growth Loop - Clean Track Quiz */}
+      {/* Fold 5: Your Workflow Transformed */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+              your workflow, transformed
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              How your day changes with utm.one
+            </p>
+          </div>
+          
+          <WorkflowTimeline 
+            steps={[
+              { icon: LinkIcon, label: "Launch campaign" },
+              { icon: CheckCircle2, label: "Link auto-generated" },
+              { icon: Settings, label: "UTMs validated" },
+              { icon: BarChart3, label: "Analytics flow" }
+            ]}
+            description="From campaign launch to clean data in your dashboard—all automated, all compliant, all clean."
+          />
+        </div>
+      </section>
+
+      {/* Fold 6: Growth Loop - Clean Track Quiz */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
@@ -231,7 +256,7 @@ const Marketers = () => {
         </div>
       </section>
 
-      {/* Fold 6: Feature Cards */}
+      {/* Fold 7: Feature Cards */}
       <section className="py-24 md:py-32 bg-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
@@ -293,14 +318,14 @@ const Marketers = () => {
         </div>
       </section>
 
-      {/* Fold 7: Role-Specific FAQs */}
+      {/* Fold 8: Role-Specific FAQs */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="marketers" faqs={faqs} />
         </div>
       </section>
 
-      {/* Fold 8: CTA */}
+      {/* Fold 9: CTA */}
       <PremiumCTASection
         headline="ready to transform your marketing?"
         subheadline="join marketing teams who trust utm.one for clean links and clear attribution."

@@ -11,6 +11,9 @@ import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
+import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
@@ -69,53 +72,114 @@ const Agencies = () => {
         </div>
       </section>
 
-      {/* Fold 2: Day in the Life */}
-      <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
-        <DotPattern />
-        
-        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              one platform, unlimited clients
-            </h2>
-            <p className="text-xl text-muted-foreground italic">
-              Each client gets their own workspace with isolated data, branded domains, and custom UTM rules
-            </p>
-          </div>
-          
-          <StaggerContainer className="grid md:grid-cols-3 gap-8 mb-16">
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <FolderKanban className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">client workspaces</h3>
-                <p className="text-secondary-label">
-                  Create a workspace for each client—data isolated, UTM templates separate, no cross-contamination
-                </p>
+      {/* Fold 2: The Moment Story */}
+      <section className="py-24 md:py-32 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <TheMomentStoryCard
+            title="the client call where you couldn't explain the numbers"
+            timestamp="Monday, 2:15 PM"
+            scenario="Client asks about Q3 campaign performance. You have data from 4 different tools—Bitly, Google Analytics, HubSpot, and your agency's custom tracker. None of them match. Client A shows 12K clicks in Bitly, but GA4 shows 8.9K sessions. You're on the call scrambling to explain why the numbers don't align. Client asks: 'Are we paying for fake clicks?'"
+            visual={
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-card border-2 border-destructive rounded-xl p-6">
+                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Your Reality</div>
+                  <div className="text-sm space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Bitly clicks:</span>
+                      <span className="font-semibold">12,043</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span className="font-semibold">8,912</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span className="font-semibold">10,287</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Your tracker:</span>
+                      <span className="font-semibold">11,503</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 text-xs text-destructive">
+                    Which number is real? You have no answer.
+                  </div>
+                </div>
+                
+                <div className="bg-primary/5 border-2 border-primary rounded-xl p-6">
+                  <div className="text-primary font-semibold mb-3 text-sm uppercase tracking-wide">With utm.one</div>
+                  <div className="text-sm space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">utm.one clicks:</span>
+                      <span className="font-semibold">12,043</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span className="font-semibold">12,043</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span className="font-semibold">12,043</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Client report:</span>
+                      <span className="font-semibold">12,043</span>
+                    </div>
+                  </div>
+                  <div className="mt-4 text-xs text-primary">
+                    One source of truth. Every tool agrees.
+                  </div>
+                </div>
               </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <Globe className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">branded domains</h3>
-                <p className="text-secondary-label">
-                  Each client can use their own domain—nike.com/go/, adidas.com/c/, reebok.com/u/
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <Users className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">team invites</h3>
-                <p className="text-secondary-label">
-                  Invite client team members to their workspace—they see only their data, not others
-                </p>
-              </div>
-            </StaggerItem>
-          </StaggerContainer>
+            }
+          />
         </div>
       </section>
 
-      {/* Fold 3: What You Get */}
+      {/* Fold 3: Before vs After */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <ContentComparison
+            beforeTitle="4 dashboards, 4 different numbers"
+            afterTitle="1 utm.one dashboard"
+            beforeContent={
+              <div className="space-y-3">
+                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                  <div className="text-destructive font-semibold mb-2 text-sm">Client A (conflicting data):</div>
+                  <div className="space-y-1 text-muted-foreground">
+                    <div>Bitly: 12,043 clicks</div>
+                    <div>GA4: 8,912 sessions</div>
+                    <div>HubSpot: 10,287 visits</div>
+                    <div>Your tracker: 11,503 clicks</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-border text-destructive text-xs">
+                    Client asks: "Which is real?"
+                  </div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-3">
+                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-primary font-semibold mb-2 text-sm">Client A (single source of truth):</div>
+                  <div className="space-y-1 text-foreground">
+                    <div>utm.one: 12,043 clicks</div>
+                    <div>GA4: 12,043 sessions</div>
+                    <div>HubSpot: 12,043 visits</div>
+                    <div>Your report: 12,043 clicks</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-primary/20 text-primary text-xs">
+                    Every tool agrees. Client trusts you.
+                  </div>
+                </div>
+              </div>
+            }
+            caption="Same campaigns. One source of truth = zero client disputes."
+          />
+        </div>
+      </section>
+
+      {/* Fold 4: What You Get */}
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
@@ -127,21 +191,38 @@ const Agencies = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[
-              "Unlimited client workspaces",
-              "White-label PDF reports",
-              "Client-branded domains",
-              "Team member invites",
-              "Shared analytics dashboards",
-              "Automated reporting",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: FolderKanban,
+              title: "unlimited workspaces",
+              description: "One workspace per client. Data isolated, no cross-contamination."
+            },
+            {
+              icon: FileBarChart,
+              title: "white-label reports",
+              description: "Branded PDF exports with your logo, their data, zero confusion."
+            },
+            {
+              icon: Globe,
+              title: "client-branded domains",
+              description: "nike.com/go/, adidas.com/c/—their brand, your tracking."
+            },
+            {
+              icon: Users,
+              title: "team member invites",
+              description: "Invite client teams to their workspace—they see only their data."
+            },
+            {
+              icon: Shield,
+              title: "role-based permissions",
+              description: "Control who creates, edits, and views links across clients."
+            },
+            {
+              icon: Zap,
+              title: "automated reporting",
+              description: "Scheduled reports delivered to clients—no manual work."
+            }
+          ]} />
         </div>
       </section>
 
