@@ -400,6 +400,63 @@ export const Navigation = () => {
                         >
                           <div className="text-sm font-medium leading-none">Glossary</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            utm & analytics terminology
+                          </p>
+                        </Link>
+                      </li>
+                      
+                      {/* Free Tools Section */}
+                      <li className="col-span-2 mt-2">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          Free Tools
+                        </div>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/shorten"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">URL Shortener</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            instant short links
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/utm-builder"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">UTM Builder</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            build clean utm urls
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/qr"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">QR Generator</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            branded qr codes
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/tools/link-health-checker"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">Link Health Checker</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            check for broken links
+                          </p>
+                        </Link>
+                      </li>
+                          <div className="text-sm font-medium leading-none">Glossary</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             70+ defined terms
                           </p>
                         </Link>

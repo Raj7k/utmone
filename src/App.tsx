@@ -67,6 +67,10 @@ const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PixelInstallation = lazy(() => import("./pages/Docs/PixelInstallation"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
+const PublicUTMBuilder = lazy(() => import("./pages/tools/UTMBuilder"));
+const PublicLinkHealthChecker = lazy(() => import("./pages/tools/LinkHealthChecker"));
+const TrustPage = lazy(() => import("./pages/Trust"));
+const StatusPage = lazy(() => import("./pages/Status"));
 const AcceptInvite = lazy(() => import("./pages/AcceptInvite"));
 const OneLinkValidator = lazy(() => import("./pages/dashboard/OneLinkValidator"));
 const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
@@ -336,6 +340,12 @@ const App = () => (
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
                <Route path="/tools/shorten" element={<Suspense fallback={<DashboardSkeleton />}><PublicURLShortener /></Suspense>} />
+               <Route path="/tools/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><PublicUTMBuilder /></Suspense>} />
+               <Route path="/tools/link-health-checker" element={<Suspense fallback={<DashboardSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
+               
+               {/* Trust Cluster */}
+               <Route path="/trust" element={<Suspense fallback={<DashboardSkeleton />}><TrustPage /></Suspense>} />
+               <Route path="/status" element={<Suspense fallback={<DashboardSkeleton />}><StatusPage /></Suspense>} />
                
                {/* Invitation Acceptance */}
                <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />

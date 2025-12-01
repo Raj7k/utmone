@@ -54,13 +54,33 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/features/predictive-analytics" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  Predictive Analytics →
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/attribution-graph" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Attribution Graph
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/smart-routing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Smart Routing
+                </Link>
+              </li>
+              <li>
+                <Link to="/features/link-immunity" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Link Immunity
+                </Link>
+              </li>
+              <li>
                 <Link to="/features/governance" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Enterprise Control
                 </Link>
               </li>
               <li>
                 <Link to="/permanence" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Permanence Guarantee
+                  Permanence
                 </Link>
               </li>
               <li>
@@ -100,6 +120,16 @@ export const Footer = () => {
               <li>
                 <Link to="/solutions/partner-managers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   For Partner Managers
+                </Link>
+              </li>
+              <li>
+                <Link to="/solutions/agencies" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  For Agencies →
+                </Link>
+              </li>
+              <li>
+                <Link to="/solutions/enterprise" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  Enterprise →
                 </Link>
               </li>
             </ul>
@@ -148,8 +178,26 @@ export const Footer = () => {
                 </span>
               </li>
               <li>
-                <Link to="/resources/tools" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Tools
+                <h4 className="text-xs font-semibold text-foreground/70 uppercase tracking-wide mt-4 mb-2">Free Tools</h4>
+              </li>
+              <li>
+                <Link to="/tools/shorten" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  URL Shortener
+                </Link>
+              </li>
+              <li>
+                <Link to="/tools/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  UTM Builder
+                </Link>
+              </li>
+              <li>
+                <Link to="/tools/qr" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  QR Generator
+                </Link>
+              </li>
+              <li>
+                <Link to="/tools/link-health-checker" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Link Health Checker
                 </Link>
               </li>
               <li>
@@ -234,6 +282,16 @@ export const Footer = () => {
                 <a href="mailto:hello@utm.one" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
+              </li>
+              <li>
+                <Link to="/trust" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  Security →
+                </Link>
+              </li>
+              <li>
+                <Link to="/status" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Status
+                </Link>
               </li>
               <li>
                 <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
