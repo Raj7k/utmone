@@ -6,6 +6,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp } from "lucide-react";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 
 interface ClicksOverTimeProps {
   workspaceId: string;
@@ -29,6 +30,14 @@ const ClicksOverTimeComponent = ({ workspaceId, linkId, campaignName }: ClicksOv
   const velocityLabel = useMemo(() => 
     granularity === "daily" ? "per day" : granularity === "weekly" ? "per week" : "per month",
     [granularity]
+  );
+
+  // Generate accessibility table data for screen readers
+  const accessibilityData = useChartAccessibility(
+    chartData,
+    `Clicks over time showing total and unique clicks ${velocityLabel}`,
+    "date",
+    ["totalClicks", "uniqueClicks"]
   );
 
   if (isLoading) {
@@ -84,7 +93,7 @@ const ClicksOverTimeComponent = ({ workspaceId, linkId, campaignName }: ClicksOv
         </div>
       </CardHeader>
       <CardContent>
-        <ChartWrapper height={300}>
+        <ChartWrapper height={300} accessibilityData={accessibilityData}>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
