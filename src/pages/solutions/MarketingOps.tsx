@@ -6,7 +6,8 @@ import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
@@ -138,21 +139,42 @@ const MarketingOps = () => {
       {/* Fold 3: Before vs After */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              messy data vs clean data
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Same campaigns. Different data quality.
-            </p>
-          </div>
-          
-          <BeforeAfterComparison
-            beforeImage="/placeholder.svg"
-            afterImage="/placeholder.svg"
-            beforeLabel="47 variations"
-            afterLabel="1 standard"
-            caption="100% consistent UTMs = 100% reliable attribution = 100% confidence in your reports"
+          <ContentComparison
+            beforeTitle="47 variations"
+            afterTitle="1 standard"
+            beforeContent={
+              <div className="space-y-3">
+                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                  <div className="text-destructive font-semibold mb-2 text-sm">utm_source chaos:</div>
+                  <div className="space-y-1 text-muted-foreground">
+                    <div>linkedin (8,234)</div>
+                    <div>LinkedIn (3,891)</div>
+                    <div>LINKEDIN (1,203)</div>
+                    <div>linked-in (487)</div>
+                    <div>lnkdin (156)</div>
+                    <div>LI (89)</div>
+                    <div>(not set) (12,847)</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-border text-destructive text-xs">
+                    46% data loss
+                  </div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-3">
+                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-primary font-semibold mb-2 text-sm">utm_source clean:</div>
+                  <div className="space-y-1 text-foreground">
+                    <div>linkedin (26,908)</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-primary/20 text-primary text-xs">
+                    100% attribution ✓
+                  </div>
+                </div>
+              </div>
+            }
+            caption="Same campaigns. 100% consistent UTMs = 100% reliable reports."
           />
         </div>
       </section>
@@ -169,22 +191,38 @@ const MarketingOps = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              "Workspace governance (roles, permissions, approvals)",
-              "Naming system templates (enforce structure)",
-              "Approval flows (optional review before publishing)",
-              "Syntax rules (lowercase, required fields, patterns)",
-              "Audit logs (who created what, when)",
-              "Monthly clean-track audits (data quality score)",
-              "Consistent UTMs across teams (zero variations)",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: Shield,
+              title: "workspace governance",
+              description: "Roles, permissions, approvals. Control without micromanaging."
+            },
+            {
+              icon: Layers,
+              title: "naming templates",
+              description: "Enforce structure. Team can't create non-compliant links."
+            },
+            {
+              icon: CheckCircle2,
+              title: "approval flows",
+              description: "Optional review queue before links go live. Your choice."
+            },
+            {
+              icon: Settings,
+              title: "syntax rules",
+              description: "Lowercase enforcement, required fields, pattern matching."
+            },
+            {
+              icon: FileText,
+              title: "audit logs",
+              description: "Who created what, when. Full history for every link."
+            },
+            {
+              icon: BarChart3,
+              title: "quality scoring",
+              description: "Monthly Clean-Track audits show data quality trends."
+            }
+          ]} />
         </div>
       </section>
 

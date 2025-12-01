@@ -6,7 +6,8 @@ import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
@@ -132,21 +133,37 @@ const Marketers = () => {
       {/* Fold 3: Before vs After Comparison */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              before utm.one vs after
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Same campaign. Different data quality.
-            </p>
-          </div>
-          
-          <BeforeAfterComparison
-            beforeImage="/placeholder.svg"
-            afterImage="/placeholder.svg"
-            beforeLabel="broken tracking"
-            afterLabel="clean tracking"
-            caption="100% consistent UTMs mean 100% reliable attribution"
+          <ContentComparison
+            beforeTitle="before utm.one"
+            afterTitle="with utm.one"
+            beforeContent={
+              <div className="space-y-4">
+                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                  <div className="text-destructive font-semibold mb-3">GA4 Report (47 variations):</div>
+                  <div className="space-y-1 text-muted-foreground">
+                    <div>linkedin → 8,234 clicks</div>
+                    <div>LinkedIn → 3,891 clicks</div>
+                    <div>LINKEDIN → 1,203 clicks</div>
+                    <div>linked-in → 487 clicks</div>
+                    <div>lnkdin → 156 clicks</div>
+                    <div>(not set) → 12,847 clicks</div>
+                  </div>
+                  <div className="mt-3 text-xs text-destructive">62% unattributable</div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-4">
+                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-primary font-semibold mb-3">GA4 Report (1 standard):</div>
+                  <div className="space-y-1 text-foreground">
+                    <div>linkedin → 26,908 clicks</div>
+                  </div>
+                  <div className="mt-3 text-xs text-primary">100% attributable ✓</div>
+                </div>
+              </div>
+            }
+            caption="Same campaign. 100% consistent UTMs = 100% reliable attribution."
           />
         </div>
       </section>
@@ -163,22 +180,38 @@ const Marketers = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              "Zero-error UTM parameters (no typos, ever)",
-              "Semantic short links (utm.one/q4-webinar, not utm.one/abc123)",
-              "Branded QR codes with your logo",
-              "Link preview cards showing destination",
-              "Campaign-level analytics rollups",
-              "Clean attribution across all channels",
-              "Workspace governance without slowdown",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: CheckCircle2,
+              title: "zero-error UTMs",
+              description: "No typos, ever. Every parameter validated before creation."
+            },
+            {
+              icon: LinkIcon,
+              title: "semantic short links",
+              description: "utm.one/q4-webinar, not utm.one/abc123. Readable and memorable."
+            },
+            {
+              icon: QrCode,
+              title: "branded QR codes",
+              description: "Your logo, your colors. Increase scan rates by 40-60%."
+            },
+            {
+              icon: Shield,
+              title: "link preview cards",
+              description: "Show destination, SSL status, security scan before clicks."
+            },
+            {
+              icon: BarChart3,
+              title: "campaign analytics",
+              description: "Rollup views by source, medium, campaign. See what works."
+            },
+            {
+              icon: Layers,
+              title: "clean attribution",
+              description: "Track performance across all channels with consistent data."
+            }
+          ]} />
         </div>
       </section>
 
