@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Globe, Sparkles } from "lucide-react";
+import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
 
 const utmSchema = z.object({
   destination_url: z.string().url("enter a valid url"),
@@ -30,7 +31,7 @@ const suggestions = {
   utm_campaign: ["spring-sale", "black-friday", "product-launch", "brand-awareness"],
 };
 
-export const Step1UTMBuilder = ({ onComplete }: Step1UTMBuilderProps) => {
+export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProps) => {
   const [finalUrl, setFinalUrl] = useState("");
 
   const form = useForm<UTMFormData>({
@@ -106,45 +107,29 @@ export const Step1UTMBuilder = ({ onComplete }: Step1UTMBuilderProps) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <Label htmlFor="utm_source">source *</Label>
-            <Input
-              id="utm_source"
-              placeholder="google"
-              {...form.register("utm_source")}
-              className="mt-1.5"
-            />
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {suggestions.utm_source.map((suggestion) => (
-                <Badge
-                  key={suggestion}
-                  variant="outline"
-                  className="cursor-pointer hover:bg-primary/10 transition-apple"
-                  onClick={() => form.setValue("utm_source", suggestion)}
-                >
-                  {suggestion}
-                </Badge>
-              ))}
+            <div className="mt-1.5">
+              <SmartUTMCombobox
+                workspaceId={workspaceId}
+                fieldType="utm_source"
+                value={form.watch("utm_source")}
+                onChange={(value) => form.setValue("utm_source", value)}
+                placeholder="select or type source"
+                staticSuggestions={suggestions.utm_source}
+              />
             </div>
           </div>
 
           <div>
             <Label htmlFor="utm_medium">medium *</Label>
-            <Input
-              id="utm_medium"
-              placeholder="cpc"
-              {...form.register("utm_medium")}
-              className="mt-1.5"
-            />
-            <div className="flex flex-wrap gap-1.5 mt-2">
-              {suggestions.utm_medium.map((suggestion) => (
-                <Badge
-                  key={suggestion}
-                  variant="outline"
-                  className="cursor-pointer hover:bg-primary/10 transition-apple"
-                  onClick={() => form.setValue("utm_medium", suggestion)}
-                >
-                  {suggestion}
-                </Badge>
-              ))}
+            <div className="mt-1.5">
+              <SmartUTMCombobox
+                workspaceId={workspaceId}
+                fieldType="utm_medium"
+                value={form.watch("utm_medium")}
+                onChange={(value) => form.setValue("utm_medium", value)}
+                placeholder="select or type medium"
+                staticSuggestions={suggestions.utm_medium}
+              />
             </div>
           </div>
 

@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
+import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
+import { useWorkspace } from "@/hooks/useWorkspace";
 
 const utmSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -48,6 +50,7 @@ interface UTMBuilderToolProps {
 
 export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
   const [generatedURL, setGeneratedURL] = useState<string>("");
+  const { currentWorkspace } = useWorkspace();
 
   const form = useForm<UTMFormData>({
     resolver: zodResolver(utmSchema),
@@ -127,46 +130,46 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
           {/* UTM Parameters */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="utm_source">Source *</Label>
-              <Input
-                id="utm_source"
-                placeholder="google, facebook, newsletter"
-                {...form.register("utm_source")}
-                className="mt-1.5"
-              />
-              <div className="flex flex-wrap gap-1 mt-2">
-                {sourceSuggestions.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() => form.setValue("utm_source", suggestion)}
-                    className="text-xs px-2 py-1 rounded-md bg-muted hover:bg-muted/80 transition-colors"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
+              <Label htmlFor="utm_source">source *</Label>
+              <div className="mt-1.5">
+                {currentWorkspace ? (
+                  <SmartUTMCombobox
+                    workspaceId={currentWorkspace.id}
+                    fieldType="utm_source"
+                    value={form.watch("utm_source")}
+                    onChange={(value) => form.setValue("utm_source", value)}
+                    placeholder="select or type source"
+                    staticSuggestions={sourceSuggestions}
+                  />
+                ) : (
+                  <Input
+                    id="utm_source"
+                    placeholder="google, facebook, newsletter"
+                    {...form.register("utm_source")}
+                  />
+                )}
               </div>
             </div>
 
             <div>
-              <Label htmlFor="utm_medium">Medium *</Label>
-              <Input
-                id="utm_medium"
-                placeholder="cpc, social, email"
-                {...form.register("utm_medium")}
-                className="mt-1.5"
-              />
-              <div className="flex flex-wrap gap-1 mt-2">
-                {mediumSuggestions.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() => form.setValue("utm_medium", suggestion)}
-                    className="text-xs px-2 py-1 rounded-md bg-muted hover:bg-muted/80 transition-colors"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
+              <Label htmlFor="utm_medium">medium *</Label>
+              <div className="mt-1.5">
+                {currentWorkspace ? (
+                  <SmartUTMCombobox
+                    workspaceId={currentWorkspace.id}
+                    fieldType="utm_medium"
+                    value={form.watch("utm_medium")}
+                    onChange={(value) => form.setValue("utm_medium", value)}
+                    placeholder="select or type medium"
+                    staticSuggestions={mediumSuggestions}
+                  />
+                ) : (
+                  <Input
+                    id="utm_medium"
+                    placeholder="cpc, social, email"
+                    {...form.register("utm_medium")}
+                  />
+                )}
               </div>
             </div>
 
