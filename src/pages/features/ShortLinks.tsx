@@ -2,7 +2,7 @@ import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
 import { FeatureSection } from "@/components/features/FeatureSection";
 import { URLShortenerBasic } from "@/components/url-shortener/URLShortenerBasic";
-import { CapabilityCard } from "@/components/features/CapabilityCard";
+import { BentoFeatures } from "@/components/features/BentoFeatures";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { CTAButton } from "@/components/ui/CTAButton";
@@ -10,39 +10,6 @@ import { Link2, Shield, Eye, Clock, Edit3, User, CheckCircle2, Lock } from "luci
 import { formatText } from "@/utils/textFormatter";
 
 const ShortLinks = () => {
-  const capabilities = [
-    {
-      icon: Link2,
-      title: "Custom Domains",
-      description: "Use your own branded domains for all short links.",
-    },
-    {
-      icon: Edit3,
-      title: "Semantic Slugs",
-      description: "Create meaningful, readable link paths instead of random strings.",
-    },
-    {
-      icon: Eye,
-      title: "Preview Cards",
-      description: "Show destination details before users click.",
-    },
-    {
-      icon: Clock,
-      title: "Edit History",
-      description: "Track every change to your links with full audit trails.",
-    },
-    {
-      icon: User,
-      title: "Link Ownership",
-      description: "Assign links to team members for clear accountability.",
-    },
-    {
-      icon: Shield,
-      title: "Expiration Control",
-      description: "Set optional expiration dates or click limits.",
-    },
-  ];
-
   const comparisonItems = [
     { feature: "Hover preview with metadata", competitors: false, utmOne: true },
     { feature: "Security scan indicator", competitors: false, utmOne: true },
@@ -182,25 +149,9 @@ const ShortLinks = () => {
         </div>
       </FeatureSection>
 
-      <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
-          {formatText("The Basics, Done Beautifully")}
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((capability, index) => (
-            <CapabilityCard
-              key={index}
-              icon={capability.icon}
-              title={capability.title}
-              description={capability.description}
-              delay={index * 0.1}
-            />
-          ))}
-        </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
-          Simplicity creates clarity.
-        </p>
-      </FeatureSection>
+      <section className="py-24 md:py-32 bg-zinc-950">
+        <BentoFeatures />
+      </section>
 
       <FeatureSection background="muted">
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
