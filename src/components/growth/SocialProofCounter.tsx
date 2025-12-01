@@ -4,7 +4,7 @@ import { Users, TrendingUp, Zap } from "lucide-react";
 
 interface SocialProofCounterProps {
   variant?: "default" | "minimal" | "detailed";
-  role?: "marketers" | "sales" | "ops" | "developers" | "agencies" | "partners";
+  role?: "marketers" | "sales" | "ops" | "developers" | "agencies" | "partners" | "startups" | "reporting" | "revops";
 }
 
 // Role-specific messaging
@@ -14,7 +14,10 @@ const roleData = {
   ops: { count: 1800, label: "ops teams", subtitle: "enforcing governance" },
   developers: { count: 2100, label: "developers", subtitle: "using the API" },
   agencies: { count: 450, label: "agencies", subtitle: "managing clients" },
-  partners: { count: 1200, label: "partner programs", subtitle: "tracking attribution" }
+  partners: { count: 1200, label: "partner programs", subtitle: "tracking attribution" },
+  startups: { count: 4200, label: "startups", subtitle: "building with clean data" },
+  reporting: { count: 2800, label: "reporting teams", subtitle: "trusting their dashboards" },
+  revops: { count: 1500, label: "revops teams", subtitle: "aligning revenue operations" }
 };
 
 export const SocialProofCounter = ({ 

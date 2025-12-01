@@ -218,104 +218,131 @@ export const Navigation = () => {
                     {formatText("solutions")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-2 p-4">
-                      <li>
-                        <Link
-                          to="/solutions/enterprise"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/enterprise" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">Enterprise</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            security, scale, governance
-                          </p>
-                        </Link>
+                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
+                      {/* BY SEGMENT Column */}
+                      <li className="col-span-1">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          By Segment
+                        </div>
+                        <div className="space-y-1">
+                          <Link
+                            to="/solutions/enterprise"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/enterprise" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Enterprise</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              security, scale, governance
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/agencies"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/agencies" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Agencies</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              multi-client workspaces
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/startups"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/startups" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Startups</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              enterprise quality, startup pricing
+                            </p>
+                          </Link>
+                        </div>
                       </li>
-                      <li>
-                        <Link
-                          to="/solutions/agencies"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/agencies" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">Agencies</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            multi-client workspaces
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/solutions/marketers"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/marketers" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">For Marketing Teams</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            campaigns work better when links do
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/solutions/sales"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/sales" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">For Sales Teams</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            share faster, share cleaner
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/solutions/marketing-ops"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/marketing-ops" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">For Marketing Ops</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            governance, without the friction
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/solutions/developers"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/developers" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">For Developers</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            a clean api for a cleaner stack
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/solutions/partner-managers"
-                          className={cn(
-                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                            location.pathname === "/solutions/partner-managers" && "bg-primary/10"
-                          )}
-                        >
-                          <div className="text-sm font-medium leading-none">For Partner Managers</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            clear attribution, zero manual work
-                          </p>
-                        </Link>
+                      
+                      {/* BY ROLE Column */}
+                      <li className="col-span-1">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          By Role
+                        </div>
+                        <div className="space-y-1">
+                          <Link
+                            to="/solutions/marketers"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/marketers" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Marketing</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              clean campaigns, zero errors
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/marketing-ops"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/marketing-ops" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Marketing Ops</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              governance without friction
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/sales"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/sales" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Sales</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              share faster, track better
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/developers"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/developers" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Developers</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              a clean api, clean data
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/revops"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/revops" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">RevOps</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              one truth, click to close
+                            </p>
+                          </Link>
+                          <Link
+                            to="/solutions/reporting-team"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                              location.pathname === "/solutions/reporting-team" && "bg-primary/10"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-none">Reporting Team</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              clean data in, clean reports out
+                            </p>
+                          </Link>
+                        </div>
                       </li>
                     </ul>
                   </NavigationMenuContent>
