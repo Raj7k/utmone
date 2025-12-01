@@ -6,12 +6,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 interface LinkHealthScoreProps {
   linkId: string;
+  compact?: boolean;
 }
 
-export const LinkHealthScore = ({ linkId }: LinkHealthScoreProps) => {
+export const LinkHealthScore = ({ linkId, compact = false }: LinkHealthScoreProps) => {
   const { data, isLoading } = useLinkHealthScore(linkId);
 
   if (isLoading) {
+    if (compact) {
+      return <Skeleton className="h-16 w-16 rounded-full" />;
+    }
     return (
       <Card>
         <CardHeader>
@@ -27,9 +31,9 @@ export const LinkHealthScore = ({ linkId }: LinkHealthScoreProps) => {
   if (!data) return null;
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-system-green";
-    if (score >= 60) return "text-system-orange";
-    return "text-system-red";
+    if (score >= 80) return "stroke-green-500";
+    if (score >= 60) return "stroke-yellow-500";
+    return "stroke-red-500";
   };
 
   const getStatusIcon = (status: string) => {
@@ -38,6 +42,43 @@ export const LinkHealthScore = ({ linkId }: LinkHealthScoreProps) => {
     return <XCircle className="h-4 w-4 text-system-red" />;
   };
 
+  // Compact view for cards
+  if (compact) {
+    const radius = 28;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference - (data.score / 100) * circumference;
+
+    return (
+      <div className="relative inline-flex items-center justify-center">
+        <svg width="64" height="64" className="transform -rotate-90">
+          <circle
+            cx="32"
+            cy="32"
+            r={radius}
+            strokeWidth="6"
+            className="stroke-muted fill-none"
+          />
+          <circle
+            cx="32"
+            cy="32"
+            r={radius}
+            strokeWidth="6"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            strokeLinecap="round"
+            className={`${getScoreColor(data.score)} fill-none transition-all duration-500`}
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-lg font-display font-bold text-foreground">
+            {data.score}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // Full view for detail page
   return (
     <Card>
       <CardHeader>
