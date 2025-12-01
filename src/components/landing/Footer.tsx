@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Badge } from "@/components/ui/badge";
-import { Link2, QrCode, Settings, TrendingUp, CheckCircle2 } from "lucide-react";
+import { Link2, QrCode, Settings, TrendingUp, CheckCircle2, Sparkles, Clock, BookOpen, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export const Footer = () => {
@@ -66,10 +66,6 @@ export const Footer = () => {
                   <QrCode className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
                   QR Generator
                 </Link>
-                <Link to="/features/predictive-analytics" className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group/link">
-                  <TrendingUp className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100" />
-                  Intelligence
-                </Link>
                 <Link to="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Pricing
                 </Link>
@@ -114,42 +110,182 @@ export const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Role Carousel - Spans 8 columns */}
+          {/* AI Intelligence - Spans 4 columns */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:col-span-8 p-8 rounded-2xl bg-muted/20 border border-border/50 backdrop-blur-xl"
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-background border border-primary/30 backdrop-blur-xl relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
+            <div className="relative space-y-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                  AI intelligence
+                </h3>
+              </div>
+              <div className="space-y-2">
+                <Link to="/features/predictive-analytics" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Predictive Analytics
+                </Link>
+                <Link to="/features/attribution-graph" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Attribution Graph
+                </Link>
+                <Link to="/features/smart-routing" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Smart Routing
+                </Link>
+                <Link to="/features/link-immunity" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Link Immunity
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* What's New - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-xl"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                  what's new
+                </h3>
+                <Badge variant="outline" className="ml-auto bg-primary/10 border-primary/30 text-xs lowercase">
+                  new
+                </Badge>
+              </div>
+              <div className="space-y-3">
+                <Link to="/changelog" className="block p-3 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="text-sm font-medium text-foreground mb-1">
+                    Geo-targeting with Smart Routing
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Send visitors to different URLs based on location
+                  </div>
+                </Link>
+                <Link to="/changelog" className="block text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
+                  View all updates
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Resources (Expanded) - Spans 4 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 backdrop-blur-xl"
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                  resources
+                </h3>
+              </div>
+              <div className="space-y-2">
+                <Link to="/docs" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Guides
+                </Link>
+                <div className="space-y-1">
+                  <Link to="/resources/playbooks" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Playbooks
+                  </Link>
+                  <Link to="/resources/llm-ranking-playbook" className="block text-sm text-primary hover:text-primary/80 transition-colors flex items-center gap-2 pl-4">
+                    <Sparkles className="w-3 h-3" />
+                    LLM Ranking Playbook
+                  </Link>
+                </div>
+                <Link to="/resources/templates" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Templates
+                </Link>
+                <Link to="/resources/frameworks" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Frameworks
+                </Link>
+                <Link to="/resources/glossary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Glossary
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Compare - Spans 6 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="md:col-span-6 p-8 rounded-2xl bg-muted/20 border border-border/50 backdrop-blur-xl"
+          >
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
+                compare utm.one
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <Link to="/compare/bitly" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  vs Bitly
+                </Link>
+                <Link to="/compare/rebrandly" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  vs Rebrandly
+                </Link>
+                <Link to="/compare/shortio" className="p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                  vs Short.io
+                </Link>
+                <Link to="/compare" className="p-3 rounded-lg bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-all duration-200 text-sm text-primary hover:text-foreground flex items-center justify-center gap-2">
+                  See all comparisons
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Explore by Role (Improved) - Spans 6 columns */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="md:col-span-6 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/10 to-background border border-border/50 backdrop-blur-xl"
           >
             <div className="space-y-4">
               <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground mb-4">
                 explore by role
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {roleLinks.map((role, index) => (
                   <Link
                     key={role.href}
                     to={role.href}
-                    className="px-4 py-2 rounded-full bg-background/50 border border-border hover:border-primary hover:bg-primary/5 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground lowercase backdrop-blur-sm"
+                    className="group p-4 rounded-xl bg-card/50 border border-border hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center backdrop-blur-sm"
                   >
-                    {role.label}
+                    <div className="text-sm font-medium text-muted-foreground group-hover:text-foreground lowercase transition-colors">
+                      {role.label}
+                    </div>
                   </Link>
                 ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Status + Resources - Spans 4 columns */}
+          {/* Status Badge - Spans 12 columns (full width compact) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 backdrop-blur-xl"
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="md:col-span-12 p-6 rounded-2xl bg-card border border-border/50 backdrop-blur-xl"
           >
-            <div className="space-y-6">
-              {/* Status Badge */}
+            <div className="flex items-center justify-center">
               <Link to="/status" className="inline-block">
                 <Badge variant="outline" className="bg-primary/10 border-primary/30 hover:bg-primary/20 transition-colors">
                   <span className="flex items-center gap-2">
@@ -161,24 +297,6 @@ export const Footer = () => {
                   </span>
                 </Badge>
               </Link>
-              
-              {/* Resources Links */}
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
-                  resources
-                </h3>
-                <div className="space-y-2">
-                  <Link to="/docs" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Documentation
-                  </Link>
-                  <Link to="/changelog" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Changelog
-                  </Link>
-                  <Link to="/resources/glossary" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Glossary
-                  </Link>
-                </div>
-              </div>
             </div>
           </motion.div>
 
@@ -189,7 +307,7 @@ export const Footer = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.9 }}
           className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-primary/5 via-background to-primary/5 border border-primary/20 overflow-hidden backdrop-blur-xl"
         >
           <motion.div
@@ -204,6 +322,8 @@ export const Footer = () => {
             <span>📊 attribution graph: bayesian multi-touch attribution</span>
             <span>•</span>
             <span>🌍 smart routing: geo-targeting with contextual bandits</span>
+            <span>•</span>
+            <span>✨ LLM ranking playbook: rank #1 in AI search results</span>
             <span>•</span>
             <span>🎉 predictive analytics: forecast clicks before they happen</span>
             <span>•</span>

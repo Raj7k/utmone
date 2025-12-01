@@ -6,7 +6,8 @@ import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
@@ -122,20 +123,43 @@ const Developers = () => {
       {/* Fold 3: Before vs After */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              unreliable APIs vs rock-solid infrastructure
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Same traffic. Different reliability.
-            </p>
-          </div>
-          
-          <BeforeAfterComparison
-            beforeImage="/placeholder.svg"
-            afterImage="/placeholder.svg"
-            beforeLabel="frequent downtime"
-            afterLabel="99.99% uptime SLA"
+          <ContentComparison
+            beforeTitle="unreliable API"
+            afterTitle="utm.one API"
+            beforeContent={
+              <div className="space-y-3">
+                <div className="bg-[#1e1e1e] rounded-lg p-4 font-mono text-xs">
+                  <div className="text-red-400 mb-2 font-semibold">Error Response:</div>
+                  <div className="space-y-1 text-gray-400">
+                    <div>{'{'}</div>
+                    <div className="pl-4">"error": "Internal Server Error",</div>
+                    <div className="pl-4">"status": 500,</div>
+                    <div className="pl-4">"message": "Something went wrong"</div>
+                    <div>{'}'}</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-700 text-red-400 text-xs">
+                    ❌ 50,000 links broken
+                  </div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-3">
+                <div className="bg-[#1e1e1e] rounded-lg p-4 font-mono text-xs">
+                  <div className="text-green-400 mb-2 font-semibold">Success Response:</div>
+                  <div className="space-y-1 text-gray-300">
+                    <div>{'{'}</div>
+                    <div className="pl-4">"shortUrl": "utm.one/q4-sale",</div>
+                    <div className="pl-4">"status": "active",</div>
+                    <div className="pl-4">"clicks": 0</div>
+                    <div>{'}'}</div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-700 text-primary text-xs">
+                    ✓ 99.99% uptime SLA
+                  </div>
+                </div>
+              </div>
+            }
             caption="Production-grade infrastructure = no 3 AM PagerDuty alerts"
           />
         </div>
@@ -153,22 +177,38 @@ const Developers = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              "GraphQL + REST APIs (pick your preference)",
-              "600 req/min on free tier (6,000 on Pro)",
-              "Webhooks for everything (clicks, scans, conversions)",
-              "Interactive API playground (test before deploying)",
-              "Metadata endpoints (Open Graph, Twitter Cards)",
-              "Semantic slug generation (readable URLs)",
-              "Transparent error handling (no cryptic 500s)",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: Code,
+              title: "GraphQL + REST",
+              description: "Pick your preference. Both fully supported with same features."
+            },
+            {
+              icon: Zap,
+              title: "high rate limits",
+              description: "600 req/min free, 6,000 on Pro. Enterprise gets custom limits."
+            },
+            {
+              icon: Webhook,
+              title: "real-time webhooks",
+              description: "Stream clicks, scans, conversions to your warehouse or CRM."
+            },
+            {
+              icon: Terminal,
+              title: "API playground",
+              description: "Test endpoints interactively before deploying to production."
+            },
+            {
+              icon: Database,
+              title: "metadata APIs",
+              description: "Add structured meaning for AI systems. Open Graph, Schema.org."
+            },
+            {
+              icon: CheckCircle2,
+              title: "transparent errors",
+              description: "Clear error messages. No cryptic 500s. Debug in minutes, not hours."
+            }
+          ]} />
         </div>
       </section>
 

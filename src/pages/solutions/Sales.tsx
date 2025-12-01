@@ -6,7 +6,8 @@ import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
-import { BeforeAfterComparison } from "@/components/landing/BeforeAfterComparison";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
@@ -128,20 +129,57 @@ const Sales = () => {
       {/* Fold 3: Before vs After */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              stop guessing. start knowing.
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Track every prospect touchpoint. Close more deals.
-            </p>
-          </div>
-          
-          <BeforeAfterComparison
-            beforeImage="/placeholder.svg"
-            afterImage="/placeholder.svg"
-            beforeLabel="blind outreach"
-            afterLabel="data-driven follow-up"
+          <ContentComparison
+            beforeTitle="without tracking"
+            afterTitle="with utm.one"
+            beforeContent={
+              <div className="space-y-3">
+                <div className="p-4 bg-card rounded-lg border border-destructive/30">
+                  <div className="text-sm text-muted-foreground space-y-2">
+                    <div className="flex items-start gap-2">
+                      <span className="text-destructive">❌</span>
+                      <span>No idea if they opened the deck</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-destructive">❌</span>
+                      <span>Guessing when to follow up</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-destructive">❌</span>
+                      <span>Risk calling too early or too late</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-destructive">❌</span>
+                      <span>No proof of engagement</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-3">
+                <div className="p-4 bg-primary/10 rounded-lg border border-primary/30">
+                  <div className="text-sm text-foreground space-y-2">
+                    <div className="flex items-start gap-2">
+                      <span className="text-primary">✓</span>
+                      <span className="font-medium">7 views in last 48 hours</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-primary">✓</span>
+                      <span className="font-medium">Engagement spike = buying signal</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-primary">✓</span>
+                      <span className="font-medium">Perfect timing for follow-up</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <span className="text-primary">✓</span>
+                      <span className="font-medium">Data backs your outreach</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
             caption="Engagement visibility = perfect timing = higher close rates"
           />
         </div>
@@ -159,22 +197,38 @@ const Sales = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[
-              "Simple short links for outreach",
-              "Personal click tracking by prospect",
-              "Clean UTMs built automatically",
-              "QR for events and booths",
-              "Partner attribution (if needed)",
-              "Analytics that make sense",
-              "CRM integration via webhooks",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
+          <BenefitCardsGrid benefits={[
+            {
+              icon: LinkIcon,
+              title: "simple short links",
+              description: "Clean, memorable links for email outreach and prospecting."
+            },
+            {
+              icon: TrendingUp,
+              title: "engagement tracking",
+              description: "See who clicked, when, and how many times. Know when to follow up."
+            },
+            {
+              icon: Settings,
+              title: "auto UTMs",
+              description: "Clean UTM parameters added automatically. No manual work."
+            },
+            {
+              icon: QrCode,
+              title: "event QR codes",
+              description: "Track booth traffic and event engagement with branded QR."
+            },
+            {
+              icon: CheckCircle2,
+              title: "CRM integration",
+              description: "Push click data to Salesforce, HubSpot via webhooks."
+            },
+            {
+              icon: BarChart3,
+              title: "simple analytics",
+              description: "See what matters: clicks, timing, devices. No clutter."
+            }
+          ]} />
         </div>
       </section>
 
