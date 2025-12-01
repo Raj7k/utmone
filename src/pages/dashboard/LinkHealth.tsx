@@ -25,6 +25,7 @@ export default function LinkHealth() {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isChecking, setIsChecking] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState<"all" | "healthy" | "unhealthy" | "unknown">("all");
 
   const { data: links, isLoading, refetch } = useQuery({
     queryKey: ["link-health"],
@@ -72,12 +73,16 @@ export default function LinkHealth() {
     }
   };
 
-  const filteredLinks = links?.filter(
-    (link) =>
+  const filteredLinks = links?.filter((link) => {
+    const matchesSearch =
       link.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       link.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      link.destination_url.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      link.destination_url.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesStatus = selectedFilter === "all" || link.health_status === selectedFilter;
+
+    return matchesSearch && matchesStatus;
+  });
 
   const stats = {
     healthy: links?.filter((l) => l.health_status === "healthy").length || 0,
@@ -126,7 +131,12 @@ export default function LinkHealth() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card
+          className={`cursor-pointer transition-all hover:shadow-md ${
+            selectedFilter === "healthy" ? "ring-2 ring-green-500 dark:ring-green-400" : ""
+          }`}
+          onClick={() => setSelectedFilter(selectedFilter === "healthy" ? "all" : "healthy")}
+        >
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-muted-foreground">working links</CardTitle>
           </CardHeader>
@@ -135,7 +145,12 @@ export default function LinkHealth() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card
+          className={`cursor-pointer transition-all hover:shadow-md ${
+            selectedFilter === "unhealthy" ? "ring-2 ring-red-500 dark:ring-red-400" : ""
+          }`}
+          onClick={() => setSelectedFilter(selectedFilter === "unhealthy" ? "all" : "unhealthy")}
+        >
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-muted-foreground">broken links</CardTitle>
           </CardHeader>
@@ -144,7 +159,12 @@ export default function LinkHealth() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card
+          className={`cursor-pointer transition-all hover:shadow-md ${
+            selectedFilter === "unknown" ? "ring-2 ring-gray-500 dark:ring-gray-400" : ""
+          }`}
+          onClick={() => setSelectedFilter(selectedFilter === "unknown" ? "all" : "unknown")}
+        >
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-muted-foreground">not checked yet</CardTitle>
           </CardHeader>
@@ -200,7 +220,19 @@ export default function LinkHealth() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>all active links</CardTitle>
+            <div className="flex items-center gap-3">
+              <CardTitle>
+                {selectedFilter === "all" && "all active links"}
+                {selectedFilter === "healthy" && `working links (${stats.healthy})`}
+                {selectedFilter === "unhealthy" && `broken links (${stats.unhealthy})`}
+                {selectedFilter === "unknown" && `not checked yet (${stats.unknown})`}
+              </CardTitle>
+              {selectedFilter !== "all" && (
+                <Button variant="ghost" size="sm" onClick={() => setSelectedFilter("all")}>
+                  show all
+                </Button>
+              )}
+            </div>
             <Input
               placeholder="search links..."
               value={searchQuery}
