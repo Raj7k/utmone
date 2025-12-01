@@ -82,6 +82,84 @@ const Analytics = () => {
         </div>
       </FeatureSection>
 
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            clean track intelligence
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Predictions that actually help you plan
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <TrendingUp className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">traffic forecasting</h3>
+                <p className="text-secondary-label">
+                  See predicted clicks for the next 7 days with confidence intervals based on historical patterns
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <BarChart3 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">best time analysis</h3>
+                <p className="text-secondary-label">
+                  Know exactly when your audience is most active—no guesswork, just data
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">performance trends</h3>
+                <p className="text-secondary-label">
+                  Spot patterns in click behavior before they become problems or opportunities
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">7-day forecast</h4>
+            <div className="bg-card rounded-lg p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-border">
+                <span className="text-sm text-secondary-label">Predicted Traffic</span>
+                <span className="text-2xl font-bold text-label">~1,200</span>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Confidence</span>
+                  <span className="text-label font-semibold">95%</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Range</span>
+                  <span className="text-label font-semibold">1,050 - 1,350 clicks</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Peak Day</span>
+                  <span className="text-label font-semibold">Friday 2PM</span>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-border">
+                <p className="text-xs text-secondary-label italic">
+                  Based on 30 days of historical data
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Designed Around Clarity

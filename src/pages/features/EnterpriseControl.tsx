@@ -80,6 +80,85 @@ const EnterpriseControl = () => {
         </div>
       </FeatureSection>
 
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            approval workflow
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Review and approve changes before they go live
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <GitBranch className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">multi-level approvals</h3>
+                <p className="text-secondary-label">
+                  Set up approval chains—editors create, reviewers approve, admins deploy
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Users className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">slack notifications</h3>
+                <p className="text-secondary-label">
+                  Approval requests sent instantly to Slack—no email overload, no missed reviews
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">audit trail</h3>
+                <p className="text-secondary-label">
+                  Every approval, rejection, and modification is logged with who/what/when/why
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">approval flow</h4>
+            <div className="space-y-4">
+              <div className="bg-card border border-border rounded-lg p-4 flex items-center gap-4">
+                <div className="bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">1</div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-label mb-1">Draft</p>
+                  <p className="text-xs text-secondary-label">Created by Sarah • Marketing</p>
+                </div>
+                <span className="text-xs bg-blue-100 dark:bg-blue-900/20 text-blue-600 px-2 py-1 rounded">Draft</span>
+              </div>
+              <div className="bg-card border-2 border-amber-200 dark:border-amber-800 rounded-lg p-4 flex items-center gap-4">
+                <div className="bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">2</div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-label mb-1">Pending Review</p>
+                  <p className="text-xs text-secondary-label">Awaiting John • Manager</p>
+                </div>
+                <span className="text-xs bg-amber-100 dark:bg-amber-900/20 text-amber-600 px-2 py-1 rounded">Review</span>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-4 flex items-center gap-4 opacity-50">
+                <div className="bg-muted text-secondary-label rounded-full w-10 h-10 flex items-center justify-center shrink-0 font-bold text-sm">3</div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-label mb-1">Approved</p>
+                  <p className="text-xs text-secondary-label">Ready to deploy</p>
+                </div>
+                <span className="text-xs bg-muted text-secondary-label px-2 py-1 rounded">Pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Scale

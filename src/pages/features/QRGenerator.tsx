@@ -81,6 +81,82 @@ const QRGenerator = () => {
         </div>
       </FeatureSection>
 
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            branded QR customization
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Every code matches your brand perfectly
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Image className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">logo placement</h3>
+                <p className="text-secondary-label">
+                  Add your logo in the center with automatic sizing, padding, and background control
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Palette className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">color matching</h3>
+                <p className="text-secondary-label">
+                  Use exact brand colors for modules and background—no approximations
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <QrCode className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">corner styles</h3>
+                <p className="text-secondary-label">
+                  Choose square, rounded, or dots for module shapes and corner squares
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">branded QR code</h4>
+            <div className="bg-card rounded-lg p-6 flex flex-col items-center">
+              <div className="w-48 h-48 bg-white rounded-lg border-2 border-primary/20 flex items-center justify-center mb-4">
+                <div className="grid grid-cols-8 gap-1">
+                  {Array.from({ length: 64 }).map((_, i) => (
+                    <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-primary' : 'bg-white'} rounded-sm`} />
+                  ))}
+                </div>
+              </div>
+              <div className="w-full space-y-2">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Brand Colors</span>
+                  <span className="text-label font-semibold">✓ Applied</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Logo</span>
+                  <span className="text-label font-semibold">✓ Centered</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-secondary-label">Destination</span>
+                  <span className="text-label font-semibold font-mono">utm.one/abc</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           Everything You Expect, Done Better

@@ -87,6 +87,82 @@ const UTMBuilder = () => {
         </div>
       </FeatureSection>
 
+      <FeatureSection background="white" maxWidth="wide">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+            smart autocomplete
+          </h2>
+          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+            Historical performance guides your UTM choices
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <CheckSquare className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">historical CTR predictions</h3>
+                <p className="text-secondary-label">
+                  See predicted click-through rates based on past campaign performance as you type
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <Type className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">impact badges</h3>
+                <p className="text-secondary-label">
+                  High-performing sources show 🔥 badges, new options show ⚡, helping you make data-informed choices
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-display font-semibold mb-2 lowercase">smart suggestions</h3>
+                <p className="text-secondary-label">
+                  Auto-complete learns from your workspace's naming patterns and top-performing campaigns
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
+            <h4 className="text-lg font-semibold mb-4 lowercase text-label">utm autocomplete dropdown</h4>
+            <div className="space-y-3">
+              <div className="bg-card border-2 border-primary rounded-lg p-4">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-sm font-semibold text-label">google</p>
+                  <span className="text-xs">🔥 High impact</span>
+                </div>
+                <p className="text-xs text-secondary-label">3.2% CTR • Used 24 times</p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-4 opacity-70">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-sm font-semibold text-label">facebook</p>
+                  <span className="text-xs text-secondary-label">Average</span>
+                </div>
+                <p className="text-xs text-secondary-label">1.8% CTR • Used 12 times</p>
+              </div>
+              <div className="bg-card border border-border rounded-lg p-4 opacity-70">
+                <div className="flex items-center justify-between mb-1">
+                  <p className="text-sm font-semibold text-label">linkedin</p>
+                  <span className="text-xs">⚡ New</span>
+                </div>
+                <p className="text-xs text-secondary-label">No data yet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection>
         <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
           Built With Clean-Track

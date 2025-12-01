@@ -121,6 +121,76 @@ const Developers = () => {
         </div>
       </section>
 
+      {/* API Response Examples Section */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="max-w-[1200px] mx-auto px-8">
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
+              API response examples
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Predictable structure, every single time
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                  <Code className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">type-safe responses</h3>
+                  <p className="text-muted-foreground">
+                    TypeScript definitions for every endpoint—autocomplete in your IDE, zero guessing
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                  <AlertCircle className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">predictable errors</h3>
+                  <p className="text-muted-foreground">
+                    Clear error codes and human-readable messages—no cryptic server errors
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-display font-semibold mb-2 lowercase">rate limit headers</h3>
+                  <p className="text-muted-foreground">
+                    X-RateLimit headers in every response so you never hit unexpected throttles
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-700 font-mono text-sm">
+              <div className="text-green-400 mb-2">// POST /api/v1/links</div>
+              <div className="text-slate-300">{`{`}</div>
+              <div className="text-slate-300 pl-4">{`"success": true,`}</div>
+              <div className="text-slate-300 pl-4">{`"data": {`}</div>
+              <div className="text-slate-300 pl-8">{`"short_url": "utm.one/abc123",`}</div>
+              <div className="text-slate-300 pl-8">{`"slug": "abc123",`}</div>
+              <div className="text-slate-300 pl-8">{`"original_url": "https://example.com",`}</div>
+              <div className="text-slate-300 pl-8">{`"clicks": 0,`}</div>
+              <div className="text-slate-300 pl-8">{`"created_at": "2025-12-01T12:00:00Z"`}</div>
+              <div className="text-slate-300 pl-4">{`},`}</div>
+              <div className="text-slate-300 pl-4">{`"rate_limit": {`}</div>
+              <div className="text-slate-300 pl-8">{`"remaining": 599,`}</div>
+              <div className="text-slate-300 pl-8">{`"reset_at": "2025-12-01T13:00:00Z"`}</div>
+              <div className="text-slate-300 pl-4">{`}`}</div>
+              <div className="text-slate-300">{`}`}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Fold 4: Mapped Features */}
       <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
         <div className="max-w-[1200px] mx-auto px-8">
