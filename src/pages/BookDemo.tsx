@@ -5,11 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, ArrowUpRight } from "lucide-react";
+import { Star, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Helmet } from "react-helmet";
 import { phoneCountryCodes } from "@/lib/phoneCountryCodes";
+import { Link, useNavigate } from "react-router-dom";
 
 const MARQUEE_ITEMS = [
   "marketing teams", "sales ops", "events", "partner programs", "enterprise"
@@ -29,6 +30,7 @@ const CHALLENGES = [
 ];
 
 export default function BookDemo() {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -40,7 +42,7 @@ export default function BookDemo() {
     message: ""
   });
 
-  // Auto-detect country from IP
+  // Auto-detect country from IP in background (non-blocking)
   useEffect(() => {
     const detectLocation = async () => {
       try {
@@ -50,9 +52,11 @@ export default function BookDemo() {
         }
       } catch (error) {
         console.error('Failed to detect location:', error);
-        // Default to US if detection fails
+        // Silently fail - form already shows with US default
       }
     };
+    
+    // Run async without blocking render
     detectLocation();
   }, []);
 
@@ -106,7 +110,25 @@ export default function BookDemo() {
         <meta name="description" content="Turn confusion into clarity. Book a demo to see how utm.one can transform your link management and analytics." />
       </Helmet>
 
-      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
+      {/* Navigation */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 text-label hover:text-primary transition-colors">
+            <span className="text-xl font-display font-bold lowercase">utm.one</span>
+          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+            className="text-secondary-label hover:text-label"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            back
+          </Button>
+        </div>
+      </div>
+
+      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16">
         {/* Left Panel - Brand Experience */}
         <div className="relative bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-white p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
           {/* Animated Background Elements */}
