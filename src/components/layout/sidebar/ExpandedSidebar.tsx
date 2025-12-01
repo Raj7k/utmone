@@ -22,7 +22,8 @@ import {
   Beaker,
   Zap,
   TrendingUp,
-  GitBranch
+  GitBranch,
+  Route
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -56,6 +57,7 @@ const intelligenceNavigation = [
   { name: "Instant Links", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
+  { name: "Smart Routing", href: "/dashboard/targeting", icon: Route },
 ];
 
 const growthNavigation = [
