@@ -1,141 +1,166 @@
-import { motion } from "framer-motion";
-import { Link as LinkIcon, Tag, Shield, BarChart3, FileCheck } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Link2, Tags, Shield, BarChart3, FileCheck } from "lucide-react";
 
 const layers = [
   {
     number: 1,
-    icon: LinkIcon,
-    title: "Short URL",
-    description: "utm.one/acme-webinar",
-    detail: "Clean, semantic, memorable",
-    color: "text-primary",
-    bgColor: "bg-primary/10"
+    icon: Link2,
+    title: "short url",
+    description: "Clean, semantic, memorable",
+    detail: "utm.one/acme-webinar — not u7x2k9",
+    color: "text-electricBlue",
+    bgColor: "bg-white"
   },
   {
     number: 2,
-    icon: Tag,
-    title: "UTM Structure",
-    description: "source=linkedin&medium=cpc&campaign=q4-webinar",
-    detail: "Consistent, validated, enforceable",
-    color: "text-blazeOrange",
-    bgColor: "bg-blazeOrange/10"
+    icon: Tags,
+    title: "utm structure",
+    description: "Enforced naming rules",
+    detail: "source=linkedin&medium=paid&campaign=q1-webinar",
+    color: "text-primary",
+    bgColor: "bg-muted/30"
   },
   {
     number: 3,
     icon: Shield,
-    title: "Safety Layer",
-    description: "✓ SSL Verified  ✓ Malware Scanned  ✓ Blacklist Clear",
-    detail: "Trust indicators for every click",
+    title: "safety layer",
+    description: "Real-time security scanning",
+    detail: "✓ SSL secured • ✓ Scanned & safe • ✓ No malware",
     color: "text-green-600",
-    bgColor: "bg-green-600/10"
+    bgColor: "bg-primary/5"
   },
   {
     number: 4,
     icon: BarChart3,
-    title: "Analytics Layer",
-    description: "Clicks • Devices • Geo • Conversions",
-    detail: "Real-time visibility into performance",
+    title: "analytics layer",
+    description: "Full funnel visibility",
+    detail: "Clicks • Devices • Geo • Conversions • Attribution",
     color: "text-purple-600",
-    bgColor: "bg-purple-600/10"
+    bgColor: "bg-muted/30"
   },
   {
     number: 5,
     icon: FileCheck,
-    title: "Governance Layer",
-    description: "Templates • Validation Rules • Audit Logs",
-    detail: "Team-wide consistency and compliance",
-    color: "text-blue-600",
-    bgColor: "bg-blue-600/10"
+    title: "governance layer",
+    description: "Templates, rules, audit logs",
+    detail: "Who created what, when, why — full traceability",
+    color: "text-blazeOrange",
+    bgColor: "bg-blazeOrange/10"
   }
 ];
 
 export const LinkLayersSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
   return (
-    <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-      <div className="max-w-5xl mx-auto px-8">
-        <div className="text-center mb-16 space-y-4">
-          <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            one link. five layers.
-          </motion.h2>
-          <motion.p 
-            className="text-xl text-secondary-label"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            Most tools shorten. utm.one structures.
-          </motion.p>
-        </div>
+    <div ref={containerRef} className="relative min-h-[400vh] py-20 bg-muted/20">
+      {/* Header */}
+      <div className="text-center mb-12 px-8">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-label mb-6 lowercase"
+        >
+          one link. five layers.
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-xl text-secondary-label max-w-2xl mx-auto"
+        >
+          Most tools shorten. utm.one structures.
+        </motion.p>
+      </div>
 
-        <div className="relative space-y-4">
-          {layers.map((layer, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
-                duration: 0.6, 
-                delay: index * 0.15,
-                ease: [0.25, 0.1, 0.25, 1]
-              }}
-              className="relative"
-            >
-              <div className="bg-card border-2 border-border rounded-2xl p-6 md:p-8 hover:shadow-lg transition-all duration-300 hover:border-primary/30">
-                <div className="flex items-start gap-6">
-                  {/* Number Badge */}
-                  <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${layer.bgColor} flex items-center justify-center`}>
-                    <span className={`text-2xl font-bold ${layer.color}`}>
-                      {layer.number}
-                    </span>
-                  </div>
-
-                  {/* Icon */}
-                  <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${layer.bgColor} flex items-center justify-center`}>
-                    <layer.icon className={`w-6 h-6 ${layer.color}`} />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-2xl font-display font-bold text-label mb-2 lowercase">
-                      {layer.title}
-                    </h3>
-                    <p className="text-base font-mono text-secondary-label mb-2 break-all">
+      {/* Stacking Cards Container */}
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+        <div className="w-full max-w-6xl mx-auto px-8">
+          {layers.map((layer, index) => {
+            const Icon = layer.icon;
+            const cardStart = index / layers.length;
+            const cardEnd = (index + 1) / layers.length;
+            
+            const scale = useTransform(
+              scrollYProgress,
+              [Math.max(0, cardStart - 0.1), cardStart, cardEnd],
+              [0.85 + (index * 0.03), 1, 1]
+            );
+            
+            const opacity = useTransform(
+              scrollYProgress,
+              [Math.max(0, cardStart - 0.05), cardStart],
+              [0.4, 1]
+            );
+            
+            const y = useTransform(
+              scrollYProgress,
+              [0, cardStart, cardEnd],
+              [index * 40, 0, -40]
+            );
+            
+            return (
+              <motion.div
+                key={index}
+                style={{
+                  scale,
+                  opacity,
+                  y,
+                  zIndex: layers.length - index,
+                }}
+                className={`absolute inset-0 ${layer.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden`}
+              >
+                <div className="h-full flex flex-col md:flex-row items-center justify-between p-8 md:p-16 gap-8 md:gap-12">
+                  {/* Left: Content */}
+                  <div className="flex-1 space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 md:w-16 md:h-16 rounded-full bg-primary/10 border-2 border-current ${layer.color} flex items-center justify-center font-display font-bold text-xl md:text-2xl`}>
+                        {layer.number}
+                      </div>
+                      <h3 className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold ${layer.color} lowercase`}>
+                        {layer.title}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-xl md:text-2xl text-label font-medium">
                       {layer.description}
                     </p>
-                    <p className="text-sm text-tertiary-label">
+                    
+                    <p className="text-base md:text-lg text-secondary-label font-mono bg-card/50 rounded-xl p-4 border border-border">
                       {layer.detail}
                     </p>
                   </div>
+
+                  {/* Right: Visual */}
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className={`w-48 h-48 md:w-64 md:h-64 rounded-3xl bg-primary/5 border-2 border-current ${layer.color} flex items-center justify-center`}>
+                      <Icon className={`w-24 h-24 md:w-32 md:h-32 ${layer.color}`} strokeWidth={1.5} />
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Connecting Line (except for last item) */}
-              {index < layers.length - 1 && (
-                <div className="absolute left-[50px] top-full h-4 w-0.5 bg-border" />
-              )}
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
+      </div>
 
-        <motion.p 
-          className="text-center text-2xl md:text-3xl font-display font-semibold text-blazeOrange mt-16 lowercase"
+      {/* Footer */}
+      <div className="text-center mt-12 px-8">
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          transition={{ duration: 0.5 }}
+          className="text-2xl text-label font-display font-semibold lowercase"
         >
           every link tells the full story.
         </motion.p>
       </div>
-    </AnimatedSection>
+    </div>
   );
 };
