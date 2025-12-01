@@ -46,7 +46,7 @@ export const QuickActionsTile = () => {
         <h3 className="text-title-3 font-display">quick actions</h3>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
         {actions.map((action) => {
           const Icon = action.icon;
           
