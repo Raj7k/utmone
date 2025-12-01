@@ -2506,7 +2506,9 @@ export type Database = {
           content: string | null
           country: string | null
           created_at: string
+          crm_deal_id: string | null
           currency: string | null
+          deal_value: number | null
           device_type: string | null
           event_name: string | null
           event_type: string
@@ -2532,7 +2534,9 @@ export type Database = {
           content?: string | null
           country?: string | null
           created_at?: string
+          crm_deal_id?: string | null
           currency?: string | null
+          deal_value?: number | null
           device_type?: string | null
           event_name?: string | null
           event_type: string
@@ -2558,7 +2562,9 @@ export type Database = {
           content?: string | null
           country?: string | null
           created_at?: string
+          crm_deal_id?: string | null
           currency?: string | null
+          deal_value?: number | null
           device_type?: string | null
           event_name?: string | null
           event_type?: string
@@ -5922,6 +5928,20 @@ export type Database = {
       get_next_url_version: {
         Args: { p_destination_url: string; p_workspace_id: string }
         Returns: number
+      }
+      get_pipeline_funnel: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          avg_value: number
+          conversion_rate: number
+          count: number
+          stage: string
+          total_value: number
+        }[]
       }
       get_profile_by_email_secure: {
         Args: { p_email: string }
