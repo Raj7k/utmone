@@ -185,7 +185,7 @@ const Agencies = () => {
               description="Role-based access control"
               color="blazeOrange"
               delay={0.3}
-              href="/features/enterprise-control"
+              href="/features/governance"
             />
             <FeatureMappedCard
               icon={Zap}

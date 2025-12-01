@@ -200,7 +200,7 @@ const MarketingOps = () => {
               description="Roles, permissions, approvals"
               color="deepSea"
               delay={0.1}
-              href="/features/enterprise-control"
+              href="/features/governance"
             />
             <FeatureMappedCard
               icon={Lock}
