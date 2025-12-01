@@ -24,7 +24,13 @@ import {
   Shuffle,
   LineChart,
   Link2Off,
-  UserX
+  UserX,
+  FlaskConical,
+  ShieldCheck,
+  Layers,
+  Zap,
+  Brain,
+  FileSearch
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
@@ -386,8 +392,96 @@ const Index = () => {
           </div>
         </AnimatedSection>
 
-        {/* Fold 10: Developer Experience */}
+        {/* Fold 7: Power Tools */}
+        <AnimatedSection className="py-20 md:py-32 bg-system-background">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+                {formatText("Power Tools for Scale")}
+              </h2>
+              <p className="text-xl text-secondary-label">
+                Advanced features for growth teams managing thousands of links
+              </p>
+            </div>
+            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={FlaskConical}
+                  title="Smart Testing"
+                  description="Bayesian A/B testing with automatic winner detection and confidence scoring"
+                  delay={0}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={ShieldCheck}
+                  title="Link Guard"
+                  description="Real-time security scanning, malware detection, and blacklist monitoring"
+                  delay={0.1}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={Globe}
+                  title="Geo Targeting"
+                  description="Route visitors to different destinations based on their country"
+                  delay={0.2}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={Layers}
+                  title="Bulk Create"
+                  description="Generate hundreds of branded links at once with CSV import"
+                  delay={0.3}
+                />
+              </StaggerItem>
+            </StaggerContainer>
+          </div>
+        </AnimatedSection>
+
+        {/* Fold 8: Intelligence */}
         <AnimatedSection className="py-20 md:py-32 bg-muted/20">
+          <div className="max-w-7xl mx-auto px-8">
+            <div className="text-center mb-16 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+                {formatText("Built-In Intelligence")}
+              </h2>
+              <p className="text-xl text-secondary-label">
+                AI-powered insights without the complexity
+              </p>
+            </div>
+            <StaggerContainer className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={Zap}
+                  title="Instant Links"
+                  description="AI generates title, slug, and UTM parameters from any URL in seconds"
+                  delay={0}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={Brain}
+                  title="Fast Insights"
+                  description="Natural language analytics summaries and anomaly detection"
+                  delay={0.1}
+                />
+              </StaggerItem>
+              <StaggerItem>
+                <FeaturePillarCard
+                  icon={FileSearch}
+                  title="OneLink Validator"
+                  description="Intelligent duplicate detection, version management, and link optimization"
+                  delay={0.2}
+                />
+              </StaggerItem>
+            </StaggerContainer>
+          </div>
+        </AnimatedSection>
+
+        {/* Fold 10: Developer Experience */}
+        <AnimatedSection className="py-20 md:py-32 bg-system-background">
           <div className="max-w-4xl mx-auto px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
