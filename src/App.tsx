@@ -36,6 +36,7 @@ const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
 const Targeting = lazy(() => import("./pages/dashboard/Targeting"));
 const BulkCreate = lazy(() => import("./pages/dashboard/BulkCreate"));
 const CacheMonitoring = lazy(() => import("./pages/dashboard/CacheMonitoring"));
+const AnalyticsPerformance = lazy(() => import("./pages/dashboard/AnalyticsPerformance"));
 const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
@@ -337,6 +338,7 @@ const App = () => (
               <Route path="/dashboard/campaigns" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Campaigns /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/campaigns/:id" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CampaignDetails /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/cache-monitoring" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CacheMonitoring /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/analytics-performance" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AnalyticsPerformance /></DashboardLayout></Suspense></ProtectedRoute>} />
               
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
