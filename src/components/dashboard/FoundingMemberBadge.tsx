@@ -16,7 +16,8 @@ export const FoundingMemberBadge = () => {
         .select("badge")
         .eq("email", user.email)
         .eq("badge", "founding_member")
-        .single();
+        .limit(1)
+        .maybeSingle();
 
       if (error) {
         console.error("Error fetching badge:", error);
