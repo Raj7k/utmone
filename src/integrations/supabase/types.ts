@@ -1835,6 +1835,101 @@ export type Database = {
           },
         ]
       }
+      experiments: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          declared_at: string | null
+          ended_at: string | null
+          experiment_name: string
+          id: string
+          link_id: string
+          probability_b_wins: number | null
+          started_at: string | null
+          status: string
+          updated_at: string | null
+          variant_a_clicks: number
+          variant_a_conversions: number
+          variant_a_label: string
+          variant_b_clicks: number
+          variant_b_conversions: number
+          variant_b_label: string
+          winner_variant: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          declared_at?: string | null
+          ended_at?: string | null
+          experiment_name: string
+          id?: string
+          link_id: string
+          probability_b_wins?: number | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string | null
+          variant_a_clicks?: number
+          variant_a_conversions?: number
+          variant_a_label?: string
+          variant_b_clicks?: number
+          variant_b_conversions?: number
+          variant_b_label?: string
+          winner_variant?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          declared_at?: string | null
+          ended_at?: string | null
+          experiment_name?: string
+          id?: string
+          link_id?: string
+          probability_b_wins?: number | null
+          started_at?: string | null
+          status?: string
+          updated_at?: string | null
+          variant_a_clicks?: number
+          variant_a_conversions?: number
+          variant_a_label?: string
+          variant_b_clicks?: number
+          variant_b_conversions?: number
+          variant_b_label?: string
+          winner_variant?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experiments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "experiments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "experiments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "experiments_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       feature_flags: {
         Row: {
           category: string
@@ -3651,6 +3746,42 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limit_tiers: {
+        Row: {
+          burst_multiplier: number
+          business_tier_limit: number
+          enterprise_tier_limit: number
+          free_tier_limit: number
+          id: string
+          load_threshold_high: number
+          load_threshold_low: number
+          pro_tier_limit: number
+          updated_at: string | null
+        }
+        Insert: {
+          burst_multiplier?: number
+          business_tier_limit?: number
+          enterprise_tier_limit?: number
+          free_tier_limit?: number
+          id?: string
+          load_threshold_high?: number
+          load_threshold_low?: number
+          pro_tier_limit?: number
+          updated_at?: string | null
+        }
+        Update: {
+          burst_multiplier?: number
+          business_tier_limit?: number
+          enterprise_tier_limit?: number
+          free_tier_limit?: number
+          id?: string
+          load_threshold_high?: number
+          load_threshold_low?: number
+          pro_tier_limit?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       redirect_rules: {
         Row: {
           conditions: Json
@@ -3927,6 +4058,33 @@ export type Database = {
           price_monthly?: number
           retention_days?: number | null
           support_level?: string | null
+        }
+        Relationships: []
+      }
+      system_load_metrics: {
+        Row: {
+          active_connections: number
+          cpu_load_percent: number
+          id: string
+          memory_usage_percent: number
+          recorded_at: string | null
+          requests_per_second: number
+        }
+        Insert: {
+          active_connections: number
+          cpu_load_percent: number
+          id?: string
+          memory_usage_percent: number
+          recorded_at?: string | null
+          requests_per_second: number
+        }
+        Update: {
+          active_connections?: number
+          cpu_load_percent?: number
+          id?: string
+          memory_usage_percent?: number
+          recorded_at?: string | null
+          requests_per_second?: number
         }
         Relationships: []
       }

@@ -39,6 +39,7 @@ const BulkCreate = lazy(() => import("./pages/dashboard/BulkCreate"));
 const CacheMonitoring = lazy(() => import("./pages/dashboard/CacheMonitoring"));
 const AnalyticsPerformance = lazy(() => import("./pages/dashboard/AnalyticsPerformance"));
 const LinkHealth = lazy(() => import("./pages/dashboard/LinkHealth"));
+const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
 const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
@@ -124,6 +125,7 @@ const TrackingArchitecture = lazy(() => import("./pages/resources/guides/Trackin
 const SimpleAnalytics = lazy(() => import("./pages/resources/guides/SimpleAnalytics"));
 const GrowthAnalytics = lazy(() => import("./pages/resources/guides/GrowthAnalytics"));
 const LLMSeo = lazy(() => import("./pages/resources/guides/LLMSeo"));
+const BayesianTesting = lazy(() => import("./pages/resources/guides/BayesianTesting"));
 
 // Playbooks
 const Playbooks = lazy(() => import("./pages/resources/Playbooks"));
@@ -343,6 +345,7 @@ const App = () => (
               <Route path="/dashboard/cache-monitoring" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><CacheMonitoring /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/analytics-performance" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><AnalyticsPerformance /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/link-health" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkHealth /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard/experiments" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Experiments /></DashboardLayout></Suspense></ProtectedRoute>} />
               
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
@@ -419,6 +422,7 @@ const App = () => (
               <Route path="/resources/guides/simple-analytics" element={<Suspense fallback={<DashboardSkeleton />}><SimpleAnalytics /></Suspense>} />
               <Route path="/resources/guides/growth-analytics" element={<Suspense fallback={<DashboardSkeleton />}><GrowthAnalytics /></Suspense>} />
               <Route path="/resources/guides/llm-seo" element={<Suspense fallback={<DashboardSkeleton />}><LLMSeo /></Suspense>} />
+              <Route path="/resources/guides/bayesian-testing" element={<Suspense fallback={<DashboardSkeleton />}><BayesianTesting /></Suspense>} />
               
               {/* Playbook Routes */}
               <Route path="/resources/playbooks/llm-ranking" element={<Suspense fallback={<DashboardSkeleton />}><LLMRanking /></Suspense>} />
