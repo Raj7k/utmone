@@ -42,6 +42,16 @@ const Docs = () => {
       ],
     },
     {
+      id: "tracking",
+      title: "Tracking & Attribution",
+      icon: BarChart3,
+      items: [
+        { title: "Tracking Pixel", href: "/docs/pixel-installation" },
+        { title: "Revenue Attribution", href: "/docs/revenue-attribution" },
+        { title: "CRM Integrations", href: "/docs/crm-integrations" },
+      ],
+    },
+    {
       id: "integrations",
       title: "Integrations",
       icon: Zap,
