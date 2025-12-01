@@ -106,40 +106,41 @@ export const WorkflowTransformSection = () => {
       </div>
 
       {/* Three-Card Carousel Container */}
-      <div className="relative max-w-[1400px] mx-auto w-full px-6">
-        <div className="relative h-[600px] flex items-center justify-center">
+      <div className="relative max-w-[1600px] mx-auto w-full px-6">
+        <div className="relative min-h-[700px] flex items-center justify-center">
           
           {/* Left Peek Card */}
           {activeIndex > 0 && (
             <motion.div
               key={`left-${activeIndex - 1}`}
               onClick={handlePrev}
-              className="absolute left-0 w-[30%] cursor-pointer transition-opacity hover:opacity-50"
+              className="absolute left-4 w-[25%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
               style={{ 
-                opacity: 0.3,
-                filter: 'blur(4px)',
-                transform: 'scale(0.75) translateX(-20%)',
+                opacity: 0.4,
+                filter: 'blur(2px)',
+                transform: 'scale(0.8) translateX(-10%)',
                 zIndex: 1
               }}
               initial={false}
-              animate={{ opacity: 0.3 }}
+              animate={{ opacity: 0.4 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="bg-card/60 backdrop-blur-sm border border-border rounded-3xl p-6 shadow-lg">
+              <div className="bg-card/70 backdrop-blur-md border border-border/50 rounded-3xl p-8 shadow-xl">
                 <div className="flex flex-col gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-lg">
+                  <div className="w-14 h-14 rounded-full bg-primary/30 flex items-center justify-center font-bold text-xl text-primary">
                     {steps[activeIndex - 1].number}
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-label brand-lowercase">
+                  <h3 className="text-2xl font-display font-bold text-label/70 brand-lowercase">
                     {steps[activeIndex - 1].title}
                   </h3>
+                  <div className="w-16 h-1 bg-primary/20 rounded-full" />
                 </div>
               </div>
             </motion.div>
           )}
 
           {/* Center Active Card */}
-          <div className="relative w-[70%] max-w-5xl z-10" {...bind()} style={{ touchAction: "pan-y" }}>
+          <div className="relative w-[60%] max-w-4xl z-20" {...bind()} style={{ touchAction: "pan-y" }}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={activeIndex}
@@ -150,38 +151,38 @@ export const WorkflowTransformSection = () => {
                 exit="exit"
                 className="w-full"
               >
-                <div className="bg-card/90 backdrop-blur-md border border-border rounded-3xl p-8 md:p-12 shadow-[0_25px_100px_-12px_rgba(0,0,0,0.15)]">
-                  <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                <div className="bg-card backdrop-blur-xl border-2 border-border rounded-[32px] p-10 md:p-14 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.2)]">
+                  <div className="flex flex-col md:flex-row gap-10 md:gap-12 items-center">
                     {/* Mockup */}
                     <div className="w-full md:w-1/2 flex-shrink-0">
                       <ProductMockup type={steps[activeIndex].mockupType} size="large" />
                     </div>
 
                     {/* Content */}
-                    <div className="w-full md:w-1/2 space-y-6">
+                    <div className="w-full md:w-1/2 space-y-8">
                       {/* Step Counter */}
-                      <div className="inline-flex items-center gap-2">
-                        <div className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl shadow-lg">
+                      <div className="inline-flex items-center gap-3">
+                        <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-primary/20">
                           {steps[activeIndex].number}
                         </div>
-                        <span className="text-sm font-medium text-muted-foreground">
+                        <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                           Step {activeIndex + 1} of {steps.length}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-3xl md:text-4xl font-display font-bold text-label brand-lowercase">
+                      <h3 className="text-4xl md:text-5xl font-display font-bold text-label brand-lowercase leading-tight">
                         {steps[activeIndex].title}
                       </h3>
 
                       {/* Description */}
-                      <p className="text-lg text-muted-foreground leading-relaxed">
+                      <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
                         {steps[activeIndex].description}
                       </p>
 
                       {/* Metric */}
-                      <div className="inline-flex items-center px-6 py-3 bg-primary/10 rounded-full">
-                        <span className="text-base font-semibold text-primary">
+                      <div className="inline-flex items-center px-8 py-4 bg-primary/10 rounded-full border border-primary/20">
+                        <span className="text-lg font-bold text-primary">
                           {steps[activeIndex].metric}
                         </span>
                       </div>
@@ -197,25 +198,26 @@ export const WorkflowTransformSection = () => {
             <motion.div
               key={`right-${activeIndex + 1}`}
               onClick={handleNext}
-              className="absolute right-0 w-[30%] cursor-pointer transition-opacity hover:opacity-50"
+              className="absolute right-4 w-[25%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
               style={{ 
-                opacity: 0.3,
-                filter: 'blur(4px)',
-                transform: 'scale(0.75) translateX(20%)',
+                opacity: 0.4,
+                filter: 'blur(2px)',
+                transform: 'scale(0.8) translateX(10%)',
                 zIndex: 1
               }}
               initial={false}
-              animate={{ opacity: 0.3 }}
+              animate={{ opacity: 0.4 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="bg-card/60 backdrop-blur-sm border border-border rounded-3xl p-6 shadow-lg">
+              <div className="bg-card/70 backdrop-blur-md border border-border/50 rounded-3xl p-8 shadow-xl">
                 <div className="flex flex-col gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-lg">
+                  <div className="w-14 h-14 rounded-full bg-primary/30 flex items-center justify-center font-bold text-xl text-primary">
                     {steps[activeIndex + 1].number}
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-label brand-lowercase">
+                  <h3 className="text-2xl font-display font-bold text-label/70 brand-lowercase">
                     {steps[activeIndex + 1].title}
                   </h3>
+                  <div className="w-16 h-1 bg-primary/20 rounded-full" />
                 </div>
               </div>
             </motion.div>
