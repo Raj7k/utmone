@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { Copy, Lock, CheckCircle2, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 
 const TEMPLATES = [
   { name: "Social", source: "social", medium: "organic" },
@@ -21,8 +22,8 @@ export const UTMBuilderBasic = () => {
   const [campaign, setCampaign] = useState("");
   const [term, setTerm] = useState("");
   const [content, setContent] = useState("");
-  const [copied, setCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const finalUrl = (() => {
     if (!url) return "";
@@ -45,11 +46,12 @@ export const UTMBuilderBasic = () => {
     setMedium(template.medium);
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(finalUrl);
-    setCopied(true);
-    toast({ title: "Copied", description: "URL copied to clipboard" });
-    setTimeout(() => setCopied(false), 2000);
+  const handleBuildUTM = () => {
+    if (!source || !medium || !campaign) {
+      toast({ title: "Missing fields", description: "Please fill source, medium, and campaign", variant: "destructive" });
+      return;
+    }
+    setShowSuccess(true);
   };
 
   const handleInitialBuild = () => {
@@ -203,24 +205,26 @@ export const UTMBuilderBasic = () => {
               </div>
             </div>
 
-            {/* Preview */}
-            {finalUrl && (
-              <div className="space-y-2">
-                <Label>final url with utm parameters</Label>
-                <div className="relative">
-                  <div className="p-4 bg-muted/30 rounded-lg pr-14 break-all text-sm font-mono text-secondary-label border border-border/40">
-                    {finalUrl}
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={copyToClipboard}
-                    className="absolute right-2 top-2"
-                  >
-                    {copied ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
+            {/* Build Button */}
+            {!showSuccess && (
+              <Button
+                onClick={handleBuildUTM}
+                disabled={!source || !medium || !campaign}
+                size="lg"
+                variant="marketing"
+                className="w-full"
+              >
+                build utm
+              </Button>
+            )}
+
+            {/* Success Card */}
+            {showSuccess && finalUrl && (
+              <LinkSuccessCard
+                url={finalUrl}
+                variant="utm"
+                className="mt-6"
+              />
             )}
 
             {/* Pro Features Nudge */}
