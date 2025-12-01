@@ -1,12 +1,26 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, AlertTriangle, Loader2, Shield, Zap, Globe } from "lucide-react";
+import { 
+  CheckCircle2, 
+  XCircle, 
+  AlertCircle, 
+  Clock, 
+  Shield, 
+  Link as LinkIcon,
+  ExternalLink,
+  AlertTriangle,
+  Loader2,
+  Zap,
+  Globe
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
+import { MarketingLayout } from "@/components/layout/MarketingLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 
 interface HealthCheckResult {
   url: string;
@@ -23,6 +37,21 @@ export default function LinkHealthChecker() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<HealthCheckResult | null>(null);
+
+  const steps = [
+    {
+      title: "Paste the URL to check",
+      description: "Any link you want to verify"
+    },
+    {
+      title: "Click 'Check Link Health'",
+      description: "We'll test status, SSL, and response time"
+    },
+    {
+      title: "Review results",
+      description: "See issues and get recommendations"
+    }
+  ];
 
   const checkHealth = async () => {
     if (!url) {
@@ -87,33 +116,29 @@ export default function LinkHealthChecker() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="text-lg font-semibold text-foreground">
-            utm.one
-          </Link>
-          <Link to="/early-access">
-            <Button variant="default" size="sm">
-              get early access
-            </Button>
-          </Link>
-        </div>
-      </header>
+    <MarketingLayout
+      title="Free Link Health Checker - Verify URL Status & Security | utm.one"
+      description="Check if your links are working, secure, and fast. Free link health scanner with SSL verification and response time analysis. No signup required."
+    >
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Hero */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-foreground mb-4">
+              link health checker
+            </h1>
+            <p className="text-lg text-secondary-label max-w-2xl mx-auto">
+              check if your links are working, secure, and fast. no signup required.
+            </p>
+          </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            free link health checker
-          </h1>
-          <p className="text-lg text-secondary-label max-w-2xl mx-auto">
-            check if your links are slow, broken, or insecure. no signup required.
-          </p>
-        </div>
+          {/* How To Use */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <HowToUse steps={steps} />
+          </div>
 
-        <div className="max-w-3xl mx-auto space-y-8">
+          {/* Tool */}
+          <div className="max-w-4xl mx-auto space-y-8">
           {/* Input */}
           <Card className="p-8">
             <div className="space-y-4">
@@ -220,19 +245,20 @@ export default function LinkHealthChecker() {
           {/* Pro Callout */}
           <Card className="p-8 bg-muted/20 border-border/40">
             <h3 className="text-lg font-semibold text-foreground mb-4">
-              monitor this link 24/7 →
+              want automated monitoring?
             </h3>
             <p className="text-sm text-secondary-label mb-6">
-              Pro users get hourly health probes, automatic fallback routing when links break, and instant Slack alerts.
+              Pro users get automatic health checks, uptime monitoring, broken link alerts, and historical performance data.
             </p>
             <Link to="/pricing">
               <Button variant="default">
-                see link immunity →
+                see pro features →
               </Button>
             </Link>
           </Card>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }
