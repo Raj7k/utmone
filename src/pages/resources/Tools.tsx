@@ -22,7 +22,6 @@ const Tools = () => {
       title: "AI Salary Negotiation Coach",
       description: "conversational ai that generates personalized negotiation scripts, leverage points, and practice scenarios based on real salary benchmarks",
       icon: MessageSquare,
-      viralHook: "people share their negotiation wins",
       comingSoon: false
     },
     {
@@ -30,7 +29,6 @@ const Tools = () => {
       title: "Market Value Calculator",
       description: "real-time percentile ranking with 5-10 year career projections and skills premium recommendations",
       icon: TrendingUp,
-      viralHook: "shareable market value cards for linkedin",
       comingSoon: false
     },
     {
@@ -38,7 +36,6 @@ const Tools = () => {
       title: "Career Path Optimizer",
       description: "analyzes your current role and suggests optimal next moves with salary impact, timeline, and required skills",
       icon: Route,
-      viralHook: "personalized career roadmaps",
       comingSoon: false
     },
     {
@@ -46,7 +43,6 @@ const Tools = () => {
       title: "Job Offer Decision Matrix",
       description: "compares offers to market benchmarks, adjusts for cost of living, and generates ai-powered pros/cons analysis",
       icon: FileCheck,
-      viralHook: "anonymous 'rate my offer' community",
       comingSoon: false
     },
     {
@@ -54,7 +50,6 @@ const Tools = () => {
       title: "Team Budget Optimizer",
       description: "suggests optimal team composition, seniority trade-offs, and geographic arbitrage opportunities for hiring managers",
       icon: Users,
-      viralHook: "shareable team structure visualizations",
       comingSoon: false
     },
     {
@@ -62,7 +57,6 @@ const Tools = () => {
       title: "AI vs. Human ROI Calculator",
       description: "shows which roles are at risk, ai skills premium, and break-even analysis for tool investments vs. headcount",
       icon: Bot,
-      viralHook: "controversial insights about ai replacement",
       comingSoon: false
     },
     {
@@ -70,7 +64,6 @@ const Tools = () => {
       title: "Compensation Transparency Generator",
       description: "creates salary bands, pay equity analysis, and 'we pay fair' badges for companies committed to transparency",
       icon: Shield,
-      viralHook: "public transparency commitments",
       comingSoon: false
     },
     {
@@ -78,7 +71,6 @@ const Tools = () => {
       title: "LinkedIn Reality Check",
       description: "paste job descriptions to see if salary ranges are competitive and identify unrealistic 'unicorn' requirements",
       icon: Search,
-      viralHook: "screenshot-worthy reality checks",
       comingSoon: false
     }
   ];
@@ -135,9 +127,6 @@ const Tools = () => {
                       </h3>
                       <p className="text-sm text-secondary-label leading-relaxed">
                         {tool.description}
-                      </p>
-                      <p className="text-xs text-primary/60 italic pt-2">
-                        Viral hook: {tool.viralHook}
                       </p>
                     </div>
                   </div>
