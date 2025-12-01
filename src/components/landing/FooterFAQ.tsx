@@ -1,11 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import { motion } from "framer-motion";
 import { EarlyAccessInlineCTA } from "./EarlyAccessInlineCTA";
 import { RetroGradientMesh } from "./RetroGradientMesh";
 import { formatText } from "@/utils/textFormatter";
+import { Sparkles, TrendingUp, Shield } from "lucide-react";
 
 interface FAQItem {
   question: string;
-  answer: ReactNode;
+  answer: ReactNode | string;
+  isFlippable?: boolean;
+  visualExample?: ReactNode;
 }
 
 const faqs: FAQItem[] = [
@@ -178,6 +182,90 @@ const faqs: FAQItem[] = [
     ),
   },
   {
+    question: "how does smart autocomplete work?",
+    answer: "Our autocomplete learns from your team's historical performance to show predicted CTR for each UTM parameter.",
+    isFlippable: true,
+    visualExample: (
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+          <Sparkles className="w-5 h-5 text-primary" />
+          <div className="flex-1">
+            <div className="font-medium text-foreground">google</div>
+            <div className="text-xs text-primary">🔥 3.2% avg CTR — High impact</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+          <div className="w-5 h-5" />
+          <div className="flex-1">
+            <div className="font-medium text-foreground">facebook</div>
+            <div className="text-xs text-muted-foreground">1.8% avg CTR</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+          <div className="w-5 h-5" />
+          <div className="flex-1">
+            <div className="font-medium text-foreground">linkedin</div>
+            <div className="text-xs text-muted-foreground">2.1% avg CTR</div>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground mt-3">High-impact sources get gold glow to guide your strategy.</p>
+      </div>
+    )
+  },
+  {
+    question: "what happens when my link destination goes down?",
+    answer: "Link Immunity system probes your top 100 links hourly and automatically routes traffic to fallback URLs if the destination returns 404 or 500 errors.",
+    isFlippable: true,
+    visualExample: (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-lg bg-destructive/20 flex items-center justify-center text-destructive font-bold">404</div>
+          <div className="flex-1">
+            <div className="font-medium text-foreground">Primary URL Down</div>
+            <div className="text-sm text-muted-foreground">utm.one detected the issue</div>
+          </div>
+        </div>
+        <div className="border-l-2 border-primary pl-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4 text-primary" />
+            <span className="text-sm text-primary">Auto-failover activated</span>
+          </div>
+          <div className="text-sm text-foreground">Traffic redirected to fallback URL</div>
+          <div className="text-xs text-muted-foreground">Your campaign keeps running, zero downtime</div>
+        </div>
+        <p className="text-xs text-primary mt-3">All clicks preserved. Campaign saved.</p>
+      </div>
+    )
+  },
+  {
+    question: "can i see where my traffic comes from?",
+    answer: "Real-time analytics heatmap shows clicks by country, device, and hour of day with interactive charts.",
+    isFlippable: true,
+    visualExample: (
+      <div className="space-y-3">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="bg-primary/30 h-12 rounded flex items-center justify-center">
+            <div className="text-xs font-medium">US<br/>342</div>
+          </div>
+          <div className="bg-primary/20 h-12 rounded flex items-center justify-center">
+            <div className="text-xs font-medium">UK<br/>128</div>
+          </div>
+          <div className="bg-primary/10 h-12 rounded flex items-center justify-center">
+            <div className="text-xs font-medium">CA<br/>54</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+          <TrendingUp className="w-5 h-5 text-primary" />
+          <div className="flex-1">
+            <div className="text-sm font-medium text-foreground">Peak Traffic: 2-4 PM EST</div>
+            <div className="text-xs text-muted-foreground">Mobile: 68% • Desktop: 32%</div>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground mt-3">Live heatmap updates every 5 minutes.</p>
+      </div>
+    )
+  },
+  {
     question: "how do i get started?",
     answer: (
       <>
@@ -207,6 +295,76 @@ const faqs: FAQItem[] = [
   },
 ];
 
+const FlippableFAQCard = ({ faq, index }: { faq: FAQItem; index: number }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  if (!faq.isFlippable) {
+    return (
+      <div className="flex gap-6">
+        <div className="flex flex-col items-center flex-shrink-0">
+          <div className="w-3 h-3 rounded-full bg-blazeOrange" />
+          {index < 9 && <div className="w-0.5 flex-1 bg-blazeOrange/40 mt-2" />}
+        </div>
+        <div className="pb-4 flex-1">
+          <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
+            {formatText(faq.question)}
+          </h3>
+          <div className="text-muted-foreground space-y-3">
+            {faq.answer}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex gap-6">
+      <div className="flex flex-col items-center flex-shrink-0">
+        <div className="w-3 h-3 rounded-full bg-blazeOrange" />
+        {index < 9 && <div className="w-0.5 flex-1 bg-blazeOrange/40 mt-2" />}
+      </div>
+      
+      <motion.div
+        className="pb-4 flex-1 cursor-pointer"
+        onClick={() => setIsFlipped(!isFlipped)}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.1 }}
+      >
+        <div 
+          className="relative transition-all duration-700"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: isFlipped ? "rotateX(180deg)" : "rotateX(0deg)"
+          }}
+        >
+          {/* Front */}
+          <div style={{ backfaceVisibility: "hidden" }}>
+            <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
+              {formatText(faq.question)}
+            </h3>
+            <p className="text-muted-foreground">{faq.answer as string}</p>
+            <p className="text-sm text-primary mt-3 lowercase">tap to see example →</p>
+          </div>
+
+          {/* Back */}
+          <div 
+            className="absolute inset-0 bg-secondary-grouped-background border border-separator rounded-xl p-6"
+            style={{ 
+              backfaceVisibility: "hidden",
+              transform: "rotateX(180deg)"
+            }}
+          >
+            {faq.visualExample}
+            <p className="text-sm text-primary mt-4 lowercase">tap to go back ←</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 export const FooterFAQ = () => {
   return (
     <section className="relative py-24 md:py-32 px-8 overflow-hidden bg-white">
@@ -216,28 +374,9 @@ export const FooterFAQ = () => {
           {formatText("ok, here's what we do. plain talk.")}
         </h2>
         
-        {/* FAQ Items */}
         <div className="space-y-12">
           {faqs.map((faq, index) => (
-            <div key={index} className="flex gap-6">
-              {/* Blaze Orange Bullet + Vertical Line */}
-              <div className="flex flex-col items-center flex-shrink-0">
-                <div className="w-3 h-3 rounded-full bg-blazeOrange" />
-                {index < faqs.length - 1 && (
-                  <div className="w-0.5 flex-1 bg-blazeOrange/40 mt-2" />
-                )}
-              </div>
-              
-              {/* Content */}
-              <div className="pb-4 flex-1">
-                <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
-                  {formatText(faq.question)}
-                </h3>
-                <div className="text-muted-foreground space-y-3">
-                  {faq.answer}
-                </div>
-              </div>
-            </div>
+            <FlippableFAQCard key={index} faq={faq} index={index} />
           ))}
         </div>
       </div>
