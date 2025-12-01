@@ -56,7 +56,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-xl text-white/90 max-w-[640px] mx-auto"
+              className="text-xl text-foreground/80 max-w-[640px] mx-auto"
             >
               {subheadline}
             </motion.p>
@@ -79,7 +79,7 @@ export const PremiumCTASection = ({
                       size="lg"
                       variant="outline"
                       asChild
-                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10 bg-white/5"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-foreground/20 text-foreground hover:bg-foreground/5 bg-card/50"
                     >
                       <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
                         {secondaryCTA}
@@ -91,7 +91,7 @@ export const PremiumCTASection = ({
                       size="lg"
                       variant="outline"
                       asChild
-                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/30 text-white hover:bg-white/10 bg-white/5"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-foreground/20 text-foreground hover:bg-foreground/5 bg-card/50"
                     >
                       <Link to={secondaryCTALink}>
                         {secondaryCTA}
@@ -109,7 +109,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-sm text-white/60 pt-2"
+              className="text-sm text-muted-foreground pt-2"
             >
               free 14-day trial • no credit card required
             </motion.p>
