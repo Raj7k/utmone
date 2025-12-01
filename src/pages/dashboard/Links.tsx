@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LayoutGrid, List, Download } from "lucide-react";
 import { FeatureGuard } from "@/components/feature-gating";
 import { EnhancedLinksTable } from "@/components/EnhancedLinksTable";
+import { FeatureHint } from "@/components/FeatureHint";
 
 export default function Links() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,6 +82,13 @@ export default function Links() {
       {currentWorkspace && (
         <LinksHeroStats workspaceId={currentWorkspace.id} />
       )}
+
+      {/* Feature Discovery Hint */}
+      <FeatureHint
+        id="links-contextual-routing"
+        title="New: Context-Aware Routing"
+        description="Enable AI-powered routing when creating links with multiple destinations. The system learns which URLs perform best for different devices and locations."
+      />
 
       {/* Smart Filters */}
       <SmartLinkFilters

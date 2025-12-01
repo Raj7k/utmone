@@ -282,8 +282,15 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                 type="button"
                 variant="default"
                 size="icon"
-                onClick={() => setShowSuggestions(!showSuggestions)}
-                title="✨ optimize slug"
+                onClick={() => {
+                  // Regenerate suggestions if empty or URL changed
+                  if (slugSuggestions.length === 0 && values.url) {
+                    const suggestions = generateSuggestions(values.url);
+                    setSlugSuggestions(suggestions);
+                  }
+                  setShowSuggestions(!showSuggestions);
+                }}
+                title="✨ AI slug suggestions"
                 className="bg-violet-600 hover:bg-violet-700"
               >
                 <Sparkles className="h-4 w-4" />
