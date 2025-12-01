@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AttributionModelSelector } from "@/components/analytics/AttributionModelSelector";
 import { AttributionTable } from "@/components/analytics/AttributionTable";
 import { JourneySankey } from "@/components/analytics/JourneySankey";
+import { JourneyGraphViewer } from "@/components/analytics/JourneyGraphViewer";
 import { useAttribution, useJourneyFlow, type AttributionModel } from "@/hooks/useAttribution";
+import { useJourneyGraph, useDiscoverStructure } from "@/hooks/useJourneyGraph";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { subDays } from "date-fns";
+import { Sparkles } from "lucide-react";
 
 const Attribution = () => {
   const { currentWorkspace } = useWorkspace();
@@ -30,6 +35,13 @@ const Attribution = () => {
     dateRange.from,
     dateRange.to
   );
+
+  const { data: graphData, isLoading: isLoadingGraph } = useJourneyGraph(
+    currentWorkspace?.id,
+    0.5
+  );
+
+  const { mutate: discoverStructure, isPending: isDiscovering } = useDiscoverStructure();
 
   // Calculate summary stats
   const totalConversions = attributionData?.reduce((sum, row) => sum + row.total_conversions, 0) || 0;
@@ -96,9 +108,49 @@ const Attribution = () => {
         </Card>
       </div>
 
-      <AttributionTable data={attributionData || []} isLoading={isLoadingAttribution} />
+      <Tabs defaultValue="attribution" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="attribution">attribution models</TabsTrigger>
+          <TabsTrigger value="flow">journey flow</TabsTrigger>
+          <TabsTrigger value="graph">journey graph</TabsTrigger>
+        </TabsList>
 
-      <JourneySankey data={flowData || []} isLoading={isLoadingFlow} />
+        <TabsContent value="attribution" className="space-y-4">
+          <AttributionTable data={attributionData || []} isLoading={isLoadingAttribution} />
+        </TabsContent>
+
+        <TabsContent value="flow" className="space-y-4">
+          <JourneySankey data={flowData || []} isLoading={isLoadingFlow} />
+        </TabsContent>
+
+        <TabsContent value="graph" className="space-y-4">
+          <div className="flex justify-between items-center mb-4">
+            <p className="text-sm text-muted-foreground">
+              automatic structure learning discovers nodes and edges from journey events
+            </p>
+            <Button
+              onClick={() =>
+                currentWorkspace?.id &&
+                discoverStructure({
+                  workspaceId: currentWorkspace.id,
+                  lookbackDays: dateRangeDays,
+                })
+              }
+              disabled={isDiscovering || !currentWorkspace?.id}
+              variant="outline"
+              size="sm"
+            >
+              <Sparkles className="h-4 w-4 mr-2" />
+              {isDiscovering ? "discovering..." : "discover structure"}
+            </Button>
+          </div>
+          <JourneyGraphViewer
+            nodes={graphData?.nodes || []}
+            edges={graphData?.edges || []}
+            isLoading={isLoadingGraph}
+          />
+        </TabsContent>
+      </Tabs>
 
       <Card>
         <CardHeader>

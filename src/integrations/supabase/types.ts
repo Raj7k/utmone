@@ -2427,6 +2427,76 @@ export type Database = {
           },
         ]
       }
+      journey_edges: {
+        Row: {
+          avg_transition_time_seconds: number | null
+          conversion_impact_score: number | null
+          created_at: string
+          edge_confidence: number
+          id: string
+          is_discovered: boolean
+          last_updated_at: string
+          metadata: Json | null
+          source_node_id: string
+          target_node_id: string
+          transition_count: number
+          transition_probability: number
+          workspace_id: string
+        }
+        Insert: {
+          avg_transition_time_seconds?: number | null
+          conversion_impact_score?: number | null
+          created_at?: string
+          edge_confidence?: number
+          id?: string
+          is_discovered?: boolean
+          last_updated_at?: string
+          metadata?: Json | null
+          source_node_id: string
+          target_node_id: string
+          transition_count?: number
+          transition_probability?: number
+          workspace_id: string
+        }
+        Update: {
+          avg_transition_time_seconds?: number | null
+          conversion_impact_score?: number | null
+          created_at?: string
+          edge_confidence?: number
+          id?: string
+          is_discovered?: boolean
+          last_updated_at?: string
+          metadata?: Json | null
+          source_node_id?: string
+          target_node_id?: string
+          transition_count?: number
+          transition_probability?: number
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_edges_source_node_id_fkey"
+            columns: ["source_node_id"]
+            isOneToOne: false
+            referencedRelation: "journey_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_edges_target_node_id_fkey"
+            columns: ["target_node_id"]
+            isOneToOne: false
+            referencedRelation: "journey_nodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journey_edges_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       journey_events: {
         Row: {
           browser: string | null
@@ -2537,6 +2607,53 @@ export type Database = {
           },
           {
             foreignKeyName: "journey_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journey_nodes: {
+        Row: {
+          avg_time_to_conversion_seconds: number | null
+          created_at: string
+          id: string
+          last_updated_at: string
+          metadata: Json | null
+          node_name: string
+          node_type: string
+          state_value: number | null
+          traffic_volume: number | null
+          workspace_id: string
+        }
+        Insert: {
+          avg_time_to_conversion_seconds?: number | null
+          created_at?: string
+          id?: string
+          last_updated_at?: string
+          metadata?: Json | null
+          node_name: string
+          node_type: string
+          state_value?: number | null
+          traffic_volume?: number | null
+          workspace_id: string
+        }
+        Update: {
+          avg_time_to_conversion_seconds?: number | null
+          created_at?: string
+          id?: string
+          last_updated_at?: string
+          metadata?: Json | null
+          node_name?: string
+          node_type?: string
+          state_value?: number | null
+          traffic_volume?: number | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journey_nodes_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -5660,6 +5777,19 @@ export type Database = {
           title: string
         }[]
       }
+      discover_journey_structure: {
+        Args: {
+          p_lookback_days?: number
+          p_min_transition_count?: number
+          p_workspace_id: string
+        }
+        Returns: {
+          edges_created: number
+          edges_updated: number
+          nodes_created: number
+          nodes_updated: number
+        }[]
+      }
       encrypt_sensitive_data: {
         Args: { encryption_key: string; plaintext: string }
         Returns: string
@@ -5716,6 +5846,13 @@ export type Database = {
           flow_value: number
           source_node: string
           target_node: string
+        }[]
+      }
+      get_journey_graph: {
+        Args: { p_min_confidence?: number; p_workspace_id: string }
+        Returns: {
+          edges: Json
+          nodes: Json
         }[]
       }
       get_link_analytics: {
