@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useClientWorkspaces } from "@/hooks/useClientWorkspaces";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 interface Workspace {
   id: string;
@@ -29,9 +30,11 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
   const { workspaces = [], isLoading } = useClientWorkspaces();
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [queryCompleted, setQueryCompleted] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
+  const { data: isAdmin = false } = useIsAdmin();
 
   // Check authentication status
   useEffect(() => {
@@ -90,16 +93,27 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [workspaces, currentWorkspace]);
 
-  // Redirect to onboarding if user has no workspaces
+  // Mark query as completed when loading finishes
+  useEffect(() => {
+    if (!isLoading && isAuthenticated !== null) {
+      setQueryCompleted(true);
+    }
+  }, [isLoading, isAuthenticated]);
+
+  // Redirect to onboarding if user has no workspaces (with race condition protection)
   useEffect(() => {
     const checkWorkspaces = async () => {
       try {
-        if (isLoading || isAuthenticated === null) return;
+        // Wait for query to complete
+        if (isLoading || isAuthenticated === null || !queryCompleted) return;
         
         // Don't redirect if already on auth, onboarding, or accept-invite pages
         if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
         
-        // Only check workspaces if authenticated
+        // Admin bypass - admins should not be redirected to onboarding
+        if (isAdmin) return;
+        
+        // Only redirect to onboarding if user is authenticated, query completed, and genuinely has no workspaces
         if (isAuthenticated && workspaces.length === 0) {
           navigate("/onboarding");
         }
@@ -109,7 +123,7 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
     };
 
     checkWorkspaces();
-  }, [workspaces, isLoading, isAuthenticated, navigate, location.pathname]);
+  }, [workspaces, isLoading, isAuthenticated, queryCompleted, isAdmin, navigate, location.pathname]);
 
   const switchWorkspace = (workspaceId: string) => {
     const workspace = workspaces.find((w) => w.id === workspaceId);
