@@ -81,7 +81,7 @@ export const LinkLayersSection = () => {
 
       {/* Stacking Cards Container */}
       <div className="sticky top-20 h-[80vh] flex items-center justify-center px-8">
-        <div className="relative w-full max-w-6xl">
+        <div className="relative w-full max-w-6xl h-[600px]">
           {layers.map((layer, index) => {
             const Icon = layer.icon;
             const totalCards = layers.length;
@@ -91,22 +91,30 @@ export const LinkLayersSection = () => {
             // Card slides up from below viewport
             const y = useTransform(
               scrollYProgress,
-              [Math.max(0, cardStart - 0.1), cardStart, cardEnd, 1],
-              [600, 0, 0, -100]
+              [Math.max(0, cardStart - 0.05), cardStart, cardEnd, Math.min(1, cardEnd + 0.05)],
+              [100, 0, 0, -20]
             );
             
-            // Active card is 1, previous cards scale down progressively
+            // Active card stays at scale 1, cards behind scale down
             const scale = useTransform(
               scrollYProgress,
-              [cardStart, cardEnd, 1],
-              [1, 0.95 - (index * 0.02), 0.95 - (index * 0.02)]
+              [cardStart, cardEnd, Math.min(1, cardEnd + 0.1)],
+              [1, 1, 0.92]
             );
             
             // Fade in as card approaches
             const opacity = useTransform(
               scrollYProgress,
-              [Math.max(0, cardStart - 0.1), cardStart],
+              [Math.max(0, cardStart - 0.05), cardStart],
               [0, 1]
+            );
+            
+            // CRITICAL FIX: Active card gets HIGHEST z-index
+            // When scrollProgress is between cardStart and cardEnd, this card is active
+            const zIndex = useTransform(
+              scrollYProgress,
+              [cardStart, cardEnd],
+              [totalCards + 10, index]
             );
             
             return (
@@ -116,9 +124,9 @@ export const LinkLayersSection = () => {
                   y,
                   scale,
                   opacity,
-                  zIndex: totalCards - index,
+                  zIndex,
                 }}
-                className={`absolute left-0 right-0 ${layer.bgColor} rounded-3xl shadow-2xl border border-border min-h-[500px]`}
+                className={`absolute left-0 right-0 ${layer.bgColor} rounded-3xl shadow-2xl border border-border h-[600px]`}
               >
                 <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 lg:p-16 gap-8 md:gap-12 h-full">
                   {/* Left: Content */}

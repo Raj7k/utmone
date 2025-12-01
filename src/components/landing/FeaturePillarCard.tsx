@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
@@ -38,12 +38,21 @@ export const FeaturePillarCard = ({
         <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
           <Icon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-display font-semibold text-foreground lowercase">
+        <h3 className="text-xl font-display font-semibold text-foreground lowercase group-hover:text-primary transition-colors relative">
           {formatText(title)}
+          {href && (
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+          )}
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
           {description}
         </p>
+        {href && (
+          <div className="flex items-center gap-2 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-sm font-medium lowercase">learn more</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        )}
       </div>
     </motion.div>
   );

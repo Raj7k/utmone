@@ -39,6 +39,7 @@ import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { StackingFAQCards } from "@/components/landing/StackingFAQCards";
+import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { ProblemCard } from "@/components/landing/ProblemCard";
 import { 
@@ -434,7 +435,7 @@ const Index = () => {
         </AnimatedSection>
 
 
-        <StackingFAQCards />
+        <FooterFAQ />
     </MainLayout>
   );
 };
