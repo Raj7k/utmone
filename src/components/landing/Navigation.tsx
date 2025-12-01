@@ -158,42 +158,53 @@ export const Navigation = () => {
                         </Link>
                       </li>
                       
-                      {/* Advanced Features */}
+                      {/* Intelligence */}
                       <li className="col-span-2 mt-2">
                         <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                          Advanced
+                          Intelligence
                         </div>
                       </li>
                       <li>
                         <Link
-                          to="/features/governance"
+                          to="/features/predictive-analytics"
                           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
-                          <div className="text-sm font-medium leading-none">Enterprise Control</div>
+                          <div className="text-sm font-medium leading-none">Predictive Analytics</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            governance without the friction
+                            forecast clicks before they happen
                           </p>
                         </Link>
                       </li>
                       <li>
                         <Link
-                          to="/features/clean-track"
+                          to="/features/attribution-graph"
                           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
-                          <div className="text-sm font-medium leading-none">Clean-Track</div>
+                          <div className="text-sm font-medium leading-none">Attribution Graph</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            your tracking rules, automated
+                            bayesian multi-touch attribution
                           </p>
                         </Link>
                       </li>
                       <li>
                         <Link
-                          to="/features/partner-program"
+                          to="/features/smart-routing"
                           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
                         >
-                          <div className="text-sm font-medium leading-none">Partner Program</div>
+                          <div className="text-sm font-medium leading-none">Smart Routing</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            attribution without spreadsheets
+                            contextual bandit geo-targeting
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/features/link-immunity"
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        >
+                          <div className="text-sm font-medium leading-none">Link Immunity</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            zero broken links guaranteed
                           </p>
                         </Link>
                       </li>
@@ -208,6 +219,34 @@ export const Navigation = () => {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-2 p-4">
+                      <li>
+                        <Link
+                          to="/solutions/enterprise"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/enterprise" && "bg-primary/10"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">Enterprise</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            security, scale, governance
+                          </p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/solutions/agencies"
+                          className={cn(
+                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
+                            location.pathname === "/solutions/agencies" && "bg-primary/10"
+                          )}
+                        >
+                          <div className="text-sm font-medium leading-none">Agencies</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            multi-client workspaces
+                          </p>
+                        </Link>
+                      </li>
                       <li>
                         <Link
                           to="/solutions/marketers"
