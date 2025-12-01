@@ -234,10 +234,10 @@ export default function Enterprise() {
           </p>
           <div className="pt-6">
             <a
-              href="mailto:enterprise@utm.one"
+              href="/book-demo"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold hover:bg-primary/90 transition-colors lowercase"
             >
-              contact enterprise sales
+              book a demo
             </a>
           </div>
         </div>

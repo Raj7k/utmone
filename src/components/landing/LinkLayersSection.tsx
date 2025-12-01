@@ -1,48 +1,53 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ProductMockup } from "@/components/product/ProductMockup";
+import { useRef } from "react";
 
 const layers = [
   {
     number: 1,
     mockupType: "browser" as const,
-    headline: "Clean, Semantic Links",
+    headline: "clean, semantic links",
     description: "utm.one/webinar — not u7x2k9. Every link is readable, memorable, and trustworthy."
   },
   {
     number: 2,
     mockupType: "utm" as const,
-    headline: "Enforced Naming Rules",
+    headline: "enforced naming rules",
     description: "source=linkedin&medium=paid&campaign=q1-webinar. Consistent parameters across every campaign."
   },
   {
     number: 3,
     mockupType: "security" as const,
-    headline: "Real-Time Security",
+    headline: "real-time security",
     description: "✓ SSL secured • ✓ Scanned & safe • ✓ No malware. Every link is verified before you share it."
   },
   {
     number: 4,
     mockupType: "analytics" as const,
-    headline: "Full Funnel Visibility",
+    headline: "full funnel visibility",
     description: "Clicks • Devices • Geo • Conversions • Attribution. See exactly what's working and why."
   },
   {
     number: 5,
     mockupType: "governance" as const,
-    headline: "Templates & Audit Logs",
+    headline: "templates & audit logs",
     description: "Who created what, when, why — full traceability. Your team stays aligned, your data stays clean."
   }
 ];
 
 export const LinkLayersSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
+
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
-      {/* Branded Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blazeOrange via-primary to-deepSea opacity-10" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-8">
+    <section ref={sectionRef} className="relative py-24 md:py-32 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-deepSea/5"
+    >
+      <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -63,41 +68,61 @@ export const LinkLayersSection = () => {
           </motion.p>
         </div>
 
-        {/* Layers */}
-        <div className="space-y-32">
+        {/* Stacking Cards */}
+        <div className="relative min-h-[3000px]">
           {layers.map((layer, index) => {
+            const startProgress = index * 0.2;
+            const endProgress = Math.min((index + 1) * 0.2, 1);
+            
+            const y = useTransform(
+              scrollYProgress,
+              [startProgress, endProgress],
+              [800, index * 100]
+            );
+            
+            const scale = useTransform(
+              scrollYProgress,
+              [startProgress, endProgress],
+              [0.85, 1]
+            );
+            
+            const opacity = useTransform(
+              scrollYProgress,
+              [startProgress, startProgress + 0.05],
+              [0, 1]
+            );
+
             const isEven = index % 2 === 0;
             
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16`}
+                style={{ y, scale, opacity }}
+                className={`sticky top-24 bg-card border-2 border-border rounded-3xl p-8 md:p-12 shadow-2xl mb-8`}
               >
-                {/* Left: Content */}
-                <div className="flex-1 space-y-6">
-                  {/* Number Badge */}
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-                    <span className="text-xl font-display font-bold text-primary">
-                      {layer.number}/5
-                    </span>
+                <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16`}>
+                  {/* Left: Content */}
+                  <div className="flex-1 space-y-6">
+                    {/* Number Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                      <span className="text-xl font-display font-bold text-primary">
+                        {layer.number}/5
+                      </span>
+                    </div>
+                    
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-label lowercase">
+                      {layer.headline}
+                    </h2>
+                    
+                    <p className="text-lg text-secondary-label leading-relaxed max-w-xl">
+                      {layer.description}
+                    </p>
                   </div>
-                  
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-label lowercase">
-                    {layer.headline}
-                  </h2>
-                  
-                  <p className="text-lg text-secondary-label leading-relaxed max-w-xl">
-                    {layer.description}
-                  </p>
-                </div>
 
-                {/* Right: Product Mockup */}
-                <div className="flex-1 flex items-center justify-center">
-                  <ProductMockup type={layer.mockupType} delay={0.2} />
+                  {/* Right: Product Mockup */}
+                  <div className="flex-1 flex items-center justify-center">
+                    <ProductMockup type={layer.mockupType} delay={0} />
+                  </div>
                 </div>
               </motion.div>
             );
@@ -110,7 +135,7 @@ export const LinkLayersSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mt-20"
+          className="text-center mt-32"
         >
           <p className="text-2xl text-label font-display font-semibold lowercase">
             every link tells the full story.

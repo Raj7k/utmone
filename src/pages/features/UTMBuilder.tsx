@@ -296,7 +296,7 @@ const UTMBuilder = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>

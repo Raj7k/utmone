@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { BarChart3, CheckCircle2, Globe, Shield, TrendingUp, Zap, AlertCircle } from "lucide-react";
 
 interface ProductMockupProps {
-  type: "browser" | "utm" | "security" | "analytics" | "governance";
+  type: "browser" | "utm" | "security" | "analytics" | "governance" | "dashboard" | "geo-map" | "qr-customizer" | "validation";
   delay?: number;
 }
 
@@ -20,6 +20,10 @@ export const ProductMockup = ({ type, delay = 0 }: ProductMockupProps) => {
       {type === "security" && <SecurityBadgeCard />}
       {type === "analytics" && <AnalyticsMiniDash />}
       {type === "governance" && <GovernanceCard />}
+      {type === "dashboard" && <DashboardMockup />}
+      {type === "geo-map" && <GeoMapMockup />}
+      {type === "qr-customizer" && <QRCustomizerMockup />}
+      {type === "validation" && <ValidationMockup />}
     </motion.div>
   );
 };
@@ -180,6 +184,123 @@ const GovernanceCard = () => (
     </div>
     <div className="text-xs text-secondary-label text-center pt-2">
       Full traceability
+    </div>
+  </div>
+);
+
+// New mockup components
+const DashboardMockup = () => (
+  <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+    <div className="flex items-center justify-between mb-2">
+      <h4 className="text-sm font-semibold text-label">Analytics Overview</h4>
+      <BarChart3 className="w-4 h-4 text-primary" />
+    </div>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="bg-primary/5 rounded-lg p-4">
+        <p className="text-xs text-secondary-label mb-1">Total Clicks</p>
+        <p className="text-2xl font-bold text-primary">2,847</p>
+        <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
+          <TrendingUp className="w-3 h-3" />
+          <span>+18%</span>
+        </div>
+      </div>
+      <div className="bg-muted/50 rounded-lg p-4">
+        <p className="text-xs text-secondary-label mb-1">Conversions</p>
+        <p className="text-2xl font-bold text-label">127</p>
+        <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
+          <TrendingUp className="w-3 h-3" />
+          <span>+23%</span>
+        </div>
+      </div>
+    </div>
+    <div className="h-24 bg-muted/30 rounded-lg flex items-end gap-1 p-2">
+      {[40, 65, 55, 80, 45, 90, 70].map((height, i) => (
+        <div key={i} className="flex-1 bg-primary/30 rounded-t" style={{ height: `${height}%` }} />
+      ))}
+    </div>
+  </div>
+);
+
+const GeoMapMockup = () => (
+  <div className="bg-card border border-border rounded-xl p-6">
+    <div className="flex items-center gap-2 mb-4">
+      <Globe className="w-4 h-4 text-primary" />
+      <h4 className="text-sm font-semibold text-label">Geo-Targeting Rules</h4>
+    </div>
+    <div className="space-y-3">
+      <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🇺🇸</span>
+          <span className="text-sm font-semibold text-label">United States</span>
+        </div>
+        <CheckCircle2 className="w-4 h-4 text-primary" />
+      </div>
+      <div className="bg-muted/50 rounded-lg p-3 flex items-center justify-between opacity-60">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🇬🇧</span>
+          <span className="text-sm font-semibold text-label">United Kingdom</span>
+        </div>
+      </div>
+      <div className="bg-muted/50 rounded-lg p-3 flex items-center justify-between opacity-60">
+        <div className="flex items-center gap-2">
+          <span className="text-lg">🇩🇪</span>
+          <span className="text-sm font-semibold text-label">Germany</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const QRCustomizerMockup = () => (
+  <div className="bg-card border border-border rounded-xl p-6">
+    <h4 className="text-sm font-semibold text-label mb-4">QR Code Customization</h4>
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-40 h-40 bg-white rounded-lg border-2 border-primary/20 flex items-center justify-center">
+        <div className="grid grid-cols-8 gap-1">
+          {Array.from({ length: 64 }).map((_, i) => (
+            <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-primary' : 'bg-white'} rounded-sm`} />
+          ))}
+        </div>
+      </div>
+      <div className="w-full space-y-2">
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-secondary-label">Brand Colors</span>
+          <CheckCircle2 className="w-3 h-3 text-green-600" />
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-secondary-label">Logo</span>
+          <CheckCircle2 className="w-3 h-3 text-green-600" />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const ValidationMockup = () => (
+  <div className="bg-card border border-border rounded-xl p-6 space-y-3">
+    <h4 className="text-sm font-semibold text-label mb-4">Real-Time Validation</h4>
+    <div className="space-y-2">
+      <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
+        <CheckCircle2 className="w-4 h-4 text-green-600" />
+        <div className="flex-1">
+          <p className="text-xs font-semibold text-green-800 dark:text-green-200">utm_source</p>
+          <p className="text-xs text-green-600 dark:text-green-400 font-mono">google</p>
+        </div>
+      </div>
+      <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
+        <CheckCircle2 className="w-4 h-4 text-green-600" />
+        <div className="flex-1">
+          <p className="text-xs font-semibold text-green-800 dark:text-green-200">utm_medium</p>
+          <p className="text-xs text-green-600 dark:text-green-400 font-mono">cpc</p>
+        </div>
+      </div>
+      <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-2">
+        <AlertCircle className="w-4 h-4 text-red-600" />
+        <div className="flex-1">
+          <p className="text-xs font-semibold text-red-800 dark:text-red-200">utm_campaign</p>
+          <p className="text-xs text-red-600 dark:text-red-400">Required field</p>
+        </div>
+      </div>
     </div>
   </div>
 );

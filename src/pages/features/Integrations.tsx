@@ -233,9 +233,9 @@ const Integrations = () => {
               Let us know what you need.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/support">
+              <Link to="/book-demo">
                 <Button variant="marketing">
-                  Contact Sales
+                  Book a Demo
                 </Button>
               </Link>
               <Link to="/docs">

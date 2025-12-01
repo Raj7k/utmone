@@ -2,6 +2,7 @@ import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { FeatureHeroWithTool } from "@/components/features/FeatureHeroWithTool";
 import { FeatureSection } from "@/components/features/FeatureSection";
 import { QRGeneratorBasic } from "@/components/qr-generator/QRGeneratorBasic";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
@@ -128,31 +129,8 @@ const QRGenerator = () => {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">branded QR code</h4>
-            <div className="bg-card rounded-lg p-6 flex flex-col items-center">
-              <div className="w-48 h-48 bg-white rounded-lg border-2 border-primary/20 flex items-center justify-center mb-4">
-                <div className="grid grid-cols-8 gap-1">
-                  {Array.from({ length: 64 }).map((_, i) => (
-                    <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? 'bg-primary' : 'bg-white'} rounded-sm`} />
-                  ))}
-                </div>
-              </div>
-              <div className="w-full space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Brand Colors</span>
-                  <span className="text-label font-semibold">✓ Applied</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Logo</span>
-                  <span className="text-label font-semibold">✓ Centered</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Destination</span>
-                  <span className="text-label font-semibold font-mono">utm.one/abc</span>
-                </div>
-              </div>
-            </div>
+          <div>
+            <ProductMockup type="qr-customizer" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
@@ -293,7 +271,7 @@ const QRGenerator = () => {
             size="lg"
             className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
           >
-            <Link to="/early-access">Get Early Access</Link>
+            <Link to="/book-demo">Book a Demo</Link>
           </Button>
         </div>
       </FeatureSection>

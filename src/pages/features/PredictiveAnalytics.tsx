@@ -2,6 +2,7 @@ import { FeatureHero } from "@/components/features/FeatureHero";
 import { FeatureSection } from "@/components/features/FeatureSection";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/seo/SEO";
+import { ProductMockup } from "@/components/product/ProductMockup";
 import { LineChart, TrendingUp, Brain, Zap, Target, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
@@ -116,22 +117,8 @@ export default function PredictiveAnalytics() {
             </div>
           </div>
 
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">how it works</h4>
-            <ol className="space-y-3 text-secondary-label">
-              <li className="flex gap-3">
-                <span className="text-primary font-semibold">1.</span>
-                <span>Simulate 10,000 alternate realities based on historical variance</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-semibold">2.</span>
-                <span>Count how many realities hit your conversion goal</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-semibold">3.</span>
-                <span>That percentage is your probability of success</span>
-              </li>
-            </ol>
+          <div>
+            <ProductMockup type="dashboard" delay={0.2} />
           </div>
         </div>
       </FeatureSection>
