@@ -1908,9 +1908,11 @@ export type Database = {
           variant_a_clicks: number
           variant_a_conversions: number
           variant_a_label: string
+          variant_a_url: string | null
           variant_b_clicks: number
           variant_b_conversions: number
           variant_b_label: string
+          variant_b_url: string | null
           winner_variant: string | null
           workspace_id: string
         }
@@ -1929,9 +1931,11 @@ export type Database = {
           variant_a_clicks?: number
           variant_a_conversions?: number
           variant_a_label?: string
+          variant_a_url?: string | null
           variant_b_clicks?: number
           variant_b_conversions?: number
           variant_b_label?: string
+          variant_b_url?: string | null
           winner_variant?: string | null
           workspace_id: string
         }
@@ -1950,9 +1954,11 @@ export type Database = {
           variant_a_clicks?: number
           variant_a_conversions?: number
           variant_a_label?: string
+          variant_a_url?: string | null
           variant_b_clicks?: number
           variant_b_conversions?: number
           variant_b_label?: string
+          variant_b_url?: string | null
           winner_variant?: string | null
           workspace_id?: string
         }
