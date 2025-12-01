@@ -21,6 +21,8 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
   const [experimentName, setExperimentName] = useState("");
   const [variantALabel, setVariantALabel] = useState("variant a");
   const [variantBLabel, setVariantBLabel] = useState("variant b");
+  const [variantAUrl, setVariantAUrl] = useState("");
+  const [variantBUrl, setVariantBUrl] = useState("");
   const { toast } = useToast();
 
   const { data: links, isLoading: isLoadingLinks } = useQuery({
@@ -61,6 +63,28 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
       return;
     }
 
+    if (!variantAUrl.trim() || !variantBUrl.trim()) {
+      toast({
+        title: "URLs required",
+        description: "Please provide destination URLs for both variants",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate URLs
+    try {
+      new URL(variantAUrl);
+      new URL(variantBUrl);
+    } catch {
+      toast({
+        title: "Invalid URL",
+        description: "Please enter valid URLs starting with http:// or https://",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       await createExperiment.mutateAsync({
         link_id: selectedLinkId,
@@ -68,6 +92,8 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
         experiment_name: experimentName.trim(),
         variant_a_label: variantALabel.trim() || "variant a",
         variant_b_label: variantBLabel.trim() || "variant b",
+        variant_a_url: variantAUrl.trim(),
+        variant_b_url: variantBUrl.trim(),
       });
 
       // Reset form
@@ -75,6 +101,8 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
       setExperimentName("");
       setVariantALabel("variant a");
       setVariantBLabel("variant b");
+      setVariantAUrl("");
+      setVariantBUrl("");
       onOpenChange(false);
     } catch (error) {
       console.error("Error creating experiment:", error);
@@ -155,6 +183,36 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
               onChange={(e) => setVariantBLabel(e.target.value)}
             />
           </div>
+
+          {/* Variant A URL */}
+          <div className="space-y-2">
+            <Label htmlFor="variant-a-url">variant a destination url</Label>
+            <Input
+              id="variant-a-url"
+              type="url"
+              placeholder="https://example.com/page-a"
+              value={variantAUrl}
+              onChange={(e) => setVariantAUrl(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">
+              where should variant a redirect to?
+            </p>
+          </div>
+
+          {/* Variant B URL */}
+          <div className="space-y-2">
+            <Label htmlFor="variant-b-url">variant b destination url</Label>
+            <Input
+              id="variant-b-url"
+              type="url"
+              placeholder="https://example.com/page-b"
+              value={variantBUrl}
+              onChange={(e) => setVariantBUrl(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">
+              where should variant b redirect to?
+            </p>
+          </div>
         </div>
 
         <div className="flex justify-end gap-3">
@@ -164,7 +222,7 @@ export function CreateExperimentDialog({ workspaceId, open, onOpenChange }: Crea
           <Button 
             variant="marketing" 
             onClick={handleCreate}
-            disabled={createExperiment.isPending || !selectedLinkId || !experimentName.trim()}
+            disabled={createExperiment.isPending || !selectedLinkId || !experimentName.trim() || !variantAUrl.trim() || !variantBUrl.trim()}
           >
             {createExperiment.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             start test

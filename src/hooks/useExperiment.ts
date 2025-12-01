@@ -48,6 +48,8 @@ export const useExperiment = (linkId: string | undefined) => {
       experiment_name: string;
       variant_a_label: string;
       variant_b_label: string;
+      variant_a_url: string;
+      variant_b_url: string;
     }) => {
       const { data, error } = await supabase
         .from("experiments")

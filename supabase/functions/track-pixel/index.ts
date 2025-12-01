@@ -81,7 +81,7 @@ Deno.serve(async (req) => {
     // Find the original click using visitor_id
     const { data: click, error: clickError } = await supabase
       .from('link_clicks')
-      .select('link_id, id')
+      .select('link_id, id, metadata')
       .eq('visitor_id', visitorId)
       .order('clicked_at', { ascending: false })
       .limit(1)
@@ -123,6 +123,21 @@ Deno.serve(async (req) => {
     }
 
     console.log(`✅ Conversion logged: ${eventType}, link_id: ${click.link_id}, revenue: ${revenue}`);
+
+    // Check if this click was part of an experiment and update experiment stats
+    const clickMetadata = click.metadata as any;
+    if (clickMetadata?.experiment_id && clickMetadata?.experiment_variant) {
+      console.log(`Updating experiment stats for conversion: ${clickMetadata.experiment_id}, variant ${clickMetadata.experiment_variant}`);
+      
+      // Call update-experiment-stats with conversion flag
+      supabase.functions.invoke('update-experiment-stats', {
+        body: {
+          experiment_id: clickMetadata.experiment_id,
+          variant: clickMetadata.experiment_variant,
+          is_conversion: true,
+        },
+      }).catch(err => console.error('Failed to update experiment stats:', err));
+    }
 
     return new Response(
       JSON.stringify({ success: true, event: eventType, link_id: click.link_id }),

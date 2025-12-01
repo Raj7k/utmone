@@ -674,12 +674,34 @@ Deno.serve(async (req) => {
     
     console.log(`Cloudflare geolocation: country=${country}, city=${city}`);
 
-    // Step 0: Check smart rotation (Feature 4)
+    // Initialize redirect variables
     let selectedDestinationIndex = -1;
     let finalRedirectUrl = linkRecord.final_url;
     let triggeredRule = 'default';
+
+    // Step 0: Check for active experiments (A/B testing)
+    let experimentVariant: 'A' | 'B' | null = null;
+    let experimentId: string | null = null;
     
-    if (linkRecord.smart_rotate && linkRecord.destinations && linkRecord.destinations.length > 1) {
+    const { data: activeExperiment } = await supabase
+      .from('experiments')
+      .select('id, variant_a_url, variant_b_url')
+      .eq('link_id', linkRecord.id)
+      .eq('status', 'running')
+      .maybeSingle();
+    
+    if (activeExperiment && activeExperiment.variant_a_url && activeExperiment.variant_b_url) {
+      // Randomly assign to variant A or B (50/50 split)
+      experimentVariant = Math.random() < 0.5 ? 'A' : 'B';
+      experimentId = activeExperiment.id;
+      finalRedirectUrl = experimentVariant === 'A' ? activeExperiment.variant_a_url : activeExperiment.variant_b_url;
+      triggeredRule = `experiment_${experimentVariant}`;
+      console.log(`Experiment ${experimentId}: assigned to variant ${experimentVariant}`);
+    }
+
+    // Step 1: Check smart rotation (Feature 4) - only if no experiment
+    
+    if (linkRecord.smart_rotate && linkRecord.destinations && linkRecord.destinations.length > 1 && !experimentId) {
       const destinations = linkRecord.destinations;
       
       // Epsilon-Greedy: 90% exploit (best performer), 10% explore (random)
@@ -708,7 +730,7 @@ Deno.serve(async (req) => {
       triggeredRule = 'smart_rotation';
     }
     
-    // Step 1: Check geo_targets (if not already rotated)
+    // Step 2: Check geo_targets (if not already rotated or in experiment)
     if (triggeredRule === 'default' && linkRecord.geo_targets && Object.keys(linkRecord.geo_targets).length > 0) {
       const geoTargetUrl = linkRecord.geo_targets[country];
       if (geoTargetUrl) {
@@ -718,7 +740,7 @@ Deno.serve(async (req) => {
       }
     }
     
-    // Step 2: If no geo match, evaluate advanced targeting rules
+    // Step 3: If no geo match, evaluate advanced targeting rules
     if (triggeredRule === 'default') {
       const targetedUrl = await evaluateTargetingRules(
         supabase, 
@@ -775,6 +797,8 @@ Deno.serve(async (req) => {
         metadata: { 
           triggered_rule: triggeredRule,
           destination_index: selectedDestinationIndex >= 0 ? selectedDestinationIndex : null,
+          experiment_id: experimentId,
+          experiment_variant: experimentVariant,
         },
       };
 
@@ -816,6 +840,17 @@ Deno.serve(async (req) => {
           },
         },
       }).catch(err => console.error('Webhook trigger failed:', err));
+      
+      // Update experiment stats if this is an experiment click
+      if (experimentId && experimentVariant) {
+        supabase.functions.invoke('update-experiment-stats', {
+          body: {
+            experiment_id: experimentId,
+            variant: experimentVariant,
+            is_conversion: false,
+          },
+        }).catch(err => console.error('Experiment stats update failed:', err));
+      }
     };
     
     // Start background task for click logging
