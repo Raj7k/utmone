@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { calculateWinProbability, shouldStopTest } from "@/lib/bayesianOptimization";
 
 export interface ABTest {
   id: string;
@@ -108,11 +109,57 @@ export const useABTests = (workspaceId: string) => {
     },
   });
 
+  // Bayesian analysis functions
+  const calculateWinProbabilityForTest = (testId: string) => {
+    const testVariants = getTestVariants.data?.filter(v => v.test_id === testId) || [];
+    
+    if (testVariants.length !== 2) return null;
+    
+    const [variantA, variantB] = testVariants;
+    
+    // Import here to avoid circular dependency
+    const winProb = calculateWinProbability(
+      { clicks: variantA.total_clicks, conversions: variantA.conversions },
+      { clicks: variantB.total_clicks, conversions: variantB.conversions }
+    );
+    
+    return {
+      variantA: { name: variantA.variant_name, winProbability: winProb },
+      variantB: { name: variantB.variant_name, winProbability: 1 - winProb },
+    };
+  };
+
+  const shouldStopTestEarly = (testId: string) => {
+    const testVariants = getTestVariants.data?.filter(v => v.test_id === testId) || [];
+    
+    if (testVariants.length !== 2) return null;
+    
+    const [variantA, variantB] = testVariants;
+    
+    // Import here to avoid circular dependency
+    const result = shouldStopTest([
+      { clicks: variantA.total_clicks, conversions: variantA.conversions },
+      { clicks: variantB.total_clicks, conversions: variantB.conversions }
+    ]);
+    
+    if (result.shouldStop) {
+      return {
+        shouldStop: true,
+        winner: result.winnerIndex === 0 ? variantA : variantB,
+        confidence: result.confidence,
+      };
+    }
+    
+    return null;
+  };
+
   return {
     tests,
     isLoading,
     createTest,
     updateTest,
     variants: getTestVariants.data || [],
+    calculateWinProbabilityForTest,
+    shouldStopTestEarly,
   };
 };
