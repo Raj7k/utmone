@@ -39,7 +39,8 @@ import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
-import { FooterFAQ } from "@/components/landing/FooterFAQ";
+import { StackingFAQCards } from "@/components/landing/StackingFAQCards";
+import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { ProblemCard } from "@/components/landing/ProblemCard";
 import { 
   useTrackPageView, 
@@ -128,107 +129,8 @@ const Index = () => {
           )}
         </HeroVariantManager>
 
-        {/* Fold 2: Before → After Transformations */}
-        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-12 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
-                {formatText("Most Link Tools Focus on Shortening")}
-              </h2>
-              <p className="text-xl md:text-2xl font-display font-semibold text-blazeOrange lowercase">
-                {formatText("Few Focus on Trust")}
-              </p>
-            </div>
-            
-            <div className="space-y-16">
-              {/* Link Fear: Random vs Branded */}
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold text-label lowercase">Link Fear</h3>
-                  <p className="text-lg text-muted-foreground">
-                    Random URLs create hesitation. Branded links build trust at first glance.
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-destructive mb-2 block">before</span>
-                    <code className="text-sm text-foreground break-all">bit.ly/3x7Kz9</code>
-                    <p className="text-xs text-muted-foreground mt-2">Where does this go? 🤷</p>
-                  </div>
-                  <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-primary mb-2 block">after</span>
-                    <code className="text-sm text-foreground break-all">utm.one/acme-webinar</code>
-                    <p className="text-xs text-primary mt-2">Clear and trusted ✓</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* UTM Chaos: Messy vs Clean */}
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="order-2 md:order-1 grid grid-cols-2 gap-4">
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-destructive mb-2 block">before</span>
-                    <div className="space-y-1 font-mono text-xs text-foreground">
-                      <div>utm_source</div>
-                      <div>UTM_Source</div>
-                      <div>utm-source</div>
-                      <div>utmsource</div>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-2">4 variations = broken reports</p>
-                  </div>
-                  <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-primary mb-2 block">after</span>
-                    <div className="space-y-1 font-mono text-xs text-foreground">
-                      <div>utm_source</div>
-                      <div>utm_source</div>
-                      <div>utm_source</div>
-                      <div>utm_source</div>
-                    </div>
-                    <p className="text-xs text-primary mt-2">Consistent every time ✓</p>
-                  </div>
-                </div>
-                <div className="order-1 md:order-2 space-y-4">
-                  <h3 className="text-2xl font-display font-bold text-label lowercase">UTM Chaos</h3>
-                  <p className="text-lg text-muted-foreground">
-                    One team, four different naming styles. Clean-track enforces consistency automatically.
-                  </p>
-                </div>
-              </div>
-
-              {/* Lost Attribution: Unknown vs Clear */}
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold text-label lowercase">Lost Attribution</h3>
-                  <p className="text-lg text-muted-foreground">
-                    "(unknown)" in GA4 means wasted ad spend. Clean tracking shows the full journey.
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-destructive mb-2 block">before</span>
-                    <div className="space-y-2 text-sm">
-                      <div className="text-foreground">Source: <span className="text-muted-foreground">(unknown)</span></div>
-                      <div className="text-foreground">Medium: <span className="text-muted-foreground">(none)</span></div>
-                      <div className="text-foreground">Campaign: <span className="text-muted-foreground">-</span></div>
-                    </div>
-                  </div>
-                  <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
-                    <span className="text-xs uppercase font-semibold text-primary mb-2 block">after</span>
-                    <div className="space-y-2 text-sm">
-                      <div className="text-foreground">Source: <span className="text-primary">linkedin</span></div>
-                      <div className="text-foreground">Medium: <span className="text-primary">cpc</span></div>
-                      <div className="text-foreground">Campaign: <span className="text-primary">q4-webinar</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <p className="text-center text-xl md:text-2xl font-display font-semibold text-blazeOrange mt-16 lowercase">
-              utm.one fixes the fundamentals — not the symptoms.
-            </p>
-          </div>
-        </AnimatedSection>
+        {/* Fold 2: One Link. Five Layers. */}
+        <LinkLayersSection />
 
         {/* Fold 3: Trust and Transparency */}
         <AnimatedSection className="py-20 md:py-32 bg-grouped-background">
@@ -558,7 +460,7 @@ const Index = () => {
         </AnimatedSection>
 
 
-        <FooterFAQ />
+        <StackingFAQCards />
     </MainLayout>
   );
 };
