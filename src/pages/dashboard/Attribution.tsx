@@ -7,6 +7,8 @@ import { AttributionModelSelector } from "@/components/analytics/AttributionMode
 import { AttributionTable } from "@/components/analytics/AttributionTable";
 import { JourneySankey } from "@/components/analytics/JourneySankey";
 import { JourneyGraphViewer } from "@/components/analytics/JourneyGraphViewer";
+import { StateValueHeatmap } from "@/components/analytics/StateValueHeatmap";
+import { GoldenPathChart } from "@/components/analytics/GoldenPathChart";
 import { useAttribution, useJourneyFlow, type AttributionModel } from "@/hooks/useAttribution";
 import { useJourneyGraph, useDiscoverStructure } from "@/hooks/useJourneyGraph";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -113,6 +115,8 @@ const Attribution = () => {
           <TabsTrigger value="attribution">attribution models</TabsTrigger>
           <TabsTrigger value="flow">journey flow</TabsTrigger>
           <TabsTrigger value="graph">journey graph</TabsTrigger>
+          <TabsTrigger value="valuation">page valuation</TabsTrigger>
+          <TabsTrigger value="golden-path">golden path</TabsTrigger>
         </TabsList>
 
         <TabsContent value="attribution" className="space-y-4">
@@ -148,7 +152,81 @@ const Attribution = () => {
             nodes={graphData?.nodes || []}
             edges={graphData?.edges || []}
             isLoading={isLoadingGraph}
+            workspaceId={currentWorkspace?.id}
           />
+        </TabsContent>
+
+        <TabsContent value="valuation" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <StateValueHeatmap workspaceId={currentWorkspace?.id} />
+            <Card>
+              <CardHeader>
+                <CardTitle>about mdp state valuation</CardTitle>
+                <CardDescription>
+                  how we calculate page value
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                <p>
+                  We use <strong>Markov Decision Process (MDP)</strong> with Value Iteration to calculate the expected future value of each page state.
+                </p>
+                <div>
+                  <h4 className="font-medium mb-1">The Algorithm</h4>
+                  <p className="text-muted-foreground">
+                    V(s) = R(s) + γ × Σ P(s'|s) × V(s')
+                  </p>
+                  <ul className="text-xs text-muted-foreground space-y-1 mt-2">
+                    <li>• R(s) = immediate reward (conversion = $100)</li>
+                    <li>• γ = discount factor (0.95, future value decay)</li>
+                    <li>• P(s'|s) = transition probability to next state</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">What It Means</h4>
+                  <p className="text-muted-foreground">
+                    A page worth $45 means users on that page have a 45% probability-weighted path to conversion. A 404 page showing $0 means the probability of reaching conversion from there drops to near zero.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="golden-path" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <GoldenPathChart workspaceId={currentWorkspace?.id} />
+            <Card>
+              <CardHeader>
+                <CardTitle>about pareto optimization</CardTitle>
+                <CardDescription>
+                  the efficient frontier explained
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                <p>
+                  We use <strong>Pareto Optimization</strong> to find paths that balance two conflicting objectives: speed (minimize steps) and value (maximize revenue).
+                </p>
+                <div>
+                  <h4 className="font-medium mb-1">What Is Pareto Optimal?</h4>
+                  <p className="text-muted-foreground">
+                    A path is Pareto optimal (⭐ Golden) if no other path is both faster AND more valuable. These paths represent the "efficient frontier" of your funnel.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-medium mb-1">The Insight</h4>
+                  <p className="text-muted-foreground">
+                    The fastest path might have low LTV. A longer path through high-value content (webinar, demo) can deliver 3x higher conversion value. Golden paths show you the optimal balance.
+                  </p>
+                </div>
+                <div className="bg-primary/10 p-3 rounded-lg">
+                  <p className="text-xs font-medium">💡 Pro Tip</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Send paid traffic to Golden Path entry points for maximum ROI, not just the shortest path to signup.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
 

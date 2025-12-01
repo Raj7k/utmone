@@ -2617,7 +2617,10 @@ export type Database = {
       journey_nodes: {
         Row: {
           avg_time_to_conversion_seconds: number | null
+          conversion_probability: number | null
           created_at: string
+          exit_probability: number | null
+          expected_revenue: number | null
           id: string
           last_updated_at: string
           metadata: Json | null
@@ -2629,7 +2632,10 @@ export type Database = {
         }
         Insert: {
           avg_time_to_conversion_seconds?: number | null
+          conversion_probability?: number | null
           created_at?: string
+          exit_probability?: number | null
+          expected_revenue?: number | null
           id?: string
           last_updated_at?: string
           metadata?: Json | null
@@ -2641,7 +2647,10 @@ export type Database = {
         }
         Update: {
           avg_time_to_conversion_seconds?: number | null
+          conversion_probability?: number | null
           created_at?: string
+          exit_probability?: number | null
+          expected_revenue?: number | null
           id?: string
           last_updated_at?: string
           metadata?: Json | null
@@ -5735,6 +5744,23 @@ export type Database = {
           total_revenue: number
         }[]
       }
+      calculate_state_values: {
+        Args: {
+          p_convergence_threshold?: number
+          p_conversion_reward?: number
+          p_discount_factor?: number
+          p_max_iterations?: number
+          p_workspace_id: string
+        }
+        Returns: {
+          conversion_probability: number
+          next_best_action: string
+          node_id: string
+          node_name: string
+          node_type: string
+          state_value: number
+        }[]
+      }
       calculate_time_decay_attribution: {
         Args: {
           p_end_date?: string
@@ -5793,6 +5819,24 @@ export type Database = {
       encrypt_sensitive_data: {
         Args: { encryption_key: string; plaintext: string }
         Returns: string
+      }
+      find_pareto_optimal_paths: {
+        Args: {
+          p_end_node_type?: string
+          p_max_path_length?: number
+          p_start_node_type?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          avg_probability: number
+          efficiency_score: number
+          is_pareto_optimal: boolean
+          path_id: number
+          path_node_ids: string[]
+          path_nodes: string[]
+          total_steps: number
+          total_value: number
+        }[]
       }
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
