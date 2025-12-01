@@ -1,31 +1,63 @@
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Shield, TrendingUp, Link2, Lock } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { Shield, Lock, Zap, Database, Users, KeyRound, Activity, GitBranch, CheckCircle2 } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { HeroFloatingShapes, DiagonalAccent, DotPattern, HeroGlow } from "@/components/solutions/RolePageDecorations";
-import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
-import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
-import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
-import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
-import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
-import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { AdaptiveGovernanceVisual } from "@/components/enterprise/AdaptiveGovernanceVisual";
+import { TimeTravelAuditMockup } from "@/components/enterprise/TimeTravelAuditMockup";
+import { JustInTimeProvisioningVisual } from "@/components/enterprise/JustInTimeProvisioningVisual";
+import { BayesianAttributionPreview } from "@/components/enterprise/BayesianAttributionPreview";
+import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
+import { ROICalculator } from "@/components/growth/ROICalculator";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 
 const Enterprise = () => {
+  const pillars = [
+    {
+      icon: TrendingUp,
+      title: "attribution",
+      subtitle: "growth",
+      description: "know exactly where revenue comes from",
+      detail: "Bayesian multi-touch attribution shows the true influence of every channel on conversions"
+    },
+    {
+      icon: Link2,
+      title: "reliability",
+      subtitle: "uptime",
+      description: "zero broken links",
+      detail: "Automated health probes detect and fix broken URLs before customers see them"
+    },
+    {
+      icon: Shield,
+      title: "governance",
+      subtitle: "security",
+      description: "precise control over every click",
+      detail: "RBAC, audit logs, SSO, and field-level encryption for enterprise-grade security"
+    }
+  ];
+
+  const trustBadges = [
+    { title: "SSO & SAML", description: "Google, Azure AD, Okta" },
+    { title: "AES-256 Encryption", description: "Field-level security" },
+    { title: "99.99% SLA", description: "Enterprise uptime" },
+    { title: "SOC 2 Type II", description: "Coming Q2 2025" }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Enterprise Link Management - Security, Scale, Governance"
-        description="SSO, SAML, audit logs, field-level encryption, Knapsack edge caching, and enterprise-grade SLA. Built for security-first organizations."
+        title="utm.one for Enterprise - Governance, Attribution, Security"
+        description="Enterprise-grade link governance with SSO, Bayesian attribution, time-travel audit logs, and adaptive access control. Built for security-first organizations."
         canonical="https://utm.one/solutions/enterprise"
-        keywords={["enterprise link management", "SSO", "SAML", "audit logs", "field encryption", "enterprise security"]}
+        keywords={["enterprise link management", "SSO", "RBAC", "audit logs", "Bayesian attribution", "governance"]}
       />
       <WebPageSchema
-        name="Enterprise Link Management"
-        description="SSO, SAML, audit logs, field-level encryption, Knapsack edge caching, and enterprise-grade SLA. Built for security-first organizations."
+        name="utm.one for Enterprise"
+        description="Enterprise-grade governance for every click. SSO, Bayesian attribution, time-travel audit logs, and adaptive access control."
         url="https://utm.one/solutions/enterprise"
       />
       <BreadcrumbSchema
@@ -38,214 +70,290 @@ const Enterprise = () => {
       <Navigation />
       <FloatingNavigation />
 
-      {/* Fold 1: Hero */}
-      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
-        <HeroFloatingShapes />
-        <HeroGlow />
-        <DiagonalAccent position="top-left" />
-        <DiagonalAccent position="bottom-right" />
-        
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
-          <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
-              enterprise-grade link governance
+      {/* Hero */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <SocialProofCounter variant="minimal" role="ops" />
+            
+            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase text-label mb-6 mt-8">
+              enterprise-grade governance<br />for every click
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
-              SSO, audit logs, field-level encryption, sub-millisecond redirects, and 99.99% SLA. Built for security-first organizations.
+            <p className="text-xl md:text-2xl text-secondary-label max-w-3xl mx-auto mb-12">
+              SSO, Bayesian attribution, time-travel audit logs, and adaptive access control. 
+              Built for security-first organizations.
             </p>
-            <div className="pt-4">
-              <CTAButton href="/book-demo" variant="primary" pulse>
+            <CTAButton href="/early-access" variant="primary" pulse>
+              book a demo
+            </CTAButton>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Three Pillars */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-background">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              the three pillars
+            </h2>
+            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+              large companies care about growth and risk. we deliver both.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {pillars.map((pillar, index) => (
+              <motion.div
+                key={pillar.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-8 rounded-2xl bg-card border-2 border-border hover:border-primary/30 transition-all"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-6">
+                  <pillar.icon className="w-8 h-8 text-primary" />
+                </div>
+                <div className="mb-4">
+                  <div className="text-sm font-semibold text-primary uppercase tracking-wide mb-2">
+                    {pillar.subtitle}
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-label lowercase mb-3">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-lg text-label font-medium mb-3">
+                    "{pillar.description}"
+                  </p>
+                </div>
+                <p className="text-sm text-secondary-label">{pillar.detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Adaptive Governance Shield */}
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-12 text-center"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              adaptive governance shield
+            </h2>
+            <p className="text-xl text-secondary-label">
+              Instead of just "user roles," we offer <span className="text-primary font-semibold">least privilege optimization</span>. 
+              A dynamic role engine that uses constraint satisfaction to create custom roles on the fly.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <AdaptiveGovernanceVisual />
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl bg-muted/30 border border-border"
+          >
+            <h3 className="font-display font-bold text-2xl text-label lowercase mb-4">
+              the problem
+            </h3>
+            <p className="text-secondary-label mb-6">
+              In big teams, users get "Admin" access because they need to do one specific thing 
+              (e.g., view billing), but this exposes the company to risk (e.g., they can also delete links).
+            </p>
+            <h3 className="font-display font-bold text-2xl text-label lowercase mb-4">
+              the solution
+            </h3>
+            <p className="text-secondary-label">
+              Check the exact capabilities a user needs. The system minimizes the "Privilege Surface Area" 
+              while satisfying all work requirements. No more over-privileged accounts.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Clean Track Quiz */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-background">
+        <div className="container mx-auto px-6">
+          <CleanTrackScoreQuiz />
+        </div>
+      </section>
+
+      {/* Time-Travel Audit Trail */}
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-12 text-center"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              time-travel audit trail
+            </h2>
+            <p className="text-xl text-secondary-label">
+              Enterprises need to know who broke a link and when. We provide a forensic timeline 
+              that lets admins replay the link's history over the last 30 days.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <TimeTravelAuditMockup />
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto mt-12 text-center"
+          >
+            <p className="text-lg text-secondary-label">
+              Don't just show a text log—show a timeline visualization with before/after diffs, 
+              user attribution, and change context. Perfect for compliance audits and incident investigation.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Just-in-Time Provisioning */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-background">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-12 text-center"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              just-in-time provisioning
+            </h2>
+            <p className="text-xl text-secondary-label">
+              If a user signs up with @nike.com, they're automatically captured into the Nike workspace 
+              and assigned the "Viewer" role until approved. This prevents Shadow IT.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <JustInTimeProvisioningVisual />
+          </div>
+        </div>
+      </section>
+
+      {/* Bayesian Attribution */}
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mb-12 text-center"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              bayesian influence graph
+            </h2>
+            <p className="text-xl text-secondary-label">
+              Multi-touch attribution shows the true influence of every marketing channel, 
+              not just last-click. Know exactly where revenue comes from.
+            </p>
+          </motion.div>
+
+          <div className="max-w-4xl mx-auto">
+            <BayesianAttributionPreview />
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-background">
+        <div className="container mx-auto px-6">
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* Trust & Security Badges */}
+      <section className="py-24 md:py-32">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+              enterprise trust
+            </h2>
+            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+              security and compliance built-in from day one
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {trustBadges.map((badge, index) => (
+              <motion.div
+                key={badge.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-6 rounded-xl bg-card border-2 border-border text-center"
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
+                  <Lock className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-display font-bold text-lg text-label lowercase mb-2">
+                  {badge.title}
+                </h3>
+                <p className="text-sm text-secondary-label">{badge.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase text-label mb-6">
+              talk to our enterprise team
+            </h2>
+            <p className="text-xl text-secondary-label max-w-2xl mx-auto mb-12">
+              Get a personalized demo and see how utm.one delivers enterprise-grade 
+              governance, attribution, and reliability for your organization.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href="/early-access" variant="primary" pulse>
                 book a demo
               </CTAButton>
+              <CTAButton href="/pricing" variant="secondary" showArrow={false}>
+                view pricing
+              </CTAButton>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* Fold 2: Security First */}
-      <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
-        <DotPattern />
-        
-        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              security by default
-            </h2>
-            <p className="text-xl text-muted-foreground italic">
-              Every layer hardened. Every token encrypted. Every action logged.
-            </p>
-          </div>
-          
-          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <KeyRound className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">SSO & SAML</h3>
-                <p className="text-secondary-label">
-                  Google OAuth, Microsoft Azure AD, Okta, OneLogin—single sign-on that works
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <Lock className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">field encryption</h3>
-                <p className="text-secondary-label">
-                  AES-256 encryption on all tokens, secrets, and API keys—even if database is breached
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <GitBranch className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">audit logs</h3>
-                <p className="text-secondary-label">
-                  Every link created, edited, deleted logged with who/what/when/old-vs-new diffs
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <Shield className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-2xl font-display font-semibold mb-3 lowercase">RLS policies</h3>
-                <p className="text-secondary-label">
-                  Row-level security ensures users only see their workspace data—multi-tenant isolation
-                </p>
-              </div>
-            </StaggerItem>
-          </StaggerContainer>
-        </div>
-      </section>
-
-      {/* Fold 3: What You Get */}
-      <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              what you get
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Enterprise-grade infrastructure and support
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[
-              "SSO & SAML authentication",
-              "Field-level AES-256 encryption",
-              "Comprehensive audit logs",
-              "99.99% uptime SLA",
-              "Sub-100ms redirect latency",
-              "Dedicated support team",
-              "Custom contract terms",
-              "On-premise deployment option",
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <CheckCircle2 className="w-6 h-6 text-deepSea flex-shrink-0 mt-1" strokeWidth={2} />
-                <p className="text-lg text-foreground">{benefit}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Fold 4: Mapped Features */}
-      <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
-        <div className="max-w-[1200px] mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
-              built for enterprise scale
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureMappedCard
-              icon={Shield}
-              title="Enterprise Security"
-              description="SSO, encryption, audit logs"
-              color="blazeOrange"
-              delay={0}
-              href="/features/enterprise-control"
-            />
-            <FeatureMappedCard
-              icon={Zap}
-              title="Performance"
-              description="Sub-millisecond redirects"
-              color="deepSea"
-              delay={0.1}
-              href="/features/performance"
-            />
-            <FeatureMappedCard
-              icon={Database}
-              title="Scalability"
-              description="Built for millions of clicks"
-              color="primary"
-              delay={0.2}
-              href="/features/analytics"
-            />
-            <FeatureMappedCard
-              icon={Users}
-              title="Team Management"
-              description="Role-based access control"
-              color="blazeOrange"
-              delay={0.3}
-              href="/features/enterprise-control"
-            />
-            <FeatureMappedCard
-              icon={Activity}
-              title="Monitoring"
-              description="Real-time health checks"
-              color="deepSea"
-              delay={0.4}
-              href="/features/link-immunity"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Fold 5: Workflow */}
-      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
-        <WorkflowBackground />
-        
-        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6 lowercase">
-              your workflow, simplified
-            </h2>
-            <p className="text-xl text-white/70">
-              Deploy → Govern → Scale → Support
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 relative">
-            {[
-              { icon: Lock, label: "Deploy", step: "01" },
-              { icon: Shield, label: "Govern", step: "02" },
-              { icon: Zap, label: "Scale", step: "03" },
-              { icon: Users, label: "Support", step: "04" },
-            ].map((workflow, index) => (
-              <div key={index} className="relative">
-                <InteractiveWorkflowCard
-                  icon={workflow.icon}
-                  label={workflow.label}
-                  stepNumber={workflow.step}
-                  delay={index * 0.15}
-                />
-                <AnimatedConnectingLine index={index} total={4} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Fold 6: CTA */}
-      <PremiumCTASection
-        headline="talk to our enterprise team"
-        subheadline="Custom SLAs, dedicated support, on-premise deployment, and volume discounts available."
-        primaryCTA="book a demo"
-        secondaryCTA="View Security"
-        secondaryCTALink="/trust"
-      />
 
       <Footer />
     </div>

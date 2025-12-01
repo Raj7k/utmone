@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { FolderKanban, Globe, Users, FileBarChart, Shield, Zap, CheckCircle2, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { ROICalculator } from "@/components/growth/ROICalculator";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
@@ -39,23 +43,26 @@ const Agencies = () => {
       <FloatingNavigation />
 
       {/* Fold 1: Hero */}
-      <section className="relative py-32 bg-gradient-to-br from-background via-wildSand/30 to-background overflow-hidden">
-        <HeroFloatingShapes />
-        <HeroGlow />
-        <DiagonalAccent position="top-left" />
-        <DiagonalAccent position="bottom-right" />
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        <RetroGradientMesh />
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
-              built for agencies managing dozens of clients
+            <SocialProofCounter variant="minimal" role="agencies" />
+            
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
+              manage every client from<br />one command center
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
-              Workspaces, team invites, white-label reports, and client-branded domains. No more spreadsheet chaos.
+              multi-client workspaces, white-label QR codes, client-specific analytics, 
+              and governance controls. built for agencies scaling fast.
             </p>
-            <div className="pt-4">
+            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
               <CTAButton href="/early-access" variant="primary" pulse>
-                get early access
+                get started free
+              </CTAButton>
+              <CTAButton href="/pricing" variant="secondary" showArrow={false}>
+                view pricing
               </CTAButton>
             </div>
           </div>
@@ -227,14 +234,40 @@ const Agencies = () => {
         </div>
       </section>
 
-      {/* Fold 6: CTA */}
-      <PremiumCTASection
-        headline="stop juggling spreadsheets"
-        subheadline="One dashboard to manage every client's links, UTMs, QR codes, and analytics."
-        primaryCTA="get early access"
-        secondaryCTA="View Pricing"
-        secondaryCTALink="/pricing"
-      />
+      {/* Fold 6: ROI Calculator */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-background">
+        <div className="container mx-auto px-6">
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* Fold 7: CTA */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase text-label mb-6">
+              ready to scale your agency?
+            </h2>
+            <p className="text-xl text-secondary-label max-w-2xl mx-auto mb-12">
+              join agencies managing millions of clicks for hundreds of clients. 
+              start free, upgrade as you grow.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <CTAButton href="/early-access" variant="primary" pulse>
+                get started free
+              </CTAButton>
+              <CTAButton href="/pricing" variant="secondary" showArrow={false}>
+                view agency pricing
+              </CTAButton>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       <Footer />
     </div>
