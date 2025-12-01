@@ -2808,6 +2808,7 @@ export type Database = {
           created_at: string | null
           created_by: string
           custom_expiry_message: string | null
+          deleted_at: string | null
           description: string | null
           destination_url: string
           destinations: Json | null
@@ -2845,6 +2846,7 @@ export type Database = {
           total_clicks: number | null
           total_conversions: number | null
           total_revenue: number | null
+          traffic_score: number | null
           unique_clicks: number | null
           updated_at: string | null
           utm_campaign: string | null
@@ -2876,6 +2878,7 @@ export type Database = {
           created_at?: string | null
           created_by: string
           custom_expiry_message?: string | null
+          deleted_at?: string | null
           description?: string | null
           destination_url: string
           destinations?: Json | null
@@ -2915,6 +2918,7 @@ export type Database = {
           total_clicks?: number | null
           total_conversions?: number | null
           total_revenue?: number | null
+          traffic_score?: number | null
           unique_clicks?: number | null
           updated_at?: string | null
           utm_campaign?: string | null
@@ -2946,6 +2950,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string
           custom_expiry_message?: string | null
+          deleted_at?: string | null
           description?: string | null
           destination_url?: string
           destinations?: Json | null
@@ -2985,6 +2990,7 @@ export type Database = {
           total_clicks?: number | null
           total_conversions?: number | null
           total_revenue?: number | null
+          traffic_score?: number | null
           unique_clicks?: number | null
           updated_at?: string | null
           utm_campaign?: string | null
@@ -4524,6 +4530,53 @@ export type Database = {
           },
         ]
       }
+      workspace_hygiene_notifications: {
+        Row: {
+          created_at: string | null
+          dismissed: boolean | null
+          dismissed_at: string | null
+          id: string
+          item_count: number
+          item_ids: Json
+          metadata: Json | null
+          notification_type: string
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dismissed?: boolean | null
+          dismissed_at?: string | null
+          id?: string
+          item_count?: number
+          item_ids?: Json
+          metadata?: Json | null
+          notification_type: string
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dismissed?: boolean | null
+          dismissed_at?: string | null
+          id?: string
+          item_count?: number
+          item_ids?: Json
+          metadata?: Json | null
+          notification_type?: string
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_hygiene_notifications_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       workspace_invitations: {
         Row: {
           accepted_at: string | null
@@ -4948,6 +5001,7 @@ export type Database = {
         Args: { p_link_id: string }
         Returns: number
       }
+      calculate_traffic_score: { Args: { p_link_id: string }; Returns: number }
       check_key_rotation: { Args: never; Returns: undefined }
       check_rate_limit: {
         Args: {
@@ -4961,6 +5015,16 @@ export type Database = {
       decrypt_sensitive_data: {
         Args: { ciphertext: string; encryption_key: string }
         Returns: string
+      }
+      detect_stale_links: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          created_at: string
+          last_clicked_at: string
+          link_id: string
+          short_url: string
+          title: string
+        }[]
       }
       encrypt_sensitive_data: {
         Args: { encryption_key: string; plaintext: string }
@@ -5106,6 +5170,7 @@ export type Database = {
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
       update_link_cache_scores: { Args: never; Returns: undefined }
+      update_traffic_scores: { Args: never; Returns: undefined }
       update_waitlist_positions: { Args: never; Returns: undefined }
       verify_api_key: {
         Args: {

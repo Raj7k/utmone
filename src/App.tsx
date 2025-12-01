@@ -23,6 +23,7 @@ import Auth from "./pages/Auth";
 import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
+import LinkExpired from "./pages/LinkExpired";
 
 // Auth callback gatekeeper and waitlist pages
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -319,6 +320,7 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/waitlist-pending" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistPending /></Suspense>} />
               <Route path="/waitlist-locked" element={<Suspense fallback={<DashboardSkeleton />}><WaitlistLocked /></Suspense>} />
+              <Route path="/link-expired" element={<LinkExpired />} />
                
                {/* Public Tools */}
                <Route path="/tools/qr" element={<Suspense fallback={<DashboardSkeleton />}><PublicQRGenerator /></Suspense>} />
