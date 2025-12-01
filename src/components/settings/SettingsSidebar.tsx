@@ -10,7 +10,8 @@ import {
   ShieldCheck, 
   CreditCard,
   Code2,
-  ChevronDown
+  ChevronDown,
+  Activity
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -37,9 +38,15 @@ const settingsGroups = [
     ],
   },
   {
+    name: "Tracking",
+    items: [
+      { id: "tracking", label: "Tracking Pixel", icon: Activity, badge: "!" },
+    ],
+  },
+  {
     name: "Developer",
     items: [
-      { id: "developers", label: "API & Pixel", icon: Code2, badge: "!" },
+      { id: "developers", label: "API Keys", icon: Code2 },
       { id: "integrations", label: "Integrations", icon: Webhook },
     ],
   },
