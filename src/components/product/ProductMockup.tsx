@@ -70,7 +70,7 @@ const UTMParameterCard = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
     <div className="flex items-center justify-between">
       <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>UTM Parameters</h3>
-      <div className={`text-green-600 bg-green-50 px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`}>✓ Valid</div>
+      <div className={`text-primary bg-primary/5 px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`}>✓ Valid</div>
     </div>
     <div className="space-y-2">
       <div className={`flex items-center justify-between ${size === "large" ? "text-sm" : "text-xs"}`}>
@@ -100,21 +100,21 @@ const SecurityBadgeCard = ({ size = "default" }: { size?: "default" | "large" })
   <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Security Status</h3>
     <div className="grid grid-cols-2 gap-3">
-      <div className={`bg-green-50 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
+      <div className={`bg-primary/5 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>🔒</div>
-        <div className={`font-semibold text-green-700 ${size === "large" ? "text-sm" : "text-xs"}`}>SSL Secured</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>SSL Secured</div>
       </div>
-      <div className={`bg-green-50 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
+      <div className={`bg-primary/5 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>✓</div>
-        <div className={`font-semibold text-green-700 ${size === "large" ? "text-sm" : "text-xs"}`}>Scanned</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>Scanned</div>
       </div>
-      <div className={`bg-green-50 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
+      <div className={`bg-primary/5 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>🛡️</div>
-        <div className={`font-semibold text-green-700 ${size === "large" ? "text-sm" : "text-xs"}`}>No Malware</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>No Malware</div>
       </div>
-      <div className={`bg-green-50 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
+      <div className={`bg-primary/5 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>✅</div>
-        <div className={`font-semibold text-green-700 ${size === "large" ? "text-sm" : "text-xs"}`}>Verified</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>Verified</div>
       </div>
     </div>
     <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
@@ -206,7 +206,7 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
       <div className="bg-primary/5 rounded-lg p-4">
         <p className="text-xs text-secondary-label mb-1">Total Clicks</p>
         <p className="text-2xl font-bold text-primary">2,847</p>
-        <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
+        <div className="flex items-center gap-1 text-xs text-primary mt-1">
           <TrendingUp className="w-3 h-3" />
           <span>+18%</span>
         </div>
@@ -214,7 +214,7 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
       <div className="bg-muted/50 rounded-lg p-4">
         <p className="text-xs text-secondary-label mb-1">Conversions</p>
         <p className="text-2xl font-bold text-label">127</p>
-        <div className="flex items-center gap-1 text-xs text-green-600 mt-1">
+        <div className="flex items-center gap-1 text-xs text-primary mt-1">
           <TrendingUp className="w-3 h-3" />
           <span>+23%</span>
         </div>
@@ -272,11 +272,11 @@ const QRCustomizerMockup = ({ size = "default" }: { size?: "default" | "large" }
       <div className="w-full space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="text-secondary-label">Brand Colors</span>
-          <CheckCircle2 className="w-3 h-3 text-green-600" />
+          <CheckCircle2 className="w-3 h-3 text-primary" />
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-secondary-label">Logo</span>
-          <CheckCircle2 className="w-3 h-3 text-green-600" />
+          <CheckCircle2 className="w-3 h-3 text-primary" />
         </div>
       </div>
     </div>
@@ -287,18 +287,18 @@ const ValidationMockup = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className="bg-card border border-border rounded-xl p-6 space-y-3">
     <h4 className="text-sm font-semibold text-label mb-4">Real-Time Validation</h4>
     <div className="space-y-2">
-      <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
-        <CheckCircle2 className="w-4 h-4 text-green-600" />
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center gap-2">
+        <CheckCircle2 className="w-4 h-4 text-primary" />
         <div className="flex-1">
-          <p className="text-xs font-semibold text-green-800 dark:text-green-200">utm_source</p>
-          <p className="text-xs text-green-600 dark:text-green-400 font-mono">google</p>
+          <p className="text-xs font-semibold text-label">utm_source</p>
+          <p className="text-xs text-primary font-mono">google</p>
         </div>
       </div>
-      <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
-        <CheckCircle2 className="w-4 h-4 text-green-600" />
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center gap-2">
+        <CheckCircle2 className="w-4 h-4 text-primary" />
         <div className="flex-1">
-          <p className="text-xs font-semibold text-green-800 dark:text-green-200">utm_medium</p>
-          <p className="text-xs text-green-600 dark:text-green-400 font-mono">cpc</p>
+          <p className="text-xs font-semibold text-label">utm_medium</p>
+          <p className="text-xs text-primary font-mono">cpc</p>
         </div>
       </div>
       <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-2">
@@ -353,23 +353,23 @@ const AttributionGraphMockup = ({ size = "default" }: { size?: "default" | "larg
     <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Bayesian Attribution</h4>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <div className={`bg-blue-100 dark:bg-blue-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
-          <p className={`font-semibold text-blue-700 dark:text-blue-300 ${size === "large" ? "text-sm" : "text-xs"}`}>LinkedIn</p>
-          <p className={`text-blue-600 dark:text-blue-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>42%</p>
+        <div className={`bg-primary/10 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
+          <p className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>LinkedIn</p>
+          <p className={`text-primary ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>42%</p>
         </div>
-        <div className={`bg-green-100 dark:bg-green-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
-          <p className={`font-semibold text-green-700 dark:text-green-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Webinar</p>
-          <p className={`text-green-600 dark:text-green-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>31%</p>
+        <div className={`bg-blazeOrange/10 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
+          <p className={`font-semibold text-blazeOrange ${size === "large" ? "text-sm" : "text-xs"}`}>Webinar</p>
+          <p className={`text-blazeOrange ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>31%</p>
         </div>
       </div>
       <div className="flex items-center justify-between">
-        <div className={`bg-purple-100 dark:bg-purple-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
-          <p className={`font-semibold text-purple-700 dark:text-purple-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Blog</p>
-          <p className={`text-purple-600 dark:text-purple-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>18%</p>
+        <div className={`bg-deep-sea/10 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`}>
+          <p className={`font-semibold text-deep-sea ${size === "large" ? "text-sm" : "text-xs"}`}>Blog</p>
+          <p className={`text-deep-sea ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>18%</p>
         </div>
-        <div className={`bg-orange-100 dark:bg-orange-900/20 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
-          <p className={`font-semibold text-orange-700 dark:text-orange-300 ${size === "large" ? "text-sm" : "text-xs"}`}>Direct</p>
-          <p className={`text-orange-600 dark:text-orange-400 ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>9%</p>
+        <div className={`bg-muted/50 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
+          <p className={`font-semibold text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Direct</p>
+          <p className={`text-secondary-label ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>9%</p>
         </div>
       </div>
     </div>
@@ -383,17 +383,17 @@ const StateValueMockup = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-card border border-border rounded-xl shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
     <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Page Value Heatmap</h4>
     <div className="space-y-2">
-      <div className={`flex items-center justify-between bg-green-50 dark:bg-green-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+      <div className={`flex items-center justify-between bg-primary/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/pricing</span>
-        <span className={`text-green-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$45.00</span>
+        <span className={`text-primary font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$45.00</span>
       </div>
-      <div className={`flex items-center justify-between bg-blue-50 dark:bg-blue-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+      <div className={`flex items-center justify-between bg-blazeOrange/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/features</span>
-        <span className={`text-blue-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$28.50</span>
+        <span className={`text-blazeOrange font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$28.50</span>
       </div>
-      <div className={`flex items-center justify-between bg-yellow-50 dark:bg-yellow-900/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
+      <div className={`flex items-center justify-between bg-deep-sea/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/blog</span>
-        <span className={`text-yellow-600 font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$12.20</span>
+        <span className={`text-deep-sea font-bold ${size === "large" ? "text-base" : "text-sm"}`}>$12.20</span>
       </div>
       <div className={`flex items-center justify-between bg-muted/50 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/about</span>

@@ -107,14 +107,14 @@ export const WorkflowTransformSection = () => {
 
       {/* Three-Card Carousel Container */}
       <div className="relative max-w-[1600px] mx-auto w-full px-6">
-        <div className="relative min-h-[700px] flex items-center justify-center">
+        <div className="relative min-h-[800px] flex items-center justify-center">
           
           {/* Left Peek Card */}
           {activeIndex > 0 && (
             <motion.div
               key={`left-${activeIndex - 1}`}
               onClick={handlePrev}
-              className="absolute left-4 w-[25%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
+              className="absolute left-4 w-[20%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
               style={{ 
                 opacity: 0.4,
                 filter: 'blur(2px)',
@@ -140,7 +140,7 @@ export const WorkflowTransformSection = () => {
           )}
 
           {/* Center Active Card */}
-          <div className="relative w-[60%] max-w-4xl z-20" {...bind()} style={{ touchAction: "pan-y" }}>
+          <div className="relative w-[70%] max-w-6xl z-20" {...bind()} style={{ touchAction: "pan-y" }}>
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={activeIndex}
@@ -151,15 +151,15 @@ export const WorkflowTransformSection = () => {
                 exit="exit"
                 className="w-full"
               >
-                <div className="bg-card backdrop-blur-xl border-2 border-border rounded-[32px] p-10 md:p-14 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.2)]">
-                  <div className="flex flex-col md:flex-row gap-10 md:gap-12 items-center">
+                <div className="bg-card backdrop-blur-xl border-2 border-border rounded-[32px] p-12 md:p-16 shadow-[0_32px_128px_-16px_rgba(0,0,0,0.2)]">
+                  <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-center">
                     {/* Mockup */}
-                    <div className="w-full md:w-1/2 flex-shrink-0">
+                    <div className="w-full md:w-[55%] flex-shrink-0">
                       <ProductMockup type={steps[activeIndex].mockupType} size="large" />
                     </div>
 
                     {/* Content */}
-                    <div className="w-full md:w-1/2 space-y-8">
+                    <div className="w-full md:w-[45%] space-y-8">
                       {/* Step Counter */}
                       <div className="inline-flex items-center gap-3">
                         <div className="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-bold text-2xl shadow-lg shadow-primary/20">
@@ -198,7 +198,7 @@ export const WorkflowTransformSection = () => {
             <motion.div
               key={`right-${activeIndex + 1}`}
               onClick={handleNext}
-              className="absolute right-4 w-[25%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
+              className="absolute right-4 w-[20%] cursor-pointer transition-all hover:opacity-60 hover:scale-[0.78]"
               style={{ 
                 opacity: 0.4,
                 filter: 'blur(2px)',
