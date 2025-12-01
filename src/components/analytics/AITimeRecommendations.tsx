@@ -59,9 +59,9 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
         <CardHeader>
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <CardTitle className="text-title-3">ai time optimizer</CardTitle>
+            <CardTitle className="text-title-3">best times to share</CardTitle>
           </div>
-          <CardDescription>gaussian process predictions powered by algorithms for optimization</CardDescription>
+          <CardDescription>when your links get the most clicks</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
@@ -83,13 +83,13 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <CardTitle className="text-title-3">ai time optimizer</CardTitle>
+            <CardTitle className="text-title-3">best times to share</CardTitle>
           </div>
           <Badge variant={data.confidence === 'high' ? 'default' : 'secondary'} className="brand-lowercase">
             {data.confidence} confidence
           </Badge>
         </div>
-        <CardDescription>gaussian process predictions with uncertainty quantification</CardDescription>
+        <CardDescription>based on your historical click data</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-6">
@@ -99,7 +99,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-primary brand-lowercase">best predicted time</span>
+                <span className="text-sm font-medium text-primary brand-lowercase">recommended time</span>
               </div>
               <h3 className="text-2xl font-display font-bold text-label">
                 {bestTime.dayName} {bestTime.timeLabel}
@@ -163,7 +163,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-2">
               <Lightbulb className="h-4 w-4 text-accent" />
-              <h4 className="text-sm font-medium text-secondary-label brand-lowercase">unexplored opportunities</h4>
+              <h4 className="text-sm font-medium text-secondary-label brand-lowercase">worth trying</h4>
             </div>
             {data.explorationSuggestions.slice(0, 2).map((slot) => (
               <div
@@ -176,11 +176,11 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
                       {slot.dayName} {slot.timeLabel}
                     </p>
                     <p className="text-xs text-tertiary-label mt-1">
-                      high potential but low data - worth exploring
+                      could perform well but not enough data yet
                     </p>
                   </div>
                   <Badge variant="outline" className="brand-lowercase text-accent border-accent">
-                    explore
+                    worth trying
                   </Badge>
                 </div>
               </div>

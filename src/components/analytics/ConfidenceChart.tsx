@@ -1,6 +1,6 @@
 /**
- * Confidence Chart Component
- * Visualizes GP predictions with uncertainty bands
+ * Click Prediction Chart Component
+ * Shows predicted clicks throughout the day
  */
 
 import { useMemo } from 'react';
@@ -41,7 +41,7 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-title-3">prediction confidence</CardTitle>
+          <CardTitle className="text-title-3">click predictions</CardTitle>
         </CardHeader>
         <CardContent>
           <Skeleton className="h-64 w-full" />
@@ -54,8 +54,8 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-title-3">prediction confidence</CardTitle>
-          <CardDescription>gaussian process uncertainty visualization</CardDescription>
+          <CardTitle className="text-title-3">click predictions</CardTitle>
+          <CardDescription>predicted clicks by hour</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-64 flex items-center justify-center text-secondary-label">
@@ -75,7 +75,7 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
           {dayName} hourly predictions
         </CardTitle>
         <CardDescription>
-          mean predictions with 95% confidence intervals (shaded area)
+          predicted clicks with confidence range (shaded area shows possible range)
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -103,8 +103,8 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
               labelStyle={{ color: 'hsl(var(--label))' }}
               formatter={(value: number, name: string) => {
                 if (name === 'mean') return [value, 'predicted clicks'];
-                if (name === 'lower') return [value, 'lower bound (95%)'];
-                if (name === 'upper') return [value, 'upper bound (95%)'];
+                if (name === 'lower') return [value, 'lowest likely'];
+                if (name === 'upper') return [value, 'highest likely'];
                 return [value, name];
               }}
             />
@@ -112,8 +112,8 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
               wrapperStyle={{ fontSize: '12px' }}
               formatter={(value) => {
                 if (value === 'mean') return 'prediction';
-                if (value === 'lower') return 'lower 95%';
-                if (value === 'upper') return 'upper 95%';
+                if (value === 'lower') return 'lowest likely';
+                if (value === 'upper') return 'highest likely';
                 return value;
               }}
             />
@@ -166,8 +166,8 @@ export const ConfidenceChart = ({ workspaceId, days = 30, selectedDay }: Confide
 
         <div className="mt-4 p-3 rounded-lg bg-muted/30 text-xs text-tertiary-label">
           <p>
-            <strong className="text-secondary-label">gaussian process regression:</strong> shaded area represents 95% confidence interval.
-            wider bands = higher uncertainty. darker line = mean prediction.
+            <strong className="text-secondary-label">clean track intelligence:</strong> shaded area shows the range of possible results.
+            wider bands = less certain. solid line = most likely result.
           </p>
         </div>
       </CardContent>

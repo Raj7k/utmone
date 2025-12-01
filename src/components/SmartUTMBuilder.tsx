@@ -5,6 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Check } from "lucide-react";
 import { useState } from "react";
+import { EvolutionaryUTMSuggestions } from "./utm/EvolutionaryUTMSuggestions";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface UTMTemplate {
   name: string;
@@ -55,6 +58,8 @@ interface SmartUTMBuilderProps {
 
 export const SmartUTMBuilder = ({ values, onChange, destinationUrl }: SmartUTMBuilderProps) => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const { currentWorkspace } = useWorkspaceContext();
+  const { toast } = useToast();
 
   const applyTemplate = (template: UTMTemplate) => {
     onChange("utm_source", template.source);
@@ -96,6 +101,24 @@ export const SmartUTMBuilder = ({ values, onChange, destinationUrl }: SmartUTMBu
 
   return (
     <div className="space-y-6">
+      {/* Clean Track AI Suggestions */}
+      {currentWorkspace && (
+        <EvolutionaryUTMSuggestions 
+          workspaceId={currentWorkspace.id}
+          onApplyPattern={(pattern) => {
+            onChange("utm_source", pattern.source);
+            onChange("utm_medium", pattern.medium);
+            onChange("utm_campaign", pattern.campaign);
+            if (pattern.term) onChange("utm_term", pattern.term);
+            if (pattern.content) onChange("utm_content", pattern.content);
+            toast({
+              title: "Pattern Applied",
+              description: "top performing utm pattern applied",
+            });
+          }}
+        />
+      )}
+
       {/* UTM Templates */}
       <Card className="p-4 bg-muted/20">
         <div className="flex items-center gap-2 mb-3">

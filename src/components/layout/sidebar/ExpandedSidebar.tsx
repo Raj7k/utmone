@@ -17,8 +17,7 @@ import {
   ChevronLeft,
   Search,
   Plus,
-  Building2,
-  Sparkles
+  Building2
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -44,8 +43,6 @@ const toolsNavigation = [
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "AI Optimization", href: "/dashboard/ai-optimization", icon: Sparkles },
-  { name: "Send Time", href: "/dashboard/ai-send-time", icon: Clock },
 ];
 
 const growthNavigation = [

@@ -1,4 +1,4 @@
-import { Dna, TrendingUp, Copy, AlertCircle } from "lucide-react";
+import { TrendingUp, Copy, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useUTMEvolution } from "@/hooks/useUTMEvolution";
@@ -30,13 +30,13 @@ export function EvolutionaryUTMSuggestions({ workspaceId, onApplyPattern }: Evol
       <Card className="p-4 border-muted">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Dna className="h-5 w-5 text-muted-foreground" />
-            <h3 className="font-semibold text-sm text-muted-foreground">evolved utm patterns</h3>
+            <TrendingUp className="h-5 w-5 text-muted-foreground" />
+            <h3 className="font-semibold text-sm text-muted-foreground">what's working</h3>
           </div>
           <div className="flex items-start gap-2 p-3 bg-muted/50 rounded-lg">
             <AlertCircle className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
             <p className="text-xs text-muted-foreground">
-              need at least 5 conversions with utm parameters to evolve patterns using genetic algorithm
+              need at least 5 conversions with utm parameters to show top performing patterns
             </p>
           </div>
         </div>
@@ -48,15 +48,12 @@ export function EvolutionaryUTMSuggestions({ workspaceId, onApplyPattern }: Evol
     <Card className="p-4 border-primary/20 bg-primary/5">
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Dna className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-sm">evolved utm patterns</h3>
-          <span className="text-xs text-muted-foreground ml-auto">
-            gen {patterns[0]?.generation}
-          </span>
+          <TrendingUp className="h-5 w-5 text-primary" />
+          <h3 className="font-semibold text-sm">what's working</h3>
         </div>
 
         <p className="text-xs text-muted-foreground">
-          optimized using genetic algorithm on conversion data
+          utm patterns driving the most conversions
         </p>
 
         <div className="space-y-2">
@@ -110,7 +107,7 @@ export function EvolutionaryUTMSuggestions({ workspaceId, onApplyPattern }: Evol
                 <Button
                   onClick={() => {
                     onApplyPattern(pattern.pattern);
-                    toast.success('evolved pattern applied');
+                    toast.success('pattern applied');
                   }}
                   size="sm"
                   variant="outline"
@@ -123,10 +120,6 @@ export function EvolutionaryUTMSuggestions({ workspaceId, onApplyPattern }: Evol
             </Card>
           ))}
         </div>
-
-        <p className="text-xs text-muted-foreground italic">
-          patterns evolved using crossover, mutation, and tournament selection over {patterns[0]?.generation} generations
-        </p>
       </div>
     </Card>
   );
