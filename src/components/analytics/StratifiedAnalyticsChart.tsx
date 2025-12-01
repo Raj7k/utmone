@@ -128,13 +128,13 @@ export function StratifiedAnalyticsChart({
         <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
           <div>
             <span className="font-medium text-foreground">
-              {data.totalClicks.toLocaleString()}
+              {(data.totalClicks || 0).toLocaleString()}
             </span>{" "}
             total clicks
           </div>
           <div>
             <span className="font-medium text-foreground">
-              {data.uniqueVisitors.toLocaleString()}
+              {(data.uniqueVisitors || 0).toLocaleString()}
             </span>{" "}
             unique visitors
           </div>
