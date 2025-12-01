@@ -16,7 +16,14 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { Menu, ChevronRight, Link as LinkIcon, Link2, Network, QrCode, Database, Layers } from "lucide-react";
+import { 
+  Menu, ChevronRight, Link as LinkIcon, Link2, Network, QrCode, Database, Layers,
+  Tags, BarChart3, TrendingUp, GitBranch, Route, Shield,
+  Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code, 
+  DollarSign, Handshake, FileBarChart,
+  BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench,
+  Sparkles
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
 
@@ -203,109 +210,159 @@ export const Navigation = () => {
                     {formatText("features")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
-                      {/* Core Features */}
-                      <li className="col-span-2">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                          Core
+                    <div className="w-[650px] p-4 flex gap-4">
+                      {/* Featured Card - Left */}
+                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
+                        <div>
+                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
+                            <Sparkles className="w-5 h-5 text-primary" />
+                          </div>
+                          <h3 className="text-sm font-semibold mb-2">feature-first</h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            every feature built for clean data—no junk, no guesses, no broken links
+                          </p>
                         </div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/short-links"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        <Link 
+                          to="/features" 
+                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
                         >
-                          <div className="text-sm font-medium leading-none">{formatText("Short Links")}</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            {formatText("branded, memorable links that work")}
-                          </p>
+                          explore all <ChevronRight className="w-3 h-3" />
                         </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/utm-builder"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">UTM Builder</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            consistent parameters, every time
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/qr-generator"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">QR Generator</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            on-brand codes that convert
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/analytics"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Analytics</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            clear data, better decisions
-                          </p>
-                        </Link>
-                      </li>
-                      
-                      {/* Intelligence */}
-                      <li className="col-span-2 mt-2">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      </div>
+
+                      {/* Features Grid - Right */}
+                      <div className="flex-1">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Core Features
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mb-4">
+                          <Link
+                            to="/features/short-links"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Link2 className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Short Links</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              branded, memorable links
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/utm-builder"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Tags className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">UTM Builder</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              consistent parameters
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/qr-generator"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <QrCode className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">QR Generator</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              on-brand codes
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/analytics"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <BarChart3 className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Analytics</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              clear data, better decisions
+                            </p>
+                          </Link>
+                        </div>
+
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                           Intelligence
                         </div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/predictive-analytics"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Predictive Analytics</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            forecast clicks before they happen
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/attribution-graph"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Attribution Graph</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            bayesian multi-touch attribution
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/smart-routing"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Smart Routing</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            contextual bandit geo-targeting
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/features/link-immunity"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Link Immunity</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            zero broken links guaranteed
-                          </p>
-                        </Link>
-                      </li>
-                    </ul>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link
+                            to="/features/predictive-analytics"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <TrendingUp className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Predictive</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              forecast clicks
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/attribution-graph"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <GitBranch className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Attribution</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              multi-touch truth
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/smart-routing"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Route className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Smart Routing</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              geo-targeting
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/features/link-immunity"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Shield className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Link Immunity</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              zero broken links
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
@@ -315,157 +372,179 @@ export const Navigation = () => {
                     {formatText("solutions")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
-                      {/* BY SEGMENT Column */}
-                      <li className="col-span-1">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                          By Segment
+                    <div className="w-[650px] p-4 flex gap-4">
+                      {/* Featured Card - Left */}
+                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
+                        <div>
+                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
+                            <Users className="w-5 h-5 text-primary" />
+                          </div>
+                          <h3 className="text-sm font-semibold mb-2">built for your team</h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            every role gets clean data—marketing, sales, ops, devs, partners
+                          </p>
                         </div>
-                        <div className="space-y-1">
-                          <Link
-                            to="/solutions/enterprise"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/enterprise" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Enterprise</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              security, scale, governance
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/agencies"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/agencies" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Agencies</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              multi-client workspaces
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/startups"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/startups" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Startups</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              enterprise quality, startup pricing
-                            </p>
-                          </Link>
+                        <Link 
+                          to="/solutions" 
+                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
+                        >
+                          see all <ChevronRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+
+                      {/* Solutions Grid - Right */}
+                      <div className="flex-1">
+                        <div className="grid grid-cols-2 gap-4">
+                          {/* By Segment Column */}
+                          <div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                              By Segment
+                            </div>
+                            <div className="space-y-1">
+                              <Link
+                                to="/solutions/enterprise"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Building2 className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Enterprise</div>
+                                </div>
+                                <p className="text-xs leading-snug text-muted-foreground">
+                                  security & scale
+                                </p>
+                              </Link>
+
+                              <Link
+                                to="/solutions/agencies"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Users className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Agencies</div>
+                                </div>
+                                <p className="text-xs leading-snug text-muted-foreground">
+                                  multi-client workspaces
+                                </p>
+                              </Link>
+
+                              <Link
+                                to="/solutions/startups"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Rocket className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Startups</div>
+                                </div>
+                                <p className="text-xs leading-snug text-muted-foreground">
+                                  enterprise quality
+                                </p>
+                              </Link>
+                            </div>
+                          </div>
+
+                          {/* By Role Column */}
+                          <div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                              By Role
+                            </div>
+                            <div className="space-y-1">
+                              <Link
+                                to="/solutions/marketers"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Megaphone className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Marketing</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/marketing-ops"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Settings className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Ops</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/sales"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Briefcase className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Sales</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/developers"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Code className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Developers</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/revops"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <DollarSign className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">RevOps</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/partner-managers"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <Handshake className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Partners</div>
+                                </div>
+                              </Link>
+
+                              <Link
+                                to="/solutions/reporting-team"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                    <FileBarChart className="w-4 h-4 text-primary" />
+                                  </div>
+                                  <div className="text-sm font-medium leading-none">Reporting</div>
+                                </div>
+                              </Link>
+                            </div>
+                          </div>
                         </div>
-                      </li>
-                      
-                      {/* BY ROLE Column */}
-                      <li className="col-span-1">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                          By Role
-                        </div>
-                        <div className="space-y-1">
-                          <Link
-                            to="/solutions/marketers"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/marketers" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Marketing</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              clean campaigns, zero errors
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/marketing-ops"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/marketing-ops" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Marketing Ops</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              governance without friction
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/sales"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/sales" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Sales</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              share faster, track better
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/developers"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/developers" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Developers</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              a clean api, clean data
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/revops"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/revops" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">RevOps</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              unified revenue tracking
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/partner-managers"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/partner-managers" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Partner Managers</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              one truth, click to close
-                            </p>
-                          </Link>
-                          <Link
-                            to="/solutions/reporting-team"
-                            className={cn(
-                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                              location.pathname === "/solutions/reporting-team" && "bg-primary/10"
-                            )}
-                          >
-                            <div className="text-sm font-medium leading-none">Reporting Team</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              clean data in, clean reports out
-                            </p>
-                          </Link>
-                        </div>
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* How It Works - Top Level Link */}
-                <NavigationMenuItem>
-                  <Link
-                    to="/how-it-works"
-                    className="inline-flex h-9 items-center px-3 text-small-text font-medium text-foreground/70 hover:text-foreground transition-apple"
-                  >
-                    {formatText("how it works")}
-                  </Link>
-                </NavigationMenuItem>
 
                 {/* Resources Dropdown */}
                 <NavigationMenuItem>
@@ -473,147 +552,189 @@ export const Navigation = () => {
                     {formatText("resources")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[500px] grid-cols-2 gap-2 p-4">
-                      <li>
-                        <Link
-                          to="/resources/guides"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Guides</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            long-form educational content
+                    <div className="w-[650px] p-4 flex gap-4">
+                      {/* Featured Card - Left */}
+                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
+                        <div>
+                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
+                            <BookOpen className="w-5 h-5 text-primary" />
+                          </div>
+                          <h3 className="text-sm font-semibold mb-2">learn & explore</h3>
+                          <p className="text-xs text-muted-foreground leading-relaxed">
+                            everything you need to master link tracking—guides, tools, templates
                           </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/playbooks"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                        </div>
+                        <Link 
+                          to="/resources" 
+                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
                         >
-                          <div className="text-sm font-medium leading-none">Playbooks</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            step-by-step implementation
-                          </p>
+                          browse all <ChevronRight className="w-3 h-3" />
                         </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/templates"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Templates</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            ready-to-use resources
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/frameworks"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Frameworks</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            mental models & methodologies
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/examples"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Examples</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            real-world use cases
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/glossary"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Glossary</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            utm & analytics terminology
-                          </p>
-                        </Link>
-                      </li>
-                      
-                      {/* Free Tools Section */}
-                      <li className="col-span-2 mt-2">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      </div>
+
+                      {/* Resources Grid - Right */}
+                      <div className="flex-1">
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                          Learning
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mb-4">
+                          <Link
+                            to="/resources/guides"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <BookOpen className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Guides</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              educational content
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/resources/playbooks"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <ClipboardList className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Playbooks</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              step-by-step
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/resources/templates"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <FileText className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Templates</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              ready-to-use
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/resources/frameworks"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Puzzle className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Frameworks</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              mental models
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/resources/examples"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <FolderOpen className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Examples</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              real-world cases
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/resources/glossary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <BookMarked className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Glossary</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              utm terminology
+                            </p>
+                          </Link>
+                        </div>
+
+                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                           Free Tools
                         </div>
-                      </li>
-                      <li>
-                        <Link
-                          to="/tools/shorten"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">URL Shortener</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            instant short links
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/tools/utm-builder"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">UTM Builder</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            build clean utm urls
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/tools/qr"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">QR Generator</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            branded qr codes
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/tools/link-health-checker"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
-                        >
-                          <div className="text-sm font-medium leading-none">Link Health Checker</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            check for broken links
-                          </p>
-                        </Link>
-                      </li>
-                      <li>
-                        <span className="block select-none space-y-1 rounded-md p-3 leading-none opacity-50 pointer-events-none">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium leading-none">2026 Salary Report</span>
-                            <span className="px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground border border-border rounded">Coming Soon</span>
-                          </div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            comprehensive salary benchmarks
-                          </p>
-                        </span>
-                      </li>
-                      <li>
-                        <Link
-                          to="/resources/tools"
-                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium leading-none">Tools</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            interactive calculators
-                          </p>
-                        </Link>
-                      </li>
-                    </ul>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link
+                            to="/tools/shorten"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Link2 className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">URL Shortener</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              instant short links
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/tools/utm-builder"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <Tags className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">UTM Builder</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              clean utm urls
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/tools/qr"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <QrCode className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">QR Generator</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              branded qr codes
+                            </p>
+                          </Link>
+
+                          <Link
+                            to="/tools/link-health-checker"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <SearchCheck className="w-4 h-4 text-primary" />
+                              </div>
+                              <div className="text-sm font-medium leading-none">Link Checker</div>
+                            </div>
+                            <p className="text-xs leading-snug text-muted-foreground">
+                              check for broken links
+                            </p>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
@@ -641,17 +762,6 @@ export const Navigation = () => {
                   </Link>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                  <Link 
-                    to="/partners/apply"
-                    className={cn(
-                      "inline-flex h-9 w-max items-center justify-center rounded-md px-3 text-small-text font-medium text-foreground/70 hover:opacity-70 transition-apple",
-                      location.pathname.startsWith("/partners") && "text-foreground"
-                    )}
-                  >
-                    partners
-                  </Link>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -671,13 +781,6 @@ export const Navigation = () => {
                 </div>
                 
                 <nav className="flex flex-col gap-4 mt-8">
-                  {/* How It Works */}
-                  <div className="space-y-1">
-                    <Link to="/how-it-works" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors">
-                      <span>How It Works</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
-                  </div>
 
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
@@ -774,10 +877,6 @@ export const Navigation = () => {
                   </div>
 
                   <div className="border-t pt-4 space-y-1">
-                    <Link to="/partners/apply" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <span>Partners</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
                     <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>Pricing</span>
                       <ChevronRight className="h-4 w-4" />

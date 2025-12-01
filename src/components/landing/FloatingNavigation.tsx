@@ -3,7 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { ChevronUp, Link2, Network, QrCode, Database, Layers } from "lucide-react";
+import { 
+  ChevronUp, Link2, Network, QrCode, Database, Layers,
+  Tags, BarChart3, TrendingUp, GitBranch, Route, Shield,
+  Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code,
+  DollarSign, Handshake, FileBarChart,
+  BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck,
+  Sparkles
+} from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -140,89 +147,105 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[400px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                  className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
-                  <ul className="grid grid-cols-2 gap-2">
-                    {/* Core */}
-                    <li className="col-span-2">
-                      <div className="px-2 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-                        Core
+                  <div className="flex gap-3">
+                    {/* Featured Card */}
+                    <div className="w-[180px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col justify-between border border-primary/20">
+                      <div>
+                        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2">
+                          <Sparkles className="w-4 h-4 text-primary" />
+                        </div>
+                        <h3 className="text-xs font-semibold mb-1">feature-first</h3>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed">
+                          built for clean data
+                        </p>
                       </div>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/short-links"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                      <Link 
+                        to="/features" 
+                        className="text-[10px] font-medium text-primary hover:underline mt-3 inline-flex items-center gap-1"
                       >
-                        <div className="text-xs font-medium leading-none">Short Links</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          branded, memorable links
-                        </p>
+                        explore <ChevronUp className="w-2.5 h-2.5" />
                       </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/utm-builder"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium leading-none">UTM Builder</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          consistent parameters
-                        </p>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/qr-generator"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium leading-none">QR Generator</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          on-brand codes
-                        </p>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/analytics"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium leading-none">Analytics</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          clear data, better decisions
-                        </p>
-                      </Link>
-                    </li>
-                    
-                    {/* Advanced */}
-                    <li className="col-span-2 mt-1">
-                      <div className="px-2 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-                        Advanced
+                    </div>
+
+                    {/* Grid */}
+                    <div className="flex-1">
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          to="/features/short-links"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <Link2 className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">Short Links</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/features/utm-builder"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <Tags className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">UTM Builder</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/features/qr-generator"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <QrCode className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">QR Gen</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/features/analytics"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <BarChart3 className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">Analytics</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/features/predictive-analytics"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <TrendingUp className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">Predictive</span>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/features/smart-routing"
+                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <Route className="w-3 h-3 text-primary" />
+                            </div>
+                            <span className="text-xs font-medium">Smart Routing</span>
+                          </div>
+                        </Link>
                       </div>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/governance"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium leading-none">Enterprise Control</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          governance made simple
-                        </p>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/features/clean-track"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium leading-none">Clean-Track</div>
-                        <p className="line-clamp-1 text-xs leading-snug text-muted-foreground">
-                          automated tracking rules
-                        </p>
-                      </Link>
-                    </li>
-                  </ul>
+                    </div>
+                  </div>
                 </PopoverContent>
               </Popover>
 
@@ -240,46 +263,103 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                  className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
-                  <ul className="grid gap-2">
-                    <li>
+                  <div className="flex gap-3">
+                    {/* Featured Card */}
+                    <div className="w-[180px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col justify-between border border-primary/20">
+                      <div>
+                        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2">
+                          <Users className="w-4 h-4 text-primary" />
+                        </div>
+                        <h3 className="text-xs font-semibold mb-1">built for teams</h3>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed">
+                          every role gets clean data
+                        </p>
+                      </div>
+                      <Link 
+                        to="/solutions" 
+                        className="text-[10px] font-medium text-primary hover:underline mt-3 inline-flex items-center gap-1"
+                      >
+                        see all <ChevronUp className="w-2.5 h-2.5" />
+                      </Link>
+                    </div>
+
+                    {/* Grid */}
+                    <div className="flex-1 grid grid-cols-2 gap-2">
+                      <Link
+                        to="/solutions/enterprise"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Building2 className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Enterprise</span>
+                        </div>
+                      </Link>
+
                       <Link
                         to="/solutions/marketers"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Marketing Teams</div>
-                        <p className="text-xs text-muted-foreground">campaigns work better when links do</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Megaphone className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Marketing</span>
+                        </div>
                       </Link>
-                    </li>
-                    <li>
+
+                      <Link
+                        to="/solutions/agencies"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Users className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Agencies</span>
+                        </div>
+                      </Link>
+
                       <Link
                         to="/solutions/sales"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Sales Teams</div>
-                        <p className="text-xs text-muted-foreground">share faster, share cleaner</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Briefcase className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Sales</span>
+                        </div>
                       </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/solutions/marketing-ops"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
-                      >
-                        <div className="text-xs font-medium">Marketing Ops</div>
-                        <p className="text-xs text-muted-foreground">governance without the friction</p>
-                      </Link>
-                    </li>
-                    <li>
+
                       <Link
                         to="/solutions/developers"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Developers</div>
-                        <p className="text-xs text-muted-foreground">a clean api for a cleaner stack</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Code className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Developers</span>
+                        </div>
                       </Link>
-                    </li>
-                  </ul>
+
+                      <Link
+                        to="/solutions/revops"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <DollarSign className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">RevOps</span>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
                 </PopoverContent>
               </Popover>
 
@@ -297,46 +377,103 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[350px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                  className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
-                  <ul className="grid gap-2">
-                    <li>
+                  <div className="flex gap-3">
+                    {/* Featured Card */}
+                    <div className="w-[180px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col justify-between border border-primary/20">
+                      <div>
+                        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2">
+                          <BookOpen className="w-4 h-4 text-primary" />
+                        </div>
+                        <h3 className="text-xs font-semibold mb-1">learn & explore</h3>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed">
+                          guides, tools, templates
+                        </p>
+                      </div>
+                      <Link 
+                        to="/resources" 
+                        className="text-[10px] font-medium text-primary hover:underline mt-3 inline-flex items-center gap-1"
+                      >
+                        browse <ChevronUp className="w-2.5 h-2.5" />
+                      </Link>
+                    </div>
+
+                    {/* Grid */}
+                    <div className="flex-1 grid grid-cols-2 gap-2">
                       <Link
                         to="/resources/guides"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Guides</div>
-                        <p className="text-xs text-muted-foreground">long-form educational content</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <BookOpen className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Guides</span>
+                        </div>
                       </Link>
-                    </li>
-                    <li>
+
                       <Link
                         to="/resources/playbooks"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Playbooks</div>
-                        <p className="text-xs text-muted-foreground">step-by-step implementation</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <ClipboardList className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Playbooks</span>
+                        </div>
                       </Link>
-                    </li>
-                    <li>
+
                       <Link
                         to="/resources/templates"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Templates</div>
-                        <p className="text-xs text-muted-foreground">ready-to-use resources</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <FileText className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Templates</span>
+                        </div>
                       </Link>
-                    </li>
-                    <li>
+
                       <Link
                         to="/resources/glossary"
-                        className="block select-none space-y-1 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
                       >
-                        <div className="text-xs font-medium">Glossary</div>
-                        <p className="text-xs text-muted-foreground">utm & tracking terms explained</p>
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <BookMarked className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Glossary</span>
+                        </div>
                       </Link>
-                    </li>
-                  </ul>
+
+                      <Link
+                        to="/tools/shorten"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <Link2 className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">Shortener</span>
+                        </div>
+                      </Link>
+
+                      <Link
+                        to="/tools/qr"
+                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-primary/10"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                            <QrCode className="w-3 h-3 text-primary" />
+                          </div>
+                          <span className="text-xs font-medium">QR Gen</span>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
                 </PopoverContent>
               </Popover>
             </div>
