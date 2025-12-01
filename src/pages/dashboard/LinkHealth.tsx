@@ -49,7 +49,7 @@ export default function LinkHealth() {
 
       toast({
         title: "health check started",
-        description: "checking top 100 links... this may take a minute.",
+        description: "checking your links... this may take a minute.",
       });
 
       // Refetch after 30 seconds
@@ -58,13 +58,13 @@ export default function LinkHealth() {
         setIsChecking(false);
         toast({
           title: "health check complete",
-          description: "link health status updated.",
+          description: "link status updated.",
         });
       }, 30000);
     } catch (error) {
       console.error("Health check error:", error);
       toast({
-        title: "health check failed",
+        title: "check failed",
         description: "please try again later.",
         variant: "destructive",
       });
@@ -113,14 +113,14 @@ export default function LinkHealth() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold">link health monitor</h1>
+          <h1 className="text-3xl font-display font-bold">link guard</h1>
           <p className="text-muted-foreground mt-2">
-            automated reliability checks for your links
+            we check your links automatically so you never lose a click
           </p>
         </div>
-        <Button onClick={handleManualCheck} disabled={isChecking}>
+        <Button onClick={handleManualCheck} disabled={isChecking} variant="marketing">
           <RefreshCw className={`h-4 w-4 mr-2 ${isChecking ? "animate-spin" : ""}`} />
-          run health check
+          check now
         </Button>
       </div>
 
@@ -128,7 +128,7 @@ export default function LinkHealth() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">healthy links</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">working links</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.healthy}</div>
@@ -137,7 +137,7 @@ export default function LinkHealth() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">unhealthy links</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">broken links</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-red-600 dark:text-red-400">{stats.unhealthy}</div>
@@ -146,7 +146,7 @@ export default function LinkHealth() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">unchecked</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">not checked yet</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-gray-600 dark:text-gray-400">{stats.unknown}</div>
@@ -159,37 +159,37 @@ export default function LinkHealth() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            how the immune system works
+            how link guard protects you
           </CardTitle>
-          <CardDescription>automated link reliability protection</CardDescription>
+          <CardDescription>automatic protection against broken links</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold mb-2">1. active monitoring</h3>
+              <h3 className="font-semibold mb-2">1. we check your top links every hour</h3>
               <p className="text-sm text-muted-foreground">
-                Every hour, we check the top 100 most active links by sending HEAD requests to their destination URLs.
+                your 100 most active links are automatically tested to make sure they're working.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">2. health detection</h3>
+              <h3 className="font-semibold mb-2">2. if a link breaks, we flag it immediately</h3>
               <p className="text-sm text-muted-foreground">
-                Links returning 404, 500, or timing out are flagged. After 3 consecutive failures, they're marked unhealthy.
+                links that return errors or time out are marked as broken after 3 attempts.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">3. auto-recovery</h3>
+              <h3 className="font-semibold mb-2">3. fallback URLs keep traffic flowing</h3>
               <p className="text-sm text-muted-foreground">
-                If you've configured a fallback URL, traffic is automatically routed there to prevent wasted clicks.
+                if you've set a backup URL, we redirect traffic there automatically while you fix the issue.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">4. instant alerts</h3>
+              <h3 className="font-semibold mb-2">4. you get notified so nothing slips through</h3>
               <p className="text-sm text-muted-foreground">
-                When a link becomes unhealthy, we email you immediately so you can fix it before losing revenue.
+                when a link becomes unhealthy, we email you right away so you can take action.
               </p>
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function LinkHealth() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="text-center py-8 text-muted-foreground">loading links...</div>
+            <div className="text-center py-8 text-muted-foreground">loading...</div>
           ) : filteredLinks && filteredLinks.length > 0 ? (
             <div className="space-y-4">
               {filteredLinks.map((link) => (
@@ -236,7 +236,7 @@ export default function LinkHealth() {
                         {link.fallback_url && (
                           <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                             <Shield className="h-3 w-3" />
-                            fallback: {link.fallback_url}
+                            backup: {link.fallback_url}
                           </div>
                         )}
                       </div>
@@ -262,7 +262,7 @@ export default function LinkHealth() {
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              no links found matching your search
+              no links found
             </div>
           )}
         </CardContent>

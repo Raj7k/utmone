@@ -35,11 +35,6 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         
         <AppHeader />
 
-        {/* Founding Member Badge */}
-        <div className="px-4 md:px-6 pt-4">
-          <FoundingMemberBadge />
-        </div>
-
         {/* Main Content Area with max-width constraint */}
         <main className="flex-1 overflow-y-auto">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 w-full">

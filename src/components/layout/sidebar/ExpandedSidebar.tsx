@@ -47,13 +47,13 @@ const toolsNavigation = [
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
-  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
+  { name: "Link Guard", href: "/dashboard/link-health", icon: Shield },
+  { name: "Smart Testing", href: "/dashboard/experiments", icon: Beaker },
 ];
 
 const intelligenceNavigation = [
-  { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
-  { name: "Analytics Perf", href: "/dashboard/analytics-performance", icon: TrendingUp },
+  { name: "Instant Links", href: "/dashboard/cache-monitoring", icon: Zap },
+  { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
 ];
 
 const growthNavigation = [
