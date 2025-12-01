@@ -16,7 +16,8 @@ import {
   Bell,
   ChevronRight,
   GitBranch,
-  Route
+  Route,
+  Beaker
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -37,6 +38,7 @@ const navigation = [
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
   { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
   { name: "Smart Routing", href: "/dashboard/targeting", icon: Route },
+  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
   { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
   { name: "Billing", href: "/settings/billing", icon: CreditCard },
   { name: "Account", href: "/settings/profile", icon: User },

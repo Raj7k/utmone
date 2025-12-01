@@ -58,6 +58,7 @@ const intelligenceNavigation = [
   { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
   { name: "Smart Routing", href: "/dashboard/targeting", icon: Route },
+  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
 ];
 
 const growthNavigation = [
