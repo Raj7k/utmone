@@ -53,13 +53,13 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative group cursor-pointer"
+          className="relative group cursor-pointer"
     >
       {/* Glassmorphism Card */}
       <div className="relative p-10 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500">
         {/* Glow Effect */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-blazeOrange/20 via-primary/20 to-deepSea/20 opacity-0 transition-opacity duration-500"
+          className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-500"
           animate={{ opacity: isHovered ? 1 : 0 }}
         />
         

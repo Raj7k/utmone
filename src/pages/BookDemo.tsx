@@ -130,7 +130,7 @@ export default function BookDemo() {
 
       <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16">
         {/* Left Panel - Brand Experience */}
-        <div className="relative bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-white p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
+        <div className="relative bg-muted/20 p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
             {/* Gradient Orbs */}

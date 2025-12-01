@@ -1,0 +1,81 @@
+import { motion } from "framer-motion";
+import { TrendingUp } from "lucide-react";
+
+export const ForecastingPreview = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="bg-card border-2 border-border rounded-2xl p-8 shadow-xl"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-xl font-display font-bold text-foreground lowercase mb-1">
+            summer sale 2024 forecast
+          </h3>
+          <p className="text-sm text-muted-foreground">7-day prediction with confidence band</p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+          <TrendingUp className="w-4 h-4 text-primary" />
+          <span className="text-sm font-semibold text-primary">85% confidence</span>
+        </div>
+      </div>
+
+      {/* Visual Chart Mockup */}
+      <div className="relative h-64 bg-muted/20 rounded-xl p-6 overflow-hidden">
+        {/* Grid Lines */}
+        <div className="absolute inset-0 flex flex-col justify-between py-6">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-px bg-border/30" />
+          ))}
+        </div>
+
+        {/* Chart Line */}
+        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200" preserveAspectRatio="none">
+          {/* Confidence Band */}
+          <path
+            d="M 0 120 Q 100 110 150 100 T 300 90 L 400 85 L 400 160 Q 300 170 150 180 Q 100 185 0 190 Z"
+            fill="hsl(var(--primary) / 0.1)"
+            className="animate-pulse"
+            style={{ animationDuration: '3s' }}
+          />
+          
+          {/* Main Line */}
+          <path
+            d="M 0 150 Q 100 140 150 120 T 300 110 L 400 100"
+            fill="none"
+            stroke="hsl(var(--primary))"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </svg>
+
+        {/* Data Point */}
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute top-1/3 right-1/4 w-3 h-3 bg-primary rounded-full shadow-lg"
+        />
+      </div>
+
+      {/* Prediction Summary */}
+      <div className="mt-6 grid grid-cols-3 gap-4">
+        <div className="text-center p-4 rounded-lg bg-muted/30">
+          <div className="text-2xl font-bold text-foreground">~1,200</div>
+          <div className="text-xs text-muted-foreground">predicted clicks</div>
+        </div>
+        <div className="text-center p-4 rounded-lg bg-primary/10">
+          <div className="text-2xl font-bold text-primary">±150</div>
+          <div className="text-xs text-primary">confidence range</div>
+        </div>
+        <div className="text-center p-4 rounded-lg bg-muted/30">
+          <div className="text-2xl font-bold text-foreground">Tue 10AM</div>
+          <div className="text-xs text-muted-foreground">peak time</div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};

@@ -15,8 +15,8 @@ export const WorkflowTimeline = ({ steps, description }: WorkflowTimelineProps) 
   return (
     <div className="max-w-5xl mx-auto">
       <div className="relative flex items-center justify-between gap-4">
-        {/* Gradient connecting line */}
-        <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blazeOrange via-primary to-deepSea rounded-full -translate-y-1/2 opacity-20" />
+        {/* Connecting line */}
+        <div className="absolute top-1/2 left-0 right-0 h-1 bg-primary/20 rounded-full -translate-y-1/2" />
         
         {steps.map((step, index) => (
           <motion.div

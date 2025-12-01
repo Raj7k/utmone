@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { GradientMeshBackground } from "./GradientMeshBackground";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { CTAButton } from "@/components/ui/CTAButton";
 
 interface PremiumCTASectionProps {
@@ -20,8 +20,8 @@ export const PremiumCTASection = ({
   secondaryCTALink,
 }: PremiumCTASectionProps) => {
   return (
-    <section className="relative py-32 bg-gradient-to-br from-blazeOrange/10 via-primary/5 to-deepSea/10 overflow-hidden">
-      <GradientMeshBackground />
+    <section className="relative py-32 overflow-hidden">
+      <RetroGradientMesh />
 
       <div className="relative max-w-[1100px] mx-auto px-8 z-10">
         {/* Main Content */}

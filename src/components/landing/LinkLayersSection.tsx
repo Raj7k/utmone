@@ -43,7 +43,7 @@ export const LinkLayersSection = () => {
   });
 
   return (
-    <section ref={sectionRef} className="relative py-12 md:py-16 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-deepSea/5"
+    <section ref={sectionRef} className="relative py-12 md:py-16 bg-muted/20"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
