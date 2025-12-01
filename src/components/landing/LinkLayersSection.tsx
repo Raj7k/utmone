@@ -69,27 +69,33 @@ export const LinkLayersSection = () => {
         </div>
 
         {/* Stacking Cards */}
-        <div className="relative min-h-[3000px]">
+        <div className="relative min-h-[3500px]">
           {layers.map((layer, index) => {
-            const startProgress = index * 0.2;
-            const endProgress = Math.min((index + 1) * 0.2, 1);
+            const startProgress = index * 0.18;
+            const midProgress = startProgress + 0.09;
+            const endProgress = startProgress + 0.18;
+            const exitStart = endProgress;
+            const exitEnd = Math.min(exitStart + 0.1, 1);
             
+            // Entry animation: slide up from below
             const y = useTransform(
               scrollYProgress,
-              [startProgress, endProgress],
-              [800, index * 100]
+              [startProgress, midProgress, exitStart, exitEnd],
+              [600, index * 80, index * 80, -200]
             );
             
+            // Scale: grow on entry, shrink on exit
             const scale = useTransform(
               scrollYProgress,
-              [startProgress, endProgress],
-              [0.85, 1]
+              [startProgress, midProgress, exitStart, exitEnd],
+              [0.88, 1, 1, 0.85]
             );
             
+            // Opacity: fade in on entry, fade out on exit
             const opacity = useTransform(
               scrollYProgress,
-              [startProgress, startProgress + 0.05],
-              [0, 1]
+              [startProgress, startProgress + 0.03, exitStart, exitEnd],
+              [0, 1, 1, 0.2]
             );
 
             const isEven = index % 2 === 0;
@@ -97,10 +103,10 @@ export const LinkLayersSection = () => {
             return (
               <motion.div
                 key={index}
-                style={{ y, scale, opacity }}
-                className={`sticky top-24 bg-card border-2 border-border rounded-3xl p-8 md:p-12 shadow-2xl mb-8`}
+                style={{ y, scale, opacity, zIndex: 50 - index }}
+                className="sticky top-16 bg-card border-2 border-border rounded-3xl p-8 md:p-12 shadow-2xl mb-8 min-h-[500px] md:min-h-[600px]"
               >
-                <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16`}>
+                <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16 h-full`}>
                   {/* Left: Content */}
                   <div className="flex-1 space-y-6">
                     {/* Number Badge */}
