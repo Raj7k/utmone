@@ -29,16 +29,11 @@ import {
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
-import { Navigation } from "@/components/landing/Navigation";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
-import { Footer } from "@/components/landing/Footer";
 import { FooterFAQ } from "@/components/landing/FooterFAQ";
-
 import { ProblemCard } from "@/components/landing/ProblemCard";
 import { 
   useTrackPageView, 
@@ -47,7 +42,8 @@ import {
   useTrackTimeOnPage 
 } from "@/hooks/useLandingPageAnalytics";
 import { SEO } from "@/components/seo/SEO";
-import { WebPageSchema } from "@/components/seo/SchemaMarkup";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const Index = () => {
   useTrackPageView();
@@ -64,22 +60,14 @@ const Index = () => {
   }, []);
 
   return (
-    <>
+    <MainLayout>
       <SEO 
         title="utm.one - A Cleaner, Safer Way to Share the Internet"
         description="utm.one gives every link, UTM, QR code, and partner touchpoint a meaning humans can trust and machines can understand — with transparency, accessibility, permanence, and clean-track governance built in."
         canonical="https://utm.one/"
         keywords={["url shortener", "utm tracking", "qr code generator", "link management", "campaign tracking", "marketing analytics", "clean links", "safe links"]}
       />
-      <WebPageSchema 
-        name="utm.one - A Cleaner, Safer Way to Share the Internet"
-        description="utm.one gives every link, UTM, QR code, and partner touchpoint a meaning humans can trust and machines can understand."
-        url="https://utm.one/"
-      />
-      <div className="min-h-screen bg-white">
-        <AnnouncementBar dismissible={true} />
-        <Navigation />
-        <FloatingNavigation />
+      <LLMSchemaGenerator type="organization" data={{}} />
 
         {/* Hero Section - Pure White Background */}
         <HeroVariantManager>
@@ -444,9 +432,7 @@ const Index = () => {
 
 
         <FooterFAQ />
-        <Footer />
-      </div>
-    </>
+    </MainLayout>
   );
 };
 

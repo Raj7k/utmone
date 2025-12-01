@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { TrendingUp, Calendar } from "lucide-react";
 import { 
   ResponsiveContainer, 
@@ -30,6 +32,14 @@ interface TrafficForecastChartProps {
 export function TrafficForecastChart({ historical, forecast, needsMoreData }: TrafficForecastChartProps) {
   // Combine historical and forecast data
   const allData = [...historical, ...forecast];
+  
+  // Accessibility data
+  const accessibilityData = useChartAccessibility(
+    allData,
+    "Traffic Forecast - Historical and Predicted Clicks",
+    "date",
+    ["clicks", "lower", "upper"]
+  );
   
   // Format date for display (e.g., "Jan 15")
   const formatDate = (dateStr: string) => {
@@ -106,85 +116,83 @@ export function TrafficForecastChart({ historical, forecast, needsMoreData }: Tr
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <ComposedChart data={allData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            
-            <XAxis 
-              dataKey="date" 
-              tickFormatter={formatDate}
-              stroke="hsl(var(--muted-foreground))"
-              tick={{ fontSize: 12 }}
-            />
-            
-            <YAxis 
-              stroke="hsl(var(--muted-foreground))"
-              tick={{ fontSize: 12 }}
-              label={{ 
-                value: 'clicks', 
-                angle: -90, 
-                position: 'insideLeft',
-                style: { fontSize: 12, fill: 'hsl(var(--muted-foreground))' }
-              }}
-            />
-            
-            <Tooltip content={<CustomTooltip />} />
-            
-            {/* Today reference line */}
-            <ReferenceLine 
-              x={todayDate} 
-              stroke="hsl(var(--muted-foreground))" 
-              strokeDasharray="5 5"
-              label={{ 
-                value: 'today', 
-                position: 'top',
-                fill: 'hsl(var(--muted-foreground))',
-                fontSize: 12
-              }}
-            />
-            
-            {/* Confidence band (shaded area) - only for forecast */}
-            <Area
-              type="monotone"
-              dataKey="upper"
-              stroke="none"
-              fill="hsl(var(--primary))"
-              fillOpacity={0.15}
-              connectNulls
-            />
-            <Area
-              type="monotone"
-              dataKey="lower"
-              stroke="none"
-              fill="hsl(var(--background))"
-              fillOpacity={1}
-              connectNulls
-            />
-            
-            {/* Historical line (solid) */}
-            <Line
-              type="monotone"
-              dataKey="clicks"
-              data={historical}
-              stroke="hsl(var(--primary))"
-              strokeWidth={2}
-              dot={{ fill: 'hsl(var(--primary))', r: 4 }}
-              name="Historical"
-            />
-            
-            {/* Forecast line (dashed) */}
-            <Line
-              type="monotone"
-              dataKey="clicks"
-              data={forecast}
-              stroke="hsl(var(--primary))"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              dot={{ fill: 'hsl(var(--primary))', r: 4 }}
-              name="Forecast"
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+        <ChartWrapper height={400} accessibilityData={accessibilityData}>
+          <ResponsiveContainer width="100%" height={400}>
+            <ComposedChart data={allData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              
+              <XAxis 
+                dataKey="date" 
+                tickFormatter={formatDate}
+                stroke="hsl(var(--muted-foreground))"
+                tick={{ fontSize: 12 }}
+              />
+              
+              <YAxis 
+                stroke="hsl(var(--muted-foreground))"
+                tick={{ fontSize: 12 }}
+                label={{ 
+                  value: 'clicks', 
+                  angle: -90, 
+                  position: 'insideLeft',
+                  style: { fontSize: 12, fill: 'hsl(var(--muted-foreground))' }
+                }}
+              />
+              
+              <Tooltip content={<CustomTooltip />} />
+              
+              <ReferenceLine 
+                x={todayDate} 
+                stroke="hsl(var(--muted-foreground))" 
+                strokeDasharray="5 5"
+                label={{ 
+                  value: 'today', 
+                  position: 'top',
+                  fill: 'hsl(var(--muted-foreground))',
+                  fontSize: 12
+                }}
+              />
+              
+              <Area
+                type="monotone"
+                dataKey="upper"
+                stroke="none"
+                fill="hsl(var(--primary))"
+                fillOpacity={0.15}
+                connectNulls
+              />
+              <Area
+                type="monotone"
+                dataKey="lower"
+                stroke="none"
+                fill="hsl(var(--background))"
+                fillOpacity={1}
+                connectNulls
+              />
+              
+              <Line
+                type="monotone"
+                dataKey="clicks"
+                data={historical}
+                stroke="hsl(var(--primary))"
+                strokeWidth={2}
+                dot={{ fill: 'hsl(var(--primary))', r: 4 }}
+                name="Historical"
+              />
+              
+              <Line
+                type="monotone"
+                dataKey="clicks"
+                data={forecast}
+                stroke="hsl(var(--primary))"
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                dot={{ fill: 'hsl(var(--primary))', r: 4 }}
+                name="Forecast"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ChartWrapper>
 
         <div className="mt-4 text-xs text-muted-foreground space-y-1">
           <div className="flex items-center gap-2">

@@ -1,15 +1,13 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { ProgressiveReveal } from "@/components/landing/ProgressiveReveal";
 import { SEO } from "@/components/seo/SEO";
-import { ArticleSchema } from "@/components/seo/SchemaMarkup";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const About = () => {
   return (
-    <>
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="About utm.one"
         description="utm.one is the simplest way to make your links smarter. Built for an LLM-first world where machines decide what gets recommended, ranked, or ignored."
@@ -17,15 +15,16 @@ const About = () => {
         ogType="article"
         keywords={["utm.one", "about", "link management", "llm-first", "campaign tracking"]}
       />
-      <ArticleSchema 
-        headline="About utm.one"
-        description="utm.one is the simplest way to make your links smarter. Built for an LLM-first world."
-        datePublished="2025-01-23"
-        url="https://utm.one/about"
+      <LLMSchemaGenerator 
+        type="article" 
+        data={{
+          title: "About utm.one",
+          description: "utm.one is the simplest way to make your links smarter. Built for an LLM-first world.",
+          publishedDate: "2025-01-23",
+          modifiedDate: "2025-01-23",
+          url: "https://utm.one/about"
+        }}
       />
-      <div className="min-h-screen bg-white">
-      <Navigation />
-      <FloatingNavigation />
 
       {/* Hero Section */}
       <section className="py-24 md:py-32 bg-white">
@@ -300,10 +299,7 @@ const About = () => {
           </AnimatedSection>
         </div>
       </section>
-
-      <Footer />
-    </div>
-    </>
+    </MainLayout>
   );
 };
 

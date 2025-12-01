@@ -1,8 +1,7 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
-import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Link } from "react-router-dom";
 import { Link2, Tags, QrCode, BarChart3, Shield, CheckCircle2, Users } from "lucide-react";
 import { motion } from "framer-motion";
@@ -61,28 +60,20 @@ const Features = () => {
   ];
 
   return (
-    <>
+    <MainLayout showAnnouncement={false}>
       <SEO
         title="Features - utm.one"
         description="Seven products that change how your team shares the internet. Short links, UTM builder, QR generator, analytics, enterprise control, Clean-Track, and partner program."
         canonical="https://utm.one/features"
         keywords={["features", "short links", "utm builder", "qr generator", "analytics", "enterprise control", "clean-track", "partner program"]}
       />
-      <WebPageSchema
-        name="Features - utm.one"
-        description="Seven products that change how your team shares the internet."
-        url="https://utm.one/features"
-      />
+      <LLMSchemaGenerator type="software" data={{}} />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://utm.one" },
           { name: "Features", url: "https://utm.one/features" }
         ]}
       />
-      
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
         
         <main className="pt-24 pb-32">
           {/* Hero Section */}
@@ -140,10 +131,7 @@ const Features = () => {
             </div>
           </section>
         </main>
-        
-        <Footer />
-      </div>
-    </>
+    </MainLayout>
   );
 };
 

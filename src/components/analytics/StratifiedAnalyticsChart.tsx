@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { ChartWrapper } from "@/components/charts/ChartWrapper";
+import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { EstimatedBadge } from "./EstimatedBadge";
 import { useStratifiedAnalytics } from "@/hooks/useStratifiedAnalytics";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,6 +21,14 @@ export function StratifiedAnalyticsChart({
     workspaceId,
     linkId,
     days
+  );
+
+  // Accessibility data
+  const accessibilityData = useChartAccessibility(
+    data?.timeSeries || [],
+    "Click Activity Over Time",
+    "date",
+    isEstimated ? ["totalClicks"] : ["totalClicks", "uniqueClicks"]
   );
 
   if (isLoading || !data) {
@@ -45,7 +55,8 @@ export function StratifiedAnalyticsChart({
         />
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+        <ChartWrapper height={300} accessibilityData={accessibilityData}>
+          <ResponsiveContainer width="100%" height={300}>
           {isEstimated ? (
             <AreaChart data={data.timeSeries}>
               <defs>
@@ -112,6 +123,7 @@ export function StratifiedAnalyticsChart({
             </LineChart>
           )}
         </ResponsiveContainer>
+        </ChartWrapper>
 
         <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
           <div>

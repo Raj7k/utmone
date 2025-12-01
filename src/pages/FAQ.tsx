@@ -1,14 +1,13 @@
 import { useState, useMemo } from "react";
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { FAQAccordion } from "@/components/resources/FAQAccordion";
 import { FAQSearchFilter } from "@/components/resources/FAQSearchFilter";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/seo/SEO";
-import { FAQSchema } from "@/components/seo/SchemaMarkup";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { GlossaryTooltip } from "@/components/llm/GlossaryTooltip";
 
 interface FAQItem {
   question: string;
@@ -420,7 +419,7 @@ const FAQ = () => {
       answer: (
         <div className="space-y-4">
           <p>
-            utm parameters are tags added to urls to track campaign performance in google analytics and other analytics platforms.
+            <GlossaryTooltip term="utm parameters" inline /> are tags added to urls to track campaign performance in google analytics and other analytics platforms.
           </p>
           <p>
             the five parameters are:

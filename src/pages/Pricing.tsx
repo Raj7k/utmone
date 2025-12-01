@@ -1,12 +1,10 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { PricingTable } from "@/components/PricingTable";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
-import { WebPageSchema } from "@/components/seo/SchemaMarkup";
+import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -22,21 +20,21 @@ const Pricing = () => {
   };
 
   return (
-    <>
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="Pricing - utm.one"
         description="Simple pricing with generous limits. No per-seat charges, no hidden fees. Free forever plan with 100 links/month, Pro at $20/month, Business at $99/month."
         canonical="https://utm.one/pricing"
         keywords={["utm.one pricing", "url shortener pricing", "link management pricing", "flat pricing", "no per-seat charges"]}
       />
-      <WebPageSchema 
-        name="utm.one Pricing"
-        description="Simple pricing with generous limits and no per-seat charges for link management and UTM tracking."
-        url="https://utm.one/pricing"
+      <LLMSchemaGenerator 
+        type="pricing" 
+        data={{ 
+          planName: "utm.one Pro",
+          price: "20",
+          validUntil: "2026-12-31"
+        }} 
       />
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
 
       {/* Hero Section */}
       <section className="py-24 md:py-32 bg-background">
@@ -171,10 +169,7 @@ const Pricing = () => {
           </AnimatedSection>
         </div>
       </section>
-
-      <Footer />
-    </div>
-    </>
+    </MainLayout>
   );
 };
 

@@ -6,6 +6,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { GlossaryTooltip } from "@/components/llm/GlossaryTooltip";
 import { BarChart3, Zap, PieChart, TrendingUp, Globe, Sparkles } from "lucide-react";
 
 const Analytics = () => {
@@ -65,7 +66,7 @@ const Analytics = () => {
       <FeatureHero
         headlineLine1="clean data,"
         headlineLine2="clear insight."
-        subheadline="utm.one shows you only what matters — no clutter, no confusion, no analytics fatigue."
+        subheadline={<>utm.one shows you only what matters — no clutter, no confusion, no <GlossaryTooltip term="analytics" inline /> fatigue.</>}
       />
 
       <FeatureSection background="muted">
