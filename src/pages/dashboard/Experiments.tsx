@@ -9,9 +9,11 @@ import { ExperimentConfidenceMeter } from "@/components/experiments/ExperimentCo
 import { Badge } from "@/components/ui/badge";
 import { useExperiment } from "@/hooks/useExperiment";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { CreateExperimentDialog } from "@/components/experiments/CreateExperimentDialog";
 
 export default function Experiments() {
   const { currentWorkspace } = useWorkspaceContext();
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
   const { data: experiments, isLoading } = useQuery({
     queryKey: ["experiments", currentWorkspace?.id],
@@ -57,7 +59,7 @@ export default function Experiments() {
           { label: "smart testing" }
         ]}
         action={
-          <Button variant="marketing">
+          <Button variant="marketing" onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
             new test
           </Button>
@@ -85,12 +87,21 @@ export default function Experiments() {
                 compare two versions of a link to see which one gets more clicks or conversions
               </p>
             </div>
-            <Button className="mt-4" variant="marketing">
+            <Button className="mt-4" variant="marketing" onClick={() => setIsCreateDialogOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
               start testing
             </Button>
           </div>
         </Card>
+      )}
+
+      {/* Create Experiment Dialog */}
+      {currentWorkspace?.id && (
+        <CreateExperimentDialog 
+          workspaceId={currentWorkspace.id}
+          open={isCreateDialogOpen}
+          onOpenChange={setIsCreateDialogOpen}
+        />
       )}
     </div>
   );
