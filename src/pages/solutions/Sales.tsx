@@ -205,6 +205,7 @@ const Sales = () => {
               description="Clean, memorable links in outreach"
               color="blazeOrange"
               delay={0}
+              href="/features/short-links"
             />
             <FeatureMappedCard
               icon={Settings}
@@ -212,6 +213,7 @@ const Sales = () => {
               description="Auto-filled parameters for sequences & cadences"
               color="deepSea"
               delay={0.1}
+              href="/features/utm-builder"
             />
             <FeatureMappedCard
               icon={QrCode}
@@ -219,6 +221,7 @@ const Sales = () => {
               description="Perfect for events, dinners, meetups"
               color="primary"
               delay={0.2}
+              href="/features/qr-generator"
             />
             <FeatureMappedCard
               icon={BarChart3}
@@ -226,6 +229,7 @@ const Sales = () => {
               description="See who clicked and where they came from"
               color="blazeOrange"
               delay={0.3}
+              href="/features/analytics"
             />
             <FeatureMappedCard
               icon={Layers}
@@ -233,6 +237,7 @@ const Sales = () => {
               description="Consistent naming, even across sales + marketing"
               color="deepSea"
               delay={0.4}
+              href="/features/clean-track"
             />
           </div>
         </div>

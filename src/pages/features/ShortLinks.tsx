@@ -75,13 +75,36 @@ const ShortLinks = () => {
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             {formatText("Clarity Builds Trust")}
           </h2>
-          <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
-            <p>No broken links</p>
-            <p>No suspicious URLs</p>
-            <p>No lost clicks</p>
-            <p>No missed context</p>
+          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mt-12">
+            {/* Before: Messy Link */}
+            <div className="bg-card border-2 border-border rounded-xl p-6 space-y-4">
+              <div className="text-xs uppercase font-semibold text-destructive tracking-wider mb-2">Before</div>
+              <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4 font-mono text-sm break-all text-destructive">
+                https://bit.ly/3kx7Tz9
+              </div>
+              <div className="space-y-2 text-secondary-label text-sm">
+                <p>❌ No idea where this goes</p>
+                <p>❌ Looks suspicious</p>
+                <p>❌ Who created it?</p>
+                <p>❌ Is it safe to click?</p>
+              </div>
+            </div>
+
+            {/* After: Clean Link */}
+            <div className="bg-card border-2 border-primary/20 rounded-xl p-6 space-y-4">
+              <div className="text-xs uppercase font-semibold text-primary tracking-wider mb-2">After</div>
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 font-mono text-sm text-primary">
+                utm.one/q4-webinar
+              </div>
+              <div className="space-y-2 text-label text-sm">
+                <p>✓ Clear destination</p>
+                <p>✓ Feels trustworthy</p>
+                <p>✓ Created by marketing team</p>
+                <p>✓ Security scan passed</p>
+              </div>
+            </div>
           </div>
-          <p className="mt-8 text-headline text-label font-medium">
+          <p className="mt-12 text-headline text-label font-medium">
             Every link tells its own story.
           </p>
         </div>

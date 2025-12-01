@@ -205,6 +205,7 @@ const PartnerManagers = () => {
               description="Links + QR + attribution"
               color="blazeOrange"
               delay={0}
+              href="/features/partner-program"
             />
             <FeatureMappedCard
               icon={Layers}
@@ -212,6 +213,7 @@ const PartnerManagers = () => {
               description="Every partner follows the same tracking rules"
               color="deepSea"
               delay={0.1}
+              href="/features/clean-track"
             />
             <FeatureMappedCard
               icon={BarChart3}
@@ -219,6 +221,7 @@ const PartnerManagers = () => {
               description="See performance by partner, channel, timeline"
               color="primary"
               delay={0.2}
+              href="/features/analytics"
             />
             <FeatureMappedCard
               icon={QrCode}
@@ -226,6 +229,7 @@ const PartnerManagers = () => {
               description="Perfect for events, booths, flyers"
               color="blazeOrange"
               delay={0.3}
+              href="/features/qr-generator"
             />
             <FeatureMappedCard
               icon={LinkIcon}
@@ -233,6 +237,7 @@ const PartnerManagers = () => {
               description="Safe, clear, customizable"
               color="deepSea"
               delay={0.4}
+              href="/features/short-links"
             />
           </div>
         </div>

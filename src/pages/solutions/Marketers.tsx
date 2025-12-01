@@ -192,6 +192,7 @@ const Marketers = () => {
               description="Easy to share, easy to trust"
               color="blazeOrange"
               delay={0}
+              href="/features/short-links"
             />
             <FeatureMappedCard
               icon={Settings}
@@ -199,6 +200,7 @@ const Marketers = () => {
               description="Zero-error parameters"
               color="deepSea"
               delay={0.1}
+              href="/features/utm-builder"
             />
             <FeatureMappedCard
               icon={QrCode}
@@ -206,6 +208,7 @@ const Marketers = () => {
               description="Print-ready and trackable"
               color="primary"
               delay={0.2}
+              href="/features/qr-generator"
             />
             <FeatureMappedCard
               icon={Layers}
@@ -213,6 +216,7 @@ const Marketers = () => {
               description="Every campaign follows the same standard"
               color="blazeOrange"
               delay={0.3}
+              href="/features/clean-track"
             />
             <FeatureMappedCard
               icon={BarChart3}
@@ -220,6 +224,7 @@ const Marketers = () => {
               description="The top metrics that actually matter"
               color="deepSea"
               delay={0.4}
+              href="/features/analytics"
             />
             <FeatureMappedCard
               icon={Shield}
@@ -227,6 +232,7 @@ const Marketers = () => {
               description="Governance without friction"
               color="primary"
               delay={0.5}
+              href="/features/enterprise-control"
             />
           </div>
         </div>

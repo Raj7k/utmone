@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, ArrowRight } from "lucide-react";
 import { formatText } from "@/utils/textFormatter";
+import { Link } from "react-router-dom";
 
 interface FeatureMappedCardProps {
   icon: LucideIcon;
@@ -8,6 +9,7 @@ interface FeatureMappedCardProps {
   description: string;
   color: "blazeOrange" | "deepSea" | "primary";
   delay?: number;
+  href?: string;
 }
 
 const colorClasses = {
@@ -31,8 +33,25 @@ const colorClasses = {
   },
 };
 
-export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay = 0 }: FeatureMappedCardProps) => {
+export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay = 0, href }: FeatureMappedCardProps) => {
   const colors = colorClasses[color];
+
+  const content = (
+    <>
+      <div className={`inline-flex p-3 rounded-xl ${colors.bg} mb-4`}>
+        <Icon className={`w-6 h-6 ${colors.text}`} strokeWidth={2} />
+      </div>
+      <h3 className="text-xl font-display font-semibold mb-2 lowercase flex items-center gap-2">
+        {formatText(title)}
+        {href && (
+          <ArrowRight className={`w-5 h-5 ${colors.text} opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1`} />
+        )}
+      </h3>
+      <p className="text-base text-muted-foreground">{description}</p>
+    </>
+  );
+
+  const className = `group relative p-8 rounded-2xl bg-white border-l-4 ${colors.border} hover:scale-[1.02] transition-all duration-300 shadow-sm hover:shadow-xl ${colors.glow} block`;
 
   return (
     <motion.div
@@ -40,13 +59,16 @@ export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay }}
-      className={`group relative p-8 rounded-2xl bg-white border-l-4 ${colors.border} hover:scale-[1.02] transition-all duration-300 shadow-sm hover:shadow-xl ${colors.glow}`}
     >
-      <div className={`inline-flex p-3 rounded-xl ${colors.bg} mb-4`}>
-        <Icon className={`w-6 h-6 ${colors.text}`} strokeWidth={2} />
-      </div>
-      <h3 className="text-xl font-display font-semibold mb-2 lowercase">{formatText(title)}</h3>
-      <p className="text-base text-muted-foreground">{description}</p>
+      {href ? (
+        <Link to={href} className={`${className} cursor-pointer`}>
+          {content}
+        </Link>
+      ) : (
+        <div className={className}>
+          {content}
+        </div>
+      )}
     </motion.div>
   );
 };
