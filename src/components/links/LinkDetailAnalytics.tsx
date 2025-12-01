@@ -12,6 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrafficAnomalyDetector } from "@/components/links/TrafficAnomalyDetector";
 import { StatisticalReadiness } from "@/components/links/StatisticalReadiness";
 import { ClickTrendPredictor } from "@/components/links/ClickTrendPredictor";
+import { LinkPeriodComparison } from "@/components/links/LinkPeriodComparison";
+import { LinkTimingInsights } from "@/components/links/LinkTimingInsights";
+import { ConversionProbability } from "@/components/links/ConversionProbability";
 
 interface LinkDetailAnalyticsProps {
   linkId: string;
@@ -140,22 +143,37 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="conversions">Conversions</TabsTrigger>
+          <TabsTrigger value="overview">overview</TabsTrigger>
+          <TabsTrigger value="timing">timing</TabsTrigger>
+          <TabsTrigger value="audience">audience</TabsTrigger>
+          <TabsTrigger value="conversions">conversions</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-      {/* Clean Track Intelligence */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TrafficAnomalyDetector linkId={linkId} />
-        <StatisticalReadiness linkId={linkId} />
-      </div>
+          {/* Clean Track Intelligence */}
+          <div className="space-y-2 mb-6">
+            <h3 className="text-lg font-display font-semibold lowercase">clean track intelligence</h3>
+            <p className="text-sm text-muted-foreground">ai-powered insights to keep your data quality high</p>
+          </div>
 
-      <ClickTrendPredictor linkId={linkId} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TrafficAnomalyDetector linkId={linkId} />
+            <StatisticalReadiness linkId={linkId} />
+          </div>
+
+          <ClickTrendPredictor linkId={linkId} />
+
+          {/* Period Comparison */}
+          {linkData && <LinkPeriodComparison workspaceId={linkData.workspace_id} linkId={linkId} />}
+
+          {/* Stats Overview */}
+          <div className="space-y-2 mt-8">
+            <h3 className="text-lg font-display font-semibold lowercase">quick stats</h3>
+            <p className="text-sm text-muted-foreground">overview of your link performance</p>
+          </div>
 
       {/* Date Range Selector */}
-      <div className="flex justify-between items-center flex-wrap gap-4">
-        <h3 className="text-lg font-display font-semibold">Analytics Overview</h3>
+      <div className="flex justify-between items-center flex-wrap gap-4 mt-4">
         <div className="flex gap-2">
           {qrCodes && qrCodes.length > 0 && (
             <Select value={selectedQRCode} onValueChange={setSelectedQRCode}>
@@ -190,7 +208,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-secondary-label">Total Clicks</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">total clicks</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalClicks}</div>
@@ -198,18 +216,31 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-secondary-label">Unique Visitors</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">unique visitors</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{uniqueClicks}</div>
           </CardContent>
         </Card>
       </div>
+        </TabsContent>
+
+        {/* Timing Tab */}
+        <TabsContent value="timing" className="space-y-6">
+          {linkData && <LinkTimingInsights workspaceId={linkData.workspace_id} linkId={linkId} />}
+        </TabsContent>
+
+        {/* Audience Tab */}
+        <TabsContent value="audience" className="space-y-6">
+          <div className="space-y-2">
+            <h3 className="text-lg font-display font-semibold lowercase">audience insights</h3>
+            <p className="text-sm text-muted-foreground">understand who's clicking your links</p>
+          </div>
 
       {/* Device Breakdown */}
       <Card>
         <CardHeader>
-          <CardTitle>Device Types</CardTitle>
+          <CardTitle className="lowercase">devices & browsers</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -229,7 +260,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Browser Breakdown */}
       <Card>
         <CardHeader>
-          <CardTitle>Top Browsers</CardTitle>
+          <CardTitle className="lowercase">top browsers</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -247,7 +278,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Top Referrers */}
       <Card>
         <CardHeader>
-          <CardTitle>Top Referrers</CardTitle>
+          <CardTitle className="lowercase">top referrers</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
@@ -264,7 +295,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Top Countries */}
       <Card>
         <CardHeader>
-          <CardTitle>Top Countries</CardTitle>
+          <CardTitle className="lowercase">top countries</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -280,7 +311,13 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       </Card>
         </TabsContent>
 
+        {/* Conversions Tab */}
         <TabsContent value="conversions" className="space-y-6">
+          <div className="space-y-2">
+            <h3 className="text-lg font-display font-semibold lowercase">conversion tracking</h3>
+            <p className="text-sm text-muted-foreground">track your funnel and estimate conversion probability</p>
+          </div>
+
           {conversionMetrics.data && (
             <ConversionFunnel
               clicks={conversionMetrics.data.totalClicks}
@@ -290,6 +327,8 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
               revenue={conversionMetrics.data.totalRevenue}
             />
           )}
+
+          <ConversionProbability linkId={linkId} />
         </TabsContent>
       </Tabs>
     </div>
