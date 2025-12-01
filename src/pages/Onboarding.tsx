@@ -34,35 +34,47 @@ export default function Onboarding() {
         return;
       }
 
-      // Check if user has any workspace
-      const { data: workspaces } = await supabase
+      // Check if user owns any workspaces
+      const { data: ownedWorkspaces } = await supabase
         .from("workspaces")
         .select("*")
         .eq("owner_id", user.id);
 
-      // If no workspace exists, create one
-      if (!workspaces || workspaces.length === 0) {
-        setIsCreatingWorkspace(true);
-        const slug = user.email?.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, '-') || 'workspace';
-        const { data: newWorkspace, error } = await supabase
-          .from("workspaces")
-          .insert({
-            name: `${user.email?.split("@")[0]}'s Workspace`,
-            slug: slug,
-            owner_id: user.id,
-          })
-          .select()
-          .single();
+      // Check if user is a member of any workspaces
+      const { data: memberWorkspaces } = await supabase
+        .from("workspace_members")
+        .select("workspace_id")
+        .eq("user_id", user.id);
 
-        if (error) {
-          toast({
-            title: "Error",
-            description: "Failed to create workspace",
-            variant: "destructive",
-          });
-        }
-        setIsCreatingWorkspace(false);
+      const hasAnyWorkspace = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
+
+      // If user has ANY workspace access (owned or member), redirect to dashboard
+      if (hasAnyWorkspace) {
+        navigate("/dashboard");
+        return;
       }
+
+      // Only create workspace if user genuinely has no access
+      setIsCreatingWorkspace(true);
+      const slug = user.email?.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, '-') || 'workspace';
+      const { data: newWorkspace, error } = await supabase
+        .from("workspaces")
+        .insert({
+          name: `${user.email?.split("@")[0]}'s Workspace`,
+          slug: slug,
+          owner_id: user.id,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to create workspace",
+          variant: "destructive",
+        });
+      }
+      setIsCreatingWorkspace(false);
     };
 
     checkAndCreateWorkspace();
