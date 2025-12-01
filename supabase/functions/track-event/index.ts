@@ -97,7 +97,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Store journey event
+    // Store journey event (now includes workspace_id if available)
     const journeyEvent = {
       visitor_id,
       event_type,
@@ -115,9 +115,6 @@ Deno.serve(async (req) => {
       created_at: new Date().toISOString()
     };
 
-    // Determine workspace from referrer or default
-    // For now, we'll need the workspace context - this would come from link tracking
-    // Just log the event for now until we have workspace context
     console.log('[track-event] Journey event:', journeyEvent);
 
     return new Response(

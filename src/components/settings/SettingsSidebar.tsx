@@ -43,6 +43,7 @@ const settingsGroups = [
     items: [
       { id: "tracking", label: "Tracking Pixel", icon: Activity, badge: "!" },
       { id: "pipeline", label: "Pipeline Sync", icon: TrendingUp },
+      { id: "integrations", label: "Integrations Hub", icon: Webhook },
     ],
   },
   {

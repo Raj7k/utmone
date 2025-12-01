@@ -192,6 +192,18 @@ verify_jwt = false
 [functions.predict-optimal-time]
 verify_jwt = true
 
+[functions.track-pipeline]
+verify_jwt = false
+
+[functions.webhook-salesforce]
+verify_jwt = false
+
+[functions.webhook-hubspot]
+verify_jwt = false
+
+[functions.track-event]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
