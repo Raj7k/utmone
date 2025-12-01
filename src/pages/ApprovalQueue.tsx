@@ -75,6 +75,7 @@ export default function ApprovalQueue() {
     const { error } = await supabase
       .from("links")
       .update({ 
+        status: "active",
         approval_status: "approved",
         approved_by: user?.id,
         approved_at: new Date().toISOString(),
@@ -90,8 +91,14 @@ export default function ApprovalQueue() {
     } else {
       toast({
         title: "Approved",
-        description: "Link has been approved",
+        description: "Link has been approved and is now live",
       });
+      
+      // Trigger email notification
+      await supabase.functions.invoke("send-approval-notification", {
+        body: { linkId, action: "approved" },
+      });
+      
       fetchPendingLinks();
     }
   };
@@ -116,8 +123,9 @@ export default function ApprovalQueue() {
     const { error } = await supabase
       .from("links")
       .update({ 
+        status: "rejected",
         approval_status: "rejected",
-        approval_notes: rejectionReason,
+        rejection_reason: rejectionReason,
       })
       .eq("id", selectedLinkId);
 
@@ -130,8 +138,14 @@ export default function ApprovalQueue() {
     } else {
       toast({
         title: "Rejected",
-        description: "Link has been rejected",
+        description: "Link has been rejected with feedback",
       });
+      
+      // Trigger email notification
+      await supabase.functions.invoke("send-approval-notification", {
+        body: { linkId: selectedLinkId, action: "rejected", reason: rejectionReason },
+      });
+      
       setShowRejectDialog(false);
       setRejectionReason("");
       setSelectedLinkId(null);
