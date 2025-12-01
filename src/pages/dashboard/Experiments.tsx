@@ -8,6 +8,7 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { ExperimentConfidenceMeter } from "@/components/experiments/ExperimentConfidenceMeter";
 import { Badge } from "@/components/ui/badge";
 import { useExperiment } from "@/hooks/useExperiment";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default function Experiments() {
   const { currentWorkspace } = useWorkspaceContext();
@@ -49,20 +50,19 @@ export default function Experiments() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-foreground">
-            the lab
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            bayesian a/b testing with statistical confidence
-          </p>
-        </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          new experiment
-        </Button>
-      </div>
+      <PageHeader 
+        title="the lab"
+        description="bayesian a/b testing with statistical confidence"
+        breadcrumbs={[
+          { label: "the lab" }
+        ]}
+        action={
+          <Button>
+            <Plus className="h-4 w-4 mr-2" />
+            new experiment
+          </Button>
+        }
+      />
 
       {/* Experiments Grid */}
       {experiments && experiments.length > 0 ? (
