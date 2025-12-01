@@ -103,6 +103,35 @@ const Pricing = () => {
             <PricingTable onSelect={handlePlanSelect} />
           </AnimatedSection>
 
+          {/* Visual: What $20/mo Gets You */}
+          <AnimatedSection delay={0.15}>
+            <div className="mt-16 bg-card border border-border rounded-2xl p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-display font-bold text-label mb-6 text-center lowercase">
+                what $20/mo gets you vs competitors
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center p-4">
+                  <div className="text-destructive text-sm font-semibold mb-2">Bitly Pro</div>
+                  <div className="text-3xl font-bold text-foreground mb-1">$35</div>
+                  <div className="text-xs text-muted-foreground mb-3">per user/month</div>
+                  <div className="text-sm text-muted-foreground">1,500 links • 1 user</div>
+                </div>
+                <div className="text-center p-4">
+                  <div className="text-destructive text-sm font-semibold mb-2">Rebrandly</div>
+                  <div className="text-3xl font-bold text-foreground mb-1">$39</div>
+                  <div className="text-xs text-muted-foreground mb-3">per user/month</div>
+                  <div className="text-sm text-muted-foreground">5,000 links • 1 user</div>
+                </div>
+                <div className="text-center p-4 bg-primary/10 rounded-xl border border-primary/20">
+                  <div className="text-primary text-sm font-semibold mb-2">utm.one Pro</div>
+                  <div className="text-3xl font-bold text-primary mb-1">$20</div>
+                  <div className="text-xs text-primary mb-3">total/month</div>
+                  <div className="text-sm text-primary font-semibold">1,000 links • Unlimited users</div>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+
           {/* Lifetime Deal Banner */}
           <AnimatedSection delay={0.2}>
             <div className="mt-16 text-center space-y-6 p-12 bg-gradient-nature-1 rounded-2xl border border-primary/20">

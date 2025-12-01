@@ -223,6 +223,58 @@ const ShortLinks = () => {
         </p>
       </FeatureSection>
 
+      <FeatureSection>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+              trust at first glance
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Random shortened URLs create hesitation. Branded links with preview cards build instant trust.
+            </p>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-destructive mt-2" />
+                <div>
+                  <div className="font-mono text-sm text-destructive mb-1">bit.ly/3x7Kz9</div>
+                  <div className="text-sm text-muted-foreground">Where does this go? Users hesitate.</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                <div>
+                  <div className="font-mono text-sm text-primary mb-1">utm.one/acme-webinar-2025</div>
+                  <div className="text-sm text-muted-foreground">Clear destination. Users click confidently.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual Example */}
+          <div className="space-y-4">
+            <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-6">
+              <div className="text-xs uppercase font-semibold text-destructive mb-3">before</div>
+              <div className="font-mono text-sm text-foreground mb-2 break-all">bit.ly/3x7Kz9</div>
+              <div className="text-sm text-muted-foreground">No context • No trust • Lower CTR</div>
+            </div>
+            
+            <div className="bg-primary/10 border border-primary/30 rounded-xl p-6">
+              <div className="text-xs uppercase font-semibold text-primary mb-3">after</div>
+              <div className="font-mono text-sm text-foreground mb-2 break-all">utm.one/acme-webinar-2025</div>
+              <div className="flex items-center gap-2 text-sm text-primary mt-3">
+                <Shield className="w-4 h-4" />
+                <span>✓ Scanned & Safe</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-primary mt-2">
+                <Eye className="w-4 h-4" />
+                <span>✓ Preview Available</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">

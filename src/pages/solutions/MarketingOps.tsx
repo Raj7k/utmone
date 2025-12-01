@@ -65,24 +65,85 @@ const MarketingOps = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Real Pain */}
+      {/* Fold 2: Day in the Life */}
       <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              The Real Pain
+              Report Day Without the Panic
             </h2>
             <p className="text-xl text-muted-foreground italic">
-              Ops spends hours cleaning what should never have been messy.
+              Clean data means clean dashboards
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <PainPointCard icon={AlertCircle} text="Every tool creates chaos" delay={0} />
-            <PainPointCard icon={AlertCircle} text="Every campaign creates exceptions" delay={0.1} />
-            <PainPointCard icon={AlertCircle} text="Every teammate creates their own rules" delay={0.2} />
+          <div className="grid md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
+            {/* Before/After Comparison */}
+            <div className="space-y-6">
+              <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-6">
+                <div className="text-xs uppercase font-semibold text-destructive mb-4">before: messy GA4</div>
+                <div className="space-y-2 font-mono text-xs">
+                  <div className="flex justify-between"><span>utm_source</span><span className="text-muted-foreground">847 clicks</span></div>
+                  <div className="flex justify-between"><span>UTM_Source</span><span className="text-muted-foreground">312 clicks</span></div>
+                  <div className="flex justify-between"><span>utm-source</span><span className="text-muted-foreground">156 clicks</span></div>
+                  <div className="flex justify-between"><span>utmsource</span><span className="text-muted-foreground">89 clicks</span></div>
+                  <div className="flex justify-between"><span>(unknown)</span><span className="text-muted-foreground">1,203 clicks</span></div>
+                </div>
+                <div className="mt-4 text-xs text-destructive font-semibold">
+                  ❌ 5 variations = broken reports
+                </div>
+              </div>
+              
+              <div className="bg-primary/10 border border-primary/30 rounded-xl p-6">
+                <div className="text-xs uppercase font-semibold text-primary mb-4">after: clean utm.one</div>
+                <div className="space-y-2 font-mono text-xs">
+                  <div className="flex justify-between"><span>utm_source</span><span className="text-primary font-semibold">2,607 clicks</span></div>
+                  <div className="flex justify-between"><span>utm_medium</span><span className="text-primary font-semibold">2,607 clicks</span></div>
+                  <div className="flex justify-between"><span>utm_campaign</span><span className="text-primary font-semibold">2,607 clicks</span></div>
+                </div>
+                <div className="mt-4 text-xs text-primary font-semibold">
+                  ✓ 100% consistent = reliable insights
+                </div>
+              </div>
+            </div>
+
+            {/* Clean-Track Rules */}
+            <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+              <div className="text-sm font-semibold text-label mb-4">Clean-Track Governance</div>
+              
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-sm font-medium text-foreground">Lowercase enforcement</div>
+                    <div className="text-xs text-muted-foreground">All UTMs auto-converted to lowercase</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-sm font-medium text-foreground">Required fields</div>
+                    <div className="text-xs text-muted-foreground">No incomplete UTMs allowed</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                  <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-sm font-medium text-foreground">Template validation</div>
+                    <div className="text-xs text-muted-foreground">Matches approved naming patterns</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-3 border-t border-border text-center">
+                <div className="text-2xl font-bold text-primary">100%</div>
+                <div className="text-xs text-muted-foreground">Data quality score</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

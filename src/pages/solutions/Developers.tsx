@@ -65,27 +65,79 @@ const Developers = () => {
         </div>
       </section>
 
-      {/* Fold 2: The Real Pain */}
+      {/* Fold 2: Day in the Life */}
       <section className="relative py-24 md:py-32 bg-wildSand overflow-hidden">
         <DotPattern />
         
-        <div className="relative max-w-[980px] mx-auto px-8 z-10">
+        <div className="relative max-w-[1200px] mx-auto px-8 z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              The Real Pain
+              Ship Day, Not Debug Day
             </h2>
             <p className="text-xl text-muted-foreground italic">
-              Developers shouldn't fight the tools they integrate.
+              Type-safe from day one means production-ready from day one
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <PainPointCard icon={AlertCircle} text="Rate limits" delay={0} />
-            <PainPointCard icon={AlertCircle} text="Broken redirects" delay={0.1} />
-            <PainPointCard icon={AlertCircle} text="Inconsistent slugs" delay={0.2} />
-            <PainPointCard icon={AlertCircle} text="Messy metadata" delay={0.3} />
-            <PainPointCard icon={AlertCircle} text="No ownership" delay={0.4} />
-            <PainPointCard icon={AlertCircle} text="Poor docs" delay={0.5} />
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* Terminal Example */}
+            <div className="bg-[#1e1e1e] rounded-xl p-6 font-mono text-sm overflow-hidden">
+              <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="ml-2 text-gray-400 text-xs">terminal</span>
+              </div>
+              
+              <div className="space-y-2 text-gray-300">
+                <div><span className="text-blue-400">const</span> link = <span className="text-blue-400">await</span> createLink({'{'}</div>
+                <div className="pl-4">destination: <span className="text-green-400">"https://acme.com"</span>,</div>
+                <div className="pl-4">utm: {'{'}</div>
+                <div className="pl-8">source: <span className="text-green-400">"linkedin"</span>,</div>
+                <div className="pl-8">medium: <span className="text-green-400">"cpc"</span></div>
+                <div className="pl-4">{'}'}</div>
+                <div>{'}'});</div>
+                <div className="pt-2 text-green-400">✓ Link created successfully</div>
+                <div className="text-gray-500">→ utm.one/acme-campaign</div>
+              </div>
+            </div>
+
+            {/* Features List */}
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-xl font-display font-bold text-label lowercase">what you get</h3>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-semibold text-foreground">TypeScript SDK</div>
+                      <div className="text-sm text-muted-foreground">Autocomplete for every method</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-semibold text-foreground">REST & GraphQL APIs</div>
+                      <div className="text-sm text-muted-foreground">Pick your preference</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-semibold text-foreground">Webhooks</div>
+                      <div className="text-sm text-muted-foreground">Real-time click events</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <div className="font-semibold text-foreground">Self-host option</div>
+                      <div className="text-sm text-muted-foreground">Docker + full control</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

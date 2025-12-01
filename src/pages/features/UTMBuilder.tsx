@@ -229,6 +229,59 @@ const UTMBuilder = () => {
         </p>
       </FeatureSection>
 
+      <FeatureSection>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Content */}
+          <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+              autocomplete that learns
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Smart autocomplete shows predicted CTR based on your team's historical performance, guiding you toward high-impact UTM choices.
+            </p>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+                <div className="text-2xl">🔥</div>
+                <div className="flex-1">
+                  <div className="font-medium text-foreground">google</div>
+                  <div className="text-xs text-primary">3.2% avg CTR — High impact</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                <div className="text-2xl">📊</div>
+                <div className="flex-1">
+                  <div className="font-medium text-foreground">linkedin</div>
+                  <div className="text-xs text-muted-foreground">2.1% avg CTR</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="text-sm font-semibold mb-4 text-label">UTM Source Selection</div>
+            <div className="space-y-2">
+              <div className="p-3 bg-primary/20 rounded-lg border-2 border-primary">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-foreground">google</span>
+                  <span className="text-xs px-2 py-1 bg-primary text-primary-foreground rounded-full font-semibold">RECOMMENDED</span>
+                </div>
+                <div className="text-xs text-muted-foreground">Based on 847 historical links • Avg 3.2% CTR</div>
+                <div className="mt-2 h-2 bg-primary/20 rounded-full overflow-hidden">
+                  <div className="h-full w-[85%] bg-primary rounded-full" />
+                </div>
+              </div>
+              <div className="p-3 bg-muted rounded-lg opacity-60">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-medium text-foreground">facebook</span>
+                </div>
+                <div className="text-xs text-muted-foreground">Avg 1.8% CTR</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </FeatureSection>
+
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
