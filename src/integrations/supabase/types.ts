@@ -4729,6 +4729,47 @@ export type Database = {
           },
         ]
       }
+      visitor_identities: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          identified_at: string
+          name: string | null
+          updated_at: string
+          visitor_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          identified_at?: string
+          name?: string | null
+          updated_at?: string
+          visitor_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          identified_at?: string
+          name?: string | null
+          updated_at?: string
+          visitor_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visitor_identities_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       waitlist_badges: {
         Row: {
           badge_key: string
