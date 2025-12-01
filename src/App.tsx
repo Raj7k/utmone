@@ -78,6 +78,13 @@ const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 
+// Intelligence pages
+const LinkImmunity = lazy(() => import("@/pages/intelligence/LinkImmunity"));
+const CustomerJourney = lazy(() => import("@/pages/features/CustomerJourney"));
+const IdentityResolution = lazy(() => import("@/pages/features/IdentityResolution"));
+const BayesianAttribution = lazy(() => import("@/pages/features/BayesianAttribution"));
+const JourneyValuation = lazy(() => import("@/pages/features/JourneyValuation"));
+
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
