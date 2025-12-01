@@ -49,6 +49,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   // Feature 4: Smart Link Rotator state
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [smartRotate, setSmartRotate] = useState<boolean>(false);
+  const [contextualRouting, setContextualRouting] = useState<boolean>(false);
   
   // Feature 1: Smart Slug Generator state
   const { generateSuggestions } = useSlugGenerator();
@@ -146,6 +147,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           fallback_url: data.fallback_url || null,
           destinations: destinations.length > 0 ? (destinations as unknown as Json) : null,
           smart_rotate: destinations.length >= 2 ? smartRotate : false,
+          contextual_routing: destinations.length >= 2 ? contextualRouting : false,
+          routing_strategy: contextualRouting ? 'contextual' : 'global',
         }])
         .select()
         .single();
@@ -359,6 +362,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                   onChange={setDestinations}
                   smartRotate={smartRotate}
                   onSmartRotateChange={setSmartRotate}
+                  contextualRouting={contextualRouting}
+                  onContextualRoutingChange={setContextualRouting}
                 />
               </AccordionContent>
             </AccordionItem>

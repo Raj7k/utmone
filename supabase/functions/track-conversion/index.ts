@@ -116,6 +116,91 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Conversion tracked: ${event.event_type} for link ${event.link_id}`);
 
+    // Update bandit weights if contextual routing is enabled
+    if (clickId) {
+      try {
+        // Get the click context from link_clicks table
+        const { data: click } = await supabase
+          .from('link_clicks')
+          .select('user_agent, ip_address')
+          .eq('id', clickId)
+          .single();
+
+        if (click) {
+          // Get link to check if contextual routing is enabled
+          const { data: linkData } = await supabase
+            .from('links')
+            .select('contextual_routing, destinations')
+            .eq('id', event.link_id)
+            .single();
+
+          if (linkData?.contextual_routing && linkData.destinations) {
+            // Extract context from click
+            const ua = click.user_agent?.toLowerCase() || '';
+            const context = {
+              is_mobile: /mobile|android|iphone|ipad|ipod|windows phone/i.test(ua) ? 1 : 0,
+              is_ios: /iphone|ipad|ipod/i.test(ua) ? 1 : 0,
+              is_us: 0, // We don't have country in link_clicks yet
+            };
+            
+            const device = context.is_mobile ? 'mobile' : 'desktop';
+            const os = context.is_ios ? 'ios' : 'other';
+            const contextKey = `${device}_${os}_other`;
+
+            // Determine which destination was used (stored in click metadata or utm_content)
+            const { data: clickDetail } = await supabase
+              .from('link_clicks')
+              .select('metadata')
+              .eq('id', clickId)
+              .single();
+
+            const destinationIndex = clickDetail?.metadata?.destination_index || 0;
+
+            // Update bandit weights: A = A + x*x^T, b = b + r*x (reward=1)
+            const { data: banditState } = await supabase
+              .from('link_bandits')
+              .select('*')
+              .eq('link_id', event.link_id)
+              .eq('destination_index', destinationIndex)
+              .eq('context_key', contextKey)
+              .single();
+
+            if (banditState) {
+              const x = [context.is_mobile, context.is_ios, context.is_us];
+              const reward = 1; // Conversion happened
+              
+              // Update A matrix: A = A + x * x^T
+              const currentA = banditState.a_matrix as number[][];
+              const newA = currentA.map((row, i) =>
+                row.map((val, j) => val + x[i] * x[j])
+              );
+              
+              // Update b vector: b = b + r * x
+              const currentB = banditState.b_vector as number[];
+              const newB = currentB.map((val, i) => val + reward * x[i]);
+
+              await supabase
+                .from('link_bandits')
+                .update({
+                  a_matrix: newA,
+                  b_vector: newB,
+                  conversions: (banditState.conversions || 0) + 1,
+                  last_updated_at: new Date().toISOString(),
+                })
+                .eq('link_id', event.link_id)
+                .eq('destination_index', destinationIndex)
+                .eq('context_key', contextKey);
+
+              console.log(`🎯 Updated bandit weights for destination ${destinationIndex} in context ${contextKey}`);
+            }
+          }
+        }
+      } catch (banditError) {
+        console.error('Failed to update bandit weights:', banditError);
+        // Don't fail the conversion if bandit update fails
+      }
+    }
+
     // Trigger conversion.tracked webhook
     try {
       const { data: webhooks } = await supabase
