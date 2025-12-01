@@ -116,6 +116,12 @@ const Reporting = lazy(() => import("./pages/features/Reporting"));
 const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
 const Automation = lazy(() => import("./pages/features/Automation"));
 
+// Product Pages
+const LinkOrchestration = lazy(() => import("./pages/products/LinkOrchestration"));
+const JourneyIntelligence = lazy(() => import("./pages/products/JourneyIntelligence"));
+const QRStudio = lazy(() => import("./pages/products/QRStudio"));
+const DataPipeline = lazy(() => import("./pages/products/DataPipeline"));
+
 // Solution Pages
 const EnterpriseSolution = lazy(() => import("./pages/solutions/Enterprise"));
 const AgenciesSolution = lazy(() => import("./pages/solutions/Agencies"));
@@ -447,6 +453,12 @@ const App = () => (
               <Route path="/features/reporting" element={<Suspense fallback={<DashboardSkeleton />}><Reporting /></Suspense>} />
               <Route path="/features/custom-domains" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomains /></Suspense>} />
               <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
+              
+              {/* Product Pages */}
+              <Route path="/products/link-orchestration" element={<Suspense fallback={<DashboardSkeleton />}><LinkOrchestration /></Suspense>} />
+              <Route path="/products/journey-intelligence" element={<Suspense fallback={<DashboardSkeleton />}><JourneyIntelligence /></Suspense>} />
+              <Route path="/products/qr-studio" element={<Suspense fallback={<DashboardSkeleton />}><QRStudio /></Suspense>} />
+              <Route path="/products/data-pipeline" element={<Suspense fallback={<DashboardSkeleton />}><DataPipeline /></Suspense>} />
               
               {/* Solution Pages */}
               <Route path="/solutions/enterprise" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseSolution /></Suspense>} />
