@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
-import { TrendingUp, Award } from "lucide-react";
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Line } from "recharts";
+import { TrendingUp, Award, AlertTriangle } from "lucide-react";
 
 interface LinkPerformance {
   id: string;
@@ -28,6 +28,14 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
   };
 
   const paretoOptimalLinks = links.filter(link => isParetoOptimal(link, links));
+  
+  // Sort Pareto points by CTR for gold line connection
+  const sortedParetoPoints = [...paretoOptimalLinks]
+    .sort((a, b) => a.ctr - b.ctr)
+    .map(link => ({
+      ctr: link.ctr,
+      conversionRate: link.conversionRate,
+    }));
   
   // Prepare data for scatter plot
   const chartData = links.map(link => ({
@@ -130,56 +138,107 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
                 label={{ value: 'avg conversion', position: 'right', fill: 'hsl(var(--muted-foreground))' }}
               />
               
-              {/* Non-optimal links */}
+              {/* Non-optimal links (gray) */}
               <Scatter 
-                name="Standard Links" 
+                name="room to improve" 
                 data={chartData.filter(d => !d.isParetoOptimal)} 
                 fill="hsl(var(--muted-foreground))"
-                fillOpacity={0.4}
+                fillOpacity={0.3}
               />
               
-              {/* Pareto-optimal links */}
+              {/* Pareto-optimal links (gold) */}
               <Scatter 
-                name="Pareto-Optimal Links" 
+                name="top performers" 
                 data={chartData.filter(d => d.isParetoOptimal)} 
-                fill="hsl(var(--primary))"
-                fillOpacity={0.8}
+                fill="hsl(45 93% 47%)"
+                fillOpacity={0.9}
               />
+              
+              {/* Gold line connecting Pareto frontier */}
+              {sortedParetoPoints.length > 1 && (
+                <Line
+                  data={sortedParetoPoints}
+                  type="monotone"
+                  dataKey="conversionRate"
+                  stroke="hsl(45 93% 47%)"
+                  strokeWidth={3}
+                  dot={false}
+                  isAnimationActive={false}
+                />
+              )}
             </ScatterChart>
           </ResponsiveContainer>
 
-          <div className="text-sm text-muted-foreground">
-            <p>Links in the <span className="text-primary font-medium">upper-right region</span> are Pareto-optimal: they achieve the best trade-off between CTR and conversion rate.</p>
+          <div className="flex items-center gap-6 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'hsl(45 93% 47%)' }} />
+              <span>🏆 top performers — efficient frontier</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-muted-foreground opacity-30" />
+              <span>⚠️ room to improve</span>
+            </div>
           </div>
         </div>
       </Card>
 
-      {/* Insights */}
+      {/* Two-column insights */}
       {paretoOptimalLinks.length > 0 && (
-        <Card className="p-4">
-          <h4 className="text-sm font-medium mb-3">optimization insights</h4>
-          <div className="space-y-2 text-sm">
-            {links.filter(l => !isParetoOptimal(l, links)).slice(0, 3).map(link => {
-              const bestCTR = Math.max(...paretoOptimalLinks.map(p => p.ctr));
-              const bestConversion = Math.max(...paretoOptimalLinks.map(p => p.conversionRate));
-              
-              const ctrGap = ((bestCTR - link.ctr) / link.ctr * 100).toFixed(0);
-              const conversionGap = ((bestConversion - link.conversionRate) / link.conversionRate * 100).toFixed(0);
-              
-              return (
-                <div key={link.id} className="p-3 bg-muted/30 rounded-lg">
-                  <p className="font-medium">{link.name}</p>
-                  <p className="text-muted-foreground text-xs mt-1">
-                    {parseFloat(ctrGap) > parseFloat(conversionGap) 
-                      ? `Could improve CTR by ${ctrGap}% to match top performers`
-                      : `Could improve conversion rate by ${conversionGap}% to match top performers`
-                    }
-                  </p>
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Top Performers */}
+          <Card className="p-4 border-amber-500/20 bg-amber-500/5">
+            <div className="flex items-center gap-2 mb-3">
+              <Award className="h-4 w-4 text-amber-600" />
+              <h4 className="text-sm font-semibold">🏆 top performers</h4>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              these links achieve the best balance of engagement and conversion
+            </p>
+            <div className="space-y-2 text-sm">
+              {paretoOptimalLinks.slice(0, 3).map((link, index) => (
+                <div key={link.id} className="p-2 bg-background/50 rounded">
+                  <p className="font-medium text-xs">{index + 1}. {link.name}</p>
+                  <div className="flex gap-4 text-xs text-muted-foreground mt-1">
+                    <span>{(link.ctr * 100).toFixed(1)}% CTR</span>
+                    <span>{(link.conversionRate * 100).toFixed(1)}% conv</span>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </Card>
+              ))}
+            </div>
+          </Card>
+
+          {/* Room to Improve */}
+          <Card className="p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <h4 className="text-sm font-semibold">⚠️ room to improve</h4>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              opportunities to optimize these campaigns
+            </p>
+            <div className="space-y-2 text-sm">
+              {links.filter(l => !isParetoOptimal(l, links)).slice(0, 3).map(link => {
+                const bestCTR = Math.max(...paretoOptimalLinks.map(p => p.ctr));
+                const bestConversion = Math.max(...paretoOptimalLinks.map(p => p.conversionRate));
+                
+                const ctrGap = link.ctr > 0 ? ((bestCTR - link.ctr) / link.ctr * 100).toFixed(0) : '0';
+                const conversionGap = link.conversionRate > 0 ? ((bestConversion - link.conversionRate) / link.conversionRate * 100).toFixed(0) : '0';
+                
+                return (
+                  <div key={link.id} className="p-2 bg-muted/20 rounded">
+                    <p className="font-medium text-xs">{link.name}</p>
+                    <p className="text-muted-foreground text-xs mt-1">
+                      {parseFloat(ctrGap) > parseFloat(conversionGap) 
+                        ? `could boost CTR by ${ctrGap}%`
+                        : `could boost conversion by ${conversionGap}%`
+                      }
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+        </div>
       )}
     </div>
   );

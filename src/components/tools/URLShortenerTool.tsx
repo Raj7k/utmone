@@ -15,6 +15,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
+import { DestinationRotator } from "@/components/links/DestinationRotator";
+import { Destination } from "@/hooks/useSmartRotator";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -40,6 +42,10 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [shortURL, setShortURL] = useState<string>("");
   const [createdLinkId, setCreatedLinkId] = useState<string>("");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
+  
+  // Feature 4: Smart Link Rotator state
+  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [smartRotate, setSmartRotate] = useState<boolean>(false);
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -124,6 +130,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
           fallback_url: data.fallback_url || null,
+          destinations: destinations.length > 0 ? destinations : null,
+          smart_rotate: destinations.length >= 2 ? smartRotate : false,
         })
         .select()
         .single();
@@ -300,6 +308,20 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                     className="mt-1.5"
                   />
                 </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="destinations">
+              <AccordionTrigger className="text-sm">
+                Multiple Destinations (A/B Testing)
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <DestinationRotator
+                  destinations={destinations}
+                  onChange={setDestinations}
+                  smartRotate={smartRotate}
+                  onSmartRotateChange={setSmartRotate}
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
