@@ -3,46 +3,243 @@ import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { motion } from "framer-motion";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { 
-  Link as LinkIcon, 
-  Sparkles, 
-  Zap, 
-  QrCode, 
-  BarChart3, 
-  Users,
-  User,
-  Cpu,
-  Bot,
-  Search,
-  Eye,
-  FileText,
-  Shield,
-  Lock,
+  Link as LinkIcon,
+  Sparkles,
+  Zap,
   CheckCircle,
-  Globe,
+  Eye,
+  Shield,
   Type,
   Accessibility,
-  Keyboard,
   History,
-  Archive,
-  GitBranch,
-  Server,
-  Target,
+  Users,
+  Cpu,
   Code,
-  Handshake,
+  Target,
+  TrendingUp,
   LineChart,
   ArrowRight
 } from "lucide-react";
-import { FlowStepCard } from "@/components/how-it-works/FlowStepCard";
-import { MetadataCard } from "@/components/how-it-works/MetadataCard";
-import { TrustFeatureCard } from "@/components/how-it-works/TrustFeatureCard";
-import { AccessibilityFeatureCard } from "@/components/how-it-works/AccessibilityFeatureCard";
-import { PermanenceFeatureCard } from "@/components/how-it-works/PermanenceFeatureCard";
-import { RoleCard } from "@/components/how-it-works/RoleCard";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
+import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
+import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
+import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
+import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 
 const HowItWorks = () => {
+  const workflowSteps = [
+    { icon: LinkIcon, label: "Create link" },
+    { icon: Sparkles, label: "Validate UTMs" },
+    { icon: CheckCircle, label: "Generate QR" },
+    { icon: Eye, label: "Track clicks" },
+    { icon: LineChart, label: "Sync analytics" }
+  ];
+
+  const benefits = [
+    {
+      icon: Eye,
+      title: "machine-readable metadata",
+      description: "Every link carries structured data that humans, machines, AI models, and search engines can understand and interpret correctly."
+    },
+    {
+      icon: Shield,
+      title: "trust by design",
+      description: "Full destination preview, safety scans, SSL validation, and blacklist checks before anyone clicks. No surprises."
+    },
+    {
+      icon: Accessibility,
+      title: "accessibility built-in",
+      description: "WCAG AAA compliance, semantic slugs, descriptive ARIA labels, and keyboard-first navigation. Links that include everyone."
+    },
+    {
+      icon: History,
+      title: "permanent links",
+      description: "Your links last forever with permanent redirect paths, exportable history, GitHub backup, and optional self-hosting."
+    },
+    {
+      icon: Users,
+      title: "cross-team governance",
+      description: "Sales, marketing, ops, developers, and partners follow the same standard. Clean-track ensures discipline everywhere."
+    },
+    {
+      icon: TrendingUp,
+      title: "AI-powered analytics",
+      description: "Predictive analytics, attribution graphs, smart routing, and link immunity. Intelligence embedded throughout the platform."
+    }
+  ];
+
+  const roleCards = [
+    {
+      role: "marketers",
+      title: "marketers",
+      description: "launch campaigns with clean UTMs, branded QR codes, and reliable analytics",
+      path: "/solutions/marketers"
+    },
+    {
+      role: "sales",
+      title: "sales",
+      description: "track outreach performance, see engagement signals, time your calls perfectly",
+      path: "/solutions/sales"
+    },
+    {
+      role: "marketing-ops",
+      title: "marketing ops",
+      description: "enforce UTM templates, automate reporting, maintain data governance",
+      path: "/solutions/marketing-ops"
+    },
+    {
+      role: "developers",
+      title: "developers",
+      description: "type-safe API, reliable metadata, webhooks for automation",
+      path: "/solutions/developers"
+    },
+    {
+      role: "partner-managers",
+      title: "partner managers",
+      description: "fixed attribution, transparent reporting, partner-specific domains",
+      path: "/solutions/partner-managers"
+    },
+    {
+      role: "rev-ops",
+      title: "rev ops",
+      description: "unified tracking, predictable metrics, attribution without guesswork",
+      path: "/solutions/rev-ops"
+    }
+  ];
+
+  const faqs = [
+    {
+      question: "how does the clean-track framework work?",
+      answer: (
+        <div className="space-y-2">
+          <p>Clean-track is a four-layer system that turns chaotic link creation into governed, reliable data:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>Syntax layer:</strong> Enforces proper URL structure, UTM parameter formats, and naming rules</li>
+            <li>• <strong>Naming rules layer:</strong> Validates utm_campaign patterns, required fields, and consistent terminology</li>
+            <li>• <strong>Governance layer:</strong> Applies workspace templates, permission controls, and approval workflows</li>
+            <li>• <strong>Reporting layer:</strong> Ensures clean data flows into GA4, HubSpot, Salesforce, and other analytics platforms</li>
+          </ul>
+          <p className="pt-2">This happens automatically at link creation—not after campaigns launch.</p>
+        </div>
+      )
+    },
+    {
+      question: "what makes utm.one different from bit.ly or rebrandly?",
+      answer: (
+        <div className="space-y-2">
+          <p>Most link shorteners are just redirects. utm.one is a link governance platform:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>UTM builder first-class:</strong> Templates, validation, normalization—not an afterthought</li>
+            <li>• <strong>Branded QR codes:</strong> Multiple variants per link, print-ready exports, utm.one watermark on free tier</li>
+            <li>• <strong>Trust by design:</strong> Destination preview, safety scans, SSL validation before clicks</li>
+            <li>• <strong>Accessibility:</strong> WCAG AAA compliance, semantic slugs, screen reader support</li>
+            <li>• <strong>Permanence:</strong> Links never break with GitHub backup and optional self-hosting</li>
+            <li>• <strong>AI analytics:</strong> Predictive insights, attribution graphs, smart routing built-in</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      question: "how do I get started?",
+      answer: (
+        <div className="space-y-2">
+          <p>Getting started with utm.one takes under 2 minutes:</p>
+          <ol className="space-y-1 ml-4">
+            <li>1. Sign up and verify your email</li>
+            <li>2. Set up your workspace (add team members, configure domain)</li>
+            <li>3. Create your first link with clean UTMs</li>
+            <li>4. Generate a branded QR code (optional)</li>
+            <li>5. Install the tracking pixel on your website for conversion tracking</li>
+          </ol>
+          <p className="pt-2">Free plan includes 100 links, 10K clicks/month, and community support.</p>
+        </div>
+      )
+    },
+    {
+      question: "does utm.one work with my existing analytics stack?",
+      answer: (
+        <div className="space-y-2">
+          <p>Yes. utm.one enhances your existing tools, it doesn't replace them:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>Google Analytics 4:</strong> Clean UTMs flow directly into GA4 reports</li>
+            <li>• <strong>HubSpot:</strong> Native integration syncs links and contact attribution</li>
+            <li>• <strong>Salesforce:</strong> API pushes link data to campaigns and opportunities</li>
+            <li>• <strong>Segment:</strong> Events forwarded to your entire CDP stack</li>
+            <li>• <strong>Webhooks:</strong> Push click events to Slack, custom dashboards, or internal BI</li>
+          </ul>
+          <p className="pt-2">utm.one is the governance layer—your existing tools get cleaner data.</p>
+        </div>
+      )
+    },
+    {
+      question: "can I use my own custom domain?",
+      answer: (
+        <div className="space-y-2">
+          <p>Yes. Custom domains are available on Pro and above:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>Pro:</strong> 1 custom domain (e.g., go.yourcompany.com)</li>
+            <li>• <strong>Business:</strong> 5 custom domains (e.g., events.company.com, partners.company.com)</li>
+            <li>• <strong>Enterprise:</strong> Unlimited custom domains with multi-tenant support</li>
+          </ul>
+          <p className="pt-2">Setup requires DNS configuration (CNAME record + TXT verification). Full instructions provided in dashboard.</p>
+        </div>
+      )
+    },
+    {
+      question: "what happens if utm.one shuts down?",
+      answer: (
+        <div className="space-y-2">
+          <p>Your links are protected with multiple permanence guarantees:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>Permanent redirects:</strong> Links never expire or break, even after campaigns end</li>
+            <li>• <strong>Exportable history:</strong> Download all links, UTMs, QR codes, and analytics as CSV/JSON</li>
+            <li>• <strong>GitHub backup:</strong> Optional daily backups to your GitHub repo</li>
+            <li>• <strong>Self-hosting option:</strong> Run utm.one on your own infrastructure (Docker package available)</li>
+          </ul>
+          <p className="pt-2">If we ever shut down, you get 6 months notice + full data export + self-hosting migration support.</p>
+        </div>
+      )
+    },
+    {
+      question: "how does pricing work?",
+      answer: (
+        <div className="space-y-2">
+          <p>utm.one has four pricing tiers designed for teams at different stages:</p>
+          <ul className="space-y-1 ml-4">
+            <li>• <strong>Free:</strong> $0 — 100 links, 10K clicks/month, 90-day retention, community support</li>
+            <li>• <strong>Pro:</strong> $20/month — 1,000 links, 100K clicks/month, 1 custom domain, 365-day retention</li>
+            <li>• <strong>Business:</strong> $99/month — 10K links, unlimited clicks, 5 custom domains, priority support</li>
+            <li>• <strong>Enterprise:</strong> $300/month — Unlimited links, unlimited domains, dedicated SLA, SSO</li>
+          </ul>
+          <p className="pt-2">All plans include UTM builder, QR generator, analytics, and API access.</p>
+        </div>
+      )
+    },
+    {
+      question: "can I track conversions, not just clicks?",
+      answer: (
+        <div className="space-y-2">
+          <p>Yes. Conversion tracking requires installing the utm.one tracking pixel on your website:</p>
+          <ol className="space-y-1 ml-4">
+            <li>1. Copy the tracking pixel code from Settings → Tracking</li>
+            <li>2. Paste it in your website's &lt;head&gt; tag (or via Google Tag Manager)</li>
+            <li>3. Define conversion events (form submissions, purchases, signups)</li>
+            <li>4. utm.one automatically attributes conversions to source links</li>
+          </ol>
+          <p className="pt-2">Without the pixel, you only get click tracking. With it, you get full funnel attribution.</p>
+        </div>
+      )
+    }
+  ];
+
   return (
     <MainLayout showAnnouncement={false}>
       <SEO 
@@ -67,11 +264,9 @@ const HowItWorks = () => {
         }}
       />
       
-      {/* Fold 1: Hero */}
-      <section className="relative py-32 md:py-40 bg-white overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-2 h-32 bg-gradient-to-b from-primary to-transparent rounded-full blur-sm opacity-50" />
-        <div className="absolute bottom-20 right-10 w-2 h-32 bg-gradient-to-t from-deepSea to-transparent rounded-full blur-sm opacity-50" />
+      {/* Fold 1: Hero with Gradient Mesh */}
+      <section className="relative py-32 md:py-40 overflow-hidden">
+        <RetroGradientMesh />
         
         <div className="container max-w-[980px] mx-auto px-6 relative z-10">
           <motion.div
@@ -80,460 +275,241 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="space-y-8 text-center"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient">
-              How utm.one works
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-white lowercase">
+              how utm.one works
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-[800px] mx-auto">
-              A simple system that helps you create links people trust, data you can rely on, and structure your entire GTM engine can follow.
+            <p className="text-xl md:text-2xl text-white/90 leading-relaxed max-w-[800px] mx-auto">
+              a simple system that helps you create links people trust, data you can rely on, and structure your entire gtm engine can follow.
             </p>
-            <CTAButton href="/early-access" variant="primary" trustBadge="Setup in 2 minutes">
-              See It In Action →
-            </CTAButton>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Fold 2: The Idea */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <div className="container max-w-[900px] mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="space-y-8 text-center"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground">
-              Everything starts with one clean link
-            </h1>
-            <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
-              <p>
-                utm.one takes the moment you create a link —<br />
-                the first moment —<br />
-                and turns it into a clean, governed, trustworthy action.
-              </p>
-              <p className="pt-4">
-                not after the campaign.<br />
-                not during reporting.<br />
-                right at creation.
-              </p>
-              <p className="pt-8 font-medium text-foreground">
-                clean links → clean UTMs → clean QR → clean analytics → clean decisions.
-              </p>
+            
+            <div className="flex flex-col items-center gap-6 pt-4">
+              <CTAButton href="/early-access" variant="primary">
+                see it in action →
+              </CTAButton>
+              
+              <SocialProofCounter variant="minimal" />
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Fold 3: The utm.one Flow */}
+      {/* Fold 2: The Pain Moment */}
+      <section className="py-24 md:py-32 bg-wildSand">
+        <div className="container max-w-[1000px] mx-auto px-6">
+          <TheMomentStoryCard
+            title="the campaign post-mortem where nobody could agree on what actually worked"
+            scenario="marketing says email drove 40% of conversions. sales says outreach emails were the real driver. ops pulls the GA4 report—47 different utm_campaign variations for the same campaign. some with capital letters, some with spaces, some with underscores. nobody can trust the data. the meeting ends with 'let's try to be more consistent next time.'"
+            timestamp="thursday, 2:47 pm"
+          />
+        </div>
+      </section>
+
+      {/* Fold 3: Before vs After */}
       <section className="py-24 md:py-32 bg-white">
-        <div className="container max-w-[1200px] mx-auto px-6 relative z-10">
+        <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-4 lowercase">
-              The utm.one flow
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Simple, visual, effective
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <FlowStepCard
-              number="01"
-              title="You create a link"
-              description="Simple, branded, semantic. Safe to click. Easy to trust."
-              icon={LinkIcon}
-              delay={0}
-            />
-            <FlowStepCard
-              number="02"
-              title="Clean-track applies your rules"
-              description="Syntax → naming → metadata → permissions → preview. The messy part becomes impossible to mess up."
-              icon={Sparkles}
-              delay={0.1}
-            />
-            <FlowStepCard
-              number="03"
-              title="UTMs are generated automatically"
-              description="No mistakes. No duplicates. No broken parameters."
-              icon={Zap}
-              delay={0.2}
-            />
-            <FlowStepCard
-              number="04"
-              title="A QR code is generated (if you need it)"
-              description="Consistent, branded, and connected to the same link."
-              icon={QrCode}
-              delay={0.3}
-            />
-            <FlowStepCard
-              number="05"
-              title="Analytics start working immediately"
-              description="Clear metrics, simple charts, clean attribution."
-              icon={BarChart3}
-              delay={0.4}
-            />
-            <FlowStepCard
-              number="06"
-              title="Your team stays in sync"
-              description="Every link follows the same standard across marketing, sales, ops, partners, and developers."
-              icon={Users}
-              delay={0.5}
-            />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-center text-lg text-muted-foreground font-medium"
-          >
-            One system, many workflows — all aligned.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Fold 4: What Happens Inside Each Link */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6 lowercase">
-              Every link carries meaning
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+              before and after utm.one
             </h2>
             <p className="text-lg text-muted-foreground">
-              utm.one adds structured metadata that:
+              the difference is obvious
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            <MetadataCard title="humans can understand" icon={User} delay={0} />
-            <MetadataCard title="machines can read" icon={Cpu} delay={0.1} />
-            <MetadataCard title="screen readers can announce" icon={Accessibility} delay={0.2} />
-            <MetadataCard title="AI models can interpret" icon={Bot} delay={0.3} />
-            <MetadataCard title="search engines can classify" icon={Search} delay={0.4} />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-center text-lg text-foreground font-medium"
-          >
-            Your link becomes more than a link —<br />
-            it becomes a reliable unit of meaning.
-          </motion.p>
+          <ContentComparison
+            beforeTitle="before"
+            afterTitle="after"
+            beforeContent={
+              <div className="space-y-4">
+                <div className="text-sm font-mono bg-destructive/10 p-3 rounded border border-destructive/20">
+                  <p className="text-destructive">utm_campaign=Q1-Launch</p>
+                  <p className="text-destructive">utm_campaign=q1_launch</p>
+                  <p className="text-destructive">utm_campaign=Q1%20Launch</p>
+                  <p className="text-destructive">utm_campaign=q1launch</p>
+                  <p className="text-destructive/60">+ 43 more variations...</p>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <span className="text-destructive">×</span> broken dashboards
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <span className="text-destructive">×</span> conflicting reports
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <span className="text-destructive">×</span> team arguments
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <span className="text-destructive">×</span> wasted time
+                  </p>
+                </div>
+              </div>
+            }
+            afterContent={
+              <div className="space-y-4">
+                <div className="text-sm font-mono bg-primary/10 p-3 rounded border border-primary/20">
+                  <p className="text-primary">utm_campaign=q1-product-launch</p>
+                  <p className="text-primary">utm_campaign=q1-product-launch</p>
+                  <p className="text-primary">utm_campaign=q1-product-launch</p>
+                  <p className="text-primary">utm_campaign=q1-product-launch</p>
+                  <p className="text-primary/60">100% consistency</p>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary" /> clean dashboards
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary" /> reliable reports
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary" /> team alignment
+                  </p>
+                  <p className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle className="w-4 h-4 text-primary" /> saved time
+                  </p>
+                </div>
+              </div>
+            }
+            caption="one system, one standard, zero chaos"
+          />
         </div>
       </section>
 
-      {/* Fold 5: Trust, by Design */}
-      <section className="py-24 md:py-32 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-              You see where the link goes before you click
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
-            <TrustFeatureCard title="full destination preview" icon={Eye} delay={0} />
-            <TrustFeatureCard title="site favicon + title" icon={FileText} delay={0.1} />
-            <TrustFeatureCard title="safety scan" icon={Shield} delay={0.2} />
-            <TrustFeatureCard title="blacklist status" icon={Lock} delay={0.3} />
-            <TrustFeatureCard title="SSL validation" icon={CheckCircle} delay={0.4} />
-            <TrustFeatureCard title="permanent redirect guarantee" icon={Globe} delay={0.5} />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            className="text-center text-lg text-foreground font-medium"
-          >
-            Your audience clicks with confidence<br />
-            because the link is honest.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Fold 6: Accessibility Built In */}
-      <section className="py-24 md:py-32 bg-muted/20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-              Links that include everyone
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              utm.one makes link creation accessible by default:
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-            <AccessibilityFeatureCard title="semantic slugs" icon={Type} delay={0} />
-            <AccessibilityFeatureCard title="descriptive aria labels" icon={Accessibility} delay={0.1} />
-            <AccessibilityFeatureCard title="WCAG AAA dashboard" icon={CheckCircle} delay={0.2} />
-            <AccessibilityFeatureCard title="keyboard-first navigation" icon={Keyboard} delay={0.3} />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-center text-lg text-foreground font-medium"
-          >
-            A link should never exclude someone.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* Fold 7: Permanence */}
+      {/* Fold 4: The utm.one Flow - Visual Timeline */}
       <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
         <WorkflowBackground />
         
         <div className="container max-w-[1000px] mx-auto px-6 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-12"
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6">
-              Your links last forever
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 lowercase">
+              your workflow, transformed
             </h2>
-            <div className="space-y-2 text-lg text-white/70">
-              <p>platforms shut down</p>
-              <p>urls break</p>
-              <p>marketing stacks change</p>
-              <p className="text-white font-medium pt-2">your links shouldn't.</p>
-            </div>
+            <p className="text-lg text-white/70">
+              from creation to analytics, all automated
+            </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-            <PermanenceFeatureCard title="permanent redirect paths" icon={History} delay={0} />
-            <PermanenceFeatureCard title="exportable link history" icon={Archive} delay={0.1} />
-            <PermanenceFeatureCard title="GitHub backup integration" icon={GitBranch} delay={0.2} />
-            <PermanenceFeatureCard title="optional self-hosting" icon={Server} delay={0.3} />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-center text-lg text-white/80 font-medium"
-          >
-            Your content stays reachable<br />
-            no matter what changes.
-          </motion.p>
+          <WorkflowTimeline 
+            steps={workflowSteps}
+            description="one link creation triggers the entire clean-track flow — validation, QR generation, analytics, and team sync happen automatically."
+          />
         </div>
       </section>
 
-      {/* Fold 8: Consistency Across Your Org */}
+      {/* Fold 5: What Makes Links Different - Consolidated Features */}
       <section className="py-24 md:py-32 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-              Everyone follows the same standard
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+              what makes links different
             </h2>
             <p className="text-lg text-muted-foreground">
-              utm.one removes the guesswork:
+              six features that turn links into assets
             </p>
           </motion.div>
 
-          <div className="space-y-3 mb-12 max-w-[700px] mx-auto">
-            {[
-              "sales uses the same UTM structure as marketing",
-              "ops gets predictable reporting",
-              "developers get reliable metadata",
-              "partner managers get fixed attribution",
-              "agencies get workspaces that scale"
-            ].map((text, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="p-4 rounded-lg bg-white border border-border/50"
-              >
-                <p className="text-base text-foreground">{text}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-center text-lg text-foreground font-medium"
-          >
-            Clean-track ensures the same discipline everywhere.
-          </motion.p>
+          <BenefitCardsGrid benefits={benefits} />
         </div>
       </section>
 
-      {/* Fold 9: Analytics Without Overwhelm */}
+      {/* Fold 6: Who It's For - Clickable Role Cards */}
       <section className="py-24 md:py-32 bg-muted/20">
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-              See only what matters
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+              who it's for
             </h2>
             <p className="text-lg text-muted-foreground">
-              utm.one gives you clarity, not dashboards that fight you.
+              different roles, same clean-track foundation
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
-            {[
-              { label: "clicks", icon: Target },
-              { label: "sources", icon: Globe },
-              { label: "campaigns", icon: Sparkles },
-              { label: "partners", icon: Handshake },
-              { label: "QR performance", icon: QrCode }
-            ].map((item, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {roleCards.map((card, index) => (
               <motion.div
-                key={index}
+                key={card.role}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-white border border-border/50 hover:border-primary/30 transition-all"
               >
-                <div className="flex flex-col items-center gap-3 text-center">
-                  <item.icon className="w-8 h-8 text-primary" strokeWidth={2} />
-                  <p className="text-sm font-medium text-foreground">{item.label}</p>
-                </div>
+                <Link to={card.path}>
+                  <div className="group h-full bg-card border-2 border-border hover:border-primary/40 rounded-xl p-6 transition-all hover:shadow-lg cursor-pointer">
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors lowercase">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {card.description}
+                      </p>
+                      <div className="flex items-center gap-2 text-sm text-primary font-medium pt-2">
+                        <span>learn more</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-center space-y-4"
-          >
-            <p className="text-base text-muted-foreground">
-              AI summaries highlight what you should pay attention to
-            </p>
-            <p className="text-lg text-foreground font-medium">
-              no clutter / no fatigue / analytics that feel human.
-            </p>
-          </motion.div>
         </div>
       </section>
 
-      {/* Fold 10: Where It All Comes Together */}
+      {/* Fold 7: Growth Loop - Clean Track Score Quiz */}
       <section className="py-24 md:py-32 bg-white">
-        <div className="container mx-auto px-4 max-w-6xl">
+        <div className="container max-w-[900px] mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-center mb-16"
+            viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-foreground mb-6">
-              One workspace, many roles
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 lowercase">
+              how clean are your links?
             </h2>
             <p className="text-lg text-muted-foreground">
-              utm.one works the same way across your teams:
+              take the 60-second clean-track assessment
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <RoleCard
-              title="Marketers"
-              description="build campaigns"
-              icon={Target}
-              delay={0}
-            />
-            <RoleCard
-              title="Sales"
-              description="share cleaner links"
-              icon={Handshake}
-              delay={0.1}
-            />
-            <RoleCard
-              title="Ops"
-              description="govern tracking"
-              icon={Shield}
-              delay={0.2}
-            />
-            <RoleCard
-              title="Developers"
-              description="integrate via API"
-              icon={Code}
-              delay={0.3}
-            />
-            <RoleCard
-              title="Partner Teams"
-              description="distribute links with confidence"
-              icon={Users}
-              delay={0.4}
-            />
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-center text-lg text-foreground font-medium"
-          >
-            one system / one standard / one source of truth.
-          </motion.p>
+          <CleanTrackScoreQuiz />
         </div>
       </section>
 
-      {/* Fold 11: Final CTA */}
+      {/* Fold 8: FAQ */}
+      <section className="py-24 md:py-32 bg-muted/20">
+        <div className="container mx-auto px-6">
+          <RoleSpecificFAQ
+            role="teams using utm.one"
+            faqs={faqs}
+          />
+        </div>
+      </section>
+
+      {/* Fold 9: Final CTA */}
       <PremiumCTASection
-        headline="See how simple link management can be"
-        subheadline="We onboard in batches. Clarity first."
-        primaryCTA="Get Started Free →"
+        headline="ready to make your links work harder?"
+        subheadline="join 1,200+ teams using utm.one to create clean links, reliable analytics, and governance that scales."
+        primaryCTA="get started →"
       />
     </MainLayout>
   );
