@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AttributionModelSelector } from "@/components/analytics/AttributionModelSelector";
 import { AttributionTable } from "@/components/analytics/AttributionTable";
-import { JourneySankeyDiagram } from "@/components/analytics/JourneySankeyDiagram";
+import { JourneySankey } from "@/components/analytics/JourneySankey";
 import { useAttribution, useJourneyFlow, type AttributionModel } from "@/hooks/useAttribution";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { subDays } from "date-fns";
@@ -98,7 +98,7 @@ const Attribution = () => {
 
       <AttributionTable data={attributionData || []} isLoading={isLoadingAttribution} />
 
-      <JourneySankeyDiagram data={flowData || []} isLoading={isLoadingFlow} />
+      <JourneySankey data={flowData || []} isLoading={isLoadingFlow} />
 
       <Card>
         <CardHeader>
