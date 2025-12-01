@@ -12,8 +12,10 @@ import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
-import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
-import { Shield, Settings, FileText, CheckCircle2, Layers, Lock, BarChart3 } from "lucide-react";
+import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
+import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
+import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
+import { Shield, Settings, FileText, CheckCircle2, Layers, Lock, BarChart3, Users } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
 const MarketingOps = () => {
@@ -228,26 +230,59 @@ const MarketingOps = () => {
       </section>
 
       {/* Fold 5: Your Workflow Transformed */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="max-w-6xl mx-auto px-8">
+      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
+        <WorkflowBackground />
+        
+        <div className="relative max-w-6xl mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-white/70">
               How your day changes with utm.one
             </p>
           </div>
           
-          <WorkflowTimeline 
-            steps={[
-              { icon: Settings, label: "Set template" },
-              { icon: CheckCircle2, label: "Team creates links" },
-              { icon: Shield, label: "All compliant" },
-              { icon: FileText, label: "Report auto-generated" }
-            ]}
-            description="From governance setup to automated compliance—zero manual audits, zero data chaos."
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={Settings}
+                label="set governance rules"
+                stepNumber="01"
+                delay={0}
+              />
+              <AnimatedConnectingLine index={0} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={Users}
+                label="team creates links"
+                stepNumber="02"
+                delay={0.2}
+              />
+              <AnimatedConnectingLine index={1} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={CheckCircle2}
+                label="auto-validation"
+                stepNumber="03"
+                delay={0.4}
+              />
+              <AnimatedConnectingLine index={2} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={FileText}
+                label="clean reports"
+                stepNumber="04"
+                delay={0.6}
+              />
+            </div>
+          </div>
         </div>
       </section>
 

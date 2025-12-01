@@ -10,7 +10,10 @@ import { ContentComparison } from "@/components/solutions/ContentComparison";
 import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
-import { GitMerge, Users, DollarSign, CheckCircle2, BarChart3, Shield } from "lucide-react";
+import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
+import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
+import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
+import { GitMerge, Users, DollarSign, CheckCircle2, BarChart3, Shield, Settings, FileText } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
 const RevOps = () => {
@@ -219,7 +222,64 @@ const RevOps = () => {
         </div>
       </section>
 
-      {/* Fold 5: Role-Specific FAQs */}
+      {/* Fold 5: Your Workflow Transformed */}
+      <section className="relative py-24 md:py-32 bg-mirage overflow-hidden">
+        <WorkflowBackground />
+        
+        <div className="relative max-w-6xl mx-auto px-8 z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
+              your workflow, transformed
+            </h2>
+            <p className="text-lg text-white/70">
+              How your day changes with utm.one
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={Settings}
+                label="connect tools"
+                stepNumber="01"
+                delay={0}
+              />
+              <AnimatedConnectingLine index={0} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={GitMerge}
+                label="unify taxonomy"
+                stepNumber="02"
+                delay={0.2}
+              />
+              <AnimatedConnectingLine index={1} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={BarChart3}
+                label="reconcile funnels"
+                stepNumber="03"
+                delay={0.4}
+              />
+              <AnimatedConnectingLine index={2} total={4} />
+            </div>
+            
+            <div className="relative">
+              <InteractiveWorkflowCard
+                icon={FileText}
+                label="generate reports"
+                stepNumber="04"
+                delay={0.6}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fold 6: Role-Specific FAQs */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="revops" faqs={faqs} />
