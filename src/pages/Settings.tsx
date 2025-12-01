@@ -17,6 +17,8 @@ import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
 import BillingSettings from "./settings/Billing";
 import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
+import { AuditLogViewer } from "@/components/security/AuditLogViewer";
+import { RoleRecommender } from "@/components/security/RoleRecommender";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -128,7 +130,17 @@ export default function Settings() {
                 </>
               )}
 
-              {activeTab === "security" && <SecuritySettings />}
+              {activeTab === "security" && (
+                <>
+                  <SecuritySettings />
+                  <div className="mt-8">
+                    <AuditLogViewer />
+                  </div>
+                  <div className="mt-8">
+                    <RoleRecommender />
+                  </div>
+                </>
+              )}
 
               {activeTab === "privacy" && <DataPrivacySettings />}
             </div>
