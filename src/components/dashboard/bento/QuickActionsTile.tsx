@@ -2,7 +2,6 @@ import { Zap, Link2, QrCode, BarChart3, Shield, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
 import { MagneticCard } from "@/components/magnetic";
-import { motion } from "framer-motion";
 
 export const QuickActionsTile = () => {
   const { setCreateModalOpen } = useModal();
@@ -53,12 +52,8 @@ export const QuickActionsTile = () => {
           const Icon = action.icon;
           
           const CardContent = (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.4 }}
-              className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col items-center text-center group"
-            >
+            <div className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col items-center text-center group">
+
               {/* Icon with gradient background */}
               <div className="flex justify-center mb-4">
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 group-hover:from-primary/30 group-hover:to-primary/10 transition-colors">
@@ -75,7 +70,7 @@ export const QuickActionsTile = () => {
               <p className="text-xs text-muted-foreground">
                 {action.description}
               </p>
-            </motion.div>
+            </div>
           );
 
           if (action.href) {
