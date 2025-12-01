@@ -7,6 +7,7 @@ import Domains from "./Settings/Domains";
 import DeveloperSettings from "./Settings/DeveloperSettings";
 import { Tracking } from "./Settings/Tracking";
 import { PipelineIntegration } from "./Settings/PipelineIntegration";
+import { Integrations } from "./Settings/Integrations";
 import { WebhookManager } from "@/components/WebhookManager";
 import { IntegrationsManager } from "@/components/IntegrationsManager";
 import { supabase } from "@/integrations/supabase/client";
@@ -157,6 +158,8 @@ export default function Settings() {
               {activeTab === "tracking" && <Tracking />}
               
               {activeTab === "pipeline" && <PipelineIntegration />}
+              
+              {activeTab === "integrations" && <Integrations />}
             </div>
           </div>
         </div>
