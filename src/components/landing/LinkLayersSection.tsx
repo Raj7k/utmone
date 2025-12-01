@@ -69,32 +69,34 @@ export const LinkLayersSection = () => {
         </div>
 
         {/* Stacking Cards */}
-        <div className="relative min-h-[2400px]">
+        <div className="relative min-h-[2000px]">
           {layers.map((layer, index) => {
-            const startProgress = 0.05 + (index * 0.16);
-            const midProgress = startProgress + 0.08;
-            const exitStart = startProgress + 0.14;
-            const exitEnd = Math.min(exitStart + 0.06, 1);
+            // Each card uses 18% of scroll progress
+            const segmentSize = 0.18;
+            const startProgress = 0.02 + (index * segmentSize);
+            const midProgress = startProgress + 0.06;
+            const exitStart = startProgress + segmentSize - 0.04;
+            const exitEnd = startProgress + segmentSize;
             
-            // Entry animation: slide up from below
+            // All cards stack at y=0 (no offset gaps)
             const y = useTransform(
               scrollYProgress,
               [startProgress, midProgress, exitStart, exitEnd],
-              [600, index * 80, index * 80, -200]
+              [500, 0, 0, 0]
             );
             
-            // Scale: grow on entry, shrink on exit
+            // Scale: subtle shrink only on exit when covered
             const scale = useTransform(
               scrollYProgress,
-              [startProgress, midProgress, exitStart - 0.03, exitStart],
-              [0.92, 1, 1, 0.8]
+              [startProgress, midProgress - 0.02, exitStart, exitEnd],
+              [0.95, 1, 1, 0.92]
             );
             
-            // Opacity: fade in on entry, fade out on exit
+            // Opacity: stay visible until next card covers
             const opacity = useTransform(
               scrollYProgress,
-              [startProgress, startProgress + 0.02, exitStart - 0.05, exitStart],
-              [0, 1, 1, 0]
+              [startProgress, startProgress + 0.03, exitStart + 0.02, exitEnd],
+              [0, 1, 1, 0.5]
             );
 
             const isEven = index % 2 === 0;
@@ -102,8 +104,8 @@ export const LinkLayersSection = () => {
             return (
               <motion.div
                 key={index}
-                style={{ y, scale, opacity, zIndex: 10 + index }}
-                className="sticky top-16 bg-card/95 backdrop-blur-sm border-2 border-border rounded-3xl p-10 md:p-16 shadow-2xl min-h-[500px] md:min-h-[600px]"
+                style={{ y, scale, opacity, zIndex: 10 + index, willChange: 'transform, opacity' }}
+                className="sticky top-20 bg-card border-2 border-border rounded-3xl p-10 md:p-16 shadow-2xl min-h-[500px] md:min-h-[600px]"
               >
                 <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16 h-full`}>
                   {/* Left: Content */}
