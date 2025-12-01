@@ -170,11 +170,11 @@ const RevOps = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase mb-6">
-              before utm.one vs after
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+              the problem vs the solution
             </h2>
-            <p className="text-xl text-muted-foreground">
-              Same teams. Different alignment.
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+              same teams. different alignment.
             </p>
           </div>
           

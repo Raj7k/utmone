@@ -136,6 +136,15 @@ const Marketers = () => {
       {/* Fold 3: Before vs After Comparison */}
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+              the problem vs the solution
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+              same campaign. two different realities.
+            </p>
+          </div>
+          
           <ContentComparison
             beforeTitle="before utm.one"
             afterTitle="with utm.one"
