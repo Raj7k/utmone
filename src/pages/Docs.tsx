@@ -35,10 +35,10 @@ const Docs = () => {
       title: "API Reference",
       icon: Code,
       items: [
-        { title: "Authentication", href: "/api" },
-        { title: "Links API", href: "/api" },
-        { title: "Analytics API", href: "/api" },
-        { title: "Rate Limits", href: "/api" },
+        { title: "Authentication", href: "/docs/api" },
+        { title: "Links API", href: "/docs/api" },
+        { title: "Analytics API", href: "/docs/api" },
+        { title: "Rate Limits", href: "/docs/api" },
       ],
     },
     {
