@@ -9,7 +9,6 @@ import {
   Target,
   Layers,
   Brain,
-  Megaphone,
   Clock,
   Briefcase, 
   CreditCard, 
@@ -61,9 +60,10 @@ const intelligenceNavigation = [
   { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
 ];
 
-const growthNavigation = [
-  { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
-];
+// Growth navigation hidden for now
+// const growthNavigation = [
+//   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
+// ];
 
 const settingsNavigation = [
   { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
@@ -77,7 +77,6 @@ export const ExpandedSidebar = () => {
   const { toggleSidebar, openSearch } = useSidebar();
   
   const [toolsOpen, setToolsOpen] = useState(true);
-  const [growthOpen, setGrowthOpen] = useState(true);
   const [intelligenceOpen, setIntelligenceOpen] = useState(true);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -102,7 +101,6 @@ export const ExpandedSidebar = () => {
   };
 
   const hasActiveToolsRoute = toolsNavigation.some(item => isActive(item.href));
-  const hasActiveGrowthRoute = growthNavigation.some(item => isActive(item.href));
   const hasActiveIntelligenceRoute = intelligenceNavigation.some(item => isActive(item.href));
 
   return (
@@ -185,40 +183,6 @@ export const ExpandedSidebar = () => {
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1">
               {toolsNavigation.map((item) => {
-                const active = isActive(item.href);
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                      active ? "bg-muted text-foreground font-medium" : "text-label hover:bg-fill-tertiary"
-                    )}
-                  >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span>{formatText(item.name)}</span>
-                  </Link>
-                );
-              })}
-            </CollapsibleContent>
-          </div>
-        </Collapsible>
-
-        {/* GROWTH Category */}
-        <Collapsible open={growthOpen || hasActiveGrowthRoute} onOpenChange={setGrowthOpen}>
-          <div className="space-y-1">
-            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
-              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-                Growth
-              </p>
-              <ChevronDown className={cn(
-                "h-3 w-3 text-tertiary-label transition-transform",
-                (growthOpen || hasActiveGrowthRoute) && "rotate-180"
-              )} />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-1">
-              {growthNavigation.map((item) => {
                 const active = isActive(item.href);
                 const Icon = item.icon;
                 return (
