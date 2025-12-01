@@ -66,6 +66,8 @@ const APIDocumentation = lazy(() => import("./pages/Docs/API"));
 const APIPlayground = lazy(() => import("./pages/Docs/APIPlayground"));
 const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PixelInstallation = lazy(() => import("./pages/Docs/PixelInstallation"));
+const RevenueAttribution = lazy(() => import("./pages/Docs/RevenueAttribution"));
+const CRMIntegrations = lazy(() => import("./pages/Docs/CRMIntegrations"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const PublicUTMBuilder = lazy(() => import("./pages/tools/UTMBuilder"));
@@ -429,6 +431,8 @@ const App = () => (
               <Route path="/docs/playground" element={<Suspense fallback={<DashboardSkeleton />}><APIPlayground /></Suspense>} />
               <Route path="/docs/sdks" element={<Suspense fallback={<DashboardSkeleton />}><SDKs /></Suspense>} />
               <Route path="/docs/pixel-installation" element={<Suspense fallback={<DashboardSkeleton />}><PixelInstallation /></Suspense>} />
+              <Route path="/docs/revenue-attribution" element={<Suspense fallback={<DashboardSkeleton />}><RevenueAttribution /></Suspense>} />
+              <Route path="/docs/crm-integrations" element={<Suspense fallback={<DashboardSkeleton />}><CRMIntegrations /></Suspense>} />
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<DashboardSkeleton />}><Features /></Suspense>} />
