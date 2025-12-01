@@ -66,7 +66,7 @@ const Analytics = () => {
       <FeatureHero
         headlineLine1="clean data,"
         headlineLine2="clear insight."
-        subheadline={<>utm.one shows you only what matters — no clutter, no confusion, no <GlossaryTooltip term="analytics" inline /> fatigue.</>}
+        subheadline="utm.one shows you only what matters — no clutter, no confusion, no analytics fatigue."
       />
 
       <FeatureSection background="muted">
