@@ -14,7 +14,8 @@ import {
   CreditCard, 
   User,
   Bell,
-  ChevronRight
+  ChevronRight,
+  GitBranch
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -33,6 +34,7 @@ const navigation = [
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
+  { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
   { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
   { name: "Billing", href: "/settings/billing", icon: CreditCard },
   { name: "Account", href: "/settings/profile", icon: User },
