@@ -8,7 +8,7 @@ import { HelpCircle } from "lucide-react";
 
 interface GlossaryTooltipProps {
   term: string;
-  definition: string;
+  definition?: string;
   inline?: boolean;
 }
 

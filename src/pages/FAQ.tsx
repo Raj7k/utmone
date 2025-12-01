@@ -2353,16 +2353,22 @@ Value: go.utm.one`}
   }));
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO 
+    <MainLayout>
+      <SEO
         title="FAQ - Frequently Asked Questions"
         description="comprehensive answers to all your utm.one questions: getting started, links, utms, qr codes, analytics, geo-targeting, a/b testing, tracking pixel, custom domains, teams, pricing, security, and more."
         canonical="https://utm.one/faq"
         keywords={['utm.one faq', 'link shortener questions', 'utm help', 'qr code faq', 'analytics questions', 'geo-targeting', 'a/b testing', 'tracking pixel']}
       />
-      <FAQSchema questions={schemaFAQs} />
-      <Navigation />
-      <FloatingNavigation />
+      <LLMSchemaGenerator 
+        type="faq"
+        data={{
+          questions: schemaFAQs.map(faq => ({
+            question: faq.question,
+            answer: typeof faq.answer === 'string' ? faq.answer : ''
+          }))
+        }}
+      />
 
       {/* Hero with Search */}
       <section className="py-24 bg-background border-b border-border">
@@ -2456,9 +2462,7 @@ Value: go.utm.one`}
           </div>
         </section>
       </div>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 
