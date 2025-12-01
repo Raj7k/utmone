@@ -115,6 +115,13 @@ export type Database = {
             foreignKeyName: "ab_tests_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ab_tests_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -365,6 +372,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "analytics_anomalies_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "analytics_anomalies_link_id_fkey"
             columns: ["link_id"]
@@ -1281,6 +1295,13 @@ export type Database = {
             foreignKeyName: "conversion_events_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversion_events_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2080,6 +2101,13 @@ export type Database = {
             foreignKeyName: "fraud_scores_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_scores_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2204,6 +2232,61 @@ export type Database = {
         }
         Relationships: []
       }
+      link_cache_metadata: {
+        Row: {
+          access_count: number | null
+          cache_size_bytes: number | null
+          cache_tier: string
+          created_at: string | null
+          id: string
+          last_accessed_at: string | null
+          link_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          access_count?: number | null
+          cache_size_bytes?: number | null
+          cache_tier?: string
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          link_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          access_count?: number | null
+          cache_size_bytes?: number | null
+          cache_tier?: string
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          link_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_cache_metadata_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_cache_metadata_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_cache_metadata_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_change_history: {
         Row: {
           change_type: string
@@ -2239,6 +2322,13 @@ export type Database = {
           old_value?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "link_change_history_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "link_change_history_link_id_fkey"
             columns: ["link_id"]
@@ -2334,6 +2424,13 @@ export type Database = {
             foreignKeyName: "link_clicks_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_clicks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2406,6 +2503,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "link_comments_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "link_comments_link_id_fkey"
             columns: ["link_id"]
@@ -2492,6 +2596,13 @@ export type Database = {
             foreignKeyName: "link_health_checks_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_health_checks_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2549,6 +2660,13 @@ export type Database = {
             foreignKeyName: "link_previews_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: true
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_previews_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: true
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2591,6 +2709,13 @@ export type Database = {
             foreignKeyName: "link_tags_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_tags_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -2617,7 +2742,10 @@ export type Database = {
           approved_at: string | null
           approved_by: string | null
           blacklist_status: string | null
+          cache_priority: string | null
+          cache_score: number | null
           campaign_id: string | null
+          clicks_last_hour: number | null
           conversion_rate: number | null
           created_at: string | null
           created_by: string
@@ -2634,6 +2762,7 @@ export type Database = {
           geo_targets: Json | null
           id: string
           is_ab_test: boolean | null
+          last_cached_at: string | null
           last_clicked_at: string | null
           max_clicks: number | null
           og_description: string | null
@@ -2678,7 +2807,10 @@ export type Database = {
           approved_at?: string | null
           approved_by?: string | null
           blacklist_status?: string | null
+          cache_priority?: string | null
+          cache_score?: number | null
           campaign_id?: string | null
+          clicks_last_hour?: number | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by: string
@@ -2695,6 +2827,7 @@ export type Database = {
           geo_targets?: Json | null
           id?: string
           is_ab_test?: boolean | null
+          last_cached_at?: string | null
           last_clicked_at?: string | null
           max_clicks?: number | null
           og_description?: string | null
@@ -2741,7 +2874,10 @@ export type Database = {
           approved_at?: string | null
           approved_by?: string | null
           blacklist_status?: string | null
+          cache_priority?: string | null
+          cache_score?: number | null
           campaign_id?: string | null
+          clicks_last_hour?: number | null
           conversion_rate?: number | null
           created_at?: string | null
           created_by?: string
@@ -2758,6 +2894,7 @@ export type Database = {
           geo_targets?: Json | null
           id?: string
           is_ab_test?: boolean | null
+          last_cached_at?: string | null
           last_clicked_at?: string | null
           max_clicks?: number | null
           og_description?: string | null
@@ -2825,6 +2962,13 @@ export type Database = {
             columns: ["folder_id"]
             isOneToOne: false
             referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
             referencedColumns: ["id"]
           },
           {
@@ -2953,6 +3097,13 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "og_image_variants_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
             referencedColumns: ["id"]
           },
           {
@@ -3381,6 +3532,13 @@ export type Database = {
             foreignKeyName: "qr_codes_link_id_fkey"
             columns: ["link_id"]
             isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_codes_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
             referencedRelation: "links"
             referencedColumns: ["id"]
           },
@@ -3464,6 +3622,13 @@ export type Database = {
           workspace_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "redirect_rules_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "redirect_rules_link_id_fkey"
             columns: ["link_id"]
@@ -3736,6 +3901,13 @@ export type Database = {
           value?: string[]
         }
         Relationships: [
+          {
+            foreignKeyName: "targeting_rules_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "targeting_rules_link_id_fkey"
             columns: ["link_id"]
@@ -4563,6 +4735,53 @@ export type Database = {
       }
     }
     Views: {
+      hot_links_view: {
+        Row: {
+          cache_priority: string | null
+          cache_score: number | null
+          clicks_last_hour: number | null
+          destination_url: string | null
+          estimated_size_bytes: number | null
+          id: string | null
+          last_clicked_at: string | null
+          slug: string | null
+          total_clicks: number | null
+          workspace_id: string | null
+        }
+        Insert: {
+          cache_priority?: string | null
+          cache_score?: number | null
+          clicks_last_hour?: number | null
+          destination_url?: string | null
+          estimated_size_bytes?: never
+          id?: string | null
+          last_clicked_at?: string | null
+          slug?: string | null
+          total_clicks?: number | null
+          workspace_id?: string | null
+        }
+        Update: {
+          cache_priority?: string | null
+          cache_score?: number | null
+          clicks_last_hour?: number | null
+          destination_url?: string | null
+          estimated_size_bytes?: never
+          id?: string | null
+          last_clicked_at?: string | null
+          slug?: string | null
+          total_clicks?: number | null
+          workspace_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mv_click_time_series: {
         Row: {
           click_date: string | null
@@ -4658,6 +4877,10 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_link_cache_score: {
+        Args: { p_link_id: string }
+        Returns: number
+      }
       check_key_rotation: { Args: never; Returns: undefined }
       check_rate_limit: {
         Args: {
@@ -4815,6 +5038,7 @@ export type Database = {
       }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
+      update_link_cache_scores: { Args: never; Returns: undefined }
       update_waitlist_positions: { Args: never; Returns: undefined }
       verify_api_key: {
         Args: {

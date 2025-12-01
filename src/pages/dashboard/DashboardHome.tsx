@@ -5,12 +5,15 @@ import { ReferralTile } from "@/components/dashboard/bento/ReferralTile";
 import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLinksTile";
 import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
 import { QuickToolsTile } from "@/components/dashboard/bento/QuickToolsTile";
+import { CachePerformanceWidget } from "@/components/analytics/CachePerformanceWidget";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 
 const DashboardHome = () => {
   const { id: activePlan, displayName } = useCurrentPlan();
+  const { currentWorkspace } = useWorkspaceContext();
 
   return (
     <ErrorBoundary section="dashboard-home">
@@ -43,29 +46,36 @@ const DashboardHome = () => {
             </ErrorBoundary>
           </div>
           
-          {/* Row 2: Quick Tools (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
+          {/* Row 2: Cache Performance (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
           <div className="md:col-span-6 lg:col-span-5 order-4">
+            <ErrorBoundary section="cache-performance">
+              <CachePerformanceWidget workspaceId={currentWorkspace?.id || ''} />
+            </ErrorBoundary>
+          </div>
+
+          {/* Row 3: Quick Tools (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
+          <div className="md:col-span-6 lg:col-span-6 order-5">
             <ErrorBoundary section="quick-tools">
               <QuickToolsTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 5 cols) */}
-          <div className="md:col-span-6 lg:col-span-5 order-5">
+          {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
+          <div className="md:col-span-6 lg:col-span-6 order-6">
             <ErrorBoundary section="ai-insights">
               <AIInsightsTile />
             </ErrorBoundary>
           </div>
           
-          {/* Row 3: Referral (mobile: full width; tablet: 6 cols; desktop: 7 cols) */}
-          <div className="md:col-span-6 lg:col-span-7 order-6">
+          {/* Row 4: Referral (full width) */}
+          <div className="md:col-span-6 lg:col-span-12 order-7">
             <ErrorBoundary section="referral-tile">
               <ReferralTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 4: Recent Links (full width on all breakpoints) */}
-          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-7 scroll-mt-6">
+          {/* Row 5: Recent Links (full width on all breakpoints) */}
+          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-8 scroll-mt-6">
             <ErrorBoundary section="recent-links">
               <BentoRecentLinksTile />
             </ErrorBoundary>
