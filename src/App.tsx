@@ -106,6 +106,10 @@ const PredictiveAnalytics = lazy(() => import("./pages/features/PredictiveAnalyt
 const AttributionGraph = lazy(() => import("./pages/features/AttributionGraph"));
 const SmartRouting = lazy(() => import("./pages/features/SmartRouting"));
 const LinkImmunity = lazy(() => import("./pages/features/LinkImmunity"));
+const Workspaces = lazy(() => import("./pages/features/Workspaces"));
+const Reporting = lazy(() => import("./pages/features/Reporting"));
+const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
+const Automation = lazy(() => import("./pages/features/Automation"));
 
 // Solution Pages
 const EnterpriseSolution = lazy(() => import("./pages/solutions/Enterprise"));
@@ -426,6 +430,10 @@ const App = () => (
               <Route path="/features/attribution-graph" element={<Suspense fallback={<DashboardSkeleton />}><AttributionGraph /></Suspense>} />
               <Route path="/features/smart-routing" element={<Suspense fallback={<DashboardSkeleton />}><SmartRouting /></Suspense>} />
               <Route path="/features/link-immunity" element={<Suspense fallback={<DashboardSkeleton />}><LinkImmunity /></Suspense>} />
+              <Route path="/features/workspaces" element={<Suspense fallback={<DashboardSkeleton />}><Workspaces /></Suspense>} />
+              <Route path="/features/reporting" element={<Suspense fallback={<DashboardSkeleton />}><Reporting /></Suspense>} />
+              <Route path="/features/custom-domains" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomains /></Suspense>} />
+              <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
               
               {/* Solution Pages */}
               <Route path="/solutions/enterprise" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseSolution /></Suspense>} />

@@ -232,7 +232,7 @@ const Marketers = () => {
               description="Governance without friction"
               color="primary"
               delay={0.5}
-              href="/features/enterprise-control"
+              href="/features/governance"
             />
           </div>
         </div>
