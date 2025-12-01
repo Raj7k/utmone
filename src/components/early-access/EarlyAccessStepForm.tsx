@@ -29,7 +29,13 @@ const earlyAccessSchema = z.object({
 type EarlyAccessForm = z.infer<typeof earlyAccessSchema>;
 
 interface EarlyAccessStepFormProps {
-  onSuccess: (data: { id: string; referral_code: string }) => void;
+  onSuccess: (data: { 
+    id: string; 
+    referral_code: string; 
+    name: string;
+    position: number;
+    email: string;
+  }) => void;
   prefillEmail?: string | null;
 }
 
@@ -89,15 +95,14 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
 
       if (error) throw error;
 
-      toast({
-        title: "you're on the list",
-        description: "redirecting to your waitlist status...",
+      // Call onSuccess with full data immediately
+      onSuccess({
+        id: responseData.id,
+        referral_code: responseData.referral_code,
+        name: data.name,
+        position: responseData.position || 0,
+        email: data.email,
       });
-
-      // Redirect to waitlist status page
-      setTimeout(() => {
-        window.location.href = `/waitlist-status?email=${encodeURIComponent(data.email)}`;
-      }, 1000);
 
     } catch (error: any) {
       console.error("Error submitting early access:", error);
