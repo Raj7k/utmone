@@ -43,11 +43,11 @@ export const LinkLayersSection = () => {
   });
 
   return (
-    <section ref={sectionRef} className="relative py-24 md:py-32 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-deepSea/5"
+    <section ref={sectionRef} className="relative py-12 md:py-16 bg-gradient-to-br from-blazeOrange/5 via-primary/5 to-deepSea/5"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -69,13 +69,12 @@ export const LinkLayersSection = () => {
         </div>
 
         {/* Stacking Cards */}
-        <div className="relative min-h-[3500px]">
+        <div className="relative min-h-[2400px]">
           {layers.map((layer, index) => {
-            const startProgress = index * 0.18;
-            const midProgress = startProgress + 0.09;
-            const endProgress = startProgress + 0.18;
-            const exitStart = endProgress;
-            const exitEnd = Math.min(exitStart + 0.1, 1);
+            const startProgress = 0.05 + (index * 0.16);
+            const midProgress = startProgress + 0.08;
+            const exitStart = startProgress + 0.14;
+            const exitEnd = Math.min(exitStart + 0.06, 1);
             
             // Entry animation: slide up from below
             const y = useTransform(
@@ -87,15 +86,15 @@ export const LinkLayersSection = () => {
             // Scale: grow on entry, shrink on exit
             const scale = useTransform(
               scrollYProgress,
-              [startProgress, midProgress, exitStart, exitEnd],
-              [0.88, 1, 1, 0.85]
+              [startProgress, midProgress, exitStart - 0.03, exitStart],
+              [0.92, 1, 1, 0.8]
             );
             
             // Opacity: fade in on entry, fade out on exit
             const opacity = useTransform(
               scrollYProgress,
-              [startProgress, startProgress + 0.03, exitStart, exitEnd],
-              [0, 1, 1, 0.2]
+              [startProgress, startProgress + 0.02, exitStart - 0.05, exitStart],
+              [0, 1, 1, 0]
             );
 
             const isEven = index % 2 === 0;
@@ -103,8 +102,8 @@ export const LinkLayersSection = () => {
             return (
               <motion.div
                 key={index}
-                style={{ y, scale, opacity, zIndex: 50 - index }}
-                className="sticky top-16 bg-card border-2 border-border rounded-3xl p-8 md:p-12 shadow-2xl mb-8 min-h-[500px] md:min-h-[600px]"
+                style={{ y, scale, opacity, zIndex: 10 + index }}
+                className="sticky top-16 bg-card/95 backdrop-blur-sm border-2 border-border rounded-3xl p-10 md:p-16 shadow-2xl min-h-[500px] md:min-h-[600px]"
               >
                 <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-16 h-full`}>
                   {/* Left: Content */}
@@ -127,7 +126,7 @@ export const LinkLayersSection = () => {
 
                   {/* Right: Product Mockup */}
                   <div className="flex-1 flex items-center justify-center">
-                    <ProductMockup type={layer.mockupType} delay={0} />
+                    <ProductMockup type={layer.mockupType} delay={0} size="large" />
                   </div>
                 </div>
               </motion.div>
@@ -141,7 +140,7 @@ export const LinkLayersSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mt-32"
+          className="text-center mt-16"
         >
           <p className="text-2xl text-label font-display font-semibold lowercase">
             every link tells the full story.
