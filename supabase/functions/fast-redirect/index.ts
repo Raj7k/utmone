@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
 
     const { data: link, error } = await supabase
       .from('links')
-      .select('id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url')
+      .select('id, destination_url, utm_source, utm_medium, utm_campaign, utm_term, utm_content, cache_priority, fallback_url, health_status')
       .eq('slug', slug)
       .eq('status', 'active')
       .maybeSingle();
@@ -89,8 +89,15 @@ Deno.serve(async (req) => {
 
     cacheTier = link.cache_priority || 'cold';
 
+    // Check link health and use fallback if unhealthy
+    let destinationUrl = link.destination_url;
+    if (link.health_status === 'unhealthy' && link.fallback_url) {
+      console.log(`⚠️ Link ${slug} is unhealthy, routing to fallback: ${link.fallback_url}`);
+      destinationUrl = link.fallback_url;
+    }
+
     // Build final destination URL with UTM parameters
-    const destUrl = new URL(link.destination_url);
+    const destUrl = new URL(destinationUrl);
     if (link.utm_source) destUrl.searchParams.set('utm_source', link.utm_source);
     if (link.utm_medium) destUrl.searchParams.set('utm_medium', link.utm_medium);
     if (link.utm_campaign) destUrl.searchParams.set('utm_campaign', link.utm_campaign);

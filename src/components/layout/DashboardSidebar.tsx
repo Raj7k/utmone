@@ -21,7 +21,8 @@ import {
   Monitor,
   ChevronDown,
   Zap,
-  TrendingUp
+  TrendingUp,
+  Shield
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -62,6 +63,7 @@ const toolsNavigation = [
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
   { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Analytics Performance", href: "/dashboard/analytics-performance", icon: TrendingUp },
+  { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
 ];
 
 const growthNavigation = [

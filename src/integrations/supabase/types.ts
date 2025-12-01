@@ -2615,6 +2615,64 @@ export type Database = {
           },
         ]
       }
+      link_health_logs: {
+        Row: {
+          checked_at: string | null
+          error_message: string | null
+          final_url: string | null
+          id: string
+          is_healthy: boolean | null
+          link_id: string
+          redirect_chain: string[] | null
+          response_time_ms: number | null
+          status_code: number | null
+        }
+        Insert: {
+          checked_at?: string | null
+          error_message?: string | null
+          final_url?: string | null
+          id?: string
+          is_healthy?: boolean | null
+          link_id: string
+          redirect_chain?: string[] | null
+          response_time_ms?: number | null
+          status_code?: number | null
+        }
+        Update: {
+          checked_at?: string | null
+          error_message?: string | null
+          final_url?: string | null
+          id?: string
+          is_healthy?: boolean | null
+          link_id?: string
+          redirect_chain?: string[] | null
+          response_time_ms?: number | null
+          status_code?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "link_health_logs_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_health_logs_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "link_health_logs_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+        ]
+      }
       link_previews: {
         Row: {
           cached_at: string | null
@@ -2760,10 +2818,13 @@ export type Database = {
           final_url: string
           folder_id: string | null
           geo_targets: Json | null
+          health_check_failures: number | null
+          health_status: string | null
           id: string
           is_ab_test: boolean | null
           last_cached_at: string | null
           last_clicked_at: string | null
+          last_health_check: string | null
           max_clicks: number | null
           og_description: string | null
           og_image: string | null
@@ -2825,10 +2886,13 @@ export type Database = {
           final_url: string
           folder_id?: string | null
           geo_targets?: Json | null
+          health_check_failures?: number | null
+          health_status?: string | null
           id?: string
           is_ab_test?: boolean | null
           last_cached_at?: string | null
           last_clicked_at?: string | null
+          last_health_check?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
@@ -2892,10 +2956,13 @@ export type Database = {
           final_url?: string
           folder_id?: string | null
           geo_targets?: Json | null
+          health_check_failures?: number | null
+          health_status?: string | null
           id?: string
           is_ab_test?: boolean | null
           last_cached_at?: string | null
           last_clicked_at?: string | null
+          last_health_check?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
