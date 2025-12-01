@@ -27,73 +27,69 @@ Deno.serve(async (req) => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
-    // Use TABLESAMPLE SYSTEM (10) for 10% sample - ultra-fast
-    const sampleQuery = `
-      SELECT 
-        COUNT(*) as sample_count,
-        COUNT(DISTINCT visitor_id) as sample_unique,
-        DATE_TRUNC('day', clicked_at) as click_day
-      FROM link_clicks TABLESAMPLE SYSTEM (10)
-      WHERE workspace_id = $1
-        AND clicked_at >= $2
-        ${linkId ? 'AND link_id = $3' : ''}
-      GROUP BY click_day
-      ORDER BY click_day ASC
-    `;
+    // Query link_clicks directly using Supabase client
+    let clicksQuery = supabase
+      .from('link_clicks')
+      .select('id, visitor_id, clicked_at, device_type')
+      .eq('workspace_id', workspaceId)
+      .gte('clicked_at', startDate.toISOString());
 
-    const params = linkId ? [workspaceId, startDate.toISOString(), linkId] : [workspaceId, startDate.toISOString()];
-    
-    const { data: sampleData, error: sampleError } = await supabase.rpc('exec_sql', {
-      query: sampleQuery,
-      params
-    }).single();
+    if (linkId) {
+      clicksQuery = clicksQuery.eq('link_id', linkId);
+    }
 
-    if (sampleError) throw sampleError;
+    const { data: clicksData, error: clicksError } = await clicksQuery;
 
-    // Multiply by 10 to estimate full dataset
-    const sampleRows = Array.isArray(sampleData) ? sampleData : [];
-    const estimatedData = sampleRows.map((row: any) => ({
-      date: row.click_day,
-      totalClicks: Math.round(row.sample_count * 10),
-      uniqueClicks: Math.round(row.sample_unique * 10),
-      isEstimated: true,
-      confidence: 0.95, // 95% confidence interval
-      margin: Math.round(row.sample_count * 10 * 0.15) // ±15% margin
-    }));
+    if (clicksError) throw clicksError;
 
-    // Get device breakdown sample
-    const deviceQuery = `
-      SELECT 
-        device_type,
-        COUNT(*) as sample_count
-      FROM link_clicks TABLESAMPLE SYSTEM (10)
-      WHERE workspace_id = $1
-        AND clicked_at >= $2
-        ${linkId ? 'AND link_id = $3' : ''}
-      GROUP BY device_type
-    `;
+    // Process data for time series
+    const dailyMap = new Map<string, { total: number; unique: Set<string> }>();
+    const deviceMap = new Map<string, number>();
 
-    const { data: deviceData, error: deviceError } = await supabase.rpc('exec_sql', {
-      query: deviceQuery,
-      params
-    }).single();
+    (clicksData || []).forEach((click) => {
+      const day = new Date(click.clicked_at).toISOString().split('T')[0];
+      
+      if (!dailyMap.has(day)) {
+        dailyMap.set(day, { total: 0, unique: new Set() });
+      }
+      
+      const dayData = dailyMap.get(day)!;
+      dayData.total++;
+      if (click.visitor_id) {
+        dayData.unique.add(click.visitor_id);
+      }
 
-    if (deviceError) throw deviceError;
+      // Track device types
+      const device = click.device_type || 'unknown';
+      deviceMap.set(device, (deviceMap.get(device) || 0) + 1);
+    });
 
-    const deviceRows = Array.isArray(deviceData) ? deviceData : [];
-    const estimatedDevices = deviceRows.map((row: any) => ({
-      device: row.device_type,
-      clicks: Math.round(row.sample_count * 10),
-      isEstimated: true
+    // Convert to time series format
+    const estimatedData = Array.from(dailyMap.entries())
+      .map(([date, data]) => ({
+        date,
+        totalClicks: data.total,
+        uniqueClicks: data.unique.size,
+        isEstimated: false,
+        confidence: 1.0,
+        margin: 0
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    // Convert device map to array
+    const estimatedDevices = Array.from(deviceMap.entries()).map(([device, clicks]) => ({
+      device,
+      clicks,
+      isEstimated: false
     }));
 
     return new Response(
       JSON.stringify({
         timeSeries: estimatedData,
         devices: estimatedDevices,
-        isEstimated: true,
-        sampleRate: 0.1,
-        confidence: 0.95
+        isEstimated: false,
+        sampleRate: 1.0,
+        confidence: 1.0
       }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
