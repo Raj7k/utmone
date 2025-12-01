@@ -8,16 +8,16 @@ import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
-import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
+import { EnginesStackingSection } from "@/components/landing/EnginesStackingSection";
 import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
 import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
-import { Users, GitBranch, DollarSign, TrendingUp, Target, BarChart3, CheckCircle2, Brain, Link2 } from "lucide-react";
+import { ProductMockup } from "@/components/product/ProductMockup";
+import { CheckCircle2, ArrowRight, Users, GitBranch, DollarSign, Target, BarChart3, Brain, Link2 } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { Card } from "@/components/ui/card";
 
 const CustomerJourney = () => {
   const faqs = [
@@ -228,169 +228,129 @@ const CustomerJourney = () => {
         </div>
       </section>
 
-      {/* Fold 4: What You Get - The 3 Engines */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
-              the three engines
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Complete journey intelligence from identity to optimization
-            </p>
-          </div>
-          
-          <BenefitCardsGrid benefits={[
-            {
-              icon: Users,
-              title: "identity resolution",
-              description: "De-anonymize your traffic. Time-Travel Stitching remembers that 'Anonymous Visitor 582' from 3 weeks ago is actually Sarah from Nike. When she signs up, we backfill her entire history instantly."
-            },
-            {
-              icon: GitBranch,
-              title: "bayesian attribution",
-              description: "See the invisible influence. Bayesian Networks calculate the true 'Lift' of every channel. See exactly how a LinkedIn impression causes a Direct search three days later."
-            },
-            {
-              icon: DollarSign,
-              title: "journey valuation",
-              description: "Know the dollar value of every page. We model your site as a Markov Decision Process (MDP). Your Pricing Page is worth $45.00 per visit. Your 'About Us' page is worth $0.50."
-            },
-            {
-              icon: TrendingUp,
-              title: "pareto optimization",
-              description: "Find the Golden Path. We analyze millions of paths to find the efficient frontier—sequences that maximize LTV while minimizing steps."
-            },
-            {
-              icon: Target,
-              title: "conversion probability",
-              description: "Predict who will convert. Our models calculate the real-time likelihood that any visitor will become a customer based on their current position in the journey."
-            },
-            {
-              icon: Brain,
-              title: "next best action",
-              description: "Know where to route traffic. The system tells you which page to send users to next based on state value calculations and conversion probability."
-            }
-          ]} />
-        </div>
-      </section>
+      {/* Fold 4: The Three Engines - Stacking Cards */}
+      <EnginesStackingSection />
 
-      {/* Fold 5: How It Works - Feature Deep Dive */}
+      {/* Fold 5: How It Works - Visual Cards */}
       <section className="py-24 md:py-32 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-8">
+        <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6 lowercase">
               how it transforms your workflow
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground max-w-[640px] mx-auto">
               Real problems. Real solutions. Real outcomes.
             </p>
           </div>
 
-          <div className="space-y-12">
-            {/* Identity Stitching */}
-            <Card className="p-8 border-l-4 border-l-primary">
-              <div className="flex items-start gap-6">
-                <div className="p-4 rounded-xl bg-primary/10 shrink-0">
-                  <Users className="w-8 h-8 text-primary" />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold lowercase">identity stitching</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-sm font-semibold text-destructive uppercase tracking-wider mb-1">The Problem:</p>
-                      <p className="text-muted-foreground">You run a LinkedIn campaign. 500 anonymous visitors read your blog. Only 12 sign up. You have no idea what the other 488 people did.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-1">The Solution:</p>
-                      <p className="text-muted-foreground">utm.one's Time-Travel Stitching tracks all 500 visitors anonymously. When visitor #247 signs up 3 weeks later, we instantly backfill their entire 14-page journey.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-green-600 uppercase tracking-wider mb-1">The Outcome:</p>
-                      <p className="text-foreground">You see that 60% of signups read 'The Ultimate Guide' first. You promote that post. Signups increase 2.3x.</p>
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Identity Stitching Card */}
+            <div className="group bg-card border-2 border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col">
+              <div className="mb-6 flex-shrink-0">
+                <ProductMockup type="identity-stitching" size="large" />
+              </div>
+              <div className="space-y-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-display font-bold lowercase text-label">identity resolution</h3>
+                <div className="space-y-2 flex-1">
+                  <div>
+                    <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
+                    <p className="text-sm text-muted-foreground">Anonymous visitors with no journey history</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
+                    <p className="text-sm text-muted-foreground">Time-Travel Stitching backfills entire history</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
+                    <p className="text-sm text-foreground font-medium">2.3x increase in attribution accuracy</p>
                   </div>
                 </div>
+                <a href="/features/identity-resolution" className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
-            </Card>
+            </div>
 
-            {/* Bayesian Attribution */}
-            <Card className="p-8 border-l-4 border-l-blazeOrange">
-              <div className="flex items-start gap-6">
-                <div className="p-4 rounded-xl bg-blazeOrange/10 shrink-0">
-                  <GitBranch className="w-8 h-8 text-blazeOrange" />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold lowercase">bayesian attribution</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-sm font-semibold text-destructive uppercase tracking-wider mb-1">The Problem:</p>
-                      <p className="text-muted-foreground">GA4 says 'Direct' drove 70% of sales. You cut your LinkedIn budget. Revenue drops 40%. You have no idea why.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-1">The Solution:</p>
-                      <p className="text-muted-foreground">utm.one uses Bayesian Networks to calculate how much each channel actually influences conversions. LinkedIn had a 0.45 'Lift' score—it was the primary driver, not Direct.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-green-600 uppercase tracking-wider mb-1">The Outcome:</p>
-                      <p className="text-foreground">You restore LinkedIn budget. You discover that Direct searches happen because people saw your LinkedIn ads first. Attribution is now mathematically correct.</p>
-                    </div>
+            {/* Bayesian Attribution Card */}
+            <div className="group bg-card border-2 border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col">
+              <div className="mb-6 flex-shrink-0">
+                <ProductMockup type="attribution-graph" size="large" />
+              </div>
+              <div className="space-y-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-display font-bold lowercase text-label">bayesian attribution</h3>
+                <div className="space-y-2 flex-1">
+                  <div>
+                    <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
+                    <p className="text-sm text-muted-foreground">Last-click gives 100% credit to wrong channel</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
+                    <p className="text-sm text-muted-foreground">Probabilistic lift models show true influence</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
+                    <p className="text-sm text-foreground font-medium">Stop defunding channels that work</p>
                   </div>
                 </div>
+                <a href="/features/bayesian-attribution" className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
-            </Card>
+            </div>
 
-            {/* State Valuation */}
-            <Card className="p-8 border-l-4 border-l-deepSea">
-              <div className="flex items-start gap-6">
-                <div className="p-4 rounded-xl bg-deepSea/10 shrink-0">
-                  <DollarSign className="w-8 h-8 text-deepSea" />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold lowercase">state valuation (MDP)</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-sm font-semibold text-destructive uppercase tracking-wider mb-1">The Problem:</p>
-                      <p className="text-muted-foreground">You're spending $10K/month on blog traffic. Your boss asks: 'What's the ROI of the blog?' You have no answer.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-1">The Solution:</p>
-                      <p className="text-muted-foreground">utm.one calculates the dollar value of every page using Markov Decision Processes. Your 'Pricing Comparison' blog post is worth $22.00 per visit. Your 'Company History' post is worth $0.30.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-green-600 uppercase tracking-wider mb-1">The Outcome:</p>
-                      <p className="text-foreground">You double down on high-value content. You cut low-value posts. Blog ROI becomes measurable and provable.</p>
-                    </div>
+            {/* Journey Valuation Card */}
+            <div className="group bg-card border-2 border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col">
+              <div className="mb-6 flex-shrink-0">
+                <ProductMockup type="state-value" size="large" />
+              </div>
+              <div className="space-y-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-display font-bold lowercase text-label">journey valuation</h3>
+                <div className="space-y-2 flex-1">
+                  <div>
+                    <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
+                    <p className="text-sm text-muted-foreground">No idea which pages drive revenue</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
+                    <p className="text-sm text-muted-foreground">Markov models calculate page value in dollars</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
+                    <p className="text-sm text-foreground font-medium">Optimize high-value paths first</p>
                   </div>
                 </div>
+                <a href="/features/journey-valuation" className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
-            </Card>
+            </div>
 
-            {/* Golden Path */}
-            <Card className="p-8 border-l-4 border-l-amber-500">
-              <div className="flex items-start gap-6">
-                <div className="p-4 rounded-xl bg-amber-500/10 shrink-0">
-                  <Target className="w-8 h-8 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold lowercase">golden path analysis</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-sm font-semibold text-destructive uppercase tracking-wider mb-1">The Problem:</p>
-                      <p className="text-muted-foreground">Users convert via 200 different paths. You have no idea which path is most efficient. You're optimizing everything randomly.</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-1">The Solution:</p>
-                      <p className="text-muted-foreground">utm.one uses Pareto Optimization to find the 'Golden Paths'—the specific sequences that balance speed and LTV. LinkedIn → Webinar → Pricing → Sale (4 steps, $5K LTV) beats Google → Blog → Twitter → Churn (4 steps, $0 LTV).</p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-green-600 uppercase tracking-wider mb-1">The Outcome:</p>
-                      <p className="text-foreground">You route new traffic to the Golden Path. Conversion rate increases 180%. Time-to-close drops from 47 days to 18 days.</p>
-                    </div>
+            {/* Golden Path Card */}
+            <div className="group bg-card border-2 border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col">
+              <div className="mb-6 flex-shrink-0">
+                <ProductMockup type="dashboard" size="large" />
+              </div>
+              <div className="space-y-3 flex-1 flex flex-col">
+                <h3 className="text-xl font-display font-bold lowercase text-label">golden path discovery</h3>
+                <div className="space-y-2 flex-1">
+                  <div>
+                    <p className="text-xs font-semibold text-destructive uppercase tracking-wider mb-1">Problem:</p>
+                    <p className="text-sm text-muted-foreground">Thousands of paths, no clear winner</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Solution:</p>
+                    <p className="text-sm text-muted-foreground">Pareto optimization finds efficient frontier</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">Outcome:</p>
+                    <p className="text-sm text-foreground font-medium">Maximize LTV, minimize friction</p>
                   </div>
                 </div>
+                <a href="/features/customer-journey#golden-path" className="mt-4 flex items-center gap-2 text-sm font-semibold text-primary group-hover:gap-3 transition-all">
+                  Learn more <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
