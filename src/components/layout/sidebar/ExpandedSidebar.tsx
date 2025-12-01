@@ -17,7 +17,11 @@ import {
   ChevronLeft,
   Search,
   Plus,
-  Building2
+  Building2,
+  Shield,
+  Beaker,
+  Zap,
+  TrendingUp
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -43,6 +47,13 @@ const toolsNavigation = [
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
+  { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
+  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
+];
+
+const intelligenceNavigation = [
+  { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
+  { name: "Analytics Perf", href: "/dashboard/analytics-performance", icon: TrendingUp },
 ];
 
 const growthNavigation = [
@@ -62,6 +73,7 @@ export const ExpandedSidebar = () => {
   
   const [toolsOpen, setToolsOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
+  const [intelligenceOpen, setIntelligenceOpen] = useState(true);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const { data: pendingCount } = useQuery({
@@ -86,6 +98,7 @@ export const ExpandedSidebar = () => {
 
   const hasActiveToolsRoute = toolsNavigation.some(item => isActive(item.href));
   const hasActiveGrowthRoute = growthNavigation.some(item => isActive(item.href));
+  const hasActiveIntelligenceRoute = intelligenceNavigation.some(item => isActive(item.href));
 
   return (
     <aside className="w-64 h-screen bg-card border-r border-separator flex flex-col z-40">
@@ -201,6 +214,40 @@ export const ExpandedSidebar = () => {
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-1">
               {growthNavigation.map((item) => {
+                const active = isActive(item.href);
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
+                      active ? "bg-muted text-foreground font-medium" : "text-label hover:bg-fill-tertiary"
+                    )}
+                  >
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <span>{formatText(item.name)}</span>
+                  </Link>
+                );
+              })}
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
+
+        {/* INTELLIGENCE Category */}
+        <Collapsible open={intelligenceOpen || hasActiveIntelligenceRoute} onOpenChange={setIntelligenceOpen}>
+          <div className="space-y-1">
+            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
+              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+                Intelligence
+              </p>
+              <ChevronDown className={cn(
+                "h-3 w-3 text-tertiary-label transition-transform",
+                (intelligenceOpen || hasActiveIntelligenceRoute) && "rotate-180"
+              )} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-1">
+              {intelligenceNavigation.map((item) => {
                 const active = isActive(item.href);
                 const Icon = item.icon;
                 return (

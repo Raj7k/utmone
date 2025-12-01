@@ -1,4 +1,4 @@
-import { Zap, Link2, QrCode, BarChart3, Shield, Sparkles } from "lucide-react";
+import { Zap, Link2, QrCode, BarChart3, Shield, Sparkles, Route } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
 import { MagneticCard } from "@/components/magnetic";
@@ -25,6 +25,12 @@ export const QuickActionsTile = () => {
       href: "/dashboard/analytics", 
       icon: BarChart3,
       description: "see your stats"
+    },
+    { 
+      name: "smart routing", 
+      href: "/dashboard/links", 
+      icon: Route,
+      description: "AI-powered A/B testing"
     },
     { 
       name: "check link health", 
