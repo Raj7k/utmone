@@ -78,13 +78,6 @@ const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 
-// Intelligence pages
-const LinkImmunity = lazy(() => import("@/pages/intelligence/LinkImmunity"));
-const CustomerJourney = lazy(() => import("@/pages/features/CustomerJourney"));
-const IdentityResolution = lazy(() => import("@/pages/features/IdentityResolution"));
-const BayesianAttribution = lazy(() => import("@/pages/features/BayesianAttribution"));
-const JourneyValuation = lazy(() => import("@/pages/features/JourneyValuation"));
-
 // Admin pages
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
 const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -106,6 +99,9 @@ const ShortLinks = lazy(() => import("./pages/features/ShortLinks"));
 const UTMBuilder = lazy(() => import("./pages/features/UTMBuilder"));
 const QRGenerator = lazy(() => import("./pages/features/QRGenerator"));
 const CustomerJourney = lazy(() => import("./pages/features/CustomerJourney"));
+const IdentityResolution = lazy(() => import("./pages/features/IdentityResolution"));
+const BayesianAttribution = lazy(() => import("./pages/features/BayesianAttribution"));
+const JourneyValuation = lazy(() => import("./pages/features/JourneyValuation"));
 const AnalyticsFeature = lazy(() => import("./pages/features/Analytics"));
 const EnterpriseControl = lazy(() => import("./pages/features/EnterpriseControl"));
 const CleanTrack = lazy(() => import("./pages/features/CleanTrack"));
@@ -435,6 +431,9 @@ const App = () => (
               <Route path="/features/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilder /></Suspense>} />
               <Route path="/features/qr-generator" element={<Suspense fallback={<DashboardSkeleton />}><QRGenerator /></Suspense>} />
               <Route path="/features/customer-journey" element={<Suspense fallback={<DashboardSkeleton />}><CustomerJourney /></Suspense>} />
+              <Route path="/features/identity-resolution" element={<Suspense fallback={<DashboardSkeleton />}><IdentityResolution /></Suspense>} />
+              <Route path="/features/bayesian-attribution" element={<Suspense fallback={<DashboardSkeleton />}><BayesianAttribution /></Suspense>} />
+              <Route path="/features/journey-valuation" element={<Suspense fallback={<DashboardSkeleton />}><JourneyValuation /></Suspense>} />
               <Route path="/features/analytics" element={<Suspense fallback={<DashboardSkeleton />}><AnalyticsFeature /></Suspense>} />
               <Route path="/features/governance" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseControl /></Suspense>} />
               <Route path="/features/integrations" element={<Suspense fallback={<DashboardSkeleton />}><Integrations /></Suspense>} />
