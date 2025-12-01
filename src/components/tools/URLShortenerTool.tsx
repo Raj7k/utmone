@@ -8,12 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Link2, Shuffle, CheckCircle2, AlertCircle, Copy, QrCode } from "lucide-react";
+import { Link2, Shuffle, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
+import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -37,6 +38,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
+  const [createdLinkId, setCreatedLinkId] = useState<string>("");
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
 
   // Fetch verified domains for this workspace + system-level defaults
@@ -146,10 +148,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     onSuccess: (link) => {
       const url = `https://${link.domain}/${link.slug}`;
       setShortURL(url);
-      toast({
-        title: "link created",
-        description: "your short link is ready",
-      });
+      setCreatedLinkId(link.id);
     },
     onError: (error: Error) => {
       toast({
@@ -170,14 +169,6 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       return;
     }
     createLinkMutation.mutate(data);
-  };
-
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(shortURL);
-    toast({
-      title: "copied",
-      description: "link copied to clipboard",
-    });
   };
 
   return (
@@ -322,33 +313,12 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
           </Button>
 
           {shortURL && (
-            <div className="space-y-3">
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <Label className="text-xs text-secondary-label">Your Short Link</Label>
-                <p className="text-sm font-mono text-label mt-1 break-all">{shortURL}</p>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={copyToClipboard}
-                  className="flex-1"
-                >
-                  <Copy className="h-4 w-4 mr-2" />
-                  Copy Link
-                </Button>
-                {onGenerateQR && (
-                  <Button
-                    type="button"
-                    onClick={() => onGenerateQR(shortURL)}
-                    className="flex-1"
-                  >
-                    <QrCode className="h-4 w-4 mr-2" />
-                    Generate QR
-                  </Button>
-                )}
-              </div>
-            </div>
+            <LinkSuccessCard
+              url={shortURL}
+              linkId={createdLinkId}
+              variant="shortened"
+              onGenerateQR={onGenerateQR ? () => onGenerateQR(shortURL) : undefined}
+            />
           )}
         </form>
       </CardContent>

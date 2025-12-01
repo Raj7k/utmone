@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Copy, Link2, CheckCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Sparkles } from "lucide-react";
+import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 
 const utmSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -47,9 +47,7 @@ interface UTMBuilderToolProps {
 }
 
 export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
-  const { toast } = useToast();
   const [generatedURL, setGeneratedURL] = useState<string>("");
-  const [copied, setCopied] = useState(false);
 
   const form = useForm<UTMFormData>({
     resolver: zodResolver(utmSchema),
@@ -77,20 +75,6 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
     if (data.utm_content) url.searchParams.set("utm_content", data.utm_content);
     
     setGeneratedURL(url.toString());
-    toast({
-      title: "UTM URL generated",
-      description: "your URL is ready to use",
-    });
-  };
-
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(generatedURL);
-    setCopied(true);
-    toast({
-      title: "copied",
-      description: "url copied to clipboard",
-    });
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -221,44 +205,13 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
             Generate UTM URL
           </Button>
 
-          {/* Generated URL */}
+          {/* Success Card */}
           {generatedURL && (
-            <div className="space-y-3">
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <Label className="text-xs text-secondary-label">Generated URL</Label>
-                <p className="text-sm font-mono text-label mt-1 break-all">{generatedURL}</p>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={copyToClipboard}
-                  className="flex-1"
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4 mr-2" />
-                      Copy URL
-                    </>
-                  )}
-                </Button>
-                {onShortenURL && (
-                  <Button
-                    type="button"
-                    onClick={() => onShortenURL(generatedURL)}
-                    className="flex-1"
-                  >
-                    <Link2 className="h-4 w-4 mr-2" />
-                    Shorten This URL
-                  </Button>
-                )}
-              </div>
-            </div>
+            <LinkSuccessCard
+              url={generatedURL}
+              variant="utm"
+              onShorten={onShortenURL ? () => onShortenURL(generatedURL) : undefined}
+            />
           )}
         </form>
       </CardContent>
