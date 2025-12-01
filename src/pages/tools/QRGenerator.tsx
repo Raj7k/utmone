@@ -8,6 +8,8 @@ import QRCode from "react-qr-code";
 import QRCodeLib from "qrcode";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { MarketingLayout } from "@/components/layout/MarketingLayout";
+import { HowToUse } from "@/components/tools/HowToUse";
 
 export default function QRGenerator() {
   const { toast } = useToast();
@@ -50,36 +52,47 @@ export default function QRGenerator() {
     }
   };
 
+  const steps = [
+    {
+      title: "Enter your destination URL",
+      description: "The webpage your QR code will link to"
+    },
+    {
+      title: "Customize colors",
+      description: "Match your brand with custom QR and background colors"
+    },
+    {
+      title: "Download PNG",
+      description: "Get your QR code (upgrade for SVG/PDF and watermark removal)"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="text-lg font-semibold text-foreground">
-            utm.one
-          </Link>
-          <Link to="/early-access">
-            <Button variant="default" size="sm">
-              Get Early Access
-            </Button>
-          </Link>
-        </div>
-      </header>
+    <MarketingLayout
+      title="Free QR Code Generator - Create Branded QR Codes | utm.one"
+      description="Create branded QR codes instantly with custom colors. Free QR generator with PNG export. No signup required."
+    >
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Hero */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-foreground mb-4">
+              free qr code generator
+            </h1>
+            <p className="text-lg text-secondary-label max-w-2xl mx-auto">
+              create branded qr codes instantly. no signup required.
+            </p>
+          </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            Free QR Code Generator
-          </h1>
-          <p className="text-lg text-secondary-label max-w-2xl mx-auto">
-            Create branded QR Codes instantly. No signup required.
-          </p>
-        </div>
+          {/* How To Use */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <HowToUse steps={steps} />
+          </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Left: Customization */}
-          <Card className="p-8">
+          {/* Tool */}
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* Left: Customization */}
+            <Card className="p-8">
             <div className="space-y-6">
               <div>
                 <Label htmlFor="url">Destination URL</Label>
@@ -212,8 +225,9 @@ export default function QRGenerator() {
               to remove watermarks and access advanced features.
             </p>
           </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }

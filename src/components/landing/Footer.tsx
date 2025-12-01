@@ -6,6 +6,7 @@ import { formatText } from "@/utils/textFormatter";
 export const Footer = () => {
   return (
     <footer className="border-t border-border/50 bg-white">
+      {/* Upper Footer - Main Navigation */}
       <div className="max-w-[1280px] mx-auto px-8 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-12">
           
@@ -172,35 +173,6 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <span className="text-sm text-muted-foreground/50 cursor-not-allowed flex items-center gap-2">
-                  2026 Salary Report
-                  <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">Coming Soon</span>
-                </span>
-              </li>
-              <li>
-                <h4 className="text-xs font-semibold text-foreground/70 uppercase tracking-wide mt-4 mb-2">Free Tools</h4>
-              </li>
-              <li>
-                <Link to="/tools/shorten" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  URL Shortener
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  UTM Builder
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/qr" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  QR Generator
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/link-health-checker" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Link Health Checker
-                </Link>
-              </li>
-              <li>
                 <Link to="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Docs
                 </Link>
@@ -213,56 +185,7 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Compare Column */}
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
-              {formatText("compare")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/compare/bitly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Bitly
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/rebrandly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Rebrandly
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/short-io" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Short.io
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/bl-ink" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Bl.ink
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/rewardful" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Rewardful
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/partnerstack" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Partnerstack
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/firstpromoter" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Firstpromoter
-                </Link>
-              </li>
-              <li>
-                <Link to="/compare/tolt" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  vs Tolt
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company & Legal Column */}
+          {/* Company Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
               {formatText("company")}
@@ -294,56 +217,160 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/data-security" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Data & Security
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Cookie Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/acceptable-use" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Acceptable Use
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/subprocessors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Subprocessors
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/dpa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  DPA
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Support Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal/permanence-terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Permanence Guarantee
-                </Link>
+                <span className="text-sm text-muted-foreground/50 cursor-not-allowed flex items-center gap-2">
+                  2026 Salary Report
+                  <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded">Coming Soon</span>
+                </span>
               </li>
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* Bottom Section */}
-        <div className="mt-16 pt-8 border-t border-border/50 text-center space-y-4">
+      {/* Lower Footer - Secondary Links */}
+      <div className="border-t border-border/50 bg-muted/20">
+        <div className="max-w-[1280px] mx-auto px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            {/* Free Tools */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+                {formatText("free tools")}
+              </h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link to="/tools/shorten" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    URL Shortener
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/tools/utm-builder" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    UTM Builder
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/tools/qr" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    QR Generator
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/tools/link-health-checker" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Link Health Checker
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Compare */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+                {formatText("compare")}
+              </h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link to="/compare/bitly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Bitly
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/rebrandly" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Rebrandly
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/short-io" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Short.io
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/bl-ink" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Bl.ink
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/rewardful" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Rewardful
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/partnerstack" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Partnerstack
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/firstpromoter" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Firstpromoter
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/compare/tolt" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    vs Tolt
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground/90">
+                {formatText("legal")}
+              </h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link to="/legal/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/data-security" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Data & Security
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/cookies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/acceptable-use" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Acceptable Use
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/subprocessors" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Subprocessors
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/dpa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    DPA
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/support" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Support Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/legal/permanence-terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Permanence Guarantee
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="border-t border-border/50 bg-white">
+        <div className="max-w-[1280px] mx-auto px-8 py-8 text-center space-y-4">
           <p className="text-sm text-muted-foreground font-medium">
             clarity creates confidence.
           </p>
