@@ -35,6 +35,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
+import { HeroGlobe } from "@/components/landing/HeroGlobe";
 import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
@@ -76,10 +77,11 @@ const Index = () => {
       />
       <LLMSchemaGenerator type="organization" data={{}} />
 
-        {/* Hero Section - Pure White Background */}
+        {/* Hero Section - Globe Background */}
         <HeroVariantManager>
           {(variant) => (
-            <section className="relative py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
+            <section className="relative py-16 md:py-20 lg:py-24 overflow-hidden">
+              <HeroGlobe />
               <div className="relative z-10 max-w-[980px] mx-auto px-8">
                 <motion.div 
                   className="text-center space-y-6"
@@ -88,7 +90,7 @@ const Index = () => {
                   transition={{ duration: 0.6 }}
                 >
                   <motion.h1 
-                    className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
+                    className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05] text-white"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
@@ -98,7 +100,7 @@ const Index = () => {
                   </motion.h1>
                   
                   <motion.p 
-                    className="text-lg md:text-xl text-gray-500 max-w-[720px] mx-auto text-balance leading-relaxed"
+                    className="text-lg md:text-xl text-gray-300 max-w-[720px] mx-auto text-balance leading-relaxed"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
