@@ -23,25 +23,30 @@ export default function WaitlistStatus() {
     }
   }, []);
 
-  // Fetch user's waitlist data
-  const { data: userData, isLoading } = useQuery({
+  // Fetch user data via public edge function (bypasses RLS)
+  const { data: statusData, isLoading, error: userError } = useQuery({
     queryKey: ["waitlist-status", email],
     queryFn: async () => {
-      if (!email) return null;
+      if (!email) throw new Error("No email provided");
       
-      const { data, error } = await supabase
-        .from("early_access_requests")
-        .select("*")
-        .eq("email", email)
-        .single();
+      const { data, error } = await supabase.functions.invoke("get-waitlist-status", {
+        body: { email },
+      });
 
       if (error) throw error;
+      if (!data?.found) throw new Error("User not found");
+      
       return data;
     },
     enabled: !!email,
+    retry: 1,
   });
 
-  // Fetch all badges
+  const userData = statusData?.user;
+  const userBadges = statusData?.badges || [];
+  const queuePosition = statusData?.queuePosition || 0;
+
+  // Fetch all badges for display
   const { data: allBadges } = useQuery({
     queryKey: ["waitlist-badges"],
     queryFn: async () => {
@@ -53,40 +58,6 @@ export default function WaitlistStatus() {
       if (error) throw error;
       return data;
     },
-  });
-
-  // Fetch user's badges
-  const { data: userBadges } = useQuery({
-    queryKey: ["user-badges", userData?.id],
-    queryFn: async () => {
-      if (!userData?.id) return [];
-
-      const { data, error } = await supabase
-        .from("user_badges")
-        .select("badge_id, awarded_at")
-        .eq("user_id", userData.id);
-
-      if (error) throw error;
-      return data || [];
-    },
-    enabled: !!userData?.id,
-  });
-
-  // Fetch queue position
-  const { data: queuePosition } = useQuery({
-    queryKey: ["queue-position", userData?.id],
-    queryFn: async () => {
-      if (!userData?.id) return null;
-
-      const { count, error } = await supabase
-        .from("early_access_requests")
-        .select("*", { count: "exact", head: true })
-        .gt("total_access_score", userData.total_access_score || 0);
-
-      if (error) throw error;
-      return (count || 0) + 1;
-    },
-    enabled: !!userData,
   });
 
   if (!email) {
@@ -116,13 +87,13 @@ export default function WaitlistStatus() {
     );
   }
 
-  if (!userData) {
+  if (userError || !userData) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center max-w-md">
           <h1 className="text-3xl font-semibold mb-4">not found</h1>
           <p className="text-secondary-label mb-6">
-            we couldn't find your waitlist entry. please sign up for early access.
+            {userError?.message || "we couldn't find your waitlist entry. please check your email or sign up for early access."}
           </p>
           <Button onClick={() => navigate("/early-access")}>
             join early access

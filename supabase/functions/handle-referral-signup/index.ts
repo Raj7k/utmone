@@ -79,14 +79,18 @@ Deno.serve(async (req) => {
       throw insertError;
     }
 
-    // Store referral relationship but DON'T increment count yet
-    // Referral count will only be incremented when invited user verifies their email
-    // This prevents fraud from fake/unverified signups
+    // Increment referral count immediately on signup
+    // The verification trigger provides a secondary check for fraud prevention
     if (referrerId) {
-      console.log(`[Referral Signup] Referral recorded for ${referrerId}, pending verification`);
+      console.log(`[Referral Signup] Incrementing referral count for ${referrerId}`);
       
-      // Note: increment_referral_count will be called by database trigger
-      // when the new user verifies their email via auth.users confirmation
+      try {
+        await supabase.rpc('increment_referral_count', { referrer_id: referrerId });
+        console.log(`[Referral Signup] Successfully incremented referral count for ${referrerId}`);
+      } catch (countError) {
+        console.error('[Referral Signup] Failed to increment referral count:', countError);
+        // Don't fail the signup if referral count fails
+      }
     }
 
     // Send confirmation email to new signup
