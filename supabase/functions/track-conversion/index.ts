@@ -116,6 +116,32 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Conversion tracked: ${event.event_type} for link ${event.link_id}`);
 
+    // Aggregate journey for Bayesian attribution (async)
+    if (clickId) {
+      try {
+        const { data: clickData } = await supabase
+          .from('link_clicks')
+          .select('visitor_id')
+          .eq('id', clickId)
+          .single();
+
+        if (clickData?.visitor_id && conversion) {
+          await supabase.functions.invoke('aggregate-journey', {
+            body: {
+              visitor_id: clickData.visitor_id,
+              conversion_event_id: conversion.id,
+              revenue: event.event_value || 0,
+              workspace_id: link.workspace_id,
+            },
+          });
+          console.log('📊 Journey aggregation triggered for Bayesian attribution');
+        }
+      } catch (journeyError) {
+        console.error('Journey aggregation failed:', journeyError);
+        // Don't fail conversion tracking if journey aggregation fails
+      }
+    }
+
     // Update bandit weights if contextual routing is enabled
     if (clickId) {
       try {

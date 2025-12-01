@@ -752,6 +752,63 @@ export type Database = {
           },
         ]
       }
+      attribution_journeys: {
+        Row: {
+          conversion_event_id: string | null
+          converted: boolean
+          created_at: string
+          id: string
+          journey_end_at: string
+          journey_start_at: string
+          revenue: number | null
+          touchpoints: Json
+          updated_at: string
+          visitor_id: string
+          workspace_id: string
+        }
+        Insert: {
+          conversion_event_id?: string | null
+          converted?: boolean
+          created_at?: string
+          id?: string
+          journey_end_at: string
+          journey_start_at: string
+          revenue?: number | null
+          touchpoints?: Json
+          updated_at?: string
+          visitor_id: string
+          workspace_id: string
+        }
+        Update: {
+          conversion_event_id?: string | null
+          converted?: boolean
+          created_at?: string
+          id?: string
+          journey_end_at?: string
+          journey_start_at?: string
+          revenue?: number | null
+          touchpoints?: Json
+          updated_at?: string
+          visitor_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attribution_journeys_conversion_event_id_fkey"
+            columns: ["conversion_event_id"]
+            isOneToOne: false
+            referencedRelation: "conversion_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attribution_journeys_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       backup_logs: {
         Row: {
           backup_type: string
