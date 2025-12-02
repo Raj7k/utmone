@@ -107,16 +107,19 @@ export const WorkspaceProvider = ({ children }: { children: ReactNode }) => {
         // Wait for query to complete
         if (isLoading || isAuthenticated === null || !queryCompleted) return;
         
-        // Don't redirect if already on auth, onboarding, or accept-invite pages
-        if (location.pathname === "/auth" || location.pathname === "/onboarding" || location.pathname === "/accept-invite") return;
+        // CRITICAL: Don't redirect if already on auth-related paths to prevent loops
+        const authPaths = ["/auth", "/signup", "/onboarding", "/auth/callback", "/auth/verify-2fa", "/accept-invite"];
+        if (authPaths.some(path => location.pathname.startsWith(path))) return;
         
         // Admin bypass - admins should not be redirected to onboarding
         if (isAdmin) return;
         
+        // DISABLED: Auth pages handle onboarding redirect as single source of truth
+        // This context should only manage workspace state, not navigation
         // Only redirect to onboarding if user is authenticated, query completed, and genuinely has no workspaces
-        if (isAuthenticated && workspaces.length === 0) {
-          navigate("/onboarding");
-        }
+        // if (isAuthenticated && workspaces.length === 0) {
+        //   navigate("/onboarding");
+        // }
       } catch (err) {
         console.error("Workspace check error:", err);
       }

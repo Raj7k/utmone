@@ -30,55 +30,38 @@ export default function Onboarding() {
     const checkAndCreateWorkspace = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        navigate("/login");
+        navigate("/auth");
         return;
       }
 
-      // Check if user owns any workspaces
-      const { data: ownedWorkspaces } = await supabase
-        .from("workspaces")
-        .select("*")
-        .eq("owner_id", user.id);
+      // Trust that Auth.tsx sent us here correctly - only create workspace if needed
+      // Don't double-check workspaces to avoid redirect loops
+      if (!currentWorkspace) {
+        setIsCreatingWorkspace(true);
+        const slug = user.email?.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, '-') || 'workspace';
+        const { data: newWorkspace, error } = await supabase
+          .from("workspaces")
+          .insert({
+            name: `${user.email?.split("@")[0]}'s Workspace`,
+            slug: slug,
+            owner_id: user.id,
+          })
+          .select()
+          .single();
 
-      // Check if user is a member of any workspaces
-      const { data: memberWorkspaces } = await supabase
-        .from("workspace_members")
-        .select("workspace_id")
-        .eq("user_id", user.id);
-
-      const hasAnyWorkspace = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
-
-      // If user has ANY workspace access (owned or member), redirect to dashboard
-      if (hasAnyWorkspace) {
-        navigate("/dashboard");
-        return;
+        if (error) {
+          toast({
+            title: "Error",
+            description: "Failed to create workspace",
+            variant: "destructive",
+          });
+        }
+        setIsCreatingWorkspace(false);
       }
-
-      // Only create workspace if user genuinely has no access
-      setIsCreatingWorkspace(true);
-      const slug = user.email?.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, '-') || 'workspace';
-      const { data: newWorkspace, error } = await supabase
-        .from("workspaces")
-        .insert({
-          name: `${user.email?.split("@")[0]}'s Workspace`,
-          slug: slug,
-          owner_id: user.id,
-        })
-        .select()
-        .single();
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to create workspace",
-          variant: "destructive",
-        });
-      }
-      setIsCreatingWorkspace(false);
     };
 
     checkAndCreateWorkspace();
-  }, [navigate, toast]);
+  }, [navigate, toast, currentWorkspace]);
 
   useEffect(() => {
     if (!currentWorkspace) return;

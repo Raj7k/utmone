@@ -48,14 +48,38 @@ export default function TotpVerification() {
         });
       }
 
-      // Redirect to intended destination or dashboard
-      const returnTo = searchParams.get('returnTo') || '/dashboard';
-      navigate(returnTo);
-
       toast({
         title: "verification successful",
         description: "you're now logged in",
       });
+      
+      // Check if user has workspaces before redirecting
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (currentUser) {
+        const { data: ownedWorkspaces } = await supabase
+          .from("workspaces")
+          .select("id")
+          .eq("owner_id", currentUser.id);
+
+        const { data: memberWorkspaces } = await supabase
+          .from("workspace_members")
+          .select("workspace_id")
+          .eq("user_id", currentUser.id);
+
+        const hasWorkspace = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
+
+        // Get the returnTo parameter or default
+        const returnTo = searchParams.get('returnTo') || '/dashboard';
+
+        // If user has no workspace and trying to go to dashboard, redirect to onboarding
+        if (!hasWorkspace && returnTo === '/dashboard') {
+          navigate('/onboarding');
+        } else {
+          navigate(returnTo);
+        }
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error: any) {
       toast({
         title: "verification failed",
