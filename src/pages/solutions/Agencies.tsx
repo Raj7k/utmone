@@ -4,7 +4,6 @@ import { FolderKanban, Globe, Users, FileBarChart, Shield, Zap, CheckCircle2, Ar
 import { motion } from "framer-motion";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { ROICalculator } from "@/components/growth/ROICalculator";
-import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
@@ -51,8 +50,6 @@ const Agencies = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <SocialProofCounter variant="minimal" role="agencies" />
-            
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
               manage every client from<br />one command center
             </h1>

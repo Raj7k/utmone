@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 
 interface ProductHeroSimplifiedProps {
   headline: string;
@@ -48,15 +47,6 @@ export const ProductHeroSimplified = ({
           {subheadline}
         </motion.p>
 
-        {socialProof && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-          >
-            <SocialProofCounter variant="minimal" />
-          </motion.div>
-        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

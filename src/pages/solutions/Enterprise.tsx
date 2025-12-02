@@ -13,7 +13,6 @@ import { JustInTimeProvisioningVisual } from "@/components/enterprise/JustInTime
 import { BayesianAttributionPreview } from "@/components/enterprise/BayesianAttributionPreview";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
-import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 
 const Enterprise = () => {
   const pillars = [
@@ -79,9 +78,7 @@ const Enterprise = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <SocialProofCounter variant="minimal" role="ops" />
-            
-            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase text-label mb-6 mt-8">
+            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase text-label mb-6">
               enterprise-grade governance<br />for every click
             </h1>
             <p className="text-xl md:text-2xl text-secondary-label max-w-3xl mx-auto mb-12">

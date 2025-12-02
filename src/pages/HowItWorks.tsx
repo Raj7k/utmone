@@ -24,7 +24,6 @@ import {
   ArrowRight
 } from "lucide-react";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
 import { WorkflowTimeline } from "@/components/solutions/WorkflowTimeline";
@@ -286,8 +285,6 @@ const HowItWorks = () => {
               <CTAButton href="/early-access" variant="primary">
                 see it in action →
               </CTAButton>
-              
-              <SocialProofCounter variant="minimal" />
             </div>
           </motion.div>
         </div>
