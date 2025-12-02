@@ -127,6 +127,7 @@ const QRStudio = lazy(() => import("./pages/products/QRStudio"));
 const DataPipeline = lazy(() => import("./pages/products/DataPipeline"));
 
 // Solution Pages
+const SolutionsHub = lazy(() => import("./pages/Solutions"));
 const EnterpriseSolution = lazy(() => import("./pages/solutions/Enterprise"));
 const AgenciesSolution = lazy(() => import("./pages/solutions/Agencies"));
 const DevelopersSolution = lazy(() => import("./pages/solutions/Developers"));
@@ -142,6 +143,7 @@ const Developers = lazy(() => import("./pages/solutions/Developers"));
 const PartnerManagers = lazy(() => import("./pages/solutions/PartnerManagers"));
 
 // Comparison Pages
+const CompareHub = lazy(() => import("./pages/Compare"));
 const UtmOneVsBitly = lazy(() => import("./pages/compare/UtmOneVsBitly"));
 const UtmOneVsRebrandly = lazy(() => import("./pages/compare/UtmOneVsRebrandly"));
 const UtmOneVsShortIo = lazy(() => import("./pages/compare/UtmOneVsShortIo"));
@@ -470,6 +472,7 @@ const App = () => (
               <Route path="/products/data-pipeline" element={<Suspense fallback={<DashboardSkeleton />}><DataPipeline /></Suspense>} />
               
               {/* Solution Pages */}
+              <Route path="/solutions" element={<Suspense fallback={<DashboardSkeleton />}><SolutionsHub /></Suspense>} />
               <Route path="/solutions/enterprise" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseSolution /></Suspense>} />
               <Route path="/solutions/agencies" element={<Suspense fallback={<DashboardSkeleton />}><AgenciesSolution /></Suspense>} />
               <Route path="/solutions/startups" element={<Suspense fallback={<DashboardSkeleton />}><Startups /></Suspense>} />
@@ -482,6 +485,7 @@ const App = () => (
               <Route path="/solutions/partner-managers" element={<Suspense fallback={<DashboardSkeleton />}><PartnerManagers /></Suspense>} />
               
               {/* Comparison Pages */}
+              <Route path="/compare" element={<Suspense fallback={<DashboardSkeleton />}><CompareHub /></Suspense>} />
               <Route path="/compare/bitly" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsBitly /></Suspense>} />
               <Route path="/compare/rebrandly" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsRebrandly /></Suspense>} />
               <Route path="/compare/short-io" element={<Suspense fallback={<DashboardSkeleton />}><UtmOneVsShortIo /></Suspense>} />

@@ -213,7 +213,7 @@ export const Footer = () => {
                   <Link to="/resources/playbooks" className="block text-sm text-muted-foreground hover:text-foreground hover:underline transition-all">
                     Playbooks
                   </Link>
-                  <Link to="/resources/llm-ranking-playbook" className="group/llm block text-sm text-primary hover:text-primary/80 hover:translate-x-1 transition-all flex items-center gap-2 pl-4">
+                  <Link to="/resources/playbooks/llm-ranking" className="group/llm block text-sm text-primary hover:text-primary/80 hover:translate-x-1 transition-all flex items-center gap-2 pl-4">
                     <Sparkles className="w-3 h-3 group-hover/llm:scale-125 transition-transform" />
                     LLM Ranking Playbook
                   </Link>
@@ -256,7 +256,7 @@ export const Footer = () => {
                     <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
                   </span>
                 </Link>
-                <Link to="/compare/shortio" className="group/comp p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 hover:scale-105 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
+                <Link to="/compare/short-io" className="group/comp p-3 rounded-lg bg-card border border-border hover:border-primary/50 hover:bg-primary/5 hover:scale-105 transition-all duration-200 text-sm text-muted-foreground hover:text-foreground">
                   <span className="flex items-center gap-2">
                     vs Short.io
                     <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
@@ -340,9 +340,9 @@ export const Footer = () => {
             <span>•</span>
             <span>🔗 link immunity: zero broken links, guaranteed uptime</span>
             <span>•</span>
-            <span>📊 attribution graph: bayesian multi-touch attribution</span>
+            <span>📊 attribution graph: clean-track multi-touch attribution</span>
             <span>•</span>
-            <span>🌍 smart routing: geo-targeting with contextual bandits</span>
+            <span>🌍 smart routing: intelligent geo-routing</span>
             <span>•</span>
             <span>✨ LLM ranking playbook: rank #1 in AI search results</span>
             <span>•</span>
@@ -350,7 +350,7 @@ export const Footer = () => {
             <span>•</span>
             <span>🔗 link immunity: zero broken links, guaranteed uptime</span>
             <span>•</span>
-            <span>📊 attribution graph: bayesian multi-touch attribution</span>
+            <span>📊 attribution graph: clean-track multi-touch attribution</span>
           </motion.div>
         </motion.div>
       </div>
