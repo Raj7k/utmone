@@ -1,3 +1,5 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -12,11 +14,18 @@ Deno.serve(async (req) => {
   try {
     console.log('Invalidating feature flags cache...');
     
-    // Open Deno KV connection
-    const kv = await Deno.openKv();
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
-    // Delete the feature_flags_cache key from Deno KV
-    await kv.delete(['feature_flags_cache']);
+    // Update the invalidated_at timestamp for feature_flags_cache
+    await supabase
+      .from('feature_flags_cache')
+      .upsert({
+        cache_key: 'feature_flags_cache',
+        invalidated_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
     
     console.log('Feature flags cache invalidated successfully');
     
