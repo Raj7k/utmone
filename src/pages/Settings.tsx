@@ -15,6 +15,7 @@ import { DataPrivacySettings } from "@/components/DataPrivacySettings";
 import { WorkspaceBranding } from "@/components/settings/WorkspaceBranding";
 import { TeamMembers } from "@/components/settings/TeamMembers";
 import { SecuritySettings } from "@/components/settings/SecuritySettings";
+import { SecurityKeyManager } from "@/components/admin/SecurityKeyManager";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
@@ -140,6 +141,9 @@ export default function Settings() {
                   <SecurityAlertsWidget />
                   <div className="mt-8">
                     <SecuritySettings />
+                  </div>
+                  <div className="mt-8">
+                    <SecurityKeyManager />
                   </div>
                   <div className="mt-8">
                     <TimelineAuditViewer />

@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { AdminMFAGuard } from "@/components/admin/AdminMFAGuard";
 import { 
   LayoutDashboard, 
   Users, 
@@ -57,58 +58,60 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen flex bg-muted/20">
-      {/* Sidebar */}
-      <aside className="w-64 bg-card border-r fixed h-full">
-        <div className="p-6">
-          <Link to="/" className="text-xl font-bold">
-            utm.one
-          </Link>
-          <p className="text-xs text-secondary-label mt-1">admin dashboard</p>
-        </div>
+    <AdminMFAGuard>
+      <div className="min-h-screen flex bg-muted/20">
+        {/* Sidebar */}
+        <aside className="w-64 bg-card border-r fixed h-full">
+          <div className="p-6">
+            <Link to="/" className="text-xl font-bold">
+              utm.one
+            </Link>
+            <p className="text-xs text-secondary-label mt-1">admin dashboard</p>
+          </div>
 
-        <nav className="px-3 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`
-                  flex items-center gap-3 px-3 py-2 rounded-lg text-sm
-                  transition-colors
-                  ${isActive 
-                    ? 'bg-primary text-primary-foreground font-medium' 
-                    : 'text-secondary-label hover:bg-muted hover:text-foreground'
-                  }
-                `}
-              >
-                <Icon className="w-4 h-4" />
-                {item.label}
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
-              </Link>
-            );
-          })}
-        </nav>
+          <nav className="px-3 space-y-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`
+                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm
+                    transition-colors
+                    ${isActive 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-secondary-label hover:bg-muted hover:text-foreground'
+                    }
+                  `}
+                >
+                  <Icon className="w-4 h-4" />
+                  {item.label}
+                  {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                </Link>
+              );
+            })}
+          </nav>
 
-        <div className="absolute bottom-6 left-3 right-3">
-          <Button
-            variant="ghost"
-            className="w-full justify-start text-secondary-label"
-            onClick={handleSignOut}
-          >
-            <LogOut className="w-4 h-4 mr-3" />
-            sign out
-          </Button>
-        </div>
-      </aside>
+          <div className="absolute bottom-6 left-3 right-3">
+            <Button
+              variant="ghost"
+              className="w-full justify-start text-secondary-label"
+              onClick={handleSignOut}
+            >
+              <LogOut className="w-4 h-4 mr-3" />
+              sign out
+            </Button>
+          </div>
+        </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64">
-        {children}
-      </main>
-    </div>
+        {/* Main Content */}
+        <main className="flex-1 ml-64">
+          {children}
+        </main>
+      </div>
+    </AdminMFAGuard>
   );
 }
