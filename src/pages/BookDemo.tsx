@@ -151,7 +151,7 @@ export default function BookDemo() {
                 <Star key={i} className="w-4 h-4 fill-blazeOrange text-blazeOrange" />
               ))}
             </div>
-            <p className="text-label/70 text-sm">trusted by growth teams at 50+ companies</p>
+            <p className="text-label/70 text-sm">trusted by growth teams worldwide</p>
           </div>
 
           {/* Center - Headline */}

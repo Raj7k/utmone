@@ -4,7 +4,6 @@ import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { SocialProofCounter } from "@/components/growth/SocialProofCounter";
 import { TheMomentStoryCard } from "@/components/solutions/TheMomentStoryCard";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
 import { BenefitCardsGrid } from "@/components/solutions/BenefitCardsGrid";
@@ -109,8 +108,6 @@ const ReportingTeam = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <SocialProofCounter role="reporting" variant="minimal" />
-            
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               stop cleaning data. start trusting it.
             </h1>
