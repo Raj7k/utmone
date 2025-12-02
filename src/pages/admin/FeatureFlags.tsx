@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { useFeatureFlags } from "@/hooks/useFeatureFlags";
-import { Flag, Zap, Shield, Wrench, AlertTriangle } from "lucide-react";
+import { Flag, Zap, Shield, Wrench, AlertTriangle, Plus } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CreateFlagModal } from "@/components/admin/CreateFlagModal";
 
 export default function FeatureFlags() {
+  const [createModalOpen, setCreateModalOpen] = useState(false);
   const { flags, isLoading, toggleFlag, isToggling } = useFeatureFlags();
 
   const getCategoryIcon = (category: string) => {
@@ -42,11 +46,17 @@ export default function FeatureFlags() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-display font-bold mb-2">feature flags</h1>
-        <p className="text-secondary-label">
-          runtime control for performance optimization and maintenance
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-display font-bold mb-2">feature flags</h1>
+          <p className="text-secondary-label">
+            runtime control for performance optimization and maintenance
+          </p>
+        </div>
+        <Button onClick={() => setCreateModalOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          create flag
+        </Button>
       </div>
 
       {/* Critical Warning */}
@@ -214,6 +224,9 @@ export default function FeatureFlags() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Create Flag Modal */}
+      <CreateFlagModal open={createModalOpen} onOpenChange={setCreateModalOpen} />
     </div>
   );
 }

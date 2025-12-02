@@ -13,7 +13,8 @@ import {
   ChevronRight,
   Activity,
   Flag,
-  TestTube
+  TestTube,
+  Shield
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -27,6 +28,7 @@ const navItems = [
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
   { path: "/admin/system", label: "system monitoring", icon: Activity },
   { path: "/admin/feature-flags", label: "feature flags", icon: Flag },
+  { path: "/admin/security", label: "security", icon: Shield },
   { path: "/admin/tests", label: "system tests", icon: TestTube },
 ];
 

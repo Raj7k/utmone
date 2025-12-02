@@ -95,6 +95,7 @@ const FlagDetails = lazy(() => import("./pages/admin/FlagDetails"));
 const PartnersManagement = lazy(() => import("./pages/admin/PartnersManagement"));
 const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
 const MFAVerify = lazy(() => import("./pages/admin/MFAVerify"));
+const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
@@ -410,6 +411,7 @@ const App = () => (
               <Route path="/admin/system" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemMonitoring /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/feature-flags" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FeatureFlags /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/flags/:flagKey" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><FlagDetails /></AdminLayout></Suspense></ProtectedRoute>} />
+              <Route path="/admin/security" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><AdminSecurity /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/partners" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><PartnersManagement /></AdminLayout></Suspense></ProtectedRoute>} />
               <Route path="/admin/tests" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><AdminLayout><SystemTests /></AdminLayout></Suspense></ProtectedRoute>} />
               
