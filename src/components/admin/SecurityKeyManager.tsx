@@ -62,7 +62,7 @@ export const SecurityKeyManager = () => {
         });
 
         // Step 2: Prompt user to use their security key
-        const credential = await startRegistration(options);
+        const credential = await startRegistration({ optionsJSON: options });
 
         // Step 3: Verify the registration with server
         const { data: verifyData, error: verifyError } = await supabase.functions.invoke(

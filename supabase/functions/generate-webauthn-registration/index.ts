@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { generateRegistrationOptions } from 'https://esm.sh/@simplewebauthn/server@9.0.3';
+import { generateRegistrationOptions } from 'https://esm.sh/@simplewebauthn/server@13.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -76,15 +76,18 @@ Deno.serve(async (req) => {
 
     const rpName = 'utm.one';
     
+    // Convert user ID to Uint8Array for v13
+    const userIDBuffer = new TextEncoder().encode(user.id);
+    
     const options = await generateRegistrationOptions({
       rpName,
       rpID,
-      userID: user.id,
+      userID: userIDBuffer,
       userName: profile?.email || user.email || user.id,
       attestationType: 'none',
       excludeCredentials: existingAuthenticators?.map(auth => ({
-        id: Uint8Array.from(atob(auth.credential_id), c => c.charCodeAt(0)),
-        type: 'public-key' as const,
+        id: auth.credential_id, // v13 expects base64 string
+        transports: ['usb', 'nfc', 'ble', 'internal'],
       })) || [],
       authenticatorSelection: {
         residentKey: 'preferred',

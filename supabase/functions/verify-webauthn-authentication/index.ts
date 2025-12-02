@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { verifyAuthenticationResponse } from 'https://esm.sh/@simplewebauthn/server@9.0.3';
+import { verifyAuthenticationResponse } from 'https://esm.sh/@simplewebauthn/server@13.0.0';
 import type { AuthenticationResponseJSON } from 'https://esm.sh/@simplewebauthn/types@9.0.1';
 
 const corsHeaders = {
@@ -83,14 +83,15 @@ Deno.serve(async (req) => {
       console.warn('Could not parse origin, using localhost:', origin);
     }
 
+    // v13 API: credential object structure changed
     const verification = await verifyAuthenticationResponse({
       response: credential,
       expectedChallenge: profile.mfa_challenge,
       expectedOrigin,
       expectedRPID: rpID,
-      authenticator: {
-        credentialID: Uint8Array.from(atob(authenticator.credential_id), c => c.charCodeAt(0)),
-        credentialPublicKey: Uint8Array.from(atob(authenticator.public_key), c => c.charCodeAt(0)),
+      credential: {
+        id: authenticator.credential_id, // base64url string
+        publicKey: Uint8Array.from(atob(authenticator.public_key), c => c.charCodeAt(0)),
         counter: authenticator.counter,
       },
     });
