@@ -281,7 +281,7 @@ const Index = () => {
                 icon={Shield}
                 title="Enterprise Control"
                 description="Roles, permissions, approvals"
-                href="/features/enterprise-control"
+                href="/features/governance"
                 delay={0.4}
               />
               <FeaturePillarCard
