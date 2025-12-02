@@ -46,12 +46,20 @@ export const SecurityKeyManager = () => {
     mutationFn: async (name: string) => {
       try {
         // Step 1: Get registration options from server
+        console.log('Requesting WebAuthn registration options from:', window.location.origin);
         const { data: options, error: optionsError } = await supabase.functions.invoke(
           'generate-webauthn-registration',
           { body: {} }
         );
 
         if (optionsError) throw optionsError;
+        
+        console.log('Received registration options:', {
+          rpId: options?.rp?.id,
+          rpName: options?.rp?.name,
+          currentOrigin: window.location.origin,
+          currentHostname: window.location.hostname,
+        });
 
         // Step 2: Prompt user to use their security key
         const credential = await startRegistration(options);

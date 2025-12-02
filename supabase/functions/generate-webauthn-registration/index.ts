@@ -69,8 +69,9 @@ Deno.serve(async (req) => {
     try {
       const originUrl = new URL(origin);
       rpID = originUrl.hostname;
+      console.log('WebAuthn registration - Origin:', origin, 'rpID:', rpID);
     } catch (e) {
-      console.warn('Could not parse origin, using localhost:', origin);
+      console.error('Could not parse origin, using localhost:', origin, e);
     }
 
     const rpName = 'utm.one';
