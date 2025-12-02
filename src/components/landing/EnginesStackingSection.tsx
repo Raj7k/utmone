@@ -6,23 +6,23 @@ const engines = [
   {
     number: 1,
     mockupType: "identity-stitching" as const,
-    headline: "identity resolution",
-    subheadline: "de-anonymize your traffic",
-    description: "Time-Travel Stitching remembers that 'Anonymous Visitor 582' who read your blog 3 weeks ago is actually Sarah from Nike. When she finally signs up, we backfill her history instantly."
+    headline: "visitor memory",
+    subheadline: "recognize returning visitors",
+    description: "Clean-Track remembers that 'Anonymous Visitor 582' who read your blog 3 weeks ago is actually Sarah from Nike. When she finally signs up, we backfill her history instantly."
   },
   {
     number: 2,
     mockupType: "attribution-graph" as const,
-    headline: "bayesian attribution",
+    headline: "intelligent attribution",
     subheadline: "see the invisible influence",
-    description: "Forget 'Linear' or 'Time Decay' models. We use Bayesian Networks to calculate the true 'Lift' of every channel. See exactly how a LinkedIn impression causes a Direct search three days later."
+    description: "Forget 'Linear' or 'Time Decay' models. Clean-Track calculates the true 'Lift' of every channel. See exactly how a LinkedIn impression causes a Direct search three days later."
   },
   {
     number: 3,
     mockupType: "state-value" as const,
-    headline: "journey valuation",
+    headline: "page value scoring",
     subheadline: "know the dollar value of every page",
-    description: "Not all pages are equal. We model your site as a Markov Decision Process (MDP). We calculate the 'State Value' of every URL. Your Pricing Page is worth $45.00 per visit. Your 'About Us' page is worth $0.50."
+    description: "Not all pages are equal. Clean-Track models your site to calculate the value of every URL. Your Pricing Page is worth $45.00 per visit. Your 'About Us' page is worth $0.50."
   }
 ];
 
@@ -54,7 +54,7 @@ export const EnginesStackingSection = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-xl text-secondary-label max-w-2xl mx-auto"
           >
-            identity resolution • bayesian attribution • journey valuation
+            visitor memory • intelligent attribution • page value scoring
           </motion.p>
         </div>
 

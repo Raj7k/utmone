@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
@@ -24,6 +24,7 @@ import Signup from "./pages/Signup";
 import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 import LinkExpired from "./pages/LinkExpired";
+import Blog from "./pages/Blog";
 
 // Auth callback gatekeeper and waitlist pages
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -428,6 +429,8 @@ const App = () => (
               <Route path="/faq" element={<Suspense fallback={<DashboardSkeleton />}><FAQ /></Suspense>} />
               <Route path="/changelog" element={<Suspense fallback={<DashboardSkeleton />}><Changelog /></Suspense>} />
               <Route path="/support" element={<Suspense fallback={<DashboardSkeleton />}><Support /></Suspense>} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
               <Route path="/docs/api" element={<Suspense fallback={<DashboardSkeleton />}><APIDocumentation /></Suspense>} />
               <Route path="/docs/playground" element={<Suspense fallback={<DashboardSkeleton />}><APIPlayground /></Suspense>} />
               <Route path="/docs/sdks" element={<Suspense fallback={<DashboardSkeleton />}><SDKs /></Suspense>} />

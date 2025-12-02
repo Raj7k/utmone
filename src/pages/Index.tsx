@@ -35,7 +35,7 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
-import { FeaturePillarCard } from "@/components/landing/FeaturePillarCard";
+import { BentoFeatureCard } from "@/components/landing/BentoFeatureCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { StackingFAQCards } from "@/components/landing/StackingFAQCards";
@@ -240,7 +240,7 @@ const Index = () => {
           </div>
         </AnimatedSection>
 
-        {/* Fold 6: Product Pillars */}
+        {/* Fold 6: Product Pillars - Bento Grid */}
         <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
@@ -248,55 +248,54 @@ const Index = () => {
                 Everything Your GTM Team Needs, in One Place
               </h2>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              <FeaturePillarCard
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
+              <BentoFeatureCard
                 icon={LinkIcon}
-                title="Short Links"
-                description="Branded links that always work"
+                title="short links"
+                description="branded links that always work"
                 href="/features/short-links"
+                size="wide"
                 delay={0}
               />
-              <FeaturePillarCard
+              <BentoFeatureCard
                 icon={BarChart3}
-                title="UTM Builder"
-                description="Consistent parameters, every time"
+                title="utm builder"
+                description="consistent parameters, every time"
                 href="/features/utm-builder"
+                size="small"
                 delay={0.1}
               />
-              <FeaturePillarCard
+              <BentoFeatureCard
                 icon={QrCode}
-                title="QR Generator"
-                description="On-brand codes with real attribution"
+                title="qr generator"
+                description="on-brand codes with real attribution"
                 href="/features/qr-generator"
+                size="small"
                 delay={0.2}
               />
-              <FeaturePillarCard
+              <BentoFeatureCard
                 icon={TrendingUp}
-                title="Analytics"
-                description="Clean data, clear insight"
+                title="analytics"
+                description="clean data, clear insight"
                 href="/features/analytics"
+                size="small"
                 delay={0.3}
               />
-              <FeaturePillarCard
-                icon={Shield}
-                title="Enterprise Control"
-                description="Roles, permissions, approvals"
-                href="/features/governance"
+              <BentoFeatureCard
+                icon={CheckCircle2}
+                title="clean-track"
+                description="your tracking rules, automated"
+                href="/features/clean-track"
+                size="small"
                 delay={0.4}
               />
-              <FeaturePillarCard
-                icon={CheckCircle2}
-                title="Clean-Track"
-                description="Your tracking rules, automated"
-                href="/features/clean-track"
+              <BentoFeatureCard
+                icon={Shield}
+                title="enterprise control"
+                description="roles, permissions, approvals"
+                href="/features/governance"
+                size="wide"
                 delay={0.5}
-              />
-              <FeaturePillarCard
-                icon={Users}
-                title="Partner Program"
-                description="Links, QR codes, payouts, attribution"
-                href="/features/partner-program"
-                delay={0.6}
               />
             </div>
           </div>
@@ -313,44 +312,40 @@ const Index = () => {
                 Advanced features for growth teams managing thousands of links
               </p>
             </div>
-            <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={FlaskConical}
-                  title="Smart Testing"
-                  description="Bayesian A/B testing with automatic winner detection and confidence scoring"
-                  href="/features/analytics"
-                  delay={0}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={ShieldCheck}
-                  title="Link Guard"
-                  description="Real-time security scanning, malware detection, and blacklist monitoring"
-                  href="/features/link-immunity"
-                  delay={0.1}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={Globe}
-                  title="Geo Targeting"
-                  description="Route visitors to different destinations based on their country"
-                  href="/features/smart-routing"
-                  delay={0.2}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={Layers}
-                  title="Bulk Create"
-                  description="Generate hundreds of branded links at once with CSV import"
-                  href="/features/short-links"
-                  delay={0.3}
-                />
-              </StaggerItem>
-            </StaggerContainer>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
+              <BentoFeatureCard
+                icon={FlaskConical}
+                title="smart testing"
+                description="intelligent A/B testing with automatic winner detection and confidence scoring"
+                href="/features/analytics"
+                size="small"
+                delay={0}
+              />
+              <BentoFeatureCard
+                icon={ShieldCheck}
+                title="link guard"
+                description="real-time security scanning and malware detection"
+                href="/features/link-immunity"
+                size="small"
+                delay={0.1}
+              />
+              <BentoFeatureCard
+                icon={Globe}
+                title="geo targeting"
+                description="route visitors by country"
+                href="/features/smart-routing"
+                size="small"
+                delay={0.2}
+              />
+              <BentoFeatureCard
+                icon={Layers}
+                title="bulk create"
+                description="generate hundreds of links at once"
+                href="/features/short-links"
+                size="small"
+                delay={0.3}
+              />
+            </div>
           </div>
         </AnimatedSection>
 
@@ -365,35 +360,32 @@ const Index = () => {
                 AI-powered insights without the complexity
               </p>
             </div>
-            <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={Zap}
-                  title="Instant Links"
-                  description="AI generates title, slug, and UTM parameters from any URL in seconds"
-                  href="/features/short-links"
-                  delay={0}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={Brain}
-                  title="Fast Insights"
-                  description="Natural language analytics summaries and anomaly detection"
-                  href="/features/predictive-analytics"
-                  delay={0.1}
-                />
-              </StaggerItem>
-              <StaggerItem>
-                <FeaturePillarCard
-                  icon={FileSearch}
-                  title="OneLink Validator"
-                  description="Intelligent duplicate detection, version management, and link optimization"
-                  href="/features/clean-track"
-                  delay={0.2}
-                />
-              </StaggerItem>
-            </StaggerContainer>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <BentoFeatureCard
+                icon={Zap}
+                title="instant links"
+                description="AI generates title, slug, and UTM parameters from any URL in seconds"
+                href="/features/short-links"
+                size="small"
+                delay={0}
+              />
+              <BentoFeatureCard
+                icon={Brain}
+                title="fast insights"
+                description="natural language analytics summaries and anomaly detection"
+                href="/features/predictive-analytics"
+                size="small"
+                delay={0.1}
+              />
+              <BentoFeatureCard
+                icon={FileSearch}
+                title="onelink validator"
+                description="intelligent duplicate detection and version management"
+                href="/features/clean-track"
+                size="small"
+                delay={0.2}
+              />
+            </div>
           </div>
         </AnimatedSection>
 

@@ -104,7 +104,7 @@ export default function DataPipeline() {
                   <div className="space-y-2 text-left">
                     <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
-                      <span>Real-time streaming (< 200ms)</span>
+                      <span>Real-time streaming (&lt; 200ms)</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
