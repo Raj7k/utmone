@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Users, Link2, QrCode, TrendingUp, AlertTriangle, CheckCircle2, Download } from "lucide-react";
 import { toast } from "sonner";
+import { AdminHealthHUD } from "@/components/admin/AdminHealthHUD";
+import { AdminCommandPalette } from "@/components/admin/AdminCommandPalette";
 
 export default function AdminDashboard() {
   const [isImporting, setIsImporting] = useState(false);
@@ -94,13 +96,18 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="p-8">
+    <>
+      <AdminCommandPalette />
+      
+      <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-display font-bold">admin dashboard</h1>
+          <h1 className="text-3xl font-display font-bold">mission control</h1>
           <p className="text-muted-foreground mt-2">
-            system overview and quick stats
+            real-time system health and operations
           </p>
         </div>
+
+        <AdminHealthHUD />
 
         {/* Waitlist Section */}
         <div className="mb-8">
@@ -233,5 +240,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
       </div>
+    </>
   );
 }
