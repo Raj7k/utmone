@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, Edit } from "lucide-react";
+import { Search, Edit, Shield } from "lucide-react";
 import { UserEditModal } from "@/components/admin/UserEditModal";
 import { ImpersonateButton } from "@/components/admin/ImpersonateButton";
 import { format } from "date-fns";
@@ -24,6 +24,7 @@ interface UserWithWorkspace {
   full_name: string | null;
   avatar_url: string | null;
   created_at: string;
+  isAdmin?: boolean;
   workspaces: Array<{
     id: string;
     name: string;
@@ -60,7 +61,21 @@ export default function UserManagement() {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data as UserWithWorkspace[];
+
+      // Fetch admin roles for all users
+      const userIds = data?.map((u: any) => u.id) || [];
+      const { data: adminRoles } = await supabase
+        .from('user_roles')
+        .select('user_id')
+        .in('user_id', userIds)
+        .eq('role', 'admin');
+
+      const adminUserIds = new Set(adminRoles?.map(r => r.user_id) || []);
+      
+      return (data as UserWithWorkspace[]).map(user => ({
+        ...user,
+        isAdmin: adminUserIds.has(user.id),
+      }));
     },
   });
 
@@ -139,8 +154,16 @@ export default function UserManagement() {
                             {getInitials(user.full_name, user.email)}
                           </AvatarFallback>
                         </Avatar>
-                        <div>
-                          <div className="font-medium">{user.email}</div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{user.email}</span>
+                            {user.isAdmin && (
+                              <Badge variant="default" className="text-xs">
+                                <Shield className="h-3 w-3 mr-1" />
+                                admin
+                              </Badge>
+                            )}
+                          </div>
                           {user.full_name && (
                             <div className="text-sm text-muted-foreground">
                               {user.full_name}
