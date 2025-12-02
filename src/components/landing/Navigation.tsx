@@ -211,22 +211,54 @@ export const Navigation = () => {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[650px] p-4 flex gap-4">
-                      {/* Featured Card - Left */}
-                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
-                        <div>
-                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
-                            <Sparkles className="w-5 h-5 text-primary" />
-                          </div>
-                          <h3 className="text-sm font-semibold mb-2">feature-first</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
-                            every feature built for clean data—no junk, no guesses, no broken links
-                          </p>
-                        </div>
+                      {/* Featured Features - Left (Bento 3-card) */}
+                      <div className="w-[220px] flex flex-col gap-2">
+                        {/* Clean-Track */}
                         <Link 
-                          to="/features" 
-                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
+                          to="/features/analytics" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
-                          explore all <ChevronRight className="w-3 h-3" />
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <BarChart3 className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xs font-semibold mb-0.5">clean-track™</h3>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              data you can trust
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* Link Immunity */}
+                        <Link 
+                          to="/features/link-immunity" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <Shield className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xs font-semibold mb-0.5">link immunity</h3>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              zero broken links
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* Smart Routing */}
+                        <Link 
+                          to="/features/smart-routing" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <Route className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xs font-semibold mb-0.5">smart routing</h3>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              geo-targeting magic
+                            </p>
+                          </div>
                         </Link>
                       </div>
 
@@ -373,22 +405,57 @@ export const Navigation = () => {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[650px] p-4 flex gap-4">
-                      {/* Featured Card - Left */}
-                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
-                        <div>
-                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
-                            <Users className="w-5 h-5 text-primary" />
-                          </div>
-                          <h3 className="text-sm font-semibold mb-2">built for your team</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
-                            every role gets clean data—marketing, sales, ops, devs, partners
-                          </p>
-                        </div>
+                      {/* Featured Solutions - Left (Bento 3-card) */}
+                      <div className="w-[220px] flex flex-col gap-2">
+                        {/* Enterprise */}
                         <Link 
-                          to="/solutions" 
-                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
+                          to="/solutions/enterprise" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
-                          see all <ChevronRight className="w-3 h-3" />
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <Building2 className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <h3 className="text-xs font-semibold">enterprise</h3>
+                              <Badge className="bg-primary text-primary-foreground text-[9px] px-1.5 py-0">POPULAR</Badge>
+                            </div>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              security & governance
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* Agencies */}
+                        <Link 
+                          to="/solutions/agencies" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <Users className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xs font-semibold mb-0.5">agencies</h3>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              multi-client workspaces
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* Startups */}
+                        <Link 
+                          to="/solutions/startups" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
+                            <Rocket className="w-4 h-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-xs font-semibold mb-0.5">startups</h3>
+                            <p className="text-[10px] text-muted-foreground leading-tight">
+                              enterprise quality, startup speed
+                            </p>
+                          </div>
                         </Link>
                       </div>
 
@@ -572,19 +639,19 @@ export const Navigation = () => {
                           </div>
                         </Link>
 
-                        {/* Attribution Clarity - FEATURED */}
+                        {/* B2B Attribution Framework - NEW */}
                         <Link 
-                          to="/resources/frameworks/attribution-clarity-model" 
+                          to="/resources/frameworks/b2b-attribution" 
                           className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
                           <div className="flex items-center justify-between">
                             <GitBranch className="w-4 h-4 text-primary" />
-                            <Badge variant="secondary" className="text-[10px] px-2 py-0">FEATURED</Badge>
+                            <Badge className="bg-primary text-primary-foreground text-[10px] px-2 py-0">NEW</Badge>
                           </div>
                           <div>
-                            <h3 className="text-xs font-semibold mb-1">attribution clarity</h3>
+                            <h3 className="text-xs font-semibold mb-1">b2b attribution</h3>
                             <p className="text-[10px] text-muted-foreground leading-relaxed">
-                              multi-touch without politics
+                              from $0 to $100m+
                             </p>
                           </div>
                         </Link>
