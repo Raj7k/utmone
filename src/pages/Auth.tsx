@@ -382,8 +382,8 @@ const Auth = () => {
 
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">Admin sign in</h1>
-          <p className="text-muted-foreground text-lg">Access your admin dashboard</p>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
+          <p className="text-muted-foreground text-lg">sign in to your workspace</p>
         </div>
 
         {invitationContext && (
@@ -408,7 +408,7 @@ const Auth = () => {
         <Card className="border-border/50 shadow-xl rounded-2xl">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
-            <CardDescription className="text-muted-foreground">Admin and team member access</CardDescription>
+            <CardDescription className="text-muted-foreground">Team member and workspace access</CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-6 space-y-6">
             <SocialLoginButtons
