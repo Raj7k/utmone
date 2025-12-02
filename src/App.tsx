@@ -117,6 +117,7 @@ const Workspaces = lazy(() => import("./pages/features/Workspaces"));
 const Reporting = lazy(() => import("./pages/features/Reporting"));
 const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
 const Automation = lazy(() => import("./pages/features/Automation"));
+const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility"));
 
 // Product Pages
 const LinkOrchestration = lazy(() => import("./pages/products/LinkOrchestration"));
@@ -448,6 +449,7 @@ const App = () => (
               <Route path="/features/governance" element={<Suspense fallback={<DashboardSkeleton />}><EnterpriseControl /></Suspense>} />
               <Route path="/features/integrations" element={<Suspense fallback={<DashboardSkeleton />}><Integrations /></Suspense>} />
               <Route path="/features/clean-track" element={<Suspense fallback={<DashboardSkeleton />}><CleanTrack /></Suspense>} />
+              <Route path="/features/accessibility" element={<Suspense fallback={<DashboardSkeleton />}><AccessibilityFeature /></Suspense>} />
               <Route path="/features/partner-program" element={<Suspense fallback={<DashboardSkeleton />}><PartnerProgram /></Suspense>} />
               <Route path="/features/predictive-analytics" element={<Suspense fallback={<DashboardSkeleton />}><PredictiveAnalytics /></Suspense>} />
               <Route path="/features/attribution-graph" element={<Suspense fallback={<DashboardSkeleton />}><AttributionGraph /></Suspense>} />
