@@ -83,6 +83,16 @@ All colors MUST be HSL.
   text-transform: lowercase;
 }
 
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Bento Grid Layout */
 .bento-grid {
   display: grid;

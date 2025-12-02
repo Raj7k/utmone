@@ -774,13 +774,15 @@ export const Navigation = () => {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                {/* Logo at top of mobile menu */}
-                <div className="flex items-center gap-2 mb-6">
+              <SheetContent side="right" className="w-full sm:w-[400px] p-0 overflow-hidden flex flex-col">
+                {/* Logo at top of mobile menu - Sticky Header */}
+                <div className="flex items-center gap-2 px-6 py-6 border-b border-separator bg-background sticky top-0 z-10">
                   <UtmOneLogo size="md" />
                 </div>
                 
-                <nav className="flex flex-col gap-4 mt-8">
+                {/* Scrollable Navigation Content */}
+                <nav className="flex-1 overflow-y-auto px-6 py-6">
+                  <div className="flex flex-col gap-6">
 
                   <div className="space-y-1">
                     <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
@@ -876,7 +878,7 @@ export const Navigation = () => {
                     </Link>
                   </div>
 
-                  <div className="border-t pt-4 space-y-1">
+                  <div className="border-t pt-6 space-y-1">
                     <Link to="/pricing" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
                       <span>Pricing</span>
                       <ChevronRight className="h-4 w-4" />
@@ -887,14 +889,17 @@ export const Navigation = () => {
                     </Link>
                   </div>
 
-                  <div className="border-t pt-4">
-                    <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
-                      <MagneticButton className="w-full rounded-full" strength={0.15}>
-                        Get Early Access
-                      </MagneticButton>
-                    </Link>
                   </div>
                 </nav>
+
+                {/* Sticky Footer CTA */}
+                <div className="px-6 py-6 border-t border-separator bg-background sticky bottom-0 z-10">
+                  <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
+                    <MagneticButton className="w-full rounded-full" strength={0.15}>
+                      Get Early Access
+                    </MagneticButton>
+                  </Link>
+                </div>
               </SheetContent>
             </Sheet>
           </div>

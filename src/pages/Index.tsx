@@ -79,16 +79,16 @@ const Index = () => {
         {/* Hero Section - Pure White Background */}
         <HeroVariantManager>
           {(variant) => (
-            <section className="relative py-16 md:py-20 lg:py-24 bg-white overflow-hidden">
-              <div className="relative z-10 max-w-[980px] mx-auto px-8">
+            <section className="relative py-12 md:py-20 lg:py-24 bg-white overflow-hidden">
+              <div className="relative z-10 max-w-[980px] mx-auto px-4 sm:px-6 md:px-8">
                 <motion.div 
-                  className="text-center space-y-6"
+                  className="text-center space-y-4 md:space-y-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
                 >
                   <motion.h1 
-                    className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]"
+                    className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
@@ -98,7 +98,7 @@ const Index = () => {
                   </motion.h1>
                   
                   <motion.p 
-                    className="text-lg md:text-xl text-gray-500 max-w-[720px] mx-auto text-balance leading-relaxed"
+                    className="text-base sm:text-lg md:text-xl text-gray-500 max-w-[720px] mx-auto text-balance leading-relaxed px-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
@@ -133,49 +133,49 @@ const Index = () => {
         <LinkLayersSection />
 
         {/* Fold 3: Accessibility */}
-        <AnimatedSection className="py-20 md:py-32 bg-system-background">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-6 lowercase">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-system-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label mb-4 md:mb-6 lowercase">
                 {formatText("Links That Include Everyone")}
               </h2>
-              <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-secondary-label max-w-3xl mx-auto px-2">
                 Finally — a link system government, education, nonprofit, and public institutions can use confidently.
               </p>
             </div>
             
-            <StaggerContainer className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
-                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                    <CheckCircle2 className="w-10 h-10" />
+                <div className="bg-secondary-grouped-background border border-separator rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
+                  <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <CheckCircle2 className="w-8 h-8 md:w-10 md:h-10" />
                   </div>
-                  <h3 className="text-title-2 font-semibold text-label lowercase">WCAG AAA Certified</h3>
-                  <p className="text-subheadline text-secondary-label">
+                  <h3 className="text-base md:text-lg font-semibold text-label lowercase">WCAG AAA Certified</h3>
+                  <p className="text-sm md:text-base text-secondary-label">
                     Full accessibility compliance for dashboards, links, and QR codes
                   </p>
                 </div>
               </StaggerItem>
               
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
-                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                    <Eye className="w-10 h-10" />
+                <div className="bg-secondary-grouped-background border border-separator rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
+                  <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <Eye className="w-8 h-8 md:w-10 md:h-10" />
                   </div>
-                  <h3 className="text-title-2 font-semibold text-label lowercase">Screen Reader Ready</h3>
-                  <p className="text-subheadline text-secondary-label">
+                  <h3 className="text-base md:text-lg font-semibold text-label lowercase">Screen Reader Ready</h3>
+                  <p className="text-sm md:text-base text-secondary-label">
                     Semantic HTML, ARIA labels, and keyboard-first navigation throughout
                   </p>
                 </div>
               </StaggerItem>
               
               <StaggerItem>
-                <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 text-center space-y-4">
-                  <div className="inline-flex p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                    <Globe className="w-10 h-10" />
+                <div className="bg-secondary-grouped-background border border-separator rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
+                  <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
+                    <Globe className="w-8 h-8 md:w-10 md:h-10" />
                   </div>
-                  <h3 className="text-title-2 font-semibold text-label lowercase">Semantic Slugs</h3>
-                  <p className="text-subheadline text-secondary-label">
+                  <h3 className="text-base md:text-lg font-semibold text-label lowercase">Semantic Slugs</h3>
+                  <p className="text-sm md:text-base text-secondary-label">
                     Descriptive, readable URLs that work for everyone
                   </p>
                 </div>
@@ -195,17 +195,17 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 5: Permanence */}
-        <AnimatedSection className="py-20 md:py-32 bg-system-background">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-system-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label lowercase">
                 Your Links Outlive Your Tools
               </h2>
-              <p className="text-xl text-secondary-label">
+              <p className="text-base sm:text-lg md:text-xl text-secondary-label px-2">
                 Platform shutdowns shouldn't break the web
               </p>
             </div>
-            <StaggerContainer className="grid md:grid-cols-3 gap-8">
+            <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
               <StaggerItem>
                 <div className="bg-secondary-grouped-background border border-separator rounded-2xl p-8 hover:shadow-lg transition-apple">
                   <Infinity className="w-10 h-10 text-primary mb-4" />
@@ -241,14 +241,14 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 6: Product Pillars */}
-        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label lowercase px-2">
                 Everything Your GTM Team Needs, in One Place
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <FeaturePillarCard
                 icon={LinkIcon}
                 title="Short Links"
@@ -303,17 +303,17 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 7: Power Tools */}
-        <AnimatedSection className="py-20 md:py-32 bg-system-background">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-system-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label lowercase px-2">
                 {formatText("Power Tools for Scale")}
               </h2>
-              <p className="text-xl text-secondary-label">
+              <p className="text-base sm:text-lg md:text-xl text-secondary-label px-2">
                 Advanced features for growth teams managing thousands of links
               </p>
             </div>
-            <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               <StaggerItem>
                 <FeaturePillarCard
                   icon={FlaskConical}
@@ -355,17 +355,17 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 8: Intelligence */}
-        <AnimatedSection className="py-20 md:py-32 bg-muted/20">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label lowercase px-2">
                 {formatText("Built-In Intelligence")}
               </h2>
-              <p className="text-xl text-secondary-label">
+              <p className="text-base sm:text-lg md:text-xl text-secondary-label px-2">
                 AI-powered insights without the complexity
               </p>
             </div>
-            <StaggerContainer className="grid md:grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
               <StaggerItem>
                 <FeaturePillarCard
                   icon={Zap}
@@ -398,14 +398,14 @@ const Index = () => {
         </AnimatedSection>
 
         {/* Fold 10: Developer Experience */}
-        <AnimatedSection className="py-20 md:py-32 bg-system-background">
-          <div className="max-w-4xl mx-auto px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
+        <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-system-background">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+            <div className="text-center mb-8 md:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-label mb-4 px-2">
                 A Clean API for a Cleaner Stack
               </h2>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
               {[
                 { title: "GraphQL + REST", desc: "Choose your preferred approach" },
                 { title: "600 requests/min on free tier", desc: "Generous rate limits" },
