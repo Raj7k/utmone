@@ -96,6 +96,7 @@ const PartnersManagement = lazy(() => import("./pages/admin/PartnersManagement")
 const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
 const MFAVerify = lazy(() => import("./pages/admin/MFAVerify"));
 const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
+const TotpVerification = lazy(() => import("./pages/auth/TotpVerification"));
 
 // Feature Pages
 const Features = lazy(() => import("./pages/Features"));
@@ -400,6 +401,9 @@ const App = () => (
               <Route path="/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Links /></Suspense></ProtectedRoute>} />
               <Route path="/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><LinkDetail /></Suspense></ProtectedRoute>} />
               <Route path="/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Analytics /></Suspense></ProtectedRoute>} />
+              
+              {/* 2FA Verification Route */}
+              <Route path="/auth/verify-2fa" element={<Suspense fallback={<DashboardSkeleton />}><TotpVerification /></Suspense>} />
               
               {/* Admin Routes - Protected with MFA */}
               <Route path="/admin/mfa-verify" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><MFAVerify /></Suspense></ProtectedRoute>} />

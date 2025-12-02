@@ -211,16 +211,26 @@ const Auth = () => {
         return;
       }
 
-      // Check if MFA is required
-      const { data: factorsData } = await supabase.auth.mfa.listFactors();
-      
-      if (factorsData?.totp && factorsData.totp.length > 0) {
-        // User has MFA enabled - show challenge
-        setShowMFAChallenge(true);
-        setMFAFactorId(factorsData.totp[0].id);
-        setIsLoading(false);
+      // Check if TOTP 2FA is required
+      const { data: mfaSettings } = await supabase
+        .from('mfa_settings')
+        .select('is_enabled')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      if (mfaSettings?.is_enabled) {
+        // Redirect to 2FA verification page
+        const returnTo = inviteToken ? `/accept-invite?token=${inviteToken}` : '/dashboard';
+        navigate(`/auth/verify-2fa?returnTo=${encodeURIComponent(returnTo)}`);
+        return;
       }
-      // If no MFA, onAuthStateChange will handle navigation
+
+      // Success without 2FA
+      toast({
+        title: "signed in successfully",
+        description: "taking you to your dashboard...",
+      });
+      // onAuthStateChange will handle navigation
     } catch (error) {
       toast({
         title: "Error",
