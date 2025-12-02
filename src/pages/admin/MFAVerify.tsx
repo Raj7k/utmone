@@ -51,7 +51,7 @@ export default function MFAVerify() {
       if (options?.error) throw new Error(options.error);
 
       // Step 2: Prompt user to use their security key
-      const credential = await startAuthentication(options);
+      const credential = await startAuthentication({ optionsJSON: options });
 
       // Step 3: Verify the authentication with server
       const { data: verifyData, error: verifyError } = await supabase.functions.invoke(

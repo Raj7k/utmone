@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { generateAuthenticationOptions } from 'https://esm.sh/@simplewebauthn/server@9.0.3';
+import { generateAuthenticationOptions } from 'https://esm.sh/@simplewebauthn/server@13.0.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -61,8 +61,8 @@ Deno.serve(async (req) => {
     const options = await generateAuthenticationOptions({
       rpID,
       allowCredentials: authenticators.map(auth => ({
-        id: Uint8Array.from(atob(auth.credential_id), c => c.charCodeAt(0)),
-        type: 'public-key' as const,
+        id: auth.credential_id, // v13 expects base64 string
+        transports: ['usb', 'nfc', 'ble', 'internal'],
       })),
       userVerification: 'preferred',
       timeout: 60000,
