@@ -22,7 +22,7 @@ import {
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code, 
   DollarSign, Handshake, FileBarChart,
   BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench,
-  Sparkles, Bot
+  Sparkles, Bot, Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
@@ -405,55 +405,52 @@ export const Navigation = () => {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[650px] p-4 flex gap-4">
-                      {/* Featured Solutions - Left (Bento 3-card) */}
+                      {/* Use Case Cards - Left */}
                       <div className="w-[220px] flex flex-col gap-2">
-                        {/* Enterprise */}
+                        {/* Campaign Tracking */}
                         <Link 
-                          to="/solutions/enterprise" 
+                          to="/solutions/marketers" 
                           className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
                           <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Building2 className="w-4 h-4 text-primary" />
+                            <Target className="w-4 h-4 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-0.5">
-                              <h3 className="text-xs font-semibold">enterprise</h3>
-                              <Badge className="bg-primary text-primary-foreground text-[9px] px-1.5 py-0">POPULAR</Badge>
-                            </div>
+                            <h3 className="text-xs font-semibold mb-0.5">campaign tracking</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
-                              security & governance
+                              never lose a click
                             </p>
                           </div>
                         </Link>
 
-                        {/* Agencies */}
+                        {/* Partner Attribution */}
                         <Link 
-                          to="/solutions/agencies" 
+                          to="/solutions/partner-managers" 
                           className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
                           <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Users className="w-4 h-4 text-primary" />
+                            <Handshake className="w-4 h-4 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">agencies</h3>
+                            <h3 className="text-xs font-semibold mb-0.5">partner attribution</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
-                              multi-client workspaces
+                              automated credit
                             </p>
                           </div>
                         </Link>
 
-                        {/* Startups */}
+                        {/* Data Governance */}
                         <Link 
-                          to="/solutions/startups" 
+                          to="/solutions/marketing-ops" 
                           className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                         >
                           <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Rocket className="w-4 h-4 text-primary" />
+                            <Settings className="w-4 h-4 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">startups</h3>
+                            <h3 className="text-xs font-semibold mb-0.5">data governance</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
-                              enterprise quality, startup speed
+                              UTM consistency at scale
                             </p>
                           </div>
                         </Link>
