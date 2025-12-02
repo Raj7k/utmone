@@ -61,6 +61,19 @@ export const SecurityKeyManager = () => {
           currentHostname: window.location.hostname,
         });
 
+        // CRITICAL DEBUG: Check for domain mismatch
+        if (options?.rp?.id !== window.location.hostname) {
+          console.error('🚨 DOMAIN MISMATCH DETECTED:', {
+            rpIdFromServer: options?.rp?.id,
+            browserHostname: window.location.hostname,
+            message: 'These MUST match exactly!'
+          });
+          throw new Error(`Domain mismatch: RP ID "${options?.rp?.id}" !== hostname "${window.location.hostname}"`);
+        }
+
+        console.log('✅ Domain match verified. Calling navigator.credentials.create()...');
+        console.log('Full options being sent to WebAuthn API:', JSON.stringify(options, null, 2));
+
         // Step 2: Prompt user to use their security key
         const credential = await startRegistration({ optionsJSON: options });
 
