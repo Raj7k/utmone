@@ -156,37 +156,37 @@ export const FloatingNavigation = () => {
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
                         to="/features/analytics" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-blue-500/20 hover:border-blue-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/25 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <BarChart3 className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0 text-blue-500">
+                          <BarChart3 className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">clean-track™</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">clean-track™</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/features/link-immunity" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/25 bg-gradient-to-br from-emerald-500/15 via-emerald-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Shield className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-500">
+                          <Shield className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">link immunity</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">link immunity</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/features/smart-routing" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-violet-500/20 hover:border-violet-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/25 bg-gradient-to-br from-violet-500/15 via-violet-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Route className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0 text-violet-500">
+                          <Route className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">smart routing</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">smart routing</h3>
                         </div>
                       </Link>
                     </div>
@@ -292,37 +292,37 @@ export const FloatingNavigation = () => {
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
                         to="/solutions/marketers" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/25 bg-gradient-to-br from-orange-500/15 via-orange-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Target className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0 text-orange-500">
+                          <Target className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">campaign tracking</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">campaign tracking</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/solutions/partner-managers" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-teal-500/20 hover:border-teal-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/25 bg-gradient-to-br from-teal-500/15 via-teal-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Handshake className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-xl bg-teal-500/20 flex items-center justify-center shrink-0 text-teal-500">
+                          <Handshake className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">partner attribution</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">partner attribution</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/solutions/marketing-ops" 
-                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-slate-500/20 hover:border-slate-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-500/25 bg-gradient-to-br from-slate-500/15 via-slate-500/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Settings className="w-3 h-3 text-primary" />
+                        <div className="w-6 h-6 rounded-lg bg-slate-500/20 flex items-center justify-center shrink-0 text-slate-500">
+                          <Settings className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">data governance</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-foreground">data governance</h3>
                         </div>
                       </Link>
                     </div>
