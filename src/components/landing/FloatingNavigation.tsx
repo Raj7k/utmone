@@ -10,7 +10,7 @@ import {
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code,
   DollarSign, Handshake, FileBarChart,
   BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck,
-  Sparkles, Bot
+  Sparkles, Bot, Target
 } from "lucide-react";
 import {
   Popover,
@@ -288,42 +288,41 @@ export const FloatingNavigation = () => {
                   className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
                   <div className="flex gap-3">
-                    {/* Featured Solutions (Bento 3-card) */}
+                    {/* Use Case Cards - Left */}
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
-                        to="/solutions/enterprise" 
+                        to="/solutions/marketers" 
                         className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                       >
                         <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Building2 className="w-3 h-3 text-primary" />
+                          <Target className="w-3 h-3 text-primary" />
                         </div>
-                        <div className="flex-1 min-w-0 flex items-center gap-1">
-                          <h3 className="text-[10px] font-semibold leading-tight">enterprise</h3>
-                          <Badge className="bg-primary text-primary-foreground text-[8px] px-1 py-0">POP</Badge>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-[10px] font-semibold leading-tight">campaign tracking</h3>
                         </div>
                       </Link>
 
                       <Link 
-                        to="/solutions/agencies" 
+                        to="/solutions/partner-managers" 
                         className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                       >
                         <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Users className="w-3 h-3 text-primary" />
+                          <Handshake className="w-3 h-3 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">agencies</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight">partner attribution</h3>
                         </div>
                       </Link>
 
                       <Link 
-                        to="/solutions/startups" 
+                        to="/solutions/marketing-ops" 
                         className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2 flex items-center gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
                       >
                         <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center shrink-0">
-                          <Rocket className="w-3 h-3 text-primary" />
+                          <Settings className="w-3 h-3 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight">startups</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight">data governance</h3>
                         </div>
                       </Link>
                     </div>
