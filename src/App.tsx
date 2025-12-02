@@ -16,6 +16,7 @@ import { AppWithHelp } from "./components/AppWithHelp";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AnimatedRoutes } from "@/components/transitions/AnimatedRoutes";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -337,11 +338,12 @@ const queryClient = new QueryClient({
 const App = () => (
   <ErrorBoundary>
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <PerformanceProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <WorkspaceProvider>
               <AdminSimulationProvider>
                 <ModalProvider>
@@ -691,6 +693,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+    </PerformanceProvider>
     </ThemeProvider>
   </ErrorBoundary>
 );
