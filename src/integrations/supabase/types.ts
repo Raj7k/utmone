@@ -3763,6 +3763,42 @@ export type Database = {
         }
         Relationships: []
       }
+      mfa_settings: {
+        Row: {
+          backup_codes_downloaded: boolean | null
+          created_at: string | null
+          id: string
+          is_enabled: boolean | null
+          last_verified_at: string | null
+          recovery_codes_hashed: string[] | null
+          secret_encrypted: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          backup_codes_downloaded?: boolean | null
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          last_verified_at?: string | null
+          recovery_codes_hashed?: string[] | null
+          secret_encrypted: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          backup_codes_downloaded?: boolean | null
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          last_verified_at?: string | null
+          recovery_codes_hashed?: string[] | null
+          secret_encrypted?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       og_image_variants: {
         Row: {
           created_at: string
@@ -4114,6 +4150,7 @@ export type Database = {
           id: string
           is_super_admin: boolean | null
           mfa_challenge: string | null
+          mfa_enforced: boolean | null
           mfa_verified_at: string | null
           onboarding_completed: boolean | null
           primary_use_case: string | null
@@ -4141,6 +4178,7 @@ export type Database = {
           id: string
           is_super_admin?: boolean | null
           mfa_challenge?: string | null
+          mfa_enforced?: boolean | null
           mfa_verified_at?: string | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
@@ -4168,6 +4206,7 @@ export type Database = {
           id?: string
           is_super_admin?: boolean | null
           mfa_challenge?: string | null
+          mfa_enforced?: boolean | null
           mfa_verified_at?: string | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
