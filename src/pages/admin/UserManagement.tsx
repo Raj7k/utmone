@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { Search, Edit } from "lucide-react";
 import { UserEditModal } from "@/components/admin/UserEditModal";
+import { ImpersonateButton } from "@/components/admin/ImpersonateButton";
 import { format } from "date-fns";
 
 interface UserWithWorkspace {
@@ -170,15 +171,23 @@ export default function UserManagement() {
                       )}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setSelectedUser(user)}
-                        disabled={!primaryWorkspace}
-                      >
-                        <Edit className="h-4 w-4 mr-2" />
-                        edit
-                      </Button>
+                      <div className="flex items-center justify-end gap-2">
+                        <ImpersonateButton
+                          userId={user.id}
+                          userEmail={user.email}
+                          variant="ghost"
+                          size="sm"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setSelectedUser(user)}
+                          disabled={!primaryWorkspace}
+                        >
+                          <Edit className="h-4 w-4 mr-2" />
+                          edit
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
