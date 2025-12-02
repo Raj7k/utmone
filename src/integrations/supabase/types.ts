@@ -419,6 +419,33 @@ export type Database = {
           },
         ]
       }
+      analytics_refresh_status: {
+        Row: {
+          created_at: string
+          duration_ms: number | null
+          error: string | null
+          id: string
+          status: string
+          timestamp: string
+        }
+        Insert: {
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          status: string
+          timestamp?: string
+        }
+        Update: {
+          created_at?: string
+          duration_ms?: number | null
+          error?: string | null
+          id?: string
+          status?: string
+          timestamp?: string
+        }
+        Relationships: []
+      }
       analytics_share_links: {
         Row: {
           created_at: string
@@ -2128,6 +2155,33 @@ export type Database = {
           last_modified_at?: string | null
           last_modified_by?: string | null
           metadata?: Json | null
+        }
+        Relationships: []
+      }
+      feature_flags_cache: {
+        Row: {
+          cache_data: Json | null
+          cache_key: string
+          created_at: string
+          id: string
+          invalidated_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          cache_data?: Json | null
+          cache_key: string
+          created_at?: string
+          id?: string
+          invalidated_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cache_data?: Json | null
+          cache_key?: string
+          created_at?: string
+          id?: string
+          invalidated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

@@ -30,9 +30,8 @@ Deno.serve(async (req) => {
     const duration = Date.now() - startTime;
     console.log(`Successfully refreshed all materialized views in ${duration}ms`);
 
-    // Store metrics in Deno KV for monitoring
-    const kv = await Deno.openKv();
-    await kv.set(['analytics_refresh', 'last_run'], {
+    // Store metrics in database for monitoring
+    await supabase.from('analytics_refresh_status').insert({
       timestamp: new Date().toISOString(),
       duration_ms: duration,
       status: 'success'
@@ -53,9 +52,12 @@ Deno.serve(async (req) => {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('Error in refresh-analytics-views:', errorMessage);
     
-    // Store error in Deno KV for monitoring
-    const kv = await Deno.openKv();
-    await kv.set(['analytics_refresh', 'last_run'], {
+    // Store error in database for monitoring
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey);
+    
+    await supabaseClient.from('analytics_refresh_status').insert({
       timestamp: new Date().toISOString(),
       status: 'error',
       error: errorMessage

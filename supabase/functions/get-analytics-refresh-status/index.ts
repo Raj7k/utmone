@@ -1,3 +1,5 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -9,13 +11,21 @@ Deno.serve(async (req) => {
   }
 
   try {
-    console.log('Fetching analytics refresh status from Deno KV...');
+    console.log('Fetching analytics refresh status from database...');
 
-    // Get last refresh metrics from Deno KV (stored by refresh-analytics-views function)
-    const kv = await Deno.openKv();
-    const lastRun = await kv.get(['analytics_refresh', 'last_run']);
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    if (!lastRun.value) {
+    // Get last refresh metrics from database
+    const { data: lastRun, error } = await supabase
+      .from('analytics_refresh_status')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error || !lastRun) {
       return new Response(
         JSON.stringify({
           timestamp: new Date().toISOString(),
@@ -27,15 +37,13 @@ Deno.serve(async (req) => {
       );
     }
 
-    const metrics = lastRun.value as {
-      timestamp: string;
-      duration_ms?: number;
-      status: string;
-      error?: string;
-    };
-
     return new Response(
-      JSON.stringify(metrics),
+      JSON.stringify({
+        timestamp: lastRun.timestamp,
+        duration_ms: lastRun.duration_ms,
+        status: lastRun.status,
+        error: lastRun.error,
+      }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
