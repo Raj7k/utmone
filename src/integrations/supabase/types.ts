@@ -4059,6 +4059,8 @@ export type Database = {
           icp_role: string | null
           id: string
           is_super_admin: boolean | null
+          mfa_challenge: string | null
+          mfa_verified_at: string | null
           onboarding_completed: boolean | null
           primary_use_case: string | null
           referred_by_code: string | null
@@ -4084,6 +4086,8 @@ export type Database = {
           icp_role?: string | null
           id: string
           is_super_admin?: boolean | null
+          mfa_challenge?: string | null
+          mfa_verified_at?: string | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
           referred_by_code?: string | null
@@ -4109,6 +4113,8 @@ export type Database = {
           icp_role?: string | null
           id?: string
           is_super_admin?: boolean | null
+          mfa_challenge?: string | null
+          mfa_verified_at?: string | null
           onboarding_completed?: boolean | null
           primary_use_case?: string | null
           referred_by_code?: string | null
@@ -4727,6 +4733,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_authenticators: {
+        Row: {
+          counter: number
+          created_at: string
+          credential_id: string
+          device_name: string | null
+          id: string
+          last_used_at: string | null
+          public_key: string
+          user_id: string
+        }
+        Insert: {
+          counter?: number
+          created_at?: string
+          credential_id: string
+          device_name?: string | null
+          id?: string
+          last_used_at?: string | null
+          public_key: string
+          user_id: string
+        }
+        Update: {
+          counter?: number
+          created_at?: string
+          credential_id?: string
+          device_name?: string | null
+          id?: string
+          last_used_at?: string | null
+          public_key?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_badges: {
         Row: {
@@ -6323,6 +6362,10 @@ export type Database = {
       }
       refresh_analytics_views: { Args: never; Returns: undefined }
       refresh_waitlist_analytics: { Args: never; Returns: undefined }
+      requires_mfa_verification: {
+        Args: { p_user_id: string }
+        Returns: boolean
+      }
       stitch_visitor_identity: {
         Args: { p_user_id: string; p_visitor_id: string }
         Returns: number

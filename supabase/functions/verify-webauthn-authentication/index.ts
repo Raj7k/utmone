@@ -1,0 +1,139 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { verifyAuthenticationResponse } from 'https://esm.sh/@simplewebauthn/server@9.0.3';
+import type { AuthenticationResponseJSON } from 'https://esm.sh/@simplewebauthn/types@9.0.1';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+Deno.serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Missing authorization header' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { credential } = await req.json() as {
+      credential: AuthenticationResponseJSON;
+    };
+
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    
+    if (userError || !user) {
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Get stored challenge
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('mfa_challenge')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.mfa_challenge) {
+      return new Response(
+        JSON.stringify({ error: 'No challenge found' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Get the authenticator from credential ID
+    // credential.rawId is base64url encoded string in the response
+    const { data: authenticator } = await supabase
+      .from('user_authenticators')
+      .select('*')
+      .eq('credential_id', credential.id)
+      .eq('user_id', user.id)
+      .single();
+
+    if (!authenticator) {
+      return new Response(
+        JSON.stringify({ error: 'Authenticator not found' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const rpID = new URL(supabaseUrl).hostname.replace('supabase.co', 'lovableproject.com');
+    const expectedOrigin = `https://${rpID}`;
+
+    const verification = await verifyAuthenticationResponse({
+      response: credential,
+      expectedChallenge: profile.mfa_challenge,
+      expectedOrigin,
+      expectedRPID: rpID,
+      authenticator: {
+        credentialID: Uint8Array.from(atob(authenticator.credential_id), c => c.charCodeAt(0)),
+        credentialPublicKey: Uint8Array.from(atob(authenticator.public_key), c => c.charCodeAt(0)),
+        counter: authenticator.counter,
+      },
+    });
+
+    if (!verification.verified) {
+      return new Response(
+        JSON.stringify({ error: 'Verification failed' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Update counter and last used
+    await supabase
+      .from('user_authenticators')
+      .update({
+        counter: verification.authenticationInfo.newCounter,
+        last_used_at: new Date().toISOString(),
+      })
+      .eq('id', authenticator.id);
+
+    // Update MFA verification timestamp (valid for 12 hours)
+    await supabase
+      .from('profiles')
+      .update({
+        mfa_verified_at: new Date().toISOString(),
+        mfa_challenge: null,
+      })
+      .eq('id', user.id);
+
+    // Log the action
+    await supabase
+      .from('admin_audit_logs')
+      .insert({
+        admin_user_id: user.id,
+        action: 'webauthn_verified',
+        resource_type: 'user_authenticators',
+        resource_id: user.id,
+        new_values: { device_name: authenticator.device_name },
+      });
+
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        message: 'Authentication successful',
+        expiresAt: new Date(Date.now() + 12 * 60 * 60 * 1000).toISOString(),
+      }),
+      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+
+  } catch (error) {
+    console.error('Error verifying authentication:', error);
+    return new Response(
+      JSON.stringify({ error: 'Internal server error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+});
