@@ -39,15 +39,16 @@ export const FloatingNavigation = () => {
           animate={{ y: 0, x: "-50%", opacity: 1 }}
           exit={{ y: 100, x: "-50%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-8 left-1/2 z-50
+          className="fixed bottom-4 md:bottom-8 left-1/2 z-50
                      bg-white/95 backdrop-blur-xl shadow-xl 
                      rounded-full border-2 border-border/10 
-                     px-4 md:px-6 py-2 md:py-3
-                     max-w-[95vw] md:max-w-none"
+                     px-3 md:px-6 py-2 md:py-3
+                     max-w-[calc(100vw-2rem)] md:max-w-none
+                     overflow-x-auto scrollbar-hide"
         >
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-1 md:gap-4 whitespace-nowrap">
             {/* Logo */}
-            <Link to="/" className="flex items-center transition-apple hover:opacity-70">
+            <Link to="/" className="flex items-center transition-apple hover:opacity-70 shrink-0">
               <UtmOneLogo size="sm" showIcon={false} />
             </Link>
 
