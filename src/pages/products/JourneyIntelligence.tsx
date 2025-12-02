@@ -1,49 +1,16 @@
 import { Helmet } from "react-helmet";
-import { motion } from "framer-motion";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
 import { Footer } from "@/components/landing/Footer";
-import { Button } from "@/components/ui/button";
+import { ProductHeroSimplified } from "@/components/product/ProductHeroSimplified";
+import { ProductPainStory } from "@/components/product/ProductPainStory";
+import { ContentComparison } from "@/components/solutions/ContentComparison";
+import { ROICalculator } from "@/components/growth/ROICalculator";
+import { motion } from "framer-motion";
+import { Network, Users, DollarSign, Eye, Clock, Shield, ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Network, Users, DollarSign } from "lucide-react";
-import { ProductMockup } from "@/components/product/ProductMockup";
-
-interface FeatureBlockProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  mockupType: "attribution-graph" | "identity-stitching" | "state-value";
-  reversed: boolean;
-}
-
-const FeatureBlock = ({ icon, title, description, mockupType, reversed }: FeatureBlockProps) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
-    className={`flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} 
-                items-center gap-12 md:gap-20`}
-  >
-    {/* Text Content */}
-    <div className="w-full md:w-[40%] space-y-6">
-      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-        {icon}
-      </div>
-      <h2 className="text-3xl md:text-4xl font-display font-semibold text-foreground brand-lowercase leading-tight">
-        {title}
-      </h2>
-      <p className="text-lg text-muted-foreground leading-relaxed">
-        {description}
-      </p>
-    </div>
-
-    {/* Mockup */}
-    <div className="w-full md:w-[60%]">
-      <ProductMockup type={mockupType} />
-    </div>
-  </motion.div>
-);
+import { Button } from "@/components/ui/button";
 
 export default function JourneyIntelligence() {
   const schema = {
@@ -51,7 +18,7 @@ export default function JourneyIntelligence() {
     "@type": "SoftwareApplication",
     "name": "utm.one Journey Intelligence",
     "applicationCategory": "BusinessApplication",
-    "description": "Stop tracking clicks. Start engineering journeys with Bayesian Inference and Identity Stitching.",
+    "description": "See the full picture. Clean-Track journey mapping reveals every touchpoint that drives revenue.",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -62,106 +29,318 @@ export default function JourneyIntelligence() {
   return (
     <>
       <Helmet>
-        <title>Journey Intelligence - Truth & Revenue | utm.one</title>
-        <meta name="description" content="Most tools lie with Last Click attribution. We use Bayesian Inference and Identity Stitching to reveal the true causal impact of every channel." />
+        <title>Journey Intelligence - See Every Touchpoint | utm.one</title>
+        <meta name="description" content="Stop losing 60% of attribution to Direct/None. Clean-Track journey intelligence maps every visitor touchpoint that drives revenue." />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-background">
         <Navigation />
         
-        {/* Hero Section */}
-        <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-          <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-display font-bold hero-gradient brand-lowercase"
-            >
-              stop tracking clicks. start engineering journeys.
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
-            >
-              Most tools lie to you with "Last Click" attribution. We use <strong>Bayesian Inference</strong> and <strong>Identity Stitching</strong> to reveal the true causal impact of every channel—from the first anonymous blog read to the final signed contract.
-            </motion.p>
+        {/* Hero */}
+        <ProductHeroSimplified
+          headline="see the full picture. not just the last click."
+          subheadline="know which touchpoints actually drive revenue."
+          primaryCTA={{ text: "see your journey graph", to: "/early-access" }}
+          secondaryCTA={{ text: "read methodology", to: "/resources/guides/bayesian-testing" }}
+        />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
-            >
-              <Button asChild size="lg" variant="marketing">
-                <Link to="/early-access">see your journey graph</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to="/resources/guides/bayesian-testing">read methodology</Link>
-              </Button>
-            </motion.div>
+        {/* Pain Story */}
+        <ProductPainStory
+          scenario="the budget cut meeting"
+          story="Marketing got 100 leads last month. But when you show the CEO which campaigns drove them, GA4 says 'Direct/None' for 60%. Now leadership wants to cut the podcast budget because it 'doesn't convert.' But you know listeners become buyers. You just can't prove it."
+          visual={
+            <div className="bg-destructive/10 rounded-lg p-6">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
+                  <span className="text-sm font-mono text-label">Direct / None</span>
+                  <span className="text-sm font-semibold text-destructive">60 leads (60%)</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
+                  <span className="text-sm font-mono text-label">Google / Organic</span>
+                  <span className="text-sm font-semibold text-label">25 leads (25%)</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
+                  <span className="text-sm font-mono text-label">LinkedIn / Paid</span>
+                  <span className="text-sm font-semibold text-label">15 leads (15%)</span>
+                </div>
+              </div>
+              <p className="text-xs text-center text-muted-foreground mt-4">
+                typical ga4 attribution report — 60% unattributed
+              </p>
+            </div>
+          }
+        />
+
+        {/* Before vs After */}
+        <section className="py-24 md:py-32">
+          <div className="max-w-6xl mx-auto px-6">
+            <ContentComparison
+              beforeTitle="last-click only"
+              afterTitle="clean-track journeys"
+              beforeContent={
+                <div className="space-y-4">
+                  <div className="text-center text-2xl font-bold text-destructive mb-4">
+                    60% unattributed
+                  </div>
+                  <div className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-sm text-destructive">
+                      <span>❌</span>
+                      <span>Can't see the full journey</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-destructive">
+                      <span>❌</span>
+                      <span>Last click gets all credit</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-destructive">
+                      <span>❌</span>
+                      <span>Anonymous visitors stay anonymous</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-destructive">
+                      <span>❌</span>
+                      <span>Can't prove podcast ROI</span>
+                    </div>
+                  </div>
+                </div>
+              }
+              afterContent={
+                <div className="space-y-4">
+                  <div className="text-center text-2xl font-bold text-primary mb-4">
+                    100% journeys mapped
+                  </div>
+                  <div className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-sm text-primary">
+                      <span>✓</span>
+                      <span>Every touchpoint visible</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-primary">
+                      <span>✓</span>
+                      <span>Credit distributed fairly</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-primary">
+                      <span>✓</span>
+                      <span>Visitor memory reconnects them</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-primary">
+                      <span>✓</span>
+                      <span>Prove every channel's ROI</span>
+                    </div>
+                  </div>
+                </div>
+              }
+              caption="same traffic. complete visibility."
+            />
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-32 md:py-40">
-          <div className="max-w-6xl mx-auto px-6 space-y-32">
-            <FeatureBlock
-              icon={<Network className="w-6 h-6" />}
-              title="see the invisible influence"
-              description="We model your customer journey as a Probabilistic Graph. Discover that while Google Search gets the credit, your 'boring' whitepaper actually increased the probability of conversion by 300%."
-              mockupType="attribution-graph"
-              reversed={false}
-            />
-
-            <FeatureBlock
-              icon={<Users className="w-6 h-6" />}
-              title="de-anonymize your traffic"
-              description="Our Time-Travel Stitching engine remembers 'Anonymous Visitor 582' from 3 weeks ago. When they sign up today, we retroactively link their entire history to their real email."
-              mockupType="identity-stitching"
-              reversed={true}
-            />
-
-            <FeatureBlock
-              icon={<DollarSign className="w-6 h-6" />}
-              title="know the dollar value of every page"
-              description="We calculate the Markov State Value ($V$) of every URL. Know instantly that your Pricing Page is worth $45.00 per visit, while your About Page is worth $0.50."
-              mockupType="state-value"
-              reversed={false}
-            />
-          </div>
-        </section>
-
-        {/* FAQ Section */}
+        {/* What You Get */}
         <section className="py-24 md:py-32 bg-muted/20">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase mb-4">
+                what you get with journey intelligence
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                powered by clean-track journey mapping
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: <Network className="w-6 h-6" />,
+                  title: "see every touchpoint",
+                  description: "journey mapping shows podcast → blog → webinar → demo → close. complete path to revenue."
+                },
+                {
+                  icon: <Users className="w-6 h-6" />,
+                  title: "recognize returning visitors",
+                  description: "visitor memory remembers anonymous visitor from 3 weeks ago and reconnects their history."
+                },
+                {
+                  icon: <DollarSign className="w-6 h-6" />,
+                  title: "know your page values",
+                  description: "which urls drive revenue? pricing page worth $45/visit. about page $0.50."
+                },
+                {
+                  icon: <Eye className="w-6 h-6" />,
+                  title: "prove your roi",
+                  description: "revenue attribution shows which campaigns actually drive closed deals, not just clicks."
+                },
+                {
+                  icon: <Clock className="w-6 h-6" />,
+                  title: "first-party only",
+                  description: "gdpr compliant. no third-party cookies. identity stitched from user-consented form fills."
+                },
+                {
+                  icon: <Shield className="w-6 h-6" />,
+                  title: "works with ga4",
+                  description: "enhances ga4, doesn't replace it. send enriched journey data to google analytics."
+                }
+              ].map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card className="p-6 h-full hover:border-primary/50 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">
+                      {benefit.icon}
+                    </div>
+                    <h3 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-2">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Workflow */}
+        <section className="py-24 md:py-32">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase mb-4">
+                from anonymous to attributed
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-5 gap-8">
+              {[
+                { step: "1", label: "click", desc: "visitor arrives anonymously" },
+                { step: "2", label: "visit", desc: "browse product pages" },
+                { step: "3", label: "return", desc: "come back from email" },
+                { step: "4", label: "convert", desc: "fill demo form" },
+                { step: "5", label: "attribute", desc: "full journey mapped" }
+              ].map((item, index) => (
+                <div key={index} className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary mx-auto mb-4">
+                    {item.step}
+                  </div>
+                  <h4 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-1">
+                    {item.label}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Growth Loop - ROI Calculator */}
+        <ROICalculator />
+
+        {/* Feature Cards */}
+        <section className="py-24 md:py-32 bg-muted/20">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "attribution graph",
+                  description: "visual journey maps showing every touchpoint in the funnel",
+                  link: "/features/attribution-graph"
+                },
+                {
+                  title: "identity resolution",
+                  description: "reconnect anonymous visitors to known users",
+                  link: "/features/identity-resolution"
+                },
+                {
+                  title: "analytics",
+                  description: "revenue attribution, page values, and conversion tracking",
+                  link: "/features/analytics"
+                }
+              ].map((feature, index) => (
+                <Card key={index} className="p-6 hover:border-primary/50 transition-colors group cursor-pointer">
+                  <Link to={feature.link}>
+                    <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase mb-2 group-hover:text-primary transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
+                    <div className="flex items-center gap-2 text-primary text-sm font-semibold">
+                      <span>learn more</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-24 md:py-32">
           <div className="max-w-4xl mx-auto px-6">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-16 brand-lowercase">
               frequently asked questions
             </h2>
             
             <div className="space-y-8">
-              <div className="space-y-3">
-                <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase">
-                  what attribution models do you use?
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We move beyond simple "Linear" or "Time Decay" models. We use Causal Inference (Bayesian Networks) to calculate the "Lift" or incremental value of each touchpoint.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase">
-                  is identity resolution GDPR compliant?
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Yes. We use first-party cookies only and stitch identities based on user-consented actions (like form fills). We never share identity graphs between customers.
-                </p>
-              </div>
+              {[
+                {
+                  q: "what attribution models do you use?",
+                  a: "we use intelligent attribution based on touchpoint influence. every channel gets credit for its actual contribution to the journey, not just the last click."
+                },
+                {
+                  q: "is identity resolution gdpr compliant?",
+                  a: "yes. we use first-party cookies only and stitch identities based on user-consented actions like form fills. we never share identity graphs between customers."
+                },
+                {
+                  q: "how accurate is visitor recognition?",
+                  a: "85-90% accuracy for returning visitors based on browser fingerprinting + ip + user agent. 100% accuracy after email/form submission."
+                },
+                {
+                  q: "does this work with ga4?",
+                  a: "yes. utm.one enhances ga4, doesn't replace it. we send enriched journey data with proper utm parameters to google analytics."
+                },
+                {
+                  q: "how long is visitor history stored?",
+                  a: "90 days default, configurable up to 365 days on enterprise plans. after that, we aggregate to summary stats."
+                },
+                {
+                  q: "can i export journey data?",
+                  a: "yes. csv/xlsx export or direct warehouse sync to snowflake/bigquery via our data pipeline product."
+                },
+                {
+                  q: "what's the difference from ga4 attribution?",
+                  a: "ga4 uses last-click by default. we map the full journey including anonymous visits before conversion, giving complete visibility."
+                },
+                {
+                  q: "do you support offline conversions?",
+                  a: "yes. upload crm deals with email/phone match and we'll retroactively attribute them to the correct journey touchpoints."
+                }
+              ].map((faq, index) => (
+                <div key={index} className="space-y-3">
+                  <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase">
+                    {faq.q}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {faq.a}
+                  </p>
+                </div>
+              ))}
             </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-24 md:py-32 bg-primary/5">
+          <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase">
+              ready to see the full customer journey?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              stop losing 60% of attribution to direct/none
+            </p>
+            <Button asChild size="lg" variant="marketing">
+              <Link to="/early-access">see your journey graph</Link>
+            </Button>
           </div>
         </section>
 
