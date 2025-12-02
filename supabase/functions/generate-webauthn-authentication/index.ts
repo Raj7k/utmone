@@ -4,6 +4,7 @@ import { generateAuthenticationOptions } from 'https://esm.sh/@simplewebauthn/se
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Permissions-Policy': 'publickey-credentials-get=(self)',
 };
 
 Deno.serve(async (req) => {
@@ -47,7 +48,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    const rpID = new URL(supabaseUrl).hostname.replace('supabase.co', 'lovableproject.com');
+    // Dynamic RP ID based on the Origin header
+    const origin = req.headers.get('origin') || req.headers.get('referer') || '';
+    let rpID = 'localhost';
+    try {
+      const originUrl = new URL(origin);
+      rpID = originUrl.hostname;
+    } catch (e) {
+      console.warn('Could not parse origin, using localhost:', origin);
+    }
     
     const options = await generateAuthenticationOptions({
       rpID,
@@ -56,6 +65,7 @@ Deno.serve(async (req) => {
         type: 'public-key' as const,
       })),
       userVerification: 'preferred',
+      timeout: 60000,
     });
 
     // Store challenge for verification

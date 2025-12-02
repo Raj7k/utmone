@@ -44,32 +44,48 @@ export const SecurityKeyManager = () => {
 
   const registerMutation = useMutation({
     mutationFn: async (name: string) => {
-      // Step 1: Get registration options from server
-      const { data: options, error: optionsError } = await supabase.functions.invoke(
-        'generate-webauthn-registration',
-        { body: {} }
-      );
+      try {
+        // Step 1: Get registration options from server
+        const { data: options, error: optionsError } = await supabase.functions.invoke(
+          'generate-webauthn-registration',
+          { body: {} }
+        );
 
-      if (optionsError) throw optionsError;
+        if (optionsError) throw optionsError;
 
-      // Step 2: Prompt user to use their security key
-      const credential = await startRegistration(options);
+        // Step 2: Prompt user to use their security key
+        const credential = await startRegistration(options);
 
-      // Step 3: Verify the registration with server
-      const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
-        'verify-webauthn-registration',
-        {
-          body: {
-            credential,
-            deviceName: name,
+        // Step 3: Verify the registration with server
+        const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
+          'verify-webauthn-registration',
+          {
+            body: {
+              credential,
+              deviceName: name,
+            }
           }
+        );
+
+        if (verifyError) throw verifyError;
+        if (verifyData?.error) throw new Error(verifyData.error);
+
+        return verifyData;
+      } catch (error: any) {
+        // Provide specific error messages based on WebAuthn error types
+        if (error.name === 'NotAllowedError') {
+          throw new Error('Registration cancelled or timed out. Please try again.');
+        } else if (error.name === 'SecurityError') {
+          throw new Error('Security error: This feature requires HTTPS or localhost.');
+        } else if (error.name === 'InvalidStateError') {
+          throw new Error('This security key is already registered.');
+        } else if (error.message?.includes('publickey-credentials-create')) {
+          throw new Error('WebAuthn not enabled. Try accessing directly (not in iframe).');
+        } else if (error.message?.includes('relying party')) {
+          throw new Error('Domain mismatch. Please contact support.');
         }
-      );
-
-      if (verifyError) throw verifyError;
-      if (verifyData?.error) throw new Error(verifyData.error);
-
-      return verifyData;
+        throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-authenticators'] });

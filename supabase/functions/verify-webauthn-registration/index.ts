@@ -5,6 +5,7 @@ import type { RegistrationResponseJSON } from 'https://esm.sh/@simplewebauthn/ty
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Permissions-Policy': 'publickey-credentials-create=(self)',
 };
 
 Deno.serve(async (req) => {
@@ -54,8 +55,18 @@ Deno.serve(async (req) => {
       );
     }
 
-    const rpID = new URL(supabaseUrl).hostname.replace('supabase.co', 'lovableproject.com');
-    const expectedOrigin = `https://${rpID}`;
+    // Dynamic RP ID and origin based on the request Origin header
+    const origin = req.headers.get('origin') || req.headers.get('referer') || '';
+    let rpID = 'localhost';
+    let expectedOrigin = 'http://localhost:8080';
+    
+    try {
+      const originUrl = new URL(origin);
+      rpID = originUrl.hostname;
+      expectedOrigin = origin;
+    } catch (e) {
+      console.warn('Could not parse origin, using localhost:', origin);
+    }
 
     const verification = await verifyRegistrationResponse({
       response: credential,
