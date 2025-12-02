@@ -51,7 +51,7 @@ export const ExperimentConfidenceMeter = ({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-display font-semibold text-foreground">
-              bayesian confidence
+              clean-track confidence
             </h3>
             <p className="text-sm text-muted-foreground mt-1">
               statistical probability of winning variant
@@ -173,22 +173,9 @@ export const ExperimentConfidenceMeter = ({
 
         {/* Methodology Note */}
         <div className="pt-4 border-t border-border/50">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <p className="text-xs text-muted-foreground cursor-help">
-                  using bayesian monte carlo with beta distributions (10,000 simulations)
-                </p>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <p className="text-xs">
-                  This uses Beta-Binomial Bayesian inference with Monte Carlo sampling 
-                  to calculate the probability that one variant outperforms the other. 
-                  Based on statistical optimization methods from "Algorithms for Optimization" Chapter 21.
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <p className="text-xs text-muted-foreground">
+            powered by clean-track intelligence
+          </p>
         </div>
       </div>
     </Card>

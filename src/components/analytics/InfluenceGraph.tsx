@@ -16,7 +16,7 @@ export const InfluenceGraph = ({ workspaceId, days = 30 }: InfluenceGraphProps) 
       <Card>
         <CardHeader>
           <CardTitle>influence graph</CardTitle>
-          <CardDescription>bayesian multi-touch attribution analysis</CardDescription>
+          <CardDescription>clean-track multi-touch attribution analysis</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center h-64">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -30,7 +30,7 @@ export const InfluenceGraph = ({ workspaceId, days = 30 }: InfluenceGraphProps) 
       <Card>
         <CardHeader>
           <CardTitle>influence graph</CardTitle>
-          <CardDescription>bayesian multi-touch attribution analysis</CardDescription>
+          <CardDescription>clean-track multi-touch attribution analysis</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground text-center py-8">
@@ -105,7 +105,7 @@ export const InfluenceGraph = ({ workspaceId, days = 30 }: InfluenceGraphProps) 
       <CardHeader>
         <CardTitle>influence graph</CardTitle>
         <CardDescription>
-          bayesian multi-touch attribution • baseline conversion rate:{" "}
+          clean-track multi-touch attribution • baseline conversion rate:{" "}
           {(data.baseline_conversion_rate * 100).toFixed(1)}%
         </CardDescription>
       </CardHeader>
