@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
@@ -16,11 +16,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Label } from "@/components/ui/label";
+import { Shield } from "lucide-react";
 
 interface UserEditModalProps {
   user: {
@@ -41,9 +54,35 @@ interface UserEditModalProps {
 export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) => {
   const primaryWorkspace = user.workspaces?.[0];
   const [selectedPlan, setSelectedPlan] = useState(primaryWorkspace?.plan_tier || "free");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAdminConfirm, setShowAdminConfirm] = useState(false);
+  const [pendingAdminAction, setPendingAdminAction] = useState<'grant' | 'revoke' | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
+
+  // Check if user is admin
+  const { data: adminStatus } = useQuery({
+    queryKey: ['user-admin-status', user.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+      
+      if (error) throw error;
+      return !!data;
+    },
+    enabled: open,
+  });
+
+  useEffect(() => {
+    if (adminStatus !== undefined) {
+      setIsAdmin(adminStatus);
+    }
+  }, [adminStatus]);
 
   const updatePlanMutation = useMutation({
     mutationFn: async (newPlan: string) => {
@@ -83,6 +122,53 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
       });
     },
   });
+
+  const adminRoleMutation = useMutation({
+    mutationFn: async (action: 'grant' | 'revoke') => {
+      const { data, error } = await supabase.functions.invoke('manage-admin-role', {
+        body: {
+          targetUserId: user.id,
+          action,
+        }
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      return data;
+    },
+    onSuccess: (_, action) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      queryClient.invalidateQueries({ queryKey: ['user-admin-status', user.id] });
+      setIsAdmin(action === 'grant');
+      toast({
+        title: action === 'grant' ? 'admin role granted' : 'admin role revoked',
+        description: action === 'grant' 
+          ? 'user now has admin privileges' 
+          : 'admin privileges removed',
+      });
+    },
+    onError: (error: any) => {
+      console.error('Admin role error:', error);
+      toast({
+        title: 'failed to update admin role',
+        description: error.message || 'could not update admin role',
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const handleAdminToggle = (checked: boolean) => {
+    setPendingAdminAction(checked ? 'grant' : 'revoke');
+    setShowAdminConfirm(true);
+  };
+
+  const confirmAdminChange = () => {
+    if (pendingAdminAction) {
+      adminRoleMutation.mutate(pendingAdminAction);
+    }
+    setShowAdminConfirm(false);
+    setPendingAdminAction(null);
+  };
 
   const handleSave = () => {
     if (selectedPlan === primaryWorkspace?.plan_tier) {
@@ -139,6 +225,32 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
             </div>
           </div>
 
+          {/* Admin Role Section */}
+          <div className="space-y-3 p-4 border border-border rounded-lg bg-muted/20">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-primary" />
+                <Label htmlFor="admin-toggle" className="cursor-pointer">admin role</Label>
+                {isAdmin && (
+                  <Badge variant="default" className="ml-2">
+                    admin
+                  </Badge>
+                )}
+              </div>
+              <Switch
+                id="admin-toggle"
+                checked={isAdmin}
+                onCheckedChange={handleAdminToggle}
+                disabled={adminRoleMutation.isPending}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {isAdmin 
+                ? "this user has full admin access to manage users and system settings"
+                : "grant admin privileges to allow user management and system access"}
+            </p>
+          </div>
+
           {/* Plan Selection */}
           <div className="space-y-2">
             <Label htmlFor="plan-select">change plan to</Label>
@@ -158,6 +270,30 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
             </p>
           </div>
         </div>
+
+        <AlertDialog open={showAdminConfirm} onOpenChange={setShowAdminConfirm}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {pendingAdminAction === 'grant' ? 'grant admin role?' : 'revoke admin role?'}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {pendingAdminAction === 'grant' 
+                  ? 'This user will have full admin access including the ability to manage other users, view all data, and change system settings.'
+                  : 'This user will lose admin privileges and will no longer be able to access admin features or manage other users.'}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmAdminChange}
+                className="bg-blazeOrange hover:bg-blazeOrange/90"
+              >
+                {pendingAdminAction === 'grant' ? 'grant access' : 'revoke access'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
