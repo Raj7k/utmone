@@ -84,11 +84,13 @@ Deno.serve(async (req) => {
     }
 
     // v13 API: credential object structure changed
+    // SAFE MODE: Match 'discouraged' setting from authentication options
     const verification = await verifyAuthenticationResponse({
       response: credential,
       expectedChallenge: profile.mfa_challenge,
       expectedOrigin,
       expectedRPID: rpID,
+      requireUserVerification: false, // SAFE MODE: Allow keys without PIN/biometric
       credential: {
         id: authenticator.credential_id, // base64url string
         publicKey: Uint8Array.from(atob(authenticator.public_key), c => c.charCodeAt(0)),
