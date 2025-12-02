@@ -216,13 +216,13 @@ export const Navigation = () => {
                         {/* Clean-Track */}
                         <Link 
                           to="/features/analytics" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-blue-500/20 hover:border-blue-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/25 bg-gradient-to-br from-blue-500/15 via-blue-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <BarChart3 className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0 text-blue-500">
+                            <BarChart3 className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">clean-track™</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">clean-track™</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               data you can trust
                             </p>
@@ -232,13 +232,13 @@ export const Navigation = () => {
                         {/* Link Immunity */}
                         <Link 
                           to="/features/link-immunity" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/25 bg-gradient-to-br from-emerald-500/15 via-emerald-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Shield className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-500">
+                            <Shield className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">link immunity</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">link immunity</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               zero broken links
                             </p>
@@ -248,13 +248,13 @@ export const Navigation = () => {
                         {/* Smart Routing */}
                         <Link 
                           to="/features/smart-routing" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-violet-500/20 hover:border-violet-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/25 bg-gradient-to-br from-violet-500/15 via-violet-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Route className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0 text-violet-500">
+                            <Route className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">smart routing</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">smart routing</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               geo-targeting magic
                             </p>
@@ -410,13 +410,13 @@ export const Navigation = () => {
                         {/* Campaign Tracking */}
                         <Link 
                           to="/solutions/marketers" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/25 bg-gradient-to-br from-orange-500/15 via-orange-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Target className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0 text-orange-500">
+                            <Target className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">campaign tracking</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">campaign tracking</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               never lose a click
                             </p>
@@ -426,13 +426,13 @@ export const Navigation = () => {
                         {/* Partner Attribution */}
                         <Link 
                           to="/solutions/partner-managers" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-teal-500/20 hover:border-teal-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/25 bg-gradient-to-br from-teal-500/15 via-teal-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Handshake className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-xl bg-teal-500/20 flex items-center justify-center shrink-0 text-teal-500">
+                            <Handshake className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">partner attribution</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">partner attribution</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               automated credit
                             </p>
@@ -442,13 +442,13 @@ export const Navigation = () => {
                         {/* Data Governance */}
                         <Link 
                           to="/solutions/marketing-ops" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex items-center gap-3 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-slate-500/20 hover:border-slate-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-500/25 bg-gradient-to-br from-slate-500/15 via-slate-500/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
-                            <Settings className="w-4 h-4 text-primary" />
+                          <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center shrink-0 text-slate-500">
+                            <Settings className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xs font-semibold mb-0.5">data governance</h3>
+                            <h3 className="text-xs font-semibold mb-0.5 text-foreground">data governance</h3>
                             <p className="text-[10px] text-muted-foreground leading-tight">
                               UTM consistency at scale
                             </p>
