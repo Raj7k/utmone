@@ -5579,42 +5579,285 @@ export type Database = {
       }
       hot_links_view: {
         Row: {
+          ab_test_completed_at: string | null
+          ab_test_confidence_threshold: number | null
+          ab_test_min_clicks: number | null
+          ab_test_started_at: string | null
+          ab_test_status: string | null
+          ab_test_winner_id: string | null
+          activation_at: string | null
+          approval_notes: string | null
+          approval_status: string | null
+          approved_at: string | null
+          approved_by: string | null
+          blacklist_status: string | null
           cache_priority: string | null
           cache_score: number | null
+          campaign_id: string | null
           clicks_last_hour: number | null
+          contextual_routing: boolean | null
+          conversion_rate: number | null
+          created_at: string | null
+          created_by: string | null
+          custom_expiry_message: string | null
+          deleted_at: string | null
+          description: string | null
           destination_url: string | null
-          estimated_size_bytes: number | null
+          destinations: Json | null
+          domain: string | null
+          duplicate_strategy: string | null
+          expires_at: string | null
+          fallback_url: string | null
+          final_url: string | null
+          folder_id: string | null
+          geo_targets: Json | null
+          health_check_failures: number | null
+          health_status: string | null
           id: string | null
+          is_ab_test: boolean | null
+          last_cached_at: string | null
           last_clicked_at: string | null
+          last_health_check: string | null
+          max_clicks: number | null
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
+          parent_link_id: string | null
+          password_hash: string | null
+          password_hint: string | null
+          path: string | null
+          pending_approval_by: string | null
+          redirect_type: string | null
+          rejection_reason: string | null
+          routing_strategy: string | null
+          security_status: Database["public"]["Enums"]["security_status"] | null
+          short_url: string | null
           slug: string | null
+          smart_rotate: boolean | null
+          status: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at: string | null
+          title: string | null
           total_clicks: number | null
+          total_conversions: number | null
+          total_revenue: number | null
+          traffic_score: number | null
+          unique_clicks: number | null
+          updated_at: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          version: number | null
           workspace_id: string | null
         }
         Insert: {
+          ab_test_completed_at?: string | null
+          ab_test_confidence_threshold?: number | null
+          ab_test_min_clicks?: number | null
+          ab_test_started_at?: string | null
+          ab_test_status?: string | null
+          ab_test_winner_id?: string | null
+          activation_at?: string | null
+          approval_notes?: string | null
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          blacklist_status?: string | null
           cache_priority?: string | null
           cache_score?: number | null
+          campaign_id?: string | null
           clicks_last_hour?: number | null
+          contextual_routing?: boolean | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_expiry_message?: string | null
+          deleted_at?: string | null
+          description?: string | null
           destination_url?: string | null
-          estimated_size_bytes?: never
+          destinations?: Json | null
+          domain?: string | null
+          duplicate_strategy?: string | null
+          expires_at?: string | null
+          fallback_url?: string | null
+          final_url?: string | null
+          folder_id?: string | null
+          geo_targets?: Json | null
+          health_check_failures?: number | null
+          health_status?: string | null
           id?: string | null
+          is_ab_test?: boolean | null
+          last_cached_at?: string | null
           last_clicked_at?: string | null
+          last_health_check?: string | null
+          max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          parent_link_id?: string | null
+          password_hash?: string | null
+          password_hint?: string | null
+          path?: string | null
+          pending_approval_by?: string | null
+          redirect_type?: string | null
+          rejection_reason?: string | null
+          routing_strategy?: string | null
+          security_status?:
+            | Database["public"]["Enums"]["security_status"]
+            | null
+          short_url?: string | null
           slug?: string | null
+          smart_rotate?: boolean | null
+          status?: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at?: string | null
+          title?: string | null
           total_clicks?: number | null
+          total_conversions?: number | null
+          total_revenue?: number | null
+          traffic_score?: number | null
+          unique_clicks?: number | null
+          updated_at?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          version?: number | null
           workspace_id?: string | null
         }
         Update: {
+          ab_test_completed_at?: string | null
+          ab_test_confidence_threshold?: number | null
+          ab_test_min_clicks?: number | null
+          ab_test_started_at?: string | null
+          ab_test_status?: string | null
+          ab_test_winner_id?: string | null
+          activation_at?: string | null
+          approval_notes?: string | null
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          blacklist_status?: string | null
           cache_priority?: string | null
           cache_score?: number | null
+          campaign_id?: string | null
           clicks_last_hour?: number | null
+          contextual_routing?: boolean | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_expiry_message?: string | null
+          deleted_at?: string | null
+          description?: string | null
           destination_url?: string | null
-          estimated_size_bytes?: never
+          destinations?: Json | null
+          domain?: string | null
+          duplicate_strategy?: string | null
+          expires_at?: string | null
+          fallback_url?: string | null
+          final_url?: string | null
+          folder_id?: string | null
+          geo_targets?: Json | null
+          health_check_failures?: number | null
+          health_status?: string | null
           id?: string | null
+          is_ab_test?: boolean | null
+          last_cached_at?: string | null
           last_clicked_at?: string | null
+          last_health_check?: string | null
+          max_clicks?: number | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          parent_link_id?: string | null
+          password_hash?: string | null
+          password_hint?: string | null
+          path?: string | null
+          pending_approval_by?: string | null
+          redirect_type?: string | null
+          rejection_reason?: string | null
+          routing_strategy?: string | null
+          security_status?:
+            | Database["public"]["Enums"]["security_status"]
+            | null
+          short_url?: string | null
           slug?: string | null
+          smart_rotate?: boolean | null
+          status?: Database["public"]["Enums"]["link_status"] | null
+          submitted_for_approval_at?: string | null
+          title?: string | null
           total_clicks?: number | null
+          total_conversions?: number | null
+          total_revenue?: number | null
+          traffic_score?: number | null
+          unique_clicks?: number | null
+          updated_at?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          version?: number | null
           workspace_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "links_ab_test_winner_id_fkey"
+            columns: ["ab_test_winner_id"]
+            isOneToOne: false
+            referencedRelation: "og_image_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "links_parent_link_id_fkey"
+            columns: ["parent_link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
           {
             foreignKeyName: "links_workspace_id_fkey"
             columns: ["workspace_id"]
