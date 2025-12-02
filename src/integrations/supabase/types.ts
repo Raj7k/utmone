@@ -3765,6 +3765,7 @@ export type Database = {
       }
       mfa_settings: {
         Row: {
+          admin_recovery_codes_hashed: string[] | null
           backup_codes_downloaded: boolean | null
           created_at: string | null
           id: string
@@ -3776,6 +3777,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          admin_recovery_codes_hashed?: string[] | null
           backup_codes_downloaded?: boolean | null
           created_at?: string | null
           id?: string
@@ -3787,6 +3789,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          admin_recovery_codes_hashed?: string[] | null
           backup_codes_downloaded?: boolean | null
           created_at?: string | null
           id?: string

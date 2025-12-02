@@ -33,7 +33,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Label } from "@/components/ui/label";
-import { Shield } from "lucide-react";
+import { Shield, KeyRound, AlertCircle } from "lucide-react";
 
 interface UserEditModalProps {
   user: {
@@ -57,6 +57,8 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminConfirm, setShowAdminConfirm] = useState(false);
   const [pendingAdminAction, setPendingAdminAction] = useState<'grant' | 'revoke' | null>(null);
+  const [showMfaResetConfirm, setShowMfaResetConfirm] = useState(false);
+  const [pendingMfaResetType, setPendingMfaResetType] = useState<'totp' | 'webauthn' | 'all' | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
@@ -157,6 +159,36 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
     },
   });
 
+  const mfaResetMutation = useMutation({
+    mutationFn: async (resetType: 'totp' | 'webauthn' | 'all') => {
+      const { data, error } = await supabase.functions.invoke('admin-reset-mfa', {
+        body: {
+          targetUserId: user.id,
+          resetType,
+        }
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      return data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-users'] });
+      toast({
+        title: 'mfa reset successful',
+        description: data.message || 'user can now reconfigure their authentication',
+      });
+    },
+    onError: (error: any) => {
+      console.error('MFA reset error:', error);
+      toast({
+        title: 'failed to reset mfa',
+        description: error.message || 'could not reset mfa',
+        variant: 'destructive',
+      });
+    },
+  });
+
   const handleAdminToggle = (checked: boolean) => {
     setPendingAdminAction(checked ? 'grant' : 'revoke');
     setShowAdminConfirm(true);
@@ -168,6 +200,19 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
     }
     setShowAdminConfirm(false);
     setPendingAdminAction(null);
+  };
+
+  const handleMfaReset = (resetType: 'totp' | 'webauthn' | 'all') => {
+    setPendingMfaResetType(resetType);
+    setShowMfaResetConfirm(true);
+  };
+
+  const confirmMfaReset = () => {
+    if (pendingMfaResetType) {
+      mfaResetMutation.mutate(pendingMfaResetType);
+    }
+    setShowMfaResetConfirm(false);
+    setPendingMfaResetType(null);
   };
 
   const handleSave = () => {
@@ -251,6 +296,59 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
             </p>
           </div>
 
+          {/* MFA Reset Section */}
+          <div className="space-y-3 p-4 border border-amber-300/30 rounded-lg bg-amber-50/50 dark:bg-amber-950/20">
+            <div className="flex items-start gap-3">
+              <KeyRound className="h-4 w-4 text-amber-600 dark:text-amber-500 flex-shrink-0 mt-0.5" />
+              <div className="flex-1 space-y-3">
+                <div>
+                  <Label className="text-amber-900 dark:text-amber-300">reset multi-factor authentication</Label>
+                  <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+                    if user loses access to security keys or authenticator app
+                  </p>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleMfaReset('webauthn')}
+                    disabled={mfaResetMutation.isPending}
+                    className="text-xs border-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/40"
+                  >
+                    clear security keys
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleMfaReset('totp')}
+                    disabled={mfaResetMutation.isPending}
+                    className="text-xs border-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/40"
+                  >
+                    disable totp
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleMfaReset('all')}
+                    disabled={mfaResetMutation.isPending}
+                    className="text-xs border-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/40"
+                  >
+                    reset all mfa
+                  </Button>
+                </div>
+
+                <div className="flex items-start gap-2 text-xs text-amber-700 dark:text-amber-400">
+                  <AlertCircle className="h-3 w-3 flex-shrink-0 mt-0.5" />
+                  <span>user will need to reconfigure mfa after reset</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Plan Selection */}
           <div className="space-y-2">
             <Label htmlFor="plan-select">change plan to</Label>
@@ -290,6 +388,35 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
                 className="bg-blazeOrange hover:bg-blazeOrange/90"
               >
                 {pendingAdminAction === 'grant' ? 'grant access' : 'revoke access'}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog open={showMfaResetConfirm} onOpenChange={setShowMfaResetConfirm}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>reset mfa for this user?</AlertDialogTitle>
+              <AlertDialogDescription>
+                {pendingMfaResetType === 'all' && 
+                  'This will remove all security keys and disable TOTP. The user will need to reconfigure all multi-factor authentication methods.'}
+                {pendingMfaResetType === 'webauthn' && 
+                  'This will remove all registered security keys. The user will need to register new keys.'}
+                {pendingMfaResetType === 'totp' && 
+                  'This will disable TOTP authentication and clear recovery codes. The user will need to set up TOTP again.'}
+                <br /><br />
+                <span className="text-amber-600 dark:text-amber-500 font-medium">
+                  This action is logged in the audit trail and cannot be undone.
+                </span>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmMfaReset}
+                className="bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800"
+              >
+                reset mfa
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
