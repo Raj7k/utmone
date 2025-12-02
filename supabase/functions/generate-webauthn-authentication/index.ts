@@ -58,13 +58,14 @@ Deno.serve(async (req) => {
       console.warn('Could not parse origin, using localhost:', origin);
     }
     
+    // SAFE MODE: Relaxed configuration
     const options = await generateAuthenticationOptions({
       rpID,
       allowCredentials: authenticators.map(auth => ({
         id: auth.credential_id, // v13 expects base64 string
         transports: ['usb', 'nfc', 'ble', 'internal'],
       })),
-      userVerification: 'preferred',
+      userVerification: 'discouraged', // SAFE MODE: Don't require PIN/Biometric
       timeout: 60000,
     });
 

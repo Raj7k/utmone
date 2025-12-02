@@ -79,21 +79,24 @@ Deno.serve(async (req) => {
     // Convert user ID to Uint8Array for v13
     const userIDBuffer = new TextEncoder().encode(user.id);
     
+    // SAFE MODE: Relaxed configuration for testing and consumer keys
     const options = await generateRegistrationOptions({
       rpName,
       rpID,
       userID: userIDBuffer,
       userName: profile?.email || user.email || user.id,
-      attestationType: 'none',
+      attestationType: 'none', // Allows consumer keys without enterprise certificates
       excludeCredentials: existingAuthenticators?.map(auth => ({
         id: auth.credential_id, // v13 expects base64 string
         transports: ['usb', 'nfc', 'ble', 'internal'],
       })) || [],
       authenticatorSelection: {
         residentKey: 'preferred',
-        userVerification: 'preferred',
+        userVerification: 'discouraged', // SAFE MODE: Don't require PIN/Biometric
         authenticatorAttachment: 'cross-platform',
       },
+      // Support both standard algorithms: ES256 (YubiKeys) and RS256 (Windows Hello)
+      supportedAlgorithmIDs: [-7, -257], // ES256, RS256
       timeout: 60000,
     });
 
