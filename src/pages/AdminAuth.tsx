@@ -94,18 +94,28 @@ const AdminAuth = () => {
             return;
           }
 
-          // Check for WebAuthn requirement
-          const { data: mfaSettings } = await supabase
-            .from('mfa_settings')
-            .select('is_enabled')
-            .eq('user_id', session.user.id)
-            .maybeSingle();
+      // Check for MFA requirement (TOTP or WebAuthn)
+      const { data: mfaSettings } = await supabase
+        .from('mfa_settings')
+        .select('is_enabled')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
 
-          if (mfaSettings?.is_enabled) {
-            // Redirect to 2FA verification
-            navigate(`/auth/verify-2fa?returnTo=${encodeURIComponent('/admin')}`);
-            return;
-          }
+      const { data: webauthnKeys } = await supabase
+        .from('user_authenticators')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .limit(1);
+
+      const hasTOTP = mfaSettings?.is_enabled || false;
+      const hasWebAuthn = (webauthnKeys?.length || 0) > 0;
+
+      if (hasTOTP || hasWebAuthn) {
+        // Redirect to 2FA verification with method preference
+        const method = hasWebAuthn ? 'webauthn' : 'totp';
+        navigate(`/auth/verify-2fa?returnTo=${encodeURIComponent('/admin')}&method=${method}`);
+        return;
+      }
 
           toast({
             title: "Access granted",
@@ -169,16 +179,26 @@ const AdminAuth = () => {
         return;
       }
 
-      // Check if TOTP 2FA is required
+      // Check for MFA requirement (TOTP or WebAuthn)
       const { data: mfaSettings } = await supabase
         .from('mfa_settings')
         .select('is_enabled')
         .eq('user_id', data.user.id)
         .maybeSingle();
 
-      if (mfaSettings?.is_enabled) {
-        // Redirect to 2FA verification
-        navigate(`/auth/verify-2fa?returnTo=${encodeURIComponent('/admin')}`);
+      const { data: webauthnKeys } = await supabase
+        .from('user_authenticators')
+        .select('id')
+        .eq('user_id', data.user.id)
+        .limit(1);
+
+      const hasTOTP = mfaSettings?.is_enabled || false;
+      const hasWebAuthn = (webauthnKeys?.length || 0) > 0;
+
+      if (hasTOTP || hasWebAuthn) {
+        // Redirect to 2FA verification with method preference
+        const method = hasWebAuthn ? 'webauthn' : 'totp';
+        navigate(`/auth/verify-2fa?returnTo=${encodeURIComponent('/admin')}&method=${method}`);
         return;
       }
 
