@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { 
@@ -9,7 +10,7 @@ import {
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code,
   DollarSign, Handshake, FileBarChart,
   BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck,
-  Sparkles
+  Sparkles, Bot
 } from "lucide-react";
 import {
   Popover,
@@ -381,22 +382,57 @@ export const FloatingNavigation = () => {
                   className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
                 >
                   <div className="flex gap-3">
-                    {/* Featured Card */}
-                    <div className="w-[180px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col justify-between border border-primary/20">
-                      <div>
-                        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2">
-                          <BookOpen className="w-4 h-4 text-primary" />
-                        </div>
-                        <h3 className="text-xs font-semibold mb-1">learn & explore</h3>
-                        <p className="text-[10px] text-muted-foreground leading-relaxed">
-                          guides, tools, templates
-                        </p>
-                      </div>
+                    {/* Featured Resources */}
+                    <div className="w-[180px] flex flex-col gap-1.5">
+                      {/* LLM Ranking - HOT */}
                       <Link 
-                        to="/resources" 
-                        className="text-[10px] font-medium text-primary hover:underline mt-3 inline-flex items-center gap-1"
+                        to="/resources/playbooks/llm-ranking" 
+                        className="group rounded-lg bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-background p-2.5 flex flex-col gap-1.5 border border-orange-500/20 hover:border-orange-500/40 transition-all hover:scale-[1.02]"
                       >
-                        browse <ChevronUp className="w-2.5 h-2.5" />
+                        <div className="flex items-center justify-between">
+                          <Bot className="w-3.5 h-3.5 text-orange-500" />
+                          <Badge className="bg-orange-500 text-white text-[9px] px-1.5 py-0">HOT</Badge>
+                        </div>
+                        <div>
+                          <h3 className="text-[10px] font-semibold mb-0.5">llm ranking</h3>
+                          <p className="text-[9px] text-muted-foreground leading-tight">
+                            rank #1 in ChatGPT
+                          </p>
+                        </div>
+                      </Link>
+
+                      {/* Attribution Clarity - FEATURED */}
+                      <Link 
+                        to="/resources/frameworks/attribution-clarity-model" 
+                        className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-2.5 flex flex-col gap-1.5 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                      >
+                        <div className="flex items-center justify-between">
+                          <GitBranch className="w-3.5 h-3.5 text-primary" />
+                          <Badge variant="secondary" className="text-[9px] px-1.5 py-0">FEATURED</Badge>
+                        </div>
+                        <div>
+                          <h3 className="text-[10px] font-semibold mb-0.5">attribution clarity</h3>
+                          <p className="text-[9px] text-muted-foreground leading-tight">
+                            multi-touch w/o politics
+                          </p>
+                        </div>
+                      </Link>
+
+                      {/* GTM Salary - COMING SOON */}
+                      <Link 
+                        to="/resources/reports/salary-benchmark-2026" 
+                        className="group rounded-lg bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-background p-2.5 flex flex-col gap-1.5 border border-blue-500/20 hover:border-blue-500/40 transition-all hover:scale-[1.02]"
+                      >
+                        <div className="flex items-center justify-between">
+                          <DollarSign className="w-3.5 h-3.5 text-blue-500" />
+                          <Badge className="bg-blue-500 text-white text-[9px] px-1.5 py-0">SOON</Badge>
+                        </div>
+                        <div>
+                          <h3 className="text-[10px] font-semibold mb-0.5">gtm salary</h3>
+                          <p className="text-[9px] text-muted-foreground leading-tight">
+                            2026 benchmarks
+                          </p>
+                        </div>
                       </Link>
                     </div>
 

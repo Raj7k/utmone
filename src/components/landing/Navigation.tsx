@@ -22,7 +22,7 @@ import {
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code, 
   DollarSign, Handshake, FileBarChart,
   BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench,
-  Sparkles
+  Sparkles, Bot
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
@@ -553,22 +553,57 @@ export const Navigation = () => {
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[650px] p-4 flex gap-4">
-                      {/* Featured Card - Left */}
-                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
-                        <div>
-                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
-                            <BookOpen className="w-5 h-5 text-primary" />
-                          </div>
-                          <h3 className="text-sm font-semibold mb-2">learn & explore</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
-                            everything you need to master link tracking—guides, tools, templates
-                          </p>
-                        </div>
+                      {/* Featured Resources - Left */}
+                      <div className="w-[220px] flex flex-col gap-2">
+                        {/* LLM Ranking Playbook - HOT */}
                         <Link 
-                          to="/resources" 
-                          className="text-xs font-medium text-primary hover:underline mt-4 inline-flex items-center gap-1"
+                          to="/resources/playbooks/llm-ranking" 
+                          className="group rounded-lg bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-background p-3 flex flex-col gap-2 border border-orange-500/20 hover:border-orange-500/40 transition-all hover:scale-[1.02]"
                         >
-                          browse all <ChevronRight className="w-3 h-3" />
+                          <div className="flex items-center justify-between">
+                            <Bot className="w-4 h-4 text-orange-500" />
+                            <Badge className="bg-orange-500 text-white text-[10px] px-2 py-0">HOT</Badge>
+                          </div>
+                          <div>
+                            <h3 className="text-xs font-semibold mb-1">llm ranking playbook</h3>
+                            <p className="text-[10px] text-muted-foreground leading-relaxed">
+                              rank #1 in ChatGPT & Claude
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* Attribution Clarity - FEATURED */}
+                        <Link 
+                          to="/resources/frameworks/attribution-clarity-model" 
+                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="flex items-center justify-between">
+                            <GitBranch className="w-4 h-4 text-primary" />
+                            <Badge variant="secondary" className="text-[10px] px-2 py-0">FEATURED</Badge>
+                          </div>
+                          <div>
+                            <h3 className="text-xs font-semibold mb-1">attribution clarity</h3>
+                            <p className="text-[10px] text-muted-foreground leading-relaxed">
+                              multi-touch without politics
+                            </p>
+                          </div>
+                        </Link>
+
+                        {/* GTM Salary Insights - COMING SOON */}
+                        <Link 
+                          to="/resources/reports/salary-benchmark-2026" 
+                          className="group rounded-lg bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-background p-3 flex flex-col gap-2 border border-blue-500/20 hover:border-blue-500/40 transition-all hover:scale-[1.02]"
+                        >
+                          <div className="flex items-center justify-between">
+                            <DollarSign className="w-4 h-4 text-blue-500" />
+                            <Badge className="bg-blue-500 text-white text-[10px] px-2 py-0">COMING SOON</Badge>
+                          </div>
+                          <div>
+                            <h3 className="text-xs font-semibold mb-1">gtm salary insights</h3>
+                            <p className="text-[10px] text-muted-foreground leading-relaxed">
+                              2026 global benchmarks
+                            </p>
+                          </div>
                         </Link>
                       </div>
 
