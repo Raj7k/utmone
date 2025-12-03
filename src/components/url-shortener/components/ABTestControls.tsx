@@ -89,7 +89,7 @@ export const ABTestControls = ({
             {isActive ? (
               <Play className="h-5 w-5 text-green-500" />
             ) : (
-              <Pause className="h-5 w-5 text-gray-500" />
+              <Pause className="h-5 w-5 text-white/50" />
             )}
             <div>
               <p className="text-sm font-semibold text-foreground">

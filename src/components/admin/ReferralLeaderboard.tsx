@@ -31,7 +31,7 @@ export const ReferralLeaderboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {topThree.map((user, index) => {
           const medals = ['🥇', '🥈', '🥉'];
-          const colors = ['text-yellow-600', 'text-gray-400', 'text-amber-600'];
+          const colors = ['text-yellow-500', 'text-white/50', 'text-amber-500'];
           
           return (
             <Card key={user.id} className="relative overflow-hidden">

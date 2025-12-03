@@ -32,7 +32,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
       case 'paused':
         return <Pause className="h-3 w-3 text-amber-500" />;
       case 'archived':
-        return <Archive className="h-3 w-3 text-gray-500" />;
+        return <Archive className="h-3 w-3 text-white/50" />;
       default:
         return null;
     }

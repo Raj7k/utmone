@@ -97,7 +97,7 @@ export default function LinkHealth() {
       case "unhealthy":
         return <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />;
       default:
-        return <HelpCircle className="h-4 w-4 text-gray-400" />;
+        return <HelpCircle className="h-4 w-4 text-white/40" />;
     }
   };
 
@@ -161,7 +161,7 @@ export default function LinkHealth() {
 
         <Card
           className={`cursor-pointer transition-all hover:shadow-md ${
-            selectedFilter === "unknown" ? "ring-2 ring-gray-500 dark:ring-gray-400" : ""
+            selectedFilter === "unknown" ? "ring-2 ring-white/30" : ""
           }`}
           onClick={() => setSelectedFilter(selectedFilter === "unknown" ? "all" : "unknown")}
         >
@@ -169,7 +169,7 @@ export default function LinkHealth() {
             <CardTitle className="text-sm font-medium text-muted-foreground">not checked yet</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-600 dark:text-gray-400">{stats.unknown}</div>
+            <div className="text-3xl font-bold text-white/60">{stats.unknown}</div>
           </CardContent>
         </Card>
       </div>

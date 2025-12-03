@@ -59,7 +59,7 @@ export const AIAnswerEngineTracker = () => {
   const getTrendIcon = (trend: string) => {
     if (trend === "up") return <TrendingUp className="w-4 h-4 text-green-500" />;
     if (trend === "down") return <TrendingUp className="w-4 h-4 text-red-500 rotate-180" />;
-    return <span className="w-4 h-4 text-gray-500">—</span>;
+    return <span className="w-4 h-4 text-white/50">—</span>;
   };
 
   return (

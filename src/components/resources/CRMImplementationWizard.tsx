@@ -256,7 +256,7 @@ export const CRMImplementationWizard = () => {
             Copy Code
           </Button>
         </div>
-        <pre className="text-sm text-gray-300 overflow-x-auto">
+        <pre className="text-sm text-white/70 overflow-x-auto">
           <code>{code}</code>
         </pre>
       </div>
