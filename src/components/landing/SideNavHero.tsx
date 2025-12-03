@@ -75,6 +75,12 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     stats: [
       { value: "60%", label: "of budget typically misallocated" },
       { value: "3.2x", label: "better ROAS with true attribution" },
+    ],
+    features: [
+      { name: "multi-touch attribution", description: "see every touchpoint that influenced the conversion" },
+      { name: "revenue mapping", description: "connect clicks directly to closed deals and revenue" },
+      { name: "channel comparison", description: "compare true ROI across all marketing channels" },
+      { name: "budget optimizer", description: "know exactly where to invest your next dollar" },
     ]
   },
   journey: {
@@ -84,6 +90,12 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     stats: [
       { value: "12", label: "avg touchpoints before conversion" },
       { value: "47%", label: "conversions happen cross-device" },
+    ],
+    features: [
+      { name: "cross-device tracking", description: "follow users from phone to laptop to tablet seamlessly" },
+      { name: "touchpoint mapping", description: "visualize every interaction before conversion" },
+      { name: "conversion paths", description: "discover the most effective routes to purchase" },
+      { name: "behavioral insights", description: "understand what actions lead to conversions" },
     ]
   },
   links: {
@@ -93,6 +105,12 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     stats: [
       { value: "5", label: "layers of link intelligence" },
       { value: "0", label: "hours cleaning data manually" },
+    ],
+    features: [
+      { name: "utm builder", description: "consistent parameters with templates and validation" },
+      { name: "short links", description: "branded domains that build trust and track clicks" },
+      { name: "qr generator", description: "custom QR codes with your logo and brand colors" },
+      { name: "clean-track validation", description: "automatic syntax checking and naming enforcement" },
     ]
   },
   intelligence: {
@@ -117,6 +135,12 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
     stats: [
       { value: "100%", label: "links follow your rules" },
       { value: "0", label: "rogue campaigns" },
+    ],
+    features: [
+      { name: "role-based access", description: "admins, editors, and viewers with the right permissions" },
+      { name: "approval workflows", description: "review links before they go live" },
+      { name: "naming conventions", description: "enforce consistent UTM patterns across teams" },
+      { name: "audit trails", description: "see who created, edited, or deleted every link" },
     ]
   },
 };
@@ -317,50 +341,33 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                   </p>
                 </div>
 
-                {/* AI Intelligence Features - Only show for intelligence use case */}
-                {activeUseCase === "intelligence" && content.features && (
+                {/* Feature Cards - Show for all use cases */}
+                {content.features && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {content.features.map((feature, i) => (
-                      <motion.div
-                        key={feature.name}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 + i * 0.1 }}
-                        className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <Sparkles className="w-4 h-4 text-primary" />
+                    {content.features.map((feature, i) => {
+                      const activeUseCaseData = USE_CASES.find(uc => uc.id === activeUseCase);
+                      const FeatureIcon = activeUseCaseData?.icon || Sparkles;
+                      
+                      return (
+                        <motion.div
+                          key={feature.name}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: 0.1 + i * 0.1 }}
+                          className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <FeatureIcon className="w-4 h-4 text-primary" />
+                            </div>
+                            <div>
+                              <h3 className="text-sm font-semibold text-foreground lowercase">{feature.name}</h3>
+                              <p className="text-xs text-muted-foreground mt-1">{feature.description}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="text-sm font-semibold text-foreground lowercase">{feature.name}</h3>
-                            <p className="text-xs text-muted-foreground mt-1">{feature.description}</p>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Stats - Show for non-intelligence use cases */}
-                {activeUseCase !== "intelligence" && (
-                  <div className="flex flex-wrap gap-6">
-                    {content.stats.map((stat, i) => (
-                      <motion.div
-                        key={stat.label}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
-                        className="flex items-baseline gap-2"
-                      >
-                        <span className="text-3xl md:text-4xl font-display font-bold text-primary">
-                          {stat.value}
-                        </span>
-                        <span className="text-sm text-muted-foreground max-w-[120px]">
-                          {stat.label}
-                        </span>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 )}
 
