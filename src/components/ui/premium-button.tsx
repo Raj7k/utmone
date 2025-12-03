@@ -12,9 +12,9 @@ const PremiumButton = React.forwardRef<HTMLButtonElement, PremiumButtonProps>(
     const baseStyles = "relative inline-flex items-center justify-center font-medium transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none";
     
     const variants = {
-      primary: "bg-white text-zinc-900 shadow-[0_0_20px_-5px_rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.7)]",
-      secondary: "bg-zinc-900/40 backdrop-blur-xl border border-white/10 text-white hover:bg-zinc-900/60",
-      ghost: "bg-transparent text-zinc-400 hover:text-white hover:bg-white/5",
+      primary: "bg-white text-zinc-900 hover:bg-white/90",
+      secondary: "bg-zinc-900/40 backdrop-blur-xl border border-white/10 text-white hover:bg-zinc-900/60 hover:border-white/20",
+      ghost: "bg-transparent text-white/60 hover:text-white hover:bg-white/5",
     };
     
     const sizes = {

@@ -47,9 +47,9 @@ export const ObsidianMarketingLayout = ({
 
       {/* Primary Spotlight - Cool White/Blue "Moonlight" */}
       <div 
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none"
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255,255,255,0.1) 0%, rgba(200,220,255,0.04) 40%, transparent 70%)'
+          background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)'
         }}
       />
 
