@@ -43,7 +43,7 @@ export const LinkLayersSection = () => {
   });
 
   return (
-    <section ref={sectionRef} className="relative py-12 md:py-16 bg-muted/20">
+    <section ref={sectionRef} className="relative py-12 md:py-16" style={{ background: 'rgba(255,255,255,0.02)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -76,7 +76,8 @@ export const LinkLayersSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-card border border-border rounded-2xl p-6 shadow-sm"
+              className="rounded-2xl p-6 shadow-sm"
+              style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               <div className="flex flex-col gap-4">
                 {/* Number Badge */}
@@ -135,8 +136,17 @@ export const LinkLayersSection = () => {
             return (
               <motion.div
                 key={index}
-                style={{ y, scale, opacity, zIndex: 10 + index, willChange: 'transform, opacity' }}
-                className="sticky top-20 bg-card border-2 border-border rounded-3xl p-8 lg:p-12 xl:p-20 shadow-2xl min-h-[550px] lg:min-h-[650px]"
+                style={{ 
+                  y, 
+                  scale, 
+                  opacity, 
+                  zIndex: 10 + index, 
+                  willChange: 'transform, opacity',
+                  background: 'rgba(24,24,27,0.6)', 
+                  backdropFilter: 'blur(40px)', 
+                  border: '2px solid rgba(255,255,255,0.1)' 
+                }}
+                className="sticky top-20 rounded-3xl p-8 lg:p-12 xl:p-20 shadow-2xl min-h-[550px] lg:min-h-[650px]"
               >
                 <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12 xl:gap-20 h-full`}>
                   {/* Content */}

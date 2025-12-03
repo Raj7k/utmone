@@ -106,7 +106,8 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
             <AccordionItem 
               key={faqIndex} 
               value={`item-${index}-${faqIndex}`}
-              className="border border-border rounded-xl bg-card/50 px-6"
+              className="rounded-xl px-6"
+              style={{ background: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               <AccordionTrigger className="text-left text-lg font-semibold text-label hover:no-underline py-5">
                 {faq.q}

@@ -292,7 +292,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
 
               {/* Mobile: Vertical Accordion */}
               <div className="lg:hidden space-y-2">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                <p className="text-xs font-medium uppercase tracking-wider mb-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
                   what do you need?
                 </p>
                 {USE_CASES.map((useCase) => {

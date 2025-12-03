@@ -34,10 +34,20 @@ export const RoleHierarchy = ({ roles }: RoleHierarchyProps) => {
   }, []);
 
   const colorMap = {
-    primary: "bg-primary/20 text-primary border-primary/30",
-    accent: "bg-accent/20 text-accent-foreground border-accent/30",
-    secondary: "bg-secondary/20 text-secondary-foreground border-secondary/30",
-    muted: "bg-muted text-muted-foreground border-muted/30",
+    primary: "border-primary/30",
+    accent: "border-accent/30",
+    secondary: "border-secondary/30",
+    muted: "border-muted/30",
+  };
+
+  const getColorStyle = (color: "primary" | "accent" | "secondary" | "muted") => {
+    const styles = {
+      primary: { background: 'rgba(25,18,101,0.2)', color: '#191265' },
+      accent: { background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' },
+      secondary: { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)' },
+      muted: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' },
+    };
+    return styles[color];
   };
 
   return (
@@ -59,11 +69,12 @@ export const RoleHierarchy = ({ roles }: RoleHierarchyProps) => {
                 zIndex: roles.length - index,
               }}
             >
-              <div
-                className={`backdrop-blur-xl border rounded-xl p-6 shadow-lg transition-all ${colorMap[role.color]}`}
-              >
+            <div
+              className={`backdrop-blur-xl border rounded-xl p-6 shadow-lg transition-all ${colorMap[role.color]}`}
+              style={getColorStyle(role.color)}
+            >
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-background/20 rounded-lg">
+                  <div className="p-3 rounded-lg" style={{ background: 'rgba(5,5,5,0.2)' }}>
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
