@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
+import { FiberOpticGraph } from "./FiberOpticGraph";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -314,7 +315,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 const DeckVisual = ({ type }: { type: UseCaseType }) => {
   switch (type) {
     case "attribution":
-      return <AttributionVisual />;
+      return <FiberOpticGraph />;
     case "journey":
       return <JourneyVisual />;
     case "links":
