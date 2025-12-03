@@ -203,7 +203,7 @@ const faqs: FAQItem[] = [
   },
 ];
 
-// Scroll-reveal FAQ item with progressive text visibility
+// Scroll-reveal FAQ item with progressive text visibility and blur
 const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: number; isLast: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -213,6 +213,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
 
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.15, 0.6, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
+  const blur = useTransform(scrollYProgress, [0, 0.5, 1], [4, 1, 0]);
 
   return (
     <div ref={ref} className="flex gap-6">
@@ -237,7 +238,11 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
       </div>
       <motion.div 
         className="pb-8 flex-1"
-        style={{ opacity, y }}
+        style={{ 
+          opacity, 
+          y,
+          filter: `blur(${blur.get()}px)`
+        }}
       >
         <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase text-foreground">
           {formatText(faq.question)}

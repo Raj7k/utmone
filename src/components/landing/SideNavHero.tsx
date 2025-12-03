@@ -162,7 +162,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left: Vertical Side Navigation - Collapsible */}
-          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-1" : "lg:col-span-4 xl:col-span-3"}`}>
+          <div className={`relative z-20 transition-all duration-300 ${isCollapsed ? "lg:col-span-1" : "lg:col-span-4 xl:col-span-3"}`}>
             <div className="lg:sticky lg:top-32">
               {/* Collapse Toggle - Desktop Only */}
               <div className="hidden lg:flex items-center justify-between mb-4">
@@ -321,7 +321,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
           </div>
 
           {/* Right: Dynamic Content */}
-          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
+          <div className={`relative z-10 transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}
