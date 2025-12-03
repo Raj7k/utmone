@@ -37,7 +37,7 @@ const Pricing = () => {
       />
 
       {/* Hero Section */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-8">
             <div className="hero-glow">
@@ -97,7 +97,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Table */}
-      <section id="pricing-table" className="py-24 md:py-32 bg-muted/20">
+      <section id="pricing-table" className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-[1400px] mx-auto px-8">
           <AnimatedSection>
             <PricingTable onSelect={handlePlanSelect} />
@@ -155,7 +155,7 @@ const Pricing = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center font-bold tracking-tight text-label mb-12">

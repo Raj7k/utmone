@@ -1,39 +1,34 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const TermsLegal = () => {
   return (
-    <>
+    <MainLayout showAnnouncement={false}>
       <SEO
         title="Terms of Service - utm.one"
         description="Terms of Service and User Agreement for utm.one short link and UTM management platform."
         canonical="https://utm.one/legal/terms"
         keywords={["terms of service", "user agreement", "legal terms", "utm.one"]}
       />
-      <div className="min-h-screen flex flex-col">
-        <Navigation />
-        <FloatingNavigation />
         
-        <main className="flex-1 bg-white">
+      <main className="flex-1">
           <div className="max-w-text-content mx-auto px-8 py-24">
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-foreground mb-8 lowercase">
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white mb-8 lowercase">
               terms of service
             </h1>
             
-            <p className="text-lg text-muted-foreground leading-relaxed mb-12">
+            <p className="text-lg text-white/60 leading-relaxed mb-12">
               welcome to utm.one. by using utm.one, you agree to these terms.
             </p>
             
-            <p className="text-base text-muted-foreground leading-relaxed mb-12">
+            <p className="text-base text-white/60 leading-relaxed mb-12">
               please read them carefully.
             </p>
             
-            <div className="prose prose-lg max-w-none space-y-12">
+            <div className="prose prose-lg prose-invert max-w-none space-y-12">
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">1. using utm.one</h2>
-                <p className="text-muted-foreground leading-relaxed mb-3">
+                <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">1. using utm.one</h2>
+                <p className="text-white/60 leading-relaxed mb-3">
                   you must:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
@@ -190,13 +185,10 @@ const TermsLegal = () => {
                   last updated: 25 november 2025
                 </p>
               </div>
-            </div>
           </div>
-        </main>
-
-        <Footer />
-      </div>
-    </>
+        </div>
+      </main>
+    </MainLayout>
   );
 };
 

@@ -87,8 +87,8 @@ export default function EarlyAccess() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <SEO 
+    <div className="min-h-screen" style={{ background: '#050505' }}>
+      <SEO
         title="Early Access — utm.one"
         description="tracking is messy. utm.one launches soon. get early access. skip the waitlist with 3 referrals."
         canonical="https://utm.one/early-access"
@@ -98,7 +98,7 @@ export default function EarlyAccess() {
       <FloatingNavigation />
 
       {/* SECTION 1 - HERO (Personalized + Gamified) */}
-      <section className="relative bg-gradient-to-br from-white via-primary/5 to-blazeOrange/10 py-24 md:py-32 px-6 overflow-hidden">
+      <section className="relative py-24 md:py-32 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {showFormInHero ? (
             /* FORM MODE: Show form or success when email parameter exists */

@@ -2445,12 +2445,12 @@ Value: go.utm.one`}
         )}
 
         {/* Still Need Help */}
-        <section className="border-t border-border pt-16">
-          <div className="bg-muted/20 border border-border rounded-2xl p-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-4">
+        <section className="border-t border-white/10 pt-16">
+          <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-4">
               still need help?
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
               can't find what you're looking for? our support team is here to help.
             </p>
             <Link
