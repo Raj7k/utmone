@@ -1,6 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
@@ -71,60 +69,55 @@ const Guides = () => {
           { name: 'Guides', url: 'https://utm.one/resources/guides' }
         ]}
       />
-      <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
-
-      {/* Header */}
-      <section className="py-20 bg-background border-b border-separator">
-        <div className="max-w-[980px] mx-auto px-8">
-          <Link
-            to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Resources
-          </Link>
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
-              Guides
-            </h1>
-            <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
-              Long-form, canonical content on UTM architecture, tracking, and analytics.
-            </p>
+      <MainLayout showAnnouncement={false}>
+        {/* Header */}
+        <section className="py-20 border-b border-white/10">
+          <div className="max-w-[980px] mx-auto px-8">
+            <Link
+              to="/resources"
+              className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Resources
+            </Link>
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
+                Guides
+              </h1>
+              <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
+                Long-form, canonical content on UTM architecture, tracking, and analytics.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Guides List */}
-      <section className="py-20 bg-background">
-        <div className="max-w-[980px] mx-auto px-8">
-          <div className="space-y-6">
-            {guides.map((guide) => (
-              <Link
-                key={guide.slug}
-                to={`/resources/guides/${guide.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="space-y-3">
-                  <h2 className="text-2xl font-display font-semibold text-label group-hover:text-primary transition-colors">
-                    {guide.title}
-                  </h2>
-                  <p className="text-base text-secondary-label leading-relaxed">
-                    {guide.description}
-                  </p>
-                  <div className="text-xs text-secondary-label font-medium">
-                    {guide.readTime}
+        {/* Guides List */}
+        <section className="py-20">
+          <div className="max-w-[980px] mx-auto px-8">
+            <div className="space-y-6">
+              {guides.map((guide) => (
+                <Link
+                  key={guide.slug}
+                  to={`/resources/guides/${guide.slug}`}
+                  className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="space-y-3">
+                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                      {guide.title}
+                    </h2>
+                    <p className="text-base text-white/60 leading-relaxed">
+                      {guide.description}
+                    </p>
+                    <div className="text-xs text-white/40 font-medium">
+                      {guide.readTime}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+        </section>
+      </MainLayout>
     </>
   );
 };

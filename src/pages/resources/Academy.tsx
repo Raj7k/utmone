@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
@@ -35,51 +35,49 @@ const Academy = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-
-      <section className="py-20 bg-background border-b border-separator">
+    <MainLayout showAnnouncement={false}>
+      <section className="py-20 border-b border-white/10">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
               Academy
             </h1>
-            <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
+            <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
               Micro lessons on UTM, analytics, frameworks, and naming conventions.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className="py-20">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="space-y-6">
             {lessons.map((lesson) => (
               <Link
                 key={lesson.slug}
                 to={`/resources/academy/${lesson.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300"
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-4">
-                    <h2 className="text-2xl font-display font-semibold text-label group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
                       {lesson.title}
                     </h2>
-                    <span className="text-xs text-secondary-label font-medium px-3 py-1 rounded-full bg-muted/50">
+                    <span className="text-xs text-white/60 font-medium px-3 py-1 rounded-full bg-white/10">
                       {lesson.level}
                     </span>
                   </div>
-                  <p className="text-base text-secondary-label leading-relaxed">
+                  <p className="text-base text-white/60 leading-relaxed">
                     {lesson.description}
                   </p>
-                  <div className="text-xs text-secondary-label font-medium">
+                  <div className="text-xs text-white/40 font-medium">
                     {lesson.duration}
                   </div>
                 </div>
@@ -88,17 +86,7 @@ const Academy = () => {
           </div>
         </div>
       </section>
-
-      <footer className="border-t border-separator py-12 bg-background">
-        <div className="max-w-[1280px] mx-auto px-8">
-          <div className="text-center">
-            <span className="text-[13px] text-secondary-label">
-              © 2024 utm.one. clarity creates confidence.
-            </span>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </MainLayout>
   );
 };
 
