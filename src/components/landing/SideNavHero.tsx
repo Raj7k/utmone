@@ -16,6 +16,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
+import { FiberOpticGraph } from "./FiberOpticGraph";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "governance" | "intelligence";
 
@@ -406,74 +407,92 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                className="space-y-8"
+                className="space-y-6"
               >
-                {/* Headline */}
-                <div className="space-y-4">
-                  <h1 
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase leading-[1.1]"
-                    style={{
-                      background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text'
-                    }}
-                  >
-                    {content.headline}
-                  </h1>
-                  <p className="text-lg md:text-xl max-w-2xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                    {content.subheadline}
-                  </p>
-                </div>
-
-                {/* Features Chips */}
-                {content.features && (
-                  <div className="flex flex-wrap gap-2">
-                    {content.features.map((feature) => (
-                      <span
-                        key={feature.name}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm lowercase"
+                {/* Two-column layout for attribution */}
+                <div className={`grid gap-8 ${activeUseCase === 'attribution' ? 'lg:grid-cols-2 items-center' : ''}`}>
+                  {/* Left: Text Content */}
+                  <div className="space-y-6">
+                    {/* Headline */}
+                    <div className="space-y-4">
+                      <h1 
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold lowercase leading-[1.1]"
                         style={{
-                          background: 'rgba(255,255,255,0.06)',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          color: 'rgba(255,255,255,0.7)'
+                          background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text'
                         }}
                       >
-                        <ChevronRight className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.5)' }} />
-                        {feature.name}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                        {content.headline}
+                      </h1>
+                      <p className="text-base md:text-lg max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                        {content.subheadline}
+                      </p>
+                    </div>
 
-                {/* CTA */}
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <Link to="/early-access">
-                    <Button 
-                      size="lg" 
-                      className="h-14 px-8 text-base lowercase rounded-full font-semibold transition-all duration-300"
-                      style={{
-                        background: 'linear-gradient(135deg, #FFFFFF, #E4E4E7)',
-                        color: '#050505',
-                        boxShadow: '0 0 40px rgba(255,255,255,0.15), inset 0 1px 0 0 rgba(255,255,255,0.5)'
-                      }}
+                    {/* Features Chips */}
+                    {content.features && (
+                      <div className="flex flex-wrap gap-2">
+                        {content.features.map((feature) => (
+                          <span
+                            key={feature.name}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm lowercase"
+                            style={{
+                              background: 'rgba(255,255,255,0.06)',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              color: 'rgba(255,255,255,0.7)'
+                            }}
+                          >
+                            <ChevronRight className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.5)' }} />
+                            {feature.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* CTA */}
+                    <div className="flex flex-col sm:flex-row items-start gap-4">
+                      <Link to="/early-access">
+                        <Button 
+                          size="lg" 
+                          className="h-12 px-6 text-sm lowercase rounded-full font-semibold transition-all duration-300"
+                          style={{
+                            background: 'linear-gradient(135deg, #FFFFFF, #E4E4E7)',
+                            color: '#050505',
+                            boxShadow: '0 0 40px rgba(255,255,255,0.15), inset 0 1px 0 0 rgba(255,255,255,0.5)'
+                          }}
+                        >
+                          {content.cta}
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                      <Link 
+                        to="/how-it-works" 
+                        className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium lowercase transition-all"
+                        style={{
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          color: 'rgba(255,255,255,0.8)'
+                        }}
+                      >
+                        learn more
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Right: Fiber Optic Graph (only for attribution) */}
+                  {activeUseCase === 'attribution' && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      className="hidden lg:block"
                     >
-                      {content.cta}
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link 
-                    to="/how-it-works" 
-                    className="flex items-center gap-2 px-6 py-4 rounded-full text-sm font-medium lowercase transition-all"
-                    style={{
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      color: 'rgba(255,255,255,0.8)'
-                    }}
-                  >
-                    see how it works
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
+                      <FiberOpticGraph />
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             </AnimatePresence>
