@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,15 +9,16 @@ import {
   Shield,
   Sparkles,
   ArrowRight,
-  Globe,
-  Activity,
-  Scan,
-  ScrollText
+  DollarSign,
+  CheckCircle2,
+  User,
+  Zap,
+  Brain
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
 
-export type UseCaseType = "orchestration" | "intelligence" | "qr" | "governance";
+export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
 interface ControlDeckHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -25,40 +26,53 @@ interface ControlDeckHeroProps {
 
 const CONTROL_ITEMS = [
   {
-    id: "orchestration" as UseCaseType,
-    icon: Globe,
-    label: "Orchestration",
-    headline: "the link that learns.",
-    subheadline: "every click teaches your links where to send traffic next. Clean-Track intelligence routes visitors to optimal destinations automatically.",
-    route: "/features/smart-routing",
-  },
-  {
-    id: "intelligence" as UseCaseType,
-    icon: Activity,
-    label: "Intelligence",
-    headline: "see the invisible.",
-    subheadline: "multi-touch attribution reveals the true path from first click to closed revenue. no more guessing which channel actually works.",
+    id: "attribution" as UseCaseType,
+    icon: TrendingUp,
+    label: "attribution & revenue",
+    sublabel: "know where money comes from",
+    headline: "finally know where revenue comes from.",
+    subheadline: "multi-touch attribution reveals the true path from first click to closed deal. stop guessing which channel actually works.",
     route: "/features/attribution-graph",
   },
   {
-    id: "qr" as UseCaseType,
-    icon: Scan,
-    label: "QR Studio",
-    headline: "engineered reliability.",
-    subheadline: "enterprise QR codes stress-tested against 47 real-world failure modes. scan rates that don't drop in sunlight, on screens, or at angles.",
-    route: "/features/qr-generator",
+    id: "journey" as UseCaseType,
+    icon: Route,
+    label: "journey analytics",
+    sublabel: "see every touchpoint",
+    headline: "see the complete customer path.",
+    subheadline: "from anonymous visit to signed contract — map every touchpoint across every device, every session.",
+    route: "/features/customer-journey",
+  },
+  {
+    id: "links" as UseCaseType,
+    icon: LinkIcon,
+    label: "utm & links",
+    sublabel: "clean data, every time",
+    headline: "clean links. clean data. clear decisions.",
+    subheadline: "short links, UTM builder, QR codes, and validation rules that ensure your data never breaks.",
+    route: "/features/utm-builder",
+  },
+  {
+    id: "intelligence" as UseCaseType,
+    icon: Sparkles,
+    label: "AI intelligence",
+    sublabel: "clean-track powered insights",
+    headline: "four AI layers built into every link.",
+    subheadline: "predictive analytics, attribution graphs, smart routing, and link immunity. intelligence that scales with you.",
+    route: "/features/predictive-analytics",
   },
   {
     id: "governance" as UseCaseType,
-    icon: ScrollText,
-    label: "Governance",
-    headline: "total control.",
-    subheadline: "naming conventions, approval workflows, audit trails. your links follow rules, not vibes. scale without chaos.",
+    icon: Shield,
+    label: "enterprise control",
+    sublabel: "roles, rules & approvals",
+    headline: "your links, under total control.",
+    subheadline: "naming conventions, approval workflows, audit trails. scale without chaos. govern without bureaucracy.",
     route: "/features/enterprise-control",
   },
 ];
 
-// Apple ease curve - use string format for framer-motion
+// Apple ease curve - use string for framer-motion compatibility
 const appleEase = "easeOut";
 
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
@@ -77,7 +91,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const activeItem = CONTROL_ITEMS[activeIndex];
 
   if (isMobile) {
-    return <MobileHero onUseCaseChange={onUseCaseChange as any} />;
+    return <MobileHero onUseCaseChange={onUseCaseChange} />;
   }
 
   return (
@@ -85,7 +99,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
-          className="relative h-[600px] rounded-[32px] overflow-hidden"
+          className="relative h-[620px] rounded-[32px] overflow-hidden"
           style={{
             background: 'rgba(24, 24, 27, 0.2)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -94,17 +108,17 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
         >
           <div className="flex h-full">
             {/* Navigation Rail (Left Sidebar) - The Controls */}
-            <div className="relative w-[280px] flex-shrink-0 p-6 flex flex-col">
+            <div className="relative w-[300px] flex-shrink-0 p-5 flex flex-col">
               {/* Section Label */}
               <p 
-                className="text-[10px] font-medium uppercase tracking-[0.2em] mb-6"
+                className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4"
                 style={{ color: 'rgba(255, 255, 255, 0.3)' }}
               >
                 Control Deck
               </p>
 
               {/* The Milled Buttons */}
-              <nav className="flex-1 flex flex-col gap-2">
+              <nav className="flex-1 flex flex-col gap-1">
                 {CONTROL_ITEMS.map((item, index) => {
                   const Icon = item.icon;
                   const isActive = index === activeIndex;
@@ -113,12 +127,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                     <button
                       key={item.id}
                       onClick={() => handleSelect(index)}
-                      className="relative w-full text-left p-4 rounded-xl transition-all duration-300 group"
-                      style={{
-                        background: isActive 
-                          ? 'transparent' 
-                          : 'transparent',
-                      }}
+                      className="relative w-full text-left p-3 rounded-xl transition-all duration-300 group"
                     >
                       {/* Active Glow Indicator - The "LED" */}
                       {isActive && (
@@ -138,10 +147,10 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                         />
                       )}
 
-                      <div className="relative z-10 flex items-center gap-3">
+                      <div className="relative z-10 flex items-start gap-3">
                         {/* Icon Container */}
                         <div 
-                          className="w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300"
+                          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5"
                           style={{
                             background: isActive 
                               ? 'rgba(255, 255, 255, 0.1)' 
@@ -149,31 +158,46 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                           }}
                         >
                           <Icon 
-                            className="w-5 h-5 transition-colors duration-300"
+                            className="w-4 h-4 transition-colors duration-300"
                             style={{
                               color: isActive 
                                 ? 'rgba(255, 255, 255, 0.9)' 
-                                : 'rgba(113, 113, 122, 1)', // zinc-500
+                                : 'rgba(113, 113, 122, 1)',
                             }}
                           />
                         </div>
 
-                        {/* Label */}
-                        <span
-                          className="font-medium text-sm tracking-wide transition-colors duration-300"
-                          style={{
-                            color: isActive 
-                              ? 'rgba(255, 255, 255, 0.95)' 
-                              : 'rgba(113, 113, 122, 1)', // zinc-500
-                          }}
-                        >
-                          {item.label}
-                        </span>
+                        {/* Labels */}
+                        <div className="flex-1 min-w-0">
+                          <span
+                            className="block font-medium text-sm tracking-wide transition-colors duration-300 lowercase"
+                            style={{
+                              color: isActive 
+                                ? 'rgba(255, 255, 255, 0.95)' 
+                                : 'rgba(113, 113, 122, 1)',
+                            }}
+                          >
+                            {item.label}
+                          </span>
+                          <span
+                            className="block text-xs mt-0.5 transition-colors duration-300 lowercase"
+                            style={{
+                              color: isActive 
+                                ? 'rgba(255, 255, 255, 0.5)' 
+                                : 'rgba(113, 113, 122, 0.6)',
+                            }}
+                          >
+                            {item.sublabel}
+                          </span>
+                        </div>
 
-                        {/* Arrow on hover */}
+                        {/* Arrow on hover/active */}
                         <ArrowRight 
-                          className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          style={{ color: 'rgba(255, 255, 255, 0.4)' }}
+                          className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0"
+                          style={{ 
+                            color: 'rgba(255, 255, 255, 0.4)',
+                            opacity: isActive ? 1 : undefined 
+                          }}
                         />
                       </div>
                     </button>
@@ -183,7 +207,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
               {/* Bottom Badge */}
               <div 
-                className="mt-6 p-3 rounded-lg"
+                className="mt-4 p-3 rounded-lg"
                 style={{
                   background: 'rgba(255, 255, 255, 0.02)',
                   border: '1px solid rgba(255, 255, 255, 0.05)',
@@ -199,7 +223,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
               {/* The Groove - Vertical Divider */}
               <div 
-                className="absolute right-0 top-6 bottom-6 w-px"
+                className="absolute right-0 top-5 bottom-5 w-px"
                 style={{
                   background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%)',
                 }}
@@ -235,7 +259,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   className="absolute inset-0 p-10 flex flex-col"
                 >
                   {/* Dynamic Visual Based on Selection */}
-                  <div className="flex-1 flex items-center justify-center mb-8">
+                  <div className="flex-1 flex items-center justify-center mb-6">
                     <DeckVisual type={activeItem.id} />
                   </div>
 
@@ -300,261 +324,429 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 // Dynamic Visual Component
 const DeckVisual = ({ type }: { type: UseCaseType }) => {
   switch (type) {
-    case "orchestration":
-      return <GlobeVisual />;
+    case "attribution":
+      return <AttributionVisual />;
+    case "journey":
+      return <JourneyVisual />;
+    case "links":
+      return <LinksVisual />;
     case "intelligence":
-      return <SankeyVisual />;
-    case "qr":
-      return <ScannerVisual />;
+      return <IntelligenceVisual />;
     case "governance":
-      return <TerminalVisual />;
+      return <GovernanceVisual />;
     default:
       return null;
   }
 };
 
-// Globe Visual for Orchestration
-const GlobeVisual = () => (
-  <div className="relative w-[300px] h-[300px]">
-    {/* Outer Ring */}
-    <motion.div
-      className="absolute inset-0 rounded-full"
-      style={{
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-      animate={{ rotate: 360 }}
-      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-    />
-    {/* Middle Ring */}
-    <motion.div
-      className="absolute inset-8 rounded-full"
-      style={{
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-      }}
-      animate={{ rotate: -360 }}
-      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-    />
-    {/* Inner Glow */}
-    <div 
-      className="absolute inset-16 rounded-full"
-      style={{
-        background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-        boxShadow: '0 0 60px rgba(255,255,255,0.1)',
-      }}
-    />
-    {/* Center Dot */}
-    <div 
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full"
-      style={{
-        background: 'rgba(255, 255, 255, 0.8)',
-        boxShadow: '0 0 20px rgba(255,255,255,0.5)',
-      }}
-    />
-    {/* Orbiting Dots */}
-    {[0, 72, 144, 216, 288].map((deg, i) => (
-      <motion.div
-        key={i}
-        className="absolute w-2 h-2 rounded-full"
-        style={{
-          background: 'rgba(255, 255, 255, 0.6)',
-          top: '50%',
-          left: '50%',
-        }}
-        animate={{
-          x: Math.cos((deg + 360) * Math.PI / 180) * 100,
-          y: Math.sin((deg + 360) * Math.PI / 180) * 100,
-          rotate: [0, 360],
-        }}
-        transition={{
-          x: { duration: 20, repeat: Infinity, ease: "linear", delay: i * 0.5 },
-          y: { duration: 20, repeat: Infinity, ease: "linear", delay: i * 0.5 },
-          rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-        }}
-      />
-    ))}
-  </div>
-);
+// Attribution Visual - Sankey Flow
+const AttributionVisual = () => (
+  <div className="relative w-[380px] h-[220px]">
+    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 220">
+      {/* Source nodes */}
+      <motion.rect x="10" y="20" width="60" height="30" rx="6" fill="rgba(255,255,255,0.1)"
+        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} />
+      <motion.rect x="10" y="70" width="60" height="45" rx="6" fill="rgba(255,255,255,0.15)"
+        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} />
+      <motion.rect x="10" y="135" width="60" height="25" rx="6" fill="rgba(255,255,255,0.08)"
+        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} />
+      <motion.rect x="10" y="180" width="60" height="20" rx="6" fill="rgba(255,255,255,0.06)"
+        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} />
 
-// Sankey/Flow Visual for Intelligence
-const SankeyVisual = () => (
-  <div className="relative w-[350px] h-[200px]">
-    {/* Flow Lines */}
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 350 200">
-      {/* Path 1 */}
-      <motion.path
-        d="M 20 40 Q 100 40, 175 100 T 330 100"
-        fill="none"
-        stroke="rgba(255, 255, 255, 0.2)"
-        strokeWidth="20"
-        strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 2, ease: appleEase }}
-      />
-      {/* Path 2 */}
-      <motion.path
-        d="M 20 100 Q 100 100, 175 100 T 330 100"
-        fill="none"
-        stroke="rgba(255, 255, 255, 0.3)"
-        strokeWidth="30"
-        strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 2, delay: 0.2, ease: appleEase }}
-      />
-      {/* Path 3 */}
-      <motion.path
-        d="M 20 160 Q 100 160, 175 100 T 330 100"
-        fill="none"
-        stroke="rgba(255, 255, 255, 0.15)"
-        strokeWidth="15"
-        strokeLinecap="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 2, delay: 0.4, ease: appleEase }}
-      />
-      {/* Converging Point Glow */}
-      <motion.circle
-        cx="330"
-        cy="100"
-        r="15"
-        fill="rgba(255, 255, 255, 0.8)"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 2, ease: appleEase }}
-      />
+      {/* Flow paths */}
+      <motion.path d="M 70 35 Q 150 35, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="12" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5, ease: appleEase }} />
+      <motion.path d="M 70 92 Q 150 92, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="20" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: appleEase }} />
+      <motion.path d="M 70 147 Q 150 147, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="10" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.7, ease: appleEase }} />
+      <motion.path d="M 70 190 Q 150 190, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" strokeLinecap="round"
+        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.8, ease: appleEase }} />
+
+      {/* Revenue node */}
+      <motion.rect x="310" y="85" width="60" height="50" rx="8" fill="rgba(255,255,255,0.9)"
+        initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2, type: "spring", stiffness: 300 }} />
     </svg>
-    {/* Labels */}
-    <div className="absolute left-0 top-[30px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
-      Social
-    </div>
-    <div className="absolute left-0 top-[90px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
-      Search
-    </div>
-    <div className="absolute left-0 top-[150px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
-      Email
-    </div>
-    <div className="absolute right-0 top-[90px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.6)' }}>
-      Revenue
-    </div>
-  </div>
-);
-
-// Scanner Visual for QR Studio
-const ScannerVisual = () => (
-  <div className="relative w-[200px] h-[200px]">
-    {/* QR Code Pattern */}
-    <div 
-      className="absolute inset-0 rounded-xl overflow-hidden"
-      style={{
-        background: 'rgba(255, 255, 255, 0.05)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
-      {/* QR Grid Pattern */}
-      <div className="absolute inset-4 grid grid-cols-7 grid-rows-7 gap-1">
-        {Array.from({ length: 49 }).map((_, i) => {
-          const isCorner = 
-            (i < 3 || (i >= 4 && i < 7)) || // Top left
-            (i >= 7 && i < 10) || 
-            (i >= 14 && i < 21) ||
-            (i >= 42 && i < 49) ||
-            (i >= 35 && i < 42 && i % 7 < 3);
-          return (
-            <div
-              key={i}
-              className="rounded-sm"
-              style={{
-                background: Math.random() > 0.5 || isCorner
-                  ? 'rgba(255, 255, 255, 0.3)'
-                  : 'transparent',
-              }}
-            />
-          );
-        })}
-      </div>
-    </div>
     
-    {/* Scanning Line */}
-    <motion.div
-      className="absolute left-0 right-0 h-0.5"
-      style={{
-        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent)',
-        boxShadow: '0 0 20px rgba(255,255,255,0.5)',
-      }}
-      animate={{ top: ['0%', '100%', '0%'] }}
-      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-    />
-
-    {/* Corner Brackets */}
-    <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-lg" style={{ borderColor: 'rgba(255,255,255,0.4)' }} />
-    <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 rounded-tr-lg" style={{ borderColor: 'rgba(255,255,255,0.4)' }} />
-    <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 rounded-bl-lg" style={{ borderColor: 'rgba(255,255,255,0.4)' }} />
-    <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-lg" style={{ borderColor: 'rgba(255,255,255,0.4)' }} />
+    {/* Labels */}
+    <motion.div className="absolute left-0 top-[18px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+      paid ads
+    </motion.div>
+    <motion.div className="absolute left-0 top-[75px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+      organic
+    </motion.div>
+    <motion.div className="absolute left-0 top-[133px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+      email
+    </motion.div>
+    <motion.div className="absolute left-0 top-[178px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+      referral
+    </motion.div>
+    <motion.div className="absolute right-0 top-[100px] flex items-center gap-1"
+      initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }}>
+      <DollarSign className="w-4 h-4" style={{ color: '#09090B' }} />
+      <span className="text-sm font-bold" style={{ color: '#09090B' }}>revenue</span>
+    </motion.div>
   </div>
 );
 
-// Terminal Visual for Governance
-const TerminalVisual = () => {
-  const logs = [
-    { time: '09:14:22', action: 'link_created', user: 'sarah@acme.co', status: 'approved' },
-    { time: '09:14:45', action: 'utm_validated', user: 'system', status: 'passed' },
-    { time: '09:15:01', action: 'approval_requested', user: 'mike@acme.co', status: 'pending' },
-    { time: '09:15:33', action: 'link_approved', user: 'sarah@acme.co', status: 'approved' },
-    { time: '09:16:02', action: 'naming_enforced', user: 'system', status: 'corrected' },
+// Journey Visual - Timeline
+const JourneyVisual = () => {
+  const touchpoints = [
+    { label: "visit", delay: 0 },
+    { label: "click", delay: 0.2 },
+    { label: "demo", delay: 0.4 },
+    { label: "call", delay: 0.6 },
+    { label: "close", delay: 0.8 },
   ];
 
   return (
-    <div 
-      className="relative w-[380px] rounded-xl overflow-hidden font-mono text-xs"
-      style={{
-        background: 'rgba(0, 0, 0, 0.4)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-      }}
-    >
-      {/* Terminal Header */}
-      <div 
-        className="flex items-center gap-2 px-4 py-2"
-        style={{
-          background: 'rgba(255, 255, 255, 0.03)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        }}
-      >
-        <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255, 95, 86, 0.8)' }} />
-        <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255, 189, 46, 0.8)' }} />
-        <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(39, 201, 63, 0.8)' }} />
-        <span className="ml-2 text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>audit.log</span>
-      </div>
+    <div className="relative w-[380px] h-[180px]">
+      {/* Timeline line */}
+      <motion.div 
+        className="absolute top-[60px] left-[30px] right-[30px] h-[2px]"
+        style={{ background: 'rgba(255,255,255,0.1)' }}
+        initial={{ scaleX: 0, originX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 1, ease: appleEase }}
+      />
 
-      {/* Log Entries */}
-      <div className="p-4 space-y-2 h-[180px] overflow-hidden">
-        {logs.map((log, i) => (
-          <motion.div
-            key={i}
+      {/* Animated progress line */}
+      <motion.div 
+        className="absolute top-[60px] left-[30px] h-[2px]"
+        style={{ background: 'rgba(255,255,255,0.6)', width: 'calc(100% - 60px)' }}
+        initial={{ scaleX: 0, originX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 2, delay: 0.5, ease: appleEase }}
+      />
+
+      {/* Touchpoints */}
+      {touchpoints.map((tp, i) => (
+        <motion.div
+          key={tp.label}
+          className="absolute flex flex-col items-center"
+          style={{ left: `${15 + i * 17.5}%`, top: '40px' }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 + tp.delay, ease: appleEase }}
+        >
+          {/* Dot */}
+          <motion.div 
+            className="w-10 h-10 rounded-full flex items-center justify-center"
+            style={{ 
+              background: i === touchpoints.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.1)',
+              border: '2px solid rgba(255,255,255,0.3)'
+            }}
+            animate={i < touchpoints.length - 1 ? { 
+              boxShadow: ['0 0 0 0 rgba(255,255,255,0)', '0 0 0 8px rgba(255,255,255,0.1)', '0 0 0 0 rgba(255,255,255,0)']
+            } : {}}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+          >
+            {i === touchpoints.length - 1 && <CheckCircle2 className="w-5 h-5" style={{ color: '#09090B' }} />}
+          </motion.div>
+          {/* Label */}
+          <span 
+            className="mt-3 text-xs uppercase tracking-wider"
+            style={{ color: i === touchpoints.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
+          >
+            {tp.label}
+          </span>
+        </motion.div>
+      ))}
+
+      {/* Device icons floating */}
+      <motion.div 
+        className="absolute top-2 left-[20%] text-[10px] uppercase px-2 py-1 rounded"
+        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
+      >
+        📱 mobile
+      </motion.div>
+      <motion.div 
+        className="absolute top-2 left-[55%] text-[10px] uppercase px-2 py-1 rounded"
+        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
+      >
+        💻 desktop
+      </motion.div>
+    </div>
+  );
+};
+
+// Links Visual - UTM Builder Mockup
+const LinksVisual = () => {
+  const fields = [
+    { label: "utm_source", value: "linkedin", delay: 0.2 },
+    { label: "utm_medium", value: "social", delay: 0.4 },
+    { label: "utm_campaign", value: "q4-launch", delay: 0.6 },
+  ];
+
+  return (
+    <div className="relative w-[340px]">
+      {/* Glass Card */}
+      <motion.div 
+        className="rounded-2xl p-5 space-y-4"
+        style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)'
+        }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: appleEase }}
+      >
+        {/* URL Input */}
+        <motion.div 
+          className="rounded-lg px-3 py-2 flex items-center gap-2"
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+        >
+          <LinkIcon className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.4)' }} />
+          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>utm.one/nike-q4</span>
+          <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: 'rgba(34,197,94,0.8)' }} />
+        </motion.div>
+
+        {/* UTM Fields */}
+        {fields.map((field) => (
+          <motion.div 
+            key={field.label}
+            className="flex items-center gap-3"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.3, duration: 0.3 }}
-            className="flex items-center gap-3"
+            transition={{ delay: field.delay, ease: appleEase }}
           >
-            <span style={{ color: 'rgba(255,255,255,0.3)' }}>{log.time}</span>
-            <span style={{ color: 'rgba(255,255,255,0.6)' }}>{log.action}</span>
-            <span className="flex-1 truncate" style={{ color: 'rgba(255,255,255,0.4)' }}>{log.user}</span>
-            <span 
-              className="px-2 py-0.5 rounded text-[10px]"
-              style={{
-                background: log.status === 'approved' ? 'rgba(39, 201, 63, 0.2)' 
-                  : log.status === 'pending' ? 'rgba(255, 189, 46, 0.2)'
-                  : 'rgba(59, 130, 246, 0.2)',
-                color: log.status === 'approved' ? 'rgba(39, 201, 63, 0.9)' 
-                  : log.status === 'pending' ? 'rgba(255, 189, 46, 0.9)'
-                  : 'rgba(59, 130, 246, 0.9)',
-              }}
-            >
-              {log.status}
+            <span className="text-[10px] uppercase tracking-wider w-24" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              {field.label}
             </span>
+            <div className="flex-1 rounded px-2 py-1.5 flex items-center justify-between" style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>{field.value}</span>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: field.delay + 0.3, type: "spring" }}
+              >
+                <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(34,197,94,0.8)' }} />
+              </motion.div>
+            </div>
           </motion.div>
         ))}
-      </div>
+
+        {/* QR Preview */}
+        <motion.div 
+          className="flex items-center gap-3 pt-2"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
+        >
+          <div className="w-12 h-12 rounded-lg grid grid-cols-4 grid-rows-4 gap-0.5 p-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+            {Array.from({ length: 16 }).map((_, i) => (
+              <div key={i} className="rounded-sm" style={{ background: Math.random() > 0.4 ? 'rgba(255,255,255,0.7)' : 'transparent' }} />
+            ))}
+          </div>
+          <div>
+            <p className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>QR generated</p>
+            <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>print-ready • 300dpi</p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
+// Intelligence Visual - Neural Network
+const IntelligenceVisual = () => {
+  const nodes = [
+    { x: 50, y: 50 }, { x: 50, y: 110 }, { x: 50, y: 170 },
+    { x: 150, y: 80 }, { x: 150, y: 140 },
+    { x: 250, y: 110 },
+  ];
+
+  const connections = [
+    [0, 3], [0, 4], [1, 3], [1, 4], [2, 3], [2, 4],
+    [3, 5], [4, 5]
+  ];
+
+  return (
+    <div className="relative w-[300px] h-[220px]">
+      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 220">
+        {/* Connections */}
+        {connections.map(([from, to], i) => (
+          <motion.line
+            key={i}
+            x1={nodes[from].x}
+            y1={nodes[from].y}
+            x2={nodes[to].x}
+            y2={nodes[to].y}
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth="1"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
+          />
+        ))}
+
+        {/* Pulse along connections */}
+        {connections.map(([from, to], i) => (
+          <motion.circle
+            key={`pulse-${i}`}
+            r="3"
+            fill="rgba(255,255,255,0.6)"
+            initial={{ opacity: 0 }}
+            animate={{
+              cx: [nodes[from].x, nodes[to].x],
+              cy: [nodes[from].y, nodes[to].y],
+              opacity: [0, 1, 0]
+            }}
+            transition={{
+              duration: 2,
+              delay: 1 + i * 0.2,
+              repeat: Infinity,
+              repeatDelay: 3
+            }}
+          />
+        ))}
+
+        {/* Nodes */}
+        {nodes.map((node, i) => (
+          <motion.circle
+            key={i}
+            cx={node.x}
+            cy={node.y}
+            r={i === nodes.length - 1 ? 20 : 12}
+            fill={i === nodes.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.1)'}
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="1"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1 + i * 0.1, type: "spring" }}
+          />
+        ))}
+      </svg>
+
+      {/* Center brain icon */}
+      <motion.div 
+        className="absolute flex items-center justify-center"
+        style={{ left: '230px', top: '90px' }}
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1, type: "spring" }}
+      >
+        <Brain className="w-6 h-6" style={{ color: '#09090B' }} />
+      </motion.div>
+
+      {/* Labels */}
+      <motion.div 
+        className="absolute top-[40px] left-0 text-[9px] uppercase tracking-wider"
+        style={{ color: 'rgba(255,255,255,0.4)' }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+      >
+        inputs
+      </motion.div>
+      <motion.div 
+        className="absolute top-[90px] right-[20px] text-[9px] uppercase tracking-wider"
+        style={{ color: 'rgba(255,255,255,0.6)' }}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
+      >
+        insight
+      </motion.div>
+
+      {/* AI Features floating */}
+      {['predictive', 'attribution', 'routing', 'immunity'].map((feature, i) => (
+        <motion.div
+          key={feature}
+          className="absolute text-[8px] uppercase tracking-wider px-2 py-1 rounded"
+          style={{ 
+            background: 'rgba(255,255,255,0.05)', 
+            color: 'rgba(255,255,255,0.5)',
+            left: i % 2 === 0 ? '10px' : 'auto',
+            right: i % 2 === 1 ? '10px' : 'auto',
+            top: i < 2 ? '5px' : 'auto',
+            bottom: i >= 2 ? '5px' : 'auto'
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 + i * 0.2 }}
+        >
+          {feature}
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+// Governance Visual - Terminal Log
+const GovernanceVisual = () => {
+  const logs = [
+    { user: "sarah.k", action: "created", target: "nike-q4-campaign", status: "approved", delay: 0.2 },
+    { user: "mike.r", action: "edited", target: "tesla-launch-2024", status: "pending", delay: 0.5 },
+    { user: "admin", action: "approved", target: "apple-wwdc-link", status: "approved", delay: 0.8 },
+    { user: "lisa.m", action: "archived", target: "old-campaign-123", status: "approved", delay: 1.1 },
+  ];
+
+  return (
+    <div className="relative w-[380px]">
+      {/* Terminal Window */}
+      <motion.div 
+        className="rounded-xl overflow-hidden"
+        style={{ 
+          background: 'rgba(0,0,0,0.4)', 
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        {/* Title Bar */}
+        <div className="flex items-center gap-2 px-4 py-2" style={{ background: 'rgba(255,255,255,0.03)' }}>
+          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,99,71,0.6)' }} />
+          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,206,84,0.6)' }} />
+          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(46,204,113,0.6)' }} />
+          <span className="ml-2 text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            audit log
+          </span>
+        </div>
+
+        {/* Log Entries */}
+        <div className="p-4 space-y-2 font-mono text-xs">
+          {logs.map((log, i) => (
+            <motion.div
+              key={i}
+              className="flex items-center gap-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: log.delay, ease: appleEase }}
+            >
+              <span style={{ color: 'rgba(255,255,255,0.3)' }}>[{`${9 + i}:${15 + i * 7}am`}]</span>
+              <User className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.4)' }} />
+              <span style={{ color: 'rgba(255,255,255,0.6)' }}>{log.user}</span>
+              <span style={{ color: 'rgba(255,255,255,0.4)' }}>{log.action}</span>
+              <span style={{ color: 'rgba(255,255,255,0.8)' }}>{log.target}</span>
+              <motion.span 
+                className="ml-auto px-2 py-0.5 rounded text-[10px] uppercase"
+                style={{ 
+                  background: log.status === 'approved' ? 'rgba(34,197,94,0.2)' : 'rgba(234,179,8,0.2)',
+                  color: log.status === 'approved' ? 'rgba(34,197,94,0.9)' : 'rgba(234,179,8,0.9)'
+                }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: log.delay + 0.3, type: "spring" }}
+              >
+                {log.status}
+              </motion.span>
+            </motion.div>
+          ))}
+
+          {/* Blinking cursor */}
+          <motion.div 
+            className="flex items-center gap-1 pt-2"
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+          >
+            <span style={{ color: 'rgba(255,255,255,0.4)' }}>$</span>
+            <div className="w-2 h-4" style={{ background: 'rgba(255,255,255,0.6)' }} />
+          </motion.div>
+        </div>
+      </motion.div>
     </div>
   );
 };
