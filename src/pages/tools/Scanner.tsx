@@ -119,7 +119,7 @@ export default function Scanner() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-green-400 font-mono">
+    <div className="dark min-h-screen bg-[#0a0a0a] text-green-400 font-mono">
       <AppHeader />
       
       {/* Scanlines overlay */}

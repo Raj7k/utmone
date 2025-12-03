@@ -39,7 +39,7 @@ export const FeatureLayout = ({
       
       {/* Obsidian & Platinum Design System */}
       <div 
-        className="min-h-screen flex flex-col relative overflow-hidden"
+        className="dark min-h-screen flex flex-col relative overflow-hidden"
         style={{ background: '#050505' }}
       >
         {/* Noise Texture Overlay */}

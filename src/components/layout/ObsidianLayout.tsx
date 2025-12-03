@@ -17,7 +17,7 @@ interface ObsidianLayoutProps {
 export const ObsidianLayout = ({ children, showLighting = true }: ObsidianLayoutProps) => {
   return (
     <div 
-      className="min-h-screen flex flex-col relative selection:bg-white selection:text-black"
+      className="dark min-h-screen flex flex-col relative selection:bg-white selection:text-black"
       style={{ background: '#050505' }}
     >
       {/* Noise Texture */}

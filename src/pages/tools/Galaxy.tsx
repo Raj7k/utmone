@@ -132,7 +132,7 @@ export default function Galaxy() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a]">
+    <div className="dark min-h-screen bg-[#0a0a1a]">
       <AppHeader />
       
       {/* Stars background */}

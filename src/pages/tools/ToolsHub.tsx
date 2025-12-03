@@ -52,7 +52,7 @@ const TOOLS = [
 
 export default function ToolsHub() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
+    <div className="dark min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#0f0f1a] to-[#0a0a0f]">
       <AppHeader />
       
       {/* Animated grid background */}

@@ -100,7 +100,7 @@ export default function QRTest() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-950 via-stone-900 to-amber-950">
+    <div className="dark min-h-screen bg-gradient-to-br from-amber-950 via-stone-900 to-amber-950">
       <AppHeader />
       
       {/* Industrial overlay */}
