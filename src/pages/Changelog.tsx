@@ -1,5 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Sparkles, Wrench, Bug, Shield } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 
@@ -137,11 +136,11 @@ const Changelog = () => {
       case "feature":
         return <Sparkles className="w-5 h-5 text-primary" />;
       case "improvement":
-        return <Wrench className="w-5 h-5 text-blue-500" />;
+        return <Wrench className="w-5 h-5 text-blue-400" />;
       case "fix":
-        return <Bug className="w-5 h-5 text-orange-500" />;
+        return <Bug className="w-5 h-5 text-orange-400" />;
       case "security":
-        return <Shield className="w-5 h-5 text-green-500" />;
+        return <Shield className="w-5 h-5 text-green-400" />;
       default:
         return null;
     }
@@ -163,22 +162,21 @@ const Changelog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="Changelog - What's New"
         description="Track new features, improvements, and fixes across all utm.one releases. See what's been added to improve your link management and analytics."
         canonical="https://utm.one/changelog"
         keywords={['utm.one changelog', 'product updates', 'new features', 'release notes', 'version history']}
       />
-      <Navigation />
 
       {/* Hero */}
-      <section className="py-24 bg-background border-b border-border">
+      <section className="py-24 border-b border-white/10">
         <div className="max-w-4xl mx-auto px-8 text-center">
-          <h1 className="text-5xl font-display font-bold text-foreground mb-6">
+          <h1 className="text-5xl font-display font-bold text-white mb-6">
             Changelog
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-xl text-white/60 leading-relaxed">
             New features, improvements, and fixes across all releases.
           </p>
         </div>
@@ -190,13 +188,13 @@ const Changelog = () => {
           {releases.map((release) => (
             <div
               key={release.version}
-              className="border border-border rounded-2xl p-8 bg-card"
+              className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl"
             >
               <div className="flex items-baseline justify-between mb-6">
-                <h2 className="text-2xl font-display font-bold text-foreground">
+                <h2 className="text-2xl font-display font-bold text-white">
                   Version {release.version}
                 </h2>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-white/40">
                   {release.date}
                 </span>
               </div>
@@ -206,10 +204,10 @@ const Changelog = () => {
                   <div key={index} className="flex items-start gap-3">
                     {getIcon(item.type)}
                     <div className="flex-1">
-                      <span className="inline-block px-2 py-0.5 rounded-md text-xs font-medium bg-muted/50 text-muted-foreground mr-2">
+                      <span className="inline-block px-2 py-0.5 rounded-md text-xs font-medium bg-white/10 text-white/60 mr-2">
                         {getLabel(item.type)}
                       </span>
-                      <span className="text-foreground">{item.text}</span>
+                      <span className="text-white">{item.text}</span>
                     </div>
                   </div>
                 ))}
@@ -218,9 +216,7 @@ const Changelog = () => {
           ))}
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

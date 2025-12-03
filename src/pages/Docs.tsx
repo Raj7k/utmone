@@ -1,6 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { BookOpen, Code, Zap, Shield, Users, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { TableOfContents } from "@/components/resources/TableOfContents";
@@ -87,18 +85,15 @@ const Docs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
-
+    <MainLayout showAnnouncement={false}>
       {/* Hero */}
-      <section className="py-24 bg-background border-b border-border">
+      <section className="py-24 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-8">
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-display font-bold text-foreground mb-6">
+            <h1 className="text-5xl font-display font-bold text-white mb-6">
               Documentation
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-xl text-white/60 leading-relaxed">
               Everything you need to know about utm.one. From creating your first link to building enterprise integrations.
             </p>
           </div>
@@ -111,65 +106,65 @@ const Docs = () => {
           <div className="space-y-24">
             {/* Quick Start */}
             <section id="quick-start">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Quick Start Guide
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   Get up and running with utm.one in under 5 minutes.
                 </p>
                 
                 <div className="space-y-6">
-                  <div className="border border-border rounded-2xl p-8 bg-card">
+                  <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
                         1
                       </div>
                       <div>
-                        <h2 className="text-lg font-semibold text-foreground mb-2">Sign up and verify your domain</h2>
-                        <p className="text-muted-foreground">
+                        <h2 className="text-lg font-semibold text-white mb-2">Sign up and verify your domain</h2>
+                        <p className="text-white/60">
                           Create your account and add your custom domain. We'll guide you through DNS verification.
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border border-border rounded-2xl p-8 bg-card">
+                  <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
                         2
                       </div>
                       <div>
-                        <h2 className="text-lg font-semibold text-foreground mb-2">Create your first short link</h2>
-                        <p className="text-muted-foreground">
+                        <h2 className="text-lg font-semibold text-white mb-2">Create your first short link</h2>
+                        <p className="text-white/60">
                           Paste your destination URL, add UTM parameters, and generate a clean short link.
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border border-border rounded-2xl p-8 bg-card">
+                  <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
                         3
                       </div>
                       <div>
-                        <h2 className="text-lg font-semibold text-foreground mb-2">Generate a branded QR code</h2>
-                        <p className="text-muted-foreground">
+                        <h2 className="text-lg font-semibold text-white mb-2">Generate a branded QR code</h2>
+                        <p className="text-white/60">
                           Customize colors, add your logo, and export in multiple formats.
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border border-border rounded-2xl p-8 bg-card">
+                  <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
                         4
                       </div>
                       <div>
-                        <h2 className="text-lg font-semibold text-foreground mb-2">Track your analytics</h2>
-                        <p className="text-muted-foreground">
+                        <h2 className="text-lg font-semibold text-white mb-2">Track your analytics</h2>
+                        <p className="text-white/60">
                           View real-time click data, device breakdowns, and geographic insights.
                         </p>
                       </div>
@@ -181,30 +176,30 @@ const Docs = () => {
 
             {/* First Link */}
             <section id="first-link">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Create Your First Link
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   Creating a short link is simple. Here's what you need:
                 </p>
 
-                <div className="bg-muted/20 border border-border rounded-2xl p-8 mb-6">
-                  <h2 className="text-xl font-semibold text-foreground mb-4">Required Fields</h2>
-                  <ul className="space-y-3 text-muted-foreground">
-                    <li><strong className="text-foreground">Title:</strong> Internal name for your link (not visible to users)</li>
-                    <li><strong className="text-foreground">Destination URL:</strong> Where the link will redirect</li>
-                    <li><strong className="text-foreground">Slug:</strong> The short part of your URL (e.g., "summer-sale")</li>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 mb-6">
+                  <h2 className="text-xl font-semibold text-white mb-4">Required Fields</h2>
+                  <ul className="space-y-3 text-white/60">
+                    <li><strong className="text-white">Title:</strong> Internal name for your link (not visible to users)</li>
+                    <li><strong className="text-white">Destination URL:</strong> Where the link will redirect</li>
+                    <li><strong className="text-white">Slug:</strong> The short part of your URL (e.g., "summer-sale")</li>
                   </ul>
                 </div>
 
-                <div className="bg-muted/20 border border-border rounded-2xl p-8">
-                  <h2 className="text-xl font-semibold text-foreground mb-4">Optional Fields</h2>
-                  <ul className="space-y-3 text-muted-foreground">
-                    <li><strong className="text-foreground">UTM Parameters:</strong> Track campaign performance (source, medium, campaign, term, content)</li>
-                    <li><strong className="text-foreground">Description:</strong> Add notes for your team</li>
-                    <li><strong className="text-foreground">Expiration:</strong> Set an expiry date or click limit</li>
-                    <li><strong className="text-foreground">Password:</strong> Protect your link with a password</li>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+                  <h2 className="text-xl font-semibold text-white mb-4">Optional Fields</h2>
+                  <ul className="space-y-3 text-white/60">
+                    <li><strong className="text-white">UTM Parameters:</strong> Track campaign performance (source, medium, campaign, term, content)</li>
+                    <li><strong className="text-white">Description:</strong> Add notes for your team</li>
+                    <li><strong className="text-white">Expiration:</strong> Set an expiry date or click limit</li>
+                    <li><strong className="text-white">Password:</strong> Protect your link with a password</li>
                   </ul>
                 </div>
               </div>
@@ -212,11 +207,11 @@ const Docs = () => {
 
             {/* UTM Basics */}
             <section id="utm-basics">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Understanding UTM Parameters
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   UTM parameters help you track where your traffic comes from and how campaigns perform.
                 </p>
 
@@ -228,9 +223,9 @@ const Docs = () => {
                     { name: "utm_term", desc: "Paid search keywords (optional, for paid ads)" },
                     { name: "utm_content", desc: "Differentiate similar content or links (e.g., cta-button, banner-ad)" },
                   ].map((param) => (
-                    <div key={param.name} className="border border-border rounded-xl p-6 bg-card">
+                    <div key={param.name} className="border border-white/10 rounded-xl p-6 bg-white/5 backdrop-blur-xl">
                       <code className="text-primary font-mono text-sm">{param.name}</code>
-                      <p className="text-muted-foreground mt-2">{param.desc}</p>
+                      <p className="text-white/60 mt-2">{param.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -239,22 +234,22 @@ const Docs = () => {
 
             {/* QR Codes */}
             <section id="first-qr">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Generate Your First QR Code
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   Every short link can generate multiple branded QR code variants.
                 </p>
 
-                <div className="bg-muted/20 border border-border rounded-2xl p-8">
-                  <h2 className="text-xl font-semibold text-foreground mb-4">Customization Options</h2>
-                  <ul className="space-y-3 text-muted-foreground">
-                    <li><strong className="text-foreground">Colors:</strong> Customize QR code colors to match your brand</li>
-                    <li><strong className="text-foreground">Logo:</strong> Add your brand logo to the center</li>
-                    <li><strong className="text-foreground">Corner Style:</strong> Choose between square or rounded corners</li>
-                    <li><strong className="text-foreground">Frame Text:</strong> Add text around the QR code</li>
-                    <li><strong className="text-foreground">Export Formats:</strong> Download as PNG or SVG</li>
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+                  <h2 className="text-xl font-semibold text-white mb-4">Customization Options</h2>
+                  <ul className="space-y-3 text-white/60">
+                    <li><strong className="text-white">Colors:</strong> Customize QR code colors to match your brand</li>
+                    <li><strong className="text-white">Logo:</strong> Add your brand logo to the center</li>
+                    <li><strong className="text-white">Corner Style:</strong> Choose between square or rounded corners</li>
+                    <li><strong className="text-white">Frame Text:</strong> Add text around the QR code</li>
+                    <li><strong className="text-white">Export Formats:</strong> Download as PNG or SVG</li>
                   </ul>
                 </div>
               </div>
@@ -262,17 +257,17 @@ const Docs = () => {
 
             {/* Integrations */}
             <section id="zapier">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Zapier Integration
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   Connect utm.one to 5,000+ apps with Zapier webhooks.
                 </p>
 
-                <div className="border border-border rounded-2xl p-8 bg-card">
-                  <h2 className="text-xl font-semibold text-foreground mb-4">Available Triggers</h2>
-                  <ul className="space-y-2 text-muted-foreground">
+                <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
+                  <h2 className="text-xl font-semibold text-white mb-4">Available Triggers</h2>
+                  <ul className="space-y-2 text-white/60">
                     <li>• Link created</li>
                     <li>• Link clicked</li>
                     <li>• Conversion tracked</li>
@@ -283,11 +278,11 @@ const Docs = () => {
 
             {/* Team Management */}
             <section id="invite-team">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
+              <h2 className="text-3xl font-display font-bold text-white mb-6">
                 Inviting Team Members
               </h2>
               <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-foreground leading-relaxed mb-6">
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
                   Collaborate with unlimited team members on all paid plans.
                 </p>
 
@@ -297,9 +292,9 @@ const Docs = () => {
                     { role: "Editor", desc: "Create, edit, and delete links and QR codes" },
                     { role: "Viewer", desc: "View links and analytics only" },
                   ].map((role) => (
-                    <div key={role.role} className="border border-border rounded-xl p-6 bg-card">
-                      <h2 className="text-lg font-semibold text-foreground mb-2">{role.role}</h2>
-                      <p className="text-muted-foreground">{role.desc}</p>
+                    <div key={role.role} className="border border-white/10 rounded-xl p-6 bg-white/5 backdrop-blur-xl">
+                      <h2 className="text-lg font-semibold text-white mb-2">{role.role}</h2>
+                      <p className="text-white/60">{role.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -307,24 +302,24 @@ const Docs = () => {
             </section>
 
             {/* Need More Help */}
-            <section className="border-t border-border pt-16">
-              <div className="bg-muted/20 border border-border rounded-2xl p-12 text-center">
-                <h2 className="text-2xl font-display font-bold text-foreground mb-4">
+            <section className="border-t border-white/10 pt-16">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+                <h2 className="text-2xl font-display font-bold text-white mb-4">
                   Need More Help?
                 </h2>
-                <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                <p className="text-lg text-white/60 mb-8 max-w-2xl mx-auto">
                   Check out our FAQ, browse the changelog, or reach out to support.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Link
                     to="/faq"
-                    className="px-6 py-3 bg-card border border-border rounded-xl text-foreground font-medium hover:bg-muted/20 transition-colors"
+                    className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-medium hover:bg-white/10 transition-colors"
                   >
                     View FAQ
                   </Link>
                   <Link
                     to="/changelog"
-                    className="px-6 py-3 bg-card border border-border rounded-xl text-foreground font-medium hover:bg-muted/20 transition-colors"
+                    className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-medium hover:bg-white/10 transition-colors"
                   >
                     See What's New
                   </Link>
@@ -343,9 +338,7 @@ const Docs = () => {
           <TableOfContents />
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 
