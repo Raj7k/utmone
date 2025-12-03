@@ -16,9 +16,9 @@ export const FeatureHeroWithTool = ({
   toolComponent,
 }: FeatureHeroWithToolProps) => {
   return (
-    <section className="relative pt-2 pb-12 md:pt-4 md:pb-16 overflow-hidden bg-background">
+    <section className="relative pt-2 pb-12 md:pt-4 md:pb-16 overflow-hidden">
       {/* Subtle dot grid pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_hsl(var(--primary)/0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
       
       {/* Gradient glow behind headline */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent blur-3xl pointer-events-none" />
@@ -33,13 +33,13 @@ export const FeatureHeroWithTool = ({
           transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
           className="flex flex-wrap justify-center gap-2 mb-4"
         >
-          <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
+          <span className="px-3 py-1 text-xs bg-white/5 rounded-full border border-white/10 text-white/60">
             ✓ free tier
           </span>
-          <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
+          <span className="px-3 py-1 text-xs bg-white/5 rounded-full border border-white/10 text-white/60">
             ✓ no signup
           </span>
-          <span className="px-3 py-1 text-xs bg-muted/50 rounded-full border border-border/40 text-secondary-label">
+          <span className="px-3 py-1 text-xs bg-white/5 rounded-full border border-white/10 text-white/60">
             ✓ instant
           </span>
         </motion.div>
@@ -58,7 +58,7 @@ export const FeatureHeroWithTool = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            className="text-body text-secondary-label max-w-2xl mx-auto mb-0"
+            className="text-body text-white/60 max-w-2xl mx-auto mb-0"
           >
             {subheadline}
           </motion.p>

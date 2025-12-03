@@ -103,7 +103,7 @@ const CustomDomains = () => {
       </section>
 
       {/* Problem Section */}
-      <FeatureSection background="white">
+      <FeatureSection background="default">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
             {formatText("Why Branded Domains Matter")}
@@ -164,7 +164,7 @@ const CustomDomains = () => {
       </section>
 
       {/* Trust Stats Section */}
-      <FeatureSection background="white">
+      <FeatureSection background="default">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-label lowercase">
             {formatText("The Data on Branded Links")}

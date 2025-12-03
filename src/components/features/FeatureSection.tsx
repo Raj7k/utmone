@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils";
 interface FeatureSectionProps {
   children: ReactNode;
   className?: string;
-  background?: "white" | "muted";
+  background?: "default" | "muted" | "elevated";
   maxWidth?: "narrow" | "medium" | "wide";
 }
 
 export const FeatureSection = ({
   children,
   className,
-  background = "white",
+  background = "default",
   maxWidth = "medium",
 }: FeatureSectionProps) => {
   const ref = useRef(null);
@@ -26,6 +26,12 @@ export const FeatureSection = ({
     wide: "max-w-7xl",
   };
 
+  const backgroundClasses = {
+    default: "bg-transparent",
+    muted: "bg-white/[0.02]",
+    elevated: "bg-zinc-900/40 backdrop-blur-xl",
+  };
+
   return (
     <motion.section
       ref={ref}
@@ -34,7 +40,7 @@ export const FeatureSection = ({
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       className={cn(
         "py-12 md:py-24 lg:py-32",
-        background === "muted" ? "bg-muted/20" : "bg-background",
+        backgroundClasses[background],
         className
       )}
     >
