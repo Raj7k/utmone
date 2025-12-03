@@ -437,6 +437,108 @@ All colors MUST be HSL.
   .obsidian-sub {
     @apply text-zinc-400;
   }
+
+  /* ============================================
+     OBSIDIAN DESIGN SYSTEM TOKENS
+     Jony Ive-inspired "Unibody Glass" aesthetic
+     ============================================ */
+  :root {
+    /* Obsidian Background Colors */
+    --obsidian-bg: 0 0% 2%;                    /* #050505 - Warm Obsidian */
+    --obsidian-surface: 0 0% 7%;               /* #121212 - Machine Grey */
+    --obsidian-elevated: 240 4% 10%;           /* rgba(24,24,27,0.4) equivalent */
+    
+    /* Obsidian Border Colors */
+    --obsidian-border: 0 0% 100% / 0.08;       /* Milled Edge */
+    --obsidian-border-light: 0 0% 100% / 0.15; /* Top border light catch */
+    
+    /* Obsidian Text Colors */
+    --obsidian-text-primary: 0 0% 100%;        /* #FFFFFF - Platinum */
+    --obsidian-text-secondary: 0 0% 100% / 0.7; /* 70% white */
+    --obsidian-text-muted: 0 0% 63%;           /* #A1A1AA - Zinc 400 */
+  }
+}
+
+/* ============================================
+   OBSIDIAN DESIGN SYSTEM UTILITIES
+   ============================================ */
+
+/* Obsidian Platinum Text - Brushed Metal Gradient */
+.obsidian-platinum-text {
+  background: linear-gradient(to bottom, #FFFFFF 0%, #A1A1AA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+/* Obsidian Section Backgrounds */
+.obsidian-section {
+  background-color: hsl(var(--obsidian-bg));
+  position: relative;
+}
+
+.obsidian-section-elevated {
+  background-color: hsl(var(--obsidian-elevated));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.obsidian-section-surface {
+  background-color: hsl(var(--obsidian-surface));
+}
+
+/* Obsidian Glass Card */
+.obsidian-glass {
+  background: rgba(24, 24, 27, 0.4);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Obsidian Text Utilities */
+.obsidian-text-primary {
+  color: hsl(var(--obsidian-text-primary));
+}
+
+.obsidian-text-secondary {
+  color: hsl(var(--obsidian-text-secondary));
+}
+
+.obsidian-text-muted {
+  color: hsl(var(--obsidian-text-muted));
+}
+
+/* Obsidian Body Text */
+.obsidian-body {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Obsidian Noise Texture Overlay */
+.obsidian-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Obsidian Global Lighting Rig */
+.obsidian-lighting {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 400px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, transparent 70%);
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* H1 Hero Gradient System - Warm brown to teal to navy */

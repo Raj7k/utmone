@@ -261,12 +261,23 @@ export default {
 				border: 'hsl(var(--sidebar-border))',
 				ring: 'hsl(var(--sidebar-ring))'
 			},
-			chart: {
+		chart: {
 				'1': 'hsl(var(--chart-1))',
 				'2': 'hsl(var(--chart-2))',
 				'3': 'hsl(var(--chart-3))',
 				'4': 'hsl(var(--chart-4))',
 				'5': 'hsl(var(--chart-5))'
+			},
+			/* Obsidian System Color Tokens */
+			obsidian: {
+				bg: 'hsl(var(--obsidian-bg))',
+				surface: 'hsl(var(--obsidian-surface))',
+				elevated: 'hsl(var(--obsidian-elevated))',
+				border: 'hsl(var(--obsidian-border))',
+				'border-light': 'hsl(var(--obsidian-border-light))',
+				'text-primary': 'hsl(var(--obsidian-text-primary))',
+				'text-secondary': 'hsl(var(--obsidian-text-secondary))',
+				'text-muted': 'hsl(var(--obsidian-text-muted))',
 			},
 			mirage: {
 				DEFAULT: 'hsl(var(--mirage))',
