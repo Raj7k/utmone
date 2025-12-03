@@ -361,9 +361,9 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="dark min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: '#050505' }}>
       {/* Subtle background gradient glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -374,41 +374,41 @@ const Auth = () => {
         {/* Back to home link */}
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to home
+          back to home
         </Link>
 
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
-          <p className="text-muted-foreground text-lg">sign in to your workspace</p>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-white">welcome back</h1>
+          <p className="text-white/60 text-lg">sign in to your workspace</p>
         </div>
 
         {invitationContext && (
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-start gap-3"
+            className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-start gap-3"
           >
-            <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <Info className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
             <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium text-primary">
-                You've been invited to join utm.one
+              <p className="text-sm font-medium text-white">
+                you've been invited to join utm.one
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/60">
                 {invitationContext.inviterName} has invited you to join their workspace
-                as a {invitationContext.role}. Complete your signup below.
+                as a {invitationContext.role}. complete your signup below.
               </p>
             </div>
           </motion.div>
         )}
 
-        <Card className="border-border/50 shadow-xl rounded-2xl">
+        <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10 shadow-xl rounded-2xl">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-display font-bold">Sign in</CardTitle>
-            <CardDescription className="text-muted-foreground">Team member and workspace access</CardDescription>
+            <CardTitle className="text-2xl font-display font-bold text-white">sign in</CardTitle>
+            <CardDescription className="text-white/60">team member and workspace access</CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-6 space-y-6">
             <SocialLoginButtons
@@ -419,17 +419,17 @@ const Auth = () => {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-card px-2 text-muted-foreground">Or</span>
+                <span className="bg-zinc-900/40 px-2 text-white/40">or</span>
               </div>
             </div>
 
             <form onSubmit={handleSignIn} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
-                  Email
+                <label htmlFor="signin-email" className="text-sm font-medium text-white">
+                  email
                 </label>
                 <Input
                   id="signin-email"
@@ -438,12 +438,12 @@ const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
+                  className="h-14 rounded-xl border-2 text-base bg-white/5 border-white/10 text-white placeholder:text-white/40"
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
-                  Password
+                <label htmlFor="signin-password" className="text-sm font-medium text-white">
+                  password
                 </label>
                 <PasswordInput
                   id="signin-password"
@@ -454,22 +454,22 @@ const Auth = () => {
                 />
               </div>
               <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={isLoading}>
-                {isLoading ? "Signing in…" : "Sign in"}
+                {isLoading ? "signing in…" : "sign in"}
               </Button>
               <Button
                 type="button"
                 variant="ghost"
-                className="w-full h-14 rounded-xl text-base"
+                className="w-full h-14 rounded-xl text-base text-white/60 hover:text-white hover:bg-white/10"
                 onClick={handleForgotPassword}
               >
-                Forgot password?
+                forgot password?
               </Button>
             </form>
 
-            <div className="text-center text-xs text-muted-foreground">
-              New user?{" "}
-              <Link to="/signup" className="text-primary hover:underline font-medium">
-                Sign up
+            <div className="text-center text-xs text-white/60">
+              new user?{" "}
+              <Link to="/signup" className="text-white hover:underline font-medium">
+                sign up
               </Link>
             </div>
           </CardContent>

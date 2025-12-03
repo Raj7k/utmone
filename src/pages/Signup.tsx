@@ -310,8 +310,8 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-background flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+    <div className="dark min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: '#050505' }}>
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -321,41 +321,41 @@ const Signup = () => {
       >
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to home
+          back to home
         </Link>
 
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">Create your account</h1>
-          <p className="text-muted-foreground text-lg">Start making smarter links in seconds</p>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-white">create your account</h1>
+          <p className="text-white/60 text-lg">start making smarter links in seconds</p>
         </div>
 
         {invitationContext && (
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-start gap-3"
+            className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-start gap-3"
           >
-            <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+            <Info className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
             <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium text-primary">
-                You've been invited to join utm.one
+              <p className="text-sm font-medium text-white">
+                you've been invited to join utm.one
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/60">
                 {invitationContext.inviterName} has invited you to join their workspace
-                as a {invitationContext.role}. Complete your signup below.
+                as a {invitationContext.role}. complete your signup below.
               </p>
             </div>
           </motion.div>
         )}
 
-        <Card className="border-border/50 shadow-xl rounded-2xl">
+        <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10 shadow-xl rounded-2xl">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-display font-bold">Sign up</CardTitle>
-            <CardDescription className="text-muted-foreground">Choose your preferred method to get started</CardDescription>
+            <CardTitle className="text-2xl font-display font-bold text-white">sign up</CardTitle>
+            <CardDescription className="text-white/60">choose your preferred method to get started</CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-6 space-y-6">
             <SocialLoginButtons
@@ -366,33 +366,33 @@ const Signup = () => {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-card px-2 text-muted-foreground">Or</span>
+                <span className="bg-zinc-900/40 px-2 text-white/40">or</span>
               </div>
             </div>
 
             <form onSubmit={handleSignUp} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="fullname" className="text-sm font-medium text-foreground">
-                  Full name
+                <label htmlFor="fullname" className="text-sm font-medium text-white">
+                  full name
                 </label>
                 <Input
                   id="fullname"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="john doe"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
+                  className="h-14 rounded-xl border-2 text-base bg-white/5 border-white/10 text-white placeholder:text-white/40"
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-foreground">
-                  Email
+                <label htmlFor="email" className="text-sm font-medium text-white">
+                  email
                 </label>
                 <Input
                   id="email"
@@ -401,15 +401,15 @@ const Signup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-14 rounded-xl border-2 text-base focus-visible:border-primary"
+                  className="h-14 rounded-xl border-2 text-base bg-white/5 border-white/10 text-white placeholder:text-white/40"
                   disabled={isLoading || !!invitationContext}
                   readOnly={!!invitationContext}
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-foreground">
-                  Password
+                <label htmlFor="password" className="text-sm font-medium text-white">
+                  password
                 </label>
                 <PasswordInput
                   id="password"
@@ -420,8 +420,8 @@ const Signup = () => {
                   minLength={8}
                   disabled={isLoading}
                 />
-                <p className="text-xs text-muted-foreground">
-                  Minimum 8 characters
+                <p className="text-xs text-white/40">
+                  minimum 8 characters
                 </p>
               </div>
 
@@ -430,14 +430,14 @@ const Signup = () => {
                 className="w-full h-14 rounded-xl text-base font-semibold"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating account..." : "Create account"}
+                {isLoading ? "creating account..." : "create account"}
               </Button>
             </form>
 
-            <div className="text-center text-xs text-muted-foreground">
-              Already have an account?{" "}
-              <Link to="/auth" className="text-primary hover:underline font-medium">
-                Sign in
+            <div className="text-center text-xs text-white/60">
+              already have an account?{" "}
+              <Link to="/auth" className="text-white hover:underline font-medium">
+                sign in
               </Link>
             </div>
           </CardContent>
