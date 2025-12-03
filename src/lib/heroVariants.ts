@@ -140,3 +140,52 @@ export const getOrCreateEarlyAccessVariant = (): EarlyAccessHeroVariant => {
   
   return EARLY_ACCESS_HERO_VARIANTS[randomId];
 };
+
+// Landing Page A/B Test Variants
+export type LandingPageVariantType = 'static' | 'interactive';
+
+export interface LandingPageVariant {
+  id: number;
+  type: LandingPageVariantType;
+  name: string;
+  description: string;
+}
+
+export const LANDING_PAGE_VARIANTS: LandingPageVariant[] = [
+  {
+    id: 0,
+    type: 'static',
+    name: 'Static Hero',
+    description: 'Original landing page with static hero variants'
+  },
+  {
+    id: 1,
+    type: 'interactive',
+    name: 'Interactive Hero',
+    description: 'New interactive hero with use-case selector pills and dynamic content'
+  }
+];
+
+// Get or create landing page A/B test variant
+export const getOrCreateLandingPageVariant = (): LandingPageVariant => {
+  const STORAGE_KEY = 'landing_page_variant';
+  
+  // Check if variant already exists in localStorage
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    const variantId = parseInt(stored, 10);
+    const variant = LANDING_PAGE_VARIANTS.find(v => v.id === variantId);
+    if (variant) return variant;
+  }
+  
+  // Generate random variant and store it
+  const randomId = Math.floor(Math.random() * LANDING_PAGE_VARIANTS.length);
+  localStorage.setItem(STORAGE_KEY, randomId.toString());
+  
+  return LANDING_PAGE_VARIANTS[randomId];
+};
+
+// Force a specific landing page variant (for testing)
+export const setLandingPageVariant = (variantId: number): void => {
+  localStorage.setItem('landing_page_variant', variantId.toString());
+};
