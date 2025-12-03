@@ -132,7 +132,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Database className="w-4 h-4 text-slate-400" />
+              <Database className="w-4 h-4 text-white/40" />
               <span className="text-sm font-medium">Cold (Database)</span>
               <Badge variant="outline" className="text-xs">
                 ~500ms

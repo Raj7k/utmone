@@ -135,7 +135,7 @@ export default function CacheMonitoring() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">standard links</CardTitle>
-            <Database className="w-4 h-4 text-slate-400" />
+            <Database className="w-4 h-4 text-white/40" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{coldLinks.length}</div>
