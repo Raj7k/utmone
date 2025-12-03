@@ -286,11 +286,11 @@ export default function WaitlistManagement() {
               <AdminDirectInvite />
             </div>
 
-            <div className="bg-white rounded-xl border p-4">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-4">
               <div className="flex items-center justify-between gap-4">
                 <div className="grid grid-cols-3 gap-4 flex-1">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                     <Input
                       placeholder="search by name or email..."
                       value={searchQuery}
@@ -331,7 +331,7 @@ export default function WaitlistManagement() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border overflow-hidden">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden">
               {isLoading ? (
                 <div className="p-12 text-center text-secondary-label">loading...</div>
               ) : (

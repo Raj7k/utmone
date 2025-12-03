@@ -7,7 +7,7 @@ interface AnalysisStatsProps {
 export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
   return (
     <div className="grid grid-cols-3 gap-3">
-      <div className="bg-black/50 p-3 rounded-lg border border-gray-700">
+      <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/10">
         <div className="flex items-center gap-2 mb-1">
           <MousePointerClick className="h-4 w-4 text-primary" />
           <span className="text-xs text-muted-foreground">total clicks</span>
@@ -17,7 +17,7 @@ export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
         </div>
       </div>
 
-      <div className="bg-black/50 p-3 rounded-lg border border-gray-700">
+      <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/10">
         <div className="flex items-center gap-2 mb-1">
           <TrendingUp className="h-4 w-4 text-green-500" />
           <span className="text-xs text-muted-foreground">avg CTR</span>
@@ -27,7 +27,7 @@ export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
         </div>
       </div>
 
-      <div className="bg-black/50 p-3 rounded-lg border border-gray-700">
+      <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/10">
         <div className="flex items-center gap-2 mb-1">
           <BarChart3 className="h-4 w-4 text-purple-500" />
           <span className="text-xs text-muted-foreground">versions</span>
