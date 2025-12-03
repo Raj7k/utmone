@@ -341,26 +341,21 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                   </p>
                 </div>
 
-                {/* Features Checklist - Minimal format */}
+                {/* Features Checklist - Keywords only */}
                 {content.features && (
-                  <div className="space-y-3 max-w-lg">
+                  <div className="flex flex-wrap gap-3 max-w-xl">
                     {content.features.map((feature, i) => (
                       <motion.div
                         key={feature.name}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
-                        className="flex items-start gap-3"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border"
                       >
-                        <ChevronRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div className="flex flex-wrap items-baseline gap-x-2">
-                          <span className="text-sm font-medium text-foreground lowercase">
-                            {feature.name}
-                          </span>
-                          <span className="text-sm text-muted-foreground">
-                            — {feature.description}
-                          </span>
-                        </div>
+                        <ChevronRight className="w-3 h-3 text-primary flex-shrink-0" />
+                        <span className="text-sm font-medium text-foreground lowercase">
+                          {feature.name}
+                        </span>
                       </motion.div>
                     ))}
                   </div>

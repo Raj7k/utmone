@@ -26,6 +26,7 @@ import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
 import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
 import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
 import { StrategicToolsShowcase } from "@/components/landing/StrategicToolsShowcase";
+import { AIIntelligenceHero } from "@/components/landing/AIIntelligenceHero";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -146,10 +147,15 @@ const Index = () => {
 
       <SectionDivider variant="dots" />
 
-      {/* Strategic Decision Tools - Moved up for better flow */}
-      <StrategicToolsShowcase />
+      {/* AI Intelligence Hero - Prominent Section */}
+      <AIIntelligenceHero />
 
       <SectionDivider variant="gradient" />
+
+      {/* Strategic Decision Tools */}
+      <StrategicToolsShowcase />
+
+      <SectionDivider variant="dots" />
 
       {/* Accessibility Showcase with Visual Demo */}
       <ParallaxSection speed={0.3}>
@@ -168,13 +174,6 @@ const Index = () => {
       {/* Power Tools Showcase with Mockups */}
       <ParallaxSection speed={0.3}>
         <PowerToolsShowcase />
-      </ParallaxSection>
-
-      <SectionDivider variant="gradient" />
-
-      {/* Intelligence Showcase with AI Chat Mockup */}
-      <ParallaxSection speed={0.2}>
-        <IntelligenceShowcase />
       </ParallaxSection>
 
       <SectionDivider variant="dots" />
