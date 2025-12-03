@@ -76,7 +76,7 @@ export const BlurRevealFAQ = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-16 md:py-24" style={{ background: 'transparent' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10 md:mb-14">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
@@ -95,12 +95,10 @@ export const BlurRevealFAQ = () => {
                 key={index}
                 layout
                 className={`
-                  relative cursor-pointer rounded-xl border transition-all overflow-hidden
-                  ${isExpanded 
-                    ? "bg-primary text-primary-foreground border-primary shadow-lg sm:col-span-2 lg:col-span-1" 
-                    : "bg-card border-border hover:border-primary/30 hover:shadow-md"
-                  }
+                  relative cursor-pointer rounded-xl transition-all overflow-hidden
+                  ${isExpanded ? "bg-primary text-primary-foreground shadow-lg sm:col-span-2 lg:col-span-1" : "hover:scale-[1.02]"}
                 `}
+                style={!isExpanded ? { background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' } : {}}
                 onClick={() => toggleCard(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -156,7 +154,7 @@ export const BlurRevealFAQ = () => {
                   {/* Category Tag */}
                   {faq.category && !isExpanded && (
                     <div className="mt-3">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}>
                         {faq.category}
                       </span>
                     </div>

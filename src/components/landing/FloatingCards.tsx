@@ -51,7 +51,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                 : "none",
             }}
           >
-            <div className="bg-background/80 backdrop-blur-xl border border-border rounded-xl p-6 shadow-xl hover:shadow-2xl transition-shadow">
+            <div className="rounded-xl p-6 transition-shadow" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-4">
                 <img
                   src={card.preview}
@@ -80,7 +80,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
             }`}
             style={{ transitionDelay: `${index * 150}ms` }}
           >
-            <div className="bg-background/80 backdrop-blur-xl border border-border rounded-xl p-6 shadow-xl">
+            <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-4">
                 <img
                   src={card.preview}

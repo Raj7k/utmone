@@ -33,7 +33,7 @@ export const CleanLinkShowcase = ({ linkUrl, caption }: CleanLinkShowcaseProps) 
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >
-      <div className="bg-background/80 backdrop-blur-xl border border-border rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow group">
+      <div className="rounded-2xl p-8 transition-shadow group" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="text-center">
           <p className="text-3xl md:text-5xl font-bold text-foreground mb-4 font-mono group-hover:scale-105 transition-transform">
             {linkUrl}
