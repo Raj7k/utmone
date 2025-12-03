@@ -79,7 +79,7 @@ const PartnerManagers = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               clear attribution. zero manual work.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               utm.one makes partner programs easier to run—with clean links, clean QR, and clean reporting. no spreadsheets. no disputes.
             </p>
             <div className="pt-4">
@@ -87,7 +87,7 @@ const PartnerManagers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -104,37 +104,37 @@ const PartnerManagers = () => {
             scenario="Your top partner says they referred 15 deals this month. Your spreadsheet shows 8. They're threatening to quit. You have no audit trail, no timestamps, no proof of where the referrals came from. You're managing attribution in Excel, manually matching emails to deals. It's 4:45 PM on Friday and you're about to lose your best partner over $14K in disputed commissions."
             visual={
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-card border-2 border-destructive rounded-xl p-6">
+                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.5)' }}>
                   <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Your Spreadsheet</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Partner referrals:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Partner referrals:</span>
                       <span className="font-semibold">8</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Total revenue:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Total revenue:</span>
                       <span className="font-semibold">$42,000</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Commission (15%):</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Commission (15%):</span>
                       <span className="font-semibold">$6,300</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bg-card border-2 border-primary rounded-xl p-6">
+                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(59,130,246,0.5)' }}>
                   <div className="text-primary font-semibold mb-3 text-sm uppercase tracking-wide">Partner Claims</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Partner referrals:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Partner referrals:</span>
                       <span className="font-semibold">15</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Total revenue:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Total revenue:</span>
                       <span className="font-semibold">$78,750</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Commission (15%):</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Commission (15%):</span>
                       <span className="font-semibold">$11,812</span>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ const PartnerManagers = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               manual spreadsheets vs automated intelligence.
             </p>
           </div>
@@ -162,9 +162,9 @@ const PartnerManagers = () => {
             afterTitle="utm.one dashboard (automated)"
             beforeContent={
               <div className="space-y-3">
-                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <div className="text-destructive font-semibold mb-2 text-sm">Partner A Attribution:</div>
-                  <div className="space-y-1 text-muted-foreground">
+                  <div className="space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     <div className="flex justify-between">
                       <span>Your count:</span>
                       <span>8 referrals</span>
@@ -220,7 +220,7 @@ const PartnerManagers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
               Partners get clarity. You get peace of mind.
             </p>
           </div>
@@ -267,7 +267,7 @@ const PartnerManagers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
               calculate your partner program ROI
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>
               How much revenue could your partner program generate?
             </p>
           </div>
