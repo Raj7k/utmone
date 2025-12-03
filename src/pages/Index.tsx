@@ -53,7 +53,8 @@ const Index = () => {
   useTrackTimeOnPage();
   const trackCTAClick = useTrackCTAClick();
 
-  const [landingVariant, setLandingVariant] = useState<'static' | 'interactive'>('interactive');
+  // Force interactive variant to show the new Stripe-style hero
+  const [landingVariant] = useState<'static' | 'interactive'>('interactive');
   const [selectedUseCase, setSelectedUseCase] = useState<UseCaseType>('attribution');
 
   useEffect(() => {
@@ -62,10 +63,6 @@ const Index = () => {
     if (refCode) {
       localStorage.setItem('utm_referral_code', refCode);
     }
-
-    // Get A/B test variant
-    const variant = getOrCreateLandingPageVariant();
-    setLandingVariant(variant.type);
   }, []);
 
   return (
