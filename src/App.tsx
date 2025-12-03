@@ -125,6 +125,7 @@ const Automation = lazy(() => import("./pages/features/Automation"));
 const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility"));
 
 // Product Pages
+const Products = lazy(() => import("./pages/Products"));
 const LinkOrchestration = lazy(() => import("./pages/products/LinkOrchestration"));
 const JourneyIntelligence = lazy(() => import("./pages/products/JourneyIntelligence"));
 const QRStudio = lazy(() => import("./pages/products/QRStudio"));
@@ -489,6 +490,7 @@ const App = () => (
               <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
               
               {/* Product Pages */}
+              <Route path="/products" element={<Suspense fallback={<DashboardSkeleton />}><Products /></Suspense>} />
               <Route path="/products/link-orchestration" element={<Suspense fallback={<DashboardSkeleton />}><LinkOrchestration /></Suspense>} />
               <Route path="/products/journey-intelligence" element={<Suspense fallback={<DashboardSkeleton />}><JourneyIntelligence /></Suspense>} />
               <Route path="/products/qr-studio" element={<Suspense fallback={<DashboardSkeleton />}><QRStudio /></Suspense>} />
