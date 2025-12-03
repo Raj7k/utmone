@@ -86,42 +86,67 @@ export const Navigation = () => {
       }`}
     >
       <nav 
-        className={`max-w-[1280px] mx-auto bg-white backdrop-blur-xl rounded-full border border-gray-200 px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
+        className={`max-w-[1280px] mx-auto backdrop-blur-xl rounded-full px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
           isScrolled ? 'scale-95' : 'scale-100'
         }`}
         style={{
-          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03)"
+          background: 'rgba(24, 24, 27, 0.8)',
+          backdropFilter: 'blur(40px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5)"
         }}
       >
         {/* Scroll Progress Bar */}
         <motion.div
-          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left rounded-full"
-          style={{ width: progressWidth }}
+          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full"
+          style={{ 
+            width: progressWidth,
+            background: 'linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.3))'
+          }}
         />
           {/* Logo with hover effect */}
           <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
-            <UtmOneLogo size="lg" />
+            <UtmOneLogo size="lg" className="[&>span]:text-white" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden lg:flex items-center obsidian-nav">
             <NavigationMenu>
               <NavigationMenuList className="gap-2">
                 {/* Product Dropdown */}
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="h-9 px-3 text-small-text font-medium text-foreground/70 hover:text-foreground data-[state=open]:text-foreground bg-transparent transition-apple">
+                  <NavigationMenuTrigger 
+                    className="h-9 px-3 text-small-text font-medium bg-transparent transition-apple"
+                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                  >
                     {formatText("product")}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="w-[650px] p-4 flex gap-4">
+                    <div 
+                      className="w-[650px] p-4 flex gap-4"
+                      style={{
+                        background: 'rgba(24, 24, 27, 0.95)',
+                        backdropFilter: 'blur(40px)',
+                        border: '1px solid rgba(255,255,255,0.1)'
+                      }}
+                    >
                       {/* Featured Card - Left */}
-                      <div className="w-[220px] rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-4 flex flex-col justify-between border border-primary/20">
+                      <div 
+                        className="w-[220px] rounded-lg p-4 flex flex-col justify-between"
+                        style={{
+                          background: 'rgba(255,255,255,0.05)',
+                          border: '1px solid rgba(255,255,255,0.1)'
+                        }}
+                      >
                         <div>
-                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center mb-3">
-                            <Layers className="w-5 h-5 text-primary" />
+                          <div 
+                            className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                            style={{ background: 'rgba(255,255,255,0.1)' }}
+                          >
+                            <Layers className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
                           </div>
-                          <h3 className="text-sm font-semibold mb-2">customer-journey</h3>
-                          <p className="text-xs text-muted-foreground leading-relaxed">
+                          <h3 className="text-sm font-semibold mb-2" style={{ color: 'rgba(255,255,255,0.9)' }}>customer-journey</h3>
+                          <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                             from shortening to attribution, manage every link touchpoint in one place
                           </p>
                         </div>
