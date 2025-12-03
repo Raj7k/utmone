@@ -22,13 +22,13 @@ const POWER_TOOLS = [
     mockup: (
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">variant performance</span>
+          <span style={{ color: 'rgba(255,255,255,0.5)' }}>variant performance</span>
           <span className="text-primary font-medium">92% confidence</span>
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground w-6">A</span>
-            <div className="flex-1 h-2.5 bg-muted rounded-full overflow-hidden">
+            <span className="text-xs w-6" style={{ color: 'rgba(255,255,255,0.5)' }}>A</span>
+            <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <motion.div 
                 className="h-full bg-primary/60 rounded-full"
                 initial={{ width: 0 }}
@@ -36,11 +36,11 @@ const POWER_TOOLS = [
                 transition={{ duration: 0.6 }}
               />
             </div>
-            <span className="text-xs font-medium text-foreground w-10">4.5%</span>
+            <span className="text-xs font-medium w-10" style={{ color: 'rgba(255,255,255,0.9)' }}>4.5%</span>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-muted-foreground w-6">B</span>
-            <div className="flex-1 h-2.5 bg-muted rounded-full overflow-hidden">
+            <span className="text-xs w-6" style={{ color: 'rgba(255,255,255,0.5)' }}>B</span>
+            <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <motion.div 
                 className="h-full bg-primary rounded-full"
                 initial={{ width: 0 }}
@@ -72,7 +72,8 @@ const POWER_TOOLS = [
         ].map((scan, i) => (
           <motion.div
             key={scan.url}
-            className="flex items-center gap-2 p-2 bg-muted/30 rounded-lg"
+            className="flex items-center gap-2 p-2 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.05)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: i * 0.08 }}
@@ -82,7 +83,7 @@ const POWER_TOOLS = [
             ) : (
               <AlertTriangle className="w-3.5 h-3.5 text-destructive shrink-0" />
             )}
-            <span className="text-xs font-mono text-foreground flex-1 truncate">{scan.url}</span>
+            <span className="text-xs font-mono flex-1 truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>{scan.url}</span>
             <span className={`text-xs ${scan.status === "safe" ? "text-primary" : "text-destructive"}`}>
               {scan.status}
             </span>
@@ -106,18 +107,19 @@ const POWER_TOOLS = [
           ].map((region, i) => (
             <motion.div
               key={region.code}
-              className="p-2 bg-muted/30 rounded-lg text-center"
+              className="p-2 rounded-lg text-center"
+              style={{ background: 'rgba(255,255,255,0.05)' }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.08 }}
             >
               <div className="text-xl mb-0.5">{region.flag}</div>
-              <div className="text-xs font-medium text-foreground">{region.code}</div>
-              <div className="text-[10px] text-muted-foreground truncate">{region.url}</div>
+              <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{region.code}</div>
+              <div className="text-[10px] truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{region.url}</div>
             </motion.div>
           ))}
         </div>
-        <div className="text-xs text-muted-foreground text-center">
+        <div className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
           Auto-detect → serve right content
         </div>
       </div>
@@ -130,17 +132,17 @@ const POWER_TOOLS = [
     description: "Hundreds of links from CSV",
     mockup: (
       <div className="space-y-2">
-        <div className="flex items-center gap-2 p-2 bg-muted/30 rounded-lg">
+        <div className="flex items-center gap-2 p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)' }}>
           <Layers className="w-3.5 h-3.5 text-primary" />
-          <span className="text-xs text-foreground">nike_campaign_links.csv</span>
-          <span className="text-xs text-muted-foreground ml-auto">247 rows</span>
+          <span className="text-xs" style={{ color: 'rgba(255,255,255,0.9)' }}>nike_campaign_links.csv</span>
+          <span className="text-xs ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>247 rows</span>
         </div>
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <span className="text-muted-foreground">processing...</span>
+            <span style={{ color: 'rgba(255,255,255,0.5)' }}>processing...</span>
             <span className="text-primary font-medium">247/247</span>
           </div>
-          <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
             <motion.div 
               className="h-full bg-primary rounded-full"
               initial={{ width: 0 }}
@@ -169,7 +171,7 @@ export const PowerToolsShowcase = () => {
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase px-2">
             power tools for scale
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground">
+          <p className="text-base sm:text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Advanced features for growth teams managing thousands of links
           </p>
         </div>
@@ -200,14 +202,14 @@ export const PowerToolsShowcase = () => {
                       <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
                     </div>
                     <div className="flex-1 text-left">
-                      <span className={`text-sm font-semibold lowercase ${isActive ? "" : "text-foreground"}`}>
+                      <span className="text-sm font-semibold lowercase" style={!isActive ? { color: 'rgba(255,255,255,0.9)' } : {}}>
                         {tool.label}
                       </span>
-                      <p className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                      <p className={`text-xs ${isActive ? "text-primary-foreground/70" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}}>
                         {tool.description}
                       </p>
                     </div>
-                    <ArrowRight className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`} />
+                    <ArrowRight className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}} />
                   </motion.button>
                 );
               })}
@@ -277,8 +279,8 @@ export const PowerToolsShowcase = () => {
                       })()}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground lowercase">{active.label}</h3>
-                      <p className="text-sm text-muted-foreground">{active.description}</p>
+                      <h3 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{active.label}</h3>
+                      <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{active.description}</p>
                     </div>
                   </div>
                   <div className="max-w-md">

@@ -20,7 +20,7 @@ export const PermanenceShowcase = () => {
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
             your links outlive your tools
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground px-2">
+          <p className="text-base sm:text-lg px-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Platform shutdowns shouldn't break the web
           </p>
         </div>
@@ -35,14 +35,14 @@ export const PermanenceShowcase = () => {
             className="rounded-xl p-5"
             style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
-            <h4 className="font-semibold text-foreground lowercase mb-4 flex items-center gap-2 text-sm">
+            <h4 className="font-semibold lowercase mb-4 flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
               <Clock className="w-4 h-4 text-primary" />
               link survival timeline
             </h4>
             
             {/* Timeline */}
             <div className="relative">
-              <div className="absolute top-4 bottom-4 left-4 w-0.5 bg-border" />
+              <div className="absolute top-4 bottom-4 left-4 w-0.5" style={{ background: 'rgba(255,255,255,0.08)' }} />
               
               <div className="space-y-3">
                 {[
@@ -75,13 +75,13 @@ export const PermanenceShowcase = () => {
                       </div>
                       <div className="flex-1 pt-0.5">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs text-muted-foreground">{item.year}</span>
-                          <span className={`font-medium text-sm ${isActive ? "text-foreground" : "text-destructive"}`}>
+                          <span className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.year}</span>
+                          <span className={`font-medium text-sm ${isActive ? "" : "text-destructive"}`} style={isActive ? { color: 'rgba(255,255,255,0.9)' } : {}}>
                             {item.event}
                           </span>
                         </div>
                         {item.desc && (
-                          <div className={`text-xs mt-0.5 ${isActive ? "text-primary" : "text-muted-foreground"}`}>
+                          <div className={`text-xs mt-0.5 ${isActive ? "text-primary" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}}>
                             {item.desc}
                           </div>
                         )}
@@ -132,8 +132,8 @@ export const PermanenceShowcase = () => {
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
-                  <h3 className="text-sm font-semibold text-foreground mb-2 lowercase">{feature.title}</h3>
-                  <p className="text-xs text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.description}</p>
                 </motion.div>
               );
             })}
