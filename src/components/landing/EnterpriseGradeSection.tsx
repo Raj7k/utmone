@@ -67,7 +67,7 @@ const COMPLIANCE_BADGES = [
 
 export const EnterpriseGradeSection = () => {
   return (
-    <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-foreground text-background">
+    <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background border-y border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16 space-y-4">
@@ -77,14 +77,14 @@ export const EnterpriseGradeSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-medium mb-4">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
               <Shield className="w-4 h-4" />
               enterprise grade
             </span>
           </motion.div>
           
           <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold lowercase"
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground lowercase"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -94,7 +94,7 @@ export const EnterpriseGradeSection = () => {
           </motion.h2>
           
           <motion.p
-            className="text-lg md:text-xl text-background/70 max-w-3xl mx-auto"
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -112,15 +112,17 @@ export const EnterpriseGradeSection = () => {
             return (
               <motion.div
                 key={feature.title}
-                className="p-5 md:p-6 rounded-xl bg-background/5 border border-background/10 hover:bg-background/10 transition-colors"
+                className="p-5 md:p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
-                <Icon className="w-8 h-8 text-primary mb-3" />
-                <h3 className="font-semibold text-background mb-1 lowercase">{feature.title}</h3>
-                <p className="text-sm text-background/60">{feature.description}</p>
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1 lowercase">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
               </motion.div>
             );
           })}
@@ -137,17 +139,17 @@ export const EnterpriseGradeSection = () => {
           {COMPLIANCE_BADGES.map((badge) => (
             <div 
               key={badge}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-background/10 border border-background/20"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border"
             >
               <CheckCircle2 className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-background/80">{badge}</span>
+              <span className="text-sm font-medium text-foreground">{badge}</span>
             </div>
           ))}
         </motion.div>
 
         {/* Stats Row */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-6 md:p-8 rounded-2xl bg-background/5 border border-background/10 mb-12"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-6 md:p-8 rounded-2xl bg-muted/30 border border-border mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -161,7 +163,7 @@ export const EnterpriseGradeSection = () => {
           ].map((item) => (
             <div key={item.label} className="text-center">
               <div className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-primary">{item.stat}</div>
-              <div className="text-sm text-background/60 mt-1 lowercase">{item.label}</div>
+              <div className="text-sm text-muted-foreground mt-1 lowercase">{item.label}</div>
             </div>
           ))}
         </motion.div>
@@ -181,7 +183,7 @@ export const EnterpriseGradeSection = () => {
             explore enterprise features
             <ArrowRight className="w-4 h-4" />
           </Link>
-          <p className="text-sm text-background/50 mt-3">
+          <p className="text-sm text-muted-foreground mt-3">
             or <Link to="/trust" className="text-primary hover:underline">view our security portal</Link>
           </p>
         </motion.div>

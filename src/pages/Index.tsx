@@ -6,24 +6,15 @@ import {
   QrCode, 
   BarChart3, 
   Shield, 
-  Users,
   ArrowRight,
   Eye,
-  Lock,
   Infinity,
-  DollarSign,
   TrendingUp,
   GitBranch,
   Code,
   CheckCircle2,
-  Accessibility,
   Database,
   Globe,
-  AlertTriangle,
-  Shuffle,
-  LineChart,
-  Link2Off,
-  UserX,
   FlaskConical,
   ShieldCheck,
   Layers,
@@ -40,9 +31,11 @@ import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
-import { InteractiveHero, UseCaseType } from "@/components/landing/InteractiveHero";
+import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
 import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
 import { EnterpriseGradeSection } from "@/components/landing/EnterpriseGradeSection";
+import { GrowthLoopSection } from "@/components/landing/GrowthLoopSection";
+import { SectionDivider } from "@/components/landing/SectionDivider";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -88,8 +81,8 @@ const Index = () => {
       {/* A/B Test: Interactive vs Static Hero */}
       {landingVariant === 'interactive' ? (
         <>
-          {/* Interactive Hero with Use-Case Pills */}
-          <InteractiveHero onUseCaseChange={setSelectedUseCase} />
+          {/* Stripe-Style Side Navigation Hero */}
+          <SideNavHero onUseCaseChange={setSelectedUseCase} />
           
           {/* Dynamic Second Fold - Changes Based on Selection */}
           <DynamicSecondFold selectedUseCase={selectedUseCase} />
@@ -154,11 +147,13 @@ const Index = () => {
         </>
       )}
 
-      {/* Enterprise Grade Section - NEW */}
+      {/* Enterprise Grade Section */}
       <EnterpriseGradeSection />
 
+      <SectionDivider variant="gradient" />
+
       {/* Fold: Product Pillars - Bento Grid */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
@@ -218,8 +213,10 @@ const Index = () => {
         </div>
       </AnimatedSection>
 
+      <SectionDivider variant="dots" />
+
       {/* Fold: Accessibility */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-background">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground mb-4 md:mb-6 lowercase">
@@ -271,17 +268,19 @@ const Index = () => {
           <div className="text-center mt-12">
             <Link 
               to="/features/accessibility" 
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors"
+              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
             >
-              Learn More About Accessibility
+              learn more about accessibility
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
       </AnimatedSection>
 
+      <SectionDivider variant="gradient" />
+
       {/* Fold: Permanence */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
@@ -293,41 +292,49 @@ const Index = () => {
           </div>
           <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg transition-apple">
-                <Infinity className="w-10 h-10 text-primary mb-4" />
-                <h2 className="text-title-3 font-semibold text-foreground mb-3 lowercase">Permanent Redirects</h2>
-                <p className="text-subheadline text-muted-foreground">
+              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                  <Infinity className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Permanent Redirects</h3>
+                <p className="text-muted-foreground">
                   Your links keep working, always
                 </p>
               </div>
             </StaggerItem>
             <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg transition-apple">
-                <Database className="w-10 h-10 text-primary mb-4" />
-                <h2 className="text-title-3 font-semibold text-foreground mb-3 lowercase">Self-Hosted Option</h2>
-                <p className="text-subheadline text-muted-foreground">
+              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                  <Database className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Self-Hosted Option</h3>
+                <p className="text-muted-foreground">
                   Run utm.one locally, keep full control
                 </p>
               </div>
             </StaggerItem>
             <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg transition-apple">
-                <GitBranch className="w-10 h-10 text-primary mb-4" />
-                <h2 className="text-title-3 font-semibold text-foreground mb-3 lowercase">Link Backups</h2>
-                <p className="text-subheadline text-muted-foreground">
+              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                  <GitBranch className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Link Backups</h3>
+                <p className="text-muted-foreground">
                   Auto-backup to your GitHub or storage
                 </p>
               </div>
             </StaggerItem>
           </StaggerContainer>
-          <p className="text-center text-title-2 font-semibold text-primary mt-12 lowercase">
+          <p className="text-center text-xl font-semibold text-primary mt-12 lowercase">
             Reliability is a feature, not a nice-to-have.
           </p>
         </div>
       </AnimatedSection>
 
+      <SectionDivider variant="dots" />
+
       {/* Fold: Power Tools */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-background">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
@@ -374,8 +381,10 @@ const Index = () => {
         </div>
       </AnimatedSection>
 
+      <SectionDivider variant="gradient" />
+
       {/* Fold: Intelligence */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-muted/20">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
@@ -414,50 +423,60 @@ const Index = () => {
         </div>
       </AnimatedSection>
 
+      <SectionDivider variant="dots" />
+
       {/* Fold: Developer Experience */}
-      <AnimatedSection className="py-12 md:py-20 lg:py-32 bg-background">
+      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground mb-4 px-2">
-              a clean api for a cleaner stack
+          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
+              {formatText("built for developers too")}
             </h2>
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">
+              REST + GraphQL APIs with 600 req/min free tier
+            </p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
-            {[
-              { title: "GraphQL + REST", desc: "Choose your preferred approach" },
-              { title: "600 requests/min on free tier", desc: "Generous rate limits" },
-              { title: "Webhooks for everything", desc: "Real-time event notifications" },
-              { title: "Interactive playground", desc: "Test in the browser" },
-              { title: "World-class documentation", desc: "Clear examples, every endpoint" },
-              { title: "Copy-paste snippets", desc: "Every language supported" }
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card border border-border rounded-xl p-6 hover:shadow-lg transition-shadow"
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                <Code className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Full API Access</h3>
+              <p className="text-muted-foreground mb-4">
+                Create, update, and track links programmatically. Webhooks for real-time events.
+              </p>
+              <Link 
+                to="/docs/api" 
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
               >
-                <Code className="w-8 h-8 text-primary mb-3" />
-                <h2 className="text-base font-display font-semibold text-foreground mb-2">
-                  {item.title}
-                </h2>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-12 space-y-2">
-            <p className="text-2xl md:text-3xl text-muted-foreground">
-              Developers recommend the tools they trust.
-            </p>
-            <p className="text-2xl md:text-3xl font-display font-semibold text-primary">
-              We built utm.one for them too.
-            </p>
+                view api docs
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                <Database className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Data Warehouse Sync</h3>
+              <p className="text-muted-foreground mb-4">
+                Push click data to Snowflake, BigQuery, or your data lake automatically.
+              </p>
+              <Link 
+                to="/docs/integrations" 
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+              >
+                view integrations
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </AnimatedSection>
 
+      {/* Growth Loop Section */}
+      <GrowthLoopSection />
+
+      {/* FAQ Section */}
       <FooterFAQ />
     </MainLayout>
   );
