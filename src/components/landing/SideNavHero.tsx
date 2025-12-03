@@ -7,10 +7,11 @@ import {
   Route, 
   Link as LinkIcon,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  Shield
 } from "lucide-react";
 
-export type UseCaseType = "attribution" | "journey" | "links";
+export type UseCaseType = "attribution" | "journey" | "links" | "governance";
 
 interface SideNavHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -35,9 +36,15 @@ const USE_CASES = [
     label: "utm & links",
     sublabel: "clean data, every time",
   },
+  {
+    id: "governance" as UseCaseType,
+    icon: Shield,
+    label: "enterprise control",
+    sublabel: "roles, rules & approvals",
+  },
 ];
 
-const HERO_CONTENT = {
+const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string; cta: string; stats: { value: string; label: string }[] }> = {
   attribution: {
     headline: "finally know where revenue comes from",
     subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Bayesian attribution.",
@@ -65,6 +72,15 @@ const HERO_CONTENT = {
       { value: "0", label: "hours cleaning data manually" },
     ]
   },
+  governance: {
+    headline: "your team's links, under control.",
+    subheadline: "role-based access, approval workflows, naming conventions, and audit trails. scale link management without chaos.",
+    cta: "get early access",
+    stats: [
+      { value: "100%", label: "links follow your rules" },
+      { value: "0", label: "rogue campaigns" },
+    ]
+  },
 };
 
 export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
@@ -78,7 +94,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   const content = HERO_CONTENT[activeUseCase];
 
   return (
-    <section className="relative py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
+    <section className="relative pt-8 md:pt-12 pb-16 md:pb-24 bg-background overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-primary/5 to-transparent" />

@@ -411,6 +411,131 @@ const LinksContent = () => (
   </div>
 );
 
+// Governance Content with Product Mockup
+const GovernanceContent = () => (
+  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    {/* Left: Content */}
+    <div className="space-y-6 lg:order-2">
+      <div className="space-y-3">
+        <p className="text-sm font-medium text-primary uppercase tracking-wider">enterprise control</p>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground lowercase">
+          your team's links, under control
+        </h2>
+        <p className="text-lg text-muted-foreground leading-relaxed">
+          Role-based access, approval workflows, naming conventions, and audit trails. 
+          Scale your link management without the chaos.
+        </p>
+      </div>
+      
+      {/* Features */}
+      <div className="space-y-3">
+        {[
+          { title: "role-based permissions", desc: "Control who creates, edits, and publishes links" },
+          { title: "approval workflows", desc: "Review campaigns before they go live" },
+          { title: "naming conventions", desc: "Enforce UTM rules automatically" },
+          { title: "audit trails", desc: "Track every change, every link, every user" }
+        ].map((feature, i) => (
+          <motion.div
+            key={feature.title}
+            className="flex items-start gap-3 p-3 bg-card rounded-lg border border-border"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+          >
+            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-semibold text-foreground lowercase text-sm">{feature.title}</h4>
+              <p className="text-xs text-muted-foreground">{feature.desc}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+      
+      <Link 
+        to="/features/governance"
+        className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+      >
+        explore enterprise features
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
+    
+    {/* Right: Product Mockup */}
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="relative lg:order-1"
+    >
+      {/* Governance Dashboard Mockup */}
+      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
+        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+          <div className="flex gap-1.5">
+            <div className="w-3 h-3 rounded-full bg-destructive/60" />
+            <div className="w-3 h-3 rounded-full bg-amber-400/60" />
+            <div className="w-3 h-3 rounded-full bg-green-400/60" />
+          </div>
+          <div className="flex-1 mx-4">
+            <div className="bg-background rounded-md px-3 py-1.5 text-xs text-muted-foreground font-mono">
+              utm.one/dashboard/settings/team
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold text-foreground lowercase">team governance</h4>
+            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">enterprise</span>
+          </div>
+          
+          {/* Team Roles */}
+          <div className="space-y-3">
+            {[
+              { role: "Admin", count: 2, permissions: "Full access", color: "bg-destructive/10 text-destructive" },
+              { role: "Manager", count: 5, permissions: "Create, edit, approve", color: "bg-amber-500/10 text-amber-600" },
+              { role: "Editor", count: 12, permissions: "Create, edit", color: "bg-primary/10 text-primary" },
+              { role: "Viewer", count: 28, permissions: "View only", color: "bg-muted text-muted-foreground" }
+            ].map((item, i) => (
+              <motion.div
+                key={item.role}
+                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`px-2 py-1 rounded text-xs font-semibold ${item.color}`}>{item.role}</span>
+                  <span className="text-sm text-foreground">{item.count} members</span>
+                </div>
+                <span className="text-xs text-muted-foreground">{item.permissions}</span>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Approval Queue Preview */}
+          <div className="mt-4 p-3 bg-amber-500/5 rounded-lg border border-amber-500/20">
+            <div className="flex items-center gap-2 text-sm">
+              <Shield className="w-4 h-4 text-amber-600" />
+              <span className="text-amber-700 dark:text-amber-400">3 links pending approval</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Floating Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+        className="absolute -bottom-4 -right-4 bg-card rounded-xl border border-border shadow-lg p-4"
+      >
+        <div className="text-2xl font-bold text-primary">100%</div>
+        <div className="text-xs text-muted-foreground">policy compliance</div>
+      </motion.div>
+    </motion.div>
+  </div>
+);
+
 export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) => {
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-muted/20">
@@ -426,6 +551,7 @@ export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) =
             {selectedUseCase === "attribution" && <AttributionContent />}
             {selectedUseCase === "journey" && <JourneyContent />}
             {selectedUseCase === "links" && <LinksContent />}
+            {selectedUseCase === "governance" && <GovernanceContent />}
           </motion.div>
         </AnimatePresence>
       </div>
