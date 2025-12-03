@@ -38,7 +38,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
     >
       <svg
         className="w-full h-auto"
-        viewBox="0 0 2000 400"
+        viewBox="0 0 4000 800"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -48,11 +48,12 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
             <stop offset="100%" stopColor="hsl(20 80% 45%)" />
           </linearGradient>
           
-          {/* Retro fill gradient (orange → blue → deep purple) */}
-          <linearGradient id="retroFillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--blazeOrange))" />
-            <stop offset="40%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--deepSea))" />
+          {/* Hero fill gradient (warm rust → blaze orange → deep sea teal → mirage navy) */}
+          <linearGradient id="heroFillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(20 80% 45%)" />
+            <stop offset="15%" stopColor="hsl(var(--blazeOrange))" />
+            <stop offset="50%" stopColor="hsl(var(--deepSea))" />
+            <stop offset="100%" stopColor="hsl(var(--mirage))" />
           </linearGradient>
           
           {/* 3D Shadow Filter */}
@@ -83,10 +84,10 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           filter="url(#shadow3d)"
           style={{
-            fontSize: "400px",
+            fontSize: "800px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "1.5px",
+            strokeWidth: "2px",
             letterSpacing: "-0.03em",
           }}
         >
@@ -101,17 +102,17 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           textAnchor="middle"
           className="font-display font-extrabold"
           style={{
-            fontSize: "400px",
+            fontSize: "800px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "1.5px",
+            strokeWidth: "2px",
             letterSpacing: "-0.03em",
           }}
         >
           {text}
         </text>
         
-        {/* Fill text (revealed on hover) - Retro gradient */}
+        {/* Fill text (revealed on hover) - Hero gradient */}
         <text
           x="50%"
           y="55%"
@@ -120,8 +121,8 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           clipPath="url(#revealClip)"
           style={{
-            fontSize: "400px",
-            fill: "url(#retroFillGradient)",
+            fontSize: "800px",
+            fill: "url(#heroFillGradient)",
             letterSpacing: "-0.03em",
           }}
         >

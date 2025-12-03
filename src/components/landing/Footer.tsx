@@ -369,9 +369,9 @@ export const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Chronicle-Style Brand Mark - 2000px with White Background */}
-      <div className="py-16 md:py-24 border-t border-border/30 bg-white dark:bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+      {/* Chronicle-Style Brand Mark - Full Viewport Fold */}
+      <div className="min-h-screen flex items-center justify-center border-t border-border/30 bg-white dark:bg-card">
+        <div className="w-full px-4 sm:px-8">
           <ChronicleRevealText text="utm.one" />
         </div>
       </div>
