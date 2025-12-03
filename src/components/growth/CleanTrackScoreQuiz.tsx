@@ -84,10 +84,10 @@ export const CleanTrackScoreQuiz = () => {
   const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0);
   
   const getScoreMessage = (score: number) => {
-    if (score >= 90) return { title: "Clean-Track Champion", subtitle: "Your data quality is world-class", color: "text-green-600" };
-    if (score >= 70) return { title: "Clean-Track Pro", subtitle: "You're on the right path", color: "text-primary" };
-    if (score >= 50) return { title: "Clean-Track Learner", subtitle: "Room for improvement", color: "text-amber-600" };
-    return { title: "Clean-Track Beginner", subtitle: "Let's fix your data together", color: "text-destructive" };
+    if (score >= 90) return { title: "Clean-Track Champion", subtitle: "Your data quality is world-class", color: "text-green-400" };
+    if (score >= 70) return { title: "Clean-Track Pro", subtitle: "You're on the right path", color: "text-white" };
+    if (score >= 50) return { title: "Clean-Track Learner", subtitle: "Room for improvement", color: "text-amber-400" };
+    return { title: "Clean-Track Beginner", subtitle: "Let's fix your data together", color: "text-red-400" };
   };
 
   const handleShare = () => {
@@ -114,6 +114,7 @@ export const CleanTrackScoreQuiz = () => {
         <div className="mt-8 text-center">
           <Button
             variant="outline"
+            className="border-white/20 text-white hover:bg-white/10"
             onClick={() => {
               setCurrentQuestion(0);
               setAnswers({});
@@ -133,13 +134,13 @@ export const CleanTrackScoreQuiz = () => {
     <div className="max-w-2xl mx-auto">
       {/* Progress Bar */}
       <div className="mb-8">
-        <div className="flex justify-between text-sm text-secondary-label mb-2">
+        <div className="flex justify-between text-sm text-white/60 mb-2">
           <span>question {currentQuestion + 1} of {questions.length}</span>
           <span>{Math.round(progress)}%</span>
         </div>
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
+        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-primary"
+            className="h-full bg-white"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -154,8 +155,8 @@ export const CleanTrackScoreQuiz = () => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}
       >
-        <Card className="p-8">
-          <h3 className="text-2xl font-display font-bold text-label mb-8 lowercase">
+        <Card className="p-8 bg-zinc-900/40 backdrop-blur-xl border-white/10">
+          <h3 className="text-2xl font-display font-bold text-white mb-8 lowercase">
             {questions[currentQuestion].question}
           </h3>
 
@@ -164,7 +165,7 @@ export const CleanTrackScoreQuiz = () => {
               <Button
                 key={index}
                 variant="outline"
-                className="w-full justify-start text-left h-auto py-4 px-6 hover:bg-primary/5 hover:border-primary transition-all"
+                className="w-full justify-start text-left h-auto py-4 px-6 border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all"
                 onClick={() => handleAnswer(option.score)}
               >
                 <span className="text-base">{option.text}</span>
@@ -176,8 +177,8 @@ export const CleanTrackScoreQuiz = () => {
 
       {/* Previously Answered */}
       {currentQuestion > 0 && (
-        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-secondary-label">
-          <CheckCircle2 className="w-4 h-4 text-primary" />
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/60">
+          <CheckCircle2 className="w-4 h-4 text-white" />
           <span>{currentQuestion} {currentQuestion === 1 ? 'answer' : 'answers'} recorded</span>
         </div>
       )}

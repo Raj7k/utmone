@@ -52,11 +52,9 @@ export default function BookDemo() {
         }
       } catch (error) {
         console.error('Failed to detect location:', error);
-        // Silently fail - form already shows with US default
       }
     };
     
-    // Run async without blocking render
     detectLocation();
   }, []);
 
@@ -86,7 +84,6 @@ export default function BookDemo() {
         description: "We'll be in touch soon. Redirecting to calendar..."
       });
 
-      // Redirect to calendar booking page
       setTimeout(() => {
         window.location.href = "https://cal.com/utm-one/demo";
       }, 2000);
@@ -111,16 +108,16 @@ export default function BookDemo() {
       </Helmet>
 
       {/* Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-zinc-900/80 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-label hover:text-primary transition-colors">
+          <Link to="/" className="flex items-center gap-2 text-white hover:text-white/80 transition-colors">
             <span className="text-xl font-display font-bold lowercase">utm.one</span>
           </Link>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate(-1)}
-            className="text-secondary-label hover:text-label"
+            className="text-white/60 hover:text-white hover:bg-white/10"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             back
@@ -128,30 +125,33 @@ export default function BookDemo() {
         </div>
       </div>
 
-      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16">
+      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16" style={{ background: '#050505' }}>
         {/* Left Panel - Brand Experience */}
-        <div className="relative bg-muted/20 p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
+        <div className="relative p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
+          {/* Noise Texture */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              opacity: 0.03,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+              backgroundRepeat: 'repeat'
+            }}
+          />
+          
           {/* Animated Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
-            {/* Gradient Orbs */}
-            <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-            <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-            
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.02]" style={{
-              backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-              backgroundSize: '50px 50px'
-            }} />
+            <div className="absolute top-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+            <div className="absolute bottom-32 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
           </div>
 
           {/* Content */}
           <div className="relative z-10 space-y-2">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-blazeOrange text-blazeOrange" />
+                <Star key={i} className="w-4 h-4 fill-white/40 text-white/40" />
               ))}
             </div>
-            <p className="text-label/70 text-sm">trusted by growth teams worldwide</p>
+            <p className="text-white/40 text-sm">trusted by growth teams worldwide</p>
           </div>
 
           {/* Center - Headline */}
@@ -161,10 +161,10 @@ export default function BookDemo() {
                 every link<br />tells a story.<br />let's write yours.
               </span>
             </h1>
-            <p className="text-secondary-label text-base lg:text-lg max-w-md">
+            <p className="text-white/60 text-base lg:text-lg max-w-md">
               schedule a demo to see how utm.one brings clarity to your campaigns
             </p>
-            <p className="text-tertiary-label text-sm italic">
+            <p className="text-white/40 text-sm italic">
               clarity creates confidence
             </p>
           </div>
@@ -175,11 +175,11 @@ export default function BookDemo() {
               <div className="logo-marquee-content">
                 {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
                   <div key={i} className="logo-item">
-                    <span className="text-label/50 text-sm font-medium whitespace-nowrap">
+                    <span className="text-white/40 text-sm font-medium whitespace-nowrap">
                       {item}
                     </span>
                     {i < MARQUEE_ITEMS.length * 2 - 1 && (
-                      <span className="text-label/30 mx-4">•</span>
+                      <span className="text-white/20 mx-4">•</span>
                     )}
                   </div>
                 ))}
@@ -189,7 +189,7 @@ export default function BookDemo() {
         </div>
 
         {/* Right Panel - Interactive Form */}
-        <div className="bg-[#FDFCF8] h-full overflow-y-auto p-8 lg:p-12 flex flex-col justify-start pt-8 lg:pt-12 border-l-4 border-blazeOrange/20">
+        <div className="bg-zinc-900/40 backdrop-blur-xl h-full overflow-y-auto p-8 lg:p-12 flex flex-col justify-start pt-8 lg:pt-12 border-l border-white/10">
           <div className="w-full max-w-xl mx-auto">
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name & Email */}
@@ -199,7 +199,7 @@ export default function BookDemo() {
                     placeholder="your name"
                     value={formData.name}
                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                    className="h-11 bg-white border-border/20"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/40"
                     required
                   />
                 </div>
@@ -209,7 +209,7 @@ export default function BookDemo() {
                     placeholder="work email"
                     value={formData.email}
                     onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="h-11 bg-white border-border/20"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/40"
                     required
                   />
                 </div>
@@ -218,19 +218,19 @@ export default function BookDemo() {
                     value={formData.country_code}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, country_code: value }))}
                   >
-                    <SelectTrigger className="h-11 bg-white border-border/20">
+                    <SelectTrigger className="h-11 bg-white/5 border-white/10 text-white">
                       <SelectValue>
                         {phoneCountryCodes.find(c => c.code === formData.country_code)?.flag}{' '}
                         {phoneCountryCodes.find(c => c.code === formData.country_code)?.dialCode}
                       </SelectValue>
                     </SelectTrigger>
-                    <SelectContent className="max-h-[300px]">
+                    <SelectContent className="max-h-[300px] bg-zinc-900 border-white/10">
                       {phoneCountryCodes.map((country) => (
-                        <SelectItem key={country.code} value={country.code}>
+                        <SelectItem key={country.code} value={country.code} className="text-white">
                           <span className="flex items-center gap-2">
                             <span>{country.flag}</span>
                             <span className="text-xs">{country.dialCode}</span>
-                            <span className="text-xs text-muted-foreground">{country.name}</span>
+                            <span className="text-xs text-white/60">{country.name}</span>
                           </span>
                         </SelectItem>
                       ))}
@@ -241,14 +241,14 @@ export default function BookDemo() {
                     placeholder="phone number"
                     value={formData.phone}
                     onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                    className="h-11 bg-white border-border/20"
+                    className="h-11 bg-white/5 border-white/10 text-white placeholder:text-white/40"
                   />
                 </div>
               </div>
 
               {/* Interest Pills */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-label">
+                <label className="text-sm font-medium text-white">
                   what are you looking for?
                 </label>
                 <ToggleGroup
@@ -261,7 +261,7 @@ export default function BookDemo() {
                     <ToggleGroupItem
                       key={interest.value}
                       value={interest.value}
-                      className="rounded-full px-3 py-1.5 text-sm border border-border/20 data-[state=on]:bg-primary data-[state=on]:text-white data-[state=on]:border-primary"
+                      className="rounded-full px-3 py-1.5 text-sm border border-white/20 text-white/70 data-[state=on]:bg-white data-[state=on]:text-black data-[state=on]:border-white"
                     >
                       {interest.label}
                     </ToggleGroupItem>
@@ -271,7 +271,7 @@ export default function BookDemo() {
 
               {/* Challenge Cards */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-label">
+                <label className="text-sm font-medium text-white">
                   what's your biggest challenge?
                 </label>
                 <div className="grid gap-2">
@@ -280,14 +280,14 @@ export default function BookDemo() {
                       key={challenge.value}
                       className={`p-3 cursor-pointer transition-all border-2 ${
                         formData.challenge === challenge.value
-                          ? 'border-primary bg-primary text-white'
-                          : 'border-border/20 bg-white hover:border-primary/30'
+                          ? 'border-white bg-white text-black'
+                          : 'border-white/10 bg-white/5 hover:border-white/30 text-white'
                       }`}
                       onClick={() => setFormData(prev => ({ ...prev, challenge: challenge.value }))}
                     >
                       <h4 className="font-medium mb-0.5 text-sm">{challenge.label}</h4>
                       <p className={`text-xs ${
-                        formData.challenge === challenge.value ? 'text-white/70' : 'text-secondary-label'
+                        formData.challenge === challenge.value ? 'text-black/70' : 'text-white/60'
                       }`}>
                         {challenge.description}
                       </p>
@@ -298,14 +298,14 @@ export default function BookDemo() {
 
               {/* Message */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-label">
+                <label className="text-sm font-medium text-white">
                   what are you trying to solve?
                 </label>
                 <Textarea
                   placeholder="tell us more about your team's needs..."
                   value={formData.message}
                   onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  className="min-h-[60px] bg-white border-border/20"
+                  className="min-h-[60px] bg-white/5 border-white/10 text-white placeholder:text-white/40"
                 />
               </div>
 
@@ -314,12 +314,12 @@ export default function BookDemo() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full h-12 bg-blazeOrange text-white hover:bg-blazeOrange/90 text-base font-medium rounded-xl group"
+                  className="w-full h-12 bg-white text-black hover:bg-white/90 text-base font-medium rounded-xl group"
                 >
                   {isSubmitting ? "submitting..." : "book a demo"}
                   <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Button>
-                <p className="text-xs text-secondary-label text-center">
+                <p className="text-xs text-white/40 text-center">
                   free 15-minute consultation • no commitment
                 </p>
               </div>

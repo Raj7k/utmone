@@ -105,28 +105,28 @@ const Pricing = () => {
 
           {/* Visual: What $20/mo Gets You */}
           <AnimatedSection delay={0.15}>
-            <div className="mt-16 bg-card border border-border rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-display font-bold text-label mb-6 text-center lowercase">
+            <div className="mt-16 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-display font-bold text-white mb-6 text-center lowercase">
                 what $20/mo gets you vs competitors
               </h3>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center p-4">
-                  <div className="text-destructive text-sm font-semibold mb-2">Bitly Pro</div>
-                  <div className="text-3xl font-bold text-foreground mb-1">$35</div>
-                  <div className="text-xs text-muted-foreground mb-3">per user/month</div>
-                  <div className="text-sm text-muted-foreground">1,500 links • 1 user</div>
+                  <div className="text-red-400 text-sm font-semibold mb-2">Bitly Pro</div>
+                  <div className="text-3xl font-bold text-white mb-1">$35</div>
+                  <div className="text-xs text-white/40 mb-3">per user/month</div>
+                  <div className="text-sm text-white/60">1,500 links • 1 user</div>
                 </div>
                 <div className="text-center p-4">
-                  <div className="text-destructive text-sm font-semibold mb-2">Rebrandly</div>
-                  <div className="text-3xl font-bold text-foreground mb-1">$39</div>
-                  <div className="text-xs text-muted-foreground mb-3">per user/month</div>
-                  <div className="text-sm text-muted-foreground">5,000 links • 1 user</div>
+                  <div className="text-red-400 text-sm font-semibold mb-2">Rebrandly</div>
+                  <div className="text-3xl font-bold text-white mb-1">$39</div>
+                  <div className="text-xs text-white/40 mb-3">per user/month</div>
+                  <div className="text-sm text-white/60">5,000 links • 1 user</div>
                 </div>
-                <div className="text-center p-4 bg-primary/10 rounded-xl border border-primary/20">
-                  <div className="text-primary text-sm font-semibold mb-2">utm.one Pro</div>
-                  <div className="text-3xl font-bold text-primary mb-1">$20</div>
-                  <div className="text-xs text-primary mb-3">total/month</div>
-                  <div className="text-sm text-primary font-semibold">1,000 links • Unlimited users</div>
+                <div className="text-center p-4 bg-white/10 rounded-xl border border-white/20">
+                  <div className="text-white text-sm font-semibold mb-2">utm.one Pro</div>
+                  <div className="text-3xl font-bold text-white mb-1">$20</div>
+                  <div className="text-xs text-white/60 mb-3">total/month</div>
+                  <div className="text-sm text-white font-semibold">1,000 links • Unlimited users</div>
                 </div>
               </div>
             </div>
@@ -134,15 +134,15 @@ const Pricing = () => {
 
           {/* Lifetime Deal Banner */}
           <AnimatedSection delay={0.2}>
-            <div className="mt-16 text-center space-y-6 p-12 bg-gradient-nature-1 rounded-2xl border border-primary/20">
+            <div className="mt-16 text-center space-y-6 p-12 bg-zinc-900/60 backdrop-blur-xl rounded-2xl border border-white/10">
               <div className="space-y-3">
-                <div className="inline-block px-4 py-1 bg-system-orange/20 text-system-orange text-subheadline font-semibold rounded-full">
+                <div className="inline-block px-4 py-1 bg-white/10 text-white text-subheadline font-semibold rounded-full">
                   🔥 limited time offer
                 </div>
-                <h2 className="text-title-2 font-display font-bold text-label">
+                <h2 className="text-title-2 font-display font-bold text-white">
                   lifetime deal: $299 once
                 </h2>
-                <p className="text-body-apple text-secondary-label max-w-[640px] mx-auto">
+                <p className="text-body-apple text-white/60 max-w-[640px] mx-auto">
                   get pro features forever with a one-time payment. limited to first 500 customers.
                 </p>
               </div>
@@ -158,39 +158,39 @@ const Pricing = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center font-bold tracking-tight text-label mb-12">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display text-center font-bold tracking-tight text-white mb-12">
               frequently asked questions
             </h2>
             <div className="space-y-8">
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-label">
+                <h2 className="text-title-3 font-display font-semibold text-white">
                   what happens if i exceed my plan limits?
                 </h2>
-                <p className="text-body-apple text-secondary-label">
+                <p className="text-body-apple text-white/60">
                   we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-label">
+                <h2 className="text-title-3 font-display font-semibold text-white">
                   do you really offer unlimited team members on all plans?
                 </h2>
-                <p className="text-body-apple text-secondary-label">
+                <p className="text-body-apple text-white/60">
                   yes! unlike bitly ($35/mo for 1 user) and rebrandly ($39/mo for 1 user), we believe collaboration shouldn't cost extra. invite your entire team on any plan, even free.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-label">
+                <h2 className="text-title-3 font-display font-semibold text-white">
                   can i cancel anytime?
                 </h2>
-                <p className="text-body-apple text-secondary-label">
+                <p className="text-body-apple text-white/60">
                   absolutely. cancel anytime with no penalties. your links will continue working, and you'll have read-only access to your analytics.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-label">
+                <h2 className="text-title-3 font-display font-semibold text-white">
                   is the lifetime deal really lifetime?
                 </h2>
-                <p className="text-body-apple text-secondary-label">
+                <p className="text-body-apple text-white/60">
                   yes. pay once, use forever. even if we shut down, we guarantee your links will continue working through our permanence guarantee.
                 </p>
               </div>

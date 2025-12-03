@@ -24,10 +24,10 @@ export const PremiumCTASection = ({
     <section className="relative py-32 overflow-hidden">
       <RetroGradientMesh />
 
-      {/* Animated Gradient Orbs (like BookDemo) */}
+      {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-blazeOrange/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-32 right-10 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+        <div className="absolute top-20 left-10 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-32 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
         
         {/* Grid Pattern Overlay */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
@@ -38,7 +38,7 @@ export const PremiumCTASection = ({
 
       <div className="relative max-w-[1100px] mx-auto px-8 z-10">
         {/* Glassmorphism Container */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/10">
+        <div className="bg-zinc-900/40 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10">
           {/* Main Content */}
           <div className="text-center space-y-8">
             <motion.h2
@@ -56,7 +56,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-xl text-foreground/80 max-w-[640px] mx-auto"
+              className="text-xl text-white/70 max-w-[640px] mx-auto"
             >
               {subheadline}
             </motion.p>
@@ -79,7 +79,7 @@ export const PremiumCTASection = ({
                       size="lg"
                       variant="outline"
                       asChild
-                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-foreground/20 text-foreground hover:bg-foreground/5 bg-card/50"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/20 text-white hover:bg-white/10 bg-white/5"
                     >
                       <a href={secondaryCTALink} target="_blank" rel="noopener noreferrer">
                         {secondaryCTA}
@@ -91,7 +91,7 @@ export const PremiumCTASection = ({
                       size="lg"
                       variant="outline"
                       asChild
-                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-foreground/20 text-foreground hover:bg-foreground/5 bg-card/50"
+                      className="text-[17px] font-medium px-8 h-12 rounded-full transition-all hover:scale-[1.02] border-2 border-white/20 text-white hover:bg-white/10 bg-white/5"
                     >
                       <Link to={secondaryCTALink}>
                         {secondaryCTA}
@@ -109,7 +109,7 @@ export const PremiumCTASection = ({
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-sm text-muted-foreground pt-2"
+              className="text-sm text-white/40 pt-2"
             >
               free 14-day trial • no credit card required
             </motion.p>
