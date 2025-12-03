@@ -34,7 +34,11 @@ export const EnginesStackingSection = () => {
   });
 
   return (
-    <section ref={sectionRef} className="relative py-12 md:py-16 bg-muted/20">
+    <section 
+      ref={sectionRef} 
+      className="relative py-12 md:py-16"
+      style={{ background: 'rgba(255,255,255,0.02)' }}
+    >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -43,7 +47,8 @@ export const EnginesStackingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-6 lowercase"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 lowercase"
+            style={{ color: 'rgba(255,255,255,0.9)' }}
           >
             the three engines
           </motion.h2>
@@ -52,7 +57,8 @@ export const EnginesStackingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl text-secondary-label max-w-2xl mx-auto"
+            className="text-xl max-w-2xl mx-auto"
+            style={{ color: 'rgba(255,255,255,0.5)' }}
           >
             visitor memory • intelligent attribution • page value scoring
           </motion.p>
@@ -90,28 +96,46 @@ export const EnginesStackingSection = () => {
             return (
               <motion.div
                 key={index}
-                style={{ y, scale, opacity, zIndex: 10 + index, willChange: 'transform, opacity' }}
-                className="sticky top-20 bg-white dark:bg-[#1C1C1E] border-2 border-border rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px]"
+                style={{ 
+                  y, 
+                  scale, 
+                  opacity, 
+                  zIndex: 10 + index, 
+                  willChange: 'transform, opacity',
+                  background: 'rgba(24,24,27,0.6)',
+                  backdropFilter: 'blur(40px)',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }}
+                className="sticky top-20 rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px]"
               >
                 <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-16 md:gap-20 h-full`}>
                   {/* Left: Content */}
                   <div className="flex-1 space-y-6">
                     {/* Number Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-                      <span className="text-xl font-display font-bold text-primary">
+                    <div 
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                      style={{ 
+                        background: 'rgba(59,130,246,0.15)',
+                        border: '1px solid rgba(59,130,246,0.3)'
+                      }}
+                    >
+                      <span className="text-xl font-display font-bold" style={{ color: '#3B82F6' }}>
                         {engine.number}/3
                       </span>
                     </div>
                     
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-label lowercase">
+                    <h3 
+                      className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
+                      style={{ color: 'rgba(255,255,255,0.9)' }}
+                    >
                       {engine.headline}
                     </h3>
 
-                    <p className="text-xl md:text-2xl font-semibold text-primary lowercase">
+                    <p className="text-xl md:text-2xl font-semibold lowercase" style={{ color: '#3B82F6' }}>
                       {engine.subheadline}
                     </p>
                     
-                    <p className="text-lg text-secondary-label leading-relaxed max-w-xl">
+                    <p className="text-lg leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
                       {engine.description}
                     </p>
                   </div>
@@ -134,7 +158,10 @@ export const EnginesStackingSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mt-16"
         >
-          <p className="text-2xl text-label font-display font-semibold lowercase">
+          <p 
+            className="text-2xl font-display font-semibold lowercase"
+            style={{ color: 'rgba(255,255,255,0.9)' }}
+          >
             every journey tells the full story.
           </p>
         </motion.div>
