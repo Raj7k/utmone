@@ -88,7 +88,7 @@ export default function Casino() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e]">
+    <div className="dark min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e]">
       <AppHeader />
       
       {/* Neon glow effects */}

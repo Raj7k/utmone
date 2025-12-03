@@ -79,7 +79,7 @@ export const AppHeader = () => {
   };
 
   return (
-    <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50 vibrancy-light">
+    <header className="h-[72px] border-b border-separator bg-system-background/80 backdrop-blur-xl sticky top-0 z-50 dark:bg-zinc-900/80 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 md:px-6 h-full">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-2 md:gap-8">
