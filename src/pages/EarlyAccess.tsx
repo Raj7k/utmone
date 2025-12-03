@@ -111,15 +111,15 @@ export default function EarlyAccess() {
               >
                 {/* Referrer Landing Mode */}
                 {referrerName && (
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                  <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 mb-8">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-6 w-6 text-green-600" />
-                      <p className="text-2xl font-display font-bold text-green-900">
+                      <Trophy className="h-6 w-6 text-white" />
+                      <p className="text-2xl font-display font-bold text-white">
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg text-green-700">
-                      join now and get <span className="font-bold">1 month free</span> when early access opens.
+                    <p className="text-lg" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                      join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
                     </p>
                   </div>
                 )}
@@ -127,13 +127,13 @@ export default function EarlyAccess() {
                 <h1 className="font-display font-extrabold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
                   let's get you signed up
                 </h1>
-                <p className="text-xl text-muted-foreground mb-12">
+                <p className="text-xl mb-12" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   just a few quick details and you're in.
                 </p>
 
                 <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
                 
-                <p className="text-sm text-center text-tertiary-label mt-4">
+                <p className="text-sm text-center mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
                   we'll send you your position instantly.
                 </p>
               </motion.div>
@@ -151,15 +151,15 @@ export default function EarlyAccess() {
               {/* Referrer Landing Mode */}
               {referrerName && (
                 <AnimatedHeadline>
-                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8">
+                  <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 mb-8">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-6 w-6 text-green-600" />
-                      <p className="text-2xl font-display font-bold text-green-900">
+                      <Trophy className="h-6 w-6 text-white" />
+                      <p className="text-2xl font-display font-bold text-white">
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg text-green-700">
-                      join now and get <span className="font-bold">1 month free</span> when early access opens.
+                    <p className="text-lg" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                      join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
                     </p>
                   </div>
                 </AnimatedHeadline>
@@ -172,7 +172,7 @@ export default function EarlyAccess() {
               </AnimatedHeadline>
               
               <AnimatedHeadline delay={100}>
-                <p className="text-2xl md:text-3xl text-muted-foreground mb-12 leading-relaxed">
+                <p className="text-2xl md:text-3xl mb-12 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   utm.one launches soon. get early access. skip the waitlist with 3 referrals.
                 </p>
               </AnimatedHeadline>
@@ -199,14 +199,13 @@ export default function EarlyAccess() {
                       type="email"
                       name="email"
                       placeholder="enter your email..."
-                      className="flex-1 h-12 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/40 focus:border-primary transition-all"
+                      className="flex-1 h-12 bg-zinc-800/50 border-white/10 text-white placeholder:text-white/40 focus:bg-zinc-800/70 focus:border-white/30 transition-all"
                       required
                     />
                     <Button
                       type="submit"
-                      variant="marketing"
                       size="lg"
-                      className="h-12 px-8 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap"
+                      className="h-12 px-8 bg-white text-zinc-900 hover:bg-white/90 font-semibold rounded-full lowercase whitespace-nowrap"
                     >
                       join early access
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -224,7 +223,8 @@ export default function EarlyAccess() {
               >
                 <button 
                   onClick={scrollToForm}
-                  className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+                  className="inline-flex items-center gap-2 text-sm font-medium lowercase transition-colors"
+                  style={{ color: 'rgba(255,255,255,0.7)' }}
                 >
                   see how it works
                   <ArrowRight className="h-4 w-4" />
@@ -235,8 +235,8 @@ export default function EarlyAccess() {
         </div>
 
         {/* Decorative gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blazeOrange/20 rounded-full blur-3xl opacity-30" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl opacity-30" />
       </section>
 
       {/* SECTION 2 - HOW IT WORKS */}
@@ -246,7 +246,7 @@ export default function EarlyAccess() {
       <ViralDashboardPreview />
 
       {/* SECTION 4 - GOLDEN TICKET */}
-      <section className="bg-muted/20 py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -254,10 +254,10 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
               your golden ticket to skip the entire line
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
               every user gets a golden ticket with their name on it. it stays locked until you refer 3 people. after that, it transforms into an animated "ACCESS GRANTED" badge in green.
             </p>
           </motion.div>
@@ -283,8 +283,8 @@ export default function EarlyAccess() {
               "unlock animation",
               "auto-approval email",
             ].map((feature, index) => (
-              <div key={index} className="bg-card border border-border rounded-xl p-4">
-                <p className="text-sm text-secondary-label">{feature}</p>
+              <div key={index} className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature}</p>
               </div>
             ))}
           </motion.div>
@@ -303,16 +303,16 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
               why build a viral waitlist at all?
             </h2>
-            <p className="text-xl text-secondary-label leading-relaxed">
+            <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
               utm.one is built for teams who care about clean, trustworthy tracking. we don't want noise in our data — and we don't want noise in our launch.
             </p>
-            <p className="text-xl text-secondary-label leading-relaxed mt-6">
+            <p className="text-xl leading-relaxed mt-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               a viral waitlist rewards the people who help us shape the product early.
             </p>
-            <p className="text-xl text-secondary-label leading-relaxed mt-6">
+            <p className="text-xl leading-relaxed mt-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
               it also keeps the early access community small, focused, and full of power users who value clean-track best practices.
             </p>
           </motion.div>
@@ -320,7 +320,7 @@ export default function EarlyAccess() {
       </section>
 
       {/* SECTION 7 - BEHIND THE SCENES (TRUST) */}
-      <section className="bg-muted/20 py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -328,7 +328,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
               zero spam. zero tricks. pure transparency.
             </h2>
           </motion.div>
@@ -348,9 +348,9 @@ export default function EarlyAccess() {
               "duplicate emails = rejected",
               "you can see your movement live",
             ].map((item, index) => (
-              <div key={index} className="flex items-center gap-3 bg-card border border-border rounded-xl p-4">
-                <Shield className="w-5 h-5 text-primary shrink-0" />
-                <p className="text-secondary-label">{item}</p>
+              <div key={index} className="flex items-center gap-3 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                <Shield className="w-5 h-5 shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                <p style={{ color: 'rgba(255,255,255,0.5)' }}>{item}</p>
               </div>
             ))}
           </motion.div>
@@ -491,20 +491,21 @@ export default function EarlyAccess() {
       <EarlyAccessFAQ />
 
       {/* SECTION 13 - FOOTER CTA */}
-      <section className="bg-gradient-to-br from-primary/10 to-blazeOrange/10 py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
               join early access now. unlock your golden ticket.
             </h2>
             <Button
               size="lg"
               onClick={scrollToForm}
-              className="rounded-full px-12 py-8 text-xl bg-blazeOrange hover:bg-blazeOrange/90 text-white font-bold shadow-xl hover:shadow-2xl"
+              className="rounded-full px-12 py-8 text-xl bg-white text-zinc-900 hover:bg-white/90 font-bold shadow-xl hover:shadow-2xl"
             >
               join the waitlist
             </Button>

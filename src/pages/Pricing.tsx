@@ -45,7 +45,7 @@ const Pricing = () => {
                 simple pricing.<br />generous limits.
               </h1>
             </div>
-            <p className="text-body-emphasized text-secondary-label max-w-[640px] mx-auto">
+            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
               no per-seat charges. no hidden fees. just straightforward pricing that scales with your links, not your team size.
             </p>
 
@@ -53,7 +53,7 @@ const Pricing = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Button 
                 size="lg" 
-                className="bg-blazeOrange text-white hover:bg-blazeOrange/90 min-w-[200px]"
+                className="bg-white text-zinc-900 hover:bg-white/90 min-w-[200px] font-semibold"
                 onClick={() => navigate('/early-access')}
               >
                 start free →
@@ -61,7 +61,7 @@ const Pricing = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-2 min-w-[200px]"
+                className="border border-white/20 text-white hover:bg-white/5 min-w-[200px]"
                 onClick={() => {
                   const pricingSection = document.getElementById('pricing-table');
                   pricingSection?.scrollIntoView({ behavior: 'smooth' });
@@ -72,21 +72,21 @@ const Pricing = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>no credit card required</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>cancel anytime</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-system-green" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>99.9% uptime</span>
@@ -97,7 +97,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Table */}
-      <section id="pricing-table" className="py-24 md:py-32 bg-white/[0.02]">
+      <section id="pricing-table" className="py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-8">
           <AnimatedSection>
             <PricingTable onSelect={handlePlanSelect} />
@@ -111,13 +111,13 @@ const Pricing = () => {
               </h3>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center p-4">
-                  <div className="text-red-400 text-sm font-semibold mb-2">Bitly Pro</div>
+                  <div style={{ color: 'rgba(255,100,100,0.8)' }} className="text-sm font-semibold mb-2">Bitly Pro</div>
                   <div className="text-3xl font-bold text-white mb-1">$35</div>
                   <div className="text-xs text-white/40 mb-3">per user/month</div>
                   <div className="text-sm text-white/60">1,500 links • 1 user</div>
                 </div>
                 <div className="text-center p-4">
-                  <div className="text-red-400 text-sm font-semibold mb-2">Rebrandly</div>
+                  <div style={{ color: 'rgba(255,100,100,0.8)' }} className="text-sm font-semibold mb-2">Rebrandly</div>
                   <div className="text-3xl font-bold text-white mb-1">$39</div>
                   <div className="text-xs text-white/40 mb-3">per user/month</div>
                   <div className="text-sm text-white/60">5,000 links • 1 user</div>
@@ -136,17 +136,21 @@ const Pricing = () => {
           <AnimatedSection delay={0.2}>
             <div className="mt-16 text-center space-y-6 p-12 bg-zinc-900/60 backdrop-blur-xl rounded-2xl border border-white/10">
               <div className="space-y-3">
-                <div className="inline-block px-4 py-1 bg-white/10 text-white text-subheadline font-semibold rounded-full">
+                <div className="inline-block px-4 py-1 bg-white/10 text-white text-sm font-semibold rounded-full">
                   🔥 limited time offer
                 </div>
-                <h2 className="text-title-2 font-display font-bold text-white">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   lifetime deal: $299 once
                 </h2>
-                <p className="text-body-apple text-white/60 max-w-[640px] mx-auto">
+                <p className="text-lg text-white/60 max-w-[640px] mx-auto">
                   get pro features forever with a one-time payment. limited to first 500 customers.
                 </p>
               </div>
-              <Button variant="marketing-glow" size="lg" onClick={() => handlePlanSelect('lifetime')}>
+              <Button 
+                size="lg" 
+                className="bg-white text-zinc-900 hover:bg-white/90 font-semibold"
+                onClick={() => handlePlanSelect('lifetime')}
+              >
                 Claim Lifetime Access →
               </Button>
             </div>
@@ -163,34 +167,34 @@ const Pricing = () => {
             </h2>
             <div className="space-y-8">
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-white">
+                <h2 className="text-xl font-display font-semibold text-white">
                   what happens if i exceed my plan limits?
                 </h2>
-                <p className="text-body-apple text-white/60">
+                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-white">
+                <h2 className="text-xl font-display font-semibold text-white">
                   do you really offer unlimited team members on all plans?
                 </h2>
-                <p className="text-body-apple text-white/60">
+                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   yes! unlike bitly ($35/mo for 1 user) and rebrandly ($39/mo for 1 user), we believe collaboration shouldn't cost extra. invite your entire team on any plan, even free.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-white">
+                <h2 className="text-xl font-display font-semibold text-white">
                   can i cancel anytime?
                 </h2>
-                <p className="text-body-apple text-white/60">
+                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   absolutely. cancel anytime with no penalties. your links will continue working, and you'll have read-only access to your analytics.
                 </p>
               </div>
               <div className="space-y-3">
-                <h2 className="text-title-3 font-display font-semibold text-white">
+                <h2 className="text-xl font-display font-semibold text-white">
                   is the lifetime deal really lifetime?
                 </h2>
-                <p className="text-body-apple text-white/60">
+                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   yes. pay once, use forever. even if we shut down, we guarantee your links will continue working through our permanence guarantee.
                 </p>
               </div>

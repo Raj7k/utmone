@@ -310,10 +310,10 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase text-white">
               before and after utm.one
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
               the difference is obvious
             </p>
           </motion.div>
@@ -323,50 +323,50 @@ const HowItWorks = () => {
             afterTitle="after"
             beforeContent={
               <div className="space-y-4">
-                <div className="text-sm font-mono bg-destructive/10 p-3 rounded border border-destructive/20">
-                  <p className="text-destructive">utm_campaign=Q1-Launch</p>
-                  <p className="text-destructive">utm_campaign=q1_launch</p>
-                  <p className="text-destructive">utm_campaign=Q1%20Launch</p>
-                  <p className="text-destructive">utm_campaign=q1launch</p>
-                  <p className="text-destructive/60">+ 43 more variations...</p>
+                <div className="text-sm font-mono p-3 rounded" style={{ background: 'rgba(255,100,100,0.1)', border: '1px solid rgba(255,100,100,0.2)' }}>
+                  <p style={{ color: 'rgba(255,100,100,0.9)' }}>utm_campaign=Q1-Launch</p>
+                  <p style={{ color: 'rgba(255,100,100,0.9)' }}>utm_campaign=q1_launch</p>
+                  <p style={{ color: 'rgba(255,100,100,0.9)' }}>utm_campaign=Q1%20Launch</p>
+                  <p style={{ color: 'rgba(255,100,100,0.9)' }}>utm_campaign=q1launch</p>
+                  <p style={{ color: 'rgba(255,100,100,0.6)' }}>+ 43 more variations...</p>
                 </div>
                 <div className="space-y-2 text-sm">
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <span className="text-destructive">×</span> broken dashboards
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <span style={{ color: 'rgba(255,100,100,0.9)' }}>×</span> broken dashboards
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <span className="text-destructive">×</span> conflicting reports
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <span style={{ color: 'rgba(255,100,100,0.9)' }}>×</span> conflicting reports
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <span className="text-destructive">×</span> team arguments
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <span style={{ color: 'rgba(255,100,100,0.9)' }}>×</span> team arguments
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <span className="text-destructive">×</span> wasted time
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <span style={{ color: 'rgba(255,100,100,0.9)' }}>×</span> wasted time
                   </p>
                 </div>
               </div>
             }
             afterContent={
               <div className="space-y-4">
-                <div className="text-sm font-mono bg-primary/10 p-3 rounded border border-primary/20">
-                  <p className="text-primary">utm_campaign=q1-product-launch</p>
-                  <p className="text-primary">utm_campaign=q1-product-launch</p>
-                  <p className="text-primary">utm_campaign=q1-product-launch</p>
-                  <p className="text-primary">utm_campaign=q1-product-launch</p>
-                  <p className="text-primary/60">100% consistency</p>
+                <div className="text-sm font-mono p-3 rounded" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                  <p style={{ color: 'rgba(255,255,255,0.9)' }}>utm_campaign=q1-product-launch</p>
+                  <p style={{ color: 'rgba(255,255,255,0.9)' }}>utm_campaign=q1-product-launch</p>
+                  <p style={{ color: 'rgba(255,255,255,0.9)' }}>utm_campaign=q1-product-launch</p>
+                  <p style={{ color: 'rgba(255,255,255,0.9)' }}>utm_campaign=q1-product-launch</p>
+                  <p style={{ color: 'rgba(255,255,255,0.6)' }}>100% consistency</p>
                 </div>
                 <div className="space-y-2 text-sm">
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary" /> clean dashboards
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <CheckCircle className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} /> clean dashboards
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary" /> reliable reports
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <CheckCircle className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} /> reliable reports
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary" /> team alignment
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <CheckCircle className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} /> team alignment
                   </p>
-                  <p className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className="w-4 h-4 text-primary" /> saved time
+                  <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <CheckCircle className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} /> saved time
                   </p>
                 </div>
               </div>
@@ -411,10 +411,10 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase text-white">
               what makes links different
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
               six features that turn links into assets
             </p>
           </motion.div>
@@ -424,7 +424,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 6: Who It's For - Clickable Role Cards */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32">
         <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -432,10 +432,10 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 lowercase text-white">
               who it's for
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
               different roles, same clean-track foundation
             </p>
           </motion.div>
@@ -450,15 +450,15 @@ const HowItWorks = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link to={card.path}>
-                  <div className="group h-full bg-card border-2 border-border hover:border-primary/40 rounded-xl p-6 transition-all hover:shadow-lg cursor-pointer">
+                  <div className="group h-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-xl p-6 transition-all hover:bg-zinc-900/60 cursor-pointer">
                     <div className="space-y-3">
-                      <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors lowercase">
+                      <h3 className="text-xl font-display font-bold text-white group-hover:text-white/80 transition-colors lowercase">
                         {card.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         {card.description}
                       </p>
-                      <div className="flex items-center gap-2 text-sm text-primary font-medium pt-2">
+                      <div className="flex items-center gap-2 text-sm font-medium pt-2" style={{ color: 'rgba(255,255,255,0.7)' }}>
                         <span>learn more</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -480,10 +480,10 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 lowercase">
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 lowercase text-white">
               how clean are your links?
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
               take the 60-second clean-track assessment
             </p>
           </motion.div>
@@ -493,7 +493,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 8: FAQ */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <RoleSpecificFAQ
             role="teams using utm.one"
@@ -505,7 +505,7 @@ const HowItWorks = () => {
       {/* Fold 9: Final CTA */}
       <PremiumCTASection
         headline="ready to make your links work harder?"
-        subheadline="join 1,200+ teams using utm.one to create clean links, reliable analytics, and governance that scales."
+        subheadline="join teams using utm.one to create clean links, reliable analytics, and governance that scales."
         primaryCTA="get started →"
       />
     </MainLayout>
