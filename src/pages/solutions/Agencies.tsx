@@ -72,7 +72,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 2: The Moment Story */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <TheMomentStoryCard
             title="the client call where you couldn't explain the numbers"
@@ -136,7 +136,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 3: Before vs After */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">

@@ -96,7 +96,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 2: The Moment Story */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <TheMomentStoryCard
             title="the partner dispute you couldn't resolve"
@@ -146,7 +146,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 3: Before vs After */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
@@ -214,7 +214,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 4: What You Get */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
@@ -261,7 +261,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 5: Growth Loop - Partner ROI Calculator */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
@@ -334,7 +334,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 7: Feature Cards */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
@@ -396,7 +396,7 @@ const PartnerManagers = () => {
       </section>
 
       {/* Fold 8: FAQs */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="partner managers" faqs={faqs} />
         </div>

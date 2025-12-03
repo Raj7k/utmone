@@ -108,7 +108,7 @@ const Sales = () => {
       </section>
 
       {/* Fold 2: The Moment Story */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <TheMomentStoryCard
             title="the deal you almost lost"
@@ -142,7 +142,7 @@ const Sales = () => {
       </section>
 
       {/* Fold 3: Before vs After */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
@@ -210,7 +210,7 @@ const Sales = () => {
       </section>
 
       {/* Fold 4: What You Get */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
@@ -314,7 +314,7 @@ const Sales = () => {
       </section>
 
       {/* Fold 6: Feature Cards */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
@@ -376,7 +376,7 @@ const Sales = () => {
       </section>
 
       {/* Fold 7: FAQs */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="sales teams" faqs={faqs} />
         </div>

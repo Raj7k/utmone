@@ -133,7 +133,7 @@ const RevOps = () => {
       </section>
 
       {/* Fold 2: "The Moment" Story Card */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <TheMomentStoryCard
             title="the board meeting where three funnels told three stories"
@@ -166,7 +166,7 @@ const RevOps = () => {
       </section>
 
       {/* Fold 3: Before vs After Comparison */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
@@ -206,7 +206,7 @@ const RevOps = () => {
       </section>
 
       {/* Fold 4: What You Get - Visual Benefit Cards */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
@@ -279,7 +279,7 @@ const RevOps = () => {
       </section>
 
       {/* Fold 6: Role-Specific FAQs */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="revops" faqs={faqs} />
         </div>
