@@ -11,6 +11,7 @@ import { FeatureMappedCard } from "@/components/solutions/FeatureMappedCard";
 import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { WorkflowTransformSection } from "@/components/landing/WorkflowTransformSection";
+import { ProductConsole } from "@/components/product/ProductConsole";
 import { CheckCircle2, DollarSign, Target, BarChart3, Brain, Link2, Users, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -174,7 +175,10 @@ const CustomerJourney = () => {
         </div>
       </section>
 
-      {/* Fold 2: "The Lie of Last Click" Story Card */}
+      {/* Fold 2: Product Configurator Console */}
+      <ProductConsole />
+
+      {/* Fold 3: "The Lie of Last Click" Story Card */}
       <section className="relative z-10 py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <motion.div
