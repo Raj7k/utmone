@@ -29,14 +29,14 @@ export const EarlyAccessInlineCTA = () => {
     <div className="flex justify-start mt-6">
       <form 
         onSubmit={handleSubmit}
-        className="inline-flex items-center bg-slate-100 border border-slate-200 rounded-full p-2 gap-2 max-w-md w-full hover:border-slate-300 transition-all duration-300"
+        className="inline-flex items-center bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-full p-2 gap-2 max-w-md w-full hover:border-white/20 transition-all duration-300"
       >
         <Input
           type="email"
           placeholder="enter your email..."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 h-10 bg-white border-0 text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 rounded-full"
+          className="flex-1 h-10 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-full"
           required
         />
         <Button

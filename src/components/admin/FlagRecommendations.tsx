@@ -188,7 +188,7 @@ export function FlagRecommendations() {
                   <p className="text-sm">{rec.reason}</p>
 
                   {/* Expected Impact */}
-                  <div className="grid grid-cols-3 gap-4 p-3 rounded bg-white/50 border">
+                  <div className="grid grid-cols-3 gap-4 p-3 rounded bg-white/5 border border-white/10">
                     {rec.expected_impact.latency_change !== undefined && (
                       <div>
                         <p className="text-xs text-secondary-label">latency impact</p>

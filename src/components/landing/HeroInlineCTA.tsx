@@ -29,7 +29,7 @@ export const HeroInlineCTA = () => {
     <div className="relative max-w-[600px] mx-auto">
       <form 
         onSubmit={handleSubmit}
-        className="bg-white border border-border/50 shadow-sm rounded-2xl p-4 hover:border-border transition-all duration-300"
+        className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all duration-300"
       >
         <div className="flex flex-col sm:flex-row gap-3">
           <Input
@@ -37,7 +37,7 @@ export const HeroInlineCTA = () => {
             placeholder="enter your email..."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 h-12 bg-muted/30 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/40 focus:border-primary transition-all"
+            className="flex-1 h-12 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:bg-white/10 focus:border-primary transition-all"
             required
           />
           <Button

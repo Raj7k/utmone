@@ -26,7 +26,7 @@ export const LinkedInPostCard = ({ author, role, excerpt, likes, comments, share
   };
 
   return (
-    <Card id={cardId} className="bg-white border-2 border-[#0A66C2]/20 hover:shadow-lg transition-shadow">
+    <Card id={cardId} className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all">
       <CardContent className="p-6">
         <div className="flex items-start gap-4 mb-4">
           <div className="w-12 h-12 rounded-full bg-[#0A66C2]/10 flex items-center justify-center font-bold text-[#0A66C2]">
