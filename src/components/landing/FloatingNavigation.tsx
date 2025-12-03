@@ -89,7 +89,7 @@ export const FloatingNavigation = () => {
                         </div>
                         <div className="text-xs font-medium leading-none">Link Orchestration</div>
                       </div>
-                      <p className="text-[10px] leading-snug text-muted-foreground">
+                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         control & reliability
                       </p>
                     </Link>
@@ -104,7 +104,7 @@ export const FloatingNavigation = () => {
                         </div>
                         <div className="text-xs font-medium leading-none">Journey Intelligence</div>
                       </div>
-                      <p className="text-[10px] leading-snug text-muted-foreground">
+                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         truth & revenue
                       </p>
                     </Link>
@@ -119,7 +119,7 @@ export const FloatingNavigation = () => {
                         </div>
                         <div className="text-xs font-medium leading-none">QR Studio</div>
                       </div>
-                      <p className="text-[10px] leading-snug text-muted-foreground">
+                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         physical reliability
                       </p>
                     </Link>
@@ -134,7 +134,7 @@ export const FloatingNavigation = () => {
                         </div>
                         <div className="text-xs font-medium leading-none">Data Pipeline</div>
                       </div>
-                      <p className="text-[10px] leading-snug text-muted-foreground">
+                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         freedom & scale
                       </p>
                     </Link>

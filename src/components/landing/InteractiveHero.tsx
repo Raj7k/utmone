@@ -111,20 +111,22 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
                 <button
                   key={pill.id}
                   onClick={() => handleUseCaseChange(pill.id)}
-                  className={`
-                    group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full
-                    transition-all duration-300 min-w-[160px] sm:min-w-[180px]
-                    ${isSelected 
-                      ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25" 
-                      : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/50"
-                    }
-                  `}
+                  className="group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-full transition-all duration-300 min-w-[160px] sm:min-w-[180px]"
+                  style={{
+                    background: isSelected ? 'hsl(217 91% 50%)' : 'rgba(255,255,255,0.05)',
+                    color: isSelected ? 'white' : 'rgba(255,255,255,0.7)',
+                    border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: isSelected ? '0 10px 25px -5px rgba(59,130,246,0.25)' : 'none'
+                  }}
                   aria-pressed={isSelected}
                 >
                   <Icon className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform ${isSelected ? "scale-110" : "group-hover:scale-105"}`} />
                   <div className="text-left">
                     <div className="text-sm sm:text-base font-semibold lowercase leading-tight">{pill.label}</div>
-                    <div className={`text-xs lowercase leading-tight ${isSelected ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                    <div 
+                      className="text-xs lowercase leading-tight"
+                      style={{ color: isSelected ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.5)' }}
+                    >
                       {pill.sublabel}
                     </div>
                   </div>
@@ -152,7 +154,8 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
           <AnimatePresence mode="wait">
             <motion.p 
               key={`sub-${selectedUseCase}`}
-              className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto text-balance leading-relaxed px-2"
+              className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

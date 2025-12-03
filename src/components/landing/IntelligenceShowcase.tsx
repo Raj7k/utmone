@@ -20,7 +20,7 @@ export const IntelligenceShowcase = () => {
           <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase px-2">
             clean-track intelligence
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground px-2">
+          <p className="text-base sm:text-lg px-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
             AI-powered insights built on mathematical models from MIT and Harvard scientists
           </p>
         </div>
@@ -32,16 +32,17 @@ export const IntelligenceShowcase = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-card rounded-xl border border-border shadow-lg overflow-hidden"
+            className="rounded-xl shadow-lg overflow-hidden"
+            style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}
           >
             {/* Chat Header */}
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/50 border-b border-border">
+            <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-blazeOrange flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
               <div>
-                <div className="font-semibold text-foreground text-xs lowercase">clean-track AI</div>
-                <div className="text-[10px] text-muted-foreground">MIT & Harvard algorithms</div>
+                <div className="font-semibold text-xs lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>clean-track AI</div>
+                <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>MIT & Harvard algorithms</div>
               </div>
             </div>
             
@@ -65,8 +66,8 @@ export const IntelligenceShowcase = () => {
                 <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                   <Brain className="w-3 h-3 text-primary" />
                 </div>
-                <div className="bg-muted/50 rounded-xl rounded-tl-sm px-3 py-2 space-y-2">
-                  <p className="text-xs text-foreground">
+                <div className="rounded-xl rounded-tl-sm px-3 py-2 space-y-2" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     <strong>Nike Q4 Launch</strong> drove most conversions:
                   </p>
                   <div className="space-y-1">
@@ -76,8 +77,8 @@ export const IntelligenceShowcase = () => {
                       { label: "Revenue", value: "$128,200" },
                     ].map((stat) => (
                       <div key={stat.label} className="flex justify-between text-[11px]">
-                        <span className="text-muted-foreground">{stat.label}</span>
-                        <span className="font-semibold text-foreground">{stat.value}</span>
+                        <span style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.label}</span>
+                        <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{stat.value}</span>
                       </div>
                     ))}
                   </div>
@@ -111,10 +112,10 @@ export const IntelligenceShowcase = () => {
             </div>
             
             {/* Chat Input */}
-            <div className="p-3 border-t border-border">
-              <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-1.5">
-                <MessageSquare className="w-3 h-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">Ask anything about your links...</span>
+            <div className="p-3" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-1.5" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                <MessageSquare className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.5)' }} />
+                <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>Ask anything about your links...</span>
               </div>
             </div>
           </motion.div>
@@ -142,7 +143,11 @@ export const IntelligenceShowcase = () => {
               return (
                 <motion.div
                   key={feature.title}
-                  className="bg-card border border-border rounded-xl p-4 hover:shadow-md hover:border-primary/30 transition-all"
+                  className="rounded-xl p-4 transition-all"
+                  style={{ 
+                    background: 'rgba(24,24,27,0.6)', 
+                    border: '1px solid rgba(255,255,255,0.1)' 
+                  }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -150,12 +155,12 @@ export const IntelligenceShowcase = () => {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h2 className="text-sm font-semibold text-foreground mb-1 lowercase">{feature.title}</h2>
-                      <p className="text-xs text-muted-foreground">{feature.description}</p>
+                      <h2 className="text-sm font-semibold mb-1 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h2>
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.description}</p>
                     </div>
                   </div>
                 </motion.div>
