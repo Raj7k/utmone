@@ -157,9 +157,9 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   const content = HERO_CONTENT[activeUseCase];
 
   return (
-    <section className="relative pt-8 md:pt-12 pb-16 md:pb-24 bg-background overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+    <section className="relative min-h-[80vh] md:min-h-[85vh] flex flex-col justify-center py-16 md:py-24 bg-background overflow-hidden">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left: Vertical Side Navigation - Collapsible */}
           <div className={`relative z-20 transition-all duration-300 ${isCollapsed ? "lg:col-span-1" : "lg:col-span-4 xl:col-span-3"}`}>
@@ -331,12 +331,12 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
                 className="space-y-6"
               >
-                {/* Headline */}
-                <div className="space-y-4">
-                  <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tighter leading-[1.1] lowercase">
+                {/* Headline - Larger for impact */}
+                <div className="space-y-6">
+                  <h1 className="hero-gradient text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tighter leading-[1.05] lowercase">
                     {content.headline}
                   </h1>
-                  <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
+                  <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
                     {content.subheadline}
                   </p>
                 </div>

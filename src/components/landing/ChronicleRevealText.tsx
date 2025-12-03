@@ -36,24 +36,31 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
       onMouseLeave={handleMouseLeave}
       className={`relative cursor-default select-none ${className}`}
     >
-      {/* Outline layer (always visible) - using SVG for true stroke */}
       <svg
         className="w-full h-auto"
-        viewBox="0 0 400 80"
+        viewBox="0 0 800 200"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          {/* Gradient for stroke (outline) */}
-          <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--blazeOrange))" />
+          {/* Blaze Orange stroke gradient */}
+          <linearGradient id="blazeStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(var(--blazeOrange))" />
+            <stop offset="100%" stopColor="hsl(20 80% 45%)" />
           </linearGradient>
           
-          {/* Gradient for fill */}
-          <linearGradient id="fillGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--blazeOrange))" />
+          {/* Retro fill gradient (orange → blue → deep purple) */}
+          <linearGradient id="retroFillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--blazeOrange))" />
+            <stop offset="40%" stopColor="hsl(var(--primary))" />
+            <stop offset="100%" stopColor="hsl(var(--deepSea))" />
           </linearGradient>
+          
+          {/* 3D Shadow Filter */}
+          <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="3" dy="3" stdDeviation="2" floodColor="hsl(var(--blazeOrange))" floodOpacity="0.4"/>
+            <feDropShadow dx="6" dy="6" stdDeviation="4" floodColor="hsl(var(--primary))" floodOpacity="0.25"/>
+            <feDropShadow dx="10" dy="10" stdDeviation="8" floodColor="hsl(var(--deepSea))" floodOpacity="0.15"/>
+          </filter>
           
           {/* Clip path that reveals based on mouse position */}
           <clipPath id="revealClip">
@@ -67,36 +74,55 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           </clipPath>
         </defs>
         
-        {/* Outline text (stroke only, no fill) */}
+        {/* 3D Shadow layer (behind everything) */}
         <text
           x="50%"
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="font-display font-bold"
+          className="font-display font-extrabold"
+          filter="url(#shadow3d)"
           style={{
-            fontSize: "64px",
+            fontSize: "160px",
             fill: "transparent",
-            stroke: "url(#strokeGradient)",
-            strokeWidth: "1.5px",
-            letterSpacing: "-0.02em",
+            stroke: "url(#blazeStrokeGradient)",
+            strokeWidth: "2px",
+            letterSpacing: "-0.03em",
           }}
         >
           {text}
         </text>
         
-        {/* Fill text (revealed on hover) */}
+        {/* Outline text (stroke only, no fill) - Blaze Orange */}
         <text
           x="50%"
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="font-display font-bold"
+          className="font-display font-extrabold"
+          style={{
+            fontSize: "160px",
+            fill: "transparent",
+            stroke: "url(#blazeStrokeGradient)",
+            strokeWidth: "3px",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {text}
+        </text>
+        
+        {/* Fill text (revealed on hover) - Retro gradient */}
+        <text
+          x="50%"
+          y="55%"
+          dominantBaseline="middle"
+          textAnchor="middle"
+          className="font-display font-extrabold"
           clipPath="url(#revealClip)"
           style={{
-            fontSize: "64px",
-            fill: "url(#fillGradient)",
-            letterSpacing: "-0.02em",
+            fontSize: "160px",
+            fill: "url(#retroFillGradient)",
+            letterSpacing: "-0.03em",
           }}
         >
           {text}
