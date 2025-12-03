@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { SEO } from "@/components/seo/SEO";
 import { Building2, Users, Rocket, TrendingUp, Code, UserPlus, BarChart3, GitBranch, Target } from "lucide-react";
 import { motion } from "framer-motion";
@@ -77,15 +75,12 @@ const Solutions = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="Solutions by Segment & Role - utm.one"
         description="Explore utm.one solutions by company segment (Enterprise, Agencies, Startups) or by role (Marketing, Sales, Ops, Dev, RevOps, Partners, Reporting)."
         canonical="/solutions"
       />
-      
-      <Navigation />
-      <FloatingNavigation />
 
       <main className="relative">
         {/* Hero Section */}
@@ -99,7 +94,7 @@ const Solutions = () => {
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold lowercase mb-6 hero-gradient">
                 find your solution
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground lowercase max-w-3xl mx-auto">
+              <p className="text-xl md:text-2xl text-white/60 lowercase max-w-3xl mx-auto">
                 utm.one adapts to your company size, team structure, and role—governance that scales, analytics that don't lie.
               </p>
             </motion.div>
@@ -107,7 +102,7 @@ const Solutions = () => {
         </section>
 
         {/* By Segment */}
-        <section className="py-24 bg-muted/20">
+        <section className="py-24 bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -116,10 +111,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white">
                 by segment
               </h2>
-              <p className="text-lg text-muted-foreground lowercase max-w-2xl">
+              <p className="text-lg text-white/60 lowercase max-w-2xl">
                 choose the solution built for your company type
               </p>
             </motion.div>
@@ -135,15 +130,15 @@ const Solutions = () => {
                 >
                   <Link
                     to={solution.href}
-                    className="group block p-8 rounded-2xl bg-card border border-border hover:border-primary/50 hover:shadow-xl transition-all duration-300"
+                    className="group block p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:shadow-xl transition-all duration-300"
                   >
                     <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${solution.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                       <solution.icon className="w-8 h-8 text-primary" />
                     </div>
-                    <h3 className="text-2xl font-display font-bold lowercase mb-3 text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-2xl font-display font-bold lowercase mb-3 text-white group-hover:text-primary transition-colors">
                       {solution.title}
                     </h3>
-                    <p className="text-muted-foreground lowercase">
+                    <p className="text-white/60 lowercase">
                       {solution.description}
                     </p>
                   </Link>
@@ -163,10 +158,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white">
                 by role
               </h2>
-              <p className="text-lg text-muted-foreground lowercase max-w-2xl">
+              <p className="text-lg text-white/60 lowercase max-w-2xl">
                 see how utm.one solves your specific challenges
               </p>
             </motion.div>
@@ -182,17 +177,17 @@ const Solutions = () => {
                 >
                   <Link
                     to={solution.href}
-                    className="group block p-6 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                    className="group block p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <div className="w-12 h-12 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors">
                         <solution.icon className="w-6 h-6 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-display font-bold lowercase mb-2 text-foreground group-hover:text-primary transition-colors">
+                        <h3 className="text-lg font-display font-bold lowercase mb-2 text-white group-hover:text-primary transition-colors">
                           {solution.title}
                         </h3>
-                        <p className="text-sm text-muted-foreground lowercase">
+                        <p className="text-sm text-white/60 lowercase">
                           {solution.description}
                         </p>
                       </div>
@@ -204,9 +199,7 @@ const Solutions = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

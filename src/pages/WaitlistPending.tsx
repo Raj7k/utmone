@@ -77,22 +77,27 @@ export default function WaitlistPending() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="animate-pulse space-y-4 text-center">
           <UtmOneLogo size="xl" className="justify-center mb-8" />
-          <p className="text-muted-foreground">Loading your status...</p>
+          <p className="text-white/60">Loading your status...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-transparent flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
+      {/* Subtle gradient */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 70%)'
+      }} />
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl space-y-6"
+        className="w-full max-w-2xl space-y-6 relative z-10"
       >
         {/* Logo */}
         <div className="text-center">
@@ -100,7 +105,7 @@ export default function WaitlistPending() {
         </div>
 
         {/* Main Card */}
-        <Card className="p-8 space-y-6 border-border/50 shadow-xl">
+        <Card className="p-8 space-y-6 bg-zinc-900/40 backdrop-blur-xl border-white/10 shadow-xl">
           <div className="text-center space-y-4">
             <motion.div
               initial={{ scale: 0 }}
@@ -111,11 +116,11 @@ export default function WaitlistPending() {
               <Clock className="h-8 w-8 text-primary" />
             </motion.div>
 
-            <h1 className="text-4xl font-display font-bold text-foreground">
+            <h1 className="text-4xl font-display font-bold text-white">
               You're on the list!
             </h1>
             
-            <p className="text-lg text-muted-foreground max-w-md mx-auto">
+            <p className="text-lg text-white/60 max-w-md mx-auto">
               We're rolling out utm.one in waves to ensure the best experience for everyone.
             </p>
           </div>
@@ -126,37 +131,37 @@ export default function WaitlistPending() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-primary/5 rounded-2xl p-6 text-center"
+              className="bg-primary/5 rounded-2xl p-6 text-center border border-primary/20"
             >
-              <p className="text-sm text-muted-foreground mb-2">Your position in queue</p>
+              <p className="text-sm text-white/60 mb-2">Your position in queue</p>
               <p className="text-5xl font-display font-bold text-primary">#{queuePosition}</p>
             </motion.div>
           )}
 
           {/* What happens next */}
-          <div className="space-y-4 pt-4 border-t border-border">
-            <h3 className="font-semibold text-foreground">What happens next?</h3>
+          <div className="space-y-4 pt-4 border-t border-white/10">
+            <h3 className="font-semibold text-white">What happens next?</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <Mail className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-foreground">We'll email you when you're in</p>
-                  <p className="text-sm text-muted-foreground">Check {userEmail}</p>
+                  <p className="font-medium text-white">We'll email you when you're in</p>
+                  <p className="text-sm text-white/60">Check {userEmail}</p>
                 </div>
               </div>
               {referralCode && (
                 <div className="flex items-start gap-3">
                   <Share2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-medium text-foreground">Move up faster</p>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="font-medium text-white">Move up faster</p>
+                    <p className="text-sm text-white/60 mb-2">
                       Share your referral link — each signup moves you up the queue
                     </p>
                     <Button
                       onClick={copyReferralLink}
                       variant="outline"
                       size="sm"
-                      className="w-full rounded-full"
+                      className="w-full rounded-full border-white/20 text-white hover:bg-white/10"
                     >
                       <Share2 className="h-4 w-4 mr-2" />
                       Copy referral link
@@ -168,12 +173,12 @@ export default function WaitlistPending() {
           </div>
 
           {/* Sign Out */}
-          <div className="pt-4 border-t border-border">
+          <div className="pt-4 border-t border-white/10">
             <Button
               onClick={handleSignOut}
               variant="ghost"
               size="sm"
-              className="w-full rounded-full text-muted-foreground"
+              className="w-full rounded-full text-white/60 hover:text-white hover:bg-white/10"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Sign out
@@ -182,7 +187,7 @@ export default function WaitlistPending() {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-center text-sm text-white/40">
           Questions? Reach us at{" "}
           <a href="mailto:support@utm.one" className="text-primary hover:underline">
             support@utm.one

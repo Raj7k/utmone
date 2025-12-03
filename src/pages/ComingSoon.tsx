@@ -1,5 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Clock, ArrowRight } from "lucide-react";
@@ -11,20 +10,18 @@ interface ComingSoonPageProps {
 
 export const ComingSoonPage = ({ title, description }: ComingSoonPageProps) => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <section className="py-32 bg-background">
+    <MainLayout showAnnouncement={false}>
+      <section className="py-32">
         <div className="max-w-[720px] mx-auto px-8 text-center space-y-8">
-          <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-muted/50 mb-6">
-            <Clock className="h-12 w-12 text-muted-foreground/60" />
+          <div className="inline-flex items-center justify-center p-4 rounded-2xl bg-white/10 mb-6">
+            <Clock className="h-12 w-12 text-white/60" />
           </div>
           
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground">
+            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-white">
               {title}
             </h1>
-            <p className="text-lg text-secondary-label leading-relaxed">
+            <p className="text-lg text-white/60 leading-relaxed">
               {description}
             </p>
           </div>
@@ -36,7 +33,7 @@ export const ComingSoonPage = ({ title, description }: ComingSoonPageProps) => {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <p className="text-sm text-tertiary-label">
+            <p className="text-sm text-white/40">
               Join the waitlist to be notified when this launches
             </p>
           </div>
@@ -48,9 +45,7 @@ export const ComingSoonPage = ({ title, description }: ComingSoonPageProps) => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 
