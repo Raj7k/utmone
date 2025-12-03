@@ -15,9 +15,15 @@ import {
   QrCode,
   Shield,
   Layers,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles,
+  Brain,
+  MessageSquare,
+  AlertCircle,
+  Zap
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ParallaxSection } from "./ParallaxSection";
 
 interface DynamicSecondFoldProps {
   selectedUseCase: UseCaseType;
@@ -52,16 +58,16 @@ const AttributionContent = () => (
         {/* Dashboard Content */}
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold text-foreground lowercase">channel attribution</h4>
+            <h4 className="font-semibold text-foreground lowercase">clean-track attribution</h4>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
           
           {/* Attribution Bars */}
           <div className="space-y-3">
             {[
-              { channel: "Organic Content", credit: 35, color: "bg-primary" },
-              { channel: "Podcast Mentions", credit: 25, color: "bg-primary/80" },
-              { channel: "LinkedIn Organic", credit: 20, color: "bg-primary/60" },
+              { channel: "Nike Organic Content", credit: 35, color: "bg-primary" },
+              { channel: "Tesla Podcast Mentions", credit: 25, color: "bg-primary/80" },
+              { channel: "Apple LinkedIn Organic", credit: 20, color: "bg-primary/60" },
               { channel: "Google Ads", credit: 20, color: "bg-primary/40" }
             ].map((item, i) => (
               <div key={item.channel} className="space-y-1.5">
@@ -143,7 +149,7 @@ const AttributionContent = () => (
         to="/features/attribution-graph"
         className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
       >
-        see how attribution works
+        see how clean-track attribution works
         <ArrowRight className="h-4 w-4" />
       </Link>
     </div>
@@ -193,7 +199,7 @@ const JourneyContent = () => (
         to="/features/predictive-analytics"
         className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
       >
-        explore journey analytics
+        explore clean-track journey analytics
         <ArrowRight className="h-4 w-4" />
       </Link>
     </div>
@@ -223,7 +229,7 @@ const JourneyContent = () => (
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h4 className="font-semibold text-foreground lowercase">customer journey</h4>
-            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">enterprise deal</span>
+            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">Nike enterprise deal</span>
           </div>
           
           {/* Journey Steps */}
@@ -317,15 +323,15 @@ const LinksContent = () => (
           <div className="space-y-2">
             <label className="text-xs text-muted-foreground">destination url</label>
             <div className="bg-muted/50 rounded-lg px-3 py-2 text-sm font-mono text-foreground border border-border">
-              https://acme.com/product/demo
+              https://tesla.com/product/demo
             </div>
           </div>
           
           {/* Link Layers */}
           <div className="space-y-2">
             {[
-              { icon: LinkIcon, label: "short link", value: "utm.one/acme-demo", color: "bg-primary" },
-              { icon: BarChart3, label: "utm params", value: "source=linkedin&medium=social&campaign=q4_launch", color: "bg-primary/80" },
+              { icon: LinkIcon, label: "short link", value: "utm.one/tesla-demo", color: "bg-primary" },
+              { icon: BarChart3, label: "utm params", value: "source=linkedin&medium=social&campaign=elon_launch", color: "bg-primary/80" },
               { icon: QrCode, label: "qr code", value: "branded, tracked", color: "bg-primary/60" },
               { icon: Shield, label: "clean-track", value: "validated ✓", color: "bg-primary/40" },
               { icon: Layers, label: "metadata", value: "LLM-ready", color: "bg-primary/20" }
@@ -411,6 +417,159 @@ const LinksContent = () => (
   </div>
 );
 
+// Intelligence Content with AI Chat Mockup
+const IntelligenceContent = () => (
+  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    {/* Left: AI Chat Mockup */}
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="relative"
+    >
+      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
+        {/* Chat Header */}
+        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blazeOrange flex items-center justify-center">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <div className="font-semibold text-foreground text-sm lowercase">clean-track AI</div>
+            <div className="text-xs text-muted-foreground">MIT & Harvard algorithms</div>
+          </div>
+        </div>
+        
+        {/* Chat Messages */}
+        <div className="p-4 space-y-4">
+          {/* User Message */}
+          <div className="flex justify-end">
+            <div className="bg-primary text-primary-foreground rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]">
+              <p className="text-sm">Which Nike campaign performed best this quarter?</p>
+            </div>
+          </div>
+          
+          {/* AI Response */}
+          <motion.div
+            className="flex gap-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <Brain className="w-4 h-4 text-primary" />
+            </div>
+            <div className="bg-muted/50 rounded-2xl rounded-tl-sm px-4 py-3 space-y-3">
+              <p className="text-sm text-foreground">
+                <strong>Nike Q4 Launch</strong> drove the most conversions:
+              </p>
+              <div className="space-y-2">
+                {[
+                  { label: "Clicks", value: "24,847", change: "+32%" },
+                  { label: "Conversion Rate", value: "4.8%", change: "+18%" },
+                  { label: "Revenue Attributed", value: "$128,200", change: "+45%" },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">{stat.label}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-foreground">{stat.value}</span>
+                      <span className="text-green-600">{stat.change}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-2 text-xs text-primary pt-2 border-t border-border">
+                <TrendingUp className="w-3 h-3" />
+                Clean-Track confidence: 94%
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* AI Alert */}
+          <motion.div
+            className="flex gap-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+            </div>
+            <div className="bg-amber-500/10 rounded-2xl rounded-tl-sm px-4 py-3 border border-amber-500/20">
+              <div className="flex items-center gap-2 text-amber-600 mb-1">
+                <span className="text-xs font-medium">Anomaly detected</span>
+              </div>
+              <p className="text-xs text-foreground">
+                Traffic from <strong>Tesla email campaign</strong> dropped 45% yesterday. Investigating...
+              </p>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Chat Input */}
+        <div className="p-4 border-t border-border">
+          <div className="flex items-center gap-3 bg-muted/50 rounded-xl px-4 py-3">
+            <MessageSquare className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Ask anything about your data...</span>
+            <div className="ml-auto">
+              <Zap className="w-4 h-4 text-primary" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+    
+    {/* Right: Content */}
+    <div className="space-y-6">
+      <div className="space-y-3">
+        <p className="text-sm font-medium text-primary uppercase tracking-wider">clean-track intelligence</p>
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+          AI that makes your data talk
+        </h2>
+        <p className="text-lg text-muted-foreground leading-relaxed">
+          Built on mathematical models from MIT and Harvard scientists. 
+          Ask questions in plain English, get insights instantly. No data science degree required.
+        </p>
+      </div>
+      
+      {/* Features */}
+      <div className="space-y-3">
+        {[
+          { icon: Brain, title: "predictive insights", desc: "Know which campaigns will work before launch" },
+          { icon: AlertCircle, title: "anomaly detection", desc: "Catch traffic drops and bot attacks automatically" },
+          { icon: TrendingUp, title: "revenue attribution", desc: "See which touchpoints actually drive conversions" },
+        ].map((feature, i) => {
+          const Icon = feature.icon;
+          return (
+            <motion.div
+              key={feature.title}
+              className="flex items-start gap-3 p-3 bg-card rounded-lg border border-border"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+            >
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Icon className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-foreground lowercase text-sm">{feature.title}</h4>
+                <p className="text-xs text-muted-foreground">{feature.desc}</p>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+      
+      <Link 
+        to="/features/predictive-analytics"
+        className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+      >
+        explore clean-track AI
+        <ArrowRight className="h-4 w-4" />
+      </Link>
+    </div>
+  </div>
+);
+
 // Governance Content with Product Mockup
 const GovernanceContent = () => (
   <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -423,17 +582,16 @@ const GovernanceContent = () => (
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
           Role-based access, approval workflows, naming conventions, and audit trails. 
-          Scale your link management without the chaos.
+          Scale link management without chaos.
         </p>
       </div>
       
       {/* Features */}
       <div className="space-y-3">
         {[
-          { title: "role-based permissions", desc: "Control who creates, edits, and publishes links" },
-          { title: "approval workflows", desc: "Review campaigns before they go live" },
-          { title: "naming conventions", desc: "Enforce UTM rules automatically" },
-          { title: "audit trails", desc: "Track every change, every link, every user" }
+          { title: "role-based access", desc: "Admins, editors, viewers — everyone has the right permissions" },
+          { title: "approval workflows", desc: "Review links before they go live" },
+          { title: "audit trails", desc: "See who created what, when, and why" }
         ].map((feature, i) => (
           <motion.div
             key={feature.title}
@@ -452,7 +610,7 @@ const GovernanceContent = () => (
       </div>
       
       <Link 
-        to="/features/governance"
+        to="/solutions/enterprise"
         className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
       >
         explore enterprise features
@@ -467,7 +625,6 @@ const GovernanceContent = () => (
       transition={{ duration: 0.5, delay: 0.2 }}
       className="relative lg:order-1"
     >
-      {/* Governance Dashboard Mockup */}
       <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
           <div className="flex gap-1.5">
@@ -477,52 +634,57 @@ const GovernanceContent = () => (
           </div>
           <div className="flex-1 mx-4">
             <div className="bg-background rounded-md px-3 py-1.5 text-xs text-muted-foreground font-mono">
-              utm.one/dashboard/settings/team
+              utm.one/dashboard/team
             </div>
           </div>
         </div>
         
         <div className="p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="font-semibold text-foreground lowercase">team governance</h4>
-            <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">enterprise</span>
-          </div>
+          <h4 className="font-semibold text-foreground lowercase">team management</h4>
           
-          {/* Team Roles */}
-          <div className="space-y-3">
+          {/* Team Members */}
+          <div className="space-y-2">
             {[
-              { role: "Admin", count: 2, permissions: "Full access", color: "bg-destructive/10 text-destructive" },
-              { role: "Manager", count: 5, permissions: "Create, edit, approve", color: "bg-amber-500/10 text-amber-600" },
-              { role: "Editor", count: 12, permissions: "Create, edit", color: "bg-primary/10 text-primary" },
-              { role: "Viewer", count: 28, permissions: "View only", color: "bg-muted text-muted-foreground" }
-            ].map((item, i) => (
+              { name: "Elon Musk", email: "elon@tesla.com", role: "Admin", avatar: "EM" },
+              { name: "Tim Cook", email: "tim@apple.com", role: "Editor", avatar: "TC" },
+              { name: "Jeff Bezos", email: "jeff@amazon.com", role: "Viewer", avatar: "JB" },
+            ].map((member, i) => (
               <motion.div
-                key={item.role}
-                className="flex items-center justify-between p-3 bg-muted/30 rounded-lg"
+                key={member.name}
+                className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
               >
-                <div className="flex items-center gap-3">
-                  <span className={`px-2 py-1 rounded text-xs font-semibold ${item.color}`}>{item.role}</span>
-                  <span className="text-sm text-foreground">{item.count} members</span>
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-sm font-semibold text-primary">
+                  {member.avatar}
                 </div>
-                <span className="text-xs text-muted-foreground">{item.permissions}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-foreground text-sm">{member.name}</div>
+                  <div className="text-xs text-muted-foreground truncate">{member.email}</div>
+                </div>
+                <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  member.role === "Admin" ? "bg-primary/10 text-primary" :
+                  member.role === "Editor" ? "bg-amber-500/10 text-amber-600" :
+                  "bg-muted text-muted-foreground"
+                }`}>
+                  {member.role}
+                </div>
               </motion.div>
             ))}
           </div>
           
-          {/* Approval Queue Preview */}
-          <div className="mt-4 p-3 bg-amber-500/5 rounded-lg border border-amber-500/20">
-            <div className="flex items-center gap-2 text-sm">
-              <Shield className="w-4 h-4 text-amber-600" />
-              <span className="text-amber-700 dark:text-amber-400">3 links pending approval</span>
+          {/* Pending Approvals */}
+          <div className="p-3 bg-amber-500/5 rounded-lg border border-amber-500/20">
+            <div className="flex items-center gap-2 text-amber-600 text-sm font-medium">
+              <Shield className="w-4 h-4" />
+              3 links pending approval
             </div>
           </div>
         </div>
       </div>
       
-      {/* Floating Stats */}
+      {/* Floating Badge */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -536,9 +698,17 @@ const GovernanceContent = () => (
   </div>
 );
 
+const CONTENT_MAP: Record<UseCaseType, React.ReactNode> = {
+  attribution: <AttributionContent />,
+  journey: <JourneyContent />,
+  links: <LinksContent />,
+  intelligence: <IntelligenceContent />,
+  governance: <GovernanceContent />,
+};
+
 export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) => {
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-muted/20">
+    <ParallaxSection speed={0.3} className="py-16 md:py-24 bg-muted/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <AnimatePresence mode="wait">
           <motion.div
@@ -546,15 +716,12 @@ export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) =
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {selectedUseCase === "attribution" && <AttributionContent />}
-            {selectedUseCase === "journey" && <JourneyContent />}
-            {selectedUseCase === "links" && <LinksContent />}
-            {selectedUseCase === "governance" && <GovernanceContent />}
+            {CONTENT_MAP[selectedUseCase]}
           </motion.div>
         </AnimatePresence>
       </div>
-    </section>
+    </ParallaxSection>
   );
 };

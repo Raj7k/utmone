@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { BlurRevealFAQ } from "@/components/landing/BlurRevealFAQ";
+import { ParallaxSection } from "@/components/landing/ParallaxSection";
+import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
 import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
@@ -58,7 +59,7 @@ const Index = () => {
     <MainLayout>
       <SEO 
         title="utm.one - Attribution, Customer Journey & UTM Management for Growth Teams"
-        description="Finally know where revenue comes from. utm.one provides Bayesian attribution, customer journey analytics, and enterprise-grade UTM governance — so your data, dashboards, and decisions are always right."
+        description="Finally know where revenue comes from. utm.one provides Clean-Track attribution, customer journey analytics, and enterprise-grade UTM governance — so your data, dashboards, and decisions are always right."
         canonical="https://utm.one/"
         keywords={["attribution", "customer journey", "utm tracking", "revenue attribution", "marketing analytics", "link management", "qr code generator", "enterprise marketing"]}
       />
@@ -138,28 +139,38 @@ const Index = () => {
 
       <SectionDivider variant="gradient" />
 
-      {/* GTM Tools Showcase - Interactive */}
-      <GTMToolsShowcase />
+      {/* GTM Tools Showcase - Interactive with Parallax */}
+      <ParallaxSection speed={0.2}>
+        <GTMToolsShowcase />
+      </ParallaxSection>
 
       <SectionDivider variant="dots" />
 
       {/* Accessibility Showcase with Visual Demo */}
-      <AccessibilityShowcase />
+      <ParallaxSection speed={0.3}>
+        <AccessibilityShowcase />
+      </ParallaxSection>
 
       <SectionDivider variant="gradient" />
 
       {/* Permanence Showcase with Timeline */}
-      <PermanenceShowcase />
+      <ParallaxSection speed={0.2}>
+        <PermanenceShowcase />
+      </ParallaxSection>
 
       <SectionDivider variant="dots" />
 
       {/* Power Tools Showcase with Mockups */}
-      <PowerToolsShowcase />
+      <ParallaxSection speed={0.3}>
+        <PowerToolsShowcase />
+      </ParallaxSection>
 
       <SectionDivider variant="gradient" />
 
       {/* Intelligence Showcase with AI Chat Mockup */}
-      <IntelligenceShowcase />
+      <ParallaxSection speed={0.2}>
+        <IntelligenceShowcase />
+      </ParallaxSection>
 
       <SectionDivider variant="dots" />
 
@@ -167,7 +178,7 @@ const Index = () => {
       <AnimatedSection className="py-16 md:py-24 bg-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-12 space-y-3">
-            <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
+            <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase">
               {formatText("built for developers too")}
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground px-2">
@@ -175,11 +186,15 @@ const Index = () => {
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-md hover:border-primary/30 transition-all">
+            <motion.div 
+              className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all"
+              whileHover={{ y: -4, scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                 <Code className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground mb-2 lowercase">Full API Access</h3>
+              <h2 className="text-sm font-semibold text-foreground mb-2 lowercase">Full API Access</h2>
               <p className="text-xs text-muted-foreground mb-3">
                 Create, update, and track links programmatically. Webhooks for real-time events.
               </p>
@@ -190,12 +205,16 @@ const Index = () => {
                 view api docs
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-md hover:border-primary/30 transition-all">
+            </motion.div>
+            <motion.div 
+              className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all"
+              whileHover={{ y: -4, scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
                 <Database className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground mb-2 lowercase">Data Warehouse Sync</h3>
+              <h2 className="text-sm font-semibold text-foreground mb-2 lowercase">Data Warehouse Sync</h2>
               <p className="text-xs text-muted-foreground mb-3">
                 Push click data to Snowflake, BigQuery, or your data lake automatically.
               </p>
@@ -206,7 +225,7 @@ const Index = () => {
                 view integrations
                 <ArrowRight className="h-4 w-4" />
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </AnimatedSection>
@@ -214,10 +233,10 @@ const Index = () => {
       {/* Growth Loop Section */}
       <GrowthLoopSection />
 
-      {/* FAQ Section - New Blur Reveal */}
-      <BlurRevealFAQ />
+      {/* FAQ Section - Scroll-based reveal */}
+      <FooterFAQ />
       
-      {/* Enhanced Footer - replaces default footer */}
+      {/* Enhanced Footer */}
       <EnhancedFooter />
     </MainLayout>
   );
