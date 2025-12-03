@@ -1,12 +1,13 @@
 import { toPng } from 'html-to-image';
 
-export const shareOnLinkedIn = (text: string) => {
+export const shareOnLinkedIn = (text: string, url?: string) => {
   const encodedText = encodeURIComponent(text);
-  const encodedUrl = encodeURIComponent(window.location.href);
+  const shareUrl = url ? encodeURIComponent(url) : encodeURIComponent(window.location.href);
+  // Use LinkedIn's post composer which supports pre-filled text
   window.open(
-    `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&summary=${encodedText}`,
+    `https://www.linkedin.com/feed/?shareActive=true&text=${encodedText}%0A%0A${shareUrl}`,
     '_blank',
-    'width=600,height=600'
+    'width=600,height=700'
   );
 };
 

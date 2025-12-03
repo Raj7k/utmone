@@ -187,6 +187,7 @@ const NamingTaxonomyTemplate = lazy(() => import("./pages/resources/templates/Na
 
 // Tools
 const Tools = lazy(() => import("./pages/resources/Tools"));
+const DecisionFrameworks = lazy(() => import("./pages/tools/DecisionFrameworks"));
 const SalaryNegotiationCoach = lazy(() => import("./pages/resources/tools/SalaryNegotiationCoach"));
 const MarketValueCalculator = lazy(() => import("./pages/resources/tools/MarketValueCalculator"));
 const CareerPathOptimizer = lazy(() => import("./pages/resources/tools/CareerPathOptimizer"));
@@ -533,6 +534,7 @@ const App = () => (
               <Route path="/resources/templates/naming-taxonomy-template" element={<Suspense fallback={<DashboardSkeleton />}><NamingTaxonomyTemplate /></Suspense>} />
               
               {/* Tools Routes */}
+              <Route path="/tools/decision-frameworks" element={<Suspense fallback={<DashboardSkeleton />}><DecisionFrameworks /></Suspense>} />
               <Route path="/resources/tools" element={<Suspense fallback={<DashboardSkeleton />}><Tools /></Suspense>} />
               <Route path="/resources/tools/salary-negotiation-coach" element={<Suspense fallback={<DashboardSkeleton />}><SalaryNegotiationCoach /></Suspense>} />
               <Route path="/resources/tools/market-value-calculator" element={<Suspense fallback={<DashboardSkeleton />}><MarketValueCalculator /></Suspense>} />
