@@ -219,28 +219,28 @@ const CustomerJourney = () => {
                 className="rounded-xl p-6 font-mono text-sm"
                 style={{
                   background: 'rgba(0,0,0,0.4)',
-                  border: '1px solid rgba(239,68,68,0.3)'
+                  border: '1px solid rgba(239,68,68,0.2)'
                 }}
               >
-                <div className="font-semibold mb-3" style={{ color: '#ef4444' }}>❌ Last-Click Attribution:</div>
+                <div className="font-semibold mb-3" style={{ color: 'rgba(239,68,68,0.85)' }}>❌ Last-Click Attribution:</div>
                 <div className="space-y-3">
                   <div className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>User Journey:</div>
                   <div className="space-y-2 text-xs">
                     <div className="flex items-center gap-2 opacity-40" style={{ color: 'rgba(255,255,255,0.6)' }}>
                       <span>1. LinkedIn Ad</span>
-                      <span style={{ color: '#ef4444' }}>(0% credit)</span>
+                      <span style={{ color: 'rgba(239,68,68,0.7)' }}>(0% credit)</span>
                     </div>
                     <div className="flex items-center gap-2 opacity-40" style={{ color: 'rgba(255,255,255,0.6)' }}>
                       <span>2. Blog Post</span>
-                      <span style={{ color: '#ef4444' }}>(0% credit)</span>
+                      <span style={{ color: 'rgba(239,68,68,0.7)' }}>(0% credit)</span>
                     </div>
                     <div className="flex items-center gap-2 opacity-40" style={{ color: 'rgba(255,255,255,0.6)' }}>
                       <span>3. Webinar</span>
-                      <span style={{ color: '#ef4444' }}>(0% credit)</span>
+                      <span style={{ color: 'rgba(239,68,68,0.7)' }}>(0% credit)</span>
                     </div>
                     <div className="flex items-center gap-2 opacity-40" style={{ color: 'rgba(255,255,255,0.6)' }}>
                       <span>4. Pricing Page</span>
-                      <span style={{ color: '#ef4444' }}>(0% credit)</span>
+                      <span style={{ color: 'rgba(239,68,68,0.7)' }}>(0% credit)</span>
                     </div>
                     <div className="flex items-center gap-2 font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       <span>5. Direct → Sale</span>
@@ -248,7 +248,7 @@ const CustomerJourney = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 text-xs" style={{ color: '#ef4444' }}>
+                <div className="mt-4 text-xs" style={{ color: 'rgba(239,68,68,0.8)' }}>
                   90% of the real influence is invisible.
                 </div>
               </div>
@@ -300,7 +300,7 @@ const CustomerJourney = () => {
                 className="rounded-lg p-4 font-mono text-xs"
                 style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.05)' }}
               >
-                <div className="font-semibold mb-3" style={{ color: '#ef4444' }}>Last-Click Model:</div>
+                <div className="font-semibold mb-3" style={{ color: 'rgba(239,68,68,0.85)' }}>Last-Click Model:</div>
                 <div className="space-y-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <div className="flex justify-between">
                     <span>Direct Traffic</span>
@@ -319,7 +319,7 @@ const CustomerJourney = () => {
                     <span>0%</span>
                   </div>
                 </div>
-                <div className="mt-3 text-xs pt-3" style={{ color: '#ef4444', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="mt-3 text-xs pt-3" style={{ color: 'rgba(239,68,68,0.8)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                   Result: You defund the channels that actually work.
                 </div>
               </div>
@@ -345,28 +345,28 @@ const CustomerJourney = () => {
               </p>
               <div 
                 className="rounded-lg p-4 font-mono text-xs"
-                style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}
+                style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}
               >
-                <div className="font-semibold mb-3" style={{ color: '#22c55e' }}>Bayesian Attribution:</div>
+                <div className="font-semibold mb-3" style={{ color: 'rgba(34,197,94,0.9)' }}>Bayesian Attribution:</div>
                 <div className="space-y-2" style={{ color: 'rgba(255,255,255,0.8)' }}>
                   <div className="flex justify-between">
                     <span>LinkedIn Ad</span>
-                    <span style={{ color: '#22c55e' }}>32% credit</span>
+                    <span style={{ color: 'rgba(34,197,94,0.85)' }}>32% credit</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Blog Post</span>
-                    <span style={{ color: '#22c55e' }}>28% credit</span>
+                    <span style={{ color: 'rgba(34,197,94,0.85)' }}>28% credit</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Webinar</span>
-                    <span style={{ color: '#22c55e' }}>25% credit</span>
+                    <span style={{ color: 'rgba(34,197,94,0.85)' }}>25% credit</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Direct</span>
-                    <span style={{ color: '#22c55e' }}>15% credit</span>
+                    <span style={{ color: 'rgba(34,197,94,0.85)' }}>15% credit</span>
                   </div>
                 </div>
-                <div className="mt-3 text-xs pt-3" style={{ color: '#22c55e', borderTop: '1px solid rgba(34,197,94,0.2)' }}>
+                <div className="mt-3 text-xs pt-3" style={{ color: 'rgba(34,197,94,0.9)', borderTop: '1px solid rgba(34,197,94,0.15)' }}>
                   Result: You see the true causal chain. ✓
                 </div>
               </div>
