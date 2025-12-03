@@ -47,7 +47,7 @@ const Enterprise = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
       {/* Obsidian Noise Texture */}
       <div 
         className="fixed inset-0 pointer-events-none z-[1]"
@@ -132,7 +132,7 @@ const Enterprise = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-8 rounded-2xl bg-card border-2 border-border hover:border-primary/30 transition-all"
+                className="p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 hover:border-white/20 transition-all"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-6">
                   <pillar.icon className="w-8 h-8 text-primary" />
@@ -181,7 +181,7 @@ const Enterprise = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl bg-muted/30 border border-border"
+            className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10"
           >
             <h3 className="font-display font-bold text-2xl text-label lowercase mb-4">
               the problem
@@ -236,7 +236,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto mt-12 text-center"
           >
-            <p className="text-lg text-secondary-label">
+            <p className="text-lg text-white/60">
               Don't just show a text log—show a timeline visualization with before/after diffs, 
               user attribution, and change context. Perfect for compliance audits and incident investigation.
             </p>
@@ -324,7 +324,7 @@ const Enterprise = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-card border-2 border-border text-center"
+                className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 text-center"
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
                   <Lock className="w-6 h-6 text-primary" />
