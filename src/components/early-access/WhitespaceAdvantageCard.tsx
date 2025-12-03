@@ -4,7 +4,7 @@ import { DotGrid } from "./EarlyAccessDecorations";
 
 export const WhitespaceAdvantageCard = () => {
   return (
-    <section className="bg-white py-32 md:py-40 px-6 relative overflow-hidden">
+    <section className="py-32 md:py-40 px-6 relative overflow-hidden">
       <DotGrid />
       <div className="max-w-[1000px] mx-auto relative z-10">
         <AnimatedHeadline>
