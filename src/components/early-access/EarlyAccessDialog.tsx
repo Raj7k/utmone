@@ -63,7 +63,7 @@ export const EarlyAccessDialog = ({
                 <p className="text-sm text-muted-foreground mb-2 brand-lowercase">
                   share your referral link
                 </p>
-                <code className="text-sm bg-white px-3 py-2 rounded border block break-all">
+                <code className="text-sm bg-white/5 px-3 py-2 rounded border border-white/10 block break-all text-white">
                   {window.location.origin}/early-access?ref={referralCode}
                 </code>
               </div>

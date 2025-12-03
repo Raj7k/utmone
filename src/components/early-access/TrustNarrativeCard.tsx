@@ -12,10 +12,10 @@ const problems = [
 
 export const TrustNarrativeCard = () => {
   return (
-    <section className="bg-white py-32 md:py-40 px-6">
+    <section className="py-32 md:py-40 px-6">
       <div className="max-w-[1000px] mx-auto">
         <AnimatedHeadline>
-          <div className="bg-gradient-to-br from-background via-muted/30 to-background rounded-3xl p-12 md:p-16 shadow-[0_8px_32px_rgba(0,0,0,0.06)] relative">
+          <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-12 md:p-16 relative">
             <CornerBrackets />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center tracking-tight">
               your links will be safe here

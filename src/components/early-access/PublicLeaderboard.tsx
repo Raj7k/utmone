@@ -171,7 +171,7 @@ export const PublicLeaderboard = () => {
               {leaderboardData.local.map((referrer, index) => (
                 <div
                   key={`local-${index}`}
-                  className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50 hover:border-primary/30"
+                  className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 border border-white/10 hover:border-primary/30"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -218,7 +218,7 @@ export const PublicLeaderboard = () => {
               return (
                 <div
                   key={`global-${index}`}
-                  className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-border/50 hover:border-blazeOrange/30"
+                  className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 border border-white/10 hover:border-blazeOrange/30"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
