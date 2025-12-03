@@ -6,13 +6,15 @@ interface AnimatedSectionProps {
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "fade";
+  style?: React.CSSProperties;
 }
 
 export const AnimatedSection = ({ 
   children, 
   className = "", 
   delay = 0,
-  direction = "up" 
+  direction = "up",
+  style
 }: AnimatedSectionProps) => {
   const directionVariants = {
     up: { y: 40, opacity: 0 },
@@ -41,6 +43,7 @@ export const AnimatedSection = ({
         ease: [0.25, 0.1, 0.25, 1]
       }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>

@@ -14,7 +14,7 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export const PermanenceShowcase = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24 bg-background">
+    <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
@@ -32,7 +32,8 @@ export const PermanenceShowcase = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-card rounded-xl border border-border p-5"
+            className="rounded-xl p-5"
+            style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             <h4 className="font-semibold text-foreground lowercase mb-4 flex items-center gap-2 text-sm">
               <Clock className="w-4 h-4 text-primary" />
@@ -121,7 +122,8 @@ export const PermanenceShowcase = () => {
               return (
                 <motion.div
                   key={feature.title}
-                  className="bg-card border border-border rounded-xl p-4 hover:shadow-md hover:border-primary/30 transition-all"
+                  className="rounded-xl p-4 transition-all hover:scale-[1.02]"
+                  style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

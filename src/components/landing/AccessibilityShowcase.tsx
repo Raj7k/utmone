@@ -13,7 +13,7 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export const AccessibilityShowcase = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24 bg-muted/20">
+    <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
@@ -34,7 +34,7 @@ export const AccessibilityShowcase = () => {
             className="space-y-4"
           >
             {/* Semantic URL Comparison */}
-            <div className="bg-card rounded-xl border border-border p-5 space-y-3">
+            <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold text-foreground lowercase flex items-center gap-2 text-sm">
                 <Globe className="w-4 h-4 text-primary" />
                 semantic slugs
@@ -69,7 +69,7 @@ export const AccessibilityShowcase = () => {
             </div>
             
             {/* Screen Reader Mockup */}
-            <div className="bg-card rounded-xl border border-border p-5 space-y-3">
+            <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold text-foreground lowercase flex items-center gap-2 text-sm">
                 <Eye className="w-4 h-4 text-primary" />
                 screen reader ready

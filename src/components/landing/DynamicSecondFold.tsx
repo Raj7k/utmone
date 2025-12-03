@@ -127,7 +127,8 @@ const AttributionContent = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="absolute -bottom-4 -right-4 bg-card rounded-xl border border-border shadow-lg p-4"
+        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4"
+        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="text-2xl font-bold text-primary">3.2x</div>
         <div className="text-xs text-muted-foreground">better ROAS</div>
@@ -157,7 +158,8 @@ const AttributionContent = () => (
           return (
             <motion.div
               key={item.label}
-              className="p-4 bg-card rounded-xl border border-border"
+              className="p-4 rounded-xl"
+              style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
@@ -206,7 +208,8 @@ const JourneyContent = () => (
         ].map((feature, i) => (
           <motion.div
             key={feature.title}
-            className="flex items-start gap-3 p-3 bg-card rounded-lg border border-border"
+            className="flex items-start gap-3 p-3 rounded-lg"
+            style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
@@ -237,15 +240,15 @@ const JourneyContent = () => (
       className="relative lg:order-1"
     >
       {/* Journey Timeline Mockup */}
-      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+      <div className="rounded-2xl shadow-2xl shadow-primary/5 overflow-hidden" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="flex items-center gap-2 px-4 py-3" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-destructive/60" />
             <div className="w-3 h-3 rounded-full bg-amber-400/60" />
             <div className="w-3 h-3 rounded-full bg-green-400/60" />
           </div>
           <div className="flex-1 mx-4">
-            <div className="bg-background rounded-md px-3 py-1.5 text-xs text-muted-foreground font-mono">
+            <div className="rounded-md px-3 py-1.5 text-xs font-mono" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}>
               utm.one/dashboard/journeys
             </div>
           </div>
@@ -307,7 +310,8 @@ const JourneyContent = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
-        className="absolute -bottom-4 -left-4 bg-card rounded-xl border border-border shadow-lg p-4"
+        className="absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4"
+        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="text-2xl font-bold text-primary">18</div>
         <div className="text-xs text-muted-foreground">days to close</div>
@@ -327,15 +331,15 @@ const LinksContent = () => (
       className="relative"
     >
       {/* Link Builder Mockup */}
-      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+      <div className="rounded-2xl shadow-2xl shadow-primary/5 overflow-hidden" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="flex items-center gap-2 px-4 py-3" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex gap-1.5">
             <div className="w-3 h-3 rounded-full bg-destructive/60" />
             <div className="w-3 h-3 rounded-full bg-amber-400/60" />
             <div className="w-3 h-3 rounded-full bg-green-400/60" />
           </div>
           <div className="flex-1 mx-4">
-            <div className="bg-background rounded-md px-3 py-1.5 text-xs text-muted-foreground font-mono">
+            <div className="rounded-md px-3 py-1.5 text-xs font-mono" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}>
               utm.one/dashboard/create
             </div>
           </div>
@@ -347,7 +351,7 @@ const LinksContent = () => (
           {/* URL Input */}
           <div className="space-y-2">
             <label className="text-xs text-muted-foreground">destination url</label>
-            <div className="bg-muted/50 rounded-lg px-3 py-2 text-sm font-mono text-foreground border border-border">
+            <div className="rounded-lg px-3 py-2 text-sm font-mono" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.08)' }}>
               https://tesla.com/product/demo
             </div>
           </div>
@@ -365,7 +369,8 @@ const LinksContent = () => (
               return (
                 <motion.div
                   key={layer.label}
-                  className="flex items-center gap-3 p-2 bg-muted/30 rounded-lg"
+                  className="flex items-center gap-3 p-2 rounded-lg"
+                  style={{ background: 'rgba(255,255,255,0.05)' }}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
@@ -389,7 +394,8 @@ const LinksContent = () => (
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.7 }}
-        className="absolute -bottom-6 -right-6 bg-card rounded-xl border border-border shadow-lg p-3"
+        className="absolute -bottom-6 -right-6 rounded-xl shadow-lg p-3"
+        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
         <div className="w-16 h-16 bg-foreground rounded-lg flex items-center justify-center">
           <QrCode className="w-12 h-12 text-background" />
@@ -452,9 +458,9 @@ const IntelligenceContent = () => (
       transition={{ duration: 0.5, delay: 0.2 }}
       className="relative"
     >
-      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
+      <div className="rounded-2xl shadow-2xl shadow-primary/5 overflow-hidden" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
         {/* Chat Header */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
+        <div className="flex items-center gap-2 px-4 py-3" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-blazeOrange flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
@@ -483,7 +489,7 @@ const IntelligenceContent = () => (
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
               <Brain className="w-4 h-4 text-primary" />
             </div>
-            <div className="bg-muted/50 rounded-2xl rounded-tl-sm px-4 py-3 space-y-3">
+            <div className="rounded-2xl rounded-tl-sm px-4 py-3 space-y-3" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <p className="text-sm text-foreground">
                 <strong>Nike Q4 Launch</strong> drove the most conversions:
               </p>
