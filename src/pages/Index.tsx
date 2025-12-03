@@ -177,52 +177,82 @@ const Index = () => {
       <SectionDivider variant="dots" />
 
       {/* Fold: Developer Experience */}
-      <AnimatedSection className="py-16 md:py-24 bg-muted/20">
+      <AnimatedSection className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-12 space-y-3">
-            <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase">
+            <h1 
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
+              style={{
+                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
               {formatText("built for developers too")}
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground px-2">
+            <p className="text-base sm:text-lg px-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
               REST + GraphQL APIs with 600 req/min free tier
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
             <motion.div 
-              className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all"
+              className="rounded-xl p-6 transition-all"
+              style={{
+                background: 'rgba(24,24,27,0.4)',
+                backdropFilter: 'blur(40px)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderTop: '1px solid rgba(255,255,255,0.12)',
+                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
+              }}
               whileHover={{ y: -4, scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                <Code className="w-5 h-5 text-primary" />
+              <div 
+                className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                style={{ background: 'rgba(255,255,255,0.1)' }}
+              >
+                <Code className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
-              <h2 className="text-sm font-semibold text-foreground mb-2 lowercase">Full API Access</h2>
-              <p className="text-xs text-muted-foreground mb-3">
+              <h2 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>Full API Access</h2>
+              <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 Create, update, and track links programmatically. Webhooks for real-time events.
               </p>
               <Link 
                 to="/docs/api" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm"
+                style={{ color: 'rgba(255,255,255,0.7)' }}
               >
                 view api docs
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </motion.div>
             <motion.div 
-              className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all"
+              className="rounded-xl p-6 transition-all"
+              style={{
+                background: 'rgba(24,24,27,0.4)',
+                backdropFilter: 'blur(40px)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderTop: '1px solid rgba(255,255,255,0.12)',
+                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
+              }}
               whileHover={{ y: -4, scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                <Database className="w-5 h-5 text-primary" />
+              <div 
+                className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                style={{ background: 'rgba(255,255,255,0.1)' }}
+              >
+                <Database className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
-              <h2 className="text-sm font-semibold text-foreground mb-2 lowercase">Data Warehouse Sync</h2>
-              <p className="text-xs text-muted-foreground mb-3">
+              <h2 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>Data Warehouse Sync</h2>
+              <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 Push click data to Snowflake, BigQuery, or your data lake automatically.
               </p>
               <Link 
                 to="/docs/integrations" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm"
+                style={{ color: 'rgba(255,255,255,0.7)' }}
               >
                 view integrations
                 <ArrowRight className="h-4 w-4" />
