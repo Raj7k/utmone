@@ -82,7 +82,7 @@ const QRGenerator = () => {
         </div>
       </FeatureSection>
 
-      <FeatureSection background="white" maxWidth="wide">
+      <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
             branded QR customization

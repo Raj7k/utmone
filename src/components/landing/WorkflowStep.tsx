@@ -15,8 +15,8 @@ export const WorkflowStep = ({
   icon: Icon,
   title,
   description,
-  bgColor = "bg-muted",
-  iconColor = "text-foreground",
+  bgColor = "bg-white/10",
+  iconColor = "text-white",
   delay = 0,
 }: WorkflowStepProps) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,10 +57,10 @@ export const WorkflowStep = ({
       </div>
 
       {/* Title */}
-      <h3 className="text-headline font-display font-semibold text-label mb-2 lowercase">{formatText(title)}</h3>
+      <h3 className="text-headline font-display font-semibold text-white mb-2 lowercase">{formatText(title)}</h3>
 
       {/* Description */}
-      <p className="text-body-apple text-secondary-label leading-relaxed max-w-[200px]">
+      <p className="text-body-apple text-white/60 leading-relaxed max-w-[200px]">
         {description}
       </p>
     </div>
