@@ -61,7 +61,7 @@ const Permanence = () => {
             Three Technical Safeguards
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <GitBranch className="w-6 h-6 text-primary" />
               </div>
@@ -78,7 +78,7 @@ const Permanence = () => {
               </Link>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <Server className="w-6 h-6 text-primary" />
               </div>
@@ -95,7 +95,7 @@ const Permanence = () => {
               </a>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                 <CheckCircle2 className="w-6 h-6 text-primary" />
               </div>

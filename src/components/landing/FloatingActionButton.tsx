@@ -54,7 +54,7 @@ export const FloatingActionButton = () => {
                   >
                     <Button
                       size="sm"
-                      className="bg-white text-foreground border border-border hover:bg-muted/50 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
+                      className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white/10 hover:bg-zinc-800/80 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
                     >
                       <LinkIcon className="h-4 w-4 mr-2" />
                       create link
@@ -70,7 +70,7 @@ export const FloatingActionButton = () => {
                   >
                     <Button
                       size="sm"
-                      className="bg-white text-foreground border border-border hover:bg-muted/50 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
+                      className="bg-zinc-900/80 backdrop-blur-xl text-white border border-white/10 hover:bg-zinc-800/80 shadow-lg rounded-full pl-4 pr-5 h-11 font-medium"
                     >
                       <Zap className="h-4 w-4 mr-2" />
                       get started

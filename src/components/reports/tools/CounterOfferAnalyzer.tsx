@@ -133,8 +133,8 @@ Best regards,
             {scenarios.map((scenario) => (
               <TabsContent key={scenario.name} value={scenario.name.toLowerCase()} className="space-y-4">
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-white rounded-lg p-4 border border-deepSea/10">
-                    <p className="text-xs text-muted-foreground mb-1">Base Salary</p>
+                  <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
+                    <p className="text-xs text-white/60 mb-1">Base Salary</p>
                     <p className={`text-xl font-bold text-${scenario.color}`}>
                       ${scenario.base.toLocaleString()}
                     </p>
@@ -142,8 +142,8 @@ Best regards,
                       +{Math.round(((scenario.base - baseOffer) / baseOffer) * 100)}%
                     </p>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-deepSea/10">
-                    <p className="text-xs text-muted-foreground mb-1">Equity</p>
+                  <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
+                    <p className="text-xs text-white/60 mb-1">Equity</p>
                     <p className={`text-xl font-bold text-${scenario.color}`}>
                       ${scenario.equity.toLocaleString()}
                     </p>
@@ -151,8 +151,8 @@ Best regards,
                       +{Math.round(((scenario.equity - equity) / equity) * 100)}%
                     </p>
                   </div>
-                  <div className="bg-white rounded-lg p-4 border border-deepSea/10">
-                    <p className="text-xs text-muted-foreground mb-1">Total Comp</p>
+                  <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
+                    <p className="text-xs text-white/60 mb-1">Total Comp</p>
                     <p className={`text-xl font-bold text-${scenario.color}`}>
                       ${(scenario.base + scenario.equity + scenario.bonus).toLocaleString()}
                     </p>
@@ -169,7 +169,7 @@ Best regards,
                   </p>
                 </div>
 
-                <div className="bg-white rounded-lg p-4 border-2 border-dashed border-deepSea/20">
+                <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border-2 border-dashed border-white/20">
                   <div className="flex justify-between items-center mb-3">
                     <p className="text-sm font-semibold text-mirage">Email Template</p>
                     <Button

@@ -26,7 +26,7 @@ export const Section8Narrative = () => {
       {/* The Formula */}
       <Card className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 border-2 border-blazeOrange/20 p-8">
         <h3 className="text-2xl font-bold text-mirage mb-4">The Formula</h3>
-        <div className="bg-white rounded-xl p-6 border-2 border-deepSea/10">
+        <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-6 border border-white/10">
           <code className="text-lg text-mirage font-mono block whitespace-pre-wrap break-words">
             Global Salary = Base_Global × Region_Multiplier × Experience_Multiplier ×
             Company_Size_Multiplier × Industry_Multiplier × (1 + Skill_Premiums)
@@ -221,7 +221,7 @@ export const Section8Narrative = () => {
           in <strong>Austin</strong>, working in <strong>Tech/SaaS</strong>, with{" "}
           <strong>AI/ML (+58%)</strong> and <strong>SQL (+28%)</strong> skills.
         </p>
-        <div className="bg-white rounded-xl p-6 space-y-3 font-mono text-sm">
+        <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-6 space-y-3 font-mono text-sm border border-white/10">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Base Global Salary:</span>
             <span className="font-bold">$95,000</span>

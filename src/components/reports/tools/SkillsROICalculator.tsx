@@ -126,8 +126,8 @@ export const SkillsROICalculator = () => {
               </p>
             </div>
 
-            <div className="bg-white rounded-lg p-4 border-2 border-dashed border-deepSea/20">
-              <p className="font-semibold text-mirage mb-3">Recommended Learning Path:</p>
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border-2 border-dashed border-white/20">
+              <p className="font-semibold text-white mb-3">Recommended Learning Path:</p>
               <ol className="space-y-2">
                 {selected
                   .sort((a, b) => b.premium / b.learningHours - a.premium / a.learningHours)

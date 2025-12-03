@@ -219,7 +219,7 @@ export const GeographicArbitrageCalculator = () => {
         {calculated && (
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-xl p-6 border-2 border-deepSea/10">
+              <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-6 border border-white/10">
                 <p className="text-xs text-muted-foreground mb-3">Current: {currentCity}</p>
                 <div className="space-y-3">
                   <div>
@@ -291,8 +291,8 @@ export const GeographicArbitrageCalculator = () => {
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4 border border-deepSea/10">
-                <p className="text-sm text-muted-foreground mb-1">Monthly Savings Potential</p>
+              <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
+                <p className="text-sm text-white/60 mb-1">Monthly Savings Potential</p>
                 <p
                   className={`text-3xl font-bold ${
                     monthlySavings > 0 ? "text-blazeOrange" : "text-mirage"
@@ -301,8 +301,8 @@ export const GeographicArbitrageCalculator = () => {
                   {monthlySavings > 0 ? "+" : ""}${Math.abs(monthlySavings).toLocaleString()}
                 </p>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-deepSea/10">
-                <p className="text-sm text-muted-foreground mb-1">Annual Savings Potential</p>
+              <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
+                <p className="text-sm text-white/60 mb-1">Annual Savings Potential</p>
                 <p
                   className={`text-3xl font-bold ${
                     annualSavings > 0 ? "text-deepSea" : "text-mirage"
