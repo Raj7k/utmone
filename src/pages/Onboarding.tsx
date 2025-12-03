@@ -170,11 +170,11 @@ export default function Onboarding() {
 
   if (!currentWorkspace || isCreatingWorkspace) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="dark min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto" />
-          <p className="text-sm text-secondary-label">
-            {isCreatingWorkspace ? "Creating your workspace..." : "Loading..."}
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-white" />
+          <p className="text-sm text-white/60">
+            {isCreatingWorkspace ? "creating your workspace..." : "loading..."}
           </p>
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-screen bg-grouped-background flex items-center justify-center p-4">
+    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
       <div className="w-full max-w-3xl">
         {/* Logo at top */}
         <div className="flex items-center justify-center mb-8">
@@ -194,43 +194,42 @@ export default function Onboarding() {
         </div>
         
         {step === "welcome" && (
-          <Card variant="grouped">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
             <CardHeader className="text-center">
-              <CardTitle className="text-title-1">welcome to utm.one</CardTitle>
-              <CardDescription className="text-body-apple text-secondary-label text-lg mt-4">
+              <CardTitle className="text-3xl font-display font-bold text-white">welcome to utm.one</CardTitle>
+              <CardDescription className="text-white/60 text-lg mt-4">
                 add your domain
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert className="bg-fill-tertiary border-separator">
-                <CheckCircle2 className="h-4 w-4 text-system-green" />
-                <AlertDescription className="text-body-apple text-secondary-label">
-                  With a custom domain, your short links will look like{" "}
-                  <strong className="text-label">yourbrand.com/go/product</strong> instead of generic URLs.
+              <Alert className="bg-white/5 border-white/10">
+                <CheckCircle2 className="h-4 w-4 text-green-400" />
+                <AlertDescription className="text-white/60">
+                  with a custom domain, your short links will look like{" "}
+                  <strong className="text-white">yourbrand.com/go/product</strong> instead of generic URLs.
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-4">
                 <Button
-                  variant="system"
                   size="lg"
                   className="w-full h-auto py-6 flex-col items-start"
                   onClick={() => setStep("domain")}
                 >
-                  <div className="text-headline font-semibold mb-1">use my custom domain</div>
-                  <div className="text-subheadline font-normal text-secondary-label">
+                  <div className="text-lg font-semibold mb-1">use my custom domain</div>
+                  <div className="text-sm font-normal text-white/60">
                     i have a domain and want to use it for short links
                   </div>
                 </Button>
 
                 <Button
-                  variant="system-secondary"
+                  variant="outline"
                   size="lg"
-                  className="w-full h-auto py-6 flex-col items-start"
+                  className="w-full h-auto py-6 flex-col items-start border-white/10 text-white hover:bg-white/10"
                   onClick={handleSkip}
                 >
-                  <div className="text-headline font-semibold mb-1">skip for now</div>
-                  <div className="text-subheadline font-normal text-tertiary-label">
+                  <div className="text-lg font-semibold mb-1">skip for now</div>
+                  <div className="text-sm font-normal text-white/40">
                     i'll add my domain later
                   </div>
                 </Button>
@@ -240,32 +239,31 @@ export default function Onboarding() {
         )}
 
         {step === "domain" && (
-          <Card variant="grouped">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="text-title-2">add your custom domain</CardTitle>
-              <CardDescription className="text-body-apple text-secondary-label">
+              <CardTitle className="text-2xl font-display font-bold text-white">add your custom domain</CardTitle>
+              <CardDescription className="text-white/60">
                 add a branded domain to make your links yours.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label className="text-subheadline text-label" htmlFor="domain">domain name</Label>
+                <Label className="text-sm text-white" htmlFor="domain">domain name</Label>
                 <Input
-                  variant="system"
                   id="domain"
                   placeholder="yourdomain.com"
                   value={domainInput}
                   onChange={(e) => setDomainInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleAddDomain()}
+                  className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
                 />
-                <p className="text-footnote text-tertiary-label">
+                <p className="text-xs text-white/40">
                   your domain increases trust and click-through rates.
                 </p>
               </div>
 
               <div className="flex gap-3">
                 <Button
-                  variant="system"
                   onClick={handleAddDomain}
                   disabled={addDomainMutation.isPending}
                   className="flex-1"
@@ -276,7 +274,7 @@ export default function Onboarding() {
                   continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="system-secondary" onClick={() => setStep("welcome")}>
+                <Button variant="outline" onClick={() => setStep("welcome")} className="border-white/10 text-white hover:bg-white/10">
                   back
                 </Button>
               </div>
@@ -285,10 +283,10 @@ export default function Onboarding() {
         )}
 
         {step === "verify" && addedDomain && (
-          <Card variant="grouped">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="text-title-2">verify your domain</CardTitle>
-              <CardDescription className="text-body-apple text-secondary-label">
+              <CardTitle className="text-2xl font-display font-bold text-white">verify your domain</CardTitle>
+              <CardDescription className="text-white/60">
                 this domain isn't verified yet.
               </CardDescription>
             </CardHeader>
@@ -301,7 +299,6 @@ export default function Onboarding() {
 
               <div className="flex gap-3">
                 <Button
-                  variant="system"
                   onClick={handleVerifyDomain}
                   disabled={isVerifying}
                   className="flex-1"
@@ -309,7 +306,7 @@ export default function Onboarding() {
                   {isVerifying && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   verify domain
                 </Button>
-                <Button variant="system-tertiary" onClick={handleSkip}>
+                <Button variant="ghost" onClick={handleSkip} className="text-white/60 hover:text-white hover:bg-white/10">
                   skip for now
                 </Button>
               </div>
@@ -318,35 +315,35 @@ export default function Onboarding() {
         )}
 
         {step === "pixel" && (
-          <Card variant="grouped">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="text-title-2">install tracking pixel</CardTitle>
-              <CardDescription className="text-body-apple text-secondary-label">
+              <CardTitle className="text-2xl font-display font-bold text-white">install tracking pixel</CardTitle>
+              <CardDescription className="text-white/60">
                 track conversions and analytics on your website
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert className="bg-system-orange/10 border-system-orange/20">
-                <AlertCircle className="h-4 w-4 text-system-orange" />
-                <AlertDescription className="text-body-apple text-label">
+              <Alert className="bg-amber-500/10 border-amber-500/20">
+                <AlertCircle className="h-4 w-4 text-amber-500" />
+                <AlertDescription className="text-white">
                   <strong>⚠️ critical for tracking:</strong> without the tracking pixel, you won't be able to track 
                   conversions, page views, or any analytics data from your website.
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-3">
-                <Label className="text-subheadline text-label">what it does</Label>
-                <ul className="space-y-2 text-body-apple text-secondary-label">
+                <Label className="text-sm text-white">what it does</Label>
+                <ul className="space-y-2 text-white/60">
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                     <span>tracks link clicks and conversions</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                     <span>monitors user behavior and analytics</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-system-green flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                     <span>measures campaign performance</span>
                   </li>
                 </ul>
@@ -354,7 +351,6 @@ export default function Onboarding() {
 
               <div className="flex gap-3">
                 <Button
-                  variant="system"
                   onClick={() => {
                     navigate('/settings?tab=pixel');
                   }}
@@ -363,7 +359,7 @@ export default function Onboarding() {
                   install pixel
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-                <Button variant="system-tertiary" onClick={handleSkipPixel}>
+                <Button variant="ghost" onClick={handleSkipPixel} className="text-white/60 hover:text-white hover:bg-white/10">
                   skip for now
                 </Button>
               </div>
@@ -372,18 +368,18 @@ export default function Onboarding() {
         )}
 
         {step === "complete" && (
-          <Card variant="grouped">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-system-green/10 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-8 h-8 text-system-green" />
+              <div className="mx-auto w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-8 h-8 text-green-400" />
               </div>
-              <CardTitle className="text-title-2">setup complete.</CardTitle>
-              <CardDescription className="text-body-apple text-secondary-label text-lg">
+              <CardTitle className="text-2xl font-display font-bold text-white">setup complete.</CardTitle>
+              <CardDescription className="text-white/60 text-lg">
                 you're ready to start creating links
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="system" onClick={handleComplete} className="w-full" size="lg">
+              <Button onClick={handleComplete} className="w-full" size="lg">
                 go to dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
