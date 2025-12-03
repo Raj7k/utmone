@@ -5,6 +5,7 @@ import { Footer } from "@/components/landing/Footer";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Layers, Activity, Compass, Sparkles } from "lucide-react";
+import { ProductControlDeck } from "@/components/product/ProductControlDeck";
 
 // Jony Ive "Apple" ease curve
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -110,78 +111,10 @@ export default function Products() {
 
         <Navigation />
         
-        {/* Hero - The "Monolith" */}
-        <section className="relative z-10 min-h-[85vh] flex items-center justify-center pt-24 pb-32">
-          <div className="max-w-5xl mx-auto px-6 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1, ease: appleEase }}
-            >
-              {/* Platinum Typography - White to Silver gradient like Brushed Aluminum */}
-              <h1 
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium brand-lowercase mb-8"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  letterSpacing: '-0.04em'
-                }}
-              >
-                the complete link<br />intelligence platform
-              </h1>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: appleEase }}
-              className="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-12"
-              style={{ 
-                color: 'rgba(255,255,255,0.6)',
-                letterSpacing: '-0.02em'
-              }}
-            >
-              Four products. One platform. Zero broken links. 
-              Built for teams who refuse to compromise on data quality.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: appleEase }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              {/* Halo Button - White with glow */}
-              <Link 
-                to="/early-access"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105"
-                style={{
-                  background: '#FFFFFF',
-                  color: '#000000',
-                  boxShadow: '0 0 40px -5px rgba(255,255,255,0.5), 0 0 80px -10px rgba(255,255,255,0.3)'
-                }}
-              >
-                <span className="font-semibold">start for free</span>
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link 
-                to="/book-demo"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#EDEDED',
-                  boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.1)'
-                }}
-              >
-                <span>book a demo</span>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero - 5-Tab Control Deck */}
+        <div className="pt-20">
+          <ProductControlDeck />
+        </div>
 
         {/* Product Bento Grid - "Milled Glass" Cards */}
         <section className="relative z-10 py-32">
