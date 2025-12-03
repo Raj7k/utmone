@@ -299,11 +299,11 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
                         copy this key now. you won't see it again.
                       </DialogDescription>
                     </DialogHeader>
-                    <Alert className="bg-amber-50 border-amber-200">
-                      <AlertCircle className="h-4 w-4 text-amber-900" />
-                      <AlertTitle className="text-amber-900">your api key</AlertTitle>
+                    <Alert className="bg-amber-500/10 border-amber-500/20">
+                      <AlertCircle className="h-4 w-4 text-amber-400" />
+                      <AlertTitle className="text-amber-400">your api key</AlertTitle>
                       <AlertDescription className="space-y-4">
-                        <div className="bg-white p-3 rounded-md font-mono text-sm break-all border border-amber-200">
+                        <div className="bg-zinc-900/60 p-3 rounded-md font-mono text-sm break-all border border-white/10 text-white">
                           {newKeyData}
                         </div>
                         <Button onClick={handleCopyAPIKey} className="w-full bg-blazeOrange hover:bg-blazeOrange/90">
@@ -416,9 +416,9 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
         <CardContent>
           {!activePixel ? (
             <div className="text-center py-8">
-              <Alert className="bg-amber-50 border-amber-200 mb-6">
-                <AlertCircle className="h-4 w-4 text-amber-900" />
-                <AlertDescription className="text-label">
+              <Alert className="bg-amber-500/10 border-amber-500/20 mb-6">
+                <AlertCircle className="h-4 w-4 text-amber-400" />
+                <AlertDescription className="text-white/80">
                   <strong>⚠️ critical for tracking:</strong> without the tracking pixel, you won't be able to track 
                   conversions, page views, or any analytics data.
                 </AlertDescription>

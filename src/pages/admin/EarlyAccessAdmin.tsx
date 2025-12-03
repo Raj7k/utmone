@@ -255,9 +255,9 @@ export default function EarlyAccessAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-muted/20">
+    <div className="min-h-screen" style={{ background: '#050505' }}>
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-zinc-900/60 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-[1600px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -311,7 +311,7 @@ export default function EarlyAccessAdmin() {
             <AdminDirectInvite />
 
             {/* Filters */}
-            <div className="bg-white rounded-xl border p-6">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-label" />
@@ -352,7 +352,7 @@ export default function EarlyAccessAdmin() {
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-xl border overflow-hidden">
+            <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden">
               {isLoading ? (
                 <div className="p-12 text-center text-secondary-label">
                   loading requests...
@@ -454,7 +454,7 @@ export default function EarlyAccessAdmin() {
             {/* Stats Summary */}
             {filteredRequests && filteredRequests.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                <div className="bg-white rounded-xl border p-6">
+                <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
                   <div className="flex items-center gap-3">
                     <Clock className="w-8 h-8 text-yellow-500" />
                     <div>
@@ -465,7 +465,7 @@ export default function EarlyAccessAdmin() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white rounded-xl border p-6">
+                <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="w-8 h-8 text-green-500" />
                     <div>
@@ -476,7 +476,7 @@ export default function EarlyAccessAdmin() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white rounded-xl border p-6">
+                <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
                   <div className="flex items-center gap-3">
                     <XCircle className="w-8 h-8 text-destructive" />
                     <div>

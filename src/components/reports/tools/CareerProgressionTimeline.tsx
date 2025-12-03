@@ -131,7 +131,7 @@ export const CareerProgressionTimeline = () => {
 
                   {/* Content */}
                   <div className="flex-1 pb-8">
-                    <div className="bg-white rounded-xl p-4 border-2 border-deepSea/10 hover:border-blazeOrange/30 transition-colors">
+                    <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-4 border border-white/10 hover:border-primary/30 transition-colors">
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <p className="font-bold text-lg text-mirage">{stage.role}</p>
