@@ -262,7 +262,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
           </div>
 
           {/* Right: Dynamic Content */}
-          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"} min-h-[400px] flex flex-col justify-center`}>
+          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}
@@ -270,14 +270,22 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                className="space-y-8"
+                className="space-y-6"
               >
-                {/* Headline */}
+                {/* Headline with stronger contrast */}
                 <div className="space-y-4">
-                  <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tighter leading-[1.1] lowercase">
-                    {content.headline}
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tighter leading-[1.1] lowercase text-foreground">
+                    {content.headline.split(' ').map((word, i) => {
+                      const highlightWords = ['finally', 'know', 'revenue', 'every', 'touchpoint', 'clean', 'four', 'AI', 'control'];
+                      const isHighlight = highlightWords.some(hw => word.toLowerCase().includes(hw.toLowerCase()));
+                      return (
+                        <span key={i} className={isHighlight ? "hero-gradient" : ""}>
+                          {word}{' '}
+                        </span>
+                      );
+                    })}
                   </h1>
-                  <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                  <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
                     {content.subheadline}
                   </p>
                 </div>
@@ -345,6 +353,46 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
+
+                {/* Product Mockup Preview */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-muted/30 via-muted/10 to-background border border-border/50 backdrop-blur-sm"
+                >
+                  <div className="aspect-[16/9] max-h-[200px] rounded-xl bg-card border border-border overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-destructive/50" />
+                        <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                        <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                        <div className="flex-1 h-6 rounded bg-muted/50 ml-4" />
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        <div className="col-span-1 space-y-2">
+                          <div className="h-4 rounded bg-primary/20" />
+                          <div className="h-4 rounded bg-muted/30" />
+                          <div className="h-4 rounded bg-muted/30" />
+                        </div>
+                        <div className="col-span-3 space-y-2">
+                          <div className="h-20 rounded bg-gradient-to-r from-primary/10 to-primary/5 flex items-center justify-center">
+                            <TrendingUp className="w-8 h-8 text-primary/30" />
+                          </div>
+                          <div className="grid grid-cols-3 gap-2">
+                            <div className="h-8 rounded bg-muted/20" />
+                            <div className="h-8 rounded bg-muted/20" />
+                            <div className="h-8 rounded bg-primary/10" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-3 text-center">
+                    utm.one dashboard — {activeUseCase === 'attribution' ? 'revenue attribution' : activeUseCase === 'journey' ? 'journey analytics' : activeUseCase === 'links' ? 'link management' : activeUseCase === 'intelligence' ? 'AI insights' : 'governance controls'}
+                  </p>
+                </motion.div>
               </motion.div>
             </AnimatePresence>
           </div>

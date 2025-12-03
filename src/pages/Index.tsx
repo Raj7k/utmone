@@ -25,7 +25,7 @@ import { AccessibilityShowcase } from "@/components/landing/AccessibilityShowcas
 import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
 import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
 import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
-import { Footer } from "@/components/landing/Footer";
+import { StrategicToolsShowcase } from "@/components/landing/StrategicToolsShowcase";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -233,11 +233,11 @@ const Index = () => {
       {/* Growth Loop Section */}
       <GrowthLoopSection />
 
+      {/* Strategic Decision Tools */}
+      <StrategicToolsShowcase />
+
       {/* FAQ Section - Scroll-based reveal */}
       <FooterFAQ />
-      
-      {/* Bento Card Footer with Gradient Accent */}
-      <Footer />
     </MainLayout>
   );
 };
