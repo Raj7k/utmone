@@ -268,17 +268,27 @@ export const StrategicToolsShowcase = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 mb-8">
-              <TabsTrigger value="first-principles" className="lowercase text-xs sm:text-sm">
-                <Target className="w-4 h-4 mr-1 hidden sm:block" />
+            {/* Mobile: Full-width vertical tabs */}
+            <TabsList className="flex md:grid md:grid-cols-3 w-full max-w-lg mx-auto gap-1 md:gap-0 mb-6 md:mb-8 h-auto md:h-10 flex-col md:flex-row bg-muted/50 p-1 rounded-xl">
+              <TabsTrigger 
+                value="first-principles" 
+                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 data-[state=active]:bg-background"
+              >
+                <Target className="w-4 h-4 mr-2 md:mr-1" />
                 first principles
               </TabsTrigger>
-              <TabsTrigger value="decision-matrix" className="lowercase text-xs sm:text-sm">
-                <Scale className="w-4 h-4 mr-1 hidden sm:block" />
+              <TabsTrigger 
+                value="decision-matrix" 
+                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 data-[state=active]:bg-background"
+              >
+                <Scale className="w-4 h-4 mr-2 md:mr-1" />
                 decision matrix
               </TabsTrigger>
-              <TabsTrigger value="roi-forecaster" className="lowercase text-xs sm:text-sm">
-                <TrendingUp className="w-4 h-4 mr-1 hidden sm:block" />
+              <TabsTrigger 
+                value="roi-forecaster" 
+                className="lowercase text-xs sm:text-sm w-full justify-start md:justify-center px-3 py-2.5 md:py-1.5 data-[state=active]:bg-background"
+              >
+                <TrendingUp className="w-4 h-4 mr-2 md:mr-1" />
                 ROI forecaster
               </TabsTrigger>
             </TabsList>

@@ -14,6 +14,8 @@ import {
   Sparkles
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileHero } from "./MobileHero";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "governance" | "intelligence";
 
@@ -148,6 +150,7 @@ const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
 export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
@@ -155,6 +158,11 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   };
 
   const content = HERO_CONTENT[activeUseCase];
+
+  // Render mobile-specific hero on small screens
+  if (isMobile) {
+    return <MobileHero onUseCaseChange={onUseCaseChange} />;
+  }
 
   return (
     <section className="relative min-h-[80vh] md:min-h-[85vh] flex flex-col justify-center py-16 md:py-24 bg-background overflow-hidden">

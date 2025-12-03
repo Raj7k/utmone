@@ -175,62 +175,121 @@ export const PowerToolsShowcase = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          {/* Tool Selector - Horizontal Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {POWER_TOOLS.map((tool) => {
-              const Icon = tool.icon;
-              const isActive = activeTool === tool.id;
-              
-              return (
-                <motion.button
-                  key={tool.id}
-                  onClick={() => setActiveTool(tool.id)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`
-                    flex items-center gap-2 px-4 py-2.5 rounded-full transition-all
-                    ${isActive 
-                      ? "bg-primary text-primary-foreground shadow-md" 
-                      : "bg-card border border-border hover:border-primary/30"
-                    }
-                  `}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? "" : "text-primary"}`} />
-                  <span className="text-sm font-medium lowercase">{tool.label}</span>
-                </motion.button>
-              );
-            })}
-          </div>
-          
-          {/* Active Tool Preview */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTool}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="bg-card border border-border rounded-2xl overflow-hidden"
-            >
-              <div className="p-6 md:p-8 min-h-[280px]">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                    {(() => {
-                      const Icon = active.icon;
-                      return <Icon className="w-5 h-5 text-primary" />;
-                    })()}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground lowercase">{active.label}</h3>
-                    <p className="text-sm text-muted-foreground">{active.description}</p>
-                  </div>
-                </div>
-                <div className="max-w-md">
+          {/* Mobile: Vertical Stacked Buttons */}
+          <div className="md:hidden space-y-4">
+            <div className="space-y-2">
+              {POWER_TOOLS.map((tool) => {
+                const Icon = tool.icon;
+                const isActive = activeTool === tool.id;
+                
+                return (
+                  <motion.button
+                    key={tool.id}
+                    onClick={() => setActiveTool(tool.id)}
+                    whileTap={{ scale: 0.98 }}
+                    className={`
+                      w-full flex items-center gap-3 p-3 rounded-xl transition-all
+                      ${isActive 
+                        ? "bg-primary text-primary-foreground shadow-md" 
+                        : "bg-card border border-border"
+                      }
+                    `}
+                  >
+                    <div className={`
+                      w-10 h-10 rounded-lg flex items-center justify-center shrink-0
+                      ${isActive ? "bg-primary-foreground/20" : "bg-primary/10"}
+                    `}>
+                      <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <span className={`text-sm font-semibold lowercase ${isActive ? "" : "text-foreground"}`}>
+                        {tool.label}
+                      </span>
+                      <p className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                        {tool.description}
+                      </p>
+                    </div>
+                    <ArrowRight className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : "text-muted-foreground"}`} />
+                  </motion.button>
+                );
+              })}
+            </div>
+            
+            {/* Active Tool Preview - Mobile */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTool}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="bg-card border border-border rounded-xl overflow-hidden"
+              >
+                <div className="p-4">
                   {active.mockup}
                 </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          
+          {/* Desktop: Horizontal Tabs */}
+          <div className="hidden md:block">
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {POWER_TOOLS.map((tool) => {
+                const Icon = tool.icon;
+                const isActive = activeTool === tool.id;
+                
+                return (
+                  <motion.button
+                    key={tool.id}
+                    onClick={() => setActiveTool(tool.id)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`
+                      flex items-center gap-2 px-4 py-2.5 rounded-full transition-all
+                      ${isActive 
+                        ? "bg-primary text-primary-foreground shadow-md" 
+                        : "bg-card border border-border hover:border-primary/30"
+                      }
+                    `}
+                  >
+                    <Icon className={`w-4 h-4 ${isActive ? "" : "text-primary"}`} />
+                    <span className="text-sm font-medium lowercase">{tool.label}</span>
+                  </motion.button>
+                );
+              })}
+            </div>
+            
+            {/* Active Tool Preview - Desktop */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTool}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="bg-card border border-border rounded-2xl overflow-hidden"
+              >
+                <div className="p-6 md:p-8 min-h-[280px]">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      {(() => {
+                        const Icon = active.icon;
+                        return <Icon className="w-5 h-5 text-primary" />;
+                      })()}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground lowercase">{active.label}</h3>
+                      <p className="text-sm text-muted-foreground">{active.description}</p>
+                    </div>
+                  </div>
+                  <div className="max-w-md">
+                    {active.mockup}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
         
         <div className="text-center mt-8">
