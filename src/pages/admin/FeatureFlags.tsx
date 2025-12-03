@@ -29,13 +29,13 @@ export default function FeatureFlags() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'performance':
-        return 'bg-blue-50 text-blue-700 border-blue-200';
+        return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
       case 'security':
-        return 'bg-red-50 text-red-700 border-red-200';
+        return 'bg-red-500/20 text-red-300 border-red-500/30';
       case 'maintenance':
-        return 'bg-yellow-50 text-yellow-700 border-yellow-200';
+        return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
       default:
-        return 'bg-gray-50 text-gray-700 border-gray-200';
+        return 'bg-white/10 text-white/70 border-white/20';
     }
   };
 

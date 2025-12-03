@@ -82,15 +82,15 @@ export default function UserManagement() {
   const getPlanBadgeColor = (plan: string) => {
     switch (plan) {
       case "free":
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/10 text-white/70";
       case "pro":
-        return "bg-blue-100 text-blue-700";
+        return "bg-blue-500/20 text-blue-300";
       case "business":
-        return "bg-purple-100 text-purple-700";
+        return "bg-purple-500/20 text-purple-300";
       case "enterprise":
-        return "bg-amber-100 text-amber-700";
+        return "bg-amber-500/20 text-amber-300";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-white/10 text-white/70";
     }
   };
 

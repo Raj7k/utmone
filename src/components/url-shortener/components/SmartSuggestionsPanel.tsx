@@ -45,16 +45,16 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
       case 'ab-test':
         return 'from-purple-500/10 to-purple-500/5 border-purple-500/20';
       case 'archive':
-        return 'from-gray-700/30 to-gray-800/30 border-gray-700';
+        return 'from-white/10 to-white/5 border-white/20';
       default:
-        return 'from-gray-900/50 to-gray-800/50 border-gray-800';
+        return 'from-white/5 to-white/5 border-white/10';
     }
   };
 
   const recommended = suggestions.find(s => s.recommended);
 
   return (
-    <Card className="bg-gray-900/30 border-gray-800">
+    <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-amber-500" />

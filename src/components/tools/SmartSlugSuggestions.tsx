@@ -38,20 +38,20 @@ export const SmartSlugSuggestions = ({
   if (suggestions.length === 0) return null;
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-emerald-600 dark:text-emerald-400';
-    if (score >= 60) return 'text-amber-600 dark:text-amber-400';
-    return 'text-slate-600 dark:text-slate-400';
+    if (score >= 80) return 'text-emerald-400';
+    if (score >= 60) return 'text-amber-400';
+    return 'text-white/60';
   };
 
   const getScoreBadge = (score: number) => {
-    if (score >= 80) return 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300';
-    if (score >= 60) return 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300';
-    return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+    if (score >= 80) return 'bg-emerald-500/20 text-emerald-300';
+    if (score >= 60) return 'bg-amber-500/20 text-amber-300';
+    return 'bg-white/10 text-white/70';
   };
 
   return (
-    <Card className="p-4 space-y-3 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-950/20 dark:to-purple-950/20 border-violet-200 dark:border-violet-800">
-      <div className="flex items-center gap-2 text-sm font-medium text-violet-700 dark:text-violet-300">
+    <Card className="p-4 space-y-3 bg-zinc-900/40 backdrop-blur-xl border-white/10">
+      <div className="flex items-center gap-2 text-sm font-medium text-violet-300">
         <Sparkles className="h-4 w-4" />
         <span>AI-Optimized Slug Suggestions</span>
       </div>
@@ -66,15 +66,15 @@ export const SmartSlugSuggestions = ({
               onClick={() => onSelect(suggestion.slug)}
               className={`w-full text-left p-3 rounded-lg border transition-all ${
                 isActive
-                  ? 'border-violet-400 dark:border-violet-600 bg-violet-100 dark:bg-violet-900/40'
-                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/50 hover:border-violet-300 dark:hover:border-violet-700 hover:bg-violet-50 dark:hover:bg-violet-900/20'
+                  ? 'border-violet-500 bg-violet-500/20'
+                  : 'border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-lg">{suggestion.icon}</span>
-                    <span className="font-semibold text-sm text-slate-900 dark:text-slate-100">
+                    <span className="font-semibold text-sm text-white">
                       {suggestion.type}
                     </span>
                     <Badge variant="outline" className="text-xs">
@@ -111,7 +111,7 @@ export const SmartSlugSuggestions = ({
         })}
       </div>
 
-      <p className="text-xs text-slate-600 dark:text-slate-400 mt-2">
+      <p className="text-xs text-white/50 mt-2">
         💡 Scores based on length, readability, and conversion psychology
       </p>
     </Card>

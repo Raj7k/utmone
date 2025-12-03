@@ -221,7 +221,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
         {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {/* Input Panel */}
-          <Card className="bg-gray-900/30 backdrop-blur border border-gray-800 p-8">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 p-8">
             <div className="space-y-6">
               <div>
                 <Label htmlFor="url" className="text-base">destination url</Label>
@@ -235,7 +235,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                       setUrl(e.target.value);
                       setError("");
                     }}
-                    className="bg-black/50 border-gray-700 focus:border-primary"
+                    className="bg-white/5 border-white/10 focus:border-primary"
                     disabled={!!shortURL}
                   />
                   {isCheckingDuplicates && (
@@ -261,7 +261,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                     placeholder="leave blank for auto-generate"
                     value={customSlug}
                     onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                    className="flex-1 bg-black/50 border-gray-700 focus:border-primary"
+                    className="flex-1 bg-white/5 border-white/10 focus:border-primary"
                     disabled={!!shortURL}
                   />
                   <Button
@@ -271,7 +271,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                     onClick={generateRandomSlug}
                     disabled={!!shortURL}
                     title="generate random slug"
-                    className="border-gray-700 hover:bg-gray-800"
+                    className="border-white/10 hover:bg-white/10"
                   >
                     <Sparkles className="h-4 w-4" />
                   </Button>
@@ -304,7 +304,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="w-full border-gray-700 hover:bg-gray-800"
+                  className="w-full border-white/10 hover:bg-white/10"
                   size="lg"
                 >
                   create another link
@@ -314,7 +314,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
           </Card>
 
           {/* Results Panel */}
-          <Card className="bg-gray-900/30 backdrop-blur border border-gray-800 p-8">
+          <Card className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 p-8">
             {shortURL ? (
               <div className="space-y-6">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -322,7 +322,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                   <span>your short link is ready</span>
                 </div>
 
-                <div className="bg-black/50 p-4 rounded-lg border border-gray-700">
+                <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                   <div className="text-sm text-secondary-label mb-1">short url</div>
                   <div className="text-lg font-medium text-primary break-all">
                     {shortURL}
@@ -345,7 +345,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                     rel="noopener noreferrer"
                     className="block"
                   >
-                    <Button variant="outline" className="w-full border-gray-700 hover:bg-gray-800" size="lg">
+                    <Button variant="outline" className="w-full border-white/10 hover:bg-white/10" size="lg">
                       test link →
                     </Button>
                   </a>
