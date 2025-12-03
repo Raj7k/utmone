@@ -27,30 +27,35 @@ const USE_CASES = [
     icon: TrendingUp,
     label: "attribution & revenue",
     sublabel: "know where money comes from",
+    route: "/features/attribution-graph",
   },
   {
     id: "journey" as UseCaseType,
     icon: Route,
     label: "journey analytics",
     sublabel: "see every touchpoint",
+    route: "/features/customer-journey",
   },
   {
     id: "links" as UseCaseType,
     icon: LinkIcon,
     label: "utm & links",
     sublabel: "clean data, every time",
+    route: "/features/utm-builder",
   },
   {
     id: "intelligence" as UseCaseType,
     icon: Sparkles,
     label: "AI intelligence",
     sublabel: "clean-track powered insights",
+    route: "/features/predictive-analytics",
   },
   {
     id: "governance" as UseCaseType,
     icon: Shield,
     label: "enterprise control",
     sublabel: "roles, rules & approvals",
+    route: "/features/enterprise-control",
   },
 ];
 
@@ -179,49 +184,68 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                               <Icon className="w-5 h-5" />
                             </button>
                           </TooltipTrigger>
-                          <TooltipContent side="right" className="font-medium lowercase">
-                            {useCase.label}
+                          <TooltipContent side="right" className="p-3">
+                            <div className="flex flex-col gap-2">
+                              <span className="font-medium lowercase">{useCase.label}</span>
+                              <Link 
+                                to={useCase.route} 
+                                className="text-xs text-primary hover:underline inline-flex items-center gap-1 lowercase"
+                              >
+                                learn more <ArrowRight className="w-3 h-3" />
+                              </Link>
+                            </div>
                           </TooltipContent>
                         </Tooltip>
                       );
                     }
                     
                     return (
-                      <button
-                        key={useCase.id}
-                        onClick={() => handleUseCaseChange(useCase.id)}
-                        className={`
-                          w-full text-left p-4 rounded-xl transition-all duration-300 group
-                          ${isActive 
-                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                            : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
-                          }
-                        `}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className={`
-                            w-10 h-10 rounded-lg flex items-center justify-center transition-colors
+                      <div key={useCase.id} className="relative">
+                        <button
+                          onClick={() => handleUseCaseChange(useCase.id)}
+                          className={`
+                            w-full text-left p-4 rounded-xl transition-all duration-300 group
                             ${isActive 
-                              ? "bg-primary-foreground/20" 
-                              : "bg-primary/10 text-primary group-hover:bg-primary/20"
+                              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                              : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
                             }
-                          `}>
-                            <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : ""}`} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className={`font-semibold lowercase text-sm ${isActive ? "" : "text-foreground"}`}>
-                              {useCase.label}
+                          `}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`
+                              w-10 h-10 rounded-lg flex items-center justify-center transition-colors
+                              ${isActive 
+                                ? "bg-primary-foreground/20" 
+                                : "bg-primary/10 text-primary group-hover:bg-primary/20"
+                              }
+                            `}>
+                              <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : ""}`} />
                             </div>
-                            <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                              {useCase.sublabel}
+                            <div className="flex-1 min-w-0">
+                              <div className={`font-semibold lowercase text-sm ${isActive ? "" : "text-foreground"}`}>
+                                {useCase.label}
+                              </div>
+                              <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                                {useCase.sublabel}
+                              </div>
                             </div>
+                            <Link 
+                              to={useCase.route}
+                              onClick={(e) => e.stopPropagation()}
+                              className={`
+                                p-1.5 rounded-lg transition-all
+                                ${isActive 
+                                  ? "text-primary-foreground hover:bg-primary-foreground/20" 
+                                  : "text-muted-foreground opacity-0 group-hover:opacity-100 hover:bg-muted hover:text-primary"
+                                }
+                              `}
+                              aria-label={`Learn more about ${useCase.label}`}
+                            >
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
                           </div>
-                          <ChevronRight className={`
-                            w-4 h-4 transition-transform
-                            ${isActive ? "text-primary-foreground" : "text-muted-foreground opacity-0 group-hover:opacity-100"}
-                          `} />
-                        </div>
-                      </button>
+                        </button>
+                      </div>
                     );
                   })}
                 </nav>
@@ -239,20 +263,31 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       const isActive = activeUseCase === useCase.id;
                       
                       return (
-                        <button
-                          key={useCase.id}
-                          onClick={() => handleUseCaseChange(useCase.id)}
-                          className={`
-                            flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all
-                            ${isActive 
-                              ? "bg-primary text-primary-foreground" 
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                            }
-                          `}
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span className="text-sm font-medium lowercase">{useCase.label}</span>
-                        </button>
+                        <div key={useCase.id} className="flex items-center">
+                          <button
+                            onClick={() => handleUseCaseChange(useCase.id)}
+                            className={`
+                              flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all
+                              ${isActive 
+                                ? "bg-primary text-primary-foreground" 
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                              }
+                            `}
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="text-sm font-medium lowercase">{useCase.label}</span>
+                            {isActive && (
+                              <Link 
+                                to={useCase.route}
+                                onClick={(e) => e.stopPropagation()}
+                                className="ml-1 p-1 rounded-full hover:bg-primary-foreground/20"
+                                aria-label={`Learn more about ${useCase.label}`}
+                              >
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+                            )}
+                          </button>
+                        </div>
                       );
                     })}
                   </div>
