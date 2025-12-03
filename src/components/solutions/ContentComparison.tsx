@@ -17,36 +17,36 @@ export const ContentComparison = ({
   caption
 }: ContentComparisonProps) => {
   return (
-    <div className="space-y-8">
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className="space-y-6 md:space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
         {/* Before Panel */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="relative"
         >
-          <div className="absolute top-4 left-4 bg-destructive/90 text-destructive-foreground px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10">
+          <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-destructive/90 text-destructive-foreground px-2 py-1 md:px-3 rounded-md text-[10px] md:text-xs font-semibold uppercase tracking-wide z-10">
             {beforeTitle}
           </div>
-          <div className="bg-destructive/5 border-2 border-destructive/20 rounded-xl p-6 pt-16">
+          <div className="bg-destructive/5 border-2 border-destructive/20 rounded-xl p-4 pt-12 md:p-6 md:pt-16">
             {beforeContent}
           </div>
         </motion.div>
 
         {/* After Panel */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative"
         >
-          <div className="absolute top-4 left-4 bg-primary/90 text-primary-foreground px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10">
+          <div className="absolute top-3 left-3 md:top-4 md:left-4 bg-primary/90 text-primary-foreground px-2 py-1 md:px-3 rounded-md text-[10px] md:text-xs font-semibold uppercase tracking-wide z-10">
             {afterTitle}
           </div>
-          <div className="bg-primary/5 border-2 border-primary/30 rounded-xl p-6 pt-16">
+          <div className="bg-primary/5 border-2 border-primary/30 rounded-xl p-4 pt-12 md:p-6 md:pt-16">
             {afterContent}
           </div>
         </motion.div>
@@ -58,7 +58,7 @@ export const ContentComparison = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="text-xl md:text-2xl text-center text-muted-foreground lowercase tracking-wide"
+        className="text-base sm:text-lg md:text-xl lg:text-2xl text-center text-muted-foreground lowercase tracking-wide px-2"
       >
         {caption}
       </motion.p>
