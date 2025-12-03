@@ -76,10 +76,18 @@ export const EnhancedFooter = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-card border-t border-border mt-auto overflow-hidden">
+    <footer 
+      className="relative mt-auto overflow-hidden"
+      style={{ 
+        background: 'rgba(24,24,27,0.4)', 
+        backdropFilter: 'blur(40px)',
+        borderTop: '1px solid rgba(255,255,255,0.08)' 
+      }}
+    >
       {/* Animated Gradient Accent Top */}
       <motion.div 
-        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blazeOrange to-primary"
+        className="absolute top-0 left-0 right-0 h-1"
+        style={{ background: 'linear-gradient(90deg, #3B82F6, #F97316, #3B82F6)' }}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -87,11 +95,17 @@ export const EnhancedFooter = () => {
       />
       
       {/* Subtle gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, rgba(59,130,246,0.05), transparent)' }}
+      />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 md:py-14 relative z-10">
         {/* Top Section: Status + Quick Tools */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 pb-10 border-b border-border">
+        <div 
+          className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-10 pb-10"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        >
           {/* Live Status */}
           <motion.div 
             className="flex items-center gap-3"
@@ -100,14 +114,24 @@ export const EnhancedFooter = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-500/10 to-primary/10 border border-green-500/20 shadow-sm">
+            <div 
+              className="flex items-center gap-2 px-4 py-2 rounded-full shadow-sm"
+              style={{ 
+                background: 'linear-gradient(90deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1))',
+                border: '1px solid rgba(34,197,94,0.2)'
+              }}
+            >
               <div className="relative">
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-green-500 animate-ping opacity-75" />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(34,197,94,0.8)' }} />
+                <div className="absolute inset-0 w-2.5 h-2.5 rounded-full animate-ping opacity-75" style={{ background: 'rgba(34,197,94,0.8)' }} />
               </div>
-              <span className="text-sm font-medium text-green-600 dark:text-green-400">all systems operational</span>
+              <span className="text-sm font-medium" style={{ color: 'rgba(34,197,94,0.8)' }}>all systems operational</span>
             </div>
-            <Link to="/status" className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+            <Link 
+              to="/status" 
+              className="text-xs flex items-center gap-1 hover:opacity-80 transition-opacity"
+              style={{ color: 'rgba(255,255,255,0.5)' }}
+            >
               status page
               <ExternalLink className="w-3 h-3" />
             </Link>
@@ -121,7 +145,7 @@ export const EnhancedFooter = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="text-xs text-muted-foreground mr-2">quick tools:</span>
+            <span className="text-xs mr-2" style={{ color: 'rgba(255,255,255,0.5)' }}>quick tools:</span>
             {quickTools.map((tool, i) => {
               const Icon = tool.icon;
               return (
@@ -134,10 +158,14 @@ export const EnhancedFooter = () => {
                 >
                   <Link
                     to={tool.href}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-muted hover:bg-gradient-to-r hover:from-primary/10 hover:to-blazeOrange/10 border border-transparent hover:border-primary/20 transition-all text-xs font-medium group"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium group transition-all hover:scale-105"
+                    style={{ 
+                      background: 'rgba(255,255,255,0.05)', 
+                      border: '1px solid rgba(255,255,255,0.08)' 
+                    }}
                   >
-                    <Icon className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                    <span className="group-hover:text-primary transition-colors">{tool.label}</span>
+                    <Icon className="w-3.5 h-3.5 transition-colors" style={{ color: 'rgba(255,255,255,0.5)' }} />
+                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>{tool.label}</span>
                   </Link>
                 </motion.div>
               );
@@ -156,8 +184,14 @@ export const EnhancedFooter = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: sectionIndex * 0.1 }}
             >
-              <h3 className="font-semibold text-foreground mb-4 lowercase text-sm flex items-center gap-2">
-                <div className="w-1 h-4 rounded-full bg-gradient-to-b from-primary to-blazeOrange" />
+              <h3 
+                className="font-semibold mb-4 lowercase text-sm flex items-center gap-2"
+                style={{ color: 'rgba(255,255,255,0.9)' }}
+              >
+                <div 
+                  className="w-1 h-4 rounded-full"
+                  style={{ background: 'linear-gradient(to bottom, #3B82F6, #F97316)' }}
+                />
                 {section.title}
               </h3>
               <ul className="space-y-2.5">
@@ -165,7 +199,8 @@ export const EnhancedFooter = () => {
                   <li key={link.href}>
                     <Link
                       to={link.href}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors lowercase inline-flex items-center gap-1 group"
+                      className="text-sm lowercase inline-flex items-center gap-1 group transition-colors hover:opacity-80"
+                      style={{ color: 'rgba(255,255,255,0.5)' }}
                     >
                       {link.label}
                       <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
@@ -179,7 +214,8 @@ export const EnhancedFooter = () => {
         
         {/* Newsletter + Social Row */}
         <motion.div 
-          className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 py-8 border-y border-border"
+          className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 py-8"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -187,20 +223,28 @@ export const EnhancedFooter = () => {
         >
           {/* Newsletter */}
           <div className="flex-1 max-w-md">
-            <h4 className="font-semibold text-foreground mb-2 lowercase text-sm flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-primary" />
+            <h4 
+              className="font-semibold mb-2 lowercase text-sm flex items-center gap-2"
+              style={{ color: 'rgba(255,255,255,0.9)' }}
+            >
+              <Sparkles className="w-4 h-4" style={{ color: '#3B82F6' }} />
               stay updated
             </h4>
-            <p className="text-xs text-muted-foreground mb-4">
+            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Product updates, tips, and best practices. No spam.
             </p>
             <div className="flex gap-2">
               <input
                 type="email"
                 placeholder="your@email.com"
-                className="flex-1 px-4 py-2.5 rounded-lg bg-muted border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="flex-1 px-4 py-2.5 rounded-lg text-sm focus:outline-none transition-all"
+                style={{ 
+                  background: 'rgba(255,255,255,0.05)', 
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.9)'
+                }}
               />
-              <Button size="sm" className="lowercase bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+              <Button size="sm" className="lowercase" style={{ background: '#3B82F6' }}>
                 subscribe
                 <ArrowRight className="w-3 h-3 ml-1" />
               </Button>
@@ -209,12 +253,12 @@ export const EnhancedFooter = () => {
           
           {/* Social Links */}
           <div className="flex items-center gap-4">
-            <span className="text-xs text-muted-foreground">follow us:</span>
+            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>follow us:</span>
             <div className="flex items-center gap-2">
               {[
-                { href: "https://twitter.com/utmone", icon: Twitter, label: "Twitter", hoverColor: "hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2]" },
-                { href: "https://linkedin.com/company/utmone", icon: Linkedin, label: "LinkedIn", hoverColor: "hover:bg-[#0A66C2]/10 hover:text-[#0A66C2]" },
-                { href: "https://github.com/utmone", icon: Github, label: "GitHub", hoverColor: "hover:bg-foreground/10 hover:text-foreground" },
+                { href: "https://twitter.com/utmone", icon: Twitter, label: "Twitter" },
+                { href: "https://linkedin.com/company/utmone", icon: Linkedin, label: "LinkedIn" },
+                { href: "https://github.com/utmone", icon: Github, label: "GitHub" },
               ].map((social) => {
                 const Icon = social.icon;
                 return (
@@ -223,12 +267,13 @@ export const EnhancedFooter = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-10 h-10 rounded-xl bg-muted flex items-center justify-center transition-all ${social.hoverColor}`}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:scale-105"
+                    style={{ background: 'rgba(255,255,255,0.05)' }}
                     aria-label={social.label}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.6)' }} />
                   </motion.a>
                 );
               })}
@@ -247,7 +292,7 @@ export const EnhancedFooter = () => {
           {/* Logo + Copyright */}
           <div className="flex items-center gap-4">
             <UtmOneLogo size="sm" />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
               © {currentYear} utm.one. all rights reserved.
             </p>
           </div>
@@ -259,15 +304,19 @@ export const EnhancedFooter = () => {
               return (
                 <motion.div
                   key={badge.label}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-muted to-muted/50 border border-border"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
+                  style={{ 
+                    background: 'rgba(255,255,255,0.03)', 
+                    border: '1px solid rgba(255,255,255,0.08)' 
+                  }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <Icon className="w-3 h-3 text-primary" />
-                  <span className="text-[11px] font-medium text-muted-foreground">{badge.label}</span>
+                  <Icon className="w-3 h-3" style={{ color: '#3B82F6' }} />
+                  <span className="text-[11px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>{badge.label}</span>
                 </motion.div>
               );
             })}

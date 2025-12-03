@@ -82,7 +82,7 @@ export const BlurRevealFAQ = () => {
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
             {formatText("ok, here's what we do. plain talk.")}
           </h1>
-          <p className="text-muted-foreground mt-3">Click any card to reveal the answer</p>
+          <p className="mt-3" style={{ color: 'rgba(255,255,255,0.5)' }}>Click any card to reveal the answer</p>
         </div>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -96,9 +96,16 @@ export const BlurRevealFAQ = () => {
                 layout
                 className={`
                   relative cursor-pointer rounded-xl transition-all overflow-hidden
-                  ${isExpanded ? "bg-primary text-primary-foreground shadow-lg sm:col-span-2 lg:col-span-1" : "hover:scale-[1.02]"}
+                  ${isExpanded ? "shadow-lg sm:col-span-2 lg:col-span-1" : "hover:scale-[1.02]"}
                 `}
-                style={!isExpanded ? { background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' } : {}}
+                style={isExpanded ? { 
+                  background: '#3B82F6', 
+                  color: 'white' 
+                } : { 
+                  background: 'rgba(24,24,27,0.4)', 
+                  backdropFilter: 'blur(40px)', 
+                  border: '1px solid rgba(255,255,255,0.08)' 
+                }}
                 onClick={() => toggleCard(index)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -108,11 +115,14 @@ export const BlurRevealFAQ = () => {
                 <div className="p-5">
                   {/* Question */}
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className={`font-semibold lowercase text-sm ${isExpanded ? "" : "text-foreground"}`}>
+                    <h3 
+                      className="font-semibold lowercase text-sm"
+                      style={{ color: isExpanded ? 'white' : 'rgba(255,255,255,0.9)' }}
+                    >
                       {faq.question}
                     </h3>
                     {isExpanded && (
-                      <X className="w-4 h-4 shrink-0" />
+                      <X className="w-4 h-4 shrink-0" style={{ color: 'white' }} />
                     )}
                   </div>
                   
@@ -124,7 +134,8 @@ export const BlurRevealFAQ = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="text-sm text-primary-foreground/90 leading-relaxed"
+                        className="text-sm leading-relaxed"
+                        style={{ color: 'rgba(255,255,255,0.9)' }}
                       >
                         {faq.answer}
                       </motion.p>
@@ -136,15 +147,15 @@ export const BlurRevealFAQ = () => {
                         exit={{ opacity: 0 }}
                         className="relative"
                       >
-                        <p className={`
-                          text-xs text-muted-foreground line-clamp-2
-                          ${!isRevealed ? "blur-sm select-none" : ""}
-                        `}>
+                        <p 
+                          className={`text-xs line-clamp-2 ${!isRevealed ? "blur-sm select-none" : ""}`}
+                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                        >
                           {faq.answer}
                         </p>
                         {!isRevealed && (
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-xs text-primary font-medium">tap to reveal</span>
+                            <span className="text-xs font-medium" style={{ color: '#3B82F6' }}>tap to reveal</span>
                           </div>
                         )}
                       </motion.div>
@@ -154,7 +165,10 @@ export const BlurRevealFAQ = () => {
                   {/* Category Tag */}
                   {faq.category && !isExpanded && (
                     <div className="mt-3">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}>
+                      <span 
+                        className="text-[10px] px-2 py-0.5 rounded-full"
+                        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
+                      >
                         {faq.category}
                       </span>
                     </div>
