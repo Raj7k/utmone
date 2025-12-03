@@ -3,32 +3,15 @@ import { Button } from "@/components/ui/button";
 import { formatText } from "@/utils/textFormatter";
 import { 
   Link as LinkIcon, 
-  QrCode, 
-  BarChart3, 
-  Shield, 
   ArrowRight,
-  Eye,
-  Infinity,
-  TrendingUp,
-  GitBranch,
   Code,
-  CheckCircle2,
-  Database,
-  Globe,
-  FlaskConical,
-  ShieldCheck,
-  Layers,
-  Zap,
-  Brain,
-  FileSearch
+  Database
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
-import { BentoFeatureCard } from "@/components/landing/BentoFeatureCard";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerContainer";
 import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
@@ -36,6 +19,11 @@ import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
 import { EnterpriseGradeSection } from "@/components/landing/EnterpriseGradeSection";
 import { GrowthLoopSection } from "@/components/landing/GrowthLoopSection";
 import { SectionDivider } from "@/components/landing/SectionDivider";
+import { GTMToolsShowcase } from "@/components/landing/GTMToolsShowcase";
+import { AccessibilityShowcase } from "@/components/landing/AccessibilityShowcase";
+import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
+import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
+import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -149,276 +137,28 @@ const Index = () => {
 
       <SectionDivider variant="gradient" />
 
-      {/* Fold: Product Pillars - Bento Grid */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
-              everything your gtm team needs, in one place
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
-            <BentoFeatureCard
-              icon={LinkIcon}
-              title="short links"
-              description="branded links that always work"
-              href="/features/short-links"
-              size="wide"
-              delay={0}
-            />
-            <BentoFeatureCard
-              icon={BarChart3}
-              title="utm builder"
-              description="consistent parameters, every time"
-              href="/features/utm-builder"
-              size="small"
-              delay={0.1}
-            />
-            <BentoFeatureCard
-              icon={QrCode}
-              title="qr generator"
-              description="on-brand codes with real attribution"
-              href="/features/qr-generator"
-              size="small"
-              delay={0.2}
-            />
-            <BentoFeatureCard
-              icon={TrendingUp}
-              title="analytics"
-              description="clean data, clear insight"
-              href="/features/analytics"
-              size="small"
-              delay={0.3}
-            />
-            <BentoFeatureCard
-              icon={CheckCircle2}
-              title="clean-track"
-              description="your tracking rules, automated"
-              href="/features/clean-track"
-              size="small"
-              delay={0.4}
-            />
-            <BentoFeatureCard
-              icon={Shield}
-              title="enterprise control"
-              description="roles, permissions, approvals"
-              href="/features/governance"
-              size="wide"
-              delay={0.5}
-            />
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* GTM Tools Showcase - Interactive */}
+      <GTMToolsShowcase />
 
       <SectionDivider variant="dots" />
 
-      {/* Fold: Accessibility */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground mb-4 md:mb-6 lowercase">
-              {formatText("links that include everyone")}
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
-              Finally — a link system government, education, nonprofit, and public institutions can use confidently.
-            </p>
-          </div>
-          
-          <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
-                <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                  <CheckCircle2 className="w-8 h-8 md:w-10 md:h-10" />
-                </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground lowercase">WCAG AAA Certified</h3>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Full accessibility compliance for dashboards, links, and QR codes
-                </p>
-              </div>
-            </StaggerItem>
-            
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
-                <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                  <Eye className="w-8 h-8 md:w-10 md:h-10" />
-                </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground lowercase">Screen Reader Ready</h3>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Semantic HTML, ARIA labels, and keyboard-first navigation throughout
-                </p>
-              </div>
-            </StaggerItem>
-            
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-xl md:rounded-2xl p-4 md:p-8 text-center space-y-3 md:space-y-4">
-                <div className="inline-flex p-3 md:p-4 rounded-xl bg-primary/10 text-primary mx-auto">
-                  <Globe className="w-8 h-8 md:w-10 md:h-10" />
-                </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground lowercase">Semantic Slugs</h3>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Descriptive, readable URLs that work for everyone
-                </p>
-              </div>
-            </StaggerItem>
-          </StaggerContainer>
-
-          <div className="text-center mt-12">
-            <Link 
-              to="/features/accessibility" 
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
-            >
-              learn more about accessibility
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Accessibility Showcase with Visual Demo */}
+      <AccessibilityShowcase />
 
       <SectionDivider variant="gradient" />
 
-      {/* Fold: Permanence */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
-              your links outlive your tools
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">
-              Platform shutdowns shouldn't break the web
-            </p>
-          </div>
-          <StaggerContainer className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Infinity className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Permanent Redirects</h3>
-                <p className="text-muted-foreground">
-                  Your links keep working, always
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Database className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Self-Hosted Option</h3>
-                <p className="text-muted-foreground">
-                  Run utm.one locally, keep full control
-                </p>
-              </div>
-            </StaggerItem>
-            <StaggerItem>
-              <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <GitBranch className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Link Backups</h3>
-                <p className="text-muted-foreground">
-                  Auto-backup to your GitHub or storage
-                </p>
-              </div>
-            </StaggerItem>
-          </StaggerContainer>
-          <p className="text-center text-xl font-semibold text-primary mt-12 lowercase">
-            Reliability is a feature, not a nice-to-have.
-          </p>
-        </div>
-      </AnimatedSection>
+      {/* Permanence Showcase with Timeline */}
+      <PermanenceShowcase />
 
       <SectionDivider variant="dots" />
 
-      {/* Fold: Power Tools */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
-              {formatText("power tools for scale")}
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">
-              Advanced features for growth teams managing thousands of links
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-fr">
-            <BentoFeatureCard
-              icon={FlaskConical}
-              title="smart testing"
-              description="intelligent A/B testing with automatic winner detection and confidence scoring"
-              href="/features/analytics"
-              size="small"
-              delay={0}
-            />
-            <BentoFeatureCard
-              icon={ShieldCheck}
-              title="link guard"
-              description="real-time security scanning and malware detection"
-              href="/features/link-immunity"
-              size="small"
-              delay={0.1}
-            />
-            <BentoFeatureCard
-              icon={Globe}
-              title="geo targeting"
-              description="route visitors by country"
-              href="/features/smart-routing"
-              size="small"
-              delay={0.2}
-            />
-            <BentoFeatureCard
-              icon={Layers}
-              title="bulk create"
-              description="generate hundreds of links at once"
-              href="/features/short-links"
-              size="small"
-              delay={0.3}
-            />
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Power Tools Showcase with Mockups */}
+      <PowerToolsShowcase />
 
       <SectionDivider variant="gradient" />
 
-      {/* Fold: Intelligence */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase px-2">
-              {formatText("built-in intelligence")}
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">
-              AI-powered insights without the complexity
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <BentoFeatureCard
-              icon={Zap}
-              title="instant links"
-              description="AI generates title, slug, and UTM parameters from any URL in seconds"
-              href="/features/short-links"
-              size="small"
-              delay={0}
-            />
-            <BentoFeatureCard
-              icon={Brain}
-              title="fast insights"
-              description="natural language analytics summaries and anomaly detection"
-              href="/features/predictive-analytics"
-              size="small"
-              delay={0.1}
-            />
-            <BentoFeatureCard
-              icon={FileSearch}
-              title="onelink validator"
-              description="intelligent duplicate detection and version management"
-              href="/features/clean-track"
-              size="small"
-              delay={0.2}
-            />
-          </div>
-        </div>
-      </AnimatedSection>
+      {/* Intelligence Showcase with AI Chat Mockup */}
+      <IntelligenceShowcase />
 
       <SectionDivider variant="dots" />
 
@@ -426,7 +166,7 @@ const Index = () => {
       <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
+            <h2 className="hero-gradient text-2xl sm:text-3xl md:text-4xl font-display font-bold lowercase">
               {formatText("built for developers too")}
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">

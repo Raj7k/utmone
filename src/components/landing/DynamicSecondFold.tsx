@@ -107,7 +107,7 @@ const AttributionContent = () => (
     <div className="space-y-6">
       <div className="space-y-3">
         <p className="text-sm font-medium text-destructive uppercase tracking-wider">the problem</p>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           last-click attribution lies to you
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -157,7 +157,7 @@ const JourneyContent = () => (
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
         <p className="text-sm font-medium text-primary uppercase tracking-wider">complete visibility</p>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           see every touchpoint, across every device
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -370,7 +370,7 @@ const LinksContent = () => (
     <div className="space-y-6">
       <div className="space-y-3">
         <p className="text-sm font-medium text-primary uppercase tracking-wider">one link. five layers.</p>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           every link tells the same story
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -418,7 +418,7 @@ const GovernanceContent = () => (
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
         <p className="text-sm font-medium text-primary uppercase tracking-wider">enterprise control</p>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           your team's links, under control
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed">

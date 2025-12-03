@@ -95,11 +95,6 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
 
   return (
     <section className="relative pt-8 md:pt-12 pb-16 md:pb-24 bg-background overflow-hidden">
-      {/* Subtle background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-primary/5 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-muted/50 to-transparent" />
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
