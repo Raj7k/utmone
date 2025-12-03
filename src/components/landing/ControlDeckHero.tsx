@@ -265,24 +265,13 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                   {/* Content */}
                   <div className="space-y-4">
-                    {/* Headline with Platinum Gradient */}
-                    <h1 
-                      className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase"
-                      style={{
-                        background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
+                    {/* Headline with Brushed Metal Gradient */}
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
                       {activeItem.headline}
                     </h1>
 
-                    {/* Subheadline */}
-                    <p 
-                      className="text-base md:text-lg max-w-xl leading-relaxed"
-                      style={{ color: 'rgba(255, 255, 255, 0.6)' }}
-                    >
+                    {/* Subheadline - Muted Silver */}
+                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-zinc-400">
                       {activeItem.subheadline}
                     </p>
 
