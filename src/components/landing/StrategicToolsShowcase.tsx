@@ -8,120 +8,14 @@ import {
   ArrowRight, 
   Sparkles,
   CheckCircle2,
-  Lightbulb,
-  Download,
   Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
-import { toast } from "sonner";
-
-// First Principles Calculator
-const FirstPrinciplesCalculator = () => {
-  const [problem, setProblem] = useState("");
-  const [whys, setWhys] = useState(["", "", "", "", ""]);
-  const [fundamentals, setFundamentals] = useState<string[]>([]);
-
-  const updateWhy = (index: number, value: string) => {
-    const newWhys = [...whys];
-    newWhys[index] = value;
-    setWhys(newWhys);
-  };
-
-  const generateFundamentals = () => {
-    const filled = whys.filter(w => w.trim() !== "");
-    if (filled.length >= 3) {
-      setFundamentals([
-        "Core assumption identified: " + (whys[4] || whys[3] || whys[2]),
-        "This can be validated by testing smaller hypotheses",
-        "Action: Start with the smallest possible experiment"
-      ]);
-    } else {
-      toast.error("please fill at least 3 'why' answers");
-    }
-  };
-
-  const handleShare = () => {
-    const text = `🎯 Just used the First Principles Calculator from utm.one\n\nProblem: ${problem}\n\nKey insight: ${fundamentals[0] || "Breaking down complex decisions into fundamental truths"}\n\nTry it free:`;
-    shareOnLinkedIn(text, "https://utm.one/tools/decision-frameworks?tab=first-principles");
-  };
-
-  return (
-    <Card className="border border-border">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 lowercase text-lg">
-          <Target className="w-5 h-5 text-primary" />
-          first principles breakdown
-        </CardTitle>
-        <CardDescription className="text-sm">
-          Break down complex problems to fundamental truths using the 5 Whys technique
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">what problem are you trying to solve?</label>
-          <Textarea 
-            placeholder="e.g., Our marketing campaigns aren't generating enough leads..."
-            value={problem}
-            onChange={(e) => setProblem(e.target.value)}
-            className="min-h-[60px] text-sm"
-          />
-        </div>
-
-        <div className="space-y-3">
-          <label className="text-sm font-medium text-foreground">ask "why" 5 times</label>
-          {whys.map((why, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary shrink-0">
-                {index + 1}
-              </div>
-              <Input 
-                placeholder={index === 0 ? "Because..." : `Why? (${index + 1})`}
-                value={why}
-                onChange={(e) => updateWhy(index, e.target.value)}
-                className="text-sm"
-              />
-            </div>
-          ))}
-        </div>
-
-        <Button onClick={generateFundamentals} className="w-full lowercase" size="sm">
-          <Lightbulb className="w-4 h-4 mr-2" />
-          reveal fundamental truth
-        </Button>
-
-        {fundamentals.length > 0 && (
-          <motion.div 
-            className="p-3 bg-primary/5 rounded-lg border border-primary/20 space-y-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h4 className="font-semibold text-foreground flex items-center gap-2 text-sm">
-              <Sparkles className="w-4 h-4 text-primary" />
-              fundamental insights
-            </h4>
-            {fundamentals.map((f, i) => (
-              <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-                <CheckCircle2 className="w-3 h-3 text-primary shrink-0 mt-0.5" />
-                <span>{f}</span>
-              </div>
-            ))}
-            <div className="flex gap-2 pt-2">
-              <Button size="sm" variant="outline" className="lowercase text-xs h-7" onClick={handleShare}>
-                <Share2 className="w-3 h-3 mr-1" />
-                share on linkedin
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
+import { FirstPrinciplesWizard } from "./FirstPrinciplesWizard";
 
 // Decision Matrix Builder
 const DecisionMatrixBuilder = () => {
@@ -320,10 +214,14 @@ const ROIForecaster = () => {
             { label: "Revenue", value: `$${revenue.toLocaleString()}`, color: "text-primary" },
             { label: "ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "text-green-600" : "text-destructive" },
           ].map((stat) => (
-            <div key={stat.label} className="p-3 bg-muted/50 rounded-lg text-center">
+            <motion.div 
+              key={stat.label} 
+              className="p-3 bg-muted/50 rounded-lg text-center"
+              whileHover={{ scale: 1.02 }}
+            >
               <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
               <div className="text-xs text-muted-foreground">{stat.label}</div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -386,7 +284,7 @@ export const StrategicToolsShowcase = () => {
             </TabsList>
             
             <TabsContent value="first-principles" className="mt-0">
-              <FirstPrinciplesCalculator />
+              <FirstPrinciplesWizard />
             </TabsContent>
             
             <TabsContent value="decision-matrix" className="mt-0">

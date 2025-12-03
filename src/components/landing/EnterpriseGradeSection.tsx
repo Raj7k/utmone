@@ -111,9 +111,11 @@ export const EnterpriseGradeSection = () => {
             return (
               <motion.div
                 key={feature.title}
-                className="p-4 md:p-5 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-md transition-all"
+                className="p-4 md:p-5 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-md transition-all min-h-[140px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02, y: -4 }}
+                whileTap={{ scale: 0.98 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >

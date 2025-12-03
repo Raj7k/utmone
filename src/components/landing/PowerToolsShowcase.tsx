@@ -182,9 +182,11 @@ export const PowerToolsShowcase = () => {
               const isActive = activeTool === tool.id;
               
               return (
-                <button
+                <motion.button
                   key={tool.id}
                   onClick={() => setActiveTool(tool.id)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   className={`
                     flex items-center gap-2 px-4 py-2.5 rounded-full transition-all
                     ${isActive 
@@ -195,7 +197,7 @@ export const PowerToolsShowcase = () => {
                 >
                   <Icon className={`w-4 h-4 ${isActive ? "" : "text-primary"}`} />
                   <span className="text-sm font-medium lowercase">{tool.label}</span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -210,7 +212,7 @@ export const PowerToolsShowcase = () => {
               transition={{ duration: 0.2 }}
               className="bg-card border border-border rounded-2xl overflow-hidden"
             >
-              <div className="p-6 md:p-8">
+              <div className="p-6 md:p-8 min-h-[280px]">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                     {(() => {

@@ -280,12 +280,14 @@ export const GTMToolsShowcase = () => {
               const isActive = activeTool === tool.id;
               
               return (
-                <button
+                <motion.button
                   key={tool.id}
                   onClick={() => setActiveTool(tool.id)}
                   onMouseEnter={() => setActiveTool(tool.id)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   className={`
-                    w-full text-left p-3 rounded-lg transition-all duration-200 group
+                    w-full text-left p-3 rounded-lg transition-all duration-200 group min-h-[60px]
                     ${isActive 
                       ? "bg-primary text-primary-foreground shadow-md" 
                       : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
@@ -315,7 +317,7 @@ export const GTMToolsShowcase = () => {
                       }
                     `} />
                   </div>
-                </button>
+                </motion.button>
               );
             })}
             
