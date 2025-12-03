@@ -64,7 +64,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
 
   return (
     <Card className="p-4 space-y-4">
-      <div className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+      <div className="flex items-center gap-2 text-sm font-medium text-white/80">
         <Zap className="h-4 w-4 text-amber-500" />
         <span>Scan Reliability</span>
       </div>
@@ -81,7 +81,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
               stroke="currentColor"
               strokeWidth="8"
               fill="transparent"
-              className="text-slate-200 dark:text-slate-700"
+              className="text-white/10"
             />
             {/* Progress circle */}
             <circle
@@ -103,7 +103,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
             <span className={`text-3xl font-bold ${getStatusColor()}`}>
               {overallHealth}
             </span>
-            <span className="text-xs text-slate-500 dark:text-slate-400">/ 100</span>
+            <span className="text-xs text-white/50">/ 100</span>
           </div>
         </div>
 
@@ -118,16 +118,16 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
 
       {/* Metrics */}
       {showDetails && (
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-white/10">
           <div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Contrast Ratio</div>
-            <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <div className="text-xs text-white/50 mb-1">Contrast Ratio</div>
+            <div className="text-sm font-semibold text-white">
               {contrastRatio}:1
             </div>
           </div>
           <div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Density</div>
-            <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <div className="text-xs text-white/50 mb-1">Density</div>
+            <div className="text-sm font-semibold text-white">
               {densityPercent}%
             </div>
           </div>
@@ -160,7 +160,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
 
       {/* Recommendations */}
       {recommendations.length > 0 && showDetails && (
-        <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
+        <div className="space-y-1.5 text-xs text-white/60">
           <div className="font-medium">💡 Recommendations:</div>
           {recommendations.map((rec, idx) => (
             <div key={idx} className="pl-4">• {rec}</div>

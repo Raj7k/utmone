@@ -228,9 +228,9 @@ const AdminAuth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: '#050505' }}>
       {/* Dark background with subtle grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] opacity-20" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] opacity-20" />
       
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -257,22 +257,22 @@ const AdminAuth = () => {
         </motion.div>
 
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 mb-2">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-zinc-900/60 border border-white/10 mb-2">
             <Shield className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl font-display font-bold tracking-tight text-white">Mission Control</h1>
-          <p className="text-slate-400 text-lg">Administrative portal access</p>
+          <p className="text-white/60 text-lg">Administrative portal access</p>
         </div>
 
-        <Card className="border-slate-800 bg-slate-900/50 backdrop-blur shadow-2xl rounded-2xl">
+        <Card className="border-white/10 bg-zinc-900/50 backdrop-blur shadow-2xl rounded-2xl">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-2xl font-display font-bold text-white">Admin Sign In</CardTitle>
-            <CardDescription className="text-slate-400">Email and password required</CardDescription>
+            <CardDescription className="text-white/60">Email and password required</CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-6 space-y-6">
             <form onSubmit={handleAdminSignIn} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="admin-email" className="text-sm font-medium text-slate-200">
+                <label htmlFor="admin-email" className="text-sm font-medium text-white/80">
                   Email
                 </label>
                 <Input
@@ -282,11 +282,11 @@ const AdminAuth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-14 rounded-xl border-slate-700 bg-slate-950/50 text-white placeholder:text-slate-500 text-base focus-visible:border-primary"
+                  className="h-14 rounded-xl border-white/10 bg-white/5 text-white placeholder:text-white/40 text-base focus-visible:border-primary"
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="admin-password" className="text-sm font-medium text-slate-200">
+                <label htmlFor="admin-password" className="text-sm font-medium text-white/80">
                   Password
                 </label>
                 <PasswordInput
@@ -295,7 +295,7 @@ const AdminAuth = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="border-slate-700 bg-slate-950/50 text-white placeholder:text-slate-500"
+                  className="border-white/10 bg-white/5 text-white placeholder:text-white/40"
                 />
               </div>
               <Button 
@@ -307,13 +307,13 @@ const AdminAuth = () => {
               </Button>
             </form>
 
-            <div className="text-center text-xs text-slate-500 pt-4 border-t border-slate-800">
+            <div className="text-center text-xs text-white/40 pt-4 border-t border-white/10">
               Admin accounts are granted, not created
             </div>
           </CardContent>
         </Card>
 
-        <p className="text-center text-xs text-slate-600">
+        <p className="text-center text-xs text-white/30">
           All administrative actions are logged and audited
         </p>
       </motion.div>
