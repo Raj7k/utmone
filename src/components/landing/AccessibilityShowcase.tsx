@@ -19,7 +19,7 @@ export const AccessibilityShowcase = () => {
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
             links that include everyone
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg max-w-3xl mx-auto px-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Finally — a link system government, education, nonprofit, and public institutions can use confidently.
           </p>
         </div>
@@ -35,7 +35,7 @@ export const AccessibilityShowcase = () => {
           >
             {/* Semantic URL Comparison */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <h4 className="font-semibold text-foreground lowercase flex items-center gap-2 text-sm">
+              <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 <Globe className="w-4 h-4 text-primary" />
                 semantic slugs
               </h4>
@@ -45,8 +45,8 @@ export const AccessibilityShowcase = () => {
                     <span className="text-destructive text-sm">✗</span>
                   </div>
                   <div className="flex-1">
-                    <div className="text-[10px] text-muted-foreground">random slug</div>
-                    <div className="font-mono text-xs text-foreground bg-muted/50 rounded px-2 py-1">
+                    <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>random slug</div>
+                    <div className="font-mono text-xs rounded px-2 py-1" style={{ color: 'rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.05)' }}>
                       bit.ly/3xK9mzQ
                     </div>
                   </div>
@@ -56,28 +56,28 @@ export const AccessibilityShowcase = () => {
                     <CheckCircle2 className="w-4 h-4 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-[10px] text-muted-foreground">semantic slug</div>
+                    <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>semantic slug</div>
                     <div className="font-mono text-xs text-primary bg-primary/10 rounded px-2 py-1 border border-primary/20">
                       utm.one/nike-product-demo
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 Screen readers speak the URL. Make it meaningful.
               </p>
             </div>
             
             {/* Screen Reader Mockup */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <h4 className="font-semibold text-foreground lowercase flex items-center gap-2 text-sm">
+              <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 <Eye className="w-4 h-4 text-primary" />
                 screen reader ready
               </h4>
-              <div className="bg-foreground rounded-lg p-3 font-mono text-[11px] text-background space-y-1">
-                <div className="text-primary-foreground/60">// NVDA output</div>
+              <div className="rounded-lg p-3 font-mono text-[11px] space-y-1" style={{ background: 'rgba(255,255,255,0.9)', color: '#050505' }}>
+                <div style={{ color: 'rgba(5,5,5,0.6)' }}>// NVDA output</div>
                 <div>Link: "Visit Tesla product demo"</div>
-                <div className="text-primary-foreground/60">URL: utm.one/tesla-product-demo</div>
+                <div style={{ color: 'rgba(5,5,5,0.6)' }}>URL: utm.one/tesla-product-demo</div>
                 <div>Button: "Copy link to clipboard"</div>
               </div>
             </div>
@@ -137,8 +137,8 @@ export const AccessibilityShowcase = () => {
                     <Icon className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground lowercase text-sm">{feature.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{feature.description}</p>
+                    <h3 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
+                    <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.description}</p>
                   </div>
                 </motion.div>
               );
