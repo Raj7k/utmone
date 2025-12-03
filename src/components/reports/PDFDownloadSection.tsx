@@ -25,7 +25,7 @@ export const PDFDownloadSection = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <Card className="p-12 bg-white border-2 border-deepSea/20 shadow-2xl">
+            <Card className="p-12 bg-zinc-900/40 backdrop-blur-xl border border-white/10">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-deepSea/10 flex items-center justify-center">
                 <CheckCircle2 className="h-10 w-10 text-deepSea" />
               </div>
@@ -77,7 +77,7 @@ export const PDFDownloadSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="p-8 bg-white border-2 border-deepSea/20 h-full flex flex-col justify-center">
+            <Card className="p-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10 h-full flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-6">
                 <FileText className="h-8 w-8 text-deepSea" />
                 <h3 className="text-2xl font-display font-bold">
@@ -109,7 +109,7 @@ export const PDFDownloadSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="p-8 bg-white border-2 border-blazeOrange/20 shadow-xl">
+            <Card className="p-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10">
               <ReportDownloadForm onSuccess={() => setIsSubmitted(true)} />
             </Card>
           </motion.div>

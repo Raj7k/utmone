@@ -19,7 +19,7 @@ export const FlowStepCard = ({ number, title, description, icon: Icon, delay = 0
       className="relative group"
     >
       {/* Card Container */}
-      <div className="relative p-8 rounded-2xl bg-white border border-border/50 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300">
+      <div className="relative p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-primary/30 transition-all duration-300">
         {/* Number Watermark */}
         <div className="absolute top-4 right-4 text-8xl font-display font-extrabold text-foreground/5 leading-none pointer-events-none select-none">
           {number}
