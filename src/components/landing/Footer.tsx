@@ -3,6 +3,7 @@ import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Badge } from "@/components/ui/badge";
 import { Link2, QrCode, Settings, TrendingUp, CheckCircle2, Sparkles, Clock, BookOpen, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { ChronicleRevealText } from "./ChronicleRevealText";
 
 export const Footer = () => {
   const roleLinks = [
@@ -368,11 +369,11 @@ export const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Simple Brand Mark */}
-      <div className="py-12 border-t border-border/30 text-center">
-        <span className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground">
-          utm.one
-        </span>
+      {/* Chronicle-Style Brand Mark */}
+      <div className="py-16 border-t border-border/30 bg-background">
+        <div className="max-w-md mx-auto px-8">
+          <ChronicleRevealText text="utm.one" />
+        </div>
       </div>
 
       {/* Bottom Legal Bar */}
