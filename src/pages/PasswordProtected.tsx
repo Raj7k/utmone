@@ -49,36 +49,36 @@ export default function PasswordProtected() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
-      <Card variant="grouped" className="w-full max-w-md">
+    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+      <Card className="w-full max-w-md bg-zinc-900/40 backdrop-blur-xl border-white/10">
         <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-system-blue/10 rounded-full flex items-center justify-center mb-4">
-            <Lock className="w-6 h-6 text-system-blue" />
+          <div className="mx-auto w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-4">
+            <Lock className="w-6 h-6 text-white" />
           </div>
-          <CardTitle className="text-title-2">🔒 Password Protected Link</CardTitle>
-          <CardDescription className="text-body-apple text-secondary-label">
-            This link is password protected. Please enter the password to continue.
+          <CardTitle className="text-white">🔒 password protected link</CardTitle>
+          <CardDescription className="text-white/60">
+            this link is password protected. please enter the password to continue.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {hint && (
-              <div className="p-3 bg-fill-tertiary rounded-lg">
-                <p className="text-footnote text-secondary-label">
-                  <span className="font-medium text-label">Hint:</span> {hint}
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <p className="text-sm text-white/60">
+                  <span className="font-medium text-white">Hint:</span> {hint}
                 </p>
               </div>
             )}
             <Input
-              variant="system"
               type="password"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               autoFocus
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
             />
-            <Button variant="system" type="submit" className="w-full" disabled={isVerifying}>
+            <Button type="submit" className="w-full" disabled={isVerifying}>
               {isVerifying ? "verifying..." : "unlock link"}
             </Button>
           </form>

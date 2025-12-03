@@ -4,24 +4,24 @@ import { Link } from "react-router-dom";
 
 export default function LinkExpired() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
       <div className="max-w-md w-full text-center space-y-8">
         {/* Icon */}
         <div className="flex justify-center">
-          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-100 dark:bg-amber-900/30">
-            <AlertTriangle className="h-10 w-10 text-amber-600 dark:text-amber-500" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-900/30">
+            <AlertTriangle className="h-10 w-10 text-amber-500" />
           </div>
         </div>
 
         {/* Content */}
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-white">
             link expired
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-white/60">
             this short link has been removed or is no longer active
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-white/60">
             if you believe this is an error, please contact the link owner
           </p>
         </div>
@@ -37,19 +37,19 @@ export default function LinkExpired() {
         </div>
 
         {/* Branding */}
-        <div className="pt-8 border-t border-border">
-          <p className="text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-white/10">
+          <p className="text-sm text-white/60">
             powered by{" "}
             <a 
               href="https://utm.one" 
-              className="text-primary hover:underline font-medium"
+              className="text-white hover:underline font-medium"
               target="_blank"
               rel="noopener noreferrer"
             >
               utm.one
             </a>
           </p>
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-xs text-white/40 mt-2">
             enterprise link management with safety nets
           </p>
         </div>
