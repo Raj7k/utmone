@@ -550,6 +550,48 @@ All colors MUST be HSL.
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
+/* Obsidian Nav Dropdown Items */
+.obsidian-nav .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.obsidian-nav .text-foreground {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.obsidian-nav .text-primary {
+  color: #3B82F6 !important;
+}
+
+.obsidian-nav .bg-primary\/10 {
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+.obsidian-nav .bg-primary\/20 {
+  background: rgba(59, 130, 246, 0.2) !important;
+}
+
+.obsidian-nav .hover\:bg-primary\/10:hover {
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+.obsidian-nav .hover\:text-primary:hover {
+  color: #3B82F6 !important;
+}
+
+/* Fix gradient backgrounds in nav */
+.obsidian-nav .to-background {
+  --tw-gradient-to: rgba(5, 5, 5, 1) !important;
+}
+
+.obsidian-nav .from-primary\/10 {
+  --tw-gradient-from: rgba(59, 130, 246, 0.1) !important;
+}
+
+.obsidian-nav .via-primary\/5 {
+  --tw-gradient-via: rgba(59, 130, 246, 0.05) !important;
+}
+
 /* Obsidian Footer Glow - Northern Lights effect */
 .obsidian-footer-glow {
   position: relative;
