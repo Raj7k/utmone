@@ -29,43 +29,43 @@ export const ToolLayout = ({
   relatedTools 
 }: ToolLayoutProps) => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="dark min-h-screen" style={{ background: '#050505' }}>
       {/* Breadcrumb */}
-      <div className="border-b border-border/50">
+      <div className="border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-secondary-label">
-            <Link to="/resources" className="hover:text-foreground transition-apple">
+          <div className="flex items-center gap-2 text-sm text-white/40">
+            <Link to="/resources" className="hover:text-white transition-apple">
               resources
             </Link>
             <span>/</span>
-            <Link to="/resources/tools" className="hover:text-foreground transition-apple">
+            <Link to="/resources/tools" className="hover:text-white transition-apple">
               tools
             </Link>
             <span>/</span>
-            <span className="text-foreground">{title}</span>
+            <span className="text-white">{title}</span>
           </div>
         </div>
       </div>
 
       {/* Hero Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-4 rounded-2xl bg-primary/10 text-primary">
+            <div className="p-4 rounded-2xl bg-white/10 text-white">
               <Icon className="h-8 w-8" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-4">
+          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-4">
             {title}
           </h1>
-          <p className="text-xl text-secondary-label max-w-[640px]">
+          <p className="text-xl text-white/60 max-w-[640px]">
             {description}
           </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="grid lg:grid-cols-[1fr_300px] gap-12">
             {/* Main Content Area */}

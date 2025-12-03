@@ -5,7 +5,7 @@ import { StackingFAQCard } from "./StackingFAQCard";
 const faqCards = [
   {
     title: "What is utm.one?",
-    bgColor: "bg-white",
+    bgColor: "bg-zinc-900/40",
     questions: [
       {
         q: "What is utm.one?",
@@ -82,7 +82,7 @@ export const StackingFAQCards = () => {
   });
 
   return (
-    <div ref={containerRef} className="relative min-h-[400vh] py-20 bg-muted/20">
+    <div ref={containerRef} className="relative min-h-[400vh] py-20">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
         <div className="w-full max-w-4xl mx-auto px-8">
           {faqCards.map((card, index) => (

@@ -142,7 +142,7 @@ const SalaryBenchmark2026Content = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="dark min-h-screen" style={{ background: '#050505' }}>
       {/* Sticky Navigation */}
       <ReportNavigation onScrollToSection={scrollToSection} />
       
@@ -228,7 +228,7 @@ const SalaryBenchmark2026Content = () => {
                 return (
                   <motion.div 
                     key={index} 
-                    className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border-2 border-deepSea/20 hover:border-deepSea/40 transition-all hover:shadow-md"
+                    className="flex items-center gap-2 px-4 py-2 bg-zinc-900/40 rounded-full border-2 border-white/10 hover:border-white/20 transition-all hover:shadow-md backdrop-blur-xl"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -262,7 +262,7 @@ const SalaryBenchmark2026Content = () => {
       </section>
 
       {/* Geolocation Detector */}
-      <section className="py-8 bg-white">
+      <section className="py-8">
         <div className="max-w-[1280px] mx-auto px-8">
           <GeolocationDetector onLocationSelect={setDetectedLocation} />
         </div>
@@ -275,7 +275,7 @@ const SalaryBenchmark2026Content = () => {
       <MethodologySection />
 
       {/* Executive Summary */}
-      <section id="executive-summary" className="py-20 bg-white">
+      <section id="executive-summary" className="py-20">
         <div className="max-w-[1280px] mx-auto px-8">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-center mb-12">
             Executive Summary: Key Findings 2026
@@ -506,7 +506,7 @@ const SalaryBenchmark2026Content = () => {
           <NegotiationBlueprint />
 
           {/* Walk-Away Calculator Tool */}
-          <div className="py-16 bg-white">
+          <div className="py-16">
             <div className="max-w-[1280px] mx-auto px-8">
               <WalkAwayCalculator />
             </div>
@@ -525,7 +525,7 @@ const SalaryBenchmark2026Content = () => {
       {isEmployerMode && (
         <>
           {/* Team Budget Optimizer */}
-          <div className="py-16 bg-white">
+          <div className="py-16">
             <div className="max-w-[1280px] mx-auto px-8">
               <TeamBudgetOptimizer />
             </div>
@@ -539,7 +539,7 @@ const SalaryBenchmark2026Content = () => {
           </div>
 
           {/* Retention Risk Calculator */}
-          <div className="py-16 bg-white">
+          <div className="py-16">
             <div className="max-w-[1280px] mx-auto px-8">
               <RetentionRiskCalculator />
             </div>
