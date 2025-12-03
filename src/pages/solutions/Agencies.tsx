@@ -188,7 +188,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 4: What You Get */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">

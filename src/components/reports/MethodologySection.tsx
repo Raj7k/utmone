@@ -58,7 +58,7 @@ export const MethodologySection = () => {
   ];
 
   return (
-    <section id="methodology" className="py-32 bg-white">
+    <section id="methodology" className="py-32">
       <div className="max-w-[1280px] mx-auto px-8">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

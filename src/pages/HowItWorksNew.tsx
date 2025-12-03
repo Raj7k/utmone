@@ -163,7 +163,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 3: The utm.one Flow - Step by Step with Visuals */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="container max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
