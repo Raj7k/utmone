@@ -275,47 +275,109 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 </nav>
               </TooltipProvider>
 
-              {/* Mobile: Horizontal scroll */}
-              <div className="lg:hidden">
+              {/* Mobile: Vertical Accordion */}
+              <div className="lg:hidden space-y-2">
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
                   what do you need?
                 </p>
-                <div className="-mx-4 px-4">
-                  <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                    {USE_CASES.map((useCase) => {
-                      const Icon = useCase.icon;
-                      const isActive = activeUseCase === useCase.id;
-                      
-                      return (
-                        <div key={useCase.id} className="flex items-center">
-                          <button
-                            onClick={() => handleUseCaseChange(useCase.id)}
-                            className={`
-                              flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all
-                              ${isActive 
-                                ? "bg-primary text-primary-foreground" 
-                                : "bg-muted text-muted-foreground hover:bg-muted/80"
-                              }
-                            `}
-                          >
-                            <Icon className="w-4 h-4" />
-                            <span className="text-sm font-medium lowercase">{useCase.label}</span>
-                            {isActive && (
-                              <Link 
-                                to={useCase.route}
-                                onClick={(e) => e.stopPropagation()}
-                                className="ml-1 p-1 rounded-full hover:bg-primary-foreground/20"
-                                aria-label={`Learn more about ${useCase.label}`}
-                              >
-                                <ArrowRight className="w-3 h-3" />
-                              </Link>
-                            )}
-                          </button>
+                {USE_CASES.map((useCase) => {
+                  const Icon = useCase.icon;
+                  const isActive = activeUseCase === useCase.id;
+                  const content = HERO_CONTENT[useCase.id];
+                  
+                  return (
+                    <motion.div 
+                      key={useCase.id}
+                      initial={false}
+                      animate={{ 
+                        backgroundColor: isActive ? "hsl(var(--primary))" : "hsl(var(--card))"
+                      }}
+                      className={`
+                        rounded-xl border overflow-hidden transition-colors
+                        ${isActive 
+                          ? "border-primary shadow-lg shadow-primary/20" 
+                          : "border-border"
+                        }
+                      `}
+                    >
+                      <button
+                        onClick={() => handleUseCaseChange(useCase.id)}
+                        className="w-full p-4 flex items-center justify-between"
+                      >
+                        {/* Text first */}
+                        <div className="flex-1 text-left">
+                          <div className={`font-semibold lowercase text-sm ${isActive ? "text-primary-foreground" : "text-foreground"}`}>
+                            {useCase.label}
+                          </div>
+                          <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                            {useCase.sublabel}
+                          </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                        {/* Icon last */}
+                        <div className={`
+                          w-10 h-10 rounded-lg flex items-center justify-center ml-3
+                          ${isActive 
+                            ? "bg-primary-foreground/20" 
+                            : "bg-primary/10"
+                          }
+                        `}>
+                          <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
+                        </div>
+                      </button>
+                      
+                      {/* Expanded content */}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-4 pb-4 space-y-4">
+                              {/* Features list */}
+                              {content.features && (
+                                <div className="flex flex-wrap gap-2">
+                                  {content.features.map((feature) => (
+                                    <span
+                                      key={feature.name}
+                                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-foreground/20 text-xs text-primary-foreground"
+                                    >
+                                      <ChevronRight className="w-3 h-3" />
+                                      {feature.name}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                              
+                              {/* CTA buttons */}
+                              <div className="flex items-center gap-3">
+                                <Link to="/early-access" className="flex-1">
+                                  <Button 
+                                    size="sm" 
+                                    variant="secondary" 
+                                    className="w-full lowercase bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                                  >
+                                    {content.cta}
+                                    <ArrowRight className="ml-2 h-3 w-3" />
+                                  </Button>
+                                </Link>
+                                <Link 
+                                  to={useCase.route}
+                                  className="p-2 rounded-lg bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 transition-colors"
+                                  aria-label={`Learn more about ${useCase.label}`}
+                                >
+                                  <ArrowRight className="w-4 h-4" />
+                                </Link>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
