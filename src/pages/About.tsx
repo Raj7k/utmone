@@ -46,16 +46,23 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 what is utm.one
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     utm.one is the simplest way to make your links smarter.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-headline text-label font-medium">
+                <p className="text-xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   not longer. not louder. just smarter.
                 </p>
                 <ProgressiveReveal>
@@ -71,14 +78,21 @@ const About = () => {
       </section>
 
       {/* The Idea Behind It */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 the idea behind it
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     marketing today is two battles happening at the same time:
@@ -105,7 +119,7 @@ const About = () => {
                     no clutter. no tracking creep. no messy spreadsheets.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-headline text-label font-medium">
+                <p className="text-xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   just a single source of truth for your distribution.
                 </p>
               </div>
@@ -119,55 +133,62 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 what makes utm.one different
               </h2>
               <ProgressiveReveal>
-                <p className="text-body-apple text-secondary-label italic">
+                <p className="text-lg italic" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   minimal on the outside. structured to perfection inside.
                 </p>
               </ProgressiveReveal>
               <ProgressiveReveal>
-                <ul className="space-y-4 text-body-apple text-secondary-label leading-[1.75]">
+                <ul className="space-y-4 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>ultra-clean URLs</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>human-readable naming</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>ai-readable metadata</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>consistent taxonomy</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>built-in campaign governance</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>&quot;memory-safe&quot; tagging for future LLM crawlers</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>instant share-ready format for teams</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>one-click analytics setup</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-system-blue font-bold mt-1">•</span>
+                    <span style={{ color: 'rgba(255,255,255,0.6)' }} className="font-bold mt-1">•</span>
                     <span>templates inspired by apple&apos;s simplicity & google&apos;s information architecture</span>
                   </li>
                 </ul>
               </ProgressiveReveal>
-              <p className="text-headline text-label font-medium pt-4">
+              <p className="text-xl font-medium pt-4" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 it&apos;s the closest version of &quot;UTMs that think.&quot;
               </p>
             </div>
@@ -176,14 +197,21 @@ const About = () => {
       </section>
 
       {/* Why It Matters */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 why it matters
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     every link you create is a ranking signal.<br />
@@ -191,13 +219,13 @@ const About = () => {
                     every link your team uses is a consistency signal.
                   </p>
                 </ProgressiveReveal>
-                <p className="text-headline text-label font-medium">
+                <p className="text-xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   utm.one ensures all three work in your favour — not against you.
                 </p>
                 <ProgressiveReveal>
                   <p className="pt-4">
                     this is not a link-shortener.<br />
-                    <span className="text-label font-semibold">it&apos;s a context engine.</span>
+                    <span style={{ color: 'rgba(255,255,255,0.9)' }} className="font-semibold">it&apos;s a context engine.</span>
                   </p>
                 </ProgressiveReveal>
               </div>
@@ -211,16 +239,23 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 the philosophy
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     when we designed utm.one, we asked a simple question:
                   </p>
                 </ProgressiveReveal>
-                <p className="text-headline text-label font-medium">
+                <p className="text-xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   &quot;if apple built a link system, how would it feel?&quot;
                 </p>
                 <ProgressiveReveal>
@@ -232,7 +267,7 @@ const About = () => {
                     <p>functionally brilliant.</p>
                   </div>
                 </ProgressiveReveal>
-                <p className="pt-4 text-headline text-label font-medium">
+                <p className="pt-4 text-xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   that&apos;s the design north star.
                 </p>
               </div>
@@ -242,14 +277,21 @@ const About = () => {
       </section>
 
       {/* Who Is It For */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 who is it for
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     creators, marketers, founders, product teams, community builders, growth leaders — anyone who wants:
@@ -275,10 +317,17 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-label">
+              <h2 
+                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight"
+                style={{ 
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
                 the promise
               </h2>
-              <div className="space-y-6 text-body-apple text-secondary-label leading-[1.75]">
+              <div className="space-y-6 text-lg leading-[1.75]" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <ProgressiveReveal>
                   <p>
                     you&apos;ll spend less time fixing broken tracking,<br />
@@ -288,10 +337,10 @@ const About = () => {
                 <ProgressiveReveal>
                   <p>
                     because distribution shouldn&apos;t feel like a chore.<br />
-                    <span className="text-label font-semibold">it should feel like a design choice.</span>
+                    <span style={{ color: 'rgba(255,255,255,0.9)' }} className="font-semibold">it should feel like a design choice.</span>
                   </p>
                 </ProgressiveReveal>
-                <p className="text-headline text-label font-bold pt-6">
+                <p className="text-xl font-bold pt-6" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   utm.one is that choice.
                 </p>
               </div>
