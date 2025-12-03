@@ -29,6 +29,43 @@ interface DynamicSecondFoldProps {
   selectedUseCase: UseCaseType;
 }
 
+// Glass Card Component for consistent styling
+const GlassCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div 
+    className={`rounded-2xl overflow-hidden ${className}`}
+    style={{
+      background: 'rgba(24,24,27,0.4)',
+      backdropFilter: 'blur(40px)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      borderTop: '1px solid rgba(255,255,255,0.15)',
+      boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.1), 0 25px 50px -12px rgba(0,0,0,0.5)'
+    }}
+  >
+    {children}
+  </div>
+);
+
+const BrowserHeader = ({ url }: { url: string }) => (
+  <div 
+    className="flex items-center gap-2 px-4 py-3"
+    style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+  >
+    <div className="flex gap-1.5">
+      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,100,100,0.6)' }} />
+      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,200,100,0.6)' }} />
+      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(100,200,100,0.6)' }} />
+    </div>
+    <div className="flex-1 mx-4">
+      <div 
+        className="rounded-md px-3 py-1.5 text-xs font-mono"
+        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
+      >
+        {url}
+      </div>
+    </div>
+  </div>
+);
+
 // Attribution Content with Product Mockup
 const AttributionContent = () => (
   <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -40,20 +77,8 @@ const AttributionContent = () => (
       className="relative"
     >
       {/* Browser Mockup */}
-      <div className="bg-card rounded-2xl border border-border shadow-2xl shadow-primary/5 overflow-hidden">
-        {/* Browser Header */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-muted/50 border-b border-border">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-destructive/60" />
-            <div className="w-3 h-3 rounded-full bg-amber-400/60" />
-            <div className="w-3 h-3 rounded-full bg-green-400/60" />
-          </div>
-          <div className="flex-1 mx-4">
-            <div className="bg-background rounded-md px-3 py-1.5 text-xs text-muted-foreground font-mono">
-              utm.one/dashboard/attribution
-            </div>
-          </div>
-        </div>
+      <GlassCard>
+        <BrowserHeader url="utm.one/dashboard/attribution" />
         
         {/* Dashboard Content */}
         <div className="p-6 space-y-4">
@@ -95,7 +120,7 @@ const AttributionContent = () => (
             </div>
           </div>
         </div>
-      </div>
+      </GlassCard>
       
       {/* Floating Stats */}
       <motion.div
@@ -708,7 +733,7 @@ const CONTENT_MAP: Record<UseCaseType, React.ReactNode> = {
 
 export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) => {
   return (
-    <ParallaxSection speed={0.3} className="py-16 md:py-24 bg-muted/20">
+    <ParallaxSection speed={0.3} className="py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <AnimatePresence mode="wait">
           <motion.div
