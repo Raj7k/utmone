@@ -45,7 +45,7 @@ const Sales = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
       {/* Obsidian Noise Texture */}
       <div 
         className="fixed inset-0 pointer-events-none z-[1]"
