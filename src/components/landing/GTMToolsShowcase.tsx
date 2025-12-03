@@ -236,7 +236,64 @@ export const GTMToolsShowcase = () => {
           </p>
         </div>
         
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+        {/* Mobile: Vertical Layout */}
+        <div className="md:hidden space-y-4">
+          {/* Tool Selector Pills - Horizontal Scroll */}
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+            {TOOLS.map((tool) => {
+              const Icon = tool.icon;
+              const isActive = activeTool === tool.id;
+              
+              return (
+                <button
+                  key={tool.id}
+                  onClick={() => setActiveTool(tool.id)}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-full whitespace-nowrap shrink-0 transition-all
+                    ${isActive 
+                      ? "bg-primary text-primary-foreground" 
+                      : "bg-card border border-border text-foreground"
+                    }
+                  `}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? "" : "text-primary"}`} />
+                  <span className="text-sm font-medium lowercase">{tool.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          
+          {/* Active Tool Preview - Full Width Card */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTool}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-card rounded-xl border border-border overflow-hidden"
+            >
+              <div className="p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    {(() => {
+                      const Icon = active.icon;
+                      return <Icon className="w-5 h-5 text-primary" />;
+                    })()}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-foreground lowercase">{active.label}</h4>
+                    <p className="text-xs text-muted-foreground">{active.preview.title}</p>
+                  </div>
+                </div>
+                {active.preview.content}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        
+        {/* Desktop: Two Column Layout */}
+        <div className="hidden md:grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
           {/* Left: Interactive Product Mockup - Compact */}
           <div className="relative h-[320px]">
             <AnimatePresence mode="wait">

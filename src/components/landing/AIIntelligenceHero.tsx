@@ -67,8 +67,8 @@ export const AIIntelligenceHero = () => {
           </p>
         </motion.div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        {/* Feature Cards Grid - 2x2 on mobile, 1x4 on desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-12">
           {AI_FEATURES.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -81,21 +81,21 @@ export const AIIntelligenceHero = () => {
               >
                 <Link
                   to={feature.href}
-                  className="group block h-full p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-border/50 hover:bg-white hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                  className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl bg-white/80 backdrop-blur-sm border border-border/50 hover:bg-white hover:border-primary/30 hover:shadow-lg transition-all duration-300"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <Icon className="w-6 h-6 text-primary" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-primary/10 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-primary/20 transition-colors">
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-foreground mb-2 lowercase group-hover:text-primary transition-colors">
+                  <h3 className="text-sm md:text-lg font-semibold text-foreground mb-1 md:mb-2 lowercase group-hover:text-primary transition-colors">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-xs md:text-sm text-muted-foreground mb-2 md:mb-4 line-clamp-2 md:line-clamp-none">
                     {feature.description}
                   </p>
                   
-                  <span className="inline-flex items-center gap-1 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="hidden md:inline-flex items-center gap-1 text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                     learn more
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
