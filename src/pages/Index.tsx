@@ -17,6 +17,7 @@ import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
 import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
+import { ControlDeckHero } from "@/components/landing/ControlDeckHero";
 import { EnterpriseGradeSection } from "@/components/landing/EnterpriseGradeSection";
 import { GrowthLoopSection } from "@/components/landing/GrowthLoopSection";
 import { SectionDivider } from "@/components/landing/SectionDivider";
@@ -66,14 +67,11 @@ const Index = () => {
       />
       <LLMSchemaGenerator type="organization" data={{}} />
 
-      {/* A/B Test: Interactive vs Static Hero */}
+      {/* Control Deck Hero - Jony Ive Style */}
       {landingVariant === 'interactive' ? (
         <>
-          {/* Stripe-Style Side Navigation Hero */}
-          <SideNavHero onUseCaseChange={setSelectedUseCase} />
-          
-          {/* Dynamic Second Fold - Changes Based on Selection */}
-          <DynamicSecondFold selectedUseCase={selectedUseCase} />
+          {/* The Obsidian Control Deck */}
+          <ControlDeckHero onUseCaseChange={(uc) => setSelectedUseCase(uc as UseCaseType)} />
         </>
       ) : (
         <>
