@@ -146,6 +146,11 @@ const Index = () => {
 
       <SectionDivider variant="dots" />
 
+      {/* Strategic Decision Tools - Moved up for better flow */}
+      <StrategicToolsShowcase />
+
+      <SectionDivider variant="gradient" />
+
       {/* Accessibility Showcase with Visual Demo */}
       <ParallaxSection speed={0.3}>
         <AccessibilityShowcase />
@@ -232,9 +237,6 @@ const Index = () => {
 
       {/* Growth Loop Section */}
       <GrowthLoopSection />
-
-      {/* Strategic Decision Tools */}
-      <StrategicToolsShowcase />
 
       {/* FAQ Section - Scroll-based reveal */}
       <FooterFAQ />

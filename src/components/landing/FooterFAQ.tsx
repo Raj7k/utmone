@@ -211,9 +211,8 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
     offset: ["start end", "center center"]
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.15, 0.6, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
-  const blur = useTransform(scrollYProgress, [0, 0.5, 1], [4, 1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.7, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
 
   return (
     <div ref={ref} className="flex gap-6">
@@ -238,11 +237,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
       </div>
       <motion.div 
         className="pb-8 flex-1"
-        style={{ 
-          opacity, 
-          y,
-          filter: `blur(${blur.get()}px)`
-        }}
+        style={{ opacity, y }}
       >
         <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase text-foreground">
           {formatText(faq.question)}
