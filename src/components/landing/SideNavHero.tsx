@@ -341,33 +341,28 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                   </p>
                 </div>
 
-                {/* Feature Cards - Show for all use cases */}
+                {/* Features Checklist - Minimal format */}
                 {content.features && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {content.features.map((feature, i) => {
-                      const activeUseCaseData = USE_CASES.find(uc => uc.id === activeUseCase);
-                      const FeatureIcon = activeUseCaseData?.icon || Sparkles;
-                      
-                      return (
-                        <motion.div
-                          key={feature.name}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.3, delay: 0.1 + i * 0.1 }}
-                          className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                              <FeatureIcon className="w-4 h-4 text-primary" />
-                            </div>
-                            <div>
-                              <h3 className="text-sm font-semibold text-foreground lowercase">{feature.name}</h3>
-                              <p className="text-xs text-muted-foreground mt-1">{feature.description}</p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
+                  <div className="space-y-3 max-w-lg">
+                    {content.features.map((feature, i) => (
+                      <motion.div
+                        key={feature.name}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
+                        className="flex items-start gap-3"
+                      >
+                        <ChevronRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        <div className="flex flex-wrap items-baseline gap-x-2">
+                          <span className="text-sm font-medium text-foreground lowercase">
+                            {feature.name}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            — {feature.description}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                 )}
 
