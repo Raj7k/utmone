@@ -3,8 +3,13 @@ import { motion } from "framer-motion";
 export const RetroGradientMesh = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Base gradient layer */}
-      <div className="absolute inset-0 bg-gradient-to-br from-muted/30 via-background to-background" />
+      {/* Base gradient layer - Obsidian dark */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.02), #050505, #050505)'
+        }}
+      />
       
       {/* Animated gradient orbs */}
       {/* Top-left: Blaze Orange orb */}
@@ -154,11 +159,11 @@ export const RetroGradientMesh = () => {
         />
       </svg>
       
-      {/* Subtle vignette for depth */}
+      {/* Subtle vignette for depth - dark Obsidian fade */}
       <div 
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 0%, hsl(var(--background) / 0.08) 100%)"
+          background: "radial-gradient(ellipse at center, transparent 0%, rgba(5, 5, 5, 0.3) 100%)"
         }}
       />
     </div>

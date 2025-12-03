@@ -109,34 +109,34 @@ const Marketers = () => {
       </section>
 
       {/* Fold 2: "The Moment" Story Card */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <TheMomentStoryCard
             title="the webinar link that ruined your monday"
             timestamp="Monday, 9:47 AM"
             scenario="You launched a $50K LinkedIn campaign for tomorrow's webinar. 2,000 clicks in 3 hours. Then you check GA4. Half the traffic shows 'utm_source: (not set)' because someone copy-pasted the link without UTMs. Your boss wants a report by noon. You have no idea which ads are working."
             visual={
-              <div className="bg-card border-2 border-destructive rounded-xl p-6 font-mono text-sm">
-                <div className="text-destructive font-semibold mb-3">❌ Your GA4 Report:</div>
+              <div className="bg-zinc-900/60 border-2 border-red-500/30 rounded-xl p-6 font-mono text-sm">
+                <div className="text-red-400 font-semibold mb-3">❌ Your GA4 Report:</div>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">(not set)</span>
-                    <span className="text-foreground">1,247 clicks</span>
+                    <span className="text-white/50">(not set)</span>
+                    <span className="text-white">1,247 clicks</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">utm_source=linkedin</span>
-                    <span className="text-foreground">523 clicks</span>
+                    <span className="text-white/50">utm_source=linkedin</span>
+                    <span className="text-white">523 clicks</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">utm_source=LinkedIn</span>
-                    <span className="text-foreground">187 clicks</span>
+                    <span className="text-white/50">utm_source=LinkedIn</span>
+                    <span className="text-white">187 clicks</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">utm-source=linkedin</span>
-                    <span className="text-foreground">43 clicks</span>
+                    <span className="text-white/50">utm-source=linkedin</span>
+                    <span className="text-white">43 clicks</span>
                   </div>
                 </div>
-                <div className="mt-4 text-xs text-destructive">
+                <div className="mt-4 text-xs text-red-400">
                   62% of traffic is unattributable. Report is impossible.
                 </div>
               </div>
@@ -146,13 +146,13 @@ const Marketers = () => {
       </section>
 
       {/* Fold 3: Before vs After Comparison */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-white">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-white/60 mt-4 max-w-[640px] mx-auto">
               same campaign. two different realities.
             </p>
           </div>
@@ -162,9 +162,9 @@ const Marketers = () => {
             afterTitle="with utm.one"
             beforeContent={
               <div className="space-y-4">
-                <div className="bg-card rounded-lg p-4 font-mono text-xs">
-                  <div className="text-destructive font-semibold mb-3">GA4 Report (47 variations):</div>
-                  <div className="space-y-1 text-muted-foreground">
+                <div className="bg-zinc-900/60 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-red-400 font-semibold mb-3">GA4 Report (47 variations):</div>
+                  <div className="space-y-1 text-white/50">
                     <div>linkedin → 8,234 clicks</div>
                     <div>LinkedIn → 3,891 clicks</div>
                     <div>LINKEDIN → 1,203 clicks</div>
@@ -172,18 +172,18 @@ const Marketers = () => {
                     <div>lnkdin → 156 clicks</div>
                     <div>(not set) → 12,847 clicks</div>
                   </div>
-                  <div className="mt-3 text-xs text-destructive">62% unattributable</div>
+                  <div className="mt-3 text-xs text-red-400">62% unattributable</div>
                 </div>
               </div>
             }
             afterContent={
               <div className="space-y-4">
-                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
-                  <div className="text-primary font-semibold mb-3">GA4 Report (1 standard):</div>
-                  <div className="space-y-1 text-foreground">
+                <div className="bg-emerald-500/10 rounded-lg p-4 font-mono text-xs">
+                  <div className="text-emerald-400 font-semibold mb-3">GA4 Report (1 standard):</div>
+                  <div className="space-y-1 text-white">
                     <div>linkedin → 26,908 clicks</div>
                   </div>
-                  <div className="mt-3 text-xs text-primary">100% attributable ✓</div>
+                  <div className="mt-3 text-xs text-emerald-400">100% attributable ✓</div>
                 </div>
               </div>
             }
@@ -193,13 +193,13 @@ const Marketers = () => {
       </section>
 
       {/* Fold 4: What You Get */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-white">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/60">
               Clarity → Trust → Performance
             </p>
           </div>
@@ -297,13 +297,13 @@ const Marketers = () => {
       </section>
 
       {/* Fold 6: Growth Loop - Clean Track Quiz */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               how clean is your tracking?
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-white/60">
               Take the 2-minute quiz to find out your Clean-Track Score
             </p>
           </div>
@@ -313,10 +313,10 @@ const Marketers = () => {
       </section>
 
       {/* Fold 7: Feature Cards */}
-      <section className="py-24 md:py-32 bg-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-white">
               built for marketing teams
             </h2>
           </div>
@@ -375,7 +375,7 @@ const Marketers = () => {
       </section>
 
       {/* Fold 8: Role-Specific FAQs */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <RoleSpecificFAQ role="marketers" faqs={faqs} />
         </div>
