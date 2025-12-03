@@ -160,7 +160,7 @@ export const Navigation = () => {
 
                       {/* Products Grid - Right */}
                       <div className="flex-1">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           Products
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -174,7 +174,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Link Orchestration</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               control & reliability
                             </p>
                           </Link>
@@ -189,7 +189,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Journey Intelligence</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               truth & revenue
                             </p>
                           </Link>
@@ -204,7 +204,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">QR Studio</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               physical reliability
                             </p>
                           </Link>
@@ -219,7 +219,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Data Pipeline</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               freedom & scale
                             </p>
                           </Link>
@@ -248,7 +248,7 @@ export const Navigation = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-xs font-semibold mb-0.5 text-foreground">clean-track™</h3>
-                            <p className="text-[10px] text-muted-foreground leading-tight">
+                            <p className="text-[10px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               data you can trust
                             </p>
                           </div>
@@ -264,7 +264,7 @@ export const Navigation = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-xs font-semibold mb-0.5 text-foreground">link immunity</h3>
-                            <p className="text-[10px] text-muted-foreground leading-tight">
+                            <p className="text-[10px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               zero broken links
                             </p>
                           </div>
@@ -280,7 +280,7 @@ export const Navigation = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <h3 className="text-xs font-semibold mb-0.5 text-foreground">smart routing</h3>
-                            <p className="text-[10px] text-muted-foreground leading-tight">
+                            <p className="text-[10px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               geo-targeting magic
                             </p>
                           </div>
@@ -289,7 +289,7 @@ export const Navigation = () => {
 
                       {/* Features Grid - Right */}
                       <div className="flex-1">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           Core Features
                         </div>
                         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -303,7 +303,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Short Links</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               branded, memorable links
                             </p>
                           </Link>
@@ -318,7 +318,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">UTM Builder</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               consistent parameters
                             </p>
                           </Link>
@@ -333,7 +333,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">QR Generator</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               on-brand codes
                             </p>
                           </Link>
@@ -348,13 +348,13 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Analytics</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               clear data, better decisions
                             </p>
                           </Link>
                         </div>
 
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           Intelligence
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -368,7 +368,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Predictive</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               forecast clicks
                             </p>
                           </Link>
@@ -383,7 +383,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Attribution</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               multi-touch truth
                             </p>
                           </Link>
@@ -398,7 +398,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Smart Routing</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               geo-targeting
                             </p>
                           </Link>
@@ -413,7 +413,7 @@ export const Navigation = () => {
                               </div>
                               <div className="text-sm font-medium leading-none">Link Immunity</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               zero broken links
                             </p>
                           </Link>
