@@ -29,7 +29,7 @@ export const FeatureSection = ({
   const backgroundClasses = {
     default: "bg-transparent",
     muted: "bg-white/[0.02]",
-    elevated: "bg-zinc-900/40 backdrop-blur-xl",
+    elevated: "bg-zinc-900/40",
   };
 
   return (
