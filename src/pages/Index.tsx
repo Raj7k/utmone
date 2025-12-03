@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { FooterFAQ } from "@/components/landing/FooterFAQ";
+import { BlurRevealFAQ } from "@/components/landing/BlurRevealFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
 import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
@@ -24,6 +24,7 @@ import { AccessibilityShowcase } from "@/components/landing/AccessibilityShowcas
 import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
 import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
 import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
+import { EnhancedFooter } from "@/components/landing/EnhancedFooter";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -163,44 +164,44 @@ const Index = () => {
       <SectionDivider variant="dots" />
 
       {/* Fold: Developer Experience */}
-      <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-muted/20">
+      <AnimatedSection className="py-16 md:py-24 bg-muted/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="text-center mb-8 md:mb-16 space-y-3 md:space-y-4">
-            <h2 className="hero-gradient text-2xl sm:text-3xl md:text-4xl font-display font-bold lowercase">
+          <div className="text-center mb-8 md:mb-12 space-y-3">
+            <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
               {formatText("built for developers too")}
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground px-2">
+            </h1>
+            <p className="text-base sm:text-lg text-muted-foreground px-2">
               REST + GraphQL APIs with 600 req/min free tier
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                <Code className="w-6 h-6 text-primary" />
+          <div className="grid sm:grid-cols-2 gap-5">
+            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-md hover:border-primary/30 transition-all">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                <Code className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Full API Access</h3>
-              <p className="text-muted-foreground mb-4">
+              <h3 className="text-sm font-semibold text-foreground mb-2 lowercase">Full API Access</h3>
+              <p className="text-xs text-muted-foreground mb-3">
                 Create, update, and track links programmatically. Webhooks for real-time events.
               </p>
               <Link 
                 to="/docs/api" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
               >
                 view api docs
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="bg-card border border-border rounded-2xl p-8 hover:shadow-lg hover:border-primary/30 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                <Database className="w-6 h-6 text-primary" />
+            <div className="bg-card border border-border rounded-xl p-6 hover:shadow-md hover:border-primary/30 transition-all">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                <Database className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-3 lowercase">Data Warehouse Sync</h3>
-              <p className="text-muted-foreground mb-4">
+              <h3 className="text-sm font-semibold text-foreground mb-2 lowercase">Data Warehouse Sync</h3>
+              <p className="text-xs text-muted-foreground mb-3">
                 Push click data to Snowflake, BigQuery, or your data lake automatically.
               </p>
               <Link 
                 to="/docs/integrations" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
               >
                 view integrations
                 <ArrowRight className="h-4 w-4" />
@@ -213,8 +214,11 @@ const Index = () => {
       {/* Growth Loop Section */}
       <GrowthLoopSection />
 
-      {/* FAQ Section */}
-      <FooterFAQ />
+      {/* FAQ Section - New Blur Reveal */}
+      <BlurRevealFAQ />
+      
+      {/* Enhanced Footer - replaces default footer */}
+      <EnhancedFooter />
     </MainLayout>
   );
 };

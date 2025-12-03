@@ -8,8 +8,11 @@ import {
   Link as LinkIcon,
   ArrowRight,
   ChevronRight,
-  Shield
+  Shield,
+  PanelLeftClose,
+  PanelLeft
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "governance";
 
@@ -85,6 +88,7 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string;
 
 export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   const [activeUseCase, setActiveUseCase] = useState<UseCaseType>("attribution");
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleUseCaseChange = (useCase: UseCaseType) => {
     setActiveUseCase(useCase);
@@ -95,93 +99,140 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
 
   return (
     <section className="relative pt-8 md:pt-12 pb-16 md:pb-24 bg-background overflow-hidden">
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Left: Vertical Side Navigation */}
-          <div className="lg:col-span-4 xl:col-span-3">
+          {/* Left: Vertical Side Navigation - Collapsible */}
+          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-1" : "lg:col-span-4 xl:col-span-3"}`}>
             <div className="lg:sticky lg:top-32">
-              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
-                what do you need?
-              </p>
+              {/* Collapse Toggle - Desktop Only */}
+              <div className="hidden lg:flex items-center justify-between mb-4">
+                {!isCollapsed && (
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    what do you need?
+                  </p>
+                )}
+                <button
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                  aria-label={isCollapsed ? "Expand navigation" : "Collapse navigation"}
+                >
+                  {isCollapsed ? (
+                    <PanelLeft className="w-4 h-4" />
+                  ) : (
+                    <PanelLeftClose className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
               
-              <nav className="space-y-2">
-                {USE_CASES.map((useCase) => {
-                  const Icon = useCase.icon;
-                  const isActive = activeUseCase === useCase.id;
-                  
-                  return (
-                    <button
-                      key={useCase.id}
-                      onClick={() => handleUseCaseChange(useCase.id)}
-                      className={`
-                        w-full text-left p-4 rounded-xl transition-all duration-300 group
-                        ${isActive 
-                          ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                          : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
-                        }
-                      `}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`
-                          w-10 h-10 rounded-lg flex items-center justify-center transition-colors
-                          ${isActive 
-                            ? "bg-primary-foreground/20" 
-                            : "bg-primary/10 text-primary group-hover:bg-primary/20"
-                          }
-                        `}>
-                          <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : ""}`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className={`font-semibold lowercase text-sm ${isActive ? "" : "text-foreground"}`}>
-                            {useCase.label}
-                          </div>
-                          <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                            {useCase.sublabel}
-                          </div>
-                        </div>
-                        <ChevronRight className={`
-                          w-4 h-4 transition-transform
-                          ${isActive ? "text-primary-foreground" : "text-muted-foreground opacity-0 group-hover:opacity-100"}
-                        `} />
-                      </div>
-                    </button>
-                  );
-                })}
-              </nav>
-
-              {/* Mobile: Horizontal scroll */}
-              <div className="lg:hidden mt-6 -mx-4 px-4">
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {/* Desktop Navigation */}
+              <TooltipProvider delayDuration={0}>
+                <nav className="hidden lg:block space-y-2">
                   {USE_CASES.map((useCase) => {
                     const Icon = useCase.icon;
                     const isActive = activeUseCase === useCase.id;
+                    
+                    if (isCollapsed) {
+                      return (
+                        <Tooltip key={useCase.id}>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => handleUseCaseChange(useCase.id)}
+                              className={`
+                                w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200
+                                ${isActive 
+                                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                                  : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                                }
+                              `}
+                            >
+                              <Icon className="w-5 h-5" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent side="right" className="font-medium lowercase">
+                            {useCase.label}
+                          </TooltipContent>
+                        </Tooltip>
+                      );
+                    }
                     
                     return (
                       <button
                         key={useCase.id}
                         onClick={() => handleUseCaseChange(useCase.id)}
                         className={`
-                          flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all
+                          w-full text-left p-4 rounded-xl transition-all duration-300 group
                           ${isActive 
-                            ? "bg-primary text-primary-foreground" 
-                            : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                            : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
                           }
                         `}
                       >
-                        <Icon className="w-4 h-4" />
-                        <span className="text-sm font-medium lowercase">{useCase.label}</span>
+                        <div className="flex items-center gap-3">
+                          <div className={`
+                            w-10 h-10 rounded-lg flex items-center justify-center transition-colors
+                            ${isActive 
+                              ? "bg-primary-foreground/20" 
+                              : "bg-primary/10 text-primary group-hover:bg-primary/20"
+                            }
+                          `}>
+                            <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : ""}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className={`font-semibold lowercase text-sm ${isActive ? "" : "text-foreground"}`}>
+                              {useCase.label}
+                            </div>
+                            <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                              {useCase.sublabel}
+                            </div>
+                          </div>
+                          <ChevronRight className={`
+                            w-4 h-4 transition-transform
+                            ${isActive ? "text-primary-foreground" : "text-muted-foreground opacity-0 group-hover:opacity-100"}
+                          `} />
+                        </div>
                       </button>
                     );
                   })}
+                </nav>
+              </TooltipProvider>
+
+              {/* Mobile: Horizontal scroll */}
+              <div className="lg:hidden">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                  what do you need?
+                </p>
+                <div className="-mx-4 px-4">
+                  <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                    {USE_CASES.map((useCase) => {
+                      const Icon = useCase.icon;
+                      const isActive = activeUseCase === useCase.id;
+                      
+                      return (
+                        <button
+                          key={useCase.id}
+                          onClick={() => handleUseCaseChange(useCase.id)}
+                          className={`
+                            flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all
+                            ${isActive 
+                              ? "bg-primary text-primary-foreground" 
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            }
+                          `}
+                        >
+                          <Icon className="w-4 h-4" />
+                          <span className="text-sm font-medium lowercase">{useCase.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right: Dynamic Content */}
-          <div className="lg:col-span-8 xl:col-span-9">
+          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}

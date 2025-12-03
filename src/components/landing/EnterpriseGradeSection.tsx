@@ -9,7 +9,6 @@ import {
   FileText,
   Database,
   Lock,
-  Clock,
   ArrowRight,
   CheckCircle2
 } from "lucide-react";
@@ -67,10 +66,10 @@ const COMPLIANCE_BADGES = [
 
 export const EnterpriseGradeSection = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24 lg:py-32 bg-background border-y border-border">
+    <AnimatedSection className="py-16 md:py-24 bg-background border-y border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16 space-y-4">
+        <div className="text-center mb-10 md:mb-14 space-y-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -83,18 +82,18 @@ export const EnterpriseGradeSection = () => {
             </span>
           </motion.div>
           
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-foreground lowercase"
+          <motion.h1
+            className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             built for teams that can't afford<br className="hidden md:block" /> broken data
-          </motion.h2>
+          </motion.h1>
           
           <motion.p
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
+            className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -106,23 +105,23 @@ export const EnterpriseGradeSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-10">
           {ENTERPRISE_FEATURES.map((feature, i) => {
             const Icon = feature.icon;
             return (
               <motion.div
                 key={feature.title}
-                className="p-5 md:p-6 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
+                className="p-4 md:p-5 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-md transition-all"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
               >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                  <Icon className="w-5 h-5 text-primary" />
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-2.5">
+                  <Icon className="w-4 h-4 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1 lowercase">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                <h3 className="font-semibold text-foreground mb-1 lowercase text-sm">{feature.title}</h3>
+                <p className="text-xs text-muted-foreground">{feature.description}</p>
               </motion.div>
             );
           })}
@@ -130,7 +129,7 @@ export const EnterpriseGradeSection = () => {
 
         {/* Compliance Badges */}
         <motion.div
-          className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-12"
+          className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -139,17 +138,17 @@ export const EnterpriseGradeSection = () => {
           {COMPLIANCE_BADGES.map((badge) => (
             <div 
               key={badge}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/50 border border-border"
             >
-              <CheckCircle2 className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-foreground">{badge}</span>
+              <CheckCircle2 className="w-3 h-3 text-primary" />
+              <span className="text-xs font-medium text-foreground">{badge}</span>
             </div>
           ))}
         </motion.div>
 
         {/* Stats Row */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 p-6 md:p-8 rounded-2xl bg-muted/30 border border-border mb-12"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 p-5 md:p-6 rounded-xl bg-muted/30 border border-border mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -162,8 +161,8 @@ export const EnterpriseGradeSection = () => {
             { stat: "24/7", label: "priority support" }
           ].map((item) => (
             <div key={item.label} className="text-center">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-primary">{item.stat}</div>
-              <div className="text-sm text-muted-foreground mt-1 lowercase">{item.label}</div>
+              <div className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-primary">{item.stat}</div>
+              <div className="text-xs text-muted-foreground mt-0.5 lowercase">{item.label}</div>
             </div>
           ))}
         </motion.div>
@@ -178,12 +177,12 @@ export const EnterpriseGradeSection = () => {
         >
           <Link 
             to="/solutions/enterprise"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors lowercase"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors lowercase text-sm"
           >
             explore enterprise features
             <ArrowRight className="w-4 h-4" />
           </Link>
-          <p className="text-sm text-muted-foreground mt-3">
+          <p className="text-xs text-muted-foreground mt-2">
             or <Link to="/trust" className="text-primary hover:underline">view our security portal</Link>
           </p>
         </motion.div>
