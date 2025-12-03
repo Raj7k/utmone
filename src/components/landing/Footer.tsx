@@ -524,15 +524,15 @@ export const Footer = () => {
         </motion.div>
       </div>
 
-      {/* Chronicle-Style Brand Mark - Full Viewport Fold */}
+      {/* Chronicle-Style Brand Mark - Full Width, Large */}
       <div 
-        className="min-h-screen flex items-center justify-center"
+        className="py-16 md:py-24 flex items-center justify-center overflow-hidden"
         style={{ 
           background: '#050505',
           borderTop: '1px solid rgba(255,255,255,0.05)'
         }}
       >
-        <div className="w-full px-4 sm:px-8">
+        <div className="w-full">
           <ChronicleRevealText text="utm.one" />
         </div>
       </div>
