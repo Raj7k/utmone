@@ -1,10 +1,8 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const Glossary = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -502,15 +500,12 @@ const Glossary = () => {
   }, [terms]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
-
-      <section className="py-20 bg-background border-b border-separator">
+    <MainLayout showAnnouncement={false}>
+      <section className="py-20 border-b border-white/10">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             back to resources
@@ -518,27 +513,27 @@ const Glossary = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
                   Glossary
                 </h1>
-                <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
+                <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/20 text-primary">
                   {terms.length} terms
                 </span>
               </div>
-              <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
+              <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
                 canonical definitions for utm, taxonomy, attribution, and campaign structure.
               </p>
             </div>
 
             {/* Search Bar */}
             <div className="relative max-w-xl">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-secondary-label" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
               <Input
                 type="text"
                 placeholder="search terms..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-12 rounded-xl bg-card border-separator"
+                className="pl-12 h-12 rounded-xl bg-zinc-900/40 border-white/10 text-white placeholder:text-white/40"
               />
             </div>
 
@@ -549,7 +544,7 @@ const Glossary = () => {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
                     ? "bg-primary text-primary-foreground"
-                    : "bg-card text-secondary-label hover:bg-fill-tertiary"
+                    : "bg-white/10 text-white/60 hover:bg-white/20"
                 }`}
               >
                 all terms
@@ -563,7 +558,7 @@ const Glossary = () => {
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                       selectedCategory === category
                         ? "text-white"
-                        : "bg-card hover:bg-fill-tertiary"
+                        : "bg-white/10 hover:bg-white/20"
                     }`}
                     style={
                       selectedCategory === category
@@ -580,11 +575,11 @@ const Glossary = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className="py-20">
         <div className="max-w-[980px] mx-auto px-8">
           {filteredTerms.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-lg text-secondary-label">
+              <p className="text-lg text-white/60">
                 no terms found matching "{searchQuery}"
               </p>
             </div>
@@ -596,12 +591,12 @@ const Glossary = () => {
                   <Link
                     key={item.slug}
                     to={`/resources/glossary/${item.slug}`}
-                    className="group bg-card rounded-2xl p-6 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                    className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
                     style={{ borderLeftWidth: "4px", borderLeftColor: color }}
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-4">
-                        <h2 className="text-xl font-display font-semibold text-label group-hover:text-primary transition-colors">
+                        <h2 className="text-xl font-display font-semibold text-white group-hover:text-primary transition-colors">
                           {item.term}
                         </h2>
                         <span
@@ -614,7 +609,7 @@ const Glossary = () => {
                           {item.category}
                         </span>
                       </div>
-                      <p className="text-sm text-secondary-label leading-relaxed line-clamp-3">
+                      <p className="text-sm text-white/60 leading-relaxed line-clamp-3">
                         {item.definition}
                       </p>
                     </div>
@@ -625,9 +620,7 @@ const Glossary = () => {
           )}
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

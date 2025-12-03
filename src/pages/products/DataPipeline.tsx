@@ -1,7 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { ProductHeroSimplified } from "@/components/product/ProductHeroSimplified";
 import { ProductPainStory } from "@/components/product/ProductPainStory";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
@@ -34,9 +32,7 @@ export default function DataPipeline() {
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
-      <div className="min-h-screen flex flex-col bg-background">
-        <Navigation />
-        
+      <MainLayout showAnnouncement={false}>
         {/* Hero */}
         <ProductHeroSimplified
           headline="your data. your warehouse. your rules."
@@ -341,9 +337,7 @@ export default function DataPipeline() {
           </div>
         </section>
 
-        <FloatingNavigation />
-        <Footer />
-      </div>
+      </MainLayout>
     </>
   );
 }

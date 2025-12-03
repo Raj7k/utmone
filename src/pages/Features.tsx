@@ -91,7 +91,7 @@ const Features = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-body-emphasized text-secondary-label"
+              className="text-lg md:text-xl text-white/60"
             >
               Seven products that change how your team shares the internet.
             </motion.p>
@@ -111,17 +111,17 @@ const Features = () => {
                   >
                     <Link
                       to={feature.path}
-                      className="group block h-full p-6 rounded-2xl bg-secondary-grouped-background border border-separator hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                      className="group block h-full p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
                     >
-                      <div className="mb-4 inline-flex p-3 rounded-xl bg-system-blue/10 text-system-blue group-hover:bg-system-blue group-hover:text-white transition-colors">
+                      <div className="mb-4 inline-flex p-3 rounded-xl bg-white/10 text-white group-hover:bg-white/20 transition-colors">
                         <Icon className="w-6 h-6" />
                       </div>
                       
-                      <h2 className="text-title-3 font-display font-semibold mb-3 text-label">
+                      <h2 className="text-xl font-display font-semibold mb-3 text-white">
                         {feature.title}
                       </h2>
                       
-                      <p className="text-subheadline text-secondary-label leading-relaxed">
+                      <p className="text-sm text-white/60 leading-relaxed">
                         {feature.description}
                       </p>
                     </Link>
