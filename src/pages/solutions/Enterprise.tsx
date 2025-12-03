@@ -108,7 +108,7 @@ const Enterprise = () => {
       </section>
 
       {/* Three Pillars */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -202,7 +202,7 @@ const Enterprise = () => {
       </section>
 
       {/* Clean Track Quiz */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <CleanTrackScoreQuiz />
         </div>
@@ -245,7 +245,7 @@ const Enterprise = () => {
       </section>
 
       {/* Just-in-Time Provisioning */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -293,7 +293,7 @@ const Enterprise = () => {
       </section>
 
       {/* ROI Calculator */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <ROICalculator />
         </div>
