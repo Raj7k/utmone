@@ -1,32 +1,31 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Download, TrendingUp, ArrowRight } from "lucide-react";
-import { Footer } from "@/components/landing/Footer";
 import { motion } from "framer-motion";
 import { getResourcesByCategory } from "@/lib/resourceRegistry";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const Reports = () => {
   const reports = getResourcesByCategory('reports');
 
   return (
-    <div className="min-h-screen bg-white">
+    <MainLayout showAnnouncement={false}>
       {/* Breadcrumb */}
-      <div className="border-b border-separator">
+      <div className="border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-secondary-label">
-            <Link to="/resources" className="hover:text-label transition-apple">
+          <div className="flex items-center gap-2 text-sm text-white/60">
+            <Link to="/resources" className="hover:text-white transition-colors">
               resources
             </Link>
             <span>/</span>
-            <span className="text-label">Reports</span>
+            <span className="text-white">Reports</span>
           </div>
         </div>
       </div>
 
       {/* Hero Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20">
         <div className="max-w-[900px] mx-auto px-8">
           <motion.div
             className="text-center space-y-6"
@@ -37,10 +36,10 @@ const Reports = () => {
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-label">
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white">
               Reports
             </h1>
-            <p className="text-xl text-secondary-label max-w-[640px] mx-auto">
+            <p className="text-xl text-white/60 max-w-[640px] mx-auto">
               Data-driven research reports on salaries, market trends, and industry benchmarks
             </p>
           </motion.div>
@@ -48,7 +47,7 @@ const Reports = () => {
       </section>
 
       {/* Reports Grid */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="grid gap-8">
             {reports.map((report, index) => (
@@ -59,10 +58,10 @@ const Reports = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Link to={`/resources/reports/${report.slug}`}>
-                  <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
-                    <CardHeader>
+                  <div className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] p-8">
+                    <div className="mb-6">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                        <div className="p-3 rounded-xl bg-white/10 text-primary">
                           <TrendingUp className="h-8 w-8" />
                         </div>
                         {report.badge && (
@@ -71,46 +70,46 @@ const Reports = () => {
                           </Badge>
                         )}
                       </div>
-                      <CardTitle className="text-2xl font-display font-bold group-hover:text-primary transition-colors">
+                      <h2 className="text-2xl font-display font-bold text-white group-hover:text-primary transition-colors">
                         {report.title}
-                      </CardTitle>
-                      <CardDescription className="text-base mt-2">
+                      </h2>
+                      <p className="text-base mt-2 text-white/60">
                         Comprehensive salary data across 30+ roles, 15+ countries, 100+ cities, and 8 industries
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
+                      </p>
+                    </div>
+                    <div>
                       <div className="flex flex-col sm:flex-row gap-4">
-                        <Button className="flex-1 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        <Button className="flex-1">
                           Explore Report
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
-                        <Button variant="outline" className="flex-1">
+                        <Button variant="outline" className="flex-1 border-white/20 text-white hover:bg-white/10">
                           <Download className="mr-2 h-4 w-4" />
                           Download PDF
                         </Button>
                       </div>
-                      <div className="mt-6 pt-6 border-t border-border/50">
+                      <div className="mt-6 pt-6 border-t border-white/10">
                         <div className="grid grid-cols-4 gap-4 text-center">
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">30+</div>
-                            <div className="text-sm text-secondary-label">Roles</div>
+                            <div className="text-2xl font-display font-bold text-white">30+</div>
+                            <div className="text-sm text-white/60">Roles</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">15+</div>
-                            <div className="text-sm text-secondary-label">Countries</div>
+                            <div className="text-2xl font-display font-bold text-white">15+</div>
+                            <div className="text-sm text-white/60">Countries</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">100+</div>
-                            <div className="text-sm text-secondary-label">Cities</div>
+                            <div className="text-2xl font-display font-bold text-white">100+</div>
+                            <div className="text-sm text-white/60">Cities</div>
                           </div>
                           <div>
-                            <div className="text-2xl font-display font-bold text-foreground">50K+</div>
-                            <div className="text-sm text-secondary-label">Job Postings</div>
+                            <div className="text-2xl font-display font-bold text-white">50K+</div>
+                            <div className="text-sm text-white/60">Job Postings</div>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -119,12 +118,12 @@ const Reports = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-muted/20">
+      <section className="py-20 bg-white/[0.02]">
         <div className="max-w-[640px] mx-auto px-8 text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
             Want More Insights?
           </h2>
-          <p className="text-lg text-secondary-label">
+          <p className="text-lg text-white/60">
             Explore our interactive salary tools for personalized analysis and negotiation support
           </p>
           <Link to="/resources/tools">
@@ -135,9 +134,7 @@ const Reports = () => {
           </Link>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

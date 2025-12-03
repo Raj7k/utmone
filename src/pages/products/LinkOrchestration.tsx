@@ -1,7 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { ProductHeroSimplified } from "@/components/product/ProductHeroSimplified";
 import { ProductPainStory } from "@/components/product/ProductPainStory";
 import { ContentComparison } from "@/components/solutions/ContentComparison";
@@ -34,9 +32,7 @@ export default function LinkOrchestration() {
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
-      <div className="min-h-screen flex flex-col bg-background">
-        <Navigation />
-        
+      <MainLayout showAnnouncement={false}>
         {/* Hero */}
         <ProductHeroSimplified
           headline="links that never break. ever."
@@ -346,9 +342,7 @@ export default function LinkOrchestration() {
           </div>
         </section>
 
-        <FloatingNavigation />
-        <Footer />
-      </div>
+      </MainLayout>
     </>
   );
 }

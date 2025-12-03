@@ -1,9 +1,7 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const Templates = () => {
   const templates = [
@@ -34,60 +32,58 @@ const Templates = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
       <SEO 
         title="Templates - UTM and Campaign Templates"
         description="Copy/paste templates for UTM setup, naming conventions, campaign briefs, and tracking audits. Free downloadable templates for marketing teams."
         canonical="https://utm.one/resources/templates"
         keywords={['UTM templates', 'campaign templates', 'marketing templates', 'naming convention templates', 'tracking templates']}
       />
-      <Navigation />
-      <FloatingNavigation />
 
-      <section className="py-20 bg-background border-b border-separator">
+      <section className="py-20 border-b border-white/10">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
             to="/resources"
-            className="inline-flex items-center gap-2 text-sm text-secondary-label hover:text-label transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-label">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
               Templates
             </h1>
-            <p className="text-lg md:text-xl text-secondary-label max-w-[720px]">
+            <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
               Copy/paste templates for UTM setup, naming conventions, and reporting.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-background">
+      <section className="py-20">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="space-y-6">
             {templates.map((template) => (
               <Link
                 key={template.slug}
                 to={`/resources/templates/${template.slug}`}
-                className="block group bg-card rounded-2xl p-8 border border-separator hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
                 <div className="flex items-start justify-between gap-6">
                   <div className="flex-1 space-y-3">
-                    <h2 className="text-2xl font-display font-semibold text-label group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
                       {template.title}
                     </h2>
-                    <p className="text-base text-secondary-label leading-relaxed">
+                    <p className="text-base text-white/60 leading-relaxed">
                       {template.description}
                     </p>
-                    <div className="text-xs text-secondary-label font-medium">
+                    <div className="text-xs text-white/40 font-medium">
                       {template.format}
                     </div>
                   </div>
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <Download className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                      <Download className="w-5 h-5 text-white" />
                     </div>
                   </div>
                 </div>
@@ -96,9 +92,7 @@ const Templates = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

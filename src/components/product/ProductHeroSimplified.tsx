@@ -42,7 +42,7 @@ export const ProductHeroSimplified = ({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto"
+          className="text-xl md:text-2xl text-white/60 max-w-3xl mx-auto"
         >
           {subheadline}
         </motion.p>
@@ -58,7 +58,7 @@ export const ProductHeroSimplified = ({
             <Link to={primaryCTA.to}>{primaryCTA.text}</Link>
           </Button>
           {secondaryCTA && (
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
               <Link to={secondaryCTA.to}>{secondaryCTA.text}</Link>
             </Button>
           )}
