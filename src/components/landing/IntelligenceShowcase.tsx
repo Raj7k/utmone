@@ -17,11 +17,11 @@ export const IntelligenceShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase px-2">
-            built-in intelligence
+          <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase px-2">
+            clean-track intelligence
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground px-2">
-            AI-powered insights without the complexity
+            AI-powered insights built on mathematical models from MIT and Harvard scientists
           </p>
         </div>
         
@@ -36,12 +36,12 @@ export const IntelligenceShowcase = () => {
           >
             {/* Chat Header */}
             <div className="flex items-center gap-2 px-3 py-2.5 bg-muted/50 border-b border-border">
-              <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-blazeOrange flex items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
               </div>
               <div>
-                <div className="font-semibold text-foreground text-xs lowercase">utm.one assistant</div>
-                <div className="text-[10px] text-muted-foreground">clean track intelligence</div>
+                <div className="font-semibold text-foreground text-xs lowercase">clean-track AI</div>
+                <div className="text-[10px] text-muted-foreground">MIT & Harvard algorithms</div>
               </div>
             </div>
             
@@ -50,7 +50,7 @@ export const IntelligenceShowcase = () => {
               {/* User Message */}
               <div className="flex justify-end">
                 <div className="bg-primary text-primary-foreground rounded-xl rounded-tr-sm px-3 py-1.5 max-w-[80%]">
-                  <p className="text-xs">Which campaign performed best?</p>
+                  <p className="text-xs">Which Nike campaign performed best?</p>
                 </div>
               </div>
               
@@ -63,7 +63,7 @@ export const IntelligenceShowcase = () => {
                 transition={{ delay: 0.3 }}
               >
                 <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Sparkles className="w-3 h-3 text-primary" />
+                  <Brain className="w-3 h-3 text-primary" />
                 </div>
                 <div className="bg-muted/50 rounded-xl rounded-tl-sm px-3 py-2 space-y-2">
                   <p className="text-xs text-foreground">
@@ -83,7 +83,7 @@ export const IntelligenceShowcase = () => {
                   </div>
                   <div className="flex items-center gap-1.5 text-[10px] text-primary pt-1">
                     <TrendingUp className="w-3 h-3" />
-                    32% higher than average
+                    Clean-Track confidence: 94%
                   </div>
                 </div>
               </motion.div>
@@ -96,12 +96,11 @@ export const IntelligenceShowcase = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Sparkles className="w-3 h-3 text-primary" />
+                <div className="w-6 h-6 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
+                  <AlertCircle className="w-3 h-3 text-amber-600" />
                 </div>
-                <div className="bg-muted/50 rounded-xl rounded-tl-sm px-3 py-2 space-y-1.5">
+                <div className="bg-amber-500/10 rounded-xl rounded-tl-sm px-3 py-2 space-y-1.5 border border-amber-500/20">
                   <div className="flex items-center gap-1.5 text-amber-600">
-                    <AlertCircle className="w-3 h-3" />
                     <span className="text-[11px] font-medium">1 anomaly detected</span>
                   </div>
                   <p className="text-[11px] text-foreground">
@@ -130,8 +129,8 @@ export const IntelligenceShowcase = () => {
               },
               {
                 icon: Brain,
-                title: "fast insights",
-                description: "Natural language analytics summaries and anomaly detection."
+                title: "predictive insights",
+                description: "Know which campaigns will work before launch — powered by Clean-Track algorithms."
               },
               {
                 icon: FileSearch,
@@ -148,13 +147,14 @@ export const IntelligenceShowcase = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
+                  whileHover={{ y: -2 }}
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                       <Icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-foreground mb-1 lowercase">{feature.title}</h3>
+                      <h2 className="text-sm font-semibold text-foreground mb-1 lowercase">{feature.title}</h2>
                       <p className="text-xs text-muted-foreground">{feature.description}</p>
                     </div>
                   </div>
@@ -167,7 +167,7 @@ export const IntelligenceShowcase = () => {
                 to="/features/predictive-analytics"
                 className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
               >
-                explore clean track intelligence
+                explore clean-track intelligence
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

@@ -10,11 +10,12 @@ import {
   ChevronRight,
   Shield,
   PanelLeftClose,
-  PanelLeft
+  PanelLeft,
+  Sparkles
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-export type UseCaseType = "attribution" | "journey" | "links" | "governance";
+export type UseCaseType = "attribution" | "journey" | "links" | "governance" | "intelligence";
 
 interface SideNavHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -40,6 +41,12 @@ const USE_CASES = [
     sublabel: "clean data, every time",
   },
   {
+    id: "intelligence" as UseCaseType,
+    icon: Sparkles,
+    label: "AI intelligence",
+    sublabel: "clean-track powered insights",
+  },
+  {
     id: "governance" as UseCaseType,
     icon: Shield,
     label: "enterprise control",
@@ -50,7 +57,7 @@ const USE_CASES = [
 const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string; cta: string; stats: { value: string; label: string }[] }> = {
   attribution: {
     headline: "finally know where revenue comes from",
-    subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Bayesian attribution.",
+    subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Clean-Track attribution — built on mathematical models from MIT and Harvard scientists.",
     cta: "get early access",
     stats: [
       { value: "60%", label: "of budget typically misallocated" },
@@ -59,7 +66,7 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string;
   },
   journey: {
     headline: "see every touchpoint, across every device",
-    subheadline: "stop tracking clicks. start engineering journeys. from anonymous visit to enterprise contract — see the complete path.",
+    subheadline: "stop tracking clicks. start engineering journeys. from anonymous visit to enterprise contract — see the complete path with Clean-Track intelligence.",
     cta: "get early access",
     stats: [
       { value: "12", label: "avg touchpoints before conversion" },
@@ -73,6 +80,15 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string;
     stats: [
       { value: "5", label: "layers of link intelligence" },
       { value: "0", label: "hours cleaning data manually" },
+    ]
+  },
+  intelligence: {
+    headline: "AI that makes your data talk",
+    subheadline: "Clean-Track Intelligence — built on mathematical models from MIT and Harvard scientists. ask questions, get insights, no complexity.",
+    cta: "get early access",
+    stats: [
+      { value: "50+", label: "algorithms powering insights" },
+      { value: "0", label: "data science degree needed" },
     ]
   },
   governance: {
