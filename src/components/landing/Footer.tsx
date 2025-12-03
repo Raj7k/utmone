@@ -108,6 +108,8 @@ export const Footer = () => {
                   { label: "UTM Builder", href: "/tools/utm-builder" },
                   { label: "QR Generator", href: "/tools/qr" },
                   { label: "Link Health", href: "/tools/link-health-checker" },
+                  { label: "Decision Matrix", href: "/tools/decision-frameworks?tab=decision-matrix" },
+                  { label: "ROI Forecaster", href: "/tools/decision-frameworks?tab=roi-forecaster" },
                 ].map((tool) => (
                   <Link
                     key={tool.href}
