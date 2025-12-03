@@ -24,7 +24,8 @@ export const GrowthLoopSection = () => {
             how clean is your data?
           </motion.h1>
           <motion.p
-            className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-base md:text-lg max-w-2xl mx-auto"
+            style={{ color: 'rgba(255,255,255,0.5)' }}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

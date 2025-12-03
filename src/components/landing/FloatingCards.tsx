@@ -52,7 +52,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
             }}
           >
             <div className="rounded-xl p-6 transition-shadow" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-4">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <img
                   src={card.preview}
                   alt={card.title}
@@ -60,7 +60,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-display font-semibold text-center lowercase text-foreground">
+              <h3 className="text-lg font-display font-semibold text-center lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {card.title}
               </h3>
             </div>
@@ -81,7 +81,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
             style={{ transitionDelay: `${index * 150}ms` }}
           >
             <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <div className="aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-4">
+              <div className="aspect-[4/3] rounded-lg overflow-hidden mb-4" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <img
                   src={card.preview}
                   alt={card.title}
@@ -89,7 +89,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-display font-semibold text-center lowercase text-foreground">
+              <h3 className="text-lg font-display font-semibold text-center lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {card.title}
               </h3>
             </div>
@@ -99,9 +99,10 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
 
       {/* Caption */}
       <p
-        className={`text-xl md:text-2xl text-center text-muted-foreground lowercase tracking-wide transition-all duration-700 delay-500 ${
+        className={`text-xl md:text-2xl text-center lowercase tracking-wide transition-all duration-700 delay-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
         }`}
+        style={{ color: 'rgba(255,255,255,0.5)' }}
       >
         {caption}
       </p>

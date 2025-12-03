@@ -44,8 +44,8 @@ export const BeforeAfterComparison = ({
             isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
           }`}
         >
-          <div className="relative rounded-xl overflow-hidden border border-destructive/20 shadow-lg">
-            <div className="absolute top-4 left-4 bg-destructive/90 text-destructive-foreground px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10">
+          <div className="relative rounded-xl overflow-hidden shadow-lg" style={{ border: '1px solid rgba(239,68,68,0.2)' }}>
+            <div className="absolute top-4 left-4 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10" style={{ background: 'rgba(239,68,68,0.9)', color: '#fff' }}>
               {beforeLabel}
             </div>
             <img
@@ -54,7 +54,7 @@ export const BeforeAfterComparison = ({
               className="w-full h-auto"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-destructive/5 pointer-events-none" />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(239,68,68,0.05)' }} />
           </div>
         </div>
 
@@ -64,8 +64,8 @@ export const BeforeAfterComparison = ({
             isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
           }`}
         >
-          <div className="relative rounded-xl overflow-hidden border border-primary/30 shadow-lg">
-            <div className="absolute top-4 left-4 bg-primary/90 text-primary-foreground px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10">
+          <div className="relative rounded-xl overflow-hidden shadow-lg" style={{ border: '1px solid rgba(25,18,101,0.3)' }}>
+            <div className="absolute top-4 left-4 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wide z-10" style={{ background: 'rgba(25,18,101,0.9)', color: '#fff' }}>
               {afterLabel}
             </div>
             <img
@@ -74,16 +74,17 @@ export const BeforeAfterComparison = ({
               className="w-full h-auto"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(25,18,101,0.05)' }} />
           </div>
         </div>
       </div>
 
       {/* Caption */}
       <p
-        className={`text-xl md:text-2xl text-center text-muted-foreground lowercase tracking-wide transition-all duration-700 delay-500 ${
+        className={`text-xl md:text-2xl text-center lowercase tracking-wide transition-all duration-700 delay-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
         }`}
+        style={{ color: 'rgba(255,255,255,0.5)' }}
       >
         {caption}
       </p>

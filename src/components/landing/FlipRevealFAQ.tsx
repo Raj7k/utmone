@@ -38,7 +38,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
             <h3 className="text-xl font-display font-semibold mb-3 lowercase text-foreground">
               {formatText(question)}
             </h3>
-            <p className="text-muted-foreground">{answer}</p>
+            <p style={{ color: 'rgba(255,255,255,0.5)' }}>{answer}</p>
             <p className="text-sm text-primary mt-3 lowercase">tap to see example →</p>
           </div>
 

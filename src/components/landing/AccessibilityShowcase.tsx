@@ -52,12 +52,12 @@ export const AccessibilityShowcase = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'rgba(25,18,101,0.2)' }}>
+                    <CheckCircle2 className="w-4 h-4" style={{ color: '#191265' }} />
                   </div>
                   <div className="flex-1">
                     <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>semantic slug</div>
-                    <div className="font-mono text-xs text-primary bg-primary/10 rounded px-2 py-1 border border-primary/20">
+                    <div className="font-mono text-xs rounded px-2 py-1" style={{ color: '#191265', background: 'rgba(25,18,101,0.2)', border: '1px solid rgba(25,18,101,0.3)' }}>
                       utm.one/nike-product-demo
                     </div>
                   </div>
@@ -133,8 +133,8 @@ export const AccessibilityShowcase = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: i * 0.08 }}
                 >
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-4 h-4 text-primary" />
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(25,18,101,0.2)' }}>
+                    <Icon className="w-4 h-4" style={{ color: '#191265' }} />
                   </div>
                   <div>
                     <h3 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
