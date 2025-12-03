@@ -27,7 +27,7 @@ export const WaitlistBadge = ({
 
   const tierStyles = {
     bronze: "bg-amber-900/10 border-amber-900/20",
-    silver: "bg-slate-400/10 border-slate-400/20",
+    silver: "bg-white/10 border-white/20",
     gold: "bg-yellow-500/10 border-yellow-500/20",
   };
 
@@ -36,7 +36,7 @@ export const WaitlistBadge = ({
       className={cn(
         "relative overflow-hidden rounded-2xl border p-6 transition-all duration-300",
         awarded
-          ? "bg-white shadow-sm hover:shadow-md"
+          ? "bg-zinc-900/40 backdrop-blur-xl shadow-sm hover:shadow-md border-white/10"
           : "bg-muted/30 border-border/50 opacity-60",
         tierStyles[tier],
         className
@@ -45,32 +45,32 @@ export const WaitlistBadge = ({
       {/* Badge Icon */}
       <div
         className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl"
-        style={{ backgroundColor: awarded ? `${color}15` : "#00000005" }}
+        style={{ backgroundColor: awarded ? `${color}15` : "rgba(255,255,255,0.05)" }}
       >
         {IconComponent && (
           <IconComponent
             className="h-8 w-8"
-            style={{ color: awarded ? color : "#00000020" }}
+            style={{ color: awarded ? color : "rgba(255,255,255,0.2)" }}
           />
         )}
       </div>
 
       {/* Badge Info */}
-      <h3 className="text-lg font-semibold mb-1">{name}</h3>
-      <p className="text-sm text-secondary-label mb-3">{description}</p>
+      <h3 className="text-lg font-semibold mb-1 text-white">{name}</h3>
+      <p className="text-sm text-white/60 mb-3">{description}</p>
 
       {/* Tier Badge */}
-      <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-background/50 border border-border/50">
+      <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/5 border border-white/10">
         <div
           className="h-1.5 w-1.5 rounded-full"
           style={{ backgroundColor: color }}
         />
-        <span className="text-xs font-medium text-tertiary-label">{tier}</span>
+        <span className="text-xs font-medium text-white/50">{tier}</span>
       </div>
 
       {/* Awarded Date */}
       {awarded && awardedAt && (
-        <p className="mt-3 text-xs text-tertiary-label">
+        <p className="mt-3 text-xs text-white/50">
           earned {new Date(awardedAt).toLocaleDateString()}
         </p>
       )}
@@ -79,7 +79,7 @@ export const WaitlistBadge = ({
       {!awarded && (
         <>
           <div className="absolute inset-0 bg-gradient-to-br from-transparent to-muted/20 pointer-events-none" />
-          <Icons.Lock className="absolute top-4 right-4 h-5 w-5 text-muted-foreground/40" />
+          <Icons.Lock className="absolute top-4 right-4 h-5 w-5 text-white/30" />
         </>
       )}
     </div>

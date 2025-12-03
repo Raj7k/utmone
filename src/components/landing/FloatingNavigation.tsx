@@ -323,9 +323,9 @@ export const FloatingNavigation = () => {
 
                       <Link 
                         to="/solutions/marketing-ops" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-slate-500/20 hover:border-slate-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-500/25 bg-gradient-to-br from-slate-500/15 via-slate-500/5 to-background shadow-sm"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-white/10 bg-gradient-to-br from-white/10 via-white/5 to-background shadow-sm"
                       >
-                        <div className="w-6 h-6 rounded-lg bg-slate-500/20 flex items-center justify-center shrink-0 text-slate-500">
+                        <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white/60">
                           <Settings className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">

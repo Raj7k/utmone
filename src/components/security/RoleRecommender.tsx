@@ -26,9 +26,9 @@ export const RoleRecommender = () => {
 
   const getRoleColor = (role: string) => {
     if (role === 'workspace_admin') return 'bg-primary/10 text-primary';
-    if (role === 'editor') return 'bg-amber-500/10 text-amber-700 dark:text-amber-400';
-    if (role === 'contributor') return 'bg-blue-500/10 text-blue-700 dark:text-blue-400';
-    if (role === 'viewer') return 'bg-slate-500/10 text-slate-700 dark:text-slate-400';
+    if (role === 'editor') return 'bg-amber-500/10 text-amber-400';
+    if (role === 'contributor') return 'bg-blue-500/10 text-blue-400';
+    if (role === 'viewer') return 'bg-white/10 text-white/60';
     return 'bg-muted text-muted-foreground';
   };
 
@@ -106,7 +106,7 @@ export const RoleRecommender = () => {
                 <div className="text-caption-1-apple text-tertiary-label">excess</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-slate-600 dark:text-slate-400">
+                <div className="text-2xl font-bold text-white/60">
                   {recommendation.missing_capabilities}
                 </div>
                 <div className="text-caption-1-apple text-tertiary-label">missing</div>

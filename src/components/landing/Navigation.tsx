@@ -467,9 +467,9 @@ export const Navigation = () => {
                         {/* Data Governance */}
                         <Link 
                           to="/solutions/marketing-ops" 
-                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-slate-500/20 hover:border-slate-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-500/25 bg-gradient-to-br from-slate-500/15 via-slate-500/5 to-background shadow-sm"
+                          className="group rounded-xl p-3 flex items-center gap-3 border-2 border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-white/10 bg-gradient-to-br from-white/10 via-white/5 to-background shadow-sm"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-slate-500/20 flex items-center justify-center shrink-0 text-slate-500">
+                          <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white/60">
                             <Settings className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
