@@ -188,6 +188,11 @@ const NamingTaxonomyTemplate = lazy(() => import("./pages/resources/templates/Na
 // Tools
 const Tools = lazy(() => import("./pages/resources/Tools"));
 const DecisionFrameworks = lazy(() => import("./pages/tools/DecisionFrameworks"));
+const ToolsHub = lazy(() => import("./pages/tools/ToolsHub"));
+const Scanner = lazy(() => import("./pages/tools/Scanner"));
+const Casino = lazy(() => import("./pages/tools/Casino"));
+const Galaxy = lazy(() => import("./pages/tools/Galaxy"));
+const QRTest = lazy(() => import("./pages/tools/QRTest"));
 const SalaryNegotiationCoach = lazy(() => import("./pages/resources/tools/SalaryNegotiationCoach"));
 const MarketValueCalculator = lazy(() => import("./pages/resources/tools/MarketValueCalculator"));
 const CareerPathOptimizer = lazy(() => import("./pages/resources/tools/CareerPathOptimizer"));
@@ -373,6 +378,13 @@ const App = () => (
                <Route path="/tools/shorten" element={<Suspense fallback={<DashboardSkeleton />}><PublicURLShortener /></Suspense>} />
                <Route path="/tools/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><PublicUTMBuilder /></Suspense>} />
                <Route path="/tools/link-health-checker" element={<Suspense fallback={<DashboardSkeleton />}><PublicLinkHealthChecker /></Suspense>} />
+               
+               {/* Viral Tools Hub */}
+               <Route path="/tools" element={<Suspense fallback={<DashboardSkeleton />}><ToolsHub /></Suspense>} />
+               <Route path="/tools/scanner" element={<Suspense fallback={<DashboardSkeleton />}><Scanner /></Suspense>} />
+               <Route path="/tools/casino" element={<Suspense fallback={<DashboardSkeleton />}><Casino /></Suspense>} />
+               <Route path="/tools/galaxy" element={<Suspense fallback={<DashboardSkeleton />}><Galaxy /></Suspense>} />
+               <Route path="/tools/qr-test" element={<Suspense fallback={<DashboardSkeleton />}><QRTest /></Suspense>} />
                
                {/* Trust Cluster */}
                <Route path="/trust" element={<Suspense fallback={<DashboardSkeleton />}><TrustPage /></Suspense>} />
