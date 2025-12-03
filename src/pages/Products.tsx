@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Layers, Activity, Compass, Sparkles } from "lucide-react";
 
-// Jony Ive "Apple" ease curve - cast as tuple for framer-motion
+// Jony Ive "Apple" ease curve
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // Product data
@@ -18,7 +18,6 @@ const products = [
     description: "Links that never break. Smart routing keeps campaigns running when destinations fail.",
     icon: <Layers className="w-8 h-8" />,
     href: "/products/link-orchestration",
-    gradient: "from-[hsl(20,100%,51%)] to-[hsl(36,100%,50%)]"
   },
   {
     id: "journey-intelligence",
@@ -27,7 +26,6 @@ const products = [
     description: "See the full customer path. Understand which touchpoints drive conversions.",
     icon: <Compass className="w-8 h-8" />,
     href: "/products/journey-intelligence",
-    gradient: "from-[hsl(184,89%,35%)] to-[hsl(187,65%,49%)]"
   },
   {
     id: "data-pipeline",
@@ -36,7 +34,6 @@ const products = [
     description: "UTM governance that scales. Enforce naming, validate structure, eliminate chaos.",
     icon: <Activity className="w-8 h-8" />,
     href: "/products/data-pipeline",
-    gradient: "from-[hsl(243,70%,40%)] to-[hsl(243,70%,55%)]"
   },
   {
     id: "qr-studio",
@@ -45,7 +42,6 @@ const products = [
     description: "Beautiful QR codes that match your brand. Track scans with full attribution.",
     icon: <Sparkles className="w-8 h-8" />,
     href: "/products/qr-studio",
-    gradient: "from-[hsl(280,60%,50%)] to-[hsl(320,70%,55%)]"
   }
 ];
 
@@ -76,37 +72,47 @@ export default function Products() {
       </Helmet>
 
       {/* 
-        JONY IVE DESIGN SYSTEM
-        - Unibody: Single continuous surface, no hard dividers
-        - Material Honesty: Glassmorphism with real physics
-        - Black Slab: Deep void background
-        - Squircle: Heavy organic rounding
-        - Breathing Motion: Apple ease curves
+        INDUSTRIAL LUXURY DESIGN SYSTEM
+        - Obsidian Base: Warm black #050505
+        - Electric Amber: #FF4F00 to #FFD600 accents
+        - Heavy Glass: Armored glassmorphism with chamfered edges
+        - Film Grain: 3% noise texture overlay
+        - Volumetric Lighting: Orange "Safety Light" glow
+        - Center Axis: Precision spine down the middle
       */}
-      <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#030303' }}>
+      <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
         
-        {/* Noise Texture Overlay - "Physical" texture for the void */}
+        {/* Noise Texture Overlay - Film Grain for "Physical" texture */}
         <div 
-          className="fixed inset-0 pointer-events-none z-50 opacity-[0.02]"
+          className="fixed inset-0 pointer-events-none z-50"
           style={{
+            opacity: 0.03,
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
             backgroundRepeat: 'repeat'
           }}
         />
 
-        {/* Spotlight - Radial gradient "illumination" */}
+        {/* Center Axis - "Spine of Precision" */}
         <div 
-          className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none"
+          className="fixed top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none z-0"
           style={{
-            background: 'radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 70%)'
+            background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent 100%)'
           }}
         />
 
-        {/* Secondary ambient glow */}
+        {/* Primary Spotlight - Orange "Safety Light" */}
         <div 
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vh] pointer-events-none"
+          className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(25,18,101,0.15) 0%, transparent 60%)'
+            background: 'radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255,80,0,0.08) 0%, transparent 70%)'
+          }}
+        />
+
+        {/* Secondary Volumetric Glow */}
+        <div 
+          className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[80vh] pointer-events-none"
+          style={{
+            background: 'conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgba(255,79,0,0.04) 60deg, transparent 120deg, rgba(255,214,0,0.03) 180deg, transparent 240deg, rgba(255,79,0,0.04) 300deg, transparent 360deg)'
           }}
         />
 
@@ -120,14 +126,16 @@ export default function Products() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1, ease: appleEase }}
             >
-              {/* Gradient headline - Retina Typography */}
+              {/* Electric Typography - Warm Gold/Orange with Filament Glow */}
               <h1 
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium tracking-tight mb-8 brand-lowercase"
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-medium brand-lowercase mb-8"
                 style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.6) 100%)',
+                  background: 'linear-gradient(135deg, #FFD600 0%, #FF4F00 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
+                  backgroundClip: 'text',
+                  letterSpacing: '-0.04em',
+                  textShadow: '0 0 60px rgba(255,79,0,0.4), 0 0 120px rgba(255,79,0,0.2)'
                 }}
               >
                 the complete link<br />intelligence platform
@@ -138,8 +146,11 @@ export default function Products() {
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: appleEase }}
-              className="text-xl md:text-2xl font-light tracking-tight max-w-3xl mx-auto mb-12"
-              style={{ color: '#EDEDED' }}
+              className="text-xl md:text-2xl font-light max-w-3xl mx-auto mb-12"
+              style={{ 
+                color: '#EDEDED',
+                letterSpacing: '-0.02em'
+              }}
             >
               Four products. One platform. Zero broken links. 
               Built for teams who refuse to compromise on data quality.
@@ -153,24 +164,26 @@ export default function Products() {
             >
               <Link 
                 to="/early-access"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105"
                 style={{
-                  background: 'linear-gradient(135deg, hsl(20,100%,51%) 0%, hsl(36,100%,50%) 100%)',
-                  color: '#FFFFFF',
-                  boxShadow: '0 0 40px rgba(255,106,0,0.3)'
+                  background: 'linear-gradient(135deg, #FF4F00 0%, #FFD600 100%)',
+                  color: '#050505',
+                  boxShadow: '0 0 40px rgba(255,79,0,0.5), 0 4px 20px rgba(0,0,0,0.4)'
                 }}
               >
-                <span>start for free</span>
+                <span className="font-semibold">start for free</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link 
                 to="/book-demo"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 border"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105"
                 style={{
-                  background: 'rgba(255,255,255,0.05)',
+                  background: 'rgba(17,17,17,0.8)',
                   backdropFilter: 'blur(20px)',
-                  borderColor: 'rgba(255,255,255,0.1)',
-                  color: '#EDEDED'
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderTop: '1px solid rgba(255,255,255,0.2)',
+                  color: '#EDEDED',
+                  boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
                 }}
               >
                 <span>book a demo</span>
@@ -179,7 +192,7 @@ export default function Products() {
           </div>
         </section>
 
-        {/* Product Bento Grid - "Material" Cards */}
+        {/* Product Bento Grid - "Heavy Glass" Cards */}
         <section className="relative z-10 py-32">
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-6">
@@ -192,38 +205,47 @@ export default function Products() {
                   transition={{ duration: 0.8, delay: index * 0.1, ease: appleEase }}
                 >
                   <Link to={product.href} className="block group">
-                    {/* Glassmorphism Card with Chamfered Edge */}
+                    {/* Armored Glass Card with Chamfered Edge */}
                     <div 
                       className="relative p-8 md:p-10 h-full transition-all duration-500 group-hover:scale-[1.02]"
                       style={{
-                        background: 'rgba(255,255,255,0.03)',
+                        background: 'rgba(17,17,17,0.6)',
                         backdropFilter: 'blur(40px)',
                         WebkitBackdropFilter: 'blur(40px)',
                         borderRadius: '32px',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderTop: '1px solid rgba(255,255,255,0.15)',
-                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05) inset'
+                        border: '1px solid transparent',
+                        borderImage: 'linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0)) 1',
+                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(255,255,255,0.08)'
                       }}
                     >
-                      {/* Icon with gradient background */}
+                      {/* Icon with Electric Orange glow */}
                       <div 
-                        className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br ${product.gradient}`}
-                        style={{ boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}
+                        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
+                        style={{ 
+                          background: 'linear-gradient(135deg, #FF4F00 0%, #FFD600 100%)',
+                          boxShadow: '0 10px 40px -10px rgba(255,79,0,0.5)'
+                        }}
                       >
-                        <div className="text-white">{product.icon}</div>
+                        <div style={{ color: '#050505' }}>{product.icon}</div>
                       </div>
 
                       {/* Content */}
                       <div className="space-y-3">
                         <p 
-                          className="text-sm font-medium uppercase tracking-widest"
-                          style={{ color: 'rgba(255,255,255,0.4)' }}
+                          className="text-sm font-medium uppercase"
+                          style={{ 
+                            color: 'rgba(255,79,0,0.7)',
+                            letterSpacing: '0.15em'
+                          }}
                         >
                           {product.subtitle}
                         </p>
                         <h2 
-                          className="text-2xl md:text-3xl font-display font-medium tracking-tight brand-lowercase"
-                          style={{ color: '#FFFFFF' }}
+                          className="text-2xl md:text-3xl font-display font-medium brand-lowercase"
+                          style={{ 
+                            color: '#FFFFFF',
+                            letterSpacing: '-0.03em'
+                          }}
                         >
                           {product.title}
                         </h2>
@@ -238,22 +260,22 @@ export default function Products() {
                       {/* Learn more link */}
                       <div className="mt-8 flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
                         <span 
-                          className="text-sm font-medium"
-                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                          className="text-sm font-medium transition-colors duration-300"
+                          style={{ color: 'rgba(255,79,0,0.8)' }}
                         >
                           learn more
                         </span>
                         <ArrowRight 
-                          className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
-                          style={{ color: 'rgba(255,255,255,0.5)' }}
+                          className="w-4 h-4 transition-all duration-300 group-hover:translate-x-1" 
+                          style={{ color: 'rgba(255,79,0,0.8)' }}
                         />
                       </div>
 
-                      {/* Hover glow effect */}
+                      {/* Hover glow effect - Electric Orange */}
                       <div 
                         className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                         style={{
-                          background: `radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, transparent 70%)`
+                          background: 'radial-gradient(ellipse at center, rgba(255,79,0,0.08) 0%, transparent 70%)'
                         }}
                       />
                     </div>
@@ -274,19 +296,24 @@ export default function Products() {
               transition={{ duration: 0.8, ease: appleEase }}
             >
               <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium tracking-tight mb-8 brand-lowercase"
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-8 brand-lowercase"
                 style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.6) 100%)',
+                  background: 'linear-gradient(135deg, #FFD600 0%, #FF4F00 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
+                  backgroundClip: 'text',
+                  letterSpacing: '-0.04em',
+                  textShadow: '0 0 40px rgba(255,79,0,0.3)'
                 }}
               >
                 one platform.<br />infinite clarity.
               </h2>
               <p 
                 className="text-xl md:text-2xl font-light max-w-2xl mx-auto"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
+                style={{ 
+                  color: 'rgba(255,255,255,0.6)',
+                  letterSpacing: '-0.02em'
+                }}
               >
                 Every link tells a story. utm.one makes sure you hear every chapter—
                 from first click to final conversion.
@@ -295,7 +322,7 @@ export default function Products() {
           </div>
         </section>
 
-        {/* Feature Strip - Glassmorphism */}
+        {/* Feature Strip - Heavy Glass Stats */}
         <section className="relative z-10 py-32">
           <div className="max-w-6xl mx-auto px-6">
             <motion.div
@@ -315,22 +342,32 @@ export default function Products() {
                   key={index}
                   className="p-6 text-center"
                   style={{
-                    background: 'rgba(255,255,255,0.02)',
+                    background: 'rgba(17,17,17,0.5)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: '24px',
                     border: '1px solid rgba(255,255,255,0.05)',
-                    borderTop: '1px solid rgba(255,255,255,0.1)'
+                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.03)'
                   }}
                 >
                   <div 
-                    className="text-4xl md:text-5xl font-display font-medium tracking-tight mb-2"
-                    style={{ color: '#FFFFFF' }}
+                    className="text-4xl md:text-5xl font-display font-medium mb-2"
+                    style={{ 
+                      background: 'linear-gradient(135deg, #FFD600 0%, #FF4F00 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      letterSpacing: '-0.03em'
+                    }}
                   >
                     {item.stat}
                   </div>
                   <div 
-                    className="text-sm uppercase tracking-widest"
-                    style={{ color: 'rgba(255,255,255,0.4)' }}
+                    className="text-sm uppercase"
+                    style={{ 
+                      color: 'rgba(255,255,255,0.4)',
+                      letterSpacing: '0.15em'
+                    }}
                   >
                     {item.label}
                   </div>
@@ -348,43 +385,56 @@ export default function Products() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: appleEase }}
-              className="p-12 md:p-16"
+              className="p-12 md:p-16 relative overflow-hidden"
               style={{
-                background: 'rgba(255,255,255,0.02)',
+                background: 'rgba(17,17,17,0.7)',
                 backdropFilter: 'blur(40px)',
                 borderRadius: '48px',
                 border: '1px solid rgba(255,255,255,0.08)',
-                borderTop: '1px solid rgba(255,255,255,0.15)'
+                borderTop: '1px solid rgba(255,255,255,0.15)',
+                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05), 0 30px 60px -20px rgba(0,0,0,0.6)'
               }}
             >
-              <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium tracking-tight mb-6 brand-lowercase"
+              {/* Inner glow */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.6) 100%)',
+                  background: 'radial-gradient(ellipse at top center, rgba(255,79,0,0.06) 0%, transparent 60%)'
+                }}
+              />
+              
+              <h2 
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 brand-lowercase relative z-10"
+                style={{
+                  background: 'linear-gradient(135deg, #FFD600 0%, #FF4F00 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
+                  backgroundClip: 'text',
+                  letterSpacing: '-0.04em'
                 }}
               >
                 ready to transform your links?
               </h2>
               <p 
-                className="text-xl mb-10 max-w-xl mx-auto"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
+                className="text-xl mb-10 max-w-xl mx-auto relative z-10"
+                style={{ 
+                  color: 'rgba(255,255,255,0.6)',
+                  letterSpacing: '-0.02em'
+                }}
               >
                 Join teams who've eliminated broken links, unified their data, 
                 and finally understand their customer journey.
               </p>
               <Link 
                 to="/early-access"
-                className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full font-medium transition-all duration-300"
+                className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full font-medium transition-all duration-300 relative z-10 hover:scale-105"
                 style={{
-                  background: 'linear-gradient(135deg, hsl(20,100%,51%) 0%, hsl(36,100%,50%) 100%)',
-                  color: '#FFFFFF',
-                  boxShadow: '0 0 60px rgba(255,106,0,0.4)'
+                  background: 'linear-gradient(135deg, #FF4F00 0%, #FFD600 100%)',
+                  color: '#050505',
+                  boxShadow: '0 0 60px rgba(255,79,0,0.5), 0 4px 30px rgba(0,0,0,0.4)'
                 }}
               >
-                <span>get started free</span>
+                <span className="font-semibold">get started free</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
