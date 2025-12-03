@@ -211,16 +211,11 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
     offset: ["start end", "center center"]
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.7, 1]);
-  const blur = useTransform(scrollYProgress, [0, 0.5, 1], [4, 1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.15, 0.6, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
 
   return (
-    <motion.div 
-      ref={ref}
-      className="flex gap-6"
-      style={{ opacity, y }}
-    >
+    <div ref={ref} className="flex gap-6">
       <div className="flex flex-col items-center flex-shrink-0">
         <motion.div 
           className="w-3 h-3 rounded-full bg-blazeOrange"
@@ -242,9 +237,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
       </div>
       <motion.div 
         className="pb-8 flex-1"
-        style={{ 
-          filter: blur.get() > 0 ? `blur(${blur.get()}px)` : "none"
-        }}
+        style={{ opacity, y }}
       >
         <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase text-foreground">
           {formatText(faq.question)}
@@ -253,7 +246,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
           {faq.answer}
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

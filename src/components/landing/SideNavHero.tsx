@@ -54,7 +54,15 @@ const USE_CASES = [
   },
 ];
 
-const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string; cta: string; stats: { value: string; label: string }[] }> = {
+interface HeroContentItem {
+  headline: string;
+  subheadline: string;
+  cta: string;
+  stats: { value: string; label: string }[];
+  features?: { name: string; description: string }[];
+}
+
+const HERO_CONTENT: Record<UseCaseType, HeroContentItem> = {
   attribution: {
     headline: "finally know where revenue comes from",
     subheadline: "tired of Google taking 100% credit? see which channels actually drive conversions with Clean-Track attribution — built on mathematical models from MIT and Harvard scientists.",
@@ -83,12 +91,18 @@ const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string;
     ]
   },
   intelligence: {
-    headline: "AI that makes your data talk",
-    subheadline: "Clean-Track Intelligence — built on mathematical models from MIT and Harvard scientists. ask questions, get insights, no complexity.",
+    headline: "four AI layers built into every link",
+    subheadline: "Clean-Track Intelligence — mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.",
     cta: "get early access",
     stats: [
-      { value: "50+", label: "algorithms powering insights" },
-      { value: "0", label: "data science degree needed" },
+      { value: "4", label: "intelligence layers" },
+      { value: "0", label: "setup required" },
+    ],
+    features: [
+      { name: "predictive analytics", description: "know which campaigns will work before you launch" },
+      { name: "attribution graph", description: "see the true path from click to conversion" },
+      { name: "smart routing", description: "send visitors to the right destination automatically" },
+      { name: "link immunity", description: "auto-detect and fix broken links before they hurt you" },
     ]
   },
   governance: {
@@ -248,7 +262,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
           </div>
 
           {/* Right: Dynamic Content */}
-          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
+          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"} min-h-[400px] flex flex-col justify-center`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}
@@ -268,25 +282,52 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                   </p>
                 </div>
 
-                {/* Stats */}
-                <div className="flex flex-wrap gap-6">
-                  {content.stats.map((stat, i) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
-                      className="flex items-baseline gap-2"
-                    >
-                      <span className="text-3xl md:text-4xl font-display font-bold text-primary">
-                        {stat.value}
-                      </span>
-                      <span className="text-sm text-muted-foreground max-w-[120px]">
-                        {stat.label}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
+                {/* AI Intelligence Features - Only show for intelligence use case */}
+                {activeUseCase === "intelligence" && content.features && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {content.features.map((feature, i) => (
+                      <motion.div
+                        key={feature.name}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 + i * 0.1 }}
+                        className="p-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:shadow-lg transition-all"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Sparkles className="w-4 h-4 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-semibold text-foreground lowercase">{feature.name}</h3>
+                            <p className="text-xs text-muted-foreground mt-1">{feature.description}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Stats - Show for non-intelligence use cases */}
+                {activeUseCase !== "intelligence" && (
+                  <div className="flex flex-wrap gap-6">
+                    {content.stats.map((stat, i) => (
+                      <motion.div
+                        key={stat.label}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.2 + i * 0.1 }}
+                        className="flex items-baseline gap-2"
+                      >
+                        <span className="text-3xl md:text-4xl font-display font-bold text-primary">
+                          {stat.value}
+                        </span>
+                        <span className="text-sm text-muted-foreground max-w-[120px]">
+                          {stat.label}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
 
                 {/* CTA */}
                 <div className="flex flex-col sm:flex-row gap-4 items-start">

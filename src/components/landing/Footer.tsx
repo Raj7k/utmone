@@ -16,6 +16,9 @@ export const Footer = () => {
 
   return (
     <footer className="relative bg-gradient-to-br from-background via-muted/10 to-background border-t border-border/50 overflow-hidden">
+      {/* Gradient Accent Line */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blazeOrange to-primary" />
+      
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div className="absolute inset-0" style={{ 
@@ -34,7 +37,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/20 to-background border border-border/50 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/20 to-background border border-border/50 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300"
           >
             <div className="space-y-6">
               <UtmOneLogo size="lg" />
@@ -53,7 +57,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 group backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 group backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -90,7 +95,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/5 via-background to-background border border-primary/20 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/5 via-background to-background border border-primary/20 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10"
           >
             <div className="space-y-4">
               <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
@@ -124,7 +130,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-background border border-primary/30 backdrop-blur-xl relative overflow-hidden"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-background border border-primary/30 backdrop-blur-xl relative overflow-hidden shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/15"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl" />
             <div className="relative space-y-4">
@@ -161,7 +168,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-all duration-300 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10"
           >
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -196,7 +204,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-4 p-8 rounded-2xl bg-card border border-border/50 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300"
           >
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -237,7 +246,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="md:col-span-6 p-8 rounded-2xl bg-muted/20 border border-border/50 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-6 p-8 rounded-2xl bg-muted/20 border border-border/50 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300"
           >
             <div className="space-y-4">
               <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground">
@@ -276,7 +286,8 @@ export const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className="md:col-span-6 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/10 to-background border border-border/50 backdrop-blur-xl"
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="md:col-span-6 p-8 rounded-2xl bg-gradient-to-br from-background via-muted/10 to-background border border-border/50 backdrop-blur-xl shadow-lg shadow-primary/5 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300"
           >
             <div className="space-y-4">
               <h3 className="text-sm font-semibold lowercase tracking-wide text-foreground mb-4">
