@@ -119,7 +119,7 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 type="text"
                 value={referralLink}
                 readOnly
-                className="flex-1 bg-white px-3 py-2 rounded border border-border text-sm"
+                className="flex-1 bg-zinc-900/60 px-3 py-2 rounded border border-white/10 text-sm text-white"
               />
               <Button
                 onClick={copyToClipboard}
