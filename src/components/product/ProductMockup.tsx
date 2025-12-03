@@ -36,20 +36,20 @@ export const ProductMockup = ({ type, delay = 0, size = "default" }: ProductMock
 };
 
 const BrowserMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
-  <div className={`bg-white rounded-2xl border border-border shadow-lg overflow-hidden ${size === "large" ? "scale-125" : ""}`}>
+  <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden w-full max-w-sm md:max-w-md ${size === "large" ? "lg:max-w-lg" : ""}`}>
     {/* Browser Chrome */}
-    <div className={`bg-muted/30 border-b border-border flex items-center gap-2 ${size === "large" ? "px-6 py-4" : "px-4 py-3"}`}>
-      <div className="flex gap-2">
-        <div className={`rounded-full bg-red-500 ${size === "large" ? "w-4 h-4" : "w-3 h-3"}`} />
-        <div className={`rounded-full bg-yellow-500 ${size === "large" ? "w-4 h-4" : "w-3 h-3"}`} />
-        <div className={`rounded-full bg-green-500 ${size === "large" ? "w-4 h-4" : "w-3 h-3"}`} />
+    <div className={`bg-muted/30 border-b border-border flex items-center gap-2 ${size === "large" ? "px-4 md:px-6 py-3 md:py-4" : "px-3 md:px-4 py-2.5 md:py-3"}`}>
+    <div className="flex gap-1.5 md:gap-2">
+        <div className={`rounded-full bg-red-500 ${size === "large" ? "w-3 h-3 md:w-4 md:h-4" : "w-2.5 h-2.5 md:w-3 md:h-3"}`} />
+        <div className={`rounded-full bg-yellow-500 ${size === "large" ? "w-3 h-3 md:w-4 md:h-4" : "w-2.5 h-2.5 md:w-3 md:h-3"}`} />
+        <div className={`rounded-full bg-green-500 ${size === "large" ? "w-3 h-3 md:w-4 md:h-4" : "w-2.5 h-2.5 md:w-3 md:h-3"}`} />
       </div>
-      <div className={`flex-1 ml-4 bg-white rounded-md px-4 text-secondary-label font-mono ${size === "large" ? "py-2 text-base" : "py-1.5 text-sm"}`}>
+      <div className={`flex-1 ml-2 md:ml-4 bg-card rounded-md px-2 md:px-4 text-secondary-label font-mono truncate ${size === "large" ? "py-1.5 md:py-2 text-xs md:text-base" : "py-1 md:py-1.5 text-xs md:text-sm"}`}>
         utm.one/webinar
       </div>
     </div>
     {/* Content */}
-    <div className={`space-y-3 ${size === "large" ? "p-12" : "p-8"}`}>
+    <div className={`space-y-2 md:space-y-3 ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-12" : "p-4 md:p-6 lg:p-8"}`}>
       <div className="flex items-center gap-3">
         <div className={`rounded-lg bg-primary/10 flex items-center justify-center ${size === "large" ? "w-14 h-14" : "w-10 h-10"}`}>
           <span className={`text-primary font-bold ${size === "large" ? "text-xl" : "text-base"}`}>✓</span>
@@ -67,7 +67,7 @@ const BrowserMockup = ({ size = "default" }: { size?: "default" | "large" }) => 
 );
 
 const UTMParameterCard = ({ size = "default" }: { size?: "default" | "large" }) => (
-  <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+  <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-2 md:space-y-3 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <div className="flex items-center justify-between">
       <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>UTM Parameters</h3>
       <div className={`text-primary bg-primary/5 px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`}>✓ Valid</div>
@@ -97,7 +97,7 @@ const UTMParameterCard = ({ size = "default" }: { size?: "default" | "large" }) 
 );
 
 const SecurityBadgeCard = ({ size = "default" }: { size?: "default" | "large" }) => (
-  <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+  <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-3 md:space-y-4 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Security Status</h3>
     <div className="grid grid-cols-2 gap-3">
       <div className={`bg-primary/5 rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`}>
@@ -124,7 +124,7 @@ const SecurityBadgeCard = ({ size = "default" }: { size?: "default" | "large" })
 );
 
 const AnalyticsMiniDash = ({ size = "default" }: { size?: "default" | "large" }) => (
-  <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+  <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-3 md:space-y-4 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Analytics</h3>
     <div className="grid grid-cols-3 gap-3">
       <div className="space-y-1">
@@ -155,7 +155,7 @@ const AnalyticsMiniDash = ({ size = "default" }: { size?: "default" | "large" })
 );
 
 const GovernanceCard = ({ size = "default" }: { size?: "default" | "large" }) => (
-  <div className={`bg-white rounded-2xl border border-border shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
+  <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-2 md:space-y-3 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Audit Log</h3>
     <div className="space-y-2">
       <div className={`flex items-center gap-3 pb-2 border-b border-border ${size === "large" ? "text-sm" : "text-xs"}`}>

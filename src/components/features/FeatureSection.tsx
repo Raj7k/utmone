@@ -33,12 +33,12 @@ export const FeatureSection = ({
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
       transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       className={cn(
-        "py-24 md:py-32",
+        "py-12 md:py-24 lg:py-32",
         background === "muted" ? "bg-muted/20" : "bg-background",
         className
       )}
     >
-      <div className={cn("container px-6 mx-auto", maxWidthClasses[maxWidth])}>
+      <div className={cn("container px-4 sm:px-6 md:px-8 mx-auto", maxWidthClasses[maxWidth])}>
         {children}
       </div>
     </motion.section>

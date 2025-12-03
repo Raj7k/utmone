@@ -43,7 +43,7 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
       style={{
         rotateX,
@@ -53,10 +53,10 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-          className="relative group cursor-pointer"
+      className="relative group cursor-pointer"
     >
       {/* Glassmorphism Card */}
-      <div className="relative p-10 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500">
+      <div className="relative p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500">
         {/* Glow Effect */}
         <motion.div
           className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-500"
@@ -64,26 +64,26 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
         />
         
         {/* Step Number Watermark */}
-        <div className="absolute top-4 right-4 text-[120px] font-display font-extrabold text-white/5 leading-none pointer-events-none select-none">
+        <div className="absolute top-2 right-2 md:top-4 md:right-4 text-[60px] sm:text-[80px] md:text-[120px] font-display font-extrabold text-white/5 leading-none pointer-events-none select-none">
           {stepNumber}
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+        <div className="relative z-10 flex flex-col items-center text-center space-y-3 md:space-y-4">
           {/* Icon with animated background */}
           <motion.div
-            className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blazeOrange/20 to-deepSea/20 flex items-center justify-center"
+            className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl md:rounded-2xl bg-gradient-to-br from-blazeOrange/20 to-deepSea/20 flex items-center justify-center"
             animate={{
               scale: isHovered ? 1.1 : 1,
               rotate: isHovered ? 5 : 0,
             }}
             transition={{ duration: 0.3 }}
           >
-            <Icon className="w-10 h-10 text-white" strokeWidth={2} />
+            <Icon className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" strokeWidth={2} />
           </motion.div>
 
           {/* Label */}
-          <h3 className="text-2xl font-display font-semibold text-white">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-display font-semibold text-white">
             {label}
           </h3>
         </div>
@@ -94,7 +94,7 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
 
       {/* Subtle shadow for depth */}
       <motion.div
-        className="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-blazeOrange/20 to-deepSea/20 blur-xl"
+        className="absolute inset-0 -z-10 rounded-2xl md:rounded-3xl bg-gradient-to-br from-blazeOrange/20 to-deepSea/20 blur-xl"
         animate={{
           opacity: isHovered ? 0.6 : 0,
           scale: isHovered ? 1.05 : 1,
