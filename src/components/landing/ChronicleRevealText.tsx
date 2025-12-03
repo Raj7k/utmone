@@ -38,7 +38,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
     >
       <svg
         className="w-full h-auto"
-        viewBox="0 0 6000 1000"
+        viewBox="0 0 4000 600"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -110,11 +110,11 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           filter="url(#shadow3d)"
           style={{
-            fontSize: "900px",
+            fontSize: "500px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "2.5px",
-            letterSpacing: "-0.03em",
+            strokeWidth: "2px",
+            letterSpacing: "-0.02em",
           }}
         >
           {text}
@@ -129,11 +129,11 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           filter="url(#outerGlow)"
           style={{
-            fontSize: "900px",
+            fontSize: "500px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "2.5px",
-            letterSpacing: "-0.03em",
+            strokeWidth: "2px",
+            letterSpacing: "-0.02em",
           }}
         >
           {text}
@@ -149,9 +149,9 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           clipPath="url(#revealClip)"
           filter="url(#glowShadow)"
           style={{
-            fontSize: "900px",
+            fontSize: "500px",
             fill: "url(#heroFillGradient)",
-            letterSpacing: "-0.03em",
+            letterSpacing: "-0.02em",
           }}
         >
           {text}
