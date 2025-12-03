@@ -38,7 +38,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
     >
       <svg
         className="w-full h-auto"
-        viewBox="0 0 800 200"
+        viewBox="0 0 2000 400"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -57,9 +57,9 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           
           {/* 3D Shadow Filter */}
           <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="3" dy="3" stdDeviation="2" floodColor="hsl(var(--blazeOrange))" floodOpacity="0.4"/>
-            <feDropShadow dx="6" dy="6" stdDeviation="4" floodColor="hsl(var(--primary))" floodOpacity="0.25"/>
-            <feDropShadow dx="10" dy="10" stdDeviation="8" floodColor="hsl(var(--deepSea))" floodOpacity="0.15"/>
+            <feDropShadow dx="4" dy="4" stdDeviation="3" floodColor="hsl(var(--blazeOrange))" floodOpacity="0.3"/>
+            <feDropShadow dx="8" dy="8" stdDeviation="6" floodColor="hsl(var(--primary))" floodOpacity="0.2"/>
+            <feDropShadow dx="12" dy="12" stdDeviation="10" floodColor="hsl(var(--deepSea))" floodOpacity="0.1"/>
           </filter>
           
           {/* Clip path that reveals based on mouse position */}
@@ -69,7 +69,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
               y="0"
               height="100%"
               animate={{ width: isHovering ? `${fillPercent}%` : "0%" }}
-              transition={{ duration: 0.05, ease: "linear" }}
+              transition={{ duration: 0.1, ease: "easeOut" }}
             />
           </clipPath>
         </defs>
@@ -83,10 +83,10 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           filter="url(#shadow3d)"
           style={{
-            fontSize: "160px",
+            fontSize: "400px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "2px",
+            strokeWidth: "1.5px",
             letterSpacing: "-0.03em",
           }}
         >
@@ -101,10 +101,10 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           textAnchor="middle"
           className="font-display font-extrabold"
           style={{
-            fontSize: "160px",
+            fontSize: "400px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "3px",
+            strokeWidth: "1.5px",
             letterSpacing: "-0.03em",
           }}
         >
@@ -120,7 +120,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           clipPath="url(#revealClip)"
           style={{
-            fontSize: "160px",
+            fontSize: "400px",
             fill: "url(#retroFillGradient)",
             letterSpacing: "-0.03em",
           }}
