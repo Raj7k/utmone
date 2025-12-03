@@ -192,7 +192,7 @@ export default function EarlyAccess() {
                     setEmail(emailValue);
                     scrollToForm();
                   }}
-                  className="bg-white border border-border/50 shadow-sm rounded-2xl p-4 hover:border-border transition-all duration-300"
+                  className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 shadow-sm rounded-2xl p-4 hover:border-white/20 transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Input
@@ -295,7 +295,7 @@ export default function EarlyAccess() {
       <DoubleSidedReward />
 
       {/* SECTION 6 - WHY BUILD VIRAL WAITLIST */}
-      <section className="bg-white py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -358,7 +358,7 @@ export default function EarlyAccess() {
       </section>
 
       {/* SECTION 8 - VIRAL ENGINE */}
-      <section className="bg-white py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -443,7 +443,7 @@ export default function EarlyAccess() {
 
       {/* SECTION 10 - ENTER WAITLIST FORM OR SUCCESS */}
       {!showFormInHero && (
-        <section id="early-access-form" className="bg-white py-24 md:py-32 px-6">
+        <section id="early-access-form" className="py-24 md:py-32 px-6">
           <div className="max-w-4xl mx-auto">
             {!isSubmitted ? (
               <div className="max-w-2xl mx-auto">
