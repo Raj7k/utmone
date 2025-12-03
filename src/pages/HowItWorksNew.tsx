@@ -41,7 +41,7 @@ const HowItWorks = () => {
       />
       
       {/* Fold 1: Hero */}
-      <section className="relative py-32 md:py-40 bg-white overflow-hidden">
+      <section className="relative py-32 md:py-40 overflow-hidden">
         <div className="container max-w-[980px] mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

@@ -244,7 +244,7 @@ export default function OnboardingWizard() {
   // Show completion animation
   if (completionPhase) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -289,7 +289,7 @@ export default function OnboardingWizard() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">

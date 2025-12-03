@@ -122,16 +122,16 @@ export default function WaitlistStatus() {
         </div>
 
         {/* Queue Position Card */}
-        <div className="bg-white rounded-2xl border border-border p-8 mb-8 shadow-sm">
+        <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-8 mb-8">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-lg font-medium text-tertiary-label mb-2">
+              <h2 className="text-lg font-medium text-white/40 mb-2">
                 queue position
               </h2>
               <p className="text-6xl font-display font-bold text-primary mb-4">
                 #{queuePosition}
               </p>
-              <p className="text-secondary-label">
+              <p className="text-white/60">
                 based on your total access score of <strong>{totalScore}</strong> points
               </p>
             </div>
@@ -141,32 +141,32 @@ export default function WaitlistStatus() {
 
         {/* Score Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          <div className="bg-white rounded-xl border border-border p-6">
-            <h3 className="text-sm font-medium text-tertiary-label mb-2">
+          <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
+            <h3 className="text-sm font-medium text-white/40 mb-2">
               engagement score
             </h3>
-            <p className="text-4xl font-display font-bold text-foreground">
+            <p className="text-4xl font-display font-bold text-white">
               {engagementScore}
             </p>
-            <p className="text-xs text-tertiary-label mt-2">out of 50 points</p>
+            <p className="text-xs text-white/40 mt-2">out of 50 points</p>
           </div>
-          <div className="bg-white rounded-xl border border-border p-6">
-            <h3 className="text-sm font-medium text-tertiary-label mb-2">
+          <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
+            <h3 className="text-sm font-medium text-white/40 mb-2">
               referral score
             </h3>
-            <p className="text-4xl font-display font-bold text-foreground">
+            <p className="text-4xl font-display font-bold text-white">
               {referralScore}
             </p>
-            <p className="text-xs text-tertiary-label mt-2">unlimited points</p>
+            <p className="text-xs text-white/40 mt-2">unlimited points</p>
           </div>
-          <div className="bg-white rounded-xl border border-border p-6">
-            <h3 className="text-sm font-medium text-tertiary-label mb-2">
+          <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10 p-6">
+            <h3 className="text-sm font-medium text-white/40 mb-2">
               fit score
             </h3>
-            <p className="text-4xl font-display font-bold text-foreground">
+            <p className="text-4xl font-display font-bold text-white">
               {fitScore}
             </p>
-            <p className="text-xs text-tertiary-label mt-2">out of 50 points</p>
+            <p className="text-xs text-white/40 mt-2">out of 50 points</p>
           </div>
         </div>
 
@@ -180,10 +180,10 @@ export default function WaitlistStatus() {
           </p>
           
           {/* Referral Progress */}
-          <div className="bg-white rounded-lg border border-border p-4 mb-6">
+          <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 p-4 mb-6">
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-tertiary-label">referrals</span>
-              <span className="font-semibold text-foreground">{userData.referral_count || 0} friends</span>
+              <span className="text-white/40">referrals</span>
+              <span className="font-semibold text-white">{userData.referral_count || 0} friends</span>
             </div>
             <div className="w-full bg-muted/30 rounded-full h-2">
               <div
