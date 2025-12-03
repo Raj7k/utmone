@@ -11,7 +11,7 @@ import {
   Sparkles,
   ChevronRight
 } from "lucide-react";
-import { UseCaseType } from "./SideNavHero";
+import { UseCaseType } from "./ControlDeckHero";
 
 interface MobileHeroProps {
   onUseCaseChange?: (useCase: UseCaseType) => void;
@@ -23,47 +23,51 @@ const USE_CASES = [
     icon: TrendingUp,
     label: "revenue",
     fullLabel: "attribution & revenue",
+    sublabel: "know where money comes from",
   },
   {
     id: "journey" as UseCaseType,
     icon: Route,
     label: "journey",
-    fullLabel: "customer journey",
+    fullLabel: "journey analytics",
+    sublabel: "see every touchpoint",
   },
   {
     id: "links" as UseCaseType,
     icon: LinkIcon,
     label: "links",
     fullLabel: "utm & links",
+    sublabel: "clean data, every time",
   },
   {
     id: "intelligence" as UseCaseType,
     icon: Sparkles,
     label: "AI",
     fullLabel: "AI intelligence",
+    sublabel: "clean-track insights",
   },
 ];
 
-const HERO_CONTENT = {
+const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string }> = {
   attribution: {
     headline: "finally know where revenue comes from",
-    subheadline: "Clean-Track attribution for growth teams who want data they can actually trust.",
+    subheadline: "multi-touch attribution reveals the true path from first click to closed deal.",
   },
   journey: {
-    headline: "see every touchpoint, across every device",
-    subheadline: "From anonymous visit to enterprise contract — see the complete customer path.",
+    headline: "see the complete customer path",
+    subheadline: "from anonymous visit to signed contract — map every touchpoint across every device.",
   },
   links: {
     headline: "clean links. clean data. clear decisions.",
-    subheadline: "Short links, UTM builder, QR codes, and governance in one place.",
+    subheadline: "short links, UTM builder, QR codes, and validation rules that ensure your data never breaks.",
   },
   intelligence: {
     headline: "four AI layers built into every link",
-    subheadline: "Predictive analytics, attribution graphs, smart routing, and link immunity.",
+    subheadline: "predictive analytics, attribution graphs, smart routing, and link immunity.",
   },
   governance: {
-    headline: "your team's links, under control",
-    subheadline: "Role-based access, approval workflows, naming conventions, and audit trails.",
+    headline: "your links, under total control",
+    subheadline: "naming conventions, approval workflows, audit trails. scale without chaos.",
   },
 };
 
@@ -149,7 +153,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
                 key={useCase.id}
                 onClick={() => handleUseCaseChange(useCase.id)}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-4 rounded-xl transition-all duration-200 min-h-[80px]"
+                className="relative p-4 rounded-xl transition-all duration-200 min-h-[90px]"
                 style={isActive ? {
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
                   border: '1px solid rgba(255,255,255,0.2)',
@@ -166,12 +170,20 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
                   >
                     <Icon className="w-5 h-5" style={{ color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)' }} />
                   </div>
-                  <span 
-                    className="text-sm font-semibold lowercase"
-                    style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)' }}
-                  >
-                    {useCase.label}
-                  </span>
+                  <div>
+                    <span 
+                      className="block text-sm font-semibold lowercase"
+                      style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)' }}
+                    >
+                      {useCase.label}
+                    </span>
+                    <span 
+                      className="block text-[10px] mt-0.5 lowercase"
+                      style={{ color: isActive ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.4)' }}
+                    >
+                      {useCase.sublabel}
+                    </span>
+                  </div>
                 </div>
               </motion.button>
             );
@@ -206,7 +218,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
               enterprise control
             </span>
             <p 
-              className="text-xs"
+              className="text-xs lowercase"
               style={{ color: activeUseCase === "governance" ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.4)' }}
             >
               roles, rules & approvals
