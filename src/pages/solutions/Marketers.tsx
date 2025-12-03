@@ -92,7 +92,7 @@ const Marketers = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               stop cleaning UTMs. start running campaigns.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               utm.one gives marketers clean links, zero-error tracking, and data you can actually trust. no manual cleanup. no broken reports.
             </p>
             <div className="pt-4">
@@ -100,7 +100,7 @@ const Marketers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>

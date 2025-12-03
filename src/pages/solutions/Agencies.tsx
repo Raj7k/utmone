@@ -55,7 +55,7 @@ const Agencies = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
               manage every client from<br />one command center
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               multi-client workspaces, white-label QR codes, client-specific analytics, 
               and governance controls. built for agencies scaling fast.
             </p>
@@ -80,23 +80,23 @@ const Agencies = () => {
             scenario="Client asks about Q3 campaign performance. You have data from 4 different tools—Bitly, Google Analytics, HubSpot, and your agency's custom tracker. None of them match. Client A shows 12K clicks in Bitly, but GA4 shows 8.9K sessions. You're on the call scrambling to explain why the numbers don't align. Client asks: 'Are we paying for fake clicks?'"
             visual={
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-card border-2 border-destructive rounded-xl p-6">
+                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.3)' }}>
                   <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Your Reality</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Bitly clicks:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Bitly clicks:</span>
                       <span className="font-semibold">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>GA4 sessions:</span>
                       <span className="font-semibold">8,912</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>HubSpot visits:</span>
                       <span className="font-semibold">10,287</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Your tracker:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Your tracker:</span>
                       <span className="font-semibold">11,503</span>
                     </div>
                   </div>
@@ -105,23 +105,23 @@ const Agencies = () => {
                   </div>
                 </div>
                 
-                <div className="bg-primary/5 border-2 border-primary rounded-xl p-6">
+                <div className="rounded-xl p-6" style={{ background: 'rgba(59,130,246,0.05)', border: '2px solid rgba(59,130,246,0.3)' }}>
                   <div className="text-primary font-semibold mb-3 text-sm uppercase tracking-wide">With utm.one</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">utm.one clicks:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>utm.one clicks:</span>
                       <span className="font-semibold">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>GA4 sessions:</span>
                       <span className="font-semibold">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>HubSpot visits:</span>
                       <span className="font-semibold">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Client report:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Client report:</span>
                       <span className="font-semibold">12,043</span>
                     </div>
                   </div>

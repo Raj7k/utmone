@@ -78,7 +78,7 @@ const Developers = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               type-safe APIs. clean docs. zero surprises.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure. build once, ship fast.
             </p>
             <div className="pt-4">
@@ -86,7 +86,7 @@ const Developers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -102,18 +102,18 @@ const Developers = () => {
             timestamp="Wednesday, 3:17 AM"
             scenario="Your link shortener API returns 500. Production is down. 50,000 campaign links are broken. Your CEO is awake. You're scrambling to find a replacement provider, but every other service requires migration, new DNS setup, and breaking changes to your codebase. By morning, you've lost $200K in campaign spend."
             visual={
-              <div className="bg-card border border-border rounded-xl p-6 font-mono text-sm">
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
-                  <div className="w-3 h-3 rounded-full bg-destructive" />
-                  <div className="w-3 h-3 rounded-full bg-warning" />
-                  <div className="w-3 h-3 rounded-full bg-success" />
-                  <span className="ml-2 text-muted-foreground text-xs">PagerDuty Alert</span>
+              <div className="rounded-xl p-6 font-mono text-sm" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(239,68,68,0.8)' }} />
+                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(234,179,8,0.8)' }} />
+                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(34,197,94,0.8)' }} />
+                  <span className="ml-2 text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>PagerDuty Alert</span>
                 </div>
-                <div className="space-y-2 text-foreground">
+                <div className="space-y-2" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   <div className="text-destructive">❌ API Error 500: Service Unavailable</div>
-                  <div className="text-muted-foreground">Source: shortener-api.thirdparty.com</div>
-                  <div className="text-muted-foreground">Impact: 50,000 production links</div>
-                  <div className="text-muted-foreground">Status: CRITICAL</div>
+                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Source: shortener-api.thirdparty.com</div>
+                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Impact: 50,000 production links</div>
+                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Status: CRITICAL</div>
                   <div className="mt-4 text-destructive">Campaign spend wasted: $200K</div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ const Developers = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               manual errors vs reliable infrastructure.
             </p>
           </div>

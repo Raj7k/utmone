@@ -79,7 +79,7 @@ const MarketingOps = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               governance without friction.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               utm.one enforces the structure your org needs—automatically, quietly, consistently. no more manual audits. no more broken reports.
             </p>
             <div className="pt-4">
@@ -87,7 +87,7 @@ const MarketingOps = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -103,11 +103,11 @@ const MarketingOps = () => {
             timestamp="Thursday, 3:12 PM"
             scenario="Your CMO wants a report on Q4 campaign performance. You pull GA4 data. 47 variations of 'utm_source' appear across 12 teams. 'linkedin', 'LinkedIn', 'LINKEDIN', 'linked-in', 'lnkdin'—all variations of the same source, but GA4 treats them as separate. 38% of traffic is '(not set)' because someone forgot UTM parameters. The report is worthless."
             visual={
-              <div className="bg-card border-2 border-destructive rounded-xl p-6 font-mono text-sm">
+              <div className="rounded-xl p-6 font-mono text-sm" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.3)' }}>
                 <div className="text-destructive font-semibold mb-3">❌ Your GA4 Data Nightmare:</div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-xs text-muted-foreground mb-2">utm_source variations</div>
+                    <div className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>utm_source variations</div>
                     <div className="space-y-1 text-xs">
                       <div>linkedin (8,234 clicks)</div>
                       <div>LinkedIn (3,891 clicks)</div>
@@ -119,7 +119,7 @@ const MarketingOps = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground mb-2">utm_medium variations</div>
+                    <div className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>utm_medium variations</div>
                     <div className="space-y-1 text-xs">
                       <div>cpc (6,123 clicks)</div>
                       <div>CPC (2,456 clicks)</div>
@@ -145,7 +145,7 @@ const MarketingOps = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               chaos vs governance in one comparison.
             </p>
           </div>
@@ -155,9 +155,9 @@ const MarketingOps = () => {
             afterTitle="1 standard"
             beforeContent={
               <div className="space-y-3">
-                <div className="bg-card rounded-lg p-4 font-mono text-xs">
+                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <div className="text-destructive font-semibold mb-2 text-sm">utm_source chaos:</div>
-                  <div className="space-y-1 text-muted-foreground">
+                  <div className="space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     <div>linkedin (8,234)</div>
                     <div>LinkedIn (3,891)</div>
                     <div>LINKEDIN (1,203)</div>
