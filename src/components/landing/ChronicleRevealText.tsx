@@ -38,29 +38,55 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
     >
       <svg
         className="w-full h-auto"
-        viewBox="0 0 4000 800"
+        viewBox="0 0 6000 1000"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           {/* Blaze Orange stroke gradient */}
           <linearGradient id="blazeStrokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(var(--blazeOrange))" />
-            <stop offset="100%" stopColor="hsl(20 80% 45%)" />
+            <stop offset="0%" stopColor="hsl(20, 100%, 51%)" />
+            <stop offset="100%" stopColor="hsl(20, 80%, 45%)" />
           </linearGradient>
           
-          {/* Hero fill gradient (warm rust → blaze orange → deep sea teal → mirage navy) */}
-          <linearGradient id="heroFillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(20 80% 45%)" />
-            <stop offset="15%" stopColor="hsl(var(--blazeOrange))" />
-            <stop offset="50%" stopColor="hsl(var(--deepSea))" />
-            <stop offset="100%" stopColor="hsl(var(--mirage))" />
+          {/* EXACT Hero fill gradient (warm rust → blaze orange → deep sea teal → mirage navy) */}
+          <linearGradient id="heroFillGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(20, 80%, 45%)" />
+            <stop offset="15%" stopColor="hsl(20, 100%, 51%)" />
+            <stop offset="50%" stopColor="hsl(184, 89%, 18%)" />
+            <stop offset="85%" stopColor="hsl(205, 29%, 13%)" />
+            <stop offset="100%" stopColor="hsl(205, 29%, 13%)" />
           </linearGradient>
           
-          {/* 3D Shadow Filter */}
-          <filter id="shadow3d" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="4" dy="4" stdDeviation="3" floodColor="hsl(var(--blazeOrange))" floodOpacity="0.3"/>
-            <feDropShadow dx="8" dy="8" stdDeviation="6" floodColor="hsl(var(--primary))" floodOpacity="0.2"/>
-            <feDropShadow dx="12" dy="12" stdDeviation="10" floodColor="hsl(var(--deepSea))" floodOpacity="0.1"/>
+          {/* Outer Glow Filter - Orange glow around text */}
+          <filter id="outerGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="blur"/>
+            <feFlood floodColor="hsl(20, 100%, 51%)" floodOpacity="0.5"/>
+            <feComposite in2="blur" operator="in" result="glow"/>
+            <feMerge>
+              <feMergeNode in="glow"/>
+              <feMergeNode in="glow"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          
+          {/* Enhanced 3D Shadow Filter - Larger offsets, higher opacity */}
+          <filter id="shadow3d" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="6" dy="6" stdDeviation="4" floodColor="hsl(20, 100%, 51%)" floodOpacity="0.5"/>
+            <feDropShadow dx="12" dy="12" stdDeviation="8" floodColor="hsl(184, 89%, 18%)" floodOpacity="0.4"/>
+            <feDropShadow dx="20" dy="20" stdDeviation="16" floodColor="hsl(205, 29%, 13%)" floodOpacity="0.3"/>
+          </filter>
+          
+          {/* Combined glow + shadow for filled text */}
+          <filter id="glowShadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="15" result="blur"/>
+            <feFlood floodColor="hsl(20, 100%, 51%)" floodOpacity="0.6"/>
+            <feComposite in2="blur" operator="in" result="glow"/>
+            <feDropShadow dx="8" dy="8" stdDeviation="6" floodColor="hsl(20, 100%, 51%)" floodOpacity="0.4"/>
+            <feDropShadow dx="16" dy="16" stdDeviation="12" floodColor="hsl(184, 89%, 18%)" floodOpacity="0.3"/>
+            <feMerge>
+              <feMergeNode in="glow"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
           </filter>
           
           {/* Clip path that reveals based on mouse position */}
@@ -84,35 +110,36 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           className="font-display font-extrabold"
           filter="url(#shadow3d)"
           style={{
-            fontSize: "800px",
+            fontSize: "900px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "2px",
+            strokeWidth: "2.5px",
             letterSpacing: "-0.03em",
           }}
         >
           {text}
         </text>
         
-        {/* Outline text (stroke only, no fill) - Blaze Orange */}
+        {/* Outline text (stroke only, no fill) - Blaze Orange with glow */}
         <text
           x="50%"
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
           className="font-display font-extrabold"
+          filter="url(#outerGlow)"
           style={{
-            fontSize: "800px",
+            fontSize: "900px",
             fill: "transparent",
             stroke: "url(#blazeStrokeGradient)",
-            strokeWidth: "2px",
+            strokeWidth: "2.5px",
             letterSpacing: "-0.03em",
           }}
         >
           {text}
         </text>
         
-        {/* Fill text (revealed on hover) - Hero gradient */}
+        {/* Fill text (revealed on hover) - Hero gradient with enhanced glow */}
         <text
           x="50%"
           y="55%"
@@ -120,8 +147,9 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           textAnchor="middle"
           className="font-display font-extrabold"
           clipPath="url(#revealClip)"
+          filter="url(#glowShadow)"
           style={{
-            fontSize: "800px",
+            fontSize: "900px",
             fill: "url(#heroFillGradient)",
             letterSpacing: "-0.03em",
           }}
