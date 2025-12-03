@@ -457,6 +457,7 @@ const App = () => (
               <Route path="/support" element={<Suspense fallback={<DashboardSkeleton />}><Support /></Suspense>} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/integration" element={<Navigate to="/features/integrations" replace />} />
+              <Route path="/integrations" element={<Navigate to="/features/integrations" replace />} />
               <Route path="/docs/api" element={<Suspense fallback={<DashboardSkeleton />}><APIDocumentation /></Suspense>} />
               <Route path="/docs/playground" element={<Suspense fallback={<DashboardSkeleton />}><APIPlayground /></Suspense>} />
               <Route path="/docs/sdks" element={<Suspense fallback={<DashboardSkeleton />}><SDKs /></Suspense>} />
