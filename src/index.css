@@ -555,6 +555,192 @@ All colors MUST be HSL.
   }
 }
 
+/* ============================================
+   OBSIDIAN & PLATINUM DESIGN SYSTEM
+   Jony Ive "Monolith" Aesthetic
+   ============================================ */
+
+/* Obsidian Base - Deep Void Background */
+.obsidian-base {
+  background: #050505;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Noise Texture Overlay for Physical Feel */
+.obsidian-texture {
+  position: relative;
+}
+
+.obsidian-texture::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Platinum Typography Gradient */
+.platinum-text {
+  background: linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Cool White/Blue Spotlight */
+.obsidian-spotlight {
+  position: relative;
+}
+
+.obsidian-spotlight::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255, 255, 255, 0.1) 0%, rgba(200, 220, 255, 0.04) 40%, transparent 70%);
+}
+
+/* Center Axis Line */
+.obsidian-axis {
+  position: relative;
+}
+
+.obsidian-axis::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.05) 20%, rgba(255, 255, 255, 0.05) 80%, transparent 100%);
+}
+
+/* Milled Glass Card */
+.glass-card {
+  background: rgba(24, 24, 27, 0.4);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.glass-card-subtle {
+  background: rgba(24, 24, 27, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Halo Button - White with Glow */
+.halo-button {
+  background: #FFFFFF;
+  color: #000000;
+  box-shadow: 0 0 40px -5px rgba(255, 255, 255, 0.5), 0 0 80px -10px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.halo-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px -5px rgba(255, 255, 255, 0.6), 0 0 100px -10px rgba(255, 255, 255, 0.4);
+}
+
+/* Ghost Button for Obsidian */
+.ghost-button-obsidian {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #EDEDED;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.ghost-button-obsidian:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.02);
+}
+
+/* Obsidian Text Colors */
+.text-obsidian-primary { color: rgba(255, 255, 255, 0.9); }
+.text-obsidian-secondary { color: rgba(255, 255, 255, 0.6); }
+.text-obsidian-tertiary { color: rgba(255, 255, 255, 0.4); }
+.text-obsidian-muted { color: rgba(255, 255, 255, 0.3); }
+
+/* Obsidian Borders */
+.border-obsidian { border-color: rgba(255, 255, 255, 0.08); }
+.border-obsidian-light { border-color: rgba(255, 255, 255, 0.15); }
+.border-obsidian-subtle { border-color: rgba(255, 255, 255, 0.05); }
+
+/* Apple Ease Curve */
+.ease-apple {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Platinum Icon Container */
+.platinum-icon {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Status Indicator - Platinum */
+.status-dot-platinum {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Navigation Menu Obsidian Overrides */
+[data-radix-navigation-menu-viewport] {
+  background: rgba(24, 24, 27, 0.95) !important;
+  backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+}
+
+/* Nav trigger text in dark mode */
+.obsidian-nav [data-radix-collection-item] {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.obsidian-nav [data-radix-collection-item]:hover,
+.obsidian-nav [data-radix-collection-item][data-state="open"] {
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Nav menu content links */
+.obsidian-nav [data-radix-navigation-menu-content] a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.obsidian-nav [data-radix-navigation-menu-content] a:hover {
+  color: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.obsidian-nav [data-radix-navigation-menu-content] h3,
+.obsidian-nav [data-radix-navigation-menu-content] .font-semibold {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.obsidian-nav [data-radix-navigation-menu-content] p,
+.obsidian-nav [data-radix-navigation-menu-content] .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
