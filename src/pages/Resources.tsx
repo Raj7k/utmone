@@ -1,10 +1,9 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { Link } from "react-router-dom";
 import { BookOpen, FileText, Layout, CheckSquare, Network, Image, BookMarked, GraduationCap, Calculator, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getResourceCount, getNewResources } from "@/lib/resourceRegistry";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { SEO } from "@/components/seo/SEO";
 
 const Resources = () => {
   const newResources = getNewResources();
@@ -94,12 +93,15 @@ const Resources = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <FloatingNavigation />
+    <MainLayout showAnnouncement={false}>
+      <SEO 
+        title="Resources - utm.one"
+        description="A knowledge system for clean tracking, UTM governance, and analytics clarity."
+        canonical="https://utm.one/resources"
+      />
 
       {/* Hero */}
-      <section className="py-20 bg-background">
+      <section className="py-20">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-6">
             <div className="hero-glow">
@@ -107,7 +109,7 @@ const Resources = () => {
                 Resources
               </h1>
             </div>
-            <p className="text-lg md:text-xl text-secondary-label max-w-[720px] mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/60 max-w-[720px] mx-auto leading-relaxed">
               A knowledge system for clean tracking, UTM governance, and analytics clarity.
             </p>
           </div>
@@ -115,46 +117,46 @@ const Resources = () => {
       </section>
 
       {/* Featured Resources */}
-      <section className="py-12 bg-muted/20">
+      <section className="py-12 bg-white/[0.02]">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="mb-8">
-            <h2 className="text-2xl font-display font-semibold text-foreground">Featured Resources</h2>
-            <p className="text-sm text-secondary-label mt-2">New and flagship content</p>
+            <h2 className="text-2xl font-display font-semibold text-white">Featured Resources</h2>
+            <p className="text-sm text-white/50 mt-2">New and flagship content</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
             {/* 2026 Salary Benchmark Report - Coming Soon */}
-            <div className="group block p-8 rounded-2xl border-2 border-border/50 bg-gradient-to-br from-muted/30 to-white opacity-60 pointer-events-none relative">
-              <Badge className="mb-4 bg-muted text-muted-foreground border border-border">Coming Soon</Badge>
-              <h2 className="text-2xl font-display font-bold text-foreground mb-3">
+            <div className="group block p-8 rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-xl opacity-60 pointer-events-none relative">
+              <Badge className="mb-4 bg-white/10 text-white/60 border border-white/10">Coming Soon</Badge>
+              <h2 className="text-2xl font-display font-bold text-white mb-3">
                 2026 Global Salary Benchmark Report
               </h2>
-              <p className="text-base text-secondary-label mb-4 leading-relaxed">
+              <p className="text-base text-white/60 mb-4 leading-relaxed">
                 Complete salary data across 15+ countries, 50+ roles, with 10 interactive tools and regional deep dives.
               </p>
-              <div className="text-xs text-secondary-label">65 min read</div>
+              <div className="text-xs text-white/40">65 min read</div>
             </div>
 
             {/* LLM Ranking Playbook */}
             <Link
               to="/resources/playbooks/llm-ranking"
-              className="group block p-8 rounded-2xl border-2 border-primary/20 hover:border-primary/40 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-primary/5 to-white"
+              className="group block p-8 rounded-2xl border border-white/10 hover:border-white/20 hover:shadow-xl transition-all duration-300 bg-zinc-900/40 backdrop-blur-xl"
             >
               <Badge className="mb-4 animate-pulse">NEW</Badge>
-              <h2 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+              <h2 className="text-2xl font-display font-bold text-white mb-3 group-hover:text-white/80 transition-colors">
                 LLM Ranking Playbook — The Complete Implementation Guide
               </h2>
-              <p className="text-base text-secondary-label mb-4 leading-relaxed">
+              <p className="text-base text-white/60 mb-4 leading-relaxed">
                 90-day roadmap to rank your content in ChatGPT, Claude, Perplexity, and Gemini. Includes 9 interactive tools and real-world case studies.
               </p>
-              <div className="text-xs text-secondary-label">45 min read</div>
+              <div className="text-xs text-white/40">45 min read</div>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Categories Grid */}
-      <section className="py-16 bg-background">
+      <section className="py-16">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => {
@@ -166,10 +168,10 @@ const Resources = () => {
                 <Link
                   key={category.name}
                   to={category.path}
-                  className="group block p-6 rounded-2xl border-2 border-border/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300 bg-card"
+                  className="group block p-6 rounded-2xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300 bg-zinc-900/40 backdrop-blur-xl"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                    <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
                       <IconComponent className="h-6 w-6" />
                     </div>
                     {(hasNewBadge || isFeatured) && (
@@ -180,14 +182,14 @@ const Resources = () => {
                   </div>
                   <div className="mt-4 flex items-start justify-between gap-4">
                     <div className="flex-1 space-y-2">
-                    <h2 className="text-xl font-display font-semibold text-foreground">
+                    <h2 className="text-xl font-display font-semibold text-white">
                       {category.title}
                     </h2>
-                      <p className="text-sm text-secondary-label leading-relaxed">
+                      <p className="text-sm text-white/50 leading-relaxed">
                         {category.description}
                       </p>
                     </div>
-                    <div className="text-xs text-secondary-label font-medium">
+                    <div className="text-xs text-white/40 font-medium">
                       {category.count}
                     </div>
                   </div>
@@ -197,9 +199,7 @@ const Resources = () => {
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 };
 

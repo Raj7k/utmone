@@ -27,7 +27,7 @@ const About = () => {
       />
 
       {/* Hero Section */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedHeadline>
             <div className="text-center space-y-6">
@@ -42,7 +42,7 @@ const About = () => {
       </section>
 
       {/* What is utm.one */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -71,7 +71,7 @@ const About = () => {
       </section>
 
       {/* The Idea Behind It */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -115,7 +115,7 @@ const About = () => {
       </section>
 
       {/* What Makes utm.one Different */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -176,7 +176,7 @@ const About = () => {
       </section>
 
       {/* Why It Matters */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -207,7 +207,7 @@ const About = () => {
       </section>
 
       {/* The Philosophy */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -242,7 +242,7 @@ const About = () => {
       </section>
 
       {/* Who Is It For */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
@@ -271,7 +271,7 @@ const About = () => {
       </section>
 
       {/* The Promise */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">

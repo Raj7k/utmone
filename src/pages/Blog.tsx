@@ -13,7 +13,7 @@ const Blog = () => {
         canonical="https://utm.one/blog"
       />
       
-      <div className="min-h-[60vh] flex items-center justify-center bg-system-background">
+      <div className="min-h-[60vh] flex items-center justify-center">
         <div className="max-w-2xl mx-auto px-6 text-center space-y-6">
           <div className="inline-flex p-4 rounded-2xl bg-primary/10">
             <BookOpen className="h-12 w-12 text-primary" />

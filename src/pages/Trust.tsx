@@ -13,9 +13,9 @@ export default function Trust() {
         description="Enterprise-grade security with field-level encryption, comprehensive audit logs, and GDPR compliance built into utm.one."
         canonical="https://utm.one/trust"
       />
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
       {/* Hero */}
-      <section className="border-b border-border/40 bg-gradient-to-b from-muted/20 to-background">
+      <section className="border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-6 py-24 text-center">
           <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
             Security Portal
@@ -193,7 +193,7 @@ export default function Trust() {
       </section>
 
       {/* Documentation Links */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-24 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-display font-bold text-foreground mb-6 brand-lowercase">
             security documentation

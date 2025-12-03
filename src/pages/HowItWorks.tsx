@@ -291,7 +291,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 2: The Pain Moment */}
-      <section className="py-24 md:py-32 bg-wildSand">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="container max-w-[1000px] mx-auto px-6">
           <TheMomentStoryCard
             title="the campaign post-mortem where nobody could agree on what actually worked"
@@ -302,7 +302,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 3: Before vs After */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -403,7 +403,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 5: What Makes Links Different - Consolidated Features */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -424,7 +424,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 6: Who It's For - Clickable Role Cards */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="container max-w-[1200px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -472,7 +472,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 7: Growth Loop - Clean Track Score Quiz */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32">
         <div className="container max-w-[900px] mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -493,7 +493,7 @@ const HowItWorks = () => {
       </section>
 
       {/* Fold 8: FAQ */}
-      <section className="py-24 md:py-32 bg-muted/20">
+      <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="container mx-auto px-6">
           <RoleSpecificFAQ
             role="teams using utm.one"

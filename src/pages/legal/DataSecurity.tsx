@@ -1,26 +1,22 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
 import { SEO } from "@/components/seo/SEO";
+import { MainLayout } from "@/components/layout/MainLayout";
 
 const DataSecurity = () => {
   return (
-    <>
+    <MainLayout showAnnouncement={false}>
       <SEO
         title="data & security — utm.one"
         description="learn how utm.one protects your data with industry-leading security practices, encryption, and compliance standards"
         canonical="https://utm.one/legal/data-security"
       />
-      <Navigation />
-      <FloatingNavigation />
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen">
         <div className="max-w-text-content mx-auto px-8 py-24 md:py-32">
           {/* Header */}
           <div className="space-y-6 mb-16">
-            <h1 className="text-4xl md:text-5xl font-display font-semibold text-foreground">
+            <h1 className="text-4xl md:text-5xl font-display font-semibold text-white">
               data & security
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-white/60 leading-relaxed">
               your data is important. we treat it with the level of care and protection it deserves.
               this page explains how we secure your information when you use utm.one.
             </p>
@@ -144,8 +140,7 @@ const DataSecurity = () => {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 
