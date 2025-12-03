@@ -165,7 +165,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
   }
 
   return (
-    <section className="relative min-h-[80vh] md:min-h-[85vh] flex flex-col justify-center py-16 md:py-24 bg-background overflow-hidden">
+    <section className="relative min-h-[80vh] md:min-h-[85vh] flex flex-col justify-center py-16 md:py-24 overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
@@ -175,13 +175,14 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
               {/* Collapse Toggle - Desktop Only */}
               <div className="hidden lg:flex items-center justify-between mb-4">
                 {!isCollapsed && (
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
                     what do you need?
                   </p>
                 )}
                 <button
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'rgba(255,255,255,0.5)' }}
                   aria-label={isCollapsed ? "Expand navigation" : "Collapse navigation"}
                 >
                   {isCollapsed ? (
@@ -205,23 +206,26 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                           <TooltipTrigger asChild>
                             <button
                               onClick={() => handleUseCaseChange(useCase.id)}
-                              className={`
-                                w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200
-                                ${isActive 
-                                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                                  : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50 text-muted-foreground hover:text-foreground"
-                                }
-                              `}
+                              className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200"
+                              style={isActive ? {
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))',
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                boxShadow: '0 8px 32px rgba(255,255,255,0.1), inset 0 1px 0 0 rgba(255,255,255,0.2)'
+                              } : {
+                                background: 'rgba(24,24,27,0.4)',
+                                border: '1px solid rgba(255,255,255,0.08)',
+                              }}
                             >
-                              <Icon className="w-5 h-5" />
+                              <Icon className="w-5 h-5" style={{ color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }} />
                             </button>
                           </TooltipTrigger>
-                          <TooltipContent side="right" className="p-3">
+                          <TooltipContent side="right" className="p-3" style={{ background: 'rgba(24,24,27,0.95)', border: '1px solid rgba(255,255,255,0.1)' }}>
                             <div className="flex flex-col gap-2">
-                              <span className="font-medium lowercase">{useCase.label}</span>
+                              <span className="font-medium lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{useCase.label}</span>
                               <Link 
                                 to={useCase.route} 
-                                className="text-xs text-primary hover:underline inline-flex items-center gap-1 lowercase"
+                                className="text-xs hover:underline inline-flex items-center gap-1 lowercase"
+                                style={{ color: 'rgba(255,255,255,0.6)' }}
                               >
                                 learn more <ArrowRight className="w-3 h-3" />
                               </Link>
@@ -235,42 +239,45 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       <div key={useCase.id} className="relative">
                         <button
                           onClick={() => handleUseCaseChange(useCase.id)}
-                          className={`
-                            w-full text-left p-4 rounded-xl transition-all duration-300 group
-                            ${isActive 
-                              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                              : "bg-card border border-border hover:border-primary/30 hover:bg-muted/50"
-                            }
-                          `}
+                          className="w-full text-left p-4 rounded-xl transition-all duration-300 group"
+                          style={isActive ? {
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
+                            backdropFilter: 'blur(40px)',
+                            border: '1px solid rgba(255,255,255,0.15)',
+                            borderTop: '1px solid rgba(255,255,255,0.25)',
+                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.3)'
+                          } : {
+                            background: 'rgba(24,24,27,0.4)',
+                            backdropFilter: 'blur(40px)',
+                            border: '1px solid rgba(255,255,255,0.08)',
+                          }}
                         >
                           <div className="flex items-center gap-3">
-                            <div className={`
-                              w-10 h-10 rounded-lg flex items-center justify-center transition-colors
-                              ${isActive 
-                                ? "bg-primary-foreground/20" 
-                                : "bg-primary/10 text-primary group-hover:bg-primary/20"
-                              }
-                            `}>
-                              <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : ""}`} />
+                            <div 
+                              className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
+                              style={{ background: isActive ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)' }}
+                            >
+                              <Icon className="w-5 h-5" style={{ color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)' }} />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className={`font-semibold lowercase text-sm ${isActive ? "" : "text-foreground"}`}>
+                              <div 
+                                className="font-semibold lowercase text-sm"
+                                style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)' }}
+                              >
                                 {useCase.label}
                               </div>
-                              <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                              <div 
+                                className="text-xs"
+                                style={{ color: isActive ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.4)' }}
+                              >
                                 {useCase.sublabel}
                               </div>
                             </div>
                             <Link 
                               to={useCase.route}
                               onClick={(e) => e.stopPropagation()}
-                              className={`
-                                p-1.5 rounded-lg transition-all
-                                ${isActive 
-                                  ? "text-primary-foreground hover:bg-primary-foreground/20" 
-                                  : "text-muted-foreground opacity-0 group-hover:opacity-100 hover:bg-muted hover:text-primary"
-                                }
-                              `}
+                              className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                              style={{ color: isActive ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.5)' }}
                               aria-label={`Learn more about ${useCase.label}`}
                             >
                               <ArrowRight className="w-4 h-4" />
@@ -391,7 +398,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
           </div>
 
           {/* Right: Dynamic Content */}
-          <div className={`relative z-10 transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
+          <div className={`transition-all duration-300 ${isCollapsed ? "lg:col-span-11" : "lg:col-span-8 xl:col-span-9"}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeUseCase}
@@ -399,56 +406,75 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-                className="space-y-6"
+                className="space-y-8"
               >
-                {/* Headline - Larger for impact */}
-                <div className="space-y-6">
-                  <h1 className="hero-gradient text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tighter leading-[1.05] lowercase">
+                {/* Headline */}
+                <div className="space-y-4">
+                  <h1 
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase leading-[1.1]"
+                    style={{
+                      background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}
+                  >
                     {content.headline}
                   </h1>
-                  <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                  <p className="text-lg md:text-xl max-w-2xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
                     {content.subheadline}
                   </p>
                 </div>
 
-                {/* Features Checklist - Keywords only */}
+                {/* Features Chips */}
                 {content.features && (
-                  <div className="flex flex-wrap gap-3 max-w-xl">
-                    {content.features.map((feature, i) => (
-                      <motion.div
+                  <div className="flex flex-wrap gap-2">
+                    {content.features.map((feature) => (
+                      <span
                         key={feature.name}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm lowercase"
+                        style={{
+                          background: 'rgba(255,255,255,0.06)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          color: 'rgba(255,255,255,0.7)'
+                        }}
                       >
-                        <ChevronRight className="w-3 h-3 text-primary flex-shrink-0" />
-                        <span className="text-sm font-medium text-foreground lowercase">
-                          {feature.name}
-                        </span>
-                      </motion.div>
+                        <ChevronRight className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.5)' }} />
+                        {feature.name}
+                      </span>
                     ))}
                   </div>
                 )}
 
                 {/* CTA */}
-                <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <div className="flex flex-col sm:flex-row items-start gap-4">
                   <Link to="/early-access">
-                    <Button size="lg" variant="marketing" className="lowercase">
+                    <Button 
+                      size="lg" 
+                      className="h-14 px-8 text-base lowercase rounded-full font-semibold transition-all duration-300"
+                      style={{
+                        background: 'linear-gradient(135deg, #FFFFFF, #E4E4E7)',
+                        color: '#050505',
+                        boxShadow: '0 0 40px rgba(255,255,255,0.15), inset 0 1px 0 0 rgba(255,255,255,0.5)'
+                      }}
+                    >
                       {content.cta}
-                      <ArrowRight className="ml-2 h-4 w-4" />
+                      <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>
                   <Link 
                     to="/how-it-works" 
-                    className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase py-3"
+                    className="flex items-center gap-2 px-6 py-4 rounded-full text-sm font-medium lowercase transition-all"
+                    style={{
+                      background: 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'rgba(255,255,255,0.8)'
+                    }}
                   >
                     see how it works
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
-
-                {/* Product Mockup Preview */}
               </motion.div>
             </AnimatePresence>
           </div>

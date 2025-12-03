@@ -40,17 +40,18 @@ export const FloatingNavigation = () => {
           animate={{ y: 0, x: "-50%", opacity: 1 }}
           exit={{ y: 100, x: "-50%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-4 md:bottom-8 left-1/2 z-50
-                     bg-white/95 backdrop-blur-xl shadow-xl 
-                     rounded-full border-2 border-border/10 
-                     px-3 md:px-6 py-2 md:py-3
-                     max-w-[calc(100vw-2rem)] md:max-w-none
-                     overflow-x-auto scrollbar-hide"
+          className="fixed bottom-4 md:bottom-8 left-1/2 z-50 rounded-full px-3 md:px-6 py-2 md:py-3 max-w-[calc(100vw-2rem)] md:max-w-none overflow-x-auto scrollbar-hide"
+          style={{
+            background: 'rgba(24, 24, 27, 0.9)',
+            backdropFilter: 'blur(40px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+          }}
         >
           <div className="flex items-center gap-1 md:gap-4 whitespace-nowrap">
             {/* Logo */}
             <Link to="/" className="flex items-center transition-apple hover:opacity-70 shrink-0">
-              <UtmOneLogo size="sm" showIcon={false} />
+              <UtmOneLogo size="sm" showIcon={false} className="[&>span]:text-white" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -60,7 +61,8 @@ export const FloatingNavigation = () => {
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="h-8 px-3 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-apple"
+                    className="h-8 px-3 text-xs font-medium transition-apple"
+                    style={{ color: 'rgba(255,255,255,0.7)' }}
                   >
                     product <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
@@ -69,7 +71,12 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[500px] p-3 bg-white/95 backdrop-blur-xl z-[60]"
+                  className="w-[500px] p-3 z-[60]"
+                  style={{
+                    background: 'rgba(24, 24, 27, 0.95)',
+                    backdropFilter: 'blur(40px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
                 >
                   <div className="grid grid-cols-2 gap-3">
                     <Link
