@@ -25,7 +25,7 @@ import { AccessibilityShowcase } from "@/components/landing/AccessibilityShowcas
 import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
 import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
 import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
-import { EnhancedFooter } from "@/components/landing/EnhancedFooter";
+import { Footer } from "@/components/landing/Footer";
 import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
@@ -236,8 +236,8 @@ const Index = () => {
       {/* FAQ Section - Scroll-based reveal */}
       <FooterFAQ />
       
-      {/* Enhanced Footer */}
-      <EnhancedFooter />
+      {/* Bento Card Footer with Gradient Accent */}
+      <Footer />
     </MainLayout>
   );
 };
