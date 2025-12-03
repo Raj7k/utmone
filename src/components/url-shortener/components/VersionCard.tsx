@@ -26,7 +26,7 @@ export const VersionCard = ({ link, isBestPerformer, onSelect }: VersionCardProp
       className={`group p-4 rounded-lg border transition-all cursor-pointer ${
         isBestPerformer
           ? 'border-primary bg-primary/5 hover:bg-primary/10'
-          : 'border-gray-700 bg-gray-800/20 hover:border-gray-600'
+          : 'border-white/10 bg-white/5 hover:border-white/20'
       }`}
       onClick={onSelect}
     >

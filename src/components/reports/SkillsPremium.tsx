@@ -73,7 +73,7 @@ export const SkillsPremium = () => {
                     +${(skill.premium / 1000).toFixed(0)}K
                   </span>
                 </div>
-                <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="relative h-2 bg-white/10 rounded-full overflow-hidden">
                   <div 
                     className={`absolute inset-y-0 left-0 bg-gradient-to-r from-deepSea to-blazeOrange rounded-full transition-all`}
                     style={{ width: `${percentage}%` }}
@@ -84,7 +84,7 @@ export const SkillsPremium = () => {
           })}
         </div>
 
-        <div className="mt-8 p-6 bg-white rounded-lg border-2 border-blazeOrange/20">
+        <div className="mt-8 p-6 bg-zinc-900/40 rounded-lg border border-blazeOrange/20">
           <h4 className="font-semibold text-blazeOrange mb-3">💡 Career Strategy Insight</h4>
           <p className="text-sm text-secondary-label leading-relaxed">
             Professionals with 3+ skills from the top 5 list typically earn 25-40% above their base role median. 

@@ -22,7 +22,7 @@ export const SmartSuggestions = ({ suggestions }: SmartSuggestionsProps) => {
             className={`p-3 rounded-lg border transition-all ${
               suggestion.recommended
                 ? 'border-primary bg-primary/10'
-                : 'border-gray-700 bg-gray-800/20'
+                : 'border-white/10 bg-white/5'
             }`}
           >
             <div className="flex items-start justify-between gap-3">
