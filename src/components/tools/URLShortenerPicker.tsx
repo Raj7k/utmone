@@ -53,17 +53,17 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
           return (
             <Card
               key={mode.id}
-              className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] hover:border-primary/20"
+              className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] hover:border-white/20"
               onClick={() => handleModeSelect(mode.id)}
             >
               <CardHeader className="p-6 text-center">
                 <div className="flex flex-col items-center gap-3">
-                  <div className="p-4 rounded-2xl bg-primary/10">
-                    <Icon className="h-8 w-8 text-primary" />
+                  <div className="p-4 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Icon className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div className="space-y-1">
                     <CardTitle className="text-xl font-display font-semibold">{mode.name}</CardTitle>
-                    <div className="text-xs font-medium text-primary">{mode.quantity}</div>
+                    <div className="text-xs font-medium" style={{ color: 'rgba(59,130,246,1)' }}>{mode.quantity}</div>
                   </div>
                 </div>
               </CardHeader>

@@ -87,8 +87,8 @@ export const ToolLayout = ({
                         to={tool.href}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
                       >
-                        <tool.icon className="h-5 w-5 text-primary" />
-                        <span className="text-sm flex-1 group-hover:text-primary transition-colors">
+                        <div style={{ color: 'rgba(59,130,246,1)' }}><tool.icon className="h-5 w-5" /></div>
+                        <span className="text-sm flex-1 group-hover:text-white transition-colors">
                           {tool.title}
                         </span>
                         <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />

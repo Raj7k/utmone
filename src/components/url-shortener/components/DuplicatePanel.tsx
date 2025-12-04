@@ -43,7 +43,7 @@ export const DuplicatePanel = ({
 
       <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
         <div className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-primary" />
+          <TrendingUp className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
           existing versions
         </div>
         {duplicates.map((link) => (

@@ -61,8 +61,8 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       <Card>
         <CardHeader>
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Shield className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Shield className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             Duplicate Detection
           </CardTitle>
@@ -123,8 +123,8 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       <Card>
         <CardHeader>
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Settings className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Settings className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             Version Management
           </CardTitle>
@@ -202,8 +202,8 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       <Card>
         <CardHeader>
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Zap className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Zap className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             Advanced Features
             <Badge variant="secondary" className="text-xs ml-2">experimental</Badge>
@@ -265,8 +265,8 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       <Card>
         <CardHeader>
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Archive className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Archive className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             Auto-Archive
           </CardTitle>
@@ -315,8 +315,8 @@ export const SettingsPanelUltimate = ({ workspaceId }: SettingsPanelUltimateProp
       <Card>
         <CardHeader>
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Bell className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Bell className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             Notifications
           </CardTitle>

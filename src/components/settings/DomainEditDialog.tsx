@@ -310,7 +310,7 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
                     <p className="text-xs font-medium">Troubleshooting</p>
                     <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
                       <li>DNS changes can take 24-72 hours to propagate globally</li>
-                      <li>Check propagation status at <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" className="text-primary underline">dnschecker.org</a></li>
+                      <li>Check propagation status at <a href="https://dnschecker.org" target="_blank" rel="noopener noreferrer" className="underline" style={{ color: 'rgba(59,130,246,1)' }}>dnschecker.org</a></li>
                       <li>Common mistake: entering <code className="bg-background px-1 rounded">_utm-verification.{domain?.domain}</code> creates <code className="bg-background px-1 rounded">_utm-verification.{domain?.domain}.{domain?.domain}</code></li>
                     </ul>
                   </div>
@@ -594,7 +594,7 @@ export default {
                                       href={item.link} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="text-xs text-primary hover:underline inline-flex items-center gap-1"
+                                      className="text-xs hover:underline inline-flex items-center gap-1" style={{ color: 'rgba(59,130,246,1)' }}
                                     >
                                       open cloudflare →
                                     </a>

@@ -446,10 +446,10 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Link2 className="h-5 w-5 text-primary" />
+                <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                 <CardTitle className="text-lg">Shortened links</CardTitle>
                 {processedURLs.length > 0 && (
-                  <span className="px-2 py-0.5 bg-primary/10 text-primary rounded-lg text-sm font-medium">
+                  <span className="px-2 py-0.5 rounded-lg text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                     {processedURLs.length}
                   </span>
                 )}
@@ -512,7 +512,7 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                         className={`group p-4 rounded-lg border transition-all ${
                           url.status === 'error'
                             ? 'border-destructive/50 bg-destructive/5'
-                            : 'border-border hover:border-primary/50 bg-card'
+                            : 'border-border hover:border-white/30 bg-card'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-4">
@@ -530,7 +530,7 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                             
                             {url.status === 'success' ? (
                               <div className="flex items-center gap-2">
-                                <p className="font-mono text-sm text-primary truncate">
+                                <p className="font-mono text-sm truncate" style={{ color: 'rgba(59,130,246,1)' }}>
                                   {url.short}
                                 </p>
                                 <Button

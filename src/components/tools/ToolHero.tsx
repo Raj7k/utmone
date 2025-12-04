@@ -58,7 +58,7 @@ export const ToolHero = ({
                 key={index}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50"
               >
-                <span className="text-primary">{badge.icon}</span>
+                <span style={{ color: 'rgba(59,130,246,1)' }}>{badge.icon}</span>
                 <span className="text-xs font-medium text-foreground">{badge.text}</span>
               </div>
             ))}

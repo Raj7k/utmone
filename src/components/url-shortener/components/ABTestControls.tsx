@@ -60,8 +60,8 @@ export const ABTestControls = ({
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="bg-primary/10 rounded-lg p-2">
-              <Split className="h-5 w-5 text-primary" />
+            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Split className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             A/B Test Controls
           </CardTitle>
@@ -116,7 +116,7 @@ export const ABTestControls = ({
                   key={variant.id}
                   className={`p-4 rounded-lg border ${
                     isWinner
-                      ? 'bg-primary/5 border-primary'
+                      ? 'bg-white/5 border-white/30'
                       : 'bg-muted/10 border-border'
                   }`}
                 >

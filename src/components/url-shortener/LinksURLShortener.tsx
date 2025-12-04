@@ -263,7 +263,7 @@ export const LinksURLShortener = () => {
               <Card variant="grouped">
                 <CardHeader>
                   <CardTitle className="text-title-3 flex items-center gap-2">
-                    <Zap className="h-5 w-5 text-primary" />
+                    <Zap className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                     smart processing options
                   </CardTitle>
                   <CardDescription>
@@ -428,11 +428,11 @@ https://another-site.com/article"
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <CardTitle className="text-title-3 flex items-center gap-2">
-                  <Link2 className="h-5 w-5 text-primary" />
+                  <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                   shortened URLs
                 </CardTitle>
                 {urls.length > 0 && (
-                  <span className="px-2 py-0.5 bg-primary/10 text-primary rounded-md text-sm font-medium">
+                  <span className="px-2 py-0.5 rounded-md text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                     {urls.length}
                   </span>
                 )}
@@ -500,7 +500,7 @@ https://another-site.com/article"
                         className={`group p-3 rounded-lg border transition-all ${
                           url.status === "error"
                             ? "border-destructive/50 bg-destructive/5"
-                            : "border-border hover:border-primary/50 bg-card"
+                            : "border-border hover:border-white/30 bg-card"
                         }`}
                         onMouseEnter={() => setHoveredUrl(url.id)}
                         onMouseLeave={() => setHoveredUrl(null)}
@@ -518,7 +518,7 @@ https://another-site.com/article"
 
                             <div className="flex items-center gap-2">
                               <ChevronRight className="h-4 w-4 text-tertiary-label" />
-                              <p className="font-mono text-sm text-primary truncate">{url.short}</p>
+                              <p className="font-mono text-sm truncate" style={{ color: 'rgba(59,130,246,1)' }}>{url.short}</p>
                               <button
                                 onClick={() => copyToClipboard(url.short)}
                                 className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-muted rounded"
@@ -544,7 +544,7 @@ https://another-site.com/article"
           <CardContent className="pt-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="text-3xl font-display font-bold text-primary">{stats.total}</div>
+                <div className="text-3xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{stats.total}</div>
                 <div className="text-sm text-secondary-label">total URLs</div>
               </div>
               <div className="text-center">
@@ -554,7 +554,7 @@ https://another-site.com/article"
                 <div className="text-sm text-secondary-label">successful</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-display font-bold text-primary">{stats.domains}</div>
+                <div className="text-3xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{stats.domains}</div>
                 <div className="text-sm text-secondary-label">domains</div>
               </div>
               <div className="text-center">

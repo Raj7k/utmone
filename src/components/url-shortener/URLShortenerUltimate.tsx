@@ -243,8 +243,8 @@ export const URLShortenerUltimate = () => {
     <div className="container max-w-7xl mx-auto py-8 px-4">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="bg-primary/10 rounded-lg p-2">
-            <Brain className="h-8 w-8 text-primary" />
+          <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Brain className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <h1 className="text-large-title font-bold text-label heading">ai url shortener</h1>
         </div>
@@ -279,8 +279,8 @@ export const URLShortenerUltimate = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-title-2 flex items-center gap-2">
-                    <div className="bg-primary/10 rounded-lg p-2">
-                      <Link2 className="h-5 w-5 text-primary" />
+                    <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                      <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                     </div>
                     create short link
                   </CardTitle>
@@ -415,13 +415,13 @@ export const URLShortenerUltimate = () => {
                       onClick={() => setDuplicateStrategy(strategy.value)}
                       className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
                         duplicateStrategy === strategy.value
-                          ? 'border-primary bg-primary/5'
-                          : 'border-border hover:border-primary/50'
+                          ? 'border-white/30 bg-white/5'
+                          : 'border-border hover:border-white/20'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <strategy.icon className={`h-5 w-5 mt-0.5 ${
-                          duplicateStrategy === strategy.value ? 'text-primary' : 'text-secondary-label'
+                          duplicateStrategy === strategy.value ? 'text-white' : 'text-secondary-label'
                         }`} />
                         <div className="flex-1">
                           <p className="font-semibold text-sm mb-0.5">{strategy.label}</p>
