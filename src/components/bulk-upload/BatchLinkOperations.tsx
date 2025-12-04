@@ -161,8 +161,8 @@ export function BatchLinkOperations({ workspaceId }: BatchLinkOperationsProps) {
         </CardHeader>
         <CardContent>
           {selectedLinks.size > 0 && (
-            <div className="flex items-center gap-2 mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
-              <CheckSquare className="w-4 h-4 text-primary" />
+            <div className="flex items-center gap-2 mb-4 p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <CheckSquare className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <span className="text-sm font-medium">{selectedLinks.size} links selected</span>
               <div className="flex items-center gap-2 ml-auto">
                 <Button
@@ -200,7 +200,7 @@ export function BatchLinkOperations({ workspaceId }: BatchLinkOperationsProps) {
                       <Checkbox
                         checked={allSelected}
                         onCheckedChange={() => handleSelectAll(batch.links)}
-                        className="data-[state=checked]:bg-primary"
+                        className="data-[state=checked]:bg-white/20"
                       />
                       <span className="font-medium text-sm">
                         {format(new Date(batch.timestamp), "PPP 'at' p")} • {batch.links.length} links
@@ -217,7 +217,7 @@ export function BatchLinkOperations({ workspaceId }: BatchLinkOperationsProps) {
                         <Checkbox
                           checked={selectedLinks.has(link.id)}
                           onCheckedChange={() => handleToggleLink(link.id)}
-                          className="data-[state=checked]:bg-primary"
+                          className="data-[state=checked]:bg-white/20"
                         />
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-sm truncate">{link.title}</p>

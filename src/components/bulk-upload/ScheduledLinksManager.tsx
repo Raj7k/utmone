@@ -150,7 +150,7 @@ export function ScheduledLinksManager({ workspaceId }: ScheduledLinksManagerProp
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <Clock className="w-4 h-4 text-primary flex-shrink-0" />
+                    <Clock className="w-4 h-4 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <h4 className="font-medium truncate">{link.title}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground truncate mb-2">

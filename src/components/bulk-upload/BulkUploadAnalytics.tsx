@@ -132,7 +132,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <BarChart3 className="w-4 h-4 text-primary" />
+                    <BarChart3 className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <span className="font-medium">
                       {format(new Date(batch.timestamp), "PPP 'at' p")}
                     </span>
@@ -160,7 +160,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="p-3 bg-muted/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <MousePointerClick className="w-3 h-3 text-primary" />
+                    <MousePointerClick className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <span className="text-xs text-muted-foreground">total clicks</span>
                   </div>
                   <p className="text-2xl font-bold">{batch.totalClicks.toLocaleString()}</p>
@@ -168,7 +168,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
 
                 <div className="p-3 bg-muted/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <TrendingUp className="w-3 h-3 text-primary" />
+                    <TrendingUp className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <span className="text-xs text-muted-foreground">avg per link</span>
                   </div>
                   <p className="text-2xl font-bold">{batch.avgClicksPerLink}</p>
@@ -176,7 +176,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
 
                 <div className="p-3 bg-muted/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <BarChart3 className="w-3 h-3 text-primary" />
+                    <BarChart3 className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <span className="text-xs text-muted-foreground">unique clicks</span>
                   </div>
                   <p className="text-2xl font-bold">{batch.uniqueClicks.toLocaleString()}</p>
@@ -184,7 +184,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
 
                 <div className="p-3 bg-muted/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <TrendingUp className="w-3 h-3 text-primary" />
+                    <TrendingUp className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <span className="text-xs text-muted-foreground">CTR</span>
                   </div>
                   <p className="text-2xl font-bold">{batch.ctr}%</p>
@@ -192,9 +192,9 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
               </div>
 
               {/* Top Performer */}
-              <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
+              <div className="p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-4 h-4 text-primary" />
+                  <TrendingUp className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                   <span className="text-sm font-medium">top performer</span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -206,7 +206,7 @@ export function BulkUploadAnalytics({ workspaceId }: BulkUploadAnalyticsProps) {
                   </div>
                   <div className="flex items-center gap-3 ml-4">
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-primary">
+                      <p className="text-2xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                         {batch.topPerformer.clicks}
                       </p>
                       <p className="text-xs text-muted-foreground">clicks</p>

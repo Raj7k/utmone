@@ -59,7 +59,7 @@ export function SharedTemplatesManager({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-display text-title-3">
-          <Users className="w-5 h-5 text-primary" />
+          <Users className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           Shared Templates
         </CardTitle>
         <CardDescription>
@@ -82,7 +82,7 @@ export function SharedTemplatesManager({
               {sharedTemplates.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Globe className="w-4 h-4 text-primary" />
+                    <Globe className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <h3 className="font-medium text-sm">Team Templates</h3>
                     <Badge variant="secondary">{sharedTemplates.length}</Badge>
                   </div>

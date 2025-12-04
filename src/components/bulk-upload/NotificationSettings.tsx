@@ -41,7 +41,7 @@ export function NotificationSettings({
         {/* In-app notifications */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Bell className="w-5 h-5 text-primary" />
+            <Bell className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <div>
               <Label htmlFor="in-app" className="text-sm font-medium">
                 In-app notifications
@@ -61,7 +61,7 @@ export function NotificationSettings({
         {/* Email notifications */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Mail className="w-5 h-5 text-primary" />
+            <Mail className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <div>
               <Label htmlFor="email" className="text-sm font-medium">
                 Email notifications
@@ -81,7 +81,7 @@ export function NotificationSettings({
         {/* Webhook notifications */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Webhook className="w-5 h-5 text-primary" />
+            <Webhook className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <div>
               <Label htmlFor="webhook" className="text-sm font-medium">
                 Webhook notifications

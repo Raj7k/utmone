@@ -41,7 +41,7 @@ export const BentoRecentLinksTile = () => {
     return (
       <div className="bg-card rounded-xl border border-border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Clock className="h-5 w-5 text-primary" />
+          <Clock className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="text-title-3 font-display">Recent Links</h3>
         </div>
         <div className="space-y-2">
@@ -60,7 +60,7 @@ export const BentoRecentLinksTile = () => {
     return (
       <div className="bg-card rounded-xl border border-border shadow-sm p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Clock className="h-5 w-5 text-primary" />
+          <Clock className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="text-title-3 font-display">Recent Links</h3>
         </div>
         <p className="text-body-apple text-tertiary-label text-center py-8">
@@ -73,7 +73,7 @@ export const BentoRecentLinksTile = () => {
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Clock className="h-5 w-5 text-primary" />
+        <Clock className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
         <h3 className="text-title-3 font-display">Recent Links</h3>
       </div>
 

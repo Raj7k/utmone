@@ -80,14 +80,14 @@ export function BulkLinkSettings({ settings, onChange }: BulkLinkSettingsProps) 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary" />
+              <Calendar className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <Label>link expiration</Label>
             </div>
             <Switch checked={expirationEnabled} onCheckedChange={handleExpirationToggle} />
           </div>
 
           {expirationEnabled && (
-            <div className="space-y-3 pl-6 border-l-2 border-primary/20">
+            <div className="space-y-3 pl-6 border-l-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
               <div>
                 <Label htmlFor="expires-at" className="text-sm">expiration date</Label>
                 <Popover>
@@ -148,14 +148,14 @@ export function BulkLinkSettings({ settings, onChange }: BulkLinkSettingsProps) 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-primary" />
+              <Lock className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <Label>password protection</Label>
             </div>
             <Switch checked={passwordEnabled} onCheckedChange={handlePasswordToggle} />
           </div>
 
           {passwordEnabled && (
-            <div className="space-y-3 pl-6 border-l-2 border-primary/20">
+            <div className="space-y-3 pl-6 border-l-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
               <div>
                 <Label htmlFor="password" className="text-sm">password</Label>
                 <Input
@@ -184,7 +184,7 @@ export function BulkLinkSettings({ settings, onChange }: BulkLinkSettingsProps) 
         {/* Redirect Type */}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <ExternalLink className="w-4 h-4 text-primary" />
+            <ExternalLink className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <Label>redirect type</Label>
           </div>
           <Select
@@ -209,14 +209,14 @@ export function BulkLinkSettings({ settings, onChange }: BulkLinkSettingsProps) 
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Image className="w-4 h-4 text-primary" />
+              <Image className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <Label>social preview (open graph)</Label>
             </div>
             <Switch checked={ogMetaEnabled} onCheckedChange={handleOgMetaToggle} />
           </div>
 
           {ogMetaEnabled && (
-            <div className="space-y-3 pl-6 border-l-2 border-primary/20">
+            <div className="space-y-3 pl-6 border-l-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
               <div>
                 <Label htmlFor="og-title" className="text-sm">og:title</Label>
                 <Input

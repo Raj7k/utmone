@@ -433,8 +433,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
     <div className="space-y-6">
       {/* Resume Progress Banner */}
       {showResumeBanner && savedProgress && (
-        <Alert className="border-primary/50 bg-primary/5">
-          <Clock className="h-4 w-4 text-primary" />
+        <Alert style={{ borderColor: 'rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.05)' }}>
+          <Clock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <AlertDescription className="flex items-center justify-between gap-4">
             <div>
               <p className="font-medium">unfinished upload found</p>
@@ -567,7 +567,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
                 <a 
                   href="/bulk-upload-template.csv" 
                   download 
-                  className="text-primary hover:underline ml-1"
+                  className="hover:underline ml-1" style={{ color: 'rgba(255,255,255,0.9)' }}
                 >
                   download CSV template
                 </a>
@@ -687,7 +687,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="flex items-center gap-3">
-                <Layers className="h-8 w-8 text-primary" />
+                <Layers className="h-8 w-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 <div>
                   <p className="text-2xl font-display font-bold">{stats.total}</p>
                   <p className="text-sm text-secondary-label">total processed</p>

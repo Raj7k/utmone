@@ -91,7 +91,7 @@ export const AnalyticsPulseTile = () => {
       onClick={() => navigate('/dashboard/analytics')}
     >
       <div className="flex items-center gap-2 mb-3">
-        <Activity className="h-5 w-5 text-primary" />
+        <Activity className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
         <h3 className="text-title-3 font-display">Analytics Pulse</h3>
       </div>
 
