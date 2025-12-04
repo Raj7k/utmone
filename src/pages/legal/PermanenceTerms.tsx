@@ -99,7 +99,7 @@ const PermanenceTerms = () => {
               <section>
                 <h2 className="text-3xl font-display font-bold text-white mb-4">9. Questions</h2>
                 <p className="text-white/60 leading-relaxed">
-                  For questions about the Link Permanence Guarantee, contact <a href="mailto:legal@utm.one" className="text-primary hover:text-primary/80 font-medium">legal@utm.one</a>
+                  For questions about the Link Permanence Guarantee, contact <a href="mailto:legal@utm.one" className="font-medium" style={{ color: 'rgba(59,130,246,1)' }}>legal@utm.one</a>
                 </p>
               </section>
 

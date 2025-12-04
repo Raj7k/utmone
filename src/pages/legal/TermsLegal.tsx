@@ -172,11 +172,11 @@ const TermsLegal = () => {
                 <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">10. contact</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   for terms-related questions:<br />
-                  <a href="mailto:legal@utm.one" className="text-primary hover:text-primary/80 font-medium">legal@utm.one</a>
+                  <a href="mailto:legal@utm.one" className="font-medium" style={{ color: 'rgba(59,130,246,1)' }}>legal@utm.one</a>
                 </p>
                 <p className="text-muted-foreground leading-relaxed mt-4">
                   for abuse reports:<br />
-                  <a href="mailto:abuse@utm.one" className="text-primary hover:text-primary/80 font-medium">abuse@utm.one</a>
+                  <a href="mailto:abuse@utm.one" className="font-medium" style={{ color: 'rgba(59,130,246,1)' }}>abuse@utm.one</a>
                 </p>
               </section>
 
