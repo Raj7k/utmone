@@ -29,13 +29,13 @@ export const FrameworkPrinciple = ({
       )}
     >
       {/* Number Watermark */}
-      <div className="absolute top-8 right-8 text-7xl font-extrabold text-primary/5 pointer-events-none select-none">
+      <div className="absolute top-8 right-8 text-7xl font-extrabold pointer-events-none select-none" style={{ color: 'rgba(59,130,246,0.05)' }}>
         {number.toString().padStart(2, '0')}
       </div>
       
       {/* Content */}
       <div className="relative z-10 space-y-3">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-4">
+        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full font-semibold text-sm mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
           {number}
         </div>
         

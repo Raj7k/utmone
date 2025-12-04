@@ -20,7 +20,7 @@ export const ExampleFilter = ({ categories, activeCategory, onFilterChange }: Ex
           className={cn(
             "rounded-full gap-2 transition-all duration-200",
             activeCategory === category.value
-              ? "bg-primary text-white hover:bg-primary-hover"
+              ? "text-white"
               : "bg-background hover:bg-muted"
           )}
         >

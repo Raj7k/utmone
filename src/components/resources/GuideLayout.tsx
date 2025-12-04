@@ -61,8 +61,8 @@ export const GuideLayout = ({
       {/* Reading Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-white/10 z-50">
         <div 
-          className="h-full bg-primary transition-all duration-150"
-          style={{ width: `${scrollProgress}%` }}
+          className="h-full transition-all duration-150"
+          style={{ background: 'rgba(59,130,246,1)', width: `${scrollProgress}%` }}
         />
       </div>
 

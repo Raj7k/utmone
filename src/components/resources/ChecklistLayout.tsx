@@ -56,7 +56,7 @@ export const ChecklistLayout = ({
             <span className="px-4 py-2 rounded-full bg-muted text-label text-sm font-medium">
               {estimatedTime}
             </span>
-            <span className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+            <span className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               {frequency}
             </span>
           </div>
@@ -102,7 +102,8 @@ export const ChecklistLayout = ({
                       <Link
                         key={index}
                         to={resource.href}
-                        className="block text-sm text-label hover:bg-fill-tertiary hover:text-primary transition-all px-2 py-1 rounded-lg"
+                        className="block text-sm text-label hover:bg-fill-tertiary transition-all px-2 py-1 rounded-lg"
+                        style={{ color: 'rgba(255,255,255,0.9)' }}
                       >
                         → {resource.title}
                       </Link>
