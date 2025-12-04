@@ -43,25 +43,26 @@ export const ProcessingProgress = ({
         return (
           <div key={stageItem.key} className="flex items-center gap-3">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                status === "complete"
-                  ? "bg-system-green"
+              className="w-8 h-8 rounded-full flex items-center justify-center transition-all"
+              style={{
+                backgroundColor: status === "complete"
+                  ? 'rgba(34,197,94,0.8)'
                   : status === "active"
-                  ? "bg-primary animate-pulse"
-                  : "bg-muted-foreground/20"
-              }`}
+                  ? 'rgba(59,130,246,0.8)'
+                  : 'rgba(255,255,255,0.1)',
+              }}
             >
               {status === "complete" ? (
                 <Check className="h-4 w-4 text-white" />
               ) : status === "active" ? (
                 <Loader2 className="h-4 w-4 text-white animate-spin" />
               ) : (
-                <div className="h-2 w-2 rounded-full bg-muted-foreground/40" />
+                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.3)' }} />
               )}
             </div>
             <div className="flex-1">
-              <p className="font-display font-semibold text-label">{stageItem.label}</p>
-              <p className="text-sm text-secondary-label">{stageItem.detail}</p>
+              <p className="font-display font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{stageItem.label}</p>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>{stageItem.detail}</p>
             </div>
           </div>
         );
@@ -70,8 +71,8 @@ export const ProcessingProgress = ({
       {stage === "creating" && (
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-secondary-label">progress</span>
-            <span className="text-label font-medium">{progressPercent}%</span>
+            <span style={{ color: 'rgba(255,255,255,0.6)' }}>progress</span>
+            <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{progressPercent}%</span>
           </div>
           <Progress value={progressPercent} className="h-2" />
         </div>
