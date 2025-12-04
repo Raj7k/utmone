@@ -66,7 +66,7 @@ const PixelInstallation = () => {
                     <h3 className="font-semibold text-foreground mb-2">Critical Requirement</h3>
                     <p className="text-muted-foreground text-sm">
                       Without the tracking pixel installed on your website, conversion tracking will not work. 
-                      The pixel must be placed in the <code className="text-primary">&lt;head&gt;</code> section of your website.
+                      The pixel must be placed in the <code style={{ color: 'rgba(59,130,246,1)' }}>&lt;head&gt;</code> section of your website.
                     </p>
                   </div>
                 </div>
@@ -75,7 +75,10 @@ const PixelInstallation = () => {
               <div className="space-y-6">
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       1
                     </div>
                     <div className="flex-1">
@@ -94,7 +97,10 @@ const PixelInstallation = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       2
                     </div>
                     <div className="flex-1">
@@ -131,14 +137,17 @@ const PixelInstallation = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       3
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-foreground mb-2">install on your website</h3>
                       <p className="text-muted-foreground">
-                        Paste the pixel code in the <code className="text-primary">&lt;head&gt;</code> tag 
-                        of your website, before the closing <code className="text-primary">&lt;/head&gt;</code> tag.
+                        Paste the pixel code in the <code style={{ color: 'rgba(59,130,246,1)' }}>&lt;head&gt;</code> tag 
+                        of your website, before the closing <code style={{ color: 'rgba(59,130,246,1)' }}>&lt;/head&gt;</code> tag.
                       </p>
                     </div>
                   </div>
@@ -146,7 +155,10 @@ const PixelInstallation = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       4
                     </div>
                     <div className="flex-1">
@@ -201,9 +213,9 @@ const PixelInstallation = () => {
                 ].map((event) => (
                   <div key={event.event} className="border border-border rounded-xl p-6 bg-card">
                     <div className="flex items-start gap-4 mb-3">
-                      <Code className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <Code className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <div className="flex-1">
-                        <code className="text-primary font-mono text-sm font-semibold">{event.event}</code>
+                        <code className="font-mono text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>{event.event}</code>
                         <p className="text-muted-foreground mt-2 text-sm">{event.desc}</p>
                       </div>
                     </div>
@@ -293,7 +305,7 @@ function CheckoutButton() {
                     Pixel not loading
                   </h3>
                   <ul className="text-muted-foreground space-y-2 text-sm">
-                    <li>• Check that the pixel code is in the <code className="text-primary">&lt;head&gt;</code> section</li>
+                    <li>• Check that the pixel code is in the <code style={{ color: 'rgba(59,130,246,1)' }}>&lt;head&gt;</code> section</li>
                     <li>• Verify your Pixel ID is correct</li>
                     <li>• Check browser console for JavaScript errors</li>
                     <li>• Ensure ad blockers are disabled during testing</li>

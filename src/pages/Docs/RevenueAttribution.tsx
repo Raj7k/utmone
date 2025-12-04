@@ -49,7 +49,7 @@ const RevenueAttribution = () => {
                 </p>
               </div>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-2xl p-8">
+              <div className="rounded-2xl p-8" style={{ backgroundColor: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
                 <h3 className="text-xl font-semibold text-foreground mb-4">The Solution</h3>
                 <p className="text-muted-foreground">
                   utm.one tracks the full funnel—from click to lead to SQL to closed deal. 
@@ -67,7 +67,10 @@ const RevenueAttribution = () => {
               <div className="space-y-6">
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       1
                     </div>
                     <div>
@@ -82,7 +85,10 @@ const RevenueAttribution = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       2
                     </div>
                     <div>
@@ -97,7 +103,10 @@ const RevenueAttribution = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       3
                     </div>
                     <div>
@@ -112,7 +121,10 @@ const RevenueAttribution = () => {
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                    <div 
+                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
+                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
+                    >
                       4
                     </div>
                     <div>
@@ -162,12 +174,15 @@ const RevenueAttribution = () => {
                     </div>
                     <span className="text-2xl font-bold text-foreground">12</span>
                   </div>
-                  <div className="flex items-center justify-between p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                  <div 
+                    className="flex items-center justify-between p-4 rounded-xl"
+                    style={{ backgroundColor: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}
+                  >
                     <div className="flex items-center gap-3">
-                      <DollarSign className="w-5 h-5 text-primary" />
+                      <DollarSign className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span className="text-foreground font-medium">Closed Won</span>
                     </div>
-                    <span className="text-2xl font-bold text-primary">3 deals ($15,000)</span>
+                    <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>3 deals ($15,000)</span>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mt-6">
@@ -187,7 +202,7 @@ const RevenueAttribution = () => {
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <h3 className="text-lg font-semibold text-foreground mb-4">step 1: install tracking pixel</h3>
                   <p className="text-muted-foreground mb-4">
-                    Add the utm.one tracking pixel to your website's <code className="text-primary">&lt;head&gt;</code> tag. 
+                    Add the utm.one tracking pixel to your website's <code style={{ color: 'rgba(59,130,246,1)' }}>&lt;head&gt;</code> tag. 
                     This captures pageviews and form submissions.
                   </p>
                   <Link to="/docs/pixel-installation">
