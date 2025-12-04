@@ -39,7 +39,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
               {formatText(question)}
             </h3>
             <p style={{ color: 'rgba(255,255,255,0.5)' }}>{answer}</p>
-            <p className="text-sm text-primary mt-3 lowercase">tap to see example →</p>
+            <p className="text-sm mt-3 lowercase" style={{ color: '#191265' }}>tap to see example →</p>
           </div>
 
           {/* Back: Visual Example */}
@@ -51,7 +51,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
             }}
           >
             {visualExample}
-            <p className="text-sm text-primary mt-4 lowercase">tap to go back ←</p>
+            <p className="text-sm mt-4 lowercase" style={{ color: '#191265' }}>tap to go back ←</p>
           </div>
         </div>
       </motion.div>

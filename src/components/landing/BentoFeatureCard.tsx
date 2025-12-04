@@ -53,7 +53,7 @@ export const BentoFeatureCard = ({
               <Icon className="h-6 w-6 md:h-8 md:w-8" style={{ color: '#191265' }} />
             </div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold text-label lowercase group-hover:text-primary transition-colors">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold lowercase transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
               {title}
             </h3>
             
@@ -62,7 +62,7 @@ export const BentoFeatureCard = ({
             </p>
           </div>
           
-          <div className="flex items-center gap-2 text-primary font-medium mt-4 md:mt-6 group-hover:gap-3 transition-all text-sm md:text-base">
+          <div className="flex items-center gap-2 font-medium mt-4 md:mt-6 group-hover:gap-3 transition-all text-sm md:text-base" style={{ color: '#191265' }}>
             learn more
             <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </div>
