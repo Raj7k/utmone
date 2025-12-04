@@ -200,7 +200,7 @@ export const CRMImplementationWizard = () => {
                 transition={{ delay: index * 0.1 }}
                 className={cn(
                   "bg-card rounded-xl p-6 border-2 transition-all cursor-pointer relative z-10",
-                  isCompleted ? "border-primary/50" : "border-border/50 hover:border-border"
+                  isCompleted ? "border-white/30" : "border-border/50 hover:border-border"
                 )}
                 onClick={() => toggleStep(step.id)}
               >
@@ -208,8 +208,9 @@ export const CRMImplementationWizard = () => {
                   <div
                     className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
-                      isCompleted ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                      isCompleted ? "text-white" : "bg-muted text-muted-foreground"
                     )}
+                    style={isCompleted ? { background: 'rgba(59,130,246,1)' } : undefined}
                   >
                     {isCompleted ? (
                       <Check className="w-4 h-4" />
@@ -242,7 +243,7 @@ export const CRMImplementationWizard = () => {
       <div className="bg-slate-950 rounded-2xl p-6 relative">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="px-3 py-1 rounded-md bg-primary/20 text-primary text-xs font-mono">
+            <div className="px-3 py-1 rounded-md text-xs font-mono" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
               {selectedCRM === "hubspot" ? "JavaScript" : "Apex"}
             </div>
           </div>
@@ -250,7 +251,7 @@ export const CRMImplementationWizard = () => {
             variant="ghost"
             size="sm"
             onClick={handleCopyCode}
-            className="text-white hover:text-primary"
+            className="text-white hover:text-white/80"
           >
             <Copy className="w-4 h-4 mr-2" />
             Copy Code
@@ -272,8 +273,9 @@ export const CRMImplementationWizard = () => {
               key={step.id}
               className={cn(
                 "w-8 h-2 rounded-full transition-colors",
-                completedSteps.includes(step.id) ? "bg-primary" : "bg-muted"
+                completedSteps.includes(step.id) ? "" : "bg-muted"
               )}
+              style={completedSteps.includes(step.id) ? { background: 'rgba(59,130,246,1)' } : undefined}
             />
           ))}
         </div>
