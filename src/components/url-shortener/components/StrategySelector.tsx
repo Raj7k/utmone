@@ -52,9 +52,10 @@ export const StrategySelector = ({ strategy, onStrategyChange }: StrategySelecto
             onClick={() => onStrategyChange(s.id)}
             className={`group relative p-4 rounded-xl border-2 transition-all text-left ${
               isActive
-                ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
-                : 'border-border bg-background hover:border-primary/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
+                ? 'border-white/30 shadow-lg'
+                : 'border-white/10 bg-zinc-900/40 hover:border-white/20 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
             }`}
+            style={isActive ? { background: 'rgba(255,255,255,0.1)' } : undefined}
           >
             <div className={`inline-flex p-2 rounded-lg bg-gradient-to-br ${s.color} mb-2`}>
               <Icon className="h-4 w-4 text-white" />
@@ -66,7 +67,7 @@ export const StrategySelector = ({ strategy, onStrategyChange }: StrategySelecto
               {s.description}
             </div>
             {isActive && (
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full animate-pulse" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full animate-pulse" style={{ background: 'rgba(255,255,255,0.8)' }} />
             )}
           </button>
         );

@@ -153,8 +153,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                   variant="outline"
                   className="gap-2 justify-start h-auto py-3"
                 >
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Share2 className="h-4 w-4 text-primary" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                    <Share2 className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                   </div>
                   <span className="text-sm">share</span>
                 </Button>
@@ -226,8 +226,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 variant="outline"
                 className="gap-2 justify-start h-auto py-3"
               >
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Mail className="h-4 w-4 text-primary" />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                  <Mail className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                 </div>
                 <span className="text-sm">email</span>
               </Button>
@@ -238,8 +238,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 variant="outline"
                 className="gap-2 justify-start h-auto py-3"
               >
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <MessageSquare className="h-4 w-4 text-primary" />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                  <MessageSquare className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                 </div>
                 <span className="text-sm">sms</span>
               </Button>

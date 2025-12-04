@@ -156,7 +156,7 @@ const TeamBudgetOptimizer = () => {
                 <div className="pt-4 border-t">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Total Budget Used</span>
-                    <span className="text-2xl font-display font-bold text-primary">
+                    <span className="text-2xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       ${recommendations.composition.reduce((sum: number, m: any) => sum + (m.salary * m.fte), 0).toLocaleString()}
                     </span>
                   </div>

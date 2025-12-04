@@ -229,8 +229,8 @@ export const ABTestControls = ({
               {variants.map((variant, idx) => (
                 <div
                   key={variant.id}
-                  className={`flex items-center justify-center text-xs font-semibold ${
-                    idx === 0 ? 'bg-primary' : idx === 1 ? 'bg-purple-500' : 'bg-cyan-500'
+                className={`flex items-center justify-center text-xs font-semibold text-white ${
+                    idx === 0 ? 'bg-white/80' : idx === 1 ? 'bg-purple-500' : 'bg-cyan-500'
                   }`}
                   style={{ width: `${variant.trafficPercentage}%` }}
                 >

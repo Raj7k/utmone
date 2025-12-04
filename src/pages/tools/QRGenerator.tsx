@@ -173,19 +173,19 @@ export default function QRGenerator() {
                 </div>
                 <div className="space-y-2 text-sm text-secondary-label">
                   <div className="flex items-center gap-2">
-                    <span className="text-primary">🔒</span>
+                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>🔒</span>
                     <span>Remove utm.one watermark</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-primary">🔒</span>
+                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>🔒</span>
                     <span>SVG & PDF export</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-primary">🔒</span>
+                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>🔒</span>
                     <span>Custom logo upload</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-primary">🔒</span>
+                    <span style={{ color: 'rgba(255,255,255,0.7)' }}>🔒</span>
                     <span>Gradient colors</span>
                   </div>
                 </div>
@@ -240,7 +240,7 @@ export default function QRGenerator() {
 
             <p className="text-sm text-secondary-label text-center mt-6 max-w-md">
               Free QR Codes include utm.one branding.{" "}
-              <Link to="/pricing" className="text-primary hover:underline">
+              <Link to="/pricing" className="hover:underline" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 Upgrade to Pro
               </Link>{" "}
               to remove watermarks and access advanced features.

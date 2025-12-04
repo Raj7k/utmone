@@ -87,7 +87,7 @@ const CareerPathOptimizer = () => {
                       <CardTitle className="text-xl">{role.role}</CardTitle>
                     </div>
                     <div className="text-right">
-                      <div className="text-3xl font-display font-bold text-primary">
+                      <div className="text-3xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                         +{salaryJump.toFixed(1)}%
                       </div>
                       <div className="text-sm text-muted-foreground">salary increase</div>

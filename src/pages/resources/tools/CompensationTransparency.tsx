@@ -81,9 +81,9 @@ const CompensationTransparency = () => {
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">25th percentile</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg border-2 border-primary bg-primary/5">
+                  <div className="text-center p-4 rounded-lg border-2 border-white/30" style={{ background: 'rgba(255,255,255,0.05)' }}>
                     <Badge variant="default" className="mb-2">MIDPOINT</Badge>
-                    <div className="text-2xl font-display font-bold text-primary">
+                    <div className="text-2xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       {formatCurrency(salaryData.baseCompensation.p50)}
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">50th percentile</div>
@@ -114,12 +114,12 @@ const CompensationTransparency = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+          <Card className="border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.1))' }}>
             <CardHeader>
               <CardTitle className="lowercase">"we pay fair" badge</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-4 p-6 bg-white rounded-lg border-2 border-primary/30">
+              <div className="flex items-center gap-4 p-6 bg-zinc-900/40 rounded-lg border-2 border-white/30">
                 <Badge variant="default" className="text-lg px-4 py-2">
                   💰 We Pay Fair
                 </Badge>

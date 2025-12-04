@@ -1268,9 +1268,9 @@ Allow: /`}
                 <h3 className="text-xl font-semibold text-foreground mb-4">Iteration Framework: Test → Identify → Update → Re-test</h3>
                 
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full shrink-0 mt-1">
-                      <span className="text-sm font-bold text-primary">1</span>
+                    <div className="flex items-start gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>1</span>
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-2">Run Prompt in ChatGPT/Claude/Perplexity</h4>
@@ -1279,8 +1279,8 @@ Allow: /`}
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full shrink-0 mt-1">
-                      <span className="text-sm font-bold text-primary">2</span>
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>2</span>
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-2">Check if Your Content is Cited</h4>
@@ -1289,8 +1289,8 @@ Allow: /`}
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full shrink-0 mt-1">
-                      <span className="text-sm font-bold text-primary">3</span>
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>3</span>
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-2">If Not Cited, Identify Why</h4>
@@ -1306,8 +1306,8 @@ Allow: /`}
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full shrink-0 mt-1">
-                      <span className="text-sm font-bold text-primary">4</span>
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>4</span>
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-2">Update Content Based on Gaps</h4>
@@ -1316,8 +1316,8 @@ Allow: /`}
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full shrink-0 mt-1">
-                      <span className="text-sm font-bold text-primary">5</span>
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full shrink-0 mt-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>5</span>
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-2">Re-test After 7 Days</h4>
@@ -1509,13 +1509,13 @@ utm_content = {citation-position} (optional)`}
                 </div>
               </div>
 
-              <div className="p-6 bg-primary/5 border border-primary/20 rounded-xl">
+              <div className="p-6 border border-white/20 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <h3 className="text-xl font-semibold text-foreground mb-4">Key Performance Indicators (KPIs)</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
-                        <TrendingUp className="w-4 h-4 text-primary" />
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                        <TrendingUp className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground">Citation Rate</h4>
@@ -1525,8 +1525,8 @@ utm_content = {citation-position} (optional)`}
                     </div>
                     
                     <div className="flex items-start gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
-                        <Target className="w-4 h-4 text-primary" />
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                        <Target className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground">Average Citation Position</h4>
@@ -1538,8 +1538,8 @@ utm_content = {citation-position} (optional)`}
                   
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
-                        <TrendingUp className="w-4 h-4 text-primary" />
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                        <TrendingUp className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground">AI Referral Traffic Growth</h4>
@@ -1549,8 +1549,8 @@ utm_content = {citation-position} (optional)`}
                     </div>
                     
                     <div className="flex items-start gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-lg shrink-0">
-                        <Zap className="w-4 h-4 text-primary" />
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                        <Zap className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
                       </div>
                       <div>
                         <h4 className="font-semibold text-foreground">AI Traffic Conversion Rate</h4>
@@ -1646,9 +1646,9 @@ utm_content = {citation-position} (optional)`}
             <div className="prose prose-lg max-w-none space-y-8">
               <div className="space-y-6">
                 {/* Phase 1 */}
-                <div className="p-8 bg-card border-l-4 border-primary rounded-2xl">
+                <div className="p-8 bg-card border-l-4 border-white/50 rounded-2xl">
                   <div className="flex items-center gap-3 mb-4">
-                    <Badge className="bg-primary text-primary-foreground">PHASE 1</Badge>
+                    <Badge className="bg-white/20 text-white">PHASE 1</Badge>
                     <h3 className="text-2xl font-semibold text-foreground">Days 1-30: Foundation</h3>
                   </div>
                   <ul className="space-y-2 text-foreground">
@@ -1680,9 +1680,9 @@ utm_content = {citation-position} (optional)`}
                 </div>
 
                 {/* Phase 2 */}
-                <div className="p-8 bg-card border-l-4 border-primary rounded-2xl">
+                <div className="p-8 bg-card border-l-4 border-white/50 rounded-2xl">
                   <div className="flex items-center gap-3 mb-4">
-                    <Badge className="bg-primary text-primary-foreground">PHASE 2</Badge>
+                    <Badge className="bg-white/20 text-white">PHASE 2</Badge>
                     <h3 className="text-2xl font-semibold text-foreground">Days 31-60: Optimization</h3>
                   </div>
                   <ul className="space-y-2 text-foreground">
@@ -1714,9 +1714,9 @@ utm_content = {citation-position} (optional)`}
                 </div>
 
                 {/* Phase 3 */}
-                <div className="p-8 bg-card border-l-4 border-primary rounded-2xl">
+                <div className="p-8 bg-card border-l-4 border-white/50 rounded-2xl">
                   <div className="flex items-center gap-3 mb-4">
-                    <Badge className="bg-primary text-primary-foreground">PHASE 3</Badge>
+                    <Badge className="bg-white/20 text-white">PHASE 3</Badge>
                     <h3 className="text-2xl font-semibold text-foreground">Days 61-90: Measurement & Scale</h3>
                   </div>
                   <ul className="space-y-2 text-foreground">
@@ -1761,9 +1761,9 @@ utm_content = {citation-position} (optional)`}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <Link
                 to="/resources/playbooks/ai-marketing"
-                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+                className="p-6 bg-card border border-border rounded-xl hover:border-white/30 transition-colors group"
               >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                <h3 className="font-semibold text-foreground group-hover:text-white transition-colors mb-2">
                   AI Marketing Playbook
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -1773,9 +1773,9 @@ utm_content = {citation-position} (optional)`}
               
               <Link
                 to="/resources/guides/llm-seo"
-                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+                className="p-6 bg-card border border-border rounded-xl hover:border-white/30 transition-colors group"
               >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                <h3 className="font-semibold text-foreground group-hover:text-white transition-colors mb-2">
                   LLM-First SEO Guide
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -1785,9 +1785,9 @@ utm_content = {citation-position} (optional)`}
               
               <Link
                 to="/resources/guides/utm-guide"
-                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+                className="p-6 bg-card border border-border rounded-xl hover:border-white/30 transition-colors group"
               >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                <h3 className="font-semibold text-foreground group-hover:text-white transition-colors mb-2">
                   UTM Tracking Guide
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -1797,9 +1797,9 @@ utm_content = {citation-position} (optional)`}
               
               <Link
                 to="/resources/frameworks/clean-track-model"
-                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+                className="p-6 bg-card border border-border rounded-xl hover:border-white/30 transition-colors group"
               >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                <h3 className="font-semibold text-foreground group-hover:text-white transition-colors mb-2">
                   Clean-Track Framework
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -1809,9 +1809,9 @@ utm_content = {citation-position} (optional)`}
               
               <Link
                 to="/resources/glossary"
-                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors group"
+                className="p-6 bg-card border border-border rounded-xl hover:border-white/30 transition-colors group"
               >
-                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                <h3 className="font-semibold text-foreground group-hover:text-white transition-colors mb-2">
                   Marketing Glossary
                 </h3>
                 <p className="text-sm text-muted-foreground">

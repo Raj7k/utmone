@@ -71,7 +71,7 @@ export default function IntegrationsSettings() {
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-accent rounded-lg">
-                    <integration.icon className="w-6 h-6 text-primary" />
+                    <integration.icon className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.9)' }} />
                   </div>
                   <div>
                     <CardTitle>{integration.name}</CardTitle>

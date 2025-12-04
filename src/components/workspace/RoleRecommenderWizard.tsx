@@ -63,7 +63,7 @@ export function RoleRecommenderWizard({ onRoleSelect, trigger }: RoleRecommender
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
+            <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
             smart role recommender
           </DialogTitle>
           <DialogDescription>
@@ -101,7 +101,7 @@ export function RoleRecommenderWizard({ onRoleSelect, trigger }: RoleRecommender
 
           {/* Recommendation Result */}
           {recommendation && (
-            <div className="border border-primary/20 bg-primary/5 rounded-lg p-4 space-y-3">
+            <div className="border border-white/20 rounded-lg p-4 space-y-3" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2">
@@ -113,7 +113,7 @@ export function RoleRecommenderWizard({ onRoleSelect, trigger }: RoleRecommender
                     )}
                   </div>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-2xl font-bold text-primary">
+                    <span className="text-2xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       {recommendation.role.displayName}
                     </span>
                     <TooltipProvider>
@@ -168,7 +168,7 @@ export function RoleRecommenderWizard({ onRoleSelect, trigger }: RoleRecommender
               </div>
 
               <div className="flex items-center gap-2 pt-2">
-                <Shield className="h-4 w-4 text-primary" />
+                <Shield className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                 <p className="text-xs text-muted-foreground">
                   {recommendation.isExactMatch
                     ? "This role provides exactly the capabilities you selected with no additional privileges."

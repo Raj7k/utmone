@@ -64,7 +64,7 @@ export default function ToolsHub() {
           `,
           backgroundSize: "64px 64px",
         }} />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[150px]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[150px]" style={{ background: 'rgba(255,255,255,0.05)' }} />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blazeOrange/5 rounded-full blur-[150px]" />
       </div>
 
@@ -75,9 +75,9 @@ export default function ToolsHub() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary uppercase tracking-wider">product-led growth</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 mb-6" style={{ background: 'rgba(255,255,255,0.1)' }}>
+            <Sparkles className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.9)' }}>product-led growth</span>
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6">
@@ -142,7 +142,7 @@ export default function ToolsHub() {
                       </p>
                       
                       {/* CTA */}
-                      <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 font-medium group-hover:gap-3 transition-all" style={{ color: 'rgba(255,255,255,0.9)' }}>
                         <span>Try it free</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>

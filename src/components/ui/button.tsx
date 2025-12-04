@@ -9,12 +9,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary-hover shadow-sm hover:shadow-md h-12",
+        default: "bg-white text-zinc-900 hover:bg-white/90 shadow-sm hover:shadow-md h-12",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 h-12",
         outline: "border border-border bg-card text-foreground hover:bg-muted h-12",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary-hover h-12",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-white/90 underline-offset-4 hover:underline",
         gradient: "bg-gradient-nature-3 text-white hover:bg-gradient-nature-2 transition-all duration-300 h-12",
         "glow-pink": "bg-[#FF6B9D] text-white hover:bg-[#FF5A8C] shadow-[0_0_20px_rgba(255,107,157,0.4)] hover:shadow-[0_0_30px_rgba(255,107,157,0.6)] transition-all duration-300 h-12",
         // Apple HIG System Variants

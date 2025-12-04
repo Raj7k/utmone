@@ -210,9 +210,10 @@ const SalesMarketingAlignmentPlaybook = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.1 }}
-                    className="p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20"
+                    className="p-6 rounded-xl border border-white/20"
+                    style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.1))' }}
                   >
-                    <p className="text-4xl font-bold text-primary mb-1">{stat.value}</p>
+                    <p className="text-4xl font-bold mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>{stat.value}</p>
                     <p className="text-sm text-muted-foreground">{stat.label}</p>
                   </motion.div>
                 ))}
@@ -249,7 +250,7 @@ const SalesMarketingAlignmentPlaybook = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                    className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/50 hover:border-white/20 hover:shadow-lg transition-all duration-300"
                   >
                     <div className="absolute top-6 right-6 text-7xl font-extrabold text-foreground/5 pointer-events-none">
                       {idea.number}
@@ -321,10 +322,11 @@ const SalesMarketingAlignmentPlaybook = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08 }}
-                    className="p-6 rounded-xl bg-gradient-to-r from-primary/5 to-transparent border-l-4 border-primary"
+                    className="p-6 rounded-xl border-l-4 border-white/50"
+                    style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.05), transparent)' }}
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold flex-shrink-0" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>
                         {stage.stage}
                       </div>
                       <div className="flex-1">
@@ -397,7 +399,7 @@ const SalesMarketingAlignmentPlaybook = () => {
                     className="p-6 rounded-xl bg-card border border-border/50"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="px-3 py-1 rounded-lg bg-primary/10 text-primary font-semibold text-sm flex-shrink-0">
+                      <div className="px-3 py-1 rounded-lg font-semibold text-sm flex-shrink-0" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
                         {week.week}
                       </div>
                       <div>
@@ -580,7 +582,7 @@ const SalesMarketingAlignmentPlaybook = () => {
                     transition={{ delay: i * 0.1 }}
                     className="p-6 rounded-xl bg-card border border-border/50"
                   >
-                    <h3 className="font-semibold text-lg mb-3 text-primary">✅ {benefit.title}</h3>
+                    <h3 className="font-semibold text-lg mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>✅ {benefit.title}</h3>
                     <ul className="space-y-2">
                       {benefit.points.map((point, j) => (
                         <li key={j} className="text-sm text-muted-foreground flex items-start gap-2">
@@ -597,25 +599,25 @@ const SalesMarketingAlignmentPlaybook = () => {
 
           {/* Next Steps */}
           <ProgressiveReveal>
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20">
+            <div className="p-8 rounded-2xl border-2 border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05))' }}>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-6">
                 next steps
               </h2>
               <ol className="space-y-3 text-lg mb-8">
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">1</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>1</span>
                   <span>Schedule 1 hour with your sales leader + marketing leader</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">2</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>2</span>
                   <span>Walk through Week 1 together (define MQL/SQL)</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">3</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>3</span>
                   <span>Set the Tuesday 10am sync on everyone's calendar for 13 weeks</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">4</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>4</span>
                   <span>Report back in 90 days on your 7 metrics</span>
                 </li>
               </ol>
@@ -624,12 +626,12 @@ const SalesMarketingAlignmentPlaybook = () => {
                 <ul className="space-y-2">
                   {["faster response times", "better lead quality", "more aligned teams", "higher revenue"].map((benefit, i) => (
                     <li key={i} className="flex items-center gap-2 text-lg">
-                      <span className="w-2 h-2 rounded-full bg-primary"></span>
+                      <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.8)' }}></span>
                       <span>{benefit}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="text-2xl font-bold text-primary mt-6">go build it.</p>
+                <p className="text-2xl font-bold mt-6" style={{ color: 'rgba(255,255,255,0.9)' }}>go build it.</p>
               </div>
             </div>
           </ProgressiveReveal>

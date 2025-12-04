@@ -54,7 +54,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-border" />
+      <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-white/50 via-white/30 to-white/10" />
 
       <div className="space-y-4">
         {sortedVersions.map((version, idx) => {
@@ -66,7 +66,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
               <div
                 className={`absolute left-4 top-6 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                   isLatest
-                    ? 'bg-primary border-primary shadow-lg shadow-primary/50'
+                    ? 'border-white shadow-lg'
                     : 'bg-background border-border'
                 }`}
               >
@@ -92,7 +92,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
                         </Badge>
                       )}
                       {isLatest && (
-                        <Badge className="text-xs bg-primary/20 text-primary border-primary/30">
+                        <Badge className="text-xs border-white/30" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
                           latest
                         </Badge>
                       )}
@@ -104,7 +104,7 @@ export const VersionTimeline = ({ versions, onSelectVersion }: VersionTimelinePr
                   </div>
 
                   <div className="text-right flex-shrink-0">
-                    <div className="flex items-center gap-1 text-primary mb-1">
+                    <div className="flex items-center gap-1 mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       <TrendingUp className="h-3.5 w-3.5" />
                       <span className="text-sm font-bold">{version.total_clicks.toLocaleString()}</span>
                     </div>
