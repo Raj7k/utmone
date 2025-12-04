@@ -43,17 +43,18 @@ const raciData: RACIRole[] = [
 
 const RACIBadge = ({ type }: { type: string }) => {
   const config = {
-    R: { label: "R", color: "bg-blue-500", tooltip: "Responsible (does the work)" },
-    A: { label: "A", color: "bg-green-500", tooltip: "Accountable (final approval)" },
-    C: { label: "C", color: "bg-yellow-500", tooltip: "Consulted (provides input)" },
-    I: { label: "I", color: "bg-gray-500", tooltip: "Informed (kept updated)" }
+    R: { label: "R", style: { background: 'rgba(59,130,246,1)' }, tooltip: "Responsible (does the work)" },
+    A: { label: "A", style: { background: 'rgba(34,197,94,1)' }, tooltip: "Accountable (final approval)" },
+    C: { label: "C", style: { background: 'rgba(234,179,8,1)' }, tooltip: "Consulted (provides input)" },
+    I: { label: "I", style: { background: 'rgba(161,161,170,1)' }, tooltip: "Informed (kept updated)" }
   };
   
   const c = config[type as keyof typeof config];
   
   return (
     <span 
-      className={`inline-flex items-center justify-center w-6 h-6 rounded-full ${c.color} text-white text-xs font-bold`}
+      className="inline-flex items-center justify-center w-6 h-6 rounded-full text-white text-xs font-bold"
+      style={c.style}
       title={c.tooltip}
     >
       {c.label}

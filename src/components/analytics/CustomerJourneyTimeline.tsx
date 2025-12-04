@@ -21,16 +21,16 @@ interface CustomerJourneyTimelineProps {
   isLoading: boolean;
 }
 
-const getEventColor = (eventType: string) => {
+const getEventColorStyle = (eventType: string): { background: string } => {
   switch (eventType) {
     case "click":
-      return "bg-blue-500";
+      return { background: 'rgba(59,130,246,1)' };
     case "pageview":
-      return "bg-green-500";
+      return { background: 'rgba(34,197,94,1)' };
     case "conversion":
-      return "bg-purple-500";
+      return { background: 'rgba(168,85,247,1)' };
     default:
-      return "bg-gray-500";
+      return { background: 'rgba(161,161,170,1)' };
   }
 };
 
@@ -74,7 +74,7 @@ export const CustomerJourneyTimeline = ({ events, isLoading }: CustomerJourneyTi
           {events.map((event, index) => (
             <div key={event.event_id} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className={`w-3 h-3 rounded-full ${getEventColor(event.event_type)}`} />
+                <div className="w-3 h-3 rounded-full" style={getEventColorStyle(event.event_type)} />
                 {index < events.length - 1 && (
                   <div className="w-0.5 h-full bg-border mt-2" />
                 )}

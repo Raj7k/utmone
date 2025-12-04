@@ -86,7 +86,7 @@ export const LinkHealthWidget = () => {
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full bg-gray-400" />
+              <div className="h-3 w-3 rounded-full" style={{ background: 'rgba(161,161,170,1)' }} />
               <span className="text-muted-foreground">unknown</span>
             </div>
             <span className="font-medium">{healthStats?.unknown || 0}</span>

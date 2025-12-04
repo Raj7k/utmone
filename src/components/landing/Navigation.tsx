@@ -654,11 +654,15 @@ export const Navigation = () => {
                         {/* LLM Ranking Playbook - HOT */}
                         <Link 
                           to="/resources/playbooks/llm-ranking" 
-                          className="group rounded-lg bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-background p-3 flex flex-col gap-2 border border-orange-500/20 hover:border-orange-500/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-lg p-3 flex flex-col gap-2 border transition-all hover:scale-[1.02]"
+                          style={{ 
+                            background: 'linear-gradient(to bottom right, rgba(249,115,22,0.1), rgba(249,115,22,0.05), transparent)',
+                            borderColor: 'rgba(249,115,22,0.2)'
+                          }}
                         >
                           <div className="flex items-center justify-between">
-                            <Bot className="w-4 h-4 text-orange-500" />
-                            <Badge className="bg-orange-500 text-white text-[10px] px-2 py-0">HOT</Badge>
+                            <Bot className="w-4 h-4" style={{ color: 'rgba(249,115,22,1)' }} />
+                            <Badge className="text-white text-[10px] px-2 py-0" style={{ background: 'rgba(249,115,22,1)' }}>HOT</Badge>
                           </div>
                           <div>
                             <h3 className="text-xs font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>llm ranking playbook</h3>

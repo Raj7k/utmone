@@ -877,7 +877,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionItem value="targeting" className="border rounded-lg px-4">
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <Target className="h-5 w-5 text-indigo-600" />
+                  <Target className="h-5 w-5" style={{ color: 'rgba(99,102,241,0.9)' }} />
                   <span className="font-serif text-lg font-semibold">Geo & Device Targeting</span>
                   <Badge variant="secondary" className="text-xs">Optional</Badge>
                 </div>

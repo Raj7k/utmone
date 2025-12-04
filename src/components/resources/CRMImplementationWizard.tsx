@@ -240,7 +240,7 @@ export const CRMImplementationWizard = () => {
       </div>
 
       {/* Code Snippet */}
-      <div className="bg-slate-950 rounded-2xl p-6 relative">
+      <div className="rounded-2xl p-6 relative" style={{ background: 'rgba(9,9,11,0.9)' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div className="px-3 py-1 rounded-md text-xs font-mono" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>

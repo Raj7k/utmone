@@ -70,8 +70,13 @@ export const TimelineAuditViewer = () => {
     if (eventType.includes('created')) return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20';
     if (eventType.includes('updated')) return 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20';
     if (eventType.includes('deleted')) return 'bg-destructive/10 text-destructive border-destructive/20';
-    if (eventType.includes('security')) return 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20';
+    if (eventType.includes('security')) return 'border-destructive/20';
     return 'bg-muted text-muted-foreground border-border';
+  };
+
+  const getEventStyle = (eventType: string) => {
+    if (eventType.includes('security')) return { background: 'rgba(244,63,94,0.1)', color: 'rgba(244,63,94,0.9)' };
+    return {};
   };
 
   const formatEventType = (type: string) => {
@@ -173,7 +178,7 @@ export const TimelineAuditViewer = () => {
                     {/* Content */}
                     <div className="flex-1 min-w-0 pt-1 space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <Badge className={`${getEventColor(event.event_type)} border text-xs`}>
+                        <Badge className={`${getEventColor(event.event_type)} border text-xs`} style={getEventStyle(event.event_type)}>
                           {formatEventType(event.event_type)}
                         </Badge>
                         {event.metadata?.severity && (
@@ -224,7 +229,7 @@ export const TimelineAuditViewer = () => {
               <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-muted/30 border border-border">
                 <div>
                   <div className="text-caption-1-apple text-tertiary-label mb-1">Event Type</div>
-                  <Badge className={getEventColor(selectedEvent.event_type)}>
+                  <Badge className={getEventColor(selectedEvent.event_type)} style={getEventStyle(selectedEvent.event_type)}>
                     {formatEventType(selectedEvent.event_type)}
                   </Badge>
                 </div>
