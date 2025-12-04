@@ -150,9 +150,9 @@ export function DestinationRotator({
 
       {/* Smart Rotate Status */}
       {smartRotate && destinations.length >= 2 && (
-        <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+        <div className="p-3 rounded-lg border" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
           <div className="flex items-start gap-2">
-            <Zap className="h-4 w-4 text-primary mt-0.5" />
+            <Zap className="h-4 w-4 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
             <div className="flex-1 space-y-1">
               <p className="text-xs font-medium">
                 {rotatorResults.isLearning

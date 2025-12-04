@@ -99,7 +99,7 @@ export const LinkDetailQRCodes = ({ linkId, shortUrl }: LinkDetailQRCodesProps) 
                   Created: {format(new Date(qr.created_at || ""), "PPP")}
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium mt-2">
-                  <span className="text-primary">
+                  <span style={{ color: 'rgba(59,130,246,1)' }}>
                     {qrClickStats?.[qr.id] || 0} clicks
                   </span>
                 </div>
