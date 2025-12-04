@@ -194,9 +194,13 @@ export const FloatingNavigation = () => {
 
                       <Link 
                         to="/features/smart-routing" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-violet-500/20 hover:border-violet-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/25 bg-gradient-to-br from-violet-500/15 via-violet-500/5 to-transparent shadow-sm"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
+                        style={{ 
+                          borderColor: 'rgba(139,92,246,0.2)', 
+                          background: 'linear-gradient(to bottom right, rgba(139,92,246,0.15), rgba(139,92,246,0.05), transparent)'
+                        }}
                       >
-                        <div className="w-6 h-6 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0 text-violet-500">
+                        <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(139,92,246,0.2)', color: 'rgba(139,92,246,1)' }}>
                           <Route className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -312,9 +316,13 @@ export const FloatingNavigation = () => {
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
                         to="/solutions/marketers" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/25 bg-gradient-to-br from-orange-500/15 via-orange-500/5 to-transparent shadow-sm"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
+                        style={{ 
+                          borderColor: 'rgba(249,115,22,0.2)', 
+                          background: 'linear-gradient(to bottom right, rgba(249,115,22,0.15), rgba(249,115,22,0.05), transparent)'
+                        }}
                       >
-                        <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0 text-orange-500">
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(249,115,22,0.2)', color: 'rgba(249,115,22,1)' }}>
                           <Target className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -324,9 +332,13 @@ export const FloatingNavigation = () => {
 
                       <Link 
                         to="/solutions/partner-managers" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-teal-500/20 hover:border-teal-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/25 bg-gradient-to-br from-teal-500/15 via-teal-500/5 to-transparent shadow-sm"
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
+                        style={{ 
+                          borderColor: 'rgba(20,184,166,0.2)', 
+                          background: 'linear-gradient(to bottom right, rgba(20,184,166,0.15), rgba(20,184,166,0.05), transparent)'
+                        }}
                       >
-                        <div className="w-6 h-6 rounded-xl bg-teal-500/20 flex items-center justify-center shrink-0 text-teal-500">
+                        <div className="w-6 h-6 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(20,184,166,0.2)', color: 'rgba(20,184,166,1)' }}>
                           <Handshake className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -453,11 +465,15 @@ export const FloatingNavigation = () => {
                       {/* LLM Ranking - HOT */}
                       <Link 
                         to="/resources/playbooks/llm-ranking" 
-                        className="group rounded-lg bg-gradient-to-br from-orange-500/10 via-orange-500/5 to-transparent p-2.5 flex flex-col gap-1.5 border border-orange-500/20 hover:border-orange-500/40 transition-all hover:scale-[1.02]"
+                        className="group rounded-lg p-2.5 flex flex-col gap-1.5 border transition-all hover:scale-[1.02]"
+                        style={{ 
+                          background: 'linear-gradient(to bottom right, rgba(249,115,22,0.1), rgba(249,115,22,0.05), transparent)',
+                          borderColor: 'rgba(249,115,22,0.2)'
+                        }}
                       >
                         <div className="flex items-center justify-between">
-                          <Bot className="w-3.5 h-3.5 text-orange-500" />
-                          <Badge className="bg-orange-500 text-white text-[9px] px-1.5 py-0">HOT</Badge>
+                          <Bot className="w-3.5 h-3.5" style={{ color: 'rgba(249,115,22,1)' }} />
+                          <Badge className="text-white text-[9px] px-1.5 py-0" style={{ background: 'rgba(249,115,22,1)' }}>HOT</Badge>
                         </div>
                         <div>
                           <h3 className="text-[10px] font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.9)' }}>llm ranking</h3>

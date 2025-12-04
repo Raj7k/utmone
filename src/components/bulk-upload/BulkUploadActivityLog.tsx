@@ -26,16 +26,16 @@ const actionTypeLabels: Record<string, string> = {
   assigned: "Assigned upload",
 };
 
-const actionTypeColors: Record<string, string> = {
-  created: "bg-blue-100 text-blue-800",
-  processed: "bg-green-100 text-green-800",
-  commented: "bg-purple-100 text-purple-800",
-  approval_requested: "bg-yellow-100 text-yellow-800",
-  approved: "bg-green-100 text-green-800",
-  rejected: "bg-red-100 text-red-800",
-  template_saved: "bg-indigo-100 text-indigo-800",
-  template_applied: "bg-cyan-100 text-cyan-800",
-  assigned: "bg-orange-100 text-orange-800",
+const actionTypeStyles: Record<string, { background: string; color: string }> = {
+  created: { background: 'rgba(59,130,246,0.15)', color: 'rgba(59,130,246,0.9)' },
+  processed: { background: 'rgba(34,197,94,0.15)', color: 'rgba(34,197,94,0.9)' },
+  commented: { background: 'rgba(168,85,247,0.15)', color: 'rgba(168,85,247,0.9)' },
+  approval_requested: { background: 'rgba(234,179,8,0.15)', color: 'rgba(234,179,8,0.9)' },
+  approved: { background: 'rgba(34,197,94,0.15)', color: 'rgba(34,197,94,0.9)' },
+  rejected: { background: 'rgba(239,68,68,0.15)', color: 'rgba(239,68,68,0.9)' },
+  template_saved: { background: 'rgba(99,102,241,0.15)', color: 'rgba(99,102,241,0.9)' },
+  template_applied: { background: 'rgba(6,182,212,0.15)', color: 'rgba(6,182,212,0.9)' },
+  assigned: { background: 'rgba(249,115,22,0.15)', color: 'rgba(249,115,22,0.9)' },
 };
 
 export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadActivityLogProps) {
@@ -119,7 +119,7 @@ export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadA
                       </div>
                       <Badge
                         variant="outline"
-                        className={actionTypeColors[activity.action_type] || ""}
+                        style={actionTypeStyles[activity.action_type] || { background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}
                       >
                         {actionTypeLabels[activity.action_type] || activity.action_type}
                       </Badge>

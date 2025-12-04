@@ -51,7 +51,7 @@ export const SmartSlugSuggestions = ({
 
   return (
     <Card className="p-4 space-y-3 bg-zinc-900/40 backdrop-blur-xl border-white/10">
-      <div className="flex items-center gap-2 text-sm font-medium text-violet-300">
+      <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'rgba(196,181,253,1)' }}>
         <Sparkles className="h-4 w-4" />
         <span>AI-Optimized Slug Suggestions</span>
       </div>
@@ -64,11 +64,11 @@ export const SmartSlugSuggestions = ({
             <button
               key={suggestion.type}
               onClick={() => onSelect(suggestion.slug)}
-              className={`w-full text-left p-3 rounded-lg border transition-all ${
-                isActive
-                  ? 'border-violet-500 bg-violet-500/20'
-                  : 'border-white/10 bg-white/5 hover:border-violet-500/50 hover:bg-violet-500/10'
-              }`}
+              className="w-full text-left p-3 rounded-lg border transition-all"
+              style={isActive 
+                ? { borderColor: 'rgba(139,92,246,1)', background: 'rgba(139,92,246,0.2)' }
+                : { borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)' }
+              }
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
@@ -82,7 +82,7 @@ export const SmartSlugSuggestions = ({
                     </Badge>
                   </div>
                   
-                  <div className="font-mono text-sm text-violet-600 dark:text-violet-400 mb-2 truncate">
+                  <div className="font-mono text-sm mb-2 truncate" style={{ color: 'rgba(167,139,250,1)' }}>
                     utm.one/{suggestion.slug}
                   </div>
 
@@ -101,7 +101,7 @@ export const SmartSlugSuggestions = ({
                 </div>
 
                 {isActive && (
-                  <Badge className="bg-violet-500 text-white">
+                  <Badge className="text-white" style={{ background: 'rgba(139,92,246,1)' }}>
                     Selected
                   </Badge>
                 )}
