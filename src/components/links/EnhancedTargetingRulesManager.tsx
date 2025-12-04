@@ -453,7 +453,7 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
               });
 
               return (
-                <Card className={matchingRule ? 'border-primary' : ''}>
+                <Card className={matchingRule ? 'border-white/30' : ''}>
                   <CardContent className="p-4">
                     {matchingRule ? (
                       <div className="space-y-2">

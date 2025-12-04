@@ -49,7 +49,7 @@ export const MarketingSalarySection = () => {
           {/* B2B vs B2C Divide */}
           <div className="bg-muted/30 rounded-2xl p-8 mb-12">
             <h3 className="text-2xl font-display font-semibold mb-4 flex items-center gap-2">
-              <AlertCircle className="w-6 h-6 text-primary" />
+              <AlertCircle className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               The B2B vs. B2C Divide
             </h3>
             <p className="text-foreground mb-4">

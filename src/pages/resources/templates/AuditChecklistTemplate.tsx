@@ -210,7 +210,7 @@ const AuditChecklistTemplate = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               to="/resources/guides/utm-guide"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Guide</h3>
               <p className="text-sm text-muted-foreground">Understanding UTM parameters</p>
@@ -218,7 +218,7 @@ const AuditChecklistTemplate = () => {
 
             <Link
               to="/resources/playbooks/utm-governance-playbook"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Governance Playbook</h3>
               <p className="text-sm text-muted-foreground">Enforcement strategies</p>
@@ -226,7 +226,7 @@ const AuditChecklistTemplate = () => {
 
             <Link
               to="/resources/templates/utm-template"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Template</h3>
               <p className="text-sm text-muted-foreground">Standard structure template</p>

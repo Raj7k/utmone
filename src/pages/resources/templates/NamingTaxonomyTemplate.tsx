@@ -211,7 +211,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               to="/resources/playbooks/naming-convention-playbook"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">Naming Convention Playbook</h3>
               <p className="text-sm text-muted-foreground">Implementation guide</p>
@@ -219,7 +219,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
 
             <Link
               to="/resources/guides/utm-guide"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Guide</h3>
               <p className="text-sm text-muted-foreground">Conceptual understanding</p>
@@ -227,7 +227,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
 
             <Link
               to="/resources/templates/utm-template"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Template</h3>
               <p className="text-sm text-muted-foreground">Apply your taxonomy</p>

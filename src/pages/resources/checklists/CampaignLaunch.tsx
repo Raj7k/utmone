@@ -75,42 +75,42 @@ export default function CampaignLaunch() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">T-7 Days</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>T-7 Days</div>
               <h3 className="font-semibold text-foreground mb-2">Strategy + Creative</h3>
               <p className="text-sm text-muted-foreground">
                 Finalize messaging, audience targeting, and all creative assets
               </p>
             </div>
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">T-3 Days</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>T-3 Days</div>
               <h3 className="font-semibold text-foreground mb-2">Tracking + Ops</h3>
               <p className="text-sm text-muted-foreground">
                 Set up UTMs, test tracking, configure CRM routing rules
               </p>
             </div>
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">T-1 Day</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>T-1 Day</div>
               <h3 className="font-semibold text-foreground mb-2">Go-Live Checks</h3>
               <p className="text-sm text-muted-foreground">
                 Final QA, schedule campaigns, set up monitoring dashboards
               </p>
             </div>
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">Launch Day</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>Launch Day</div>
               <h3 className="font-semibold text-foreground mb-2">Monitor Live</h3>
               <p className="text-sm text-muted-foreground">
                 Watch real-time metrics, ready to pause or adjust if needed
               </p>
             </div>
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">T+72 Hours</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>T+72 Hours</div>
               <h3 className="font-semibold text-foreground mb-2">Early Analysis</h3>
               <p className="text-sm text-muted-foreground">
                 Capture early signals, document learnings, adjust if needed
               </p>
             </div>
             <div className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <div className="text-sm font-semibold text-primary mb-1">T+7 Days</div>
+              <div className="text-sm font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>T+7 Days</div>
               <h3 className="font-semibold text-foreground mb-2">Full Review</h3>
               <p className="text-sm text-muted-foreground">
                 Complete performance analysis, share learnings with team

@@ -69,7 +69,7 @@ export const TeamSkillsGapAnalyzer = () => {
     <Card className="border-2">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Brain className="w-5 h-5 text-primary" />
+          <Brain className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
           Team Skills Gap Analyzer
         </CardTitle>
         <CardDescription>
@@ -134,25 +134,25 @@ export const TeamSkillsGapAnalyzer = () => {
           <div className="mt-6 space-y-4">
             <div className="grid grid-cols-3 gap-4">
               <div className="p-4 bg-muted/20 rounded-lg text-center">
-                <Target className="w-6 h-6 mx-auto mb-2 text-primary" />
+                <Target className="w-6 h-6 mx-auto mb-2" style={{ color: 'rgba(59,130,246,1)' }} />
                 <p className="text-2xl font-bold">{analysis.totalRequired}</p>
                 <p className="text-sm text-secondary-label">Required</p>
               </div>
-              <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg text-center">
-                <TrendingUp className="w-6 h-6 mx-auto mb-2 text-green-600" />
-                <p className="text-2xl font-bold text-green-600">{analysis.covered}</p>
-                <p className="text-sm text-green-600/80">Covered</p>
+              <div className="p-4 rounded-lg text-center" style={{ background: 'rgba(34,197,94,0.1)' }}>
+                <TrendingUp className="w-6 h-6 mx-auto mb-2" style={{ color: 'rgba(34,197,94,0.8)' }} />
+                <p className="text-2xl font-bold" style={{ color: 'rgba(34,197,94,0.8)' }}>{analysis.covered}</p>
+                <p className="text-sm" style={{ color: 'rgba(34,197,94,0.6)' }}>Covered</p>
               </div>
-              <div className="p-4 bg-red-50 dark:bg-red-950 rounded-lg text-center">
-                <Brain className="w-6 h-6 mx-auto mb-2 text-red-600" />
-                <p className="text-2xl font-bold text-red-600">{analysis.gaps}</p>
-                <p className="text-sm text-red-600/80">Gaps</p>
+              <div className="p-4 rounded-lg text-center" style={{ background: 'rgba(239,68,68,0.1)' }}>
+                <Brain className="w-6 h-6 mx-auto mb-2" style={{ color: 'rgba(239,68,68,0.8)' }} />
+                <p className="text-2xl font-bold" style={{ color: 'rgba(239,68,68,0.8)' }}>{analysis.gaps}</p>
+                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.6)' }}>Gaps</p>
               </div>
             </div>
 
-            <div className="p-4 bg-primary/10 rounded-lg">
+            <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
               <p className="text-sm text-secondary-label">Skills Coverage</p>
-              <p className="text-3xl font-bold text-primary">{analysis.coveragePercent}%</p>
+              <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{analysis.coveragePercent}%</p>
             </div>
 
             {analysis.gapsList.length > 0 && (
