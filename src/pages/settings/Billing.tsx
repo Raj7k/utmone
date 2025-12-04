@@ -228,7 +228,7 @@ export default function BillingSettings() {
           <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
-                <Crown className="h-6 w-6 text-primary" />
+                <Crown className="h-6 w-6" style={{ color: 'rgba(255,255,255,0.9)' }} />
                 <div>
                   <h2 className="text-xl font-display font-semibold">Current Plan</h2>
                   <Badge className={`capitalize mt-1 ${getPlanBadgeColor(limits.planTier)}`}>
@@ -336,7 +336,7 @@ export default function BillingSettings() {
                 <div
                   key={tier}
                   className={`bg-card rounded-2xl border shadow-sm p-6 flex flex-col ${
-                    plan.popular ? 'border-primary shadow-md scale-[1.02]' : 'border-border'
+                    plan.popular ? 'border-white/50 shadow-md scale-[1.02]' : 'border-border'
                   } ${isCurrentPlan ? 'opacity-50' : ''}`}
                 >
                   <div className="flex-1">
@@ -407,7 +407,7 @@ export default function BillingSettings() {
       <Dialog open={isProcessing} onOpenChange={() => {}}>
         <DialogContent className="sm:max-w-md [&>button]:hidden">
           <div className="flex flex-col items-center justify-center py-8">
-            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <Loader2 className="h-12 w-12 animate-spin mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
             <h3 className="text-lg font-semibold mb-2">Processing Secure Payment...</h3>
             <p className="text-sm text-muted-foreground text-center">
               Please wait while we upgrade your plan

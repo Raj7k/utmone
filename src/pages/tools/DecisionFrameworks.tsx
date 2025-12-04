@@ -45,10 +45,10 @@ const FirstPrinciplesCalculator = () => {
   };
 
   return (
-    <Card className="border-2 border-primary/20">
+    <Card className="border-2 border-white/20">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 lowercase">
-          <Target className="w-5 h-5 text-primary" />
+          <Target className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
           first principles breakdown
         </CardTitle>
         <CardDescription>
@@ -76,7 +76,7 @@ const FirstPrinciplesCalculator = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary shrink-0">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
                 {index + 1}
               </div>
               <div className="flex-1 space-y-1">
@@ -100,17 +100,18 @@ const FirstPrinciplesCalculator = () => {
 
         {fundamentals.length > 0 && (
           <motion.div 
-            className="p-4 bg-primary/5 rounded-lg border border-primary/20 space-y-3"
+            className="p-4 rounded-lg border border-white/20 space-y-3"
+            style={{ background: 'rgba(255,255,255,0.05)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <h4 className="font-semibold text-foreground flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-primary" />
+              <Sparkles className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
               Fundamental Insights
             </h4>
             {fundamentals.map((f, i) => (
               <div key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.7)' }} />
                 <span>{f}</span>
               </div>
             ))}
@@ -220,7 +221,7 @@ const DecisionMatrixBuilder = () => {
                 <td className="p-2 font-semibold text-foreground">Total Score</td>
                 {options.map(opt => (
                   <td key={opt} className="p-2 text-center">
-                    <span className={`font-bold ${getWinner() === opt ? "text-primary" : "text-foreground"}`}>
+                    <span className={`font-bold ${getWinner() === opt ? "" : "text-foreground"}`} style={getWinner() === opt ? { color: 'rgba(255,255,255,0.9)' } : undefined}>
                       {calculateTotal(opt)}
                     </span>
                   </td>
@@ -232,11 +233,12 @@ const DecisionMatrixBuilder = () => {
 
         {getWinner() && (
           <motion.div 
-            className="p-4 bg-primary/5 rounded-lg border border-primary/20"
+            className="p-4 rounded-lg border border-white/20"
+            style={{ background: 'rgba(255,255,255,0.05)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="flex items-center gap-2 text-primary font-semibold">
+            <div className="flex items-center gap-2 font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
               <CheckCircle2 className="w-5 h-5" />
               Recommended: {getWinner()} (Score: {calculateTotal(getWinner())})
             </div>
@@ -259,10 +261,10 @@ const ROIForecaster = () => {
   const roi = ((revenue - investment) / investment) * 100;
 
   return (
-    <Card className="border-2 border-primary/20">
+    <Card className="border-2 border-white/20">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 lowercase">
-          <Brain className="w-5 h-5 text-primary" />
+          <Brain className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
           clean-track ROI forecaster
         </CardTitle>
         <CardDescription>
@@ -309,7 +311,7 @@ const ROIForecaster = () => {
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { label: "Projected Conversions", value: conversions.toLocaleString(), color: "text-foreground" },
-            { label: "Projected Revenue", value: `$${revenue.toLocaleString()}`, color: "text-primary" },
+            { label: "Projected Revenue", value: `$${revenue.toLocaleString()}`, color: "" },
             { label: "Projected ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "text-green-600" : "text-destructive" },
           ].map((stat, i) => (
             <motion.div

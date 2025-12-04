@@ -87,7 +87,7 @@ const AIvsHumanROI = () => {
             {aiSkillsPremiums.map((item, index) => (
               <div key={index} className="flex justify-between items-center p-4 rounded-lg border">
                 <span className="font-medium">{item.skill}</span>
-                <span className="text-xl font-display font-bold text-primary">
+                <span className="text-xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   +${item.premium.toLocaleString()}
                 </span>
               </div>
@@ -96,7 +96,7 @@ const AIvsHumanROI = () => {
         </CardContent>
       </Card>
 
-      <Card className="mt-8 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+      <Card className="mt-8 border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.1))' }}>
         <CardHeader>
           <CardTitle className="lowercase">future-proofing recommendations</CardTitle>
         </CardHeader>

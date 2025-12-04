@@ -75,8 +75,8 @@ const Backups = () => {
         {/* GitHub Auto-Backup */}
         <Card className="p-8 mb-6">
           <div className="flex items-start gap-4 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <GitBranch className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+              <GitBranch className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.9)' }} />
             </div>
             <div className="flex-1">
               <h2 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -116,7 +116,7 @@ const Backups = () => {
                           href="https://github.com/settings/tokens/new?scopes=repo" 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-primary hover:underline inline-flex items-center gap-1"
+                          className="hover:underline inline-flex items-center gap-1" style={{ color: 'rgba(255,255,255,0.9)' }}
                         >
                           Create token with 'repo' scope
                           <ExternalLink className="w-3 h-3" />
@@ -163,8 +163,8 @@ const Backups = () => {
         {/* Manual Export */}
         <Card className="p-8">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Download className="w-6 h-6 text-primary" />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+              <Download className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.9)' }} />
             </div>
             <div className="flex-1">
               <h2 className="font-display text-2xl font-bold text-foreground mb-2">

@@ -28,7 +28,7 @@ export const ProcessingProgress = ({
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">processing links</h3>
-        {isProcessing && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+        {isProcessing && <Loader2 className="h-5 w-5 animate-spin" style={{ color: 'rgba(255,255,255,0.9)' }} />}
       </div>
 
       <Progress value={percentage} className="h-2" />

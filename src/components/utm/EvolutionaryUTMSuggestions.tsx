@@ -45,10 +45,10 @@ export function EvolutionaryUTMSuggestions({ workspaceId, onApplyPattern }: Evol
   }
 
   return (
-    <Card className="p-4 border-primary/20 bg-primary/5">
+    <Card className="p-4 border-white/20" style={{ background: 'rgba(255,255,255,0.05)' }}>
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-primary" />
+          <TrendingUp className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.9)' }} />
           <h3 className="font-semibold text-sm">what's working</h3>
         </div>
 
