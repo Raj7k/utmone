@@ -39,7 +39,7 @@ export const ComingSoonPage = ({ title, description }: ComingSoonPageProps) => {
           </div>
 
           <div className="pt-12">
-            <Link to="/resources" className="text-sm text-primary hover:text-primary/80 transition-colors">
+            <Link to="/resources" className="text-sm text-white/60 hover:text-white/80 transition-colors">
               ← Browse available resources
             </Link>
           </div>

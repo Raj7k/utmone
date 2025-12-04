@@ -258,7 +258,7 @@ const AdminAuth = () => {
 
         <div className="text-center space-y-4">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-zinc-900/60 border border-white/10 mb-2">
-            <Shield className="h-8 w-8 text-primary" />
+            <Shield className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-4xl font-display font-bold tracking-tight text-white">Mission Control</h1>
           <p className="text-white/60 text-lg">Administrative portal access</p>
@@ -282,7 +282,7 @@ const AdminAuth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="h-14 rounded-xl border-white/10 bg-white/5 text-white placeholder:text-white/40 text-base focus-visible:border-primary"
+                  className="h-14 rounded-xl border-white/10 bg-white/5 text-white placeholder:text-white/40 text-base focus-visible:border-white/30"
                 />
               </div>
               <div className="space-y-2">
@@ -300,7 +300,7 @@ const AdminAuth = () => {
               </div>
               <Button 
                 type="submit" 
-                className="w-full h-14 rounded-xl text-base font-semibold bg-primary hover:bg-primary/90" 
+                className="w-full h-14 rounded-xl text-base font-semibold bg-white text-black hover:bg-white/90" 
                 disabled={isLoading}
               >
                 {isLoading ? "Authenticating…" : "Enter Mission Control"}
