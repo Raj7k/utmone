@@ -62,15 +62,21 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
 
   if (isLoading) {
     return (
-      <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+      <Card 
+        variant="glass"
+        style={{ 
+          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+          border: '1px solid rgba(255,255,255,0.15)'
+        }}
+      >
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+            <Sparkles className="h-5 w-5 animate-pulse" style={{ color: 'rgba(255,255,255,0.8)' }} />
             ai insights
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-2 text-secondary-label">
+          <div className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
             <Loader2 className="h-4 w-4 animate-spin" />
             <span className="text-sm">generating insights…</span>
           </div>
@@ -80,15 +86,21 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+    <Card 
+      variant="glass"
+      style={{ 
+        background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+        border: '1px solid rgba(255,255,255,0.15)'
+      }}
+    >
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <Sparkles className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             ai insights
           </CardTitle>
           <Button
-            variant="ghost"
+            variant="glass-ghost"
             size="icon"
             onClick={() => refreshMutation.mutate()}
             disabled={refreshMutation.isPending}
@@ -104,7 +116,7 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="prose prose-sm max-w-none">
-          <p className="text-sm text-label whitespace-pre-wrap leading-relaxed">
+          <p className="text-sm whitespace-pre-wrap leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
             {insight?.summary || 'no insights available yet. create some links to get started.'}
           </p>
         </div>

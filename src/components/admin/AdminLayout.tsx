@@ -40,10 +40,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   // Show loading state while checking authorization
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/20">
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: 'rgba(5,5,5,1)' }}
+      >
         <div className="text-center space-y-4">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-secondary-label">Verifying authorization...</p>
+          <div 
+            className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin mx-auto"
+            style={{ borderColor: 'rgba(255,255,255,0.8)', borderTopColor: 'transparent' }}
+          />
+          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Verifying authorization...</p>
         </div>
       </div>
     );
@@ -61,14 +67,21 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <AdminMFAGuard>
-      <div className="min-h-screen flex bg-muted/20">
+      <div className="min-h-screen flex" style={{ background: 'rgba(5,5,5,1)' }}>
         {/* Sidebar */}
-        <aside className="w-64 bg-card border-r fixed h-full">
+        <aside 
+          className="w-64 fixed h-full"
+          style={{ 
+            background: 'rgba(24,24,27,0.6)', 
+            backdropFilter: 'blur(40px)',
+            borderRight: '1px solid rgba(255,255,255,0.08)'
+          }}
+        >
           <div className="p-6">
-            <Link to="/" className="text-xl font-bold">
+            <Link to="/" className="text-xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
               utm.one
             </Link>
-            <p className="text-xs text-secondary-label mt-1">admin dashboard</p>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>admin dashboard</p>
           </div>
 
           <nav className="px-3 space-y-1">
@@ -80,14 +93,17 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`
-                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm
-                    transition-colors
-                    ${isActive 
-                      ? 'bg-primary text-primary-foreground font-medium' 
-                      : 'text-secondary-label hover:bg-muted hover:text-foreground'
-                    }
-                  `}
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors"
+                  style={isActive 
+                    ? { 
+                        background: 'rgba(255,255,255,0.9)', 
+                        color: 'rgba(24,24,27,0.9)',
+                        fontWeight: 500
+                      } 
+                    : { 
+                        color: 'rgba(255,255,255,0.5)'
+                      }
+                  }
                 >
                   <Icon className="w-4 h-4" />
                   {item.label}
@@ -99,8 +115,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
           <div className="absolute bottom-6 left-3 right-3">
             <Button
-              variant="ghost"
-              className="w-full justify-start text-secondary-label"
+              variant="glass-ghost"
+              className="w-full justify-start"
               onClick={handleSignOut}
             >
               <LogOut className="w-4 h-4 mr-3" />

@@ -14,7 +14,7 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
 
   if (isLoading) {
     return (
-      <Card>
+      <Card variant="glass">
         <CardHeader>
           <Skeleton className="h-6 w-40" />
           <Skeleton className="h-4 w-64" />
@@ -34,7 +34,7 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
   };
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Clock className="h-5 w-5" />
@@ -47,18 +47,27 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
       <CardContent className="space-y-4">
         {/* Primary Insight */}
         {topTime && topTime.clicks > 0 ? (
-          <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-            <p className="text-sm text-muted-foreground mb-2">Peak Activity</p>
-            <p className="text-2xl font-semibold">
+          <div 
+            className="p-4 rounded-lg"
+            style={{ 
+              background: 'rgba(255,255,255,0.05)', 
+              border: '1px solid rgba(255,255,255,0.15)' 
+            }}
+          >
+            <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Peak Activity</p>
+            <p className="text-2xl font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
               {topTime.dayName} at {formatHour(topTime.hour)}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
               {topTime.clicks} clicks during this hour
             </p>
           </div>
         ) : (
-          <div className="p-4 rounded-lg bg-muted text-center">
-            <p className="text-sm text-muted-foreground">
+          <div 
+            className="p-4 rounded-lg text-center"
+            style={{ background: 'rgba(255,255,255,0.05)' }}
+          >
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Not enough data to determine best posting times
             </p>
           </div>
@@ -66,11 +75,14 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
 
         {/* Best Day */}
         {bestDay.clicks > 0 && (
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
-            <CalendarDays className="h-5 w-5 mt-0.5 text-primary" />
+          <div 
+            className="flex items-start gap-3 p-3 rounded-lg"
+            style={{ background: 'rgba(255,255,255,0.05)' }}
+          >
+            <CalendarDays className="h-5 w-5 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <div>
-              <p className="font-medium">{bestDay.dayName}</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{bestDay.dayName}</p>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 Best day overall with {bestDay.clicks} total clicks
               </p>
             </div>
@@ -80,17 +92,18 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
         {/* Top 3 Times */}
         {bestTimes.length > 0 && bestTimes[0].clicks > 0 && (
           <div className="space-y-2">
-            <p className="text-sm font-medium">Top Posting Times</p>
+            <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Top Posting Times</p>
             <div className="space-y-2">
               {bestTimes.slice(0, 3).map((time, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between text-sm p-2 rounded bg-muted/30"
+                  className="flex items-center justify-between text-sm p-2 rounded"
+                  style={{ background: 'rgba(255,255,255,0.03)' }}
                 >
-                  <span className="text-muted-foreground">
+                  <span style={{ color: 'rgba(255,255,255,0.5)' }}>
                     #{index + 1} · {time.dayName} at {formatHour(time.hour)}
                   </span>
-                  <span className="font-medium">{time.clicks} clicks</span>
+                  <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{time.clicks} clicks</span>
                 </div>
               ))}
             </div>

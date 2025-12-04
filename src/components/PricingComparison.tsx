@@ -11,12 +11,12 @@ import { COMPETITOR_COMPARISON } from "@/lib/planConfig";
 
 export const PricingComparison = () => {
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="text-heading-3">
           how utm.one compares
         </CardTitle>
-        <p className="text-body-text text-muted-foreground">
+        <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.5)' }}>
           see how our generous free tier and flat team pricing beat the competition
         </p>
       </CardHeader>
@@ -26,7 +26,7 @@ export const PricingComparison = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[200px]">feature</TableHead>
-                <TableHead className="text-center font-bold text-primary">utm.one</TableHead>
+                <TableHead className="text-center font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>utm.one</TableHead>
                 <TableHead className="text-center">bitly</TableHead>
                 <TableHead className="text-center">rebrandly</TableHead>
                 <TableHead className="text-center">short.io</TableHead>
@@ -36,16 +36,16 @@ export const PricingComparison = () => {
               {COMPETITOR_COMPARISON.map((row, idx) => (
                 <TableRow key={idx}>
                   <TableCell className="font-medium">{row.feature}</TableCell>
-                  <TableCell className="text-center font-semibold text-primary">
+                  <TableCell className="text-center font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     {row.paid.utm}
                   </TableCell>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className="text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     {row.paid.bitly}
                   </TableCell>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className="text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     {row.paid.rebrandly}
                   </TableCell>
-                  <TableCell className="text-center text-muted-foreground">
+                  <TableCell className="text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     {row.paid.short}
                   </TableCell>
                 </TableRow>
@@ -54,7 +54,7 @@ export const PricingComparison = () => {
           </Table>
         </div>
         <div className="mt-6 text-center">
-          <p className="text-small-text text-muted-foreground">
+          <p className="text-small-text" style={{ color: 'rgba(255,255,255,0.5)' }}>
             all prices shown are for paid plans. utm.one also offers a more generous free tier.
           </p>
         </div>

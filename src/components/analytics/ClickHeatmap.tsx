@@ -26,7 +26,7 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
 
   if (isLoading) {
     return (
-      <Card>
+      <Card variant="glass">
         <CardHeader>
           <Skeleton className="h-8 w-48" />
           <Skeleton className="h-4 w-64" />
@@ -38,16 +38,16 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
     );
   }
 
-  const getIntensityColor = (intensity: number) => {
-    if (intensity === 0) return "bg-muted";
-    if (intensity < 0.25) return "bg-primary/20";
-    if (intensity < 0.5) return "bg-primary/40";
-    if (intensity < 0.75) return "bg-primary/60";
-    return "bg-primary";
+  const getIntensityStyle = (intensity: number) => {
+    if (intensity === 0) return { background: 'rgba(255,255,255,0.05)' };
+    if (intensity < 0.25) return { background: 'rgba(255,255,255,0.15)' };
+    if (intensity < 0.5) return { background: 'rgba(255,255,255,0.3)' };
+    if (intensity < 0.75) return { background: 'rgba(255,255,255,0.5)' };
+    return { background: 'rgba(255,255,255,0.8)' };
   };
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -77,7 +77,7 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
               <div className="flex mb-2">
                 <div className="w-12" /> {/* Spacer for day labels */}
                 {Array.from({ length: 24 }, (_, i) => (
-                  <div key={i} className="w-8 text-center text-xs text-muted-foreground">
+                  <div key={i} className="w-8 text-center text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     {i % 3 === 0 ? `${i}` : ""}
                   </div>
                 ))}
@@ -86,7 +86,7 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
               {/* Heatmap rows */}
               {DAYS_SHORT.map((day, dayIndex) => (
                 <div key={dayIndex} className="flex items-center mb-1">
-                  <div className="w-12 text-xs font-medium text-muted-foreground">
+                  <div className="w-12 text-xs font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>
                     {day}
                   </div>
                   <div className="flex gap-1">
@@ -100,15 +100,19 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
                       return (
                         <div
                           key={hourIndex}
-                          className={`w-8 h-8 rounded ${getIntensityColor(intensity)} 
-                            transition-all hover:ring-2 hover:ring-primary hover:ring-offset-1 
-                            cursor-pointer group relative`}
+                          className="w-8 h-8 rounded transition-all hover:ring-2 hover:ring-white/50 hover:ring-offset-1 hover:ring-offset-transparent cursor-pointer group relative"
+                          style={getIntensityStyle(intensity)}
                           title={`${day}, ${hourIndex}:00 - ${clicks} clicks`}
                         >
                           {/* Tooltip on hover */}
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 
-                            hidden group-hover:block bg-popover text-popover-foreground 
-                            text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
+                          <div 
+                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap z-10"
+                            style={{ 
+                              background: 'rgba(24,24,27,0.95)', 
+                              color: 'rgba(255,255,255,0.9)',
+                              border: '1px solid rgba(255,255,255,0.1)'
+                            }}
+                          >
                             {day}, {hourIndex}:00
                             <br />
                             <span className="font-semibold">{clicks} clicks</span>
@@ -123,14 +127,14 @@ export const ClickHeatmap = ({ workspaceId, linkId, days = 30 }: ClickHeatmapPro
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-4 text-xs text-muted-foreground pt-4 border-t">
+          <div className="flex items-center gap-4 text-xs pt-4" style={{ color: 'rgba(255,255,255,0.5)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
             <span>Less</span>
             <div className="flex gap-1">
-              <div className="w-4 h-4 rounded bg-muted" />
-              <div className="w-4 h-4 rounded bg-primary/20" />
-              <div className="w-4 h-4 rounded bg-primary/40" />
-              <div className="w-4 h-4 rounded bg-primary/60" />
-              <div className="w-4 h-4 rounded bg-primary" />
+              <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.05)' }} />
+              <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.15)' }} />
+              <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.3)' }} />
+              <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.5)' }} />
+              <div className="w-4 h-4 rounded" style={{ background: 'rgba(255,255,255,0.8)' }} />
             </div>
             <span>More</span>
           </div>

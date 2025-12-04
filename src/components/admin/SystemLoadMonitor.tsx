@@ -38,10 +38,10 @@ export const SystemLoadMonitor = () => {
 
   if (isLoading || !systemLoad) {
     return (
-      <Card className="p-6">
+      <Card variant="glass" className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-6 bg-muted rounded w-1/3"></div>
-          <div className="h-24 bg-muted rounded"></div>
+          <div className="h-6 rounded w-1/3" style={{ background: 'rgba(255,255,255,0.1)' }}></div>
+          <div className="h-24 rounded" style={{ background: 'rgba(255,255,255,0.1)' }}></div>
         </div>
       </Card>
     );
@@ -57,19 +57,22 @@ export const SystemLoadMonitor = () => {
       : "normal";
 
   return (
-    <Card className="p-6 border-border/50 bg-card">
+    <Card variant="glass" className="p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-              <Shield className="h-5 w-5 text-primary" />
+            <div 
+              className="flex h-10 w-10 items-center justify-center rounded-lg"
+              style={{ background: 'rgba(255,255,255,0.1)' }}
+            >
+              <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             </div>
             <div>
-              <h3 className="text-lg font-display font-semibold text-foreground">
+              <h3 className="text-lg font-display font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 elastic shield
               </h3>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 adaptive throttling active
               </p>
             </div>
@@ -92,8 +95,8 @@ export const SystemLoadMonitor = () => {
           {/* CPU Load */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">cpu load</span>
-              <span className="font-medium text-foreground">
+              <span style={{ color: 'rgba(255,255,255,0.5)' }}>cpu load</span>
+              <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {systemLoad.cpu_load_percent.toFixed(1)}%
               </span>
             </div>
@@ -103,8 +106,8 @@ export const SystemLoadMonitor = () => {
           {/* Memory Usage */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">memory</span>
-              <span className="font-medium text-foreground">
+              <span style={{ color: 'rgba(255,255,255,0.5)' }}>memory</span>
+              <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {systemLoad.memory_usage_percent.toFixed(1)}%
               </span>
             </div>
@@ -114,23 +117,29 @@ export const SystemLoadMonitor = () => {
           {/* Request Rate */}
           <div className="grid grid-cols-2 gap-4 pt-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                <Activity className="h-4 w-4 text-primary" />
+              <div 
+                className="flex h-8 w-8 items-center justify-center rounded-lg"
+                style={{ background: 'rgba(255,255,255,0.1)' }}
+              >
+                <Activity className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">req/sec</p>
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>req/sec</p>
+                <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   {systemLoad.requests_per_second}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                <Users className="h-4 w-4 text-primary" />
+              <div 
+                className="flex h-8 w-8 items-center justify-center rounded-lg"
+                style={{ background: 'rgba(255,255,255,0.1)' }}
+              >
+                <Users className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">connections</p>
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>connections</p>
+                <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   {systemLoad.active_connections}
                 </p>
               </div>
@@ -139,14 +148,14 @@ export const SystemLoadMonitor = () => {
         </div>
 
         {/* Throttling Status */}
-        <div className="pt-4 border-t border-border/50">
+        <div className="pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex items-start gap-3">
-            <TrendingUp className="h-4 w-4 text-muted-foreground mt-0.5" />
+            <TrendingUp className="h-4 w-4 mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }} />
             <div className="flex-1">
-              <p className="text-sm text-foreground">
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 {loadStatus === "healthy" && (
                   <>
-                    <span className="font-medium text-primary">burst mode active:</span>{" "}
+                    <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>burst mode active:</span>{" "}
                     {tierConfig?.burst_multiplier}x rate limits enabled
                   </>
                 )}
@@ -158,14 +167,14 @@ export const SystemLoadMonitor = () => {
                 )}
                 {loadStatus === "high" && (
                   <>
-                    <span className="font-medium text-destructive">
+                    <span className="font-medium" style={{ color: 'rgba(239,68,68,0.9)' }}>
                       penalty mode active:
                     </span>{" "}
                     prioritizing paid users
                   </>
                 )}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 {loadStatus === "high"
                   ? "free tier requests queued, enterprise users prioritized"
                   : "all tiers operating normally"}
