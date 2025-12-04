@@ -31,28 +31,28 @@ const MinimalAnalyticsStack = () => {
 
   const layers = [
     {
-      icon: <Activity className="w-6 h-6 text-primary" />,
+      icon: <Activity className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "01",
       title: "Product & Web Analytics",
       description: "GA4, Plausible, PostHog, Mixpanel. Track user behavior and website performance.",
       examples: "visitor → signup → activation"
     },
     {
-      icon: <Users className="w-6 h-6 text-primary" />,
+      icon: <Users className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "02",
       title: "CRM / Revenue System",
       description: "HubSpot, Pipedrive, Salesforce, Close. Manage leads, opportunities, and customer relationships.",
       examples: "lead → opportunity → customer"
     },
     {
-      icon: <Database className="w-6 h-6 text-primary" />,
+      icon: <Database className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "03",
       title: "Data Warehouse (optional early)",
       description: "BigQuery, Snowflake, Redshift. Centralized storage for cross-tool analysis.",
       examples: "optional for 0-50 employees"
     },
     {
-      icon: <LineChart className="w-6 h-6 text-primary" />,
+      icon: <LineChart className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "04",
       title: "Reporting / BI",
       description: "Looker, Metabase, Mode, Power BI, internal dashboards. Visualize and share insights.",
@@ -187,7 +187,7 @@ const MinimalAnalyticsStack = () => {
           </Link>
           
           <div className="space-y-6">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               system design framework
             </div>
             
@@ -234,16 +234,16 @@ const MinimalAnalyticsStack = () => {
             {layers.map((layer, index) => (
               <div
                 key={index}
-                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-white/20 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
                     {layer.icon}
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-5xl font-extrabold text-primary/10">
+                      <span className="text-5xl font-extrabold" style={{ color: 'rgba(59,130,246,0.1)' }}>
                         {layer.number}
                       </span>
                       <h3 className="text-2xl font-display font-semibold text-foreground">
@@ -253,7 +253,7 @@ const MinimalAnalyticsStack = () => {
                     <p className="text-base text-muted-foreground mb-2">
                       {layer.description}
                     </p>
-                    <p className="text-sm text-primary">
+                    <p className="text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                       {layer.examples}
                     </p>
                   </div>
@@ -289,7 +289,7 @@ const MinimalAnalyticsStack = () => {
                       {dashboard.metrics}
                     </p>
                   </div>
-                  <span className="text-xs text-primary font-medium whitespace-nowrap">
+                  <span className="text-xs font-medium whitespace-nowrap" style={{ color: 'rgba(59,130,246,1)' }}>
                     {dashboard.cadence}
                   </span>
                 </div>
@@ -325,7 +325,7 @@ const MinimalAnalyticsStack = () => {
                 <p className="text-sm text-muted-foreground mb-3">
                   <strong>Why it breaks:</strong> {item.why}
                 </p>
-                <p className="text-sm text-primary">
+                <p className="text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                   <strong>Fix:</strong> {item.fix}
                 </p>
               </div>
@@ -362,7 +362,7 @@ const MinimalAnalyticsStack = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <Link
               to="/resources/guides/simple-analytics"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Simple Analytics Guide</h3>
               <p className="text-sm text-muted-foreground">Learn how to build analytics that clarify rather than confuse</p>
@@ -370,7 +370,7 @@ const MinimalAnalyticsStack = () => {
             
             <Link
               to="/resources/guides/tracking-architecture"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Tracking Architecture Guide</h3>
               <p className="text-sm text-muted-foreground">Design tracking systems that connect across tools</p>
@@ -378,7 +378,7 @@ const MinimalAnalyticsStack = () => {
             
             <Link
               to="/resources/playbooks/startup-analytics-playbook"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Startup Analytics Playbook</h3>
               <p className="text-sm text-muted-foreground">Tactical implementation for 0-100 person companies</p>
@@ -386,7 +386,7 @@ const MinimalAnalyticsStack = () => {
             
             <Link
               to="/resources/frameworks/clean-track-model"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Clean-Track Framework</h3>
               <p className="text-sm text-muted-foreground">Ensure data quality feeds your minimal stack</p>
