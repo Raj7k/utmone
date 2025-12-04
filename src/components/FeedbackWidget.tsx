@@ -79,7 +79,12 @@ export const FeedbackWidget = () => {
       <PopoverTrigger asChild>
         <Button
           size="icon"
-          className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground z-50"
+          className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg z-50"
+          style={{ 
+            background: 'rgba(255,255,255,0.9)', 
+            color: 'rgba(24,24,27,0.9)',
+            boxShadow: '0 0 20px -5px rgba(255,255,255,0.5)'
+          }}
           aria-label="Send feedback or report a bug"
         >
           <MessageCircle className="h-5 w-5" />
@@ -89,7 +94,7 @@ export const FeedbackWidget = () => {
         <div className="space-y-4">
           <div>
             <h3 className="font-display font-semibold text-base mb-1">what's on your mind?</h3>
-            <p className="text-sm text-muted-foreground">found a bug or have a suggestion?</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>found a bug or have a suggestion?</p>
           </div>
 
           <Textarea
@@ -117,7 +122,8 @@ export const FeedbackWidget = () => {
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting || !message.trim()}
-            className="w-full bg-blazeOrange hover:bg-blazeOrange/90"
+            className="w-full"
+            variant="halo"
           >
             {isSubmitting ? (
               "sending..."

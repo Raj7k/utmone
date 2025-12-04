@@ -80,7 +80,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
     
     if (typeof value === 'string') {
       if (value.toLowerCase().includes('unlimited')) {
-        return <span className="text-primary font-medium">unlimited</span>;
+        return <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>unlimited</span>;
       }
       return value;
     }
@@ -118,19 +118,26 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         </div>
         
         {/* Savings badge - always visible but styled differently */}
-        <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200 ${
-          billingPeriod === 'annual'
-            ? 'bg-primary/10 border border-primary/20'
-            : 'bg-transparent'
-        }`}>
-          <svg className={`w-4 h-4 transition-colors ${
-            billingPeriod === 'annual' ? 'text-primary' : 'text-muted-foreground'
-          }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div 
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200"
+          style={billingPeriod === 'annual' 
+            ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }
+            : { background: 'transparent' }
+          }
+        >
+          <svg 
+            className="w-4 h-4 transition-colors" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+            style={{ color: billingPeriod === 'annual' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          <span className={`text-xs font-medium transition-colors ${
-            billingPeriod === 'annual' ? 'text-primary' : 'text-muted-foreground'
-          }`}>
+          <span 
+            className="text-xs font-medium transition-colors"
+            style={{ color: billingPeriod === 'annual' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
+          >
             save up to 20% with annual billing
           </span>
         </div>
@@ -140,7 +147,10 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
       <div className="hidden md:block relative">
         {/* MOST POPULAR Badge - Floating above table */}
         <div className="absolute -top-4 z-20" style={{ left: '62.5%', transform: 'translateX(-50%)' }}>
-          <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
+          <span 
+            className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm"
+            style={{ background: 'rgba(255,255,255,0.9)', color: 'rgba(24,24,27,0.9)' }}
+          >
             most popular
           </span>
         </div>
@@ -168,8 +178,8 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   <div className="text-sm text-muted-foreground">
                     /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                   </div>
-                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                    <div className="text-xs text-primary font-medium">
+                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                    <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
                       save ${getAnnualSavings(plan.tier)}/year
                     </div>
                   )}
@@ -269,7 +279,10 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
             {/* Badge for mobile */}
             {plan.tier === 'pro' && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                <span className="bg-primary text-white rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm">
+                <span 
+                  className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm"
+                  style={{ background: 'rgba(255,255,255,0.9)', color: 'rgba(24,24,27,0.9)' }}
+                >
                   most popular
                 </span>
               </div>
@@ -291,7 +304,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                 </div>
                 {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                  <div className="text-xs text-primary font-medium">
+                  <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     save ${getAnnualSavings(plan.tier)}/year
                   </div>
                 )}

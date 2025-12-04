@@ -30,28 +30,35 @@ export const FeatureHint = ({ id, title, description, className }: FeatureHintPr
   return (
     <div
       className={cn(
-        "relative bg-primary/5 border border-primary/20 rounded-xl p-4",
+        "relative rounded-xl p-4",
         "animate-in fade-in slide-in-from-top-2 duration-300",
         className
       )}
+      style={{ 
+        background: 'rgba(255,255,255,0.05)', 
+        border: '1px solid rgba(255,255,255,0.1)' 
+      }}
     >
       <button
         onClick={handleDismiss}
-        className="absolute top-2 right-2 w-6 h-6 rounded-lg hover:bg-primary/10 flex items-center justify-center transition-colors"
+        className="absolute top-2 right-2 w-6 h-6 rounded-lg flex items-center justify-center transition-colors hover:bg-white/10"
         aria-label="Dismiss hint"
       >
-        <X className="w-4 h-4 text-muted-foreground" />
+        <X className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.5)' }} />
       </button>
 
       <div className="flex items-start gap-3 pr-6">
-        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-          <Info className="w-5 h-5 text-primary" />
+        <div 
+          className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+          style={{ background: 'rgba(255,255,255,0.1)' }}
+        >
+          <Info className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-foreground mb-1">
+          <h3 className="text-sm font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>
             {title}
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
             {description}
           </p>
         </div>
