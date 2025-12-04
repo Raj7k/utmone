@@ -106,7 +106,7 @@ export const CaseStudyCarousel = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-card rounded-2xl p-8 md:p-12 border-2 border-border/50 hover:border-primary/30 transition-all"
+          className="bg-card rounded-2xl p-8 md:p-12 border-2 border-border/50 hover:border-white/20 transition-all"
         >
           <div className="space-y-6">
             <div>
@@ -114,7 +114,7 @@ export const CaseStudyCarousel = () => {
                 {currentStudy.company}
               </h3>
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-5xl font-display font-bold text-primary">
+                <span className="text-5xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
                   {currentStudy.growth}
                 </span>
                 <div className="text-sm text-muted-foreground">
@@ -157,7 +157,7 @@ export const CaseStudyCarousel = () => {
                     <ul className="space-y-2">
                       {currentStudy.details.map((detail, i) => (
                         <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="text-primary mt-1">•</span>
+                          <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>•</span>
                           {detail}
                         </li>
                       ))}
@@ -193,9 +193,10 @@ export const CaseStudyCarousel = () => {
               className={cn(
                 "w-2 h-2 rounded-full transition-all",
                 index === currentIndex
-                  ? "bg-primary w-8"
+                  ? "w-8"
                   : "bg-muted hover:bg-muted-foreground/50"
               )}
+              style={index === currentIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
             />
           ))}
         </div>
