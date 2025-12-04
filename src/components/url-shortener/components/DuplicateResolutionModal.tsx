@@ -94,9 +94,9 @@ export const DuplicateResolutionModal = ({
                   </div>
                   <p className="text-2xl font-bold text-foreground">{analysis.avgCTR.toFixed(1)}%</p>
                 </div>
-                <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20">
+                <div className="p-4 rounded-lg border" style={{ background: 'linear-gradient(to bottom right, rgba(168,85,247,0.1), rgba(168,85,247,0.05))', borderColor: 'rgba(168,85,247,0.2)' }}>
                   <div className="flex items-center gap-2 mb-1">
-                    <GitBranch className="h-4 w-4 text-purple-500" />
+                    <GitBranch className="h-4 w-4" style={{ color: 'rgba(168,85,247,1)' }} />
                     <span className="text-xs text-secondary-label">versions</span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">{duplicates.length}</p>

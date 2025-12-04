@@ -98,8 +98,8 @@ export const SalaryBarChart = ({
           </div>
           <div className="h-8 bg-muted/30 rounded-lg overflow-hidden">
             <div
-              className="h-full bg-purple-500/60 transition-all duration-500"
-              style={{ width: getWidth(p90) }}
+              className="h-full transition-all duration-500"
+              style={{ width: getWidth(p90), background: 'rgba(168,85,247,0.6)' }}
             />
           </div>
         </div>
