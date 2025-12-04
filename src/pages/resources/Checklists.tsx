@@ -50,7 +50,7 @@ const Checklists = () => {
             Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient">
               Checklists
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-[720px]">

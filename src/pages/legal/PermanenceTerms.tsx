@@ -18,7 +18,7 @@ const PermanenceTerms = () => {
         
         <main className="flex-1">
           <div className="max-w-text-content mx-auto px-8 py-24">
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white mb-8">
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold hero-gradient mb-8">
               Link Permanence Guarantee
             </h1>
             

@@ -16,7 +16,7 @@ const RevenueAttribution = () => {
       <section className="py-24 bg-background border-b border-border">
         <div className="max-w-7xl mx-auto px-8">
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-display font-bold text-foreground mb-6">
+            <h1 className="text-5xl font-display font-bold hero-gradient mb-6">
               revenue attribution
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">

@@ -329,7 +329,7 @@ const Signup = () => {
 
         <div className="text-center space-y-4">
           <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight text-white">create your account</h1>
+          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">create your account</h1>
           <p className="text-white/60 text-lg">start making smarter links in seconds</p>
         </div>
 

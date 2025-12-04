@@ -11,7 +11,7 @@ const Subprocessors = () => {
       />
       <div className="max-w-text-content mx-auto px-8 py-24 md:py-32">
         <div className="space-y-6 mb-16">
-          <h1 className="text-4xl md:text-5xl font-display font-semibold text-white">subprocessors list</h1>
+          <h1 className="text-4xl md:text-5xl font-display font-semibold hero-gradient">subprocessors list</h1>
           <p className="text-lg text-white/60 leading-relaxed">utm.one uses third-party providers ("subprocessors") to run the platform.</p>
         </div>
 

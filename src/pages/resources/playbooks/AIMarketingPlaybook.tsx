@@ -164,7 +164,7 @@ const AIMarketingPlaybook = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase mb-6">
             ai marketing playbook: content creation in the ai era
           </h1>
           

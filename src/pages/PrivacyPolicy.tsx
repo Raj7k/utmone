@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
         keywords={["privacy policy", "data protection", "GDPR", "user privacy", "utm.one"]}
       />
       <div className="max-w-text-content mx-auto px-8 py-24">
-        <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white mb-8 lowercase">
+        <h1 className="text-5xl md:text-6xl font-display font-extrabold hero-gradient mb-8 lowercase">
           privacy policy
         </h1>
         

@@ -2374,7 +2374,7 @@ Value: go.utm.one`}
       <section className="py-24 bg-background border-b border-border">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-display font-bold text-foreground mb-6">
+            <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-6">
               frequently asked questions
             </h1>
             <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
