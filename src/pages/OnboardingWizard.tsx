@@ -252,13 +252,13 @@ export default function OnboardingWizard() {
         >
           {completionPhase === "creating" && (
             <>
-              <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
+              <Loader2 className="w-12 h-12 animate-spin mx-auto" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <p className="text-lg font-medium">Building your workspace...</p>
             </>
           )}
           {completionPhase === "configuring" && (
             <>
-              <Loader2 className="w-12 h-12 animate-spin mx-auto text-primary" />
+              <Loader2 className="w-12 h-12 animate-spin mx-auto" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <p className="text-lg font-medium">Configuring analytics...</p>
             </>
           )}
@@ -273,7 +273,7 @@ export default function OnboardingWizard() {
                 <CheckCircle2 className="w-12 h-12 text-green-500" />
               </div>
               <p className="text-lg font-medium">All set!</p>
-              <p className="text-sm text-muted-foreground">Redirecting to dashboard...</p>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Redirecting to dashboard...</p>
               <Button 
                 onClick={() => navigate("/dashboard")} 
                 variant="outline"
@@ -306,7 +306,7 @@ export default function OnboardingWizard() {
               transition={{ duration: 0.3 }}
             />
           </div>
-          <p className="text-xs text-muted-foreground mt-2 text-center">
+          <p className="text-xs mt-2 text-center" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Step {step} of 3
           </p>
         </div>
@@ -324,7 +324,7 @@ export default function OnboardingWizard() {
               <Card className="p-8 space-y-6">
                 <div className="space-y-2 text-center">
                   <h2 className="text-3xl font-bold">What should we call you?</h2>
-                  <p className="text-muted-foreground">Let's get to know each other</p>
+                  <p style={{ color: 'rgba(255,255,255,0.6)' }}>Let's get to know each other</p>
                 </div>
 
                 <div className="space-y-2">
@@ -360,7 +360,7 @@ export default function OnboardingWizard() {
                 <Card className="p-8 space-y-6">
                   <div className="space-y-2 text-center">
                     <h2 className="text-3xl font-bold">What's your role?</h2>
-                    <p className="text-muted-foreground">Help us personalize your experience</p>
+                    <p style={{ color: 'rgba(255,255,255,0.6)' }}>Help us personalize your experience</p>
                   </div>
 
                   <div className="space-y-2">
@@ -412,7 +412,7 @@ export default function OnboardingWizard() {
                 <Card className="p-8 space-y-6">
                   <div className="space-y-2 text-center">
                     <h2 className="text-3xl font-bold">Let's name your space</h2>
-                    <p className="text-muted-foreground">What brings you here?</p>
+                    <p style={{ color: 'rgba(255,255,255,0.6)' }}>What brings you here?</p>
                   </div>
 
                   <div className="space-y-2">

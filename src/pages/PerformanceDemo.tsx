@@ -21,7 +21,7 @@ export default function PerformanceDemo() {
           <h1 className="text-6xl font-display font-bold">
             Algorithmic Performance
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
             Based on <em>Algorithms for Optimization</em> and <em>Algorithms for Decision Making</em>
           </p>
         </div>
@@ -32,8 +32,8 @@ export default function PerformanceDemo() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                  <Zap className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 </div>
                 <div>
                   <CardTitle>Markovian Prefetching</CardTitle>
@@ -42,7 +42,7 @@ export default function PerformanceDemo() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Hover over these links for 50ms and the page will prefetch in the background.
                 When you click, it loads instantly (0ms perceived latency).
               </p>
@@ -66,7 +66,7 @@ export default function PerformanceDemo() {
                   QR Generator →
                 </Link>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 <strong>Try it:</strong> Hover each link slowly, then click. Notice the instant load?
               </p>
             </CardContent>
@@ -86,7 +86,7 @@ export default function PerformanceDemo() {
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Images automatically select optimal quality based on your network connection
                 and device size, finding the efficient frontier between quality and bandwidth.
               </p>
@@ -112,7 +112,7 @@ export default function PerformanceDemo() {
         <div className="space-y-6">
           <div className="text-center">
             <h2 className="text-3xl font-display font-bold mb-2">SmartImage Examples</h2>
-            <p className="text-muted-foreground">
+            <p style={{ color: 'rgba(255,255,255,0.6)' }}>
               All images below use adaptive quality and blur-up placeholders
             </p>
           </div>
@@ -131,7 +131,7 @@ export default function PerformanceDemo() {
                   aspectRatio="16/9"
                   className="rounded-lg"
                 />
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   Serves different image sizes based on device
                 </p>
               </CardContent>
@@ -151,7 +151,7 @@ export default function PerformanceDemo() {
                   aspectRatio="16/9"
                   className="rounded-lg"
                 />
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   Instant render with blur-up transition
                 </p>
               </CardContent>
@@ -169,7 +169,7 @@ export default function PerformanceDemo() {
                   alt="Team collaboration"
                   className="rounded-lg"
                 />
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   Uses &lt;picture&gt; element for art direction
                 </p>
               </CardContent>
@@ -178,11 +178,11 @@ export default function PerformanceDemo() {
         </div>
 
         {/* Performance Metrics */}
-        <Card className="bg-gradient-to-br from-primary/10 via-primary/5 to-background">
+        <Card className="bg-zinc-900/40 backdrop-blur-xl border border-white/10">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Gauge className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <Gauge className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <div>
                 <CardTitle>Performance Targets</CardTitle>
@@ -193,16 +193,16 @@ export default function PerformanceDemo() {
           <CardContent>
             <div className="grid md:grid-cols-3 gap-6">
               <div>
-                <div className="text-3xl font-bold text-primary">&lt; 0.8s</div>
-                <div className="text-sm text-muted-foreground">First Contentful Paint</div>
+                <div className="text-3xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>&lt; 0.8s</div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>First Contentful Paint</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary">&lt; 1.2s</div>
-                <div className="text-sm text-muted-foreground">Largest Contentful Paint</div>
+                <div className="text-3xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>&lt; 1.2s</div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Largest Contentful Paint</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary">= 0</div>
-                <div className="text-sm text-muted-foreground">Cumulative Layout Shift</div>
+                <div className="text-3xl font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>= 0</div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Cumulative Layout Shift</div>
               </div>
             </div>
           </CardContent>

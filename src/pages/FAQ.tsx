@@ -1860,7 +1860,7 @@ Value: go.utm.one`}
             <li><strong>business ($99/month):</strong> 10k links, 5 custom domains, unlimited clicks, 3-year analytics, advanced features</li>
             <li><strong>enterprise ($300/month):</strong> unlimited everything, sso, sla, dedicated support</li>
           </ul>
-          <Link to="/pricing" className="text-primary hover:underline font-medium">
+          <Link to="/pricing" className="hover:underline font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
             view detailed pricing →
           </Link>
         </div>
@@ -2026,7 +2026,7 @@ Value: go.utm.one`}
             <li>data export and deletion on request</li>
             <li>dpa available for enterprise customers</li>
           </ul>
-          <Link to="/legal/data-and-security" className="text-primary hover:underline font-medium">
+          <Link to="/legal/data-and-security" className="hover:underline font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
             view data & security policy →
           </Link>
         </div>
@@ -2377,7 +2377,7 @@ Value: go.utm.one`}
             <h1 className="text-5xl md:text-6xl font-display font-bold text-foreground mb-6">
               frequently asked questions
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
               comprehensive answers to all your utm.one questions.
             </p>
           </div>
@@ -2396,7 +2396,7 @@ Value: go.utm.one`}
       <div className="max-w-4xl mx-auto px-8 py-16 space-y-16">
         {Object.keys(faqsByCategory).length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
               no results found for "{searchQuery}"
             </p>
             <Button
@@ -2455,7 +2455,8 @@ Value: go.utm.one`}
             </p>
             <Link
               to="/support"
-              className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+              className="inline-block px-8 py-3 rounded-xl font-medium transition-colors hover:opacity-90"
+              style={{ background: '#FFFFFF', color: '#09090B' }}
             >
               contact support
             </Link>

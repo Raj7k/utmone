@@ -31,8 +31,8 @@ const Support = () => {
           {/* Email Support */}
           <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-                <Mail className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <Mail className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <h2 className="text-xl font-display font-bold text-white">
                 Email Support
@@ -43,7 +43,8 @@ const Support = () => {
             </p>
             <a
               href="mailto:support@utm.one"
-              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+              className="inline-flex items-center gap-2 hover:underline font-medium"
+              style={{ color: 'rgba(255,255,255,0.8)' }}
             >
               support@utm.one
               <ExternalLink className="w-4 h-4" />
@@ -102,7 +103,7 @@ const Support = () => {
               to="/docs"
               className="flex flex-col items-start gap-3 p-6 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <Book className="w-8 h-8 text-primary" />
+              <Book className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <div>
                 <h2 className="font-semibold text-white mb-1">Documentation</h2>
                 <p className="text-sm text-white/60">
@@ -115,7 +116,7 @@ const Support = () => {
               to="/faq"
               className="flex flex-col items-start gap-3 p-6 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <MessageSquare className="w-8 h-8 text-primary" />
+              <MessageSquare className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <div>
                 <h2 className="font-semibold text-white mb-1">FAQ</h2>
                 <p className="text-sm text-white/60">
@@ -128,7 +129,7 @@ const Support = () => {
               to="/docs/api"
               className="flex flex-col items-start gap-3 p-6 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <Book className="w-8 h-8 text-primary" />
+              <Book className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <div>
                 <h2 className="font-semibold text-white mb-1">API Docs</h2>
                 <p className="text-sm text-white/60">
@@ -169,7 +170,8 @@ const Support = () => {
             </p>
             <a
               href="mailto:support@utm.one?subject=Feature Request"
-              className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+              className="inline-block px-8 py-3 rounded-xl font-medium transition-colors hover:opacity-90"
+              style={{ background: '#FFFFFF', color: '#09090B' }}
             >
               Submit Feature Request
             </a>

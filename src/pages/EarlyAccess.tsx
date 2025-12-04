@@ -432,8 +432,8 @@ export default function EarlyAccess() {
               "short links + QR + partner tracking in one place",
               "perfect for marketers, founders, creators, and agencies",
             ].map((reason, index) => (
-              <li key={index} className="flex items-start gap-3 bg-card border border-border rounded-xl p-4">
-                <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <li key={index} className="flex items-start gap-3 rounded-xl p-4" style={{ background: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Sparkles className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 <p className="text-secondary-label">{reason}</p>
               </li>
             ))}

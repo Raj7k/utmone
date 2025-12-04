@@ -97,7 +97,8 @@ const Index = () => {
                     </motion.h1>
                     
                     <motion.p 
-                      className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-[720px] mx-auto text-balance leading-relaxed px-2"
+                      className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2"
+                      style={{ color: 'rgba(255,255,255,0.6)' }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.6 }}
@@ -115,7 +116,8 @@ const Index = () => {
                       
                       <Link 
                         to="/how-it-works" 
-                        className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+                        className="inline-flex items-center gap-2 text-sm transition-colors font-medium lowercase hover:opacity-80"
+                        style={{ color: 'rgba(255,255,255,0.8)' }}
                         onClick={() => trackCTAClick('hero-secondary-cta')}
                       >
                         see how it works
