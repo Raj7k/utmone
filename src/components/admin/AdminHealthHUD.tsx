@@ -65,12 +65,12 @@ export const AdminHealthHUD = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {/* Live Traffic */}
-      <Card className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-600/5 border-blue-500/20">
+      <Card className="p-4" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
         <div className="flex items-center justify-between mb-2">
           <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
             Live Traffic
           </div>
-          <Activity className="w-4 h-4 text-blue-500" />
+          <Activity className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
         </div>
         <div className="text-3xl font-bold font-mono">
           {trafficData || 0}
