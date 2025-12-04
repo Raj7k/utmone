@@ -5,7 +5,8 @@ export const WorkflowBackground = () => {
     <>
       {/* Animated Gradient Orbs */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-blazeOrange/20 blur-[100px]"
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[100px]"
+        style={{ background: 'rgba(255,106,0,0.2)' }}
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -18,7 +19,8 @@ export const WorkflowBackground = () => {
       />
       
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-deepSea/20 blur-[100px]"
+        className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[100px]"
+        style={{ background: 'rgba(0,107,82,0.2)' }}
         animate={{
           scale: [1.2, 1, 1.2],
           opacity: [0.5, 0.3, 0.5],
@@ -31,7 +33,8 @@ export const WorkflowBackground = () => {
       />
 
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]"
+        style={{ background: 'rgba(255,255,255,0.1)' }}
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.2, 0.4, 0.2],
