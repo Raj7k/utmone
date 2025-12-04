@@ -193,18 +193,18 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, rgb(24,24,27), rgb(24,24,27), rgba(59,130,246,0.05))' }}>
       {/* Animated background grid */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--primary)/0.1)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--primary)/0.1)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
       </div>
 
       <div className="relative z-10 container mx-auto p-6 max-w-7xl">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="p-3 bg-gradient-to-br from-primary to-primary/60 rounded-2xl rotate-3 transform hover:rotate-6 transition-transform">
-              <Link2 className="h-8 w-8 text-primary-foreground" />
+            <div className="p-3 rounded-2xl rotate-3 transform hover:rotate-6 transition-transform" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))' }}>
+              <Link2 className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-5xl font-display font-bold tracking-tight">
               url <span style={{ color: 'rgba(59,130,246,1)' }}>shortener</span>
