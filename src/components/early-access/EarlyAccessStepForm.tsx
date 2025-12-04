@@ -141,30 +141,32 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   return (
     <div className="relative">
       {/* Radial glow behind card */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent opacity-40 blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 opacity-40 blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.2), transparent)' }} />
       
       {/* Premium gradient card container */}
-      <div className="relative bg-gradient-to-br from-white via-white to-muted/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/30 p-6 md:p-8 hover:border-primary/20 transition-all duration-500">
+      <div className="relative backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 transition-all duration-500" style={{ backgroundColor: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Animated Progress Bar */}
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground font-medium">
+              <span className="font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 step {currentStep} of 2
               </span>
-              <span className="text-primary font-semibold">
+              <span className="font-semibold" style={{ color: 'rgba(59,130,246,0.9)' }}>
                 {Math.round((currentStep / 2) * 100)}%
               </span>
             </div>
-            <div className="relative h-2 bg-muted/30 rounded-full overflow-hidden">
+            <div className="relative h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
               <motion.div
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-primary/80 rounded-full"
+                className="absolute inset-y-0 left-0 rounded-full"
+                style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.8), rgba(59,130,246,0.6))' }}
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               />
               <motion.div
-                className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-transparent rounded-full opacity-50"
+                className="absolute inset-y-0 left-0 rounded-full opacity-50"
+                style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.5), transparent)' }}
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
@@ -211,7 +213,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.name && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
                             {errors.name.message}
                           </p>
                         )}
@@ -232,7 +234,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.email && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
                             {errors.email.message}
                           </p>
                         )}
@@ -258,7 +260,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                       <h3 className="text-2xl font-display font-semibold">
                         quick context
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
                         helps us personalize your experience
                       </p>
                     </div>
@@ -283,7 +285,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           </SelectContent>
                         </Select>
                         {errors.team_size && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
                             {errors.team_size.message}
                           </p>
                         )}
@@ -292,7 +294,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                       <div className="space-y-2">
                         <Label htmlFor="reason_for_joining">
                           what brings you to utm.one?{" "}
-                          <span className="text-muted-foreground">(optional)</span>
+                          <span style={{ color: 'rgba(255,255,255,0.5)' }}>(optional)</span>
                         </Label>
                         <Textarea
                           id="reason_for_joining"
@@ -301,7 +303,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="min-h-[80px]"
                         />
                         {errors.reason_for_joining && (
-                          <p className="text-sm text-destructive">
+                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
                             {errors.reason_for_joining.message}
                           </p>
                         )}

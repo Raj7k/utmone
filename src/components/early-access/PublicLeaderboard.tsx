@@ -100,18 +100,18 @@ export const PublicLeaderboard = () => {
   // Always show leaderboard section, even if empty
   if (!leaderboardData || allLeaders.length === 0) {
     return (
-      <section id="leaderboard" className="relative py-32 bg-wildSand overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_hsl(var(--blaze-orange)/0.05)_2px,_transparent_2px)] bg-[length:48px_48px]" />
+      <section id="leaderboard" className="relative py-32 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,107,0,0.05) 2px, transparent 2px)', backgroundSize: '48px 48px' }} />
         <div className="container mx-auto px-6 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blazeOrange/10 text-blazeOrange text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: 'rgba(255,107,0,0.1)', color: 'rgba(255,107,0,0.9)' }}>
               <Trophy className="w-4 h-4" />
               referral leaderboard
             </div>
             <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter mb-6">
               top referrers
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
               be the first to climb the leaderboard
             </p>
           </div>
@@ -121,13 +121,13 @@ export const PublicLeaderboard = () => {
   }
 
   return (
-    <section id="leaderboard" className="relative py-32 bg-wildSand overflow-hidden">
+    <section id="leaderboard" className="relative py-32 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_hsl(var(--blaze-orange)/0.05)_2px,_transparent_2px)] bg-[length:48px_48px]" />
+      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,107,0,0.05) 2px, transparent 2px)', backgroundSize: '48px 48px' }} />
       
       <div className="container mx-auto px-6 relative">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blazeOrange/10 text-blazeOrange text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: 'rgba(255,107,0,0.1)', color: 'rgba(255,107,0,0.9)' }}>
             <Trophy className="w-4 h-4" />
             referral leaderboard
           </div>
@@ -136,10 +136,10 @@ export const PublicLeaderboard = () => {
           {leaderboardData?.country && hasLocalLeaders ? (
             <>
               <div className="flex items-center justify-center gap-2 mb-4">
-                <MapPin className="w-5 h-5 text-primary" />
-                <p className="text-lg text-muted-foreground">
+                <MapPin className="w-5 h-5" style={{ color: 'rgba(59,130,246,0.8)' }} />
+                <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   showing leaders from{" "}
-                  <span className="font-display font-bold text-primary">
+                  <span className="font-display font-bold" style={{ color: 'rgba(59,130,246,0.9)' }}>
                     {leaderboardData.country}
                   </span>
                 </p>
@@ -154,7 +154,7 @@ export const PublicLeaderboard = () => {
             </h2>
           )}
           
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
             these early adopters are helping build the community. join them.
           </p>
         </div>
@@ -171,11 +171,12 @@ export const PublicLeaderboard = () => {
               {leaderboardData.local.map((referrer, index) => (
                 <div
                   key={`local-${index}`}
-                  className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 border border-white/10 hover:border-primary/30"
+                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300"
+                  style={{ backgroundColor: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="text-3xl font-display font-extrabold text-primary">
+                      <div className="text-3xl font-display font-extrabold" style={{ color: 'rgba(59,130,246,0.9)' }}>
                         {getMedalEmoji(index)}
                       </div>
                       <div>
@@ -185,12 +186,12 @@ export const PublicLeaderboard = () => {
                           </h3>
                           <span className="text-xl">{referrer.flag}</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           {referrer.score} referral {referrer.score === 1 ? "point" : "points"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-primary">
+                    <div className="flex items-center gap-2" style={{ color: 'rgba(59,130,246,0.8)' }}>
                       <TrendingUp className="w-5 h-5" />
                       <span className="font-display font-bold text-2xl">
                         {referrer.score}
@@ -218,11 +219,12 @@ export const PublicLeaderboard = () => {
               return (
                 <div
                   key={`global-${index}`}
-                  className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 border border-white/10 hover:border-blazeOrange/30"
+                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300"
+                  style={{ backgroundColor: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="text-3xl font-display font-extrabold text-blazeOrange">
+                      <div className="text-3xl font-display font-extrabold" style={{ color: 'rgba(255,107,0,0.9)' }}>
                         {getMedalEmoji(globalIndex)}
                       </div>
                       <div>
@@ -232,12 +234,12 @@ export const PublicLeaderboard = () => {
                           </h3>
                           <span className="text-xl">{referrer.flag}</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           {referrer.score} referral {referrer.score === 1 ? "point" : "points"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-deepSea">
+                    <div className="flex items-center gap-2" style={{ color: 'rgba(0,128,128,0.8)' }}>
                       <TrendingUp className="w-5 h-5" />
                       <span className="font-display font-bold text-2xl">
                         {referrer.score}
@@ -251,10 +253,10 @@ export const PublicLeaderboard = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-lg text-muted-foreground mb-4">
+          <p className="text-lg mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
             share your referral link to climb the leaderboard
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-deepSea/10 text-deepSea font-medium">
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium" style={{ backgroundColor: 'rgba(0,128,128,0.1)', color: 'rgba(0,128,128,0.9)' }}>
             <Trophy className="w-4 h-4" />
             top 10 referrers get exclusive early access perks
           </div>
