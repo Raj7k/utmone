@@ -9,7 +9,7 @@ export const QuickToolsTile = () => {
   return (
     <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full">
       <div className="flex items-center gap-2 mb-3">
-        <Zap className="h-5 w-5 text-primary" />
+        <Zap className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
         <h3 className="text-title-3 font-display">Quick Tools</h3>
       </div>
 

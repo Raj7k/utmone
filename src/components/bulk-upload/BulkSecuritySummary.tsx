@@ -18,7 +18,7 @@ export const BulkSecuritySummary = ({
     <Card className="border-border/50 bg-muted/20">
       <CardContent className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Shield className="h-5 w-5 text-primary" />
+          <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="font-display font-semibold text-base">security overview</h3>
         </div>
         

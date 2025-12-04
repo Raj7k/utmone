@@ -269,7 +269,7 @@ export function UTMTemplateManager({ workspaceId, onApplyTemplate }: UTMTemplate
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-primary" />
+                  <FileText className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                   <h4 className="font-medium">{template.name}</h4>
                 </div>
                 {template.description && (

@@ -94,7 +94,7 @@ export function AIInsights() {
     return (
       <Card className="p-6">
         <div className="flex items-start gap-3 mb-4">
-          <Lightbulb className="h-5 w-5 text-primary" />
+          <Lightbulb className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="text-lg font-semibold">AI Insights</h3>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -108,7 +108,7 @@ export function AIInsights() {
     <Card className="p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Sparkles className="h-5 w-5 text-primary" />
+          <Sparkles className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="text-lg font-semibold">AI Insights</h3>
         </div>
         <Button variant="ghost" size="sm" asChild>
@@ -124,8 +124,9 @@ export function AIInsights() {
                 ? "border-red-200 bg-red-50"
                 : insight.severity === "warning"
                 ? "border-yellow-200 bg-yellow-50"
-                : "border-primary/20 bg-primary/5"
+                : ""
             }`}
+            style={insight.severity !== "error" && insight.severity !== "warning" ? { borderColor: 'rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)' } : undefined}
           >
             <div className="flex items-start gap-3">
               <insight.icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
@@ -133,8 +134,8 @@ export function AIInsights() {
                   ? "text-red-600"
                   : insight.severity === "warning"
                   ? "text-yellow-600"
-                  : "text-primary"
-              }`} />
+                  : ""
+              }`} style={insight.severity !== "error" && insight.severity !== "warning" ? { color: 'rgba(255,255,255,0.8)' } : undefined} />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm mb-1">{insight.title}</p>
                 <p className="text-xs text-muted-foreground">{insight.description}</p>

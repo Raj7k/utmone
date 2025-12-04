@@ -23,8 +23,8 @@ export const MethodSelection = ({ workspaceId, onUseTemplate, onStartFresh }: Me
         <Card className="cursor-pointer hover:border-primary/50 transition-colors">
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Zap className="h-6 w-6 text-primary" />
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <Zap className="h-6 w-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <div>
                 <CardTitle>use template</CardTitle>

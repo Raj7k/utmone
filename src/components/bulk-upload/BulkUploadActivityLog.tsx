@@ -94,8 +94,8 @@ export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadA
               {activities.map((activity) => (
                 <div key={activity.id} className="relative flex gap-4">
                   {/* Timeline dot */}
-                  <div className="relative z-10 flex-shrink-0 w-6 h-6 rounded-full bg-background border-2 border-primary flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  <div className="relative z-10 flex-shrink-0 w-6 h-6 rounded-full bg-background flex items-center justify-center" style={{ border: '2px solid rgba(255,255,255,0.3)' }}>
+                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.6)' }} />
                   </div>
 
                   {/* Activity content */}

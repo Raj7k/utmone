@@ -96,7 +96,7 @@ export const BulkFolderSelector = ({ value, onChange }: BulkFolderSelectorProps)
           ))}
           <SelectSeparator />
           <div 
-            className="relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent text-primary transition-colors"
+            className="relative flex w-full cursor-pointer select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}
             onClick={(e) => {
               e.stopPropagation();
               setIsCreating(true);

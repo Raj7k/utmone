@@ -49,7 +49,7 @@ export const ReferralTile = () => {
       <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden h-full">
         <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
           <div className="flex items-center gap-2">
-            <Gift className="h-5 w-5 text-primary" />
+            <Gift className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <Skeleton className="h-6 w-32" />
           </div>
         </div>
@@ -66,7 +66,7 @@ export const ReferralTile = () => {
       {/* Gradient Header */}
       <div className="bg-gradient-to-r from-system-blue/20 to-system-teal/20 p-4">
         <div className="flex items-center gap-2">
-          <Gift className="h-5 w-5 text-primary" />
+          <Gift className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <h3 className="text-title-3 font-display">invite & earn</h3>
         </div>
         <p className="text-caption-1 text-secondary-label mt-1">
@@ -79,7 +79,7 @@ export const ReferralTile = () => {
         <div className="grid grid-cols-2 gap-3">
           <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
             <div className="flex items-center gap-2 mb-1">
-              <Users className="h-4 w-4 text-primary" />
+              <Users className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <span className="text-xs text-muted-foreground">referrals</span>
             </div>
             <p className="text-2xl font-bold text-foreground">
@@ -89,7 +89,7 @@ export const ReferralTile = () => {
           
           <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
             <div className="flex items-center gap-2 mb-1">
-              <Award className="h-4 w-4 text-primary" />
+              <Award className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <span className="text-xs text-muted-foreground">earned</span>
             </div>
             <p className="text-2xl font-bold text-foreground">

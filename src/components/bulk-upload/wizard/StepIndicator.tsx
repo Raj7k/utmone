@@ -21,10 +21,11 @@ export const StepIndicator = ({ currentStep, totalSteps, steps }: StepIndicatorP
                 <div
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center font-medium
-                    ${isCompleted ? 'bg-primary text-primary-foreground' : ''}
-                    ${isActive ? 'bg-primary text-primary-foreground' : ''}
+                    ${isCompleted ? 'text-black' : ''}
+                    ${isActive ? 'text-black' : ''}
                     ${!isActive && !isCompleted ? 'bg-muted text-muted-foreground' : ''}
                   `}
+                  style={isCompleted || isActive ? { background: 'rgba(255,255,255,0.9)' } : undefined}
                 >
                   {isCompleted ? (
                     <CheckCircle2 className="h-5 w-5" />
@@ -38,9 +39,8 @@ export const StepIndicator = ({ currentStep, totalSteps, steps }: StepIndicatorP
               </div>
               {index < steps.length - 1 && (
                 <div 
-                  className={`h-0.5 flex-1 mx-2 ${
-                    stepNumber < currentStep ? 'bg-primary' : 'bg-muted'
-                  }`} 
+                  className="h-0.5 flex-1 mx-2 bg-muted"
+                  style={stepNumber < currentStep ? { background: 'rgba(255,255,255,0.6)' } : undefined}
                 />
               )}
             </div>
