@@ -93,32 +93,33 @@ export default function QRStudio() {
               }
               afterContent={
                 <div className="space-y-4 text-center">
-                  <div className="w-40 h-40 mx-auto bg-white rounded-lg border-2 border-primary p-2">
-                    <div className="w-full h-full bg-primary/20" style={{ 
-                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 8px, hsl(var(--primary)) 8px, hsl(var(--primary)) 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, hsl(var(--primary)) 8px, hsl(var(--primary)) 10px)',
+                  <div className="w-40 h-40 mx-auto bg-white rounded-lg border-2 p-2" style={{ borderColor: 'rgba(59,130,246,1)' }}>
+                    <div className="w-full h-full" style={{ 
+                      background: 'rgba(59,130,246,0.2)',
+                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(59,130,246,1) 8px, rgba(59,130,246,1) 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(59,130,246,1) 8px, rgba(59,130,246,1) 10px)',
                       backgroundSize: '10px 10px'
                     }}>
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-12 h-12 bg-white rounded-lg border-2 border-primary flex items-center justify-center">
-                          <span className="text-xl font-bold text-primary">✓</span>
+                        <div className="w-12 h-12 bg-white rounded-lg border-2 flex items-center justify-center" style={{ borderColor: 'rgba(59,130,246,1)' }}>
+                          <span className="text-xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>✓</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                       <span>✓</span>
                       <span>Brand colors validated</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                       <span>✓</span>
                       <span>98% scan rate guarantee</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                       <span>✓</span>
                       <span>Logo centered perfectly</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                       <span>✓</span>
                       <span>Live geo analytics</span>
                     </div>
@@ -183,7 +184,7 @@ export default function QRStudio() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Card className="p-6 h-full bg-zinc-900/40 backdrop-blur-xl border-white/10 hover:border-white/20 transition-colors">
-                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-primary mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4" style={{ color: 'rgba(59,130,246,1)' }}>
                       {benefit.icon}
                     </div>
                     <h3 className="text-lg font-display font-semibold text-white brand-lowercase mb-2">
@@ -216,7 +217,7 @@ export default function QRStudio() {
                 { step: "4", label: "track scans", desc: "live analytics" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-2xl font-bold text-primary mx-auto mb-4">
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-2xl font-bold mx-auto mb-4" style={{ color: 'rgba(59,130,246,1)' }}>
                     {item.step}
                   </div>
                   <h4 className="text-lg font-display font-semibold text-white brand-lowercase mb-1">
@@ -255,11 +256,11 @@ export default function QRStudio() {
               ].map((feature, index) => (
                 <Card key={index} className="p-6 bg-zinc-900/40 backdrop-blur-xl border-white/10 hover:border-white/20 transition-colors group cursor-pointer">
                   <Link to={feature.link}>
-                    <h3 className="text-xl font-display font-semibold text-white brand-lowercase mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-display font-semibold text-white brand-lowercase mb-2 group-hover:text-white/80 transition-colors">
                       {feature.title}
                     </h3>
                     <p className="text-sm text-white/60 mb-4">{feature.description}</p>
-                    <div className="flex items-center gap-2 text-primary text-sm font-semibold">
+                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
                       <span>learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -326,7 +327,7 @@ export default function QRStudio() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 md:py-32 bg-primary/5 border-t border-white/10">
+        <section className="py-24 md:py-32 border-t border-white/10" style={{ background: 'rgba(59,130,246,0.05)' }}>
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase">
               ready to stop guessing if your codes work?
