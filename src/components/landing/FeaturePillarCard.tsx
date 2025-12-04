@@ -29,7 +29,7 @@ export const FeaturePillarCard = ({
       transition={{ duration: 0.6, delay }}
       className={cn(
         "group relative bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8",
-        "hover:border-primary/30 transition-all duration-300",
+        "hover:border-white/20 transition-all duration-300",
         href && "cursor-pointer",
         className
       )}

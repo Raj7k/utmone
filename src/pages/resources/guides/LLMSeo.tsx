@@ -254,7 +254,7 @@ const LLMSeo = () => {
           {/* Principle 3 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 3</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 3</div>
               <h3 className="text-lg font-display font-semibold text-foreground">schema markup (structured data)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Add Article, FAQ, HowTo, and BreadcrumbList schema. This tells LLMs "this is an authoritative guide" and "these are questions with answers."
@@ -265,7 +265,7 @@ const LLMSeo = () => {
           {/* Principle 4 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 4</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 4</div>
               <h3 className="text-lg font-display font-semibold text-foreground">internal cross-linking (knowledge graph)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Link related concepts inline. "Learn more in our UTM Guide" creates a knowledge graph that LLMs traverse when generating answers. Dense linking increases citation probability.
@@ -276,7 +276,7 @@ const LLMSeo = () => {
           {/* Principle 5 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 5</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 5</div>
               <h3 className="text-lg font-display font-semibold text-foreground">FAQ sections (Q&A training data)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 FAQ sections are ideal LLM training data. They match natural language queries ("What are UTM parameters?") with direct answers. Every guide should have 5-10 FAQs.
@@ -287,7 +287,7 @@ const LLMSeo = () => {
           {/* Principle 6 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 6</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 6</div>
               <h3 className="text-lg font-display font-semibold text-foreground">clear hierarchies (H1/H2/H3)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Use semantic HTML headings. H1 for page title, H2 for main sections, H3 for subsections. LLMs parse heading structure to understand content hierarchy.
@@ -298,7 +298,7 @@ const LLMSeo = () => {
           {/* Principle 7 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 7</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 7</div>
               <h3 className="text-lg font-display font-semibold text-foreground">citation-worthy sources (primary data)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 LLMs cite sources with original research, case studies, or frameworks. "The Clean-Track Framework" is citation-worthy because it's a named methodology. Generic "best practices" posts aren't.
@@ -472,8 +472,8 @@ const LLMSeo = () => {
           {/* Pillar 3 */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">3</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>3</span>
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-bold text-foreground">Content Quality</h3>
@@ -492,8 +492,8 @@ const LLMSeo = () => {
           {/* Pillar 4 */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">4</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>4</span>
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-bold text-foreground">Structured Data</h3>
@@ -512,8 +512,8 @@ const LLMSeo = () => {
           {/* Pillar 5 */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">5</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>5</span>
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-bold text-foreground">Formatting for AI</h3>
@@ -530,7 +530,7 @@ const LLMSeo = () => {
           </div>
         </div>
 
-        <div className="bg-primary/5 p-6 rounded-xl border border-primary/20">
+        <div className="p-6 rounded-xl border border-white/20" style={{ background: 'rgba(59,130,246,0.05)' }}>
           <p className="text-foreground leading-relaxed">
             <strong>Bottom line:</strong> LLMs cite content that's clear, structured, authoritative, and easy to extract. If your content requires "reading between the lines" or "connecting dots across sections," LLMs will skip it.
           </p>
@@ -736,7 +736,7 @@ const LLMSeo = () => {
             </div>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            Learn how to implement this tracking system in our <a href="/resources/guides/utm-guide" className="text-primary hover:underline">UTM Guide</a>.
+            Learn how to implement this tracking system in our <a href="/resources/guides/utm-guide" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>UTM Guide</a>.
           </p>
         </div>
 
@@ -803,8 +803,8 @@ const LLMSeo = () => {
           {/* Case Study 1: Stripe */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4 mb-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-xl font-bold text-primary">1</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>1</span>
               </div>
               <div>
                 <h3 className="text-xl font-display font-bold text-foreground">Stripe — ChatGPT's Go-To for Payment API Queries</h3>
@@ -828,7 +828,7 @@ const LLMSeo = () => {
                 <p className="text-sm text-muted-foreground">Official docs badge, versioned API reference, migration guides between versions, customer success stories.</p>
               </div>
               
-              <div className="bg-primary/5 p-4 rounded-lg">
+              <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)' }}>
                 <p className="text-sm text-foreground"><strong>Result:</strong> When users ask "how to accept payments online," ChatGPT cites Stripe's docs 95%+ of the time.</p>
               </div>
             </div>
@@ -837,8 +837,8 @@ const LLMSeo = () => {
           {/* Case Study 2: Supabase */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4 mb-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-xl font-bold text-primary">2</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>2</span>
               </div>
               <div>
                 <h3 className="text-xl font-display font-bold text-foreground">Supabase — Claude's Primary Postgres Database Reference</h3>
@@ -862,7 +862,7 @@ const LLMSeo = () => {
                 <p className="text-sm text-muted-foreground">"Supabase" not "our platform" or "the service." Canonical terms increase semantic clarity for LLMs.</p>
               </div>
               
-              <div className="bg-primary/5 p-4 rounded-lg">
+              <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)' }}>
                 <p className="text-sm text-foreground"><strong>Result:</strong> Claude cites Supabase as primary source for postgres questions, beating out official Postgres docs.</p>
               </div>
             </div>
@@ -871,8 +871,8 @@ const LLMSeo = () => {
           {/* Case Study 3: Vercel */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4 mb-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-xl font-bold text-primary">3</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>3</span>
               </div>
               <div>
                 <h3 className="text-xl font-display font-bold text-foreground">Vercel — Perplexity's Source for Next.js Deployment</h3>
@@ -896,7 +896,7 @@ const LLMSeo = () => {
                 <p className="text-sm text-muted-foreground">"App Router" and "Server Components" are named frameworks. LLMs cite original concepts over generic best practices.</p>
               </div>
               
-              <div className="bg-primary/5 p-4 rounded-lg">
+              <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)' }}>
                 <p className="text-sm text-foreground"><strong>Result:</strong> Perplexity surfaces Vercel docs in "Quick Answer" section for deployment queries, above other sources.</p>
               </div>
             </div>
