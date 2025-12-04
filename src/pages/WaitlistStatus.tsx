@@ -80,7 +80,7 @@ export default function WaitlistStatus() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <div className="h-12 w-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: 'rgba(59,130,246,1)' }} />
           <p className="text-secondary-label">loading your status…</p>
         </div>
       </div>
@@ -187,8 +187,8 @@ export default function WaitlistStatus() {
             </div>
             <div className="w-full bg-muted/30 rounded-full h-2">
               <div
-                className="bg-primary h-2 rounded-full transition-all"
-                style={{ width: `${Math.min(((userData.referral_count || 0) / 10) * 100, 100)}%` }}
+                className="h-2 rounded-full transition-all"
+                style={{ width: `${Math.min(((userData.referral_count || 0) / 10) * 100, 100)}%`, background: 'rgba(59,130,246,1)' }}
               />
             </div>
             <p className="text-xs text-tertiary-label mt-2">

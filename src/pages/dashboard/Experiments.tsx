@@ -76,8 +76,8 @@ export default function Experiments() {
       ) : (
         <Card className="p-12 text-center border-dashed">
           <div className="flex flex-col items-center gap-4 max-w-md mx-auto">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
-              <Beaker className="h-8 w-8 text-primary" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Beaker className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             <div>
               <h3 className="text-xl font-display font-semibold text-foreground">

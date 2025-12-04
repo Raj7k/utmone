@@ -98,8 +98,8 @@ export default function TotpVerification() {
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] p-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <div className="mx-auto mb-4 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Shield className="h-6 w-6 text-primary" />
+            <div className="mx-auto mb-4 w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <Shield className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
             <CardTitle>two-factor authentication</CardTitle>
             <CardDescription>

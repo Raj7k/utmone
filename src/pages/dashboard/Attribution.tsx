@@ -218,7 +218,7 @@ const Attribution = () => {
                     The fastest path might have low LTV. A longer path through high-value content (webinar, demo) can deliver 3x higher conversion value. Golden paths show you the optimal balance.
                   </p>
                 </div>
-                <div className="bg-primary/10 p-3 rounded-lg">
+                <div className="p-3 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
                   <p className="text-xs font-medium">💡 Pro Tip</p>
                   <p className="text-xs text-muted-foreground mt-1">
                     Send paid traffic to Golden Path entry points for maximum ROI, not just the shortest path to signup.
