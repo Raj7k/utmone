@@ -105,7 +105,7 @@ const Analytics = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div>
@@ -116,7 +116,7 @@ const Analytics = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <BarChart3 className="w-6 h-6" />
               </div>
               <div>
@@ -127,7 +127,7 @@ const Analytics = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
@@ -240,10 +240,10 @@ const Analytics = () => {
               AI-powered summaries turn raw click data into plain-English insights your team can act on immediately.
             </p>
             <div className="space-y-3">
-              <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <div className="p-4 rounded-lg border" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.2)' }}>
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-semibold text-primary uppercase">AI Insight</span>
+                  <Sparkles className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <span className="text-xs font-semibold uppercase" style={{ color: 'rgba(59,130,246,1)' }}>AI Insight</span>
                 </div>
                 <p className="text-sm text-foreground font-medium">
                   Traffic up 23% from LinkedIn this week
@@ -268,10 +268,10 @@ const Analytics = () => {
           <div className="bg-card border border-border rounded-xl p-6 space-y-4">
             <div className="text-sm font-semibold text-label">Weekly Summary</div>
             <div className="space-y-3">
-              <div className="p-4 bg-primary/5 rounded-lg">
+              <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)' }}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-foreground">Total Clicks</span>
-                  <span className="text-2xl font-bold text-primary">2,847</span>
+                  <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>2,847</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-green-600">
                   <TrendingUp className="w-3 h-3" />
@@ -283,13 +283,13 @@ const Analytics = () => {
                 <div className="text-xs text-muted-foreground mb-2">Top Source</div>
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-foreground">linkedin</span>
-                  <span className="text-sm text-primary">847 clicks</span>
+                  <span className="text-sm" style={{ color: 'rgba(59,130,246,1)' }}>847 clicks</span>
                 </div>
               </div>
               
               <div className="p-4 bg-muted/50 rounded-lg">
                 <div className="text-xs text-muted-foreground mb-2">Best Performing Link</div>
-                <div className="font-mono text-xs text-primary">utm.one/q4-webinar</div>
+                <div className="font-mono text-xs" style={{ color: 'rgba(59,130,246,1)' }}>utm.one/q4-webinar</div>
               </div>
             </div>
           </div>

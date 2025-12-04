@@ -95,7 +95,7 @@ const Automation = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               Zapier, webhooks, bulk operations, and scheduled workflows. Stop repeating yourself.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
               get started
             </Button>
           </motion.div>
@@ -120,9 +120,9 @@ const Automation = () => {
                 <li>❌ Update hundreds of links when campaign changes</li>
               </ul>
             </div>
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-8">
+            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
               <p className="text-lg text-label leading-relaxed mb-4">
-                <strong className="text-primary">After:</strong> Workflows run automatically.
+                <strong style={{ color: 'rgba(59,130,246,1)' }}>After:</strong> Workflows run automatically.
               </p>
               <ul className="space-y-2 text-label">
                 <li>✓ Zapier creates links when campaign launches</li>
@@ -175,9 +175,9 @@ const Automation = () => {
             <h3 className="text-xl font-display font-semibold mb-2 text-label">Campaign Launch Automation</h3>
             <p className="text-secondary-label mb-4">When new campaign added to Airtable → Create 20 branded links with pre-filled UTMs → Send to Slack.</p>
             <div className="flex gap-2 flex-wrap">
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Zapier</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Airtable</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Slack</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Zapier</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Airtable</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Slack</span>
             </div>
           </div>
 
@@ -185,8 +185,8 @@ const Automation = () => {
             <h3 className="text-xl font-display font-semibold mb-2 text-label">Real-Time CRM Updates</h3>
             <p className="text-secondary-label mb-4">When high-value prospect clicks link → Send webhook to HubSpot → Create task for sales rep.</p>
             <div className="flex gap-2 flex-wrap">
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Webhooks</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">HubSpot</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Webhooks</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>HubSpot</span>
             </div>
           </div>
 
@@ -194,8 +194,8 @@ const Automation = () => {
             <h3 className="text-xl font-display font-semibold mb-2 text-label">Weekly Report Delivery</h3>
             <p className="text-secondary-label mb-4">Every Monday at 9am → Export analytics → Send white-label PDF to clients via email.</p>
             <div className="flex gap-2 flex-wrap">
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Scheduled</span>
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">Email</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Scheduled</span>
+              <span className="px-3 py-1 text-sm rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Email</span>
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@ const Automation = () => {
             <p className="text-xl text-white/90 mb-8">
               Connect utm.one to Zapier, webhooks, and 5,000+ apps to automate everything.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
               get started
             </Button>
           </motion.div>
