@@ -25,7 +25,7 @@ export const RoleRecommender = () => {
   };
 
   const getRoleColor = (role: string) => {
-    if (role === 'workspace_admin') return 'bg-primary/10 text-primary';
+    if (role === 'workspace_admin') return 'bg-white/10 text-white';
     if (role === 'editor') return 'bg-amber-500/10 text-amber-400';
     if (role === 'contributor') return 'bg-blue-500/10 text-blue-400';
     if (role === 'viewer') return 'bg-white/10 text-white/60';
@@ -37,8 +37,8 @@ export const RoleRecommender = () => {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Lightbulb className="w-5 h-5 text-primary" />
+          <div className="p-2 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Lightbulb className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <h3 className="text-headline font-display font-semibold text-label mb-1">

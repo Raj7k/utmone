@@ -63,7 +63,7 @@ export const TimelineAuditViewer = () => {
     if (eventType.startsWith('security')) {
       return <AlertTriangle className="w-4 h-4 text-destructive" />;
     }
-    return <Shield className="w-4 h-4 text-primary" />;
+    return <Shield className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />;
   };
 
   const getEventColor = (eventType: string) => {
@@ -82,7 +82,7 @@ export const TimelineAuditViewer = () => {
     return (
       <Card className="p-6">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: 'rgba(59,130,246,1)' }}></div>
         </div>
       </Card>
     );
