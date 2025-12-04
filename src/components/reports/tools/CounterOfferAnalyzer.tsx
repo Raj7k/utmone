@@ -7,6 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TrendingUp, Copy } from "lucide-react";
 import { toast } from "sonner";
 
+const scenarioColorStyles: Record<string, string> = {
+  deepSea: 'rgba(20,184,166,1)',
+  blazeOrange: 'rgba(249,115,22,1)',
+  mirage: 'rgba(30,41,59,1)',
+};
+
 export const CounterOfferAnalyzer = () => {
   const [baseOffer, setBaseOffer] = useState<number>(95000);
   const [equity, setEquity] = useState<number>(20000);
@@ -135,7 +141,7 @@ Best regards,
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
                     <p className="text-xs text-white/60 mb-1">Base Salary</p>
-                    <p className={`text-xl font-bold text-${scenario.color}`}>
+                    <p className="text-xl font-bold" style={{ color: scenarioColorStyles[scenario.color] }}>
                       ${scenario.base.toLocaleString()}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -144,7 +150,7 @@ Best regards,
                   </div>
                   <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
                     <p className="text-xs text-white/60 mb-1">Equity</p>
-                    <p className={`text-xl font-bold text-${scenario.color}`}>
+                    <p className="text-xl font-bold" style={{ color: scenarioColorStyles[scenario.color] }}>
                       ${scenario.equity.toLocaleString()}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -153,7 +159,7 @@ Best regards,
                   </div>
                   <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
                     <p className="text-xs text-white/60 mb-1">Total Comp</p>
-                    <p className={`text-xl font-bold text-${scenario.color}`}>
+                    <p className="text-xl font-bold" style={{ color: scenarioColorStyles[scenario.color] }}>
                       ${(scenario.base + scenario.equity + scenario.bonus).toLocaleString()}
                     </p>
                   </div>
@@ -162,7 +168,7 @@ Best regards,
                 <div className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 rounded-lg p-4">
                   <div className="flex justify-between items-center mb-2">
                     <p className="font-semibold text-mirage">Acceptance Probability</p>
-                    <p className="text-2xl font-bold text-blazeOrange">{scenario.probability}</p>
+                    <p className="text-2xl font-bold" style={{ color: 'rgba(249,115,22,1)' }}>{scenario.probability}</p>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     Based on typical counter-offer negotiations in your role and market

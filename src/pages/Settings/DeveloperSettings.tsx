@@ -197,7 +197,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
     <div className="container max-w-5xl py-8 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-display font-bold hero-gradient">
           developer settings
         </h1>
         <p className="text-secondary-label mt-2">

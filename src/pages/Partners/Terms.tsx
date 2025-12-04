@@ -4,7 +4,7 @@ export default function PartnerTerms() {
   return (
     <div className="container max-w-4xl py-16 space-y-8">
       <div className="text-center">
-        <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-display font-bold mb-4 hero-gradient">
           Partner Program Terms
         </h1>
         <p className="text-xl text-secondary-label">

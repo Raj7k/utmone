@@ -13,7 +13,7 @@ export default function SDKs() {
       
       <div className="container mx-auto px-4 py-16 max-w-5xl">
         <div className="space-y-6 mb-12">
-          <h1 className="text-4xl font-display font-bold bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-display font-bold hero-gradient">
             SDKs & Libraries
           </h1>
           <p className="text-lg text-secondary-label max-w-2xl">
