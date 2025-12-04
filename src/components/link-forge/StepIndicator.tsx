@@ -36,10 +36,11 @@ export const StepIndicator = ({
               <div
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center transition-apple",
-                  isActive && "bg-primary ring-4 ring-primary/20",
+                  isActive && "ring-4 ring-white/20",
                   isCompleted && !isActive && "bg-system-green",
                   !isActive && !isCompleted && "bg-fill-tertiary"
                 )}
+                style={isActive ? { background: 'rgba(59,130,246,1)' } : undefined}
               >
                 {isCompleted ? (
                   <Check className="h-5 w-5 text-white" />

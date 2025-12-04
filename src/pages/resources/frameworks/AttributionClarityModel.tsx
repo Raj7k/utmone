@@ -26,28 +26,28 @@ const AttributionClarityModel = () => {
 
   const layers = [
     {
-      icon: <Shield className="w-6 h-6 text-primary" />,
+      icon: <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "01",
       title: "Data Integrity",
       description: "If your tracking is broken, attribution is broken. Fix UTMs, events, and ID connections first.",
       key: "foundation layer"
     },
     {
-      icon: <Eye className="w-6 h-6 text-primary" />,
+      icon: <Eye className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "02",
       title: "Views (Models)",
       description: "First-touch, last-touch, multi-touch, position-based. Choose 2-3 views, not 10.",
       key: "analytical layer"
     },
     {
-      icon: <FileText className="w-6 h-6 text-primary" />,
+      icon: <FileText className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "03",
       title: "Communication",
       description: "How the rules are documented and explained to teams. One-page attribution memo required.",
       key: "transparency layer"
     },
     {
-      icon: <Settings className="w-6 h-6 text-primary" />,
+      icon: <Settings className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "04",
       title: "Governance & Usage",
       description: "How often views are reviewed, by whom, and for what decisions. Quarterly reviews minimum.",
@@ -177,7 +177,7 @@ const AttributionClarityModel = () => {
           </Link>
           
           <div className="space-y-6">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               decision framework
             </div>
             
@@ -268,16 +268,16 @@ const AttributionClarityModel = () => {
             {layers.map((layer, index) => (
               <div
                 key={index}
-                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-white/20 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
                     {layer.icon}
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-5xl font-extrabold text-primary/10">
+                      <span className="text-5xl font-extrabold" style={{ color: 'rgba(59,130,246,0.1)' }}>
                         {layer.number}
                       </span>
                       <h3 className="text-2xl font-display font-semibold text-foreground">
@@ -287,7 +287,7 @@ const AttributionClarityModel = () => {
                     <p className="text-base text-muted-foreground mb-2">
                       {layer.description}
                     </p>
-                    <p className="text-sm text-primary font-medium">
+                    <p className="text-sm font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
                       {layer.key}
                     </p>
                   </div>
@@ -363,7 +363,7 @@ const AttributionClarityModel = () => {
                 <p className="text-sm text-muted-foreground mb-3">
                   <strong>Why it breaks:</strong> {item.why}
                 </p>
-                <p className="text-sm text-primary">
+                <p className="text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                   <strong>Fix:</strong> {item.fix}
                 </p>
               </div>
@@ -400,7 +400,7 @@ const AttributionClarityModel = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <Link
               to="/resources/guides/growth-analytics"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Growth Analytics Guide</h3>
               <p className="text-sm text-muted-foreground">Measure marketing influence on revenue growth</p>
@@ -408,7 +408,7 @@ const AttributionClarityModel = () => {
             
             <Link
               to="/resources/guides/utm-guide"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">UTM Guide</h3>
               <p className="text-sm text-muted-foreground">Build tracking foundation for attribution</p>
@@ -416,7 +416,7 @@ const AttributionClarityModel = () => {
             
             <Link
               to="/resources/guides/tracking-architecture"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Tracking Architecture Guide</h3>
               <p className="text-sm text-muted-foreground">Design systems that enable attribution</p>
@@ -424,7 +424,7 @@ const AttributionClarityModel = () => {
             
             <Link
               to="/resources/frameworks/clean-track-model"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Clean-Track Framework</h3>
               <p className="text-sm text-muted-foreground">Ensure data quality feeds attribution models</p>

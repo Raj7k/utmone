@@ -8,25 +8,25 @@ import { ActionChecklist } from "@/components/resources/ActionChecklist";
 const CleanTrackModel = () => {
   const layers = [
     {
-      icon: <Layers className="w-6 h-6 text-primary" />,
+      icon: <Layers className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "01",
       title: "Syntax & Structure",
       description: "UTM parameters, formatting rules, lowercase enforcement, special character handling."
     },
     {
-      icon: <Shield className="w-6 h-6 text-primary" />,
+      icon: <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "02",
       title: "Naming Rules",
       description: "Taxonomy, allowed values, conventions, channel-specific templates."
     },
     {
-      icon: <GitBranch className="w-6 h-6 text-primary" />,
+      icon: <GitBranch className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "03",
       title: "Governance Process",
       description: "Approval workflows, enforcement mechanisms, violation monitoring."
     },
     {
-      icon: <BarChart3 className="w-6 h-6 text-primary" />,
+      icon: <BarChart3 className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />,
       number: "04",
       title: "Reporting Standards",
       description: "How data flows to dashboards, aggregation rules, attribution logic."
@@ -132,7 +132,7 @@ const CleanTrackModel = () => {
           </Link>
           
           <div className="space-y-6">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <div className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               mental model framework
             </div>
             
@@ -203,16 +203,16 @@ const CleanTrackModel = () => {
             {layers.map((layer, index) => (
               <div
                 key={index}
-                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+                className="bg-card rounded-2xl p-8 border border-border/50 hover:border-white/20 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
                     {layer.icon}
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-5xl font-extrabold text-primary/10">
+                      <span className="text-5xl font-extrabold" style={{ color: 'rgba(59,130,246,0.1)' }}>
                         {layer.number}
                       </span>
                       <h3 className="text-2xl font-display font-semibold text-foreground">
@@ -256,7 +256,7 @@ const CleanTrackModel = () => {
                 <p className="text-sm text-muted-foreground mb-3">
                   <strong>Why it breaks:</strong> {item.why}
                 </p>
-                <p className="text-sm text-primary">
+                <p className="text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
                   <strong>Fix:</strong> {item.fix}
                 </p>
               </div>
@@ -293,7 +293,7 @@ const CleanTrackModel = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <Link
               to="/resources/guides/utm-guide"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">UTM Guide</h3>
               <p className="text-sm text-muted-foreground">Learn UTM fundamentals and best practices</p>
@@ -301,7 +301,7 @@ const CleanTrackModel = () => {
             
             <Link
               to="/resources/playbooks/utm-governance-playbook"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">UTM Governance Playbook</h3>
               <p className="text-sm text-muted-foreground">Tactical steps for implementing governance</p>
@@ -309,7 +309,7 @@ const CleanTrackModel = () => {
             
             <Link
               to="/resources/templates/naming-taxonomy-template"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Naming Taxonomy Template</h3>
               <p className="text-sm text-muted-foreground">Pre-built taxonomy structure to customize</p>
@@ -317,7 +317,7 @@ const CleanTrackModel = () => {
             
             <Link
               to="/resources/templates/audit-checklist-template"
-              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-primary/20 hover:shadow-lg transition-all"
+              className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="text-lg font-semibold text-foreground mb-2">Audit Checklist Template</h3>
               <p className="text-sm text-muted-foreground">Validate your tracking health</p>

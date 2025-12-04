@@ -113,7 +113,7 @@ const B2BAttributionFramework = () => {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
+              <Badge className="text-white animate-pulse" style={{ background: 'rgba(59,130,246,1)' }}>NEW</Badge>
               <Badge variant="outline">25-page framework</Badge>
               <Badge variant="outline">5 case studies</Badge>
               <Badge variant="outline">4-stage model</Badge>
@@ -147,15 +147,15 @@ const B2BAttributionFramework = () => {
               
               <div className="grid md:grid-cols-3 gap-6 my-12">
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold text-primary mb-2">76%</div>
+                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>76%</div>
                   <p className="text-sm text-muted-foreground">have or will have attribution capability within 12 months</p>
                 </div>
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold text-primary mb-2">29%</div>
+                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>29%</div>
                   <p className="text-sm text-muted-foreground">consider themselves very successful at using attribution</p>
                 </div>
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold text-primary mb-2">56</div>
+                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>56</div>
                   <p className="text-sm text-muted-foreground">touchpoints average consumer needs before purchasing</p>
                 </div>
               </div>
@@ -414,10 +414,10 @@ const B2BAttributionFramework = () => {
                   <Link
                     key={index}
                     to={resource.url}
-                    className="group bg-card rounded-xl p-6 border border-border/50 hover:border-primary/30 hover:shadow-lg transition-all"
+                    className="group bg-card rounded-xl p-6 border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
                   >
-                    <div className="text-xs text-primary font-medium mb-2">{resource.type}</div>
-                    <div className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                    <div className="text-xs font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>{resource.type}</div>
+                    <div className="text-base font-semibold text-foreground group-hover:text-white/80 transition-colors">
                       {resource.title}
                     </div>
                   </Link>

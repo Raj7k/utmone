@@ -191,7 +191,7 @@ const CampaignBriefTemplate = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               to="/resources/templates/utm-template"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">UTM Template</h3>
               <p className="text-sm text-muted-foreground">Standard tracking structure</p>
@@ -199,7 +199,7 @@ const CampaignBriefTemplate = () => {
 
             <Link
               to="/resources/playbooks/naming-convention-playbook"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">Naming Convention Playbook</h3>
               <p className="text-sm text-muted-foreground">Campaign naming rules</p>
@@ -207,7 +207,7 @@ const CampaignBriefTemplate = () => {
 
             <Link
               to="/resources/playbooks/event-led-growth-playbook"
-              className="p-6 rounded-xl border border-border/50 bg-card hover:border-primary/20 hover:shadow-lg transition-all"
+              className="p-6 rounded-xl border border-border/50 bg-card hover:border-white/20 hover:shadow-lg transition-all"
             >
               <h3 className="font-semibold text-foreground mb-2">Event-Led Growth Playbook</h3>
               <p className="text-sm text-muted-foreground">Event campaign strategies</p>
