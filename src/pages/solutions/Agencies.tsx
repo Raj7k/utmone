@@ -324,7 +324,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 6: ROI Calculator */}
-      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-background">
+      <section className="py-24 md:py-32" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(255,106,0,0.05), rgb(24,24,27))' }}>
         <div className="container mx-auto px-6">
           <ROICalculator />
         </div>

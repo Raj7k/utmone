@@ -14,28 +14,28 @@ const strategies = [
     icon: Brain,
     label: 'smart mode',
     description: 'AI decides best action',
-    color: 'from-primary to-primary/60',
+    gradient: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))',
   },
   {
     id: 'ASK' as DuplicateStrategy,
     icon: MessageCircle,
     label: 'ask me',
     description: 'review each duplicate',
-    color: 'from-purple-500 to-purple-600',
+    gradient: 'linear-gradient(to bottom right, rgba(168,85,247,1), rgba(147,51,234,1))',
   },
   {
     id: 'ALWAYS_NEW' as DuplicateStrategy,
     icon: PlusCircle,
     label: 'always new',
     description: 'create new version',
-    color: 'from-green-500 to-green-600',
+    gradient: 'linear-gradient(to bottom right, rgba(34,197,94,1), rgba(22,163,74,1))',
   },
   {
     id: 'USE_EXISTING' as DuplicateStrategy,
     icon: RefreshCw,
     label: 'use existing',
     description: 'reuse best performer',
-    color: 'from-blue-500 to-blue-600',
+    gradient: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(37,99,235,1))',
   },
 ];
 
@@ -57,7 +57,7 @@ export const StrategySelector = ({ strategy, onStrategyChange }: StrategySelecto
             }`}
             style={isActive ? { background: 'rgba(255,255,255,0.1)' } : undefined}
           >
-            <div className={`inline-flex p-2 rounded-lg bg-gradient-to-br ${s.color} mb-2`}>
+            <div className="inline-flex p-2 rounded-lg mb-2" style={{ background: s.gradient }}>
               <Icon className="h-4 w-4 text-white" />
             </div>
             <div className="text-sm font-medium text-foreground mb-1">

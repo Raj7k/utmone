@@ -112,7 +112,7 @@ export const ChecklistLayout = ({
                 </div>
 
                 {/* CTA Card */}
-                <div className="rounded-2xl border border-separator p-6 bg-gradient-to-br from-primary/5 to-primary/10">
+                <div className="rounded-2xl border border-separator p-6" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))' }}>
                   <h3 className="font-display font-semibold text-label mb-3">
                     Automate Your Checks
                   </h3>

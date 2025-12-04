@@ -70,8 +70,9 @@ export const MagneticCard = ({
     >
       {enableGlow && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent-teal/5 to-accent-mint/5 rounded-2xl opacity-0 blur-xl pointer-events-none"
+          className="absolute inset-0 rounded-2xl opacity-0 blur-xl pointer-events-none"
           style={{
+            background: 'linear-gradient(to right, rgba(59,130,246,0.05), rgba(20,184,166,0.05), rgba(52,211,153,0.05))',
             opacity: useTransform(springX, [-50, 0, 50], [0.3, 0, 0.3]),
           }}
         />

@@ -71,7 +71,7 @@ export const FeatureHeroWithTool = ({
           transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-blazeOrange/5 via-primary/5 to-blazeOrange/5 rounded-2xl blur-xl pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl blur-xl pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255,106,0,0.05), rgba(59,130,246,0.05), rgba(255,106,0,0.05))' }} />
           {toolComponent}
         </motion.div>
       </div>

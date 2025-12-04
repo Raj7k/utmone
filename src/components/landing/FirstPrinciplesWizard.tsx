@@ -147,7 +147,7 @@ export const FirstPrinciplesWizard = () => {
               className="space-y-4"
             >
               <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))' }}>
                   <Target className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>

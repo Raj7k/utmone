@@ -75,7 +75,7 @@ export const ExampleLayout = ({
               </div>
 
               {/* CTA */}
-              <div className="rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-8">
+              <div className="rounded-2xl border border-border p-8" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))' }}>
                 <h3 className="text-lg font-display font-semibold mb-2">
                   build with utm.one
                 </h3>

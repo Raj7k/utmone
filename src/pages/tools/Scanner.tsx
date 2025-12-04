@@ -308,7 +308,7 @@ export default function Scanner() {
                   share clearance card
                 </Button>
                 <Link to="/early-access" className="flex-1">
-                  <Button className="w-full bg-gradient-to-r from-primary to-blazeOrange text-white">
+                  <Button className="w-full text-white" style={{ background: 'linear-gradient(to right, rgba(59,130,246,1), rgba(255,106,0,1))' }}>
                     fix toxic links
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
