@@ -194,7 +194,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 <span className="flex-1">{formatText(item.name)}</span>
                 {showBadge && (
-                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-medium">
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full text-white text-xs font-medium" style={{ background: 'rgba(59,130,246,1)' }}>
                     {pendingCount > 9 ? '9+' : pendingCount}
                   </span>
                 )}
@@ -279,7 +279,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
             <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-fill-tertiary transition-apple">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={profile?.avatar_url || undefined} />
-                <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                <AvatarFallback className="text-xs" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                   {getInitials(profile?.full_name || null)}
                 </AvatarFallback>
               </Avatar>

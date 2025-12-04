@@ -61,7 +61,7 @@ export const SidebarUserFooter = () => {
           <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-fill-tertiary transition-apple">
             <Avatar className="h-8 w-8">
               <AvatarImage src={profile?.avatar_url || undefined} />
-              <AvatarFallback className="bg-primary/10 text-primary text-xs">
+              <AvatarFallback className="text-xs" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 {getInitials(profile?.full_name || null)}
               </AvatarFallback>
             </Avatar>
