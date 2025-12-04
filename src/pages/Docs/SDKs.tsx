@@ -87,9 +87,9 @@ console.log(link.short_url);`}</code>
                 <div>
                   <p className="text-sm font-medium text-secondary-label">Documentation</p>
                   <ul className="text-sm space-y-1 mt-2">
-                    <li><a href="/docs/api" className="text-primary hover:underline">API Reference</a></li>
-                    <li><a href="/docs/api#examples" className="text-primary hover:underline">Examples</a></li>
-                    <li><a href="/docs/api#migration" className="text-primary hover:underline">Migration Guide</a></li>
+                    <li><a href="/docs/api" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>API Reference</a></li>
+                    <li><a href="/docs/api#examples" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Examples</a></li>
+                    <li><a href="/docs/api#migration" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Migration Guide</a></li>
                   </ul>
                 </div>
                 <div>
@@ -167,9 +167,9 @@ print(link.short_url)`}</code>
                 <div>
                   <p className="text-sm font-medium text-secondary-label">Documentation</p>
                   <ul className="text-sm space-y-1 mt-2">
-                    <li><a href="/docs/api" className="text-primary hover:underline">API Reference</a></li>
-                    <li><a href="/docs/api#examples" className="text-primary hover:underline">Examples</a></li>
-                    <li><a href="https://github.com/utmone/python-sdk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Jupyter Notebooks</a></li>
+                    <li><a href="/docs/api" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>API Reference</a></li>
+                    <li><a href="/docs/api#examples" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Examples</a></li>
+                    <li><a href="https://github.com/utmone/python-sdk" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Jupyter Notebooks</a></li>
                   </ul>
                 </div>
                 <div>
