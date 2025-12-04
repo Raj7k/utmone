@@ -127,10 +127,10 @@ export const ExperimentConfidenceMeter = ({
 
         {/* Winner Banner */}
         {hasWinner && (
-          <div className="rounded-lg bg-primary/10 border border-primary/20 p-4">
+          <div className="rounded-lg p-4" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}>
             <div className="flex items-start gap-3">
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary/20">
-                <Trophy className="h-4 w-4 text-primary" />
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'rgba(59,130,246,0.2)' }}>
+                <Trophy className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="flex-1 space-y-2">
                 <p className="text-sm font-medium text-foreground">

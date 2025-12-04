@@ -53,8 +53,8 @@ export const SocialProofCounter = ({
         viewport={{ once: true }}
         className="inline-flex items-center gap-2 text-sm text-secondary-label"
       >
-        <Users className="w-4 h-4 text-primary" />
-        <span className="font-medium text-primary">{displayCount.toLocaleString()}+</span>
+        <Users className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+        <span className="font-medium" style={{ color: 'rgba(59,130,246,1)' }}>{displayCount.toLocaleString()}+</span>
         <span>{data.label} trust utm.one</span>
       </motion.div>
     );
@@ -69,11 +69,11 @@ export const SocialProofCounter = ({
         className="bg-card border border-border rounded-2xl p-8"
       >
         <div className="flex items-center gap-4 mb-6">
-          <div className="p-3 rounded-xl bg-primary/10">
-            <TrendingUp className="w-8 h-8 text-primary" />
+          <div className="p-3 rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <TrendingUp className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
-            <div className="text-4xl font-bold text-primary">
+            <div className="text-4xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
               {displayCount.toLocaleString()}+
             </div>
             <div className="text-sm text-secondary-label">{data.label}</div>
@@ -82,15 +82,15 @@ export const SocialProofCounter = ({
         
         <div className="space-y-3 text-sm text-secondary-label">
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
             <span>{data.subtitle}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
             <span>Clean data by default</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
             <span>Trusted by teams worldwide</span>
           </div>
         </div>
@@ -106,9 +106,9 @@ export const SocialProofCounter = ({
       viewport={{ once: true }}
       className="text-center"
     >
-      <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 border border-primary/20 rounded-full mb-4">
-        <Zap className="w-5 h-5 text-primary" />
-        <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+      <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-4" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}>
+        <Zap className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+        <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>
           Join {displayCount.toLocaleString()}+ {data.label}
         </span>
       </div>
