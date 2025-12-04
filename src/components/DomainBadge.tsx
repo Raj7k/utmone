@@ -18,7 +18,7 @@ export const DomainBadge = ({
 }: DomainBadgeProps) => {
   if (isPrimary && isVerified) {
     return (
-      <Badge variant={variant} className="bg-primary text-primary-foreground">
+      <Badge variant={variant} style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' }}>
         {showIcon && <CheckCircle2 className="w-3 h-3 mr-1" />}
         Primary
       </Badge>

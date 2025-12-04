@@ -40,7 +40,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-4">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
+          <Loader2 className="w-8 h-8 animate-spin mx-auto" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <p className="text-sm text-muted-foreground font-medium">
             verifying security...
           </p>

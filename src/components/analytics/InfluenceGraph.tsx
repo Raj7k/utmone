@@ -172,7 +172,7 @@ export const InfluenceGraph = ({ workspaceId, days = 30 }: InfluenceGraphProps) 
           </div>
 
           {/* Insight Summary */}
-          <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+          <div className="rounded-lg p-4" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <p className="text-sm text-muted-foreground">
               <span className="font-semibold text-foreground">insight:</span>{" "}
               {data.channels[0] && data.channels[0].lift > 0 ? (

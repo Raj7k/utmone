@@ -54,7 +54,7 @@ export const LinkHealthWidget = () => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Shield className="h-5 w-5 text-primary" />
+          <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           link health monitor
         </CardTitle>
       </CardHeader>

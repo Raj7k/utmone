@@ -46,7 +46,7 @@ export function BatchApproveModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-primary" />
+            <Zap className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             bulk approve users
           </DialogTitle>
           <DialogDescription>
@@ -58,7 +58,7 @@ export function BatchApproveModal({
           {/* Pending Count Display */}
           <div className="bg-muted/30 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Users className="h-5 w-5 text-primary" />
+              <Users className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
               <div>
                 <p className="text-sm font-medium">pending in queue</p>
                 <p className="text-2xl font-bold">{pendingCount.toLocaleString()}</p>
