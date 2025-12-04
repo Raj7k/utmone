@@ -14,7 +14,7 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export const IntelligenceShowcase = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24 bg-background">
+    <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase px-2">
@@ -37,8 +37,8 @@ export const IntelligenceShowcase = () => {
           >
             {/* Chat Header */}
             <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-blazeOrange flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-white" />
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-white/80 to-white/40 flex items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5" style={{ color: '#050505' }} />
               </div>
               <div>
                 <div className="font-semibold text-xs lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>clean-track AI</div>
@@ -50,7 +50,7 @@ export const IntelligenceShowcase = () => {
             <div className="p-3 space-y-3 max-h-[300px]">
               {/* User Message */}
               <div className="flex justify-end">
-                <div className="bg-primary text-primary-foreground rounded-xl rounded-tr-sm px-3 py-1.5 max-w-[80%]">
+                <div className="rounded-xl rounded-tr-sm px-3 py-1.5 max-w-[80%]" style={{ background: 'rgba(255,255,255,0.9)', color: '#050505' }}>
                   <p className="text-xs">Which Nike campaign performed best?</p>
                 </div>
               </div>
@@ -63,8 +63,8 @@ export const IntelligenceShowcase = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
               >
-                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <Brain className="w-3 h-3 text-primary" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  <Brain className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 </div>
                 <div className="rounded-xl rounded-tl-sm px-3 py-2 space-y-2" style={{ background: 'rgba(255,255,255,0.05)' }}>
                   <p className="text-xs" style={{ color: 'rgba(255,255,255,0.9)' }}>
@@ -82,7 +82,7 @@ export const IntelligenceShowcase = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 text-[10px] text-primary pt-1">
+                  <div className="flex items-center gap-1.5 text-[10px] pt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
                     <TrendingUp className="w-3 h-3" />
                     Clean-Track confidence: 94%
                   </div>
@@ -97,14 +97,14 @@ export const IntelligenceShowcase = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                <div className="w-6 h-6 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0">
-                  <AlertCircle className="w-3 h-3 text-amber-600" />
+                <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(251,191,36,0.1)' }}>
+                  <AlertCircle className="w-3 h-3" style={{ color: 'rgba(251,191,36,0.8)' }} />
                 </div>
-                <div className="bg-amber-500/10 rounded-xl rounded-tl-sm px-3 py-2 space-y-1.5 border border-amber-500/20">
-                  <div className="flex items-center gap-1.5 text-amber-600">
+                <div className="rounded-xl rounded-tl-sm px-3 py-2 space-y-1.5" style={{ background: 'rgba(251,191,36,0.1)', border: '1px solid rgba(251,191,36,0.2)' }}>
+                  <div className="flex items-center gap-1.5" style={{ color: 'rgba(251,191,36,0.8)' }}>
                     <span className="text-[11px] font-medium">1 anomaly detected</span>
                   </div>
-                  <p className="text-[11px] text-foreground">
+                  <p className="text-[11px]" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     Traffic from <strong>Tesla email</strong> dropped 45% yesterday.
                   </p>
                 </div>
@@ -155,8 +155,8 @@ export const IntelligenceShowcase = () => {
                   whileHover={{ y: -2 }}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                      <Icon className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                      <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     </div>
                     <div>
                       <h2 className="text-sm font-semibold mb-1 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h2>
@@ -170,7 +170,8 @@ export const IntelligenceShowcase = () => {
             <div className="pt-2">
               <Link 
                 to="/features/predictive-analytics"
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80"
+                style={{ color: 'rgba(255,255,255,0.8)' }}
               >
                 explore clean-track intelligence
                 <ArrowRight className="h-4 w-4" />
