@@ -61,7 +61,8 @@ export const MobileFloatingActions = ({
       <motion.button
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsExpanded(!isExpanded)}
-        className="h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center transition-transform hover:scale-105"
+        className="h-14 w-14 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105"
+        style={{ background: 'rgba(59,130,246,1)', color: 'white' }}
       >
         <motion.div
           animate={{ rotate: isExpanded ? 45 : 0 }}
