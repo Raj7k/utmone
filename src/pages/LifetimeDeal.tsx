@@ -17,7 +17,7 @@ const LifetimeDeal = () => {
       <section className="py-section bg-background">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
-            <div className="inline-block px-4 py-1 bg-primary/20 text-primary text-small-text font-semibold rounded-full">
+            <div className="inline-block px-4 py-1 text-small-text font-semibold rounded-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
               🔥 limited to first 500 customers
             </div>
             <div className="hero-glow">
@@ -134,10 +134,10 @@ const LifetimeDeal = () => {
               <h2 className="text-heading-2 font-display font-bold">
                 our permanence guarantee
               </h2>
-              <p className="text-body-text text-muted-foreground">
+              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 even if utm.one shuts down in the future, we guarantee your links will continue working. we'll redirect them to an open-source service before closing.
               </p>
-              <p className="text-body-text text-muted-foreground">
+              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 your investment is protected. your links are permanent.
               </p>
             </div>
@@ -156,8 +156,8 @@ const LifetimeDeal = () => {
               <div className="text-5xl font-bold text-foreground">
                 $299 once
               </div>
-              <p className="text-body-text text-muted-foreground">
-                join {Math.floor(Math.random() * 50 + 1)} others who've already claimed their lifetime access
+              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                join others who've already claimed their lifetime access
               </p>
               <Button size="lg" onClick={() => navigate('/early-access')}>
                 get lifetime access now

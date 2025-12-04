@@ -128,14 +128,14 @@ export default function WaitlistStatus() {
               <h2 className="text-lg font-medium text-white/40 mb-2">
                 queue position
               </h2>
-              <p className="text-6xl font-display font-bold text-primary mb-4">
+              <p className="text-6xl font-display font-bold mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 #{queuePosition}
               </p>
               <p className="text-white/60">
                 based on your total access score of <strong>{totalScore}</strong> points
               </p>
             </div>
-            <TrendingUp className="h-12 w-12 text-primary opacity-20" />
+            <TrendingUp className="h-12 w-12 opacity-20" style={{ color: 'rgba(255,255,255,0.8)' }} />
           </div>
         </div>
 
@@ -171,12 +171,12 @@ export default function WaitlistStatus() {
         </div>
 
         {/* Referral Link */}
-        <div className="bg-primary/5 rounded-2xl border border-primary/20 p-8 mb-12">
+        <div className="rounded-2xl border p-8 mb-12" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.15)' }}>
           <h2 className="text-2xl font-semibold mb-4">
             jump the queue with referrals
           </h2>
           <p className="text-secondary-label mb-4">
-            share your unique referral link and earn points for every friend who joins and <span className="font-semibold text-primary">verifies their email</span>.
+            share your unique referral link and earn points for every friend who joins and <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>verifies their email</span>.
           </p>
           
           {/* Referral Progress */}

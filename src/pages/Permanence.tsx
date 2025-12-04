@@ -16,14 +16,14 @@ const Permanence = () => {
       {/* Hero Section */}
       <section className="py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-8" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
             <Shield className="w-4 h-4" />
             Permanence Guarantee
           </div>
           <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-foreground">
             Your Links Will Never Break
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          <p className="text-xl max-w-2xl mx-auto mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
             A legal commitment that your links work forever, even if utm.one shuts down.
           </p>
         </div>
@@ -62,13 +62,13 @@ const Permanence = () => {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                <GitBranch className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <GitBranch className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Auto-Backup to GitHub
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="mb-6" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Nightly automated backups of your entire link database to your private GitHub repository. You own the data.
               </p>
               <Link to="/settings/backups">
@@ -79,13 +79,13 @@ const Permanence = () => {
             </div>
 
             <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                <Server className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <Server className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Self-Hosting Option
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="mb-6" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Deploy utm.one's redirect engine on your own infrastructure using Docker. Zero vendor lock-in.
               </p>
               <a href="https://github.com/utm-one/self-hosted" target="_blank" rel="noopener noreferrer">
@@ -96,13 +96,13 @@ const Permanence = () => {
             </div>
 
             <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
-                <CheckCircle2 className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <CheckCircle2 className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
               </div>
               <h2 className="font-display text-2xl font-bold mb-4 text-foreground">
                 Legal Commitment
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="mb-6" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 Contractual obligation to maintain redirects for 365 days post-shutdown and release all source code.
               </p>
               <Link to="/legal/permanence-terms">
@@ -123,42 +123,42 @@ const Permanence = () => {
           </h2>
           <div className="space-y-8">
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                 1
               </div>
               <div>
                 <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Campaigns Outlive Platforms
                 </h2>
-                <p className="text-muted-foreground">
+                <p style={{ color: 'rgba(255,255,255,0.6)' }}>
                   Your QR codes on packaging, print ads, and conference materials can't be updated. Links must work for years.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                 2
               </div>
               <div>
                 <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Trust Requires Transparency
                 </h2>
-                <p className="text-muted-foreground">
+                <p style={{ color: 'rgba(255,255,255,0.6)' }}>
                   Other shorteners can disappear overnight. We publish our shutdown plan before you need it.
                 </p>
               </div>
             </div>
 
             <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                 3
               </div>
               <div>
                 <h2 className="font-display text-xl font-bold mb-2 text-foreground">
                   Enterprise Requires Accountability
                 </h2>
-                <p className="text-muted-foreground">
+                <p style={{ color: 'rgba(255,255,255,0.6)' }}>
                   Legal teams demand enforceable SLAs. This guarantee passes procurement review.
                 </p>
               </div>
@@ -173,7 +173,7 @@ const Permanence = () => {
           <h2 className="font-display text-4xl font-bold mb-6 text-foreground">
             Build on a Foundation You Can Trust
           </h2>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
             Start creating links that outlast platforms.
           </p>
           <Link to="/early-access">

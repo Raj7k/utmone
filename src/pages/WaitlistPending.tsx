@@ -111,9 +111,9 @@ export default function WaitlistPending() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4"
+              className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.1)' }}
             >
-              <Clock className="h-8 w-8 text-primary" />
+              <Clock className="h-8 w-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
             </motion.div>
 
             <h1 className="text-4xl font-display font-bold text-white">
@@ -131,10 +131,10 @@ export default function WaitlistPending() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-primary/5 rounded-2xl p-6 text-center border border-primary/20"
+              className="rounded-2xl p-6 text-center border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.15)' }}
             >
               <p className="text-sm text-white/60 mb-2">Your position in queue</p>
-              <p className="text-5xl font-display font-bold text-primary">#{queuePosition}</p>
+              <p className="text-5xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>#{queuePosition}</p>
             </motion.div>
           )}
 
@@ -143,7 +143,7 @@ export default function WaitlistPending() {
             <h3 className="font-semibold text-white">What happens next?</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <Mail className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 <div>
                   <p className="font-medium text-white">We'll email you when you're in</p>
                   <p className="text-sm text-white/60">Check {userEmail}</p>
@@ -151,7 +151,7 @@ export default function WaitlistPending() {
               </div>
               {referralCode && (
                 <div className="flex items-start gap-3">
-                  <Share2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <Share2 className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.8)' }} />
                   <div className="flex-1">
                     <p className="font-medium text-white">Move up faster</p>
                     <p className="text-sm text-white/60 mb-2">
@@ -189,7 +189,7 @@ export default function WaitlistPending() {
         {/* Footer */}
         <p className="text-center text-sm text-white/40">
           Questions? Reach us at{" "}
-          <a href="mailto:support@utm.one" className="text-primary hover:underline">
+          <a href="mailto:support@utm.one" className="hover:underline" style={{ color: 'rgba(255,255,255,0.8)' }}>
             support@utm.one
           </a>
         </p>
