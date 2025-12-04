@@ -66,7 +66,7 @@ const CampaignBriefTemplate = () => {
           
           <div className="space-y-6">
             <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase mb-4">
                 campaign brief template
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">

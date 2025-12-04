@@ -181,7 +181,7 @@ const AttributionClarityModel = () => {
               decision framework
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-foreground lowercase">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase">
               attribution clarity model
             </h1>
             

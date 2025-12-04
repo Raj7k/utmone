@@ -173,7 +173,7 @@ const Changelog = () => {
       {/* Hero */}
       <section className="py-24 border-b border-white/10">
         <div className="max-w-4xl mx-auto px-8 text-center">
-          <h1 className="text-5xl font-display font-bold text-white mb-6">
+          <h1 className="text-5xl font-display font-bold hero-gradient mb-6">
             Changelog
           </h1>
           <p className="text-xl text-white/60 leading-relaxed">

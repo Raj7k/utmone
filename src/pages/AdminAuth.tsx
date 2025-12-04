@@ -260,7 +260,7 @@ const AdminAuth = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-zinc-900/60 border border-white/10 mb-2">
             <Shield className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-4xl font-display font-bold tracking-tight text-white">Mission Control</h1>
+          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">Mission Control</h1>
           <p className="text-white/60 text-lg">Administrative portal access</p>
         </div>
 

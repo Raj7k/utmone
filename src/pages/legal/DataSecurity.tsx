@@ -13,7 +13,7 @@ const DataSecurity = () => {
         <div className="max-w-text-content mx-auto px-8 py-24 md:py-32">
           {/* Header */}
           <div className="space-y-6 mb-16">
-            <h1 className="text-4xl md:text-5xl font-display font-semibold text-white">
+            <h1 className="text-4xl md:text-5xl font-display font-semibold hero-gradient">
               data & security
             </h1>
             <p className="text-lg text-white/60 leading-relaxed">

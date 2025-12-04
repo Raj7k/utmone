@@ -18,7 +18,7 @@ export const ComingSoonPage = ({ title, description }: ComingSoonPageProps) => {
           </div>
           
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold text-white">
+            <h1 className="text-4xl md:text-5xl font-display font-extrabold hero-gradient">
               {title}
             </h1>
             <p className="text-lg text-white/60 leading-relaxed">

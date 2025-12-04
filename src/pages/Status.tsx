@@ -72,7 +72,7 @@ export default function Status() {
           <Badge className="mb-6 bg-green-500/20 text-green-400 border-green-500/30">
             All Systems Operational
           </Badge>
-          <h1 className="text-5xl md:text-6xl font-display font-bold text-white mb-6 brand-lowercase">
+          <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-6 brand-lowercase">
             system status
           </h1>
           <p className="text-xl text-white/60 max-w-3xl mx-auto">

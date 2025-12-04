@@ -19,7 +19,7 @@ const Blog = () => {
             <BookOpen className="h-12 w-12 text-white/80" />
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-white lowercase">
+          <h1 className="text-4xl md:text-5xl font-display font-bold hero-gradient lowercase">
             blog coming soon
           </h1>
           

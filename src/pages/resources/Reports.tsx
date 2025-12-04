@@ -36,7 +36,7 @@ const Reports = () => {
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white">
+            <h1 className="text-5xl md:text-6xl font-display font-extrabold hero-gradient">
               Reports
             </h1>
             <p className="text-xl text-white/60 max-w-[640px] mx-auto">
