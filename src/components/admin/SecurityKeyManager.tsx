@@ -168,10 +168,10 @@ export const SecurityKeyManager = () => {
   };
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Shield className="h-5 w-5 text-primary" />
+          <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <div>
             <CardTitle>hardware security keys</CardTitle>
             <CardDescription className="mt-1">
@@ -182,16 +182,22 @@ export const SecurityKeyManager = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Registration Form */}
-        <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/20">
+        <div 
+          className="space-y-4 p-4 rounded-lg"
+          style={{ 
+            background: 'rgba(255,255,255,0.05)', 
+            border: '1px solid rgba(255,255,255,0.1)' 
+          }}
+        >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-medium">register new key</h3>
-              <p className="text-sm text-muted-foreground mt-1">
+              <h3 className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>register new key</h3>
+              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
                 connect your yubikey or use built-in passkey
               </p>
             </div>
             <Button
-              variant="outline"
+              variant="glass"
               size="sm"
               onClick={() => setIsRegistering(!isRegistering)}
             >
@@ -201,7 +207,7 @@ export const SecurityKeyManager = () => {
           </div>
 
           {isRegistering && (
-            <div className="space-y-3 pt-4 border-t">
+            <div className="space-y-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
               <div className="space-y-2">
                 <Label htmlFor="device-name">device name</Label>
                 <Input
@@ -216,6 +222,7 @@ export const SecurityKeyManager = () => {
                 onClick={handleRegister}
                 disabled={registerMutation.isPending || !deviceName.trim()}
                 className="w-full"
+                variant="halo"
               >
                 {registerMutation.isPending ? "touch your key..." : "register security key"}
               </Button>
@@ -225,21 +232,25 @@ export const SecurityKeyManager = () => {
 
         {/* Registered Keys List */}
         <div className="space-y-3">
-          <h3 className="font-medium">registered keys</h3>
+          <h3 className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>registered keys</h3>
           {isLoading ? (
-            <p className="text-sm text-muted-foreground">loading keys...</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>loading keys...</p>
           ) : authenticators && authenticators.length > 0 ? (
             <div className="space-y-2">
               {authenticators.map((auth) => (
                 <div
                   key={auth.id}
-                  className="flex items-center justify-between p-3 border border-border rounded-lg bg-card"
+                  className="flex items-center justify-between p-3 rounded-lg"
+                  style={{ 
+                    background: 'rgba(24,24,27,0.6)', 
+                    border: '1px solid rgba(255,255,255,0.1)' 
+                  }}
                 >
                   <div className="flex items-center gap-3">
-                    <Key className="h-4 w-4 text-primary" />
+                    <Key className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                     <div>
-                      <div className="font-medium">{auth.device_name}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{auth.device_name}</div>
+                      <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         registered {format(new Date(auth.created_at), "MMM d, yyyy")}
                         {auth.last_used_at && (
                           <> • last used {format(new Date(auth.last_used_at), "MMM d, yyyy")}</>
@@ -248,7 +259,7 @@ export const SecurityKeyManager = () => {
                     </div>
                   </div>
                   <Button
-                    variant="ghost"
+                    variant="glass-ghost"
                     size="sm"
                     onClick={() => setDeleteKeyId(auth.id)}
                   >
@@ -258,7 +269,7 @@ export const SecurityKeyManager = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="text-center py-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
               <Shield className="h-12 w-12 mx-auto mb-3 opacity-20" />
               <p>no security keys registered</p>
               <p className="text-sm mt-1">add your first hardware key for admin access</p>
@@ -267,9 +278,15 @@ export const SecurityKeyManager = () => {
         </div>
 
         {/* Info Box */}
-        <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-          <h4 className="font-medium text-sm mb-2">why hardware keys?</h4>
-          <ul className="text-xs text-muted-foreground space-y-1">
+        <div 
+          className="p-4 rounded-lg"
+          style={{ 
+            background: 'rgba(255,255,255,0.05)', 
+            border: '1px solid rgba(255,255,255,0.15)' 
+          }}
+        >
+          <h4 className="font-medium text-sm mb-2" style={{ color: 'rgba(255,255,255,0.9)' }}>why hardware keys?</h4>
+          <ul className="text-xs space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
             <li>• <strong>phishing-proof</strong>: can't be stolen remotely</li>
             <li>• <strong>portable</strong>: works from any location</li>
             <li>• <strong>fast</strong>: just tap your key—no codes to type</li>

@@ -120,16 +120,19 @@ export const SmartUTMBuilder = ({ values, onChange, destinationUrl }: SmartUTMBu
       )}
 
       {/* UTM Templates */}
-      <Card className="p-4 bg-muted/20">
+      <Card 
+        className="p-4"
+        style={{ background: 'rgba(255,255,255,0.05)' }}
+      >
         <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="h-4 w-4 text-primary" />
+          <Sparkles className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <Label className="text-sm font-medium">Quick Templates</Label>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {UTM_TEMPLATES.map((template) => (
             <Button
               key={template.name}
-              variant={selectedTemplate === template.name ? "default" : "outline"}
+              variant={selectedTemplate === template.name ? "halo" : "glass"}
               className="h-auto py-3 flex-col items-start gap-1"
               onClick={() => applyTemplate(template)}
             >
@@ -156,7 +159,7 @@ export const SmartUTMBuilder = ({ values, onChange, destinationUrl }: SmartUTMBu
             placeholder="e.g., instagram, newsletter, google"
           />
           {values.utm_source && validateUTMValue(values.utm_source).warning && (
-            <p className="text-xs text-system-orange">
+            <p className="text-xs" style={{ color: 'rgba(234,179,8,0.9)' }}>
               ⚠️ {validateUTMValue(values.utm_source).warning}
             </p>
           )}
@@ -205,9 +208,12 @@ export const SmartUTMBuilder = ({ values, onChange, destinationUrl }: SmartUTMBu
 
       {/* Final URL Preview */}
       {previewFinalUrl() && (
-        <Card className="p-3 bg-muted/30">
-          <Label className="text-xs text-secondary-label mb-2 block">Final URL Preview</Label>
-          <p className="text-xs font-mono break-all text-foreground/80">
+        <Card 
+          className="p-3"
+          style={{ background: 'rgba(255,255,255,0.03)' }}
+        >
+          <Label className="text-xs mb-2 block" style={{ color: 'rgba(255,255,255,0.5)' }}>Final URL Preview</Label>
+          <p className="text-xs font-mono break-all" style={{ color: 'rgba(255,255,255,0.7)' }}>
             {previewFinalUrl()}
           </p>
         </Card>
