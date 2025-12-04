@@ -122,17 +122,17 @@ const About = () => {
               <div className="flex-1">
                 <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
                   <div className="space-y-6">
-                    <div className="bg-white/5 rounded-lg p-6 border-l-4 border-primary">
+                    <div className="bg-white/5 rounded-lg p-6 border-l-4 border-white/30">
                       <div className="text-sm font-semibold text-white mb-2">Old Internet</div>
                       <div className="text-xs text-white/60">SEO • Social • Ads • UTMs</div>
                     </div>
-                    <div className="text-center text-2xl text-primary">+</div>
-                    <div className="bg-white/5 rounded-lg p-6 border-l-4 border-deepSea">
+                    <div className="text-center text-2xl" style={{ color: 'rgba(255,255,255,0.6)' }}>+</div>
+                    <div className="bg-white/5 rounded-lg p-6 border-l-4 border-white/20">
                       <div className="text-sm font-semibold text-white mb-2">LLM Layer</div>
                       <div className="text-xs text-white/60">AI Answers • Context • Recommendations</div>
                     </div>
                     <div className="text-center">
-                      <div className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-semibold text-sm">
+                      <div className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold text-sm">
                         = utm.one
                       </div>
                     </div>
@@ -162,19 +162,19 @@ const About = () => {
                 <ProgressiveReveal>
                   <ul className="space-y-3 text-lg text-white/60 leading-[1.75]">
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold mt-1">•</span>
+                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
                       <span>ultra-clean URLs</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold mt-1">•</span>
+                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
                       <span>human-readable naming</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold mt-1">•</span>
+                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
                       <span>ai-readable metadata</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold mt-1">•</span>
+                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
                       <span>built-in campaign governance</span>
                     </li>
                   </ul>
@@ -217,15 +217,15 @@ const About = () => {
                 <div className="grid md:grid-cols-3 gap-4 pt-6">
                   <Link to="/solutions/marketers" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
                     <div className="text-sm font-semibold text-white mb-1 lowercase">marketers</div>
-                    <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link to="/solutions/sales" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
                     <div className="text-sm font-semibold text-white mb-1 lowercase">sales</div>
-                    <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link to="/solutions/developers" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
                     <div className="text-sm font-semibold text-white mb-1 lowercase">developers</div>
-                    <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>

@@ -118,17 +118,17 @@ const Compare = () => {
                 >
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-primary transition-colors">
+                      <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-white/80 transition-colors">
                         utm.one vs {tool.name}
                       </h3>
                       <p className="text-sm text-white/40 lowercase">
                         {tool.category}
                       </p>
                     </div>
-                    <ArrowRight className="w-6 h-6 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-6 h-6 text-white/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     <p className="text-white/60 lowercase">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>
@@ -173,17 +173,17 @@ const Compare = () => {
                 >
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-primary transition-colors">
+                      <h3 className="text-2xl font-display font-bold mb-2 text-white group-hover:text-white/80 transition-colors">
                         utm.one vs {tool.name}
                       </h3>
                       <p className="text-sm text-white/40 lowercase">
                         {tool.category}
                       </p>
                     </div>
-                    <ArrowRight className="w-6 h-6 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-6 h-6 text-white/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     <p className="text-white/60 lowercase">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>
@@ -212,7 +212,7 @@ const Compare = () => {
             </p>
             <Link
               to="/pricing"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-colors"
             >
               Get Started Free
               <ArrowRight className="w-5 h-5" />

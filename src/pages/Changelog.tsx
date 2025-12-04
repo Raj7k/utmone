@@ -134,13 +134,13 @@ const Changelog = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case "feature":
-        return <Sparkles className="w-5 h-5 text-primary" />;
+        return <Sparkles className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />;
       case "improvement":
-        return <Wrench className="w-5 h-5 text-blue-400" />;
+        return <Wrench className="w-5 h-5" style={{ color: 'rgba(96,165,250,0.8)' }} />;
       case "fix":
-        return <Bug className="w-5 h-5 text-orange-400" />;
+        return <Bug className="w-5 h-5" style={{ color: 'rgba(251,146,60,0.8)' }} />;
       case "security":
-        return <Shield className="w-5 h-5 text-green-400" />;
+        return <Shield className="w-5 h-5" style={{ color: 'rgba(74,222,128,0.8)' }} />;
       default:
         return null;
     }

@@ -150,100 +150,97 @@ const ClaimAccess = () => {
 
   if (isValidating) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-grouped-background">
-        <div className="animate-pulse">validating invite...</div>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
+        <div className="animate-pulse text-white/60">validating invite...</div>
       </div>
     );
   }
 
   if (claimed) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-grouped-background">
-        <Card variant="grouped" className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-system-green/10 flex items-center justify-center">
-              <CheckCircle2 className="h-6 w-6 text-system-green" />
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
+        <div className="w-full max-w-md rounded-2xl p-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10">
+          <div className="text-center">
+            <div className="mx-auto mb-4 h-12 w-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.1)' }}>
+              <CheckCircle2 className="h-6 w-6" style={{ color: 'rgba(34,197,94,0.8)' }} />
             </div>
-            <CardTitle>welcome to utm.one</CardTitle>
-            <CardDescription>redirecting to onboarding...</CardDescription>
-          </CardHeader>
-        </Card>
+            <h2 className="text-xl font-display font-bold text-white">welcome to utm.one</h2>
+            <p className="text-white/60 mt-2">redirecting to onboarding...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-grouped-background p-4">
-      <Card variant="grouped" className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex items-center gap-2">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+      <div className="w-full max-w-md rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
+        <div className="text-center p-6 pb-4">
+          <div className="mx-auto mb-4 flex items-center gap-2 justify-center">
             <img 
               src="/src/assets/utm-one-logo.svg" 
               alt="utm.one" 
               className="h-8 w-auto"
             />
           </div>
-          <CardTitle>claim your early access</CardTitle>
-          <CardDescription>
-            create your password to get started
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+          <h2 className="text-xl font-display font-bold text-white">claim your early access</h2>
+          <p className="text-white/60 mt-2">create your password to get started</p>
+        </div>
+        <div className="p-6 pt-0">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">email</Label>
+              <Label htmlFor="email" className="text-white/80">email</Label>
               <Input
-                variant="system"
                 id="email"
                 type="email"
                 disabled
+                className="bg-white/5 border-white/10 text-white"
                 {...register("email")}
               />
               {errors.email && (
-                <p className="text-sm text-destructive">{errors.email.message}</p>
+                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.email.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">password</Label>
+              <Label htmlFor="password" className="text-white/80">password</Label>
               <Input
-                variant="system"
                 id="password"
                 type="password"
                 placeholder="at least 8 characters"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
                 {...register("password")}
               />
               {errors.password && (
-                <p className="text-sm text-destructive">{errors.password.message}</p>
+                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.password.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">confirm password</Label>
+              <Label htmlFor="confirmPassword" className="text-white/80">confirm password</Label>
               <Input
-                variant="system"
                 id="confirmPassword"
                 type="password"
                 placeholder="re-enter your password"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
                 {...register("confirmPassword")}
               />
               {errors.confirmPassword && (
-                <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.confirmPassword.message}</p>
               )}
             </div>
 
             <Button
-              variant="system"
               type="submit"
-              className="w-full"
+              className="w-full bg-white text-black hover:bg-white/90"
               disabled={isLoading}
             >
               <Lock className="h-4 w-4 mr-2" />
               {isLoading ? "creating account..." : "claim access"}
             </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };

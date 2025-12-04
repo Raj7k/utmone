@@ -1,11 +1,10 @@
 import { Helmet } from "react-helmet";
-import { Footer } from "@/components/landing/Footer";
-import { Card } from "@/components/ui/card";
+import { MainLayout } from "@/components/layout/MainLayout";
 import { CheckCircle2, Keyboard, MonitorSpeaker, Mail } from "lucide-react";
 
 export default function Accessibility() {
   return (
-    <div className="min-h-screen bg-background">
+    <MainLayout showAnnouncement={false}>
       <Helmet>
         <title>Accessibility Statement | utm.one</title>
         <meta name="description" content="utm.one is committed to WCAG AAA compliance and accessible design for all users." />
@@ -15,98 +14,98 @@ export default function Accessibility() {
         <div className="max-w-4xl mx-auto px-6">
           {/* Hero */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
-              Accessibility Statement
+            <h1 className="hero-gradient text-5xl md:text-6xl font-bold mb-6">
+              accessibility statement
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
               utm.one is committed to ensuring digital accessibility for all users, including those with disabilities.
             </p>
           </div>
 
           {/* WCAG AAA Compliance */}
-          <Card className="p-8 mb-8">
+          <div className="p-8 mb-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-start gap-4">
-              <CheckCircle2 className="w-8 h-8 text-green-600 flex-shrink-0 mt-1" />
+              <CheckCircle2 className="w-8 h-8 flex-shrink-0 mt-1" style={{ color: 'rgba(34,197,94,0.8)' }} />
               <div>
-                <h2 className="text-2xl font-bold mb-3">WCAG AAA Compliance</h2>
-                <p className="text-lg text-muted-foreground mb-4">
+                <h2 className="text-2xl font-bold mb-3 text-white">WCAG AAA Compliance</h2>
+                <p className="text-lg mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   utm.one conforms to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AAA, the highest standard for web accessibility.
                 </p>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     Color contrast ratios exceed 7:1 for all text
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     Full keyboard navigation support
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     Screen reader compatible with ARIA labels
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     Semantic HTML structure throughout
                   </li>
                   <li className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(34,197,94,0.8)' }} />
                     Descriptive link text and alt attributes
                   </li>
                 </ul>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* Keyboard Shortcuts */}
-          <Card className="p-8 mb-8">
+          <div className="p-8 mb-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-start gap-4">
-              <Keyboard className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
+              <Keyboard className="w-8 h-8 text-white/80 flex-shrink-0 mt-1" />
               <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-3">Keyboard Shortcuts</h2>
-                <p className="text-lg text-muted-foreground mb-6">
+                <h2 className="text-2xl font-bold mb-3 text-white">Keyboard Shortcuts</h2>
+                <p className="text-lg mb-6" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   All functionality is accessible via keyboard. Common shortcuts:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Tab</kbd>
-                    <span className="ml-3 text-muted-foreground">Navigate forward</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Tab</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Navigate forward</span>
                   </div>
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Shift + Tab</kbd>
-                    <span className="ml-3 text-muted-foreground">Navigate backward</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Shift + Tab</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Navigate backward</span>
                   </div>
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Enter</kbd>
-                    <span className="ml-3 text-muted-foreground">Activate links/buttons</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Enter</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Activate links/buttons</span>
                   </div>
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Esc</kbd>
-                    <span className="ml-3 text-muted-foreground">Close dialogs</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Esc</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Close dialogs</span>
                   </div>
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Space</kbd>
-                    <span className="ml-3 text-muted-foreground">Toggle checkboxes</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Space</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Toggle checkboxes</span>
                   </div>
                   <div>
-                    <kbd className="px-2 py-1 bg-muted rounded text-sm font-mono">Arrow Keys</kbd>
-                    <span className="ml-3 text-muted-foreground">Navigate menus</span>
+                    <kbd className="px-2 py-1 rounded text-sm font-mono" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Arrow Keys</kbd>
+                    <span className="ml-3" style={{ color: 'rgba(255,255,255,0.6)' }}>Navigate menus</span>
                   </div>
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* Screen Reader Support */}
-          <Card className="p-8 mb-8">
+          <div className="p-8 mb-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-start gap-4">
-              <MonitorSpeaker className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
+              <MonitorSpeaker className="w-8 h-8 text-white/80 flex-shrink-0 mt-1" />
               <div>
-                <h2 className="text-2xl font-bold mb-3">Screen Reader Compatibility</h2>
-                <p className="text-lg text-muted-foreground mb-4">
+                <h2 className="text-2xl font-bold mb-3 text-white">Screen Reader Compatibility</h2>
+                <p className="text-lg mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   utm.one is tested and compatible with the following screen readers:
                 </p>
-                <ul className="space-y-2 text-muted-foreground">
+                <ul className="space-y-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   <li>• JAWS (Windows)</li>
                   <li>• NVDA (Windows)</li>
                   <li>• VoiceOver (macOS, iOS)</li>
@@ -114,38 +113,36 @@ export default function Accessibility() {
                 </ul>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* Contact */}
-          <Card className="p-8">
+          <div className="p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
             <div className="flex items-start gap-4">
-              <Mail className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
+              <Mail className="w-8 h-8 text-white/80 flex-shrink-0 mt-1" />
               <div>
-                <h2 className="text-2xl font-bold mb-3">Accessibility Feedback</h2>
-                <p className="text-lg text-muted-foreground mb-4">
+                <h2 className="text-2xl font-bold mb-3 text-white">Accessibility Feedback</h2>
+                <p className="text-lg mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   We welcome feedback on the accessibility of utm.one. If you encounter any barriers, please contact us:
                 </p>
                 <a 
                   href="mailto:accessibility@utm.one"
-                  className="text-primary hover:underline text-lg font-medium"
+                  className="text-lg font-medium text-white hover:underline"
                 >
                   accessibility@utm.one
                 </a>
-                <p className="text-sm text-muted-foreground mt-4">
+                <p className="text-sm mt-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   We aim to respond to accessibility feedback within 2 business days.
                 </p>
               </div>
             </div>
-          </Card>
+          </div>
 
           {/* Last Updated */}
-          <p className="text-center text-sm text-muted-foreground mt-12">
+          <p className="text-center text-sm mt-12" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Last updated: November 2025
           </p>
         </div>
       </main>
-
-      <Footer />
-    </div>
+    </MainLayout>
   );
 }

@@ -156,56 +156,56 @@ export default function ApprovalQueue() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">approval queue</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-3xl font-bold tracking-tight text-white">approval queue</h1>
+        <p className="mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
           review and approve links submitted by your team
         </p>
       </div>
 
       {isLoading ? (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">loading...</p>
+          <p style={{ color: 'rgba(255,255,255,0.6)' }}>loading...</p>
         </div>
       ) : pendingLinks.length === 0 ? (
-        <div className="text-center py-20 border-2 border-dashed rounded-lg">
-          <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-20" />
-          <h3 className="text-xl font-semibold mb-2">no pending approvals</h3>
-          <p className="text-muted-foreground">all links have been reviewed</p>
+        <div className="text-center py-20 border-2 border-dashed border-white/10 rounded-lg">
+          <Clock className="h-16 w-16 mx-auto mb-4 text-white/20" />
+          <h3 className="text-xl font-semibold mb-2 text-white">no pending approvals</h3>
+          <p style={{ color: 'rgba(255,255,255,0.6)' }}>all links have been reviewed</p>
         </div>
       ) : (
         <div className="space-y-4">
           {pendingLinks.map((link) => (
             <div
               key={link.id}
-              className="p-6 border rounded-lg bg-card hover:shadow-md transition-shadow"
+              className="p-6 border border-white/10 rounded-lg bg-zinc-900/40 hover:bg-zinc-900/60 transition-all"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 space-y-3">
                   <div className="flex items-center gap-3">
-                    <Badge variant="secondary" className="gap-1.5">
+                    <Badge variant="secondary" className="gap-1.5 bg-white/10 text-white/80 border-white/10">
                       <Clock className="h-3 w-3" />
                       pending
                     </Badge>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
                       submitted {formatDistanceToNow(new Date(link.submitted_for_approval_at), { addSuffix: true })}
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">{link.title}</h3>
+                    <h3 className="font-semibold text-lg mb-1 text-white">{link.title}</h3>
                     <div className="flex items-center gap-2 text-sm">
-                      <code className="px-2 py-1 bg-muted rounded text-primary font-mono">
+                      <code className="px-2 py-1 rounded font-mono text-white/80" style={{ background: 'rgba(255,255,255,0.1)' }}>
                         {link.short_url}
                       </code>
-                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-muted-foreground truncate max-w-md">
+                      <ExternalLink className="h-3 w-3 text-white/40" />
+                      <span className="truncate max-w-md" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         {link.destination_url}
                       </span>
                     </div>
                   </div>
 
-                  <p className="text-sm text-muted-foreground">
-                    requested by <span className="font-medium">{link.profiles?.full_name || link.profiles?.email}</span>
+                  <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    requested by <span className="font-medium text-white/80">{link.profiles?.full_name || link.profiles?.email}</span>
                   </p>
                 </div>
 

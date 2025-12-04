@@ -117,7 +117,7 @@ const Docs = () => {
                 <div className="space-y-6">
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                         1
                       </div>
                       <div>
@@ -131,7 +131,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                         2
                       </div>
                       <div>
@@ -145,7 +145,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                         3
                       </div>
                       <div>
@@ -159,7 +159,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-semibold">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
                         4
                       </div>
                       <div>
@@ -224,7 +224,7 @@ const Docs = () => {
                     { name: "utm_content", desc: "Differentiate similar content or links (e.g., cta-button, banner-ad)" },
                   ].map((param) => (
                     <div key={param.name} className="border border-white/10 rounded-xl p-6 bg-white/5 backdrop-blur-xl">
-                      <code className="text-primary font-mono text-sm">{param.name}</code>
+                      <code className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>{param.name}</code>
                       <p className="text-white/60 mt-2">{param.desc}</p>
                     </div>
                   ))}
@@ -325,7 +325,7 @@ const Docs = () => {
                   </Link>
                   <Link
                     to="/support"
-                    className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+                    className="px-6 py-3 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-colors"
                   >
                     Contact Support
                   </Link>
