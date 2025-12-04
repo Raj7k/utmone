@@ -196,8 +196,8 @@ export default function Backup() {
       {/* GitHub Backup */}
       <Card className="p-6">
         <div className="flex items-start gap-4 mb-6">
-          <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-            <Github className="h-6 w-6 text-primary" />
+          <div className="h-12 w-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Github className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-2">Automatic GitHub Backups</h2>
@@ -263,8 +263,8 @@ export default function Backup() {
       {/* Manual Export */}
       <Card className="p-6">
         <div className="flex items-start gap-4 mb-6">
-          <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-            <Download className="h-6 w-6 text-primary" />
+          <div className="h-12 w-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Download className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-2">Manual Export</h2>
@@ -302,8 +302,8 @@ export default function Backup() {
       {/* Self-Hosting */}
       <Card className="p-6">
         <div className="flex items-start gap-4 mb-6">
-          <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center">
-            <Server className="h-6 w-6 text-primary" />
+          <div className="h-12 w-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Server className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-2">Self-Hosting with Docker</h2>

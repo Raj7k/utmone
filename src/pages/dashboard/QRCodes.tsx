@@ -74,7 +74,7 @@ export default function QRCodes() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          <div className="h-12 w-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: 'rgba(59,130,246,1)' }} />
           <p className="text-body-apple text-secondary-label">loading QR Codes…</p>
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function QRCodes() {
                   {workspaceLinks.map((link) => (
                     <Card
                       key={link.id}
-                      className="p-4 cursor-pointer hover:border-primary transition-colors"
+                      className="p-4 cursor-pointer transition-colors hover:border-white/30"
                       onClick={() => setSelectedLink({ id: link.id, shortUrl: link.short_url || "" })}
                     >
                       <div className="flex items-center justify-between">
@@ -257,7 +257,7 @@ export default function QRCodes() {
               workspaceLinks.map((link) => (
                 <Card
                   key={link.id}
-                  className="p-4 cursor-pointer hover:border-primary transition-colors"
+                  className="p-4 cursor-pointer transition-colors hover:border-white/30"
                   onClick={() => {
                     setSelectedLink({ id: link.id, shortUrl: link.short_url || "" });
                     setShowCreateDialog(false);

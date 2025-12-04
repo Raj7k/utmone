@@ -211,7 +211,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Key className="h-5 w-5 text-primary" />
+                <Key className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                 <CardTitle>api keys</CardTitle>
               </div>
               <CardDescription>
@@ -394,7 +394,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <Code2 className="h-5 w-5 text-primary" />
+                <Code2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                 <CardTitle>tracking pixel</CardTitle>
               </div>
               <CardDescription>
@@ -506,9 +506,9 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
               </div>
 
               {/* Usage Example */}
-              <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <div className="p-4 rounded-lg border" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                   <div>
                     <p className="text-sm font-medium text-label mb-1">usage example</p>
                     <code className="text-xs font-mono text-secondary-label block">
@@ -526,7 +526,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
       <Card className="bg-system-background border-separator">
         <CardHeader>
           <div className="flex items-center gap-2 mb-2">
-            <BookOpen className="h-5 w-5 text-primary" />
+            <BookOpen className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
             <CardTitle>documentation & resources</CardTitle>
           </div>
           <CardDescription>
@@ -541,7 +541,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
               target="_blank"
               className="flex items-start gap-3 p-4 border border-separator rounded-lg bg-fill-tertiary hover:bg-fill-secondary transition-all"
             >
-              <FileText className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+              <FileText className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-label">api reference</h3>
@@ -559,7 +559,7 @@ export default function DeveloperSettings({ workspaceId }: DeveloperSettingsProp
               target="_blank"
               className="flex items-start gap-3 p-4 border border-separator rounded-lg bg-fill-tertiary hover:bg-fill-secondary transition-all"
             >
-              <Code2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+              <Code2 className="h-5 w-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-label">pixel installation guide</h3>

@@ -119,8 +119,8 @@ export default function Targeting() {
               <div className="text-sm text-muted-foreground">Loading links...</div>
             ) : !links || links.length === 0 ? (
               <div className="text-center py-12 space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-2">
-                  <Link2 className="w-8 h-8 text-primary" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <Link2 className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">No links yet</h3>

@@ -375,7 +375,8 @@ export default function EarlyAccess() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-card border-2 border-primary/30 rounded-2xl p-8"
+            className="bg-card border-2 rounded-2xl p-8"
+            style={{ borderColor: 'rgba(59,130,246,0.3)' }}
           >
             <p className="text-xl text-secondary-label mb-6">your dashboard includes:</p>
             <ul className="space-y-3 mb-8">
@@ -389,7 +390,7 @@ export default function EarlyAccess() {
                 "leaderboard movement animation",
               ].map((item, index) => (
                 <li key={index} className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary" />
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
                   <p className="text-secondary-label">{item}</p>
                 </li>
               ))}
