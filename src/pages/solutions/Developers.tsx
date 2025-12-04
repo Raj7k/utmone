@@ -87,7 +87,7 @@ const Developers = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>Free for 14 days • No credit card required</span>
             </div>
           </div>
@@ -165,7 +165,7 @@ const Developers = () => {
                     <div className="pl-4">"clicks": 0</div>
                     <div>{'}'}</div>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-border text-primary text-xs">
+                  <div className="mt-3 pt-3 border-t border-border text-xs" style={{ color: 'rgba(59,130,246,0.9)' }}>
                     ✓ 99.99% uptime SLA
                   </div>
                 </div>
@@ -300,7 +300,7 @@ const Developers = () => {
               <span className="ml-2 text-muted-foreground text-xs">api-example.ts</span>
             </div>
             <div className="space-y-2 text-foreground">
-              <div><span className="text-primary">import</span> {'{'} createLink {'}'} <span className="text-primary">from</span> <span className="text-success">'@utm-one/sdk'</span>;</div>
+              <div><span style={{ color: 'rgba(59,130,246,0.9)' }}>import</span> {'{'} createLink {'}'} <span style={{ color: 'rgba(59,130,246,0.9)' }}>from</span> <span className="text-success">'@utm-one/sdk'</span>;</div>
               <div className="h-4" />
               <div><span className="text-accent">const</span> link = <span className="text-accent">await</span> createLink({'{'}</div>
               <div className="pl-4">destination: <span className="text-success">"https://acme.com/campaign"</span>,</div>

@@ -95,7 +95,7 @@ const Reporting = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               One-click PDF exports, white-label client reports, and scheduled email delivery.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,0.9)' }}>
               get started
             </Button>
           </motion.div>
@@ -120,9 +120,9 @@ const Reporting = () => {
                 <li>❌ No consistent report template</li>
               </ul>
             </div>
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-8">
+            <div className="rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
               <p className="text-lg text-label leading-relaxed mb-4">
-                <strong className="text-primary">After:</strong> One-click exports and automated scheduled reports.
+                <strong style={{ color: 'rgba(59,130,246,0.9)' }}>After:</strong> One-click exports and automated scheduled reports.
               </p>
               <ul className="space-y-2 text-label">
                 <li>✓ Click "Export" → PDF/CSV ready in seconds</li>
@@ -180,7 +180,7 @@ const Reporting = () => {
             <p className="text-xl text-white/90 mb-8">
               Start exporting white-label reports in seconds, not hours.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,0.9)' }}>
               get started
             </Button>
           </motion.div>

@@ -134,11 +134,11 @@ const Enterprise = () => {
                 transition={{ delay: index * 0.1 }}
                 className="p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 hover:border-white/20 transition-all"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-6">
-                  <pillar.icon className="w-8 h-8 text-primary" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <pillar.icon className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 </div>
                 <div className="mb-4">
-                  <div className="text-sm font-semibold text-primary uppercase tracking-wide mb-2">
+                  <div className="text-sm font-semibold uppercase tracking-wide mb-2" style={{ color: 'rgba(59,130,246,0.9)' }}>
                     {pillar.subtitle}
                   </div>
                   <h3 className="text-2xl font-display font-bold text-label lowercase mb-3">
@@ -168,7 +168,7 @@ const Enterprise = () => {
               adaptive governance shield
             </h2>
             <p className="text-xl text-secondary-label">
-              Instead of just "user roles," we offer <span className="text-primary font-semibold">least privilege optimization</span>. 
+              Instead of just "user roles," we offer <span className="font-semibold" style={{ color: 'rgba(59,130,246,0.9)' }}>least privilege optimization</span>. 
               A dynamic role engine that uses constraint satisfaction to create custom roles on the fly.
             </p>
           </motion.div>
@@ -326,8 +326,8 @@ const Enterprise = () => {
                 transition={{ delay: index * 0.1 }}
                 className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 text-center"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
-                  <Lock className="w-6 h-6 text-primary" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <Lock className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 </div>
                 <h3 className="font-display font-bold text-lg text-label lowercase mb-2">
                   {badge.title}

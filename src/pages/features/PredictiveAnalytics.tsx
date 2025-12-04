@@ -131,7 +131,7 @@ export default function PredictiveAnalytics() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <LineChart className="w-8 h-8 text-primary" />
+                <LineChart className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">pattern recognition</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -144,14 +144,14 @@ export default function PredictiveAnalytics() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <TrendingUp className="w-8 h-8 text-primary" />
+                <TrendingUp className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">confidence intervals</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Every prediction includes a confidence range. Not fake precision—honest uncertainty.
               </p>
-              <div className="bg-primary/10 rounded-lg p-4 text-sm">
-                <span className="font-semibold text-primary">Your summer sale link:</span>
+              <div className="rounded-lg p-4 text-sm" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="font-semibold" style={{ color: 'rgba(59,130,246,0.9)' }}>Your summer sale link:</span>
                 <div className="mt-2 text-foreground font-medium">~1,200 clicks ± 150 by Friday</div>
                 <div className="text-xs text-muted-foreground mt-1">85% confidence</div>
               </div>
@@ -159,7 +159,7 @@ export default function PredictiveAnalytics() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Clock className="w-8 h-8 text-primary" />
+                <Clock className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">real-time learning</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -194,15 +194,15 @@ export default function PredictiveAnalytics() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <Target className="w-6 h-6 text-primary" />
+                <Target className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-xl font-display font-bold lowercase">hourly heatmap</h3>
               </div>
               <p className="text-muted-foreground mb-4">See exactly which hours drive the most engagement for your links.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
                 <p className="font-semibold text-foreground mb-2">Your audience peaks:</p>
                 <ul className="space-y-1 text-muted-foreground">
-                  <li>• <span className="text-primary font-medium">Tuesday 10-11am</span> - 2,400 clicks/hour</li>
-                  <li>• <span className="text-primary font-medium">Thursday 2-3pm</span> - 2,100 clicks/hour</li>
+                  <li>• <span className="font-medium" style={{ color: 'rgba(59,130,246,0.9)' }}>Tuesday 10-11am</span> - 2,400 clicks/hour</li>
+                  <li>• <span className="font-medium" style={{ color: 'rgba(59,130,246,0.9)' }}>Thursday 2-3pm</span> - 2,100 clicks/hour</li>
                   <li>• <span className="text-muted-foreground">Monday 9am</span> - 800 clicks/hour</li>
                 </ul>
               </div>
@@ -210,15 +210,15 @@ export default function PredictiveAnalytics() {
 
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="w-6 h-6 text-primary" />
+                <Zap className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-xl font-display font-bold lowercase">day-of-week patterns</h3>
               </div>
               <p className="text-muted-foreground mb-4">Understand which days perform best for different campaign types.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
                 <p className="font-semibold text-foreground mb-2">Campaign patterns:</p>
                 <ul className="space-y-1 text-muted-foreground">
-                  <li>• <span className="text-primary font-medium">Webinars</span> - Tuesday/Thursday</li>
-                  <li>• <span className="text-primary font-medium">Sales emails</span> - Wednesday</li>
+                  <li>• <span className="font-medium" style={{ color: 'rgba(59,130,246,0.9)' }}>Webinars</span> - Tuesday/Thursday</li>
+                  <li>• <span className="font-medium" style={{ color: 'rgba(59,130,246,0.9)' }}>Sales emails</span> - Wednesday</li>
                   <li>• <span className="text-muted-foreground">Social posts</span> - Monday/Friday</li>
                 </ul>
               </div>
