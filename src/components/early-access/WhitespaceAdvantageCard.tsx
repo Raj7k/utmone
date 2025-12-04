@@ -15,7 +15,10 @@ export const WhitespaceAdvantageCard = () => {
         
         <div className="grid md:grid-cols-2 gap-12 relative">
           {/* Vertical divider line with gradient */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+          <div 
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px"
+            style={{ background: 'linear-gradient(to bottom, transparent, rgba(59,130,246,0.2), transparent)' }}
+          />
           
           {/* Left side - Problem */}
           <AnimatedHeadline delay={100}>
@@ -29,39 +32,28 @@ export const WhitespaceAdvantageCard = () => {
           {/* Right side - Solution */}
           <AnimatedHeadline delay={200}>
             <div>
-              <h3 className="text-2xl font-display font-bold mb-6 text-primary">
+              <h3 className="text-2xl font-display font-bold mb-6" style={{ color: 'rgba(59,130,246,1)' }}>
                 we fix the deeper problems
               </h3>
               
               <div className="space-y-3">
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">trust & link transparency</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">accessibility-first slugs & metadata</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">permanent links with backups</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">fair pricing</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">glanceable analytics</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">unlimited users on paid plans</p>
-                </div>
-                <div className="flex items-start gap-3 group">
-                  <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 transition-all group-hover:scale-110" />
-                  <p className="text-label group-hover:text-primary transition-colors">developer-first API</p>
-                </div>
+                {[
+                  "trust & link transparency",
+                  "accessibility-first slugs & metadata",
+                  "permanent links with backups",
+                  "fair pricing",
+                  "glanceable analytics",
+                  "unlimited users on paid plans",
+                  "developer-first API"
+                ].map((text) => (
+                  <div key={text} className="flex items-start gap-3 group">
+                    <CheckCircle2 
+                      className="w-5 h-5 mt-0.5 transition-all group-hover:scale-110" 
+                      style={{ color: 'rgba(59,130,246,1)' }}
+                    />
+                    <p className="text-label transition-colors group-hover:text-white">{text}</p>
+                  </div>
+                ))}
               </div>
               
               <p className="text-tertiary-label mt-6 italic">

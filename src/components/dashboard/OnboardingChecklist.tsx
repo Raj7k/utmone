@@ -108,7 +108,7 @@ export const OnboardingChecklist = () => {
 
   if (isLoading) {
     return (
-      <Card variant="grouped" className="border-primary/20 animate-pulse">
+      <Card variant="grouped" className="animate-pulse" style={{ borderColor: 'rgba(59,130,246,0.2)' }}>
         <CardHeader>
           <Skeleton className="h-6 w-32" />
           <Skeleton className="h-4 w-48 mt-2" />
@@ -143,7 +143,7 @@ export const OnboardingChecklist = () => {
         />
       )}
       
-      <Card variant="grouped" className="border-primary/20">
+      <Card variant="grouped" style={{ borderColor: 'rgba(59,130,246,0.2)' }}>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>getting started</span>

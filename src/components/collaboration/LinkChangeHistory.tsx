@@ -83,7 +83,10 @@ export const LinkChangeHistory = ({ linkId }: LinkChangeHistoryProps) => {
                 key={item.id}
                 className="relative pl-6 pb-4 border-l-2 border-border last:border-l-0"
               >
-                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2 border-primary" />
+                <div 
+                  className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2" 
+                  style={{ borderColor: 'rgba(59,130,246,1)' }}
+                />
                 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 flex-wrap">

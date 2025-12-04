@@ -71,8 +71,8 @@ export const SuccessScreen = ({
           className="inline-flex items-center justify-center mx-auto"
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
-            <div className="relative bg-gradient-to-br from-primary to-blazeOrange rounded-full p-6">
+            <div className="absolute inset-0 rounded-full blur-3xl" style={{ background: 'rgba(59,130,246,0.2)' }} />
+            <div className="relative rounded-full p-6" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(255,106,0,1))' }}>
               <Trophy className="w-16 h-16 text-white" />
             </div>
           </div>
@@ -90,11 +90,14 @@ export const SuccessScreen = ({
           </h1>
           
           {/* Queue Position Badge */}
-          <div className="inline-flex items-center gap-3 bg-primary/10 border-2 border-primary/30 rounded-full px-8 py-4">
-            <Sparkles className="w-6 h-6 text-primary" />
+          <div 
+            className="inline-flex items-center gap-3 border-2 rounded-full px-8 py-4"
+            style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}
+          >
+            <Sparkles className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
             <div className="text-left">
               <p className="text-sm text-muted-foreground font-medium">queue position</p>
-              <p className="text-3xl font-display font-bold text-primary">
+              <p className="text-3xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
                 #{queuePosition}
               </p>
             </div>
@@ -121,7 +124,11 @@ export const SuccessScreen = ({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="bg-gradient-to-br from-primary/5 via-primary/10 to-blazeOrange/5 border-2 border-primary/20 rounded-3xl p-8 md:p-12"
+          className="rounded-3xl p-8 md:p-12 border-2"
+          style={{ 
+            background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1), rgba(255,106,0,0.05))',
+            borderColor: 'rgba(59,130,246,0.2)'
+          }}
         >
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
             skip the line now

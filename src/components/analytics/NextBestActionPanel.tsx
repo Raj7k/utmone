@@ -21,7 +21,7 @@ export const NextBestActionPanel = ({
   edges,
 }: NextBestActionPanelProps) => {
   return (
-    <Card className="border-primary/50">
+    <Card style={{ borderColor: 'rgba(59,130,246,0.5)' }}>
       <CardHeader>
         <CardTitle className="text-lg">{nodeName}</CardTitle>
         <CardDescription>

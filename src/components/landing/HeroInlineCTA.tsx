@@ -37,7 +37,10 @@ export const HeroInlineCTA = () => {
             placeholder="enter your email..."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 h-12 bg-white/5 border-white/10 text-white placeholder:text-white/40 focus:bg-white/10 focus:border-primary transition-all"
+            className="flex-1 h-12 bg-white/5 border-white/10 text-white placeholder:text-white/40 transition-all"
+            style={{ 
+              // Focus styles handled via CSS
+            }}
             required
           />
           <Button
@@ -51,7 +54,7 @@ export const HeroInlineCTA = () => {
           </Button>
         </div>
         {error && (
-          <p className="text-sm text-red-500 mt-2">{error}</p>
+          <p className="text-sm mt-2" style={{ color: 'rgba(239,68,68,0.9)' }}>{error}</p>
         )}
       </form>
     </div>
