@@ -101,7 +101,7 @@ const LLMRanking = () => {
             
             <div className="space-y-6">
               <div className="flex items-center gap-3">
-                <Badge className="bg-primary text-primary-foreground">NEW</Badge>
+                <Badge style={{ background: 'rgba(59,130,246,1)', color: 'white' }}>NEW</Badge>
                 <span className="text-sm text-muted-foreground">45 min read</span>
               </div>
               
@@ -115,15 +115,15 @@ const LLMRanking = () => {
 
               <div className="flex flex-wrap gap-3 pt-4">
                 <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
-                  <Sparkles className="w-5 h-5 text-primary" />
+                  <Sparkles className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span className="text-sm font-medium">9 Interactive Tools</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
-                  <Target className="w-5 h-5 text-primary" />
+                  <Target className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span className="text-sm font-medium">50+ Optimization Tactics</span>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg border border-border">
-                  <Award className="w-5 h-5 text-primary" />
+                  <Award className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span className="text-sm font-medium">Real Case Studies</span>
                 </div>
               </div>
@@ -140,12 +140,12 @@ const LLMRanking = () => {
                 <a
                   key={section.anchor}
                   href={`#${section.anchor}`}
-                  className="flex items-start gap-3 p-3 bg-background rounded-lg border border-border hover:border-primary/50 transition-colors group"
+                  className="flex items-start gap-3 p-3 bg-background rounded-lg border border-border hover:border-white/20 transition-colors group"
                 >
-                  <span className="text-sm font-mono text-muted-foreground group-hover:text-primary">
+                  <span className="text-sm font-mono text-muted-foreground group-hover:text-white">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-sm text-foreground group-hover:text-primary transition-colors">
+                  <span className="text-sm text-foreground group-hover:text-white transition-colors">
                     {section.name}
                   </span>
                 </a>
@@ -173,7 +173,7 @@ const LLMRanking = () => {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-lg text-foreground">
-                The way people find information is shifting from traditional <Link to="/resources/glossary/seo" className="text-primary hover:underline">search engines</Link> to conversational AI platforms like ChatGPT, Claude, and Google's Gemini. Unlike a Google search results page with ten blue links, these large language models (LLMs) deliver direct answers and recommendations in a conversational format.
+                The way people find information is shifting from traditional <Link to="/resources/glossary/seo" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>search engines</Link> to conversational AI platforms like ChatGPT, Claude, and Google's Gemini. Unlike a Google search results page with ten blue links, these large language models (LLMs) deliver direct answers and recommendations in a conversational format.
               </p>
 
               <div className="my-8 p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
@@ -216,23 +216,23 @@ const LLMRanking = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="p-6 bg-primary/5 border border-primary/20 rounded-xl">
+                <div className="p-6 rounded-xl" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
                   <h4 className="font-semibold text-foreground mb-3">LLM Optimization</h4>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex items-start gap-2">
-                      <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span>Optimize for semantic meaning</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span>Goal: Direct citation in answer</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span>E-A-T and trustworthiness</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <Sparkles className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span>User gets direct answer with sources</span>
                     </li>
                   </ul>
@@ -259,8 +259,8 @@ const LLMRanking = () => {
               {/* Pillar 1 */}
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Search className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Search className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Pillar I: Retrieval Optimization</h3>
@@ -281,7 +281,7 @@ const LLMRanking = () => {
                   
                   <div>
                     <h4 className="font-semibold text-foreground mb-2">Authority Signaling</h4>
-                    <p className="text-foreground">High-authority <Link to="/resources/glossary/custom-domain" className="text-primary hover:underline">domains</Link> get a slight boost, but semantic relevance overrides domain authority. Update evergreen content quarterly for freshness signals. Highly-cited content performs better.</p>
+                    <p className="text-foreground">High-authority <Link to="/resources/glossary/custom-domain" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>domains</Link> get a slight boost, but semantic relevance overrides domain authority. Update evergreen content quarterly for freshness signals. Highly-cited content performs better.</p>
                   </div>
                 </div>
               </div>
@@ -289,8 +289,8 @@ const LLMRanking = () => {
               {/* Pillar 2 */}
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Shield className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Pillar II: Semantic Authority</h3>
@@ -319,8 +319,8 @@ const LLMRanking = () => {
               {/* Pillar 3 */}
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Target className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Target className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Pillar III: Content Quality Signals</h3>
@@ -358,8 +358,8 @@ const LLMRanking = () => {
               {/* Pillar 4 */}
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Shield className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Pillar IV: Trust Architecture</h3>
@@ -375,8 +375,8 @@ const LLMRanking = () => {
               {/* Pillar 5 */}
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <FileCode className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <FileCode className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Pillar V: Visibility Maximization</h3>
@@ -414,32 +414,32 @@ const LLMRanking = () => {
                 <h3 className="text-xl font-semibold text-foreground mb-6">The 4-Stage RAG Pipeline</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div className="space-y-3">
-                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl">
-                      <span className="text-lg font-bold text-primary">1</span>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                      <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>1</span>
                     </div>
                     <h4 className="font-semibold text-foreground">Query Processing</h4>
                     <p className="text-sm text-muted-foreground">User query is embedded and processed for semantic understanding</p>
                   </div>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl">
-                      <span className="text-lg font-bold text-primary">2</span>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                      <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>2</span>
                     </div>
                     <h4 className="font-semibold text-foreground">Retrieval Stage</h4>
                     <p className="text-sm text-muted-foreground">Dense retrievers fetch candidate documents based on semantic similarity</p>
                   </div>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl">
-                      <span className="text-lg font-bold text-primary">3</span>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                      <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>3</span>
                     </div>
                     <h4 className="font-semibold text-foreground">Re-ranking Stage</h4>
                     <p className="text-sm text-muted-foreground">LLM-based rankers evaluate and reorder retrieved documents</p>
                   </div>
                   
                   <div className="space-y-3">
-                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl">
-                      <span className="text-lg font-bold text-primary">4</span>
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                      <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>4</span>
                     </div>
                     <h4 className="font-semibold text-foreground">Generation Stage</h4>
                     <p className="text-sm text-muted-foreground">LLM synthesizes final response with citations</p>
@@ -462,7 +462,7 @@ const LLMRanking = () => {
                   <p className="text-sm text-muted-foreground"><strong>Optimization:</strong> Create content that wins direct comparisons (more comprehensive, clearer structure, better examples)</p>
                 </div>
                 
-                <div className="p-6 bg-primary/5 border border-primary/20 rounded-xl">
+                <div className="p-6 rounded-xl" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
                   <h4 className="font-semibold text-foreground mb-2">C. Listwise Ranking (State-of-Art)</h4>
                   <p className="text-foreground mb-3">Ranks entire list simultaneously. 10-30% more effective than pointwise. Used by RankGPT and RankZephyr.</p>
                   <p className="text-sm text-muted-foreground"><strong>Optimization:</strong> Design for direct comparison dominance—be the obvious best choice in any list</p>
@@ -540,7 +540,7 @@ Allow: /`}
                   </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
-                      <span><strong><Link to="/resources/glossary/referral" className="text-primary hover:underline">Internal linking</Link>:</strong> 3-5 contextual links per 1000 words with descriptive anchors</span>
+                      <span><strong><Link to="/resources/glossary/referral" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Internal linking</Link>:</strong> 3-5 contextual links per 1000 words with descriptive anchors</span>
                     </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
@@ -585,7 +585,7 @@ Allow: /`}
                 <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
                   <h3 className="text-lg font-semibold text-foreground mb-3">Go Deep Rather Than Wide</h3>
                   <p className="text-foreground">
-                    LLMs reward <Link to="/resources/glossary/taxonomy" className="text-primary hover:underline">topic authority</Link>. Instead of covering 50 topics shallowly, master 5-10 topics deeply. This builds semantic authority and increases citation probability.
+                    LLMs reward <Link to="/resources/glossary/taxonomy" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>topic authority</Link>. Instead of covering 50 topics shallowly, master 5-10 topics deeply. This builds semantic authority and increases citation probability.
                   </p>
                 </div>
 
@@ -628,7 +628,7 @@ Allow: /`}
               <h3 className="text-2xl font-semibold text-foreground mt-12 mb-6">Content Roadmap (Weeks 1-8)</h3>
               
               <div className="space-y-4">
-                <div className="p-6 bg-card border-l-4 border-primary rounded-xl">
+                <div className="p-6 bg-card border-l-4 rounded-xl" style={{ borderLeftColor: 'rgba(59,130,246,1)' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-sm font-mono text-muted-foreground">Weeks 1-2</span>
                     <h4 className="font-semibold text-foreground">Foundation Content</h4>
@@ -636,7 +636,7 @@ Allow: /`}
                   <p className="text-foreground">Create 5-10 comprehensive FAQ pages covering your core topics. Each should answer 8-12 related questions.</p>
                 </div>
                 
-                <div className="p-6 bg-card border-l-4 border-primary rounded-xl">
+                <div className="p-6 bg-card border-l-4 rounded-xl" style={{ borderLeftColor: 'rgba(59,130,246,1)' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-sm font-mono text-muted-foreground">Weeks 3-4</span>
                     <h4 className="font-semibold text-foreground">How-To Guides</h4>
@@ -644,7 +644,7 @@ Allow: /`}
                   <p className="text-foreground">Develop 3-5 step-by-step implementation guides for your most common use cases.</p>
                 </div>
                 
-                <div className="p-6 bg-card border-l-4 border-primary rounded-xl">
+                <div className="p-6 bg-card border-l-4 rounded-xl" style={{ borderLeftColor: 'rgba(59,130,246,1)' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-sm font-mono text-muted-foreground">Weeks 5-6</span>
                     <h4 className="font-semibold text-foreground">Comparison Pages</h4>
@@ -652,7 +652,7 @@ Allow: /`}
                   <p className="text-foreground">Build 2-3 detailed comparison pages (Your Product vs Competitors, Technology X vs Y).</p>
                 </div>
                 
-                <div className="p-6 bg-card border-l-4 border-primary rounded-xl">
+                <div className="p-6 bg-card border-l-4 rounded-xl" style={{ borderLeftColor: 'rgba(59,130,246,1)' }}>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-sm font-mono text-muted-foreground">Weeks 7-8</span>
                     <h4 className="font-semibold text-foreground">Glossary & Definitions</h4>
@@ -952,13 +952,13 @@ Allow: /`}
 
             <div className="prose prose-lg max-w-none space-y-8">
               <p className="text-lg text-foreground">
-                E-A-T (Expertise, Authoritativeness, Trustworthiness) is Google's <Link to="/resources/glossary/quality-score" className="text-primary hover:underline">content quality</Link> framework that LLMs have adopted. High E-A-T signals dramatically increase citation probability.
+                E-A-T (Expertise, Authoritativeness, Trustworthiness) is Google's <Link to="/resources/glossary/quality-score" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>content quality</Link> framework that LLMs have adopted. High E-A-T signals dramatically increase citation probability.
               </p>
 
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Users className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Users className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Expertise Signals</h3>
@@ -989,8 +989,8 @@ Allow: /`}
 
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Award className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Award className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Authoritativeness Signals</h3>
@@ -1022,8 +1022,8 @@ Allow: /`}
 
               <div className="p-8 bg-card border border-border rounded-2xl">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl shrink-0">
-                    <Shield className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold text-foreground mb-2">Trustworthiness Signals</h3>
@@ -1109,7 +1109,7 @@ Allow: /`}
                 <div className="space-y-3">
                   <div className="flex items-center gap-4">
                     <div className="w-32 text-sm font-medium text-foreground">Main Topic:</div>
-                    <div className="flex-1 h-8 bg-primary/20 rounded-full relative">
+                    <div className="flex-1 h-8 rounded-full relative" style={{ background: 'rgba(59,130,246,0.2)' }}>
                       <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-foreground">
                         70-80% coverage
                       </div>
@@ -1117,7 +1117,7 @@ Allow: /`}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-32 text-sm font-medium text-foreground">Related Concepts:</div>
-                    <div className="flex-1 h-8 bg-primary/10 rounded-full relative">
+                    <div className="flex-1 h-8 rounded-full relative" style={{ background: 'rgba(59,130,246,0.1)' }}>
                       <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-foreground">
                         10-15% coverage
                       </div>
@@ -1125,7 +1125,7 @@ Allow: /`}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-32 text-sm font-medium text-foreground">Practical Applications:</div>
-                    <div className="flex-1 h-8 bg-primary/10 rounded-full relative">
+                    <div className="flex-1 h-8 rounded-full relative" style={{ background: 'rgba(59,130,246,0.1)' }}>
                       <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-foreground">
                         5-10% coverage
                       </div>
@@ -1133,7 +1133,7 @@ Allow: /`}
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="w-32 text-sm font-medium text-foreground">Limitations:</div>
-                    <div className="flex-1 h-8 bg-primary/5 rounded-full relative">
+                    <div className="flex-1 h-8 rounded-full relative" style={{ background: 'rgba(59,130,246,0.05)' }}>
                       <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-foreground">
                         3-5% coverage
                       </div>
