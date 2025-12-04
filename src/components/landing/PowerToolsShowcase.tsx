@@ -23,14 +23,15 @@ const POWER_TOOLS = [
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs">
           <span style={{ color: 'rgba(255,255,255,0.5)' }}>variant performance</span>
-          <span className="text-primary font-medium">92% confidence</span>
+          <span className="font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>92% confidence</span>
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <span className="text-xs w-6" style={{ color: 'rgba(255,255,255,0.5)' }}>A</span>
             <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <motion.div 
-                className="h-full bg-primary/60 rounded-full"
+                className="h-full rounded-full"
+                style={{ background: 'rgba(255,255,255,0.4)' }}
                 initial={{ width: 0 }}
                 animate={{ width: "45%" }}
                 transition={{ duration: 0.6 }}
@@ -42,16 +43,17 @@ const POWER_TOOLS = [
             <span className="text-xs w-6" style={{ color: 'rgba(255,255,255,0.5)' }}>B</span>
             <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
               <motion.div 
-                className="h-full bg-primary rounded-full"
+                className="h-full rounded-full"
+                style={{ background: 'rgba(255,255,255,0.8)' }}
                 initial={{ width: 0 }}
                 animate={{ width: "72%" }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               />
             </div>
-            <span className="text-xs font-medium text-primary w-10">7.2% ✓</span>
+            <span className="text-xs font-medium w-10" style={{ color: 'rgba(255,255,255,0.9)' }}>7.2% ✓</span>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-xs text-primary pt-1">
+        <div className="flex items-center gap-2 text-xs pt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
           <TrendingUp className="w-3 h-3" />
           Nike variant B wins with 60% improvement
         </div>
@@ -79,12 +81,12 @@ const POWER_TOOLS = [
             transition={{ delay: i * 0.08 }}
           >
             {scan.status === "safe" ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(34,197,94,0.8)' }} />
             ) : (
-              <AlertTriangle className="w-3.5 h-3.5 text-destructive shrink-0" />
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(239,68,68,0.8)' }} />
             )}
             <span className="text-xs font-mono flex-1 truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>{scan.url}</span>
-            <span className={`text-xs ${scan.status === "safe" ? "text-primary" : "text-destructive"}`}>
+            <span className="text-xs" style={{ color: scan.status === "safe" ? 'rgba(34,197,94,0.8)' : 'rgba(239,68,68,0.8)' }}>
               {scan.status}
             </span>
           </motion.div>
@@ -133,25 +135,26 @@ const POWER_TOOLS = [
     mockup: (
       <div className="space-y-2">
         <div className="flex items-center gap-2 p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)' }}>
-          <Layers className="w-3.5 h-3.5 text-primary" />
+          <Layers className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <span className="text-xs" style={{ color: 'rgba(255,255,255,0.9)' }}>nike_campaign_links.csv</span>
           <span className="text-xs ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>247 rows</span>
         </div>
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
             <span style={{ color: 'rgba(255,255,255,0.5)' }}>processing...</span>
-            <span className="text-primary font-medium">247/247</span>
+            <span className="font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>247/247</span>
           </div>
           <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)' }}>
             <motion.div 
-              className="h-full bg-primary rounded-full"
+              className="h-full rounded-full"
+              style={{ background: 'rgba(255,255,255,0.8)' }}
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ duration: 1.2 }}
             />
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-primary">
+        <div className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(34,197,94,0.8)' }}>
           <CheckCircle2 className="w-3 h-3" />
           All links created with UTM validation
         </div>
@@ -189,27 +192,31 @@ export const PowerToolsShowcase = () => {
                     key={tool.id}
                     onClick={() => setActiveTool(tool.id)}
                     whileTap={{ scale: 0.98 }}
-                    className={`
-                      w-full flex items-center gap-3 p-3 rounded-xl transition-all
-                      ${isActive ? "bg-primary text-primary-foreground shadow-md" : ""}
-                    `}
-                    style={!isActive ? { background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' } : {}}
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all`}
+                    style={isActive ? {
+                      background: 'rgba(255,255,255,0.9)',
+                      color: '#050505'
+                    } : {
+                      background: 'rgba(24,24,27,0.4)',
+                      backdropFilter: 'blur(40px)',
+                      border: '1px solid rgba(255,255,255,0.08)'
+                    }}
                   >
-                    <div className={`
-                      w-10 h-10 rounded-lg flex items-center justify-center shrink-0
-                      ${isActive ? "bg-primary-foreground/20" : "bg-primary/10"}
-                    `}>
-                      <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ background: isActive ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.05)' }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color: isActive ? '#050505' : 'rgba(255,255,255,0.8)' }} />
                     </div>
                     <div className="flex-1 text-left">
-                      <span className="text-sm font-semibold lowercase" style={!isActive ? { color: 'rgba(255,255,255,0.9)' } : {}}>
+                      <span className="text-sm font-semibold lowercase" style={{ color: isActive ? '#050505' : 'rgba(255,255,255,0.9)' }}>
                         {tool.label}
                       </span>
-                      <p className={`text-xs ${isActive ? "text-primary-foreground/70" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}}>
+                      <p className="text-xs" style={{ color: isActive ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.5)' }}>
                         {tool.description}
                       </p>
                     </div>
-                    <ArrowRight className={`w-4 h-4 shrink-0 ${isActive ? "text-primary-foreground" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}} />
+                    <ArrowRight className="w-4 h-4 shrink-0" style={{ color: isActive ? '#050505' : 'rgba(255,255,255,0.5)' }} />
                   </motion.button>
                 );
               })}
@@ -246,14 +253,19 @@ export const PowerToolsShowcase = () => {
                     onClick={() => setActiveTool(tool.id)}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`
-                      flex items-center gap-2 px-4 py-2.5 rounded-full transition-all
-                      ${isActive ? "bg-primary text-primary-foreground shadow-md" : "hover:scale-105"}
-                    `}
-                    style={!isActive ? { background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' } : {}}
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-full transition-all"
+                    style={isActive ? {
+                      background: 'rgba(255,255,255,0.9)',
+                      color: '#050505',
+                      boxShadow: '0 4px 20px rgba(255,255,255,0.2)'
+                    } : {
+                      background: 'rgba(24,24,27,0.4)',
+                      backdropFilter: 'blur(40px)',
+                      border: '1px solid rgba(255,255,255,0.08)'
+                    }}
                   >
-                    <Icon className={`w-4 h-4 ${isActive ? "" : "text-primary"}`} />
-                    <span className="text-sm font-medium lowercase">{tool.label}</span>
+                    <Icon className="w-4 h-4" style={{ color: isActive ? '#050505' : 'rgba(255,255,255,0.8)' }} />
+                    <span className="text-sm font-medium lowercase" style={{ color: isActive ? '#050505' : 'rgba(255,255,255,0.9)' }}>{tool.label}</span>
                   </motion.button>
                 );
               })}
@@ -272,10 +284,10 @@ export const PowerToolsShowcase = () => {
               >
                 <div className="p-6 md:p-8 min-h-[280px]">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.05)' }}>
                       {(() => {
                         const Icon = active.icon;
-                        return <Icon className="w-5 h-5 text-primary" />;
+                        return <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />;
                       })()}
                     </div>
                     <div>
@@ -295,7 +307,8 @@ export const PowerToolsShowcase = () => {
         <div className="text-center mt-8">
           <Link 
             to="/features/analytics"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase"
+            className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
+            style={{ color: 'rgba(255,255,255,0.8)' }}
           >
             explore all features
             <ArrowRight className="h-4 w-4" />

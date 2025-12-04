@@ -184,7 +184,8 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
               >
                 <Link 
                   to={content.secondaryCtaLink}
-                  className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors font-medium lowercase"
+                  className="inline-flex items-center gap-2 text-sm transition-colors font-medium lowercase hover:opacity-80"
+                  style={{ color: 'rgba(255,255,255,0.8)' }}
                   onClick={() => trackCTAClick(`hero-secondary-${selectedUseCase}`)}
                 >
                   {content.secondaryCta}

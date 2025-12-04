@@ -81,8 +81,8 @@ export const LinkLayersSection = () => {
             >
               <div className="flex flex-col gap-4">
                 {/* Number Badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 self-start">
-                  <span className="text-sm font-display font-bold text-primary">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full self-start" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <span className="text-sm font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     {layer.number}/5
                   </span>
                 </div>
@@ -151,8 +151,8 @@ export const LinkLayersSection = () => {
                 <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12 xl:gap-20 h-full`}>
                   {/* Content */}
                   <div className="flex-1 space-y-4 lg:space-y-6">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-                      <span className="text-lg lg:text-xl font-display font-bold text-primary">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <span className="text-lg lg:text-xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                         {layer.number}/5
                       </span>
                     </div>

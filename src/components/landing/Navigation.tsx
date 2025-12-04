@@ -603,34 +603,34 @@ export const Navigation = () => {
                                 className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                               >
                                 <div className="flex items-center gap-2 mb-1">
-                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                    <DollarSign className="w-4 h-4 text-primary" />
+                                  <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                                    <DollarSign className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                                   </div>
-                                  <div className="text-sm font-medium leading-none">RevOps</div>
+                                  <div className="text-sm font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>RevOps</div>
                                 </div>
                               </Link>
 
                               <Link
                                 to="/solutions/partner-managers"
-                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                               >
                                 <div className="flex items-center gap-2 mb-1">
-                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                    <Handshake className="w-4 h-4 text-primary" />
+                                  <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                                    <Handshake className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                                   </div>
-                                  <div className="text-sm font-medium leading-none">Partners</div>
+                                  <div className="text-sm font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>Partners</div>
                                 </div>
                               </Link>
 
                               <Link
                                 to="/solutions/reporting-team"
-                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                                className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                               >
                                 <div className="flex items-center gap-2 mb-1">
-                                  <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                    <FileBarChart className="w-4 h-4 text-primary" />
+                                  <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                                    <FileBarChart className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
                                   </div>
-                                  <div className="text-sm font-medium leading-none">Reporting</div>
+                                  <div className="text-sm font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>Reporting</div>
                                 </div>
                               </Link>
                             </div>
@@ -661,8 +661,8 @@ export const Navigation = () => {
                             <Badge className="bg-orange-500 text-white text-[10px] px-2 py-0">HOT</Badge>
                           </div>
                           <div>
-                            <h3 className="text-xs font-semibold mb-1">llm ranking playbook</h3>
-                            <p className="text-[10px] text-muted-foreground leading-relaxed">
+                            <h3 className="text-xs font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>llm ranking playbook</h3>
+                            <p className="text-[10px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               rank #1 in ChatGPT & Claude
                             </p>
                           </div>
@@ -671,15 +671,16 @@ export const Navigation = () => {
                         {/* B2B Attribution Framework - NEW */}
                         <Link 
                           to="/resources/frameworks/b2b-attribution" 
-                          className="group rounded-lg bg-gradient-to-br from-primary/10 via-primary/5 to-background p-3 flex flex-col gap-2 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-lg p-3 flex flex-col gap-2 border border-white/20 hover:border-white/40 transition-all hover:scale-[1.02]"
+                          style={{ background: 'rgba(255,255,255,0.05)' }}
                         >
                           <div className="flex items-center justify-between">
-                            <GitBranch className="w-4 h-4 text-primary" />
-                            <Badge className="bg-primary text-primary-foreground text-[10px] px-2 py-0">NEW</Badge>
+                            <GitBranch className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                            <Badge className="text-[10px] px-2 py-0" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>NEW</Badge>
                           </div>
                           <div>
-                            <h3 className="text-xs font-semibold mb-1">b2b attribution</h3>
-                            <p className="text-[10px] text-muted-foreground leading-relaxed">
+                            <h3 className="text-xs font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.9)' }}>b2b attribution</h3>
+                            <p className="text-[10px] leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               from $0 to $100m+
                             </p>
                           </div>
@@ -705,7 +706,7 @@ export const Navigation = () => {
 
                       {/* Resources Grid - Right */}
                       <div className="flex-1">
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           Learning
                         </div>
                         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -800,7 +801,7 @@ export const Navigation = () => {
                           </Link>
                         </div>
 
-                        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
                           Free Tools
                         </div>
                         <div className="grid grid-cols-2 gap-2">
@@ -916,32 +917,32 @@ export const Navigation = () => {
                   <div className="flex flex-col gap-6">
 
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Product</p>
-                    <Link to="/products/link-orchestration" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <Link2 className="h-4 w-4 text-primary" />
-                      <span>Link Orchestration</span>
-                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    <p className="text-sm font-semibold px-3 mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Product</p>
+                    <Link to="/products/link-orchestration" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors">
+                      <Link2 className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                      <span style={{ color: 'rgba(255,255,255,0.9)' }}>Link Orchestration</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }} />
                     </Link>
-                    <Link to="/products/journey-intelligence" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <Network className="h-4 w-4 text-primary" />
-                      <span>Journey Intelligence</span>
-                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    <Link to="/products/journey-intelligence" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors">
+                      <Network className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                      <span style={{ color: 'rgba(255,255,255,0.9)' }}>Journey Intelligence</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }} />
                     </Link>
-                    <Link to="/products/qr-studio" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <QrCode className="h-4 w-4 text-primary" />
-                      <span>QR Studio</span>
-                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    <Link to="/products/qr-studio" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors">
+                      <QrCode className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                      <span style={{ color: 'rgba(255,255,255,0.9)' }}>QR Studio</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }} />
                     </Link>
-                    <Link to="/products/data-pipeline" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
-                      <Database className="h-4 w-4 text-primary" />
-                      <span>Data Pipeline</span>
-                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    <Link to="/products/data-pipeline" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors">
+                      <Database className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                      <span style={{ color: 'rgba(255,255,255,0.9)' }}>Data Pipeline</span>
+                      <ChevronRight className="h-4 w-4 ml-auto" style={{ color: 'rgba(255,255,255,0.5)' }} />
                     </Link>
                   </div>
 
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Features</p>
-                    <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                    <p className="text-sm font-semibold px-3 mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Features</p>
+                    <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       <span>Short Links</span>
                       <ChevronRight className="h-4 w-4" />
                     </Link>
@@ -972,8 +973,8 @@ export const Navigation = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Solutions</p>
-                    <Link to="/solutions/marketers" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                    <p className="text-sm font-semibold px-3 mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Solutions</p>
+                    <Link to="/solutions/marketers" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       <span>For Marketing Teams</span>
                       <ChevronRight className="h-4 w-4" />
                     </Link>
@@ -992,8 +993,8 @@ export const Navigation = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <p className="text-sm font-semibold text-muted-foreground px-3 mb-2">Resources</p>
-                    <Link to="/resources/tools" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors">
+                    <p className="text-sm font-semibold px-3 mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Resources</p>
+                    <Link to="/resources/tools" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-between px-3 py-2 text-sm rounded-md hover:bg-white/10 transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
                       <span>Salary Tools</span>
                       <ChevronRight className="h-4 w-4" />
                     </Link>
