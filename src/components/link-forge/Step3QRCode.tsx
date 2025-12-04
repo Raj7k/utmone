@@ -90,7 +90,7 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
     <div className="space-y-6">
       <div className="space-y-2">
         <div className="flex items-center gap-2 mb-4">
-          <QrCode className="h-5 w-5 text-primary" />
+          <QrCode className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           <h2 className="text-title-2 font-semibold heading">generate qr code</h2>
         </div>
         <p className="text-body-apple text-secondary-label">
