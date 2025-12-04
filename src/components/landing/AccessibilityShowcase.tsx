@@ -36,7 +36,7 @@ export const AccessibilityShowcase = () => {
             {/* Semantic URL Comparison */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                <Globe className="w-4 h-4 text-primary" />
+                <Globe className="w-4 h-4" style={{ color: '#191265' }} />
                 semantic slugs
               </h4>
               <div className="space-y-2">
@@ -71,7 +71,7 @@ export const AccessibilityShowcase = () => {
             {/* Screen Reader Mockup */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                <Eye className="w-4 h-4 text-primary" />
+                <Eye className="w-4 h-4" style={{ color: '#191265' }} />
                 screen reader ready
               </h4>
               <div className="rounded-lg p-3 font-mono text-[11px] space-y-1" style={{ background: 'rgba(255,255,255,0.9)', color: '#050505' }}>
@@ -147,7 +147,8 @@ export const AccessibilityShowcase = () => {
             <div className="pt-2">
               <Link 
                 to="/features/accessibility" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80"
+                style={{ color: '#191265' }}
               >
                 learn more about accessibility
                 <ArrowRight className="h-4 w-4" />

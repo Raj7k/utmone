@@ -48,7 +48,7 @@ export const FeaturePillarCard = ({
           {description}
         </p>
         {href && (
-          <div className="flex items-center gap-2 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#191265' }}>
             <span className="text-sm font-medium lowercase">learn more</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
