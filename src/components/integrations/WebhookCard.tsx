@@ -59,8 +59,8 @@ export const WebhookCard = ({ workspaceId }: WebhookCardProps) => {
     <Card className="p-6">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-            <Code2 className="w-6 h-6 text-primary" />
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Code2 className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <h3 className="font-semibold">direct api access</h3>
