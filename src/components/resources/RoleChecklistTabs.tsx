@@ -92,7 +92,7 @@ export const RoleChecklistTabs = () => {
               <TabsContent key={key} value={key} className="mt-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className={`w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center`}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
                       <Icon className={`w-5 h-5 ${checklist.color}`} />
                     </div>
                     <div>

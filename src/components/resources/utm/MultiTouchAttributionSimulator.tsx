@@ -122,8 +122,8 @@ export const MultiTouchAttributionSimulator = () => {
                 <div className="absolute left-6 top-12 w-0.5 h-8 bg-border" />
               )}
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-primary" />
+                <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <Icon className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-2">
@@ -141,8 +141,8 @@ export const MultiTouchAttributionSimulator = () => {
                   {tp.weight > 0 && (
                     <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-primary transition-all duration-500"
-                        style={{ width: `${tp.weight}%` }}
+                        className="h-full transition-all duration-500"
+                        style={{ width: `${tp.weight}%`, background: 'rgba(59,130,246,1)' }}
                       />
                     </div>
                   )}

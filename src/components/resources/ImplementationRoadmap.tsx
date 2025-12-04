@@ -39,7 +39,7 @@ export const ImplementationRoadmap = ({ phases, className }: ImplementationRoadm
             <div className="flex gap-6">
               {/* Phase Marker */}
               <div className="flex-shrink-0 relative z-10">
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm text-white" style={{ background: 'rgba(59,130,246,1)' }}>
                   {index + 1}
                 </div>
               </div>
@@ -62,7 +62,7 @@ export const ImplementationRoadmap = ({ phases, className }: ImplementationRoadm
                 <ul className="space-y-2">
                   {phase.tasks.map((task, taskIndex) => (
                     <li key={taskIndex} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <Check className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
                       <span>{task}</span>
                     </li>
                   ))}

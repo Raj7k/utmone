@@ -120,10 +120,10 @@ export const CaseStudyExplorer = () => {
         {filteredCaseStudies.map((study) => {
           const Icon = study.icon;
           return (
-            <div key={study.id} className="border border-border rounded-lg p-6 hover:border-primary/50 transition-colors">
+            <div key={study.id} className="border border-border rounded-lg p-6 hover:border-white/30 transition-colors">
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <Icon className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
@@ -150,7 +150,7 @@ export const CaseStudyExplorer = () => {
                   <ul className="space-y-1">
                     {study.results.map((result, i) => (
                       <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                        <Target className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                        <Target className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
                         <span>{result}</span>
                       </li>
                     ))}

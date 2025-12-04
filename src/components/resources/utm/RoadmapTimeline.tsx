@@ -59,7 +59,7 @@ export const RoadmapTimeline = () => {
           </p>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-bold text-primary">{progress}%</p>
+          <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{progress}%</p>
           <p className="text-xs text-muted-foreground">Complete</p>
         </div>
       </div>
@@ -67,8 +67,8 @@ export const RoadmapTimeline = () => {
       {/* Progress Bar */}
       <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
         <div
-          className="h-full bg-primary transition-all duration-300"
-          style={{ width: `${progress}%` }}
+          className="h-full transition-all duration-300"
+          style={{ width: `${progress}%`, background: 'rgba(59,130,246,1)' }}
         />
       </div>
 

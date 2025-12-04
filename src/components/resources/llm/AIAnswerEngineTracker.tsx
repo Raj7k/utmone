@@ -91,7 +91,7 @@ export const AIAnswerEngineTracker = () => {
 
       <div className="space-y-4">
         {mockStats.map((stat, index) => (
-          <div key={index} className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
+          <div key={index} className="border border-border rounded-lg p-4 hover:border-white/30 transition-colors">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{stat.logo}</span>
@@ -115,7 +115,7 @@ export const AIAnswerEngineTracker = () => {
               <div className="space-y-1">
                 {stat.topQueries.map((query, i) => (
                   <div key={i} className="text-xs text-muted-foreground flex items-start gap-2">
-                    <span className="text-primary">•</span>
+                    <span style={{ color: 'rgba(59,130,246,1)' }}>•</span>
                     <span>"{query}"</span>
                   </div>
                 ))}
@@ -125,7 +125,7 @@ export const AIAnswerEngineTracker = () => {
         ))}
       </div>
 
-      <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+      <div className="mt-6 p-4 border rounded-lg" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.2)' }}>
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-foreground mb-1">

@@ -96,8 +96,8 @@ export const TeamRACIMatrix = () => {
         {raciData.map((roleData, index) => (
           <div key={index} className="border border-border rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                {roleData.role === "Leadership" ? <User className="w-5 h-5 text-primary" /> : <Users className="w-5 h-5 text-primary" />}
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                {roleData.role === "Leadership" ? <User className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} /> : <Users className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />}
               </div>
               <h4 className="text-lg font-semibold text-foreground">{roleData.role}</h4>
             </div>

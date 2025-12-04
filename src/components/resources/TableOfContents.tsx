@@ -59,8 +59,9 @@ export const TableOfContents = () => {
                 onClick={() => scrollToHeading(heading.id)}
                 className={cn(
                   'text-left w-full py-1 text-muted-foreground hover:text-foreground transition-colors',
-                  activeId === heading.id && 'text-primary font-medium'
+                  activeId === heading.id && 'font-medium'
                 )}
+                style={activeId === heading.id ? { color: 'rgba(59,130,246,1)' } : undefined}
               >
                 {heading.text}
               </button>
