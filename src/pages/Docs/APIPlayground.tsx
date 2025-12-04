@@ -9,7 +9,7 @@ export default function APIPlayground() {
       
       <div className="container mx-auto px-4 py-16 max-w-7xl">
         <div className="space-y-6 mb-8">
-          <h1 className="text-4xl font-display font-bold bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-display font-bold hero-gradient">
             API Playground
           </h1>
           <p className="text-lg text-secondary-label max-w-2xl">

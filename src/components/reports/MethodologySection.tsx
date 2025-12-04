@@ -3,6 +3,11 @@ import { Database, FileText, CheckCircle, BarChart3, Globe2, TrendingUp } from "
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+const colorStyles: Record<string, { bg: string; border: string; text: string }> = {
+  blazeOrange: { bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)', text: 'rgba(249,115,22,1)' },
+  deepSea: { bg: 'rgba(20,184,166,0.1)', border: 'rgba(20,184,166,0.2)', text: 'rgba(20,184,166,1)' },
+};
+
 export const MethodologySection = () => {
   const dataProcess = [
     {
@@ -91,14 +96,14 @@ export const MethodologySection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className={`p-6 border-2 border-${item.color}/20 hover:shadow-xl transition-apple hover:scale-101 relative overflow-hidden group`}>
+                <Card className="p-6 border-2 hover:shadow-xl transition-apple hover:scale-101 relative overflow-hidden group" style={{ borderColor: colorStyles[item.color].border }}>
                   <div className="absolute top-4 right-4 text-6xl font-display font-extrabold opacity-5 group-hover:opacity-10 transition-opacity">
                     {item.step}
                   </div>
-                  <div className={`w-12 h-12 mb-4 rounded-xl bg-${item.color}/10 flex items-center justify-center`}>
-                    <Icon className={`h-6 w-6`} style={{ color: `hsl(var(--${item.color}))` }} />
+                  <div className="w-12 h-12 mb-4 rounded-xl flex items-center justify-center" style={{ background: colorStyles[item.color].bg }}>
+                    <Icon className="h-6 w-6" style={{ color: colorStyles[item.color].text }} />
                   </div>
-                  <div className={`text-3xl font-display font-bold mb-2`} style={{ color: `hsl(var(--${item.color}))` }}>
+                  <div className="text-3xl font-display font-bold mb-2" style={{ color: colorStyles[item.color].text }}>
                     {item.count}
                   </div>
                   <h3 className="text-lg font-display font-bold mb-2">

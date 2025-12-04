@@ -27,10 +27,10 @@ const skills: Skill[] = [
   { name: "Customer Lifecycle Marketing", premium: 7500, category: "strategic", demandLevel: "medium" },
 ];
 
-const categoryColors = {
-  technical: "deepSea",
-  strategic: "blazeOrange",
-  leadership: "mirage"
+const categoryStyles: Record<string, { border: string; text: string }> = {
+  technical: { border: 'rgba(20,184,166,0.5)', text: 'rgba(20,184,166,1)' },
+  strategic: { border: 'rgba(249,115,22,0.5)', text: 'rgba(249,115,22,1)' },
+  leadership: { border: 'rgba(30,41,59,0.5)', text: 'rgba(30,41,59,1)' }
 };
 
 export const SkillsPremium = () => {
@@ -41,7 +41,7 @@ export const SkillsPremium = () => {
     <Card className="bg-wildSand/30">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="h-6 w-6 text-blazeOrange" />
+          <TrendingUp className="h-6 w-6" style={{ color: 'rgba(249,115,22,1)' }} />
           Skills That Command Premium Salaries
         </CardTitle>
         <p className="text-sm text-secondary-label">
@@ -52,7 +52,7 @@ export const SkillsPremium = () => {
         <div className="space-y-4">
           {sortedSkills.map((skill, index) => {
             const percentage = (skill.premium / maxPremium) * 100;
-            const colorClass = categoryColors[skill.category];
+            const styles = categoryStyles[skill.category];
 
             return (
               <div key={index} className="space-y-2">
@@ -61,12 +61,13 @@ export const SkillsPremium = () => {
                     <span className="font-medium text-foreground">{skill.name}</span>
                     <Badge 
                       variant="outline" 
-                      className={`text-xs border-${colorClass} text-${colorClass}`}
+                      className="text-xs"
+                      style={{ borderColor: styles.border, color: styles.text }}
                     >
                       {skill.category}
                     </Badge>
                     {skill.demandLevel === "high" && (
-                      <Badge className="text-xs bg-blazeOrange">High Demand</Badge>
+                      <Badge className="text-xs" style={{ background: 'rgba(249,115,22,1)' }}>High Demand</Badge>
                     )}
                   </div>
                   <span className="font-bold text-blazeOrange">

@@ -73,7 +73,7 @@ export default function ZapierIntegration() {
             <Zap className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
         </div>
-        <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-display font-bold mb-4 hero-gradient">
           Zapier Integration
         </h1>
         <p className="text-xl text-secondary-label">

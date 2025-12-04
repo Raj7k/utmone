@@ -55,6 +55,15 @@ export const SocialProofStats = () => {
     };
   }, []);
 
+  const getColorStyles = (color: string) => {
+    const colors: Record<string, { bg: string; text: string }> = {
+      primary: { bg: 'rgba(59,130,246,0.1)', text: 'rgba(59,130,246,1)' },
+      blazeOrange: { bg: 'rgba(249,115,22,0.1)', text: 'rgba(249,115,22,1)' },
+      deepSea: { bg: 'rgba(20,184,166,0.1)', text: 'rgba(20,184,166,1)' },
+    };
+    return colors[color] || colors.primary;
+  };
+
   const statItems = [
     {
       icon: Users,
@@ -85,15 +94,17 @@ export const SocialProofStats = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {statItems.map((stat, index) => {
             const Icon = stat.icon;
+            const colorStyles = getColorStyles(stat.color);
             return (
               <div
                 key={index}
                 className="flex flex-col items-center text-center group"
               >
                 <div
-                  className={`w-16 h-16 rounded-2xl bg-${stat.color}/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300"
+                  style={{ background: colorStyles.bg }}
                 >
-                  <Icon className={`w-8 h-8 text-${stat.color}`} />
+                  <Icon className="w-8 h-8" style={{ color: colorStyles.text }} />
                 </div>
                 <div className="font-display font-extrabold text-5xl md:text-6xl tracking-tighter mb-2 bg-gradient-to-br from-foreground to-foreground/50 bg-clip-text text-transparent">
                   {stat.value}

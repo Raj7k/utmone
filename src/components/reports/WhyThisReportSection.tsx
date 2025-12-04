@@ -3,6 +3,11 @@ import { Database, Globe, TrendingUp, Users, CheckCircle2, Shield } from "lucide
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+const colorStyles: Record<string, { bg: string; border: string; text: string }> = {
+  blazeOrange: { bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)', text: 'rgba(249,115,22,1)' },
+  deepSea: { bg: 'rgba(20,184,166,0.1)', border: 'rgba(20,184,166,0.2)', text: 'rgba(20,184,166,1)' },
+};
+
 export const WhyThisReportSection = () => {
   const valueProp = [
     {
@@ -125,9 +130,9 @@ export const WhyThisReportSection = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className={`p-8 text-center border-2 border-${prop.color}/20 hover:border-${prop.color}/40 hover:shadow-xl transition-all`}>
-                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-${prop.color}/10 flex items-center justify-center`}>
-                    <Icon className={`h-8 w-8 text-${prop.color}`} style={{ color: `hsl(var(--${prop.color}))` }} />
+                <Card className="p-8 text-center border-2 hover:shadow-xl transition-all" style={{ borderColor: colorStyles[prop.color].border }}>
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center" style={{ background: colorStyles[prop.color].bg }}>
+                    <Icon className="h-8 w-8" style={{ color: colorStyles[prop.color].text }} />
                   </div>
                   <h3 className="text-xl font-display font-bold mb-3">
                     {prop.title}

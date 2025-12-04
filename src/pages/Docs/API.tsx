@@ -11,7 +11,7 @@ export default function APIDocumentation() {
       <div className="space-y-6">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-4xl font-display font-bold mb-2 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-display font-bold mb-2 hero-gradient">
               API Documentation
             </h1>
             <p className="text-secondary-label text-lg">
