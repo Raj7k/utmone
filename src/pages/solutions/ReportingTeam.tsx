@@ -122,7 +122,7 @@ const ReportingTeam = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>Enterprise-ready • SOC 2 compliant • GDPR ready</span>
             </div>
           </div>
@@ -191,11 +191,11 @@ const ReportingTeam = () => {
             }
             afterContent={
               <div className="space-y-3 font-mono text-sm">
-                <div className="text-primary font-semibold mb-2">Your New Reality:</div>
+                <div className="font-semibold mb-2" style={{ color: 'rgba(59,130,246,0.9)' }}>Your New Reality:</div>
                 <div className="text-foreground">Marketing Dashboard: 12,453 social clicks</div>
                 <div className="text-foreground">GA4: 12,453 social clicks</div>
                 <div className="text-foreground">HubSpot: 12,453 social clicks</div>
-                <div className="text-xs text-primary mt-4">
+                <div className="text-xs mt-4" style={{ color: 'rgba(59,130,246,0.9)' }}>
                   All three tools read the same clean UTMs. All agree. Zero reconciliation needed.
                 </div>
               </div>

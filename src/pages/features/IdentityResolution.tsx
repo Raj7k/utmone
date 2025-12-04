@@ -82,7 +82,7 @@ const IdentityResolution = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>100% first-party • GDPR compliant</span>
             </div>
           </div>
@@ -122,8 +122,8 @@ const IdentityResolution = () => {
         <div className="max-w-7xl mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Users className="w-8 h-8 text-primary" />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Users className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 2.3x attribution lift
@@ -134,8 +134,8 @@ const IdentityResolution = () => {
             </Card>
 
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Clock className="w-8 h-8 text-primary" />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Clock className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 instant backfill
@@ -146,8 +146,8 @@ const IdentityResolution = () => {
             </Card>
 
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Zap className="w-8 h-8 text-primary" />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Zap className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 cross-device unity

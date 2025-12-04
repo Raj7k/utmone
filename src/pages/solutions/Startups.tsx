@@ -122,7 +122,7 @@ const Startups = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>Free forever • No credit card • Upgrade when you scale</span>
             </div>
           </div>
@@ -198,7 +198,7 @@ const Startups = () => {
             }
             afterContent={
               <div className="space-y-3 font-mono text-sm">
-                <div className="flex justify-between text-primary">
+                <div className="flex justify-between" style={{ color: 'rgba(59,130,246,0.9)' }}>
                   <span>utm_source=linkedin</span>
                   <span className="font-bold">$17,400</span>
                 </div>
@@ -210,7 +210,7 @@ const Startups = () => {
                   <span>utm_source=organic</span>
                   <span>$2,100</span>
                 </div>
-                <div className="text-xs text-primary mt-4">
+                <div className="text-xs mt-4" style={{ color: 'rgba(59,130,246,0.9)' }}>
                   100% attribution. Accurate CAC. Confident decision-making.
                 </div>
               </div>

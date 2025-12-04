@@ -88,7 +88,7 @@ const MarketingOps = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>Free for 14 days • No credit card required</span>
             </div>
           </div>
@@ -174,12 +174,12 @@ const MarketingOps = () => {
             }
             afterContent={
               <div className="space-y-3">
-                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
-                  <div className="text-primary font-semibold mb-2 text-sm">utm_source clean:</div>
+                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <div className="font-semibold mb-2 text-sm" style={{ color: 'rgba(59,130,246,0.9)' }}>utm_source clean:</div>
                   <div className="space-y-1 text-foreground">
                     <div>linkedin (26,908)</div>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-primary/20 text-primary text-xs">
+                  <div className="mt-3 pt-3 text-xs" style={{ borderTop: '1px solid rgba(59,130,246,0.2)', color: 'rgba(59,130,246,0.9)' }}>
                     100% attribution ✓
                   </div>
                 </div>

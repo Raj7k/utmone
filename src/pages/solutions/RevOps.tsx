@@ -125,7 +125,7 @@ const RevOps = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>CRM-native • Full-funnel • Revenue attribution</span>
             </div>
           </div>
@@ -195,7 +195,7 @@ const RevOps = () => {
                 <div className="text-foreground">Marketing: utm.one links (validated)</div>
                 <div className="text-foreground">Sales: utm.one links (enforced)</div>
                 <div className="text-foreground">CS: utm.one links (tracked)</div>
-                <div className="text-xs text-primary mt-4">
+                <div className="text-xs mt-4" style={{ color: 'rgba(59,130,246,0.9)' }}>
                   Every touchpoint tracked. Full customer journey visible. Revenue attribution clear.
                 </div>
               </div>

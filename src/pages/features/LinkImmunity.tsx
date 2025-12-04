@@ -126,7 +126,7 @@ export default function LinkImmunity() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Activity className="w-8 h-8 text-primary" />
+                <Activity className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">health probes</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -139,21 +139,21 @@ export default function LinkImmunity() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Zap className="w-8 h-8 text-primary" />
+                <Zap className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">instant detection</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 When a destination fails, the system detects it within 60 seconds and automatically activates fallback routing.
               </p>
-              <div className="bg-primary/10 rounded-lg p-4 text-sm">
-                <span className="font-semibold text-primary">Detection types:</span>
+              <div className="rounded-lg p-4 text-sm" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="font-semibold" style={{ color: 'rgba(59,130,246,0.9)' }}>Detection types:</span>
                 <div className="mt-2 text-foreground text-xs">404, 500, DNS failures, SSL errors, slow response</div>
               </div>
             </div>
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Bell className="w-8 h-8 text-primary" />
+                <Bell className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-2xl font-display font-semibold lowercase">smart alerts</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -175,7 +175,7 @@ export default function LinkImmunity() {
                 { num: "3", label: "Fallback 2", url: "example.com/final", status: "Standby", statusColor: "text-muted-foreground" }
               ].map((item, i) => (
                 <div key={i} className={`flex items-center gap-4 ${i > 0 ? 'opacity-50' : ''}`}>
-                  <div className={`${i === 0 ? 'bg-primary text-primary-foreground' : 'bg-muted text-secondary-label'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`}>{item.num}</div>
+                  <div className={`${i === 0 ? 'text-white' : 'bg-muted text-secondary-label'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`} style={i === 0 ? { background: 'rgba(59,130,246,0.9)' } : undefined}>{item.num}</div>
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-label mb-1">{item.label}</p>
                     <p className="text-xs font-mono text-secondary-label">{item.url}</p>
@@ -184,8 +184,8 @@ export default function LinkImmunity() {
                 </div>
               ))}
             </div>
-            <div className="mt-6 p-4 bg-primary/10 rounded-lg">
-              <p className="text-sm text-primary text-center font-medium">
+            <div className="mt-6 p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <p className="text-sm text-center font-medium" style={{ color: 'rgba(59,130,246,0.9)' }}>
                 <span className="font-semibold">If #1 fails:</span> Traffic automatically routes to #2 within 60 seconds
               </p>
             </div>
@@ -214,7 +214,7 @@ export default function LinkImmunity() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <Clock className="w-6 h-6 text-primary" />
+                <Clock className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-xl font-display font-bold lowercase">global health checks</h3>
               </div>
               <p className="text-muted-foreground mb-4">Health probes run from 15+ global locations to detect regional outages.</p>
@@ -230,7 +230,7 @@ export default function LinkImmunity() {
 
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <ShieldCheck className="w-6 h-6 text-primary" />
+                <ShieldCheck className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
                 <h3 className="text-xl font-display font-bold lowercase">SLA monitoring</h3>
               </div>
               <p className="text-muted-foreground mb-4">Track uptime SLAs per link with historical reports and incident logs.</p>

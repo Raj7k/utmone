@@ -106,7 +106,7 @@ const Agencies = () => {
                 </div>
                 
                 <div className="rounded-xl p-6" style={{ background: 'rgba(59,130,246,0.05)', border: '2px solid rgba(59,130,246,0.3)' }}>
-                  <div className="text-primary font-semibold mb-3 text-sm uppercase tracking-wide">With utm.one</div>
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide" style={{ color: 'rgba(59,130,246,0.9)' }}>With utm.one</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
                       <span style={{ color: 'rgba(255,255,255,0.5)' }}>utm.one clicks:</span>
@@ -125,7 +125,7 @@ const Agencies = () => {
                       <span className="font-semibold">12,043</span>
                     </div>
                   </div>
-                  <div className="mt-4 text-xs text-primary">
+                  <div className="mt-4 text-xs" style={{ color: 'rgba(59,130,246,0.9)' }}>
                     One source of truth. Every tool agrees.
                   </div>
                 </div>
@@ -168,15 +168,15 @@ const Agencies = () => {
             }
             afterContent={
               <div className="space-y-3">
-                <div className="bg-primary/10 rounded-lg p-4 font-mono text-xs">
-                  <div className="text-primary font-semibold mb-2 text-sm">Client A (single source of truth):</div>
+                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                  <div className="font-semibold mb-2 text-sm" style={{ color: 'rgba(59,130,246,0.9)' }}>Client A (single source of truth):</div>
                   <div className="space-y-1 text-foreground">
                     <div>utm.one: 12,043 clicks</div>
                     <div>GA4: 12,043 sessions</div>
                     <div>HubSpot: 12,043 visits</div>
                     <div>Your report: 12,043 clicks</div>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-primary/20 text-primary text-xs">
+                  <div className="mt-3 pt-3 text-xs" style={{ borderTop: '1px solid rgba(59,130,246,0.2)', color: 'rgba(59,130,246,0.9)' }}>
                     Every tool agrees. Client trusts you.
                   </div>
                 </div>

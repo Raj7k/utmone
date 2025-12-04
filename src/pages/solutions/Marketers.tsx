@@ -101,7 +101,7 @@ const Marketers = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
               <span>Free for 14 days • No credit card required</span>
             </div>
           </div>
