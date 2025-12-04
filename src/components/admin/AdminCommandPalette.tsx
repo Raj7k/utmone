@@ -138,34 +138,47 @@ export const AdminCommandPalette = () => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-start justify-center pt-[20vh]">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh]" style={{ background: 'rgba(0,0,0,0.8)' }}>
       <Command 
-        className="w-full max-w-2xl bg-card rounded-lg shadow-2xl border border-border overflow-hidden"
+        className="w-full max-w-2xl rounded-lg shadow-2xl overflow-hidden"
+        style={{ 
+          background: 'rgba(24,24,27,0.95)', 
+          backdropFilter: 'blur(40px)',
+          border: '1px solid rgba(255,255,255,0.1)'
+        }}
         shouldFilter={false}
       >
-        <div className="flex items-center border-b border-border px-4">
-          <Search className="w-4 h-4 text-muted-foreground" />
+        <div className="flex items-center px-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <Search className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.5)' }} />
           <Command.Input
             value={search}
             onValueChange={setSearch}
             placeholder="Search users, workspaces, links..."
-            className="flex h-14 w-full bg-transparent py-3 px-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-14 w-full bg-transparent py-3 px-3 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            style={{ color: 'rgba(255,255,255,0.9)' }}
             autoFocus
           />
-          <kbd className="pointer-events-none h-6 select-none items-center gap-1 rounded border border-border bg-muted px-2 font-mono text-xs text-muted-foreground opacity-100 flex">
+          <kbd 
+            className="pointer-events-none h-6 select-none items-center gap-1 rounded px-2 font-mono text-xs opacity-100 flex"
+            style={{ 
+              background: 'rgba(255,255,255,0.1)', 
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.5)'
+            }}
+          >
             ESC
           </kbd>
         </div>
 
         <Command.List className="max-h-96 overflow-y-auto p-2">
           {loading && (
-            <div className="py-6 text-center text-sm text-muted-foreground">
+            <div className="py-6 text-center text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Searching...
             </div>
           )}
 
           {!loading && search && results.length === 0 && (
-            <div className="py-6 text-center text-sm text-muted-foreground">
+            <div className="py-6 text-center text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
               No results found.
             </div>
           )}
@@ -183,15 +196,19 @@ export const AdminCommandPalette = () => {
                         key={result.id}
                         value={result.id}
                         onSelect={() => handleSelect(result.url)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-md cursor-pointer hover:bg-accent aria-selected:bg-accent"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-md cursor-pointer"
+                        style={{ color: 'rgba(255,255,255,0.9)' }}
                       >
-                        <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 text-primary">
+                        <div 
+                          className="flex items-center justify-center w-8 h-8 rounded-md"
+                          style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}
+                        >
                           {getIcon(result.type)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-medium truncate">{result.title}</div>
                           {result.subtitle && (
-                            <div className="text-xs text-muted-foreground truncate font-mono">
+                            <div className="text-xs truncate font-mono" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               {result.subtitle}
                             </div>
                           )}
@@ -205,14 +222,34 @@ export const AdminCommandPalette = () => {
           )}
         </Command.List>
 
-        <div className="border-t border-border px-4 py-2 text-xs text-muted-foreground flex items-center justify-between">
+        <div 
+          className="px-4 py-2 text-xs flex items-center justify-between"
+          style={{ 
+            borderTop: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.5)'
+          }}
+        >
           <span>Type to search</span>
           <div className="flex items-center gap-2">
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            <kbd 
+              className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded px-1.5 font-mono text-[10px] font-medium opacity-100"
+              style={{ 
+                background: 'rgba(255,255,255,0.1)', 
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: 'rgba(255,255,255,0.5)'
+              }}
+            >
               ↑↓
             </kbd>
             <span>to navigate</span>
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            <kbd 
+              className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded px-1.5 font-mono text-[10px] font-medium opacity-100"
+              style={{ 
+                background: 'rgba(255,255,255,0.1)', 
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: 'rgba(255,255,255,0.5)'
+              }}
+            >
               ↵
             </kbd>
             <span>to select</span>

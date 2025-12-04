@@ -285,7 +285,7 @@ export const EnhancedLinksTable = ({
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <div className="flex items-center">
-                                <Globe className="h-3.5 w-3.5 text-primary" aria-label="Geo-targeting enabled" />
+                                <Globe className="h-3.5 w-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} aria-label="Geo-targeting enabled" />
                               </div>
                             </TooltipTrigger>
                             <TooltipContent>

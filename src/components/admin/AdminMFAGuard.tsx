@@ -73,10 +73,10 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
 
   if (isChecking || isAdminLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'rgba(5,5,5,1)' }}>
         <div className="text-center space-y-3">
-          <Shield className="h-12 w-12 mx-auto text-primary animate-pulse" />
-          <p className="text-muted-foreground">verifying security clearance...</p>
+          <Shield className="h-12 w-12 mx-auto animate-pulse" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <p style={{ color: 'rgba(255,255,255,0.5)' }}>verifying security clearance...</p>
         </div>
       </div>
     );

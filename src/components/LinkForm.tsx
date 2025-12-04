@@ -467,7 +467,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           <AccordionItem value="basic-info" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
-                <Link2 className="h-5 w-5 text-primary" />
+                <Link2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
                 <span className="font-serif text-lg font-semibold">Basic Information</span>
                 <Badge variant="destructive" className="text-xs">Required</Badge>
               </div>
