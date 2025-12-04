@@ -123,8 +123,8 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
       <Card className="border-border/50">
         <CardHeader>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <Shield className="h-5 w-5 text-primary" />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+              <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             </div>
             <div>
               <CardTitle className="text-xl">Enable two-factor authentication</CardTitle>

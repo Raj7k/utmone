@@ -60,11 +60,11 @@ export const JourneySankeyDiagram = ({ data, isLoading }: JourneySankeyDiagramPr
         {Object.entries(flowsBySource).map(([source, flows]) => (
           <div key={source} className="space-y-2">
             <div className="font-medium text-sm">{source}</div>
-            <div className="space-y-1 pl-4 border-l-2 border-primary/20">
+            <div className="space-y-1 pl-4 border-l-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
               {flows.map((flow, idx) => (
                 <div key={idx} className="flex items-center justify-between py-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
+                    <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.6)' }} />
                     <span className="text-sm">{flow.target_node}</span>
                   </div>
                   <div className="flex items-center gap-4 text-sm">

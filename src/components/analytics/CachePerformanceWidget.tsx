@@ -62,7 +62,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-primary" />
+            <Zap className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             cache performance
           </CardTitle>
         </CardHeader>
@@ -85,7 +85,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-primary" />
+          <Zap className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
           cache performance
         </CardTitle>
         <CardDescription>
@@ -147,7 +147,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
         {/* Performance Insight */}
         <div className="pt-4 border-t border-border">
           <div className="flex items-start gap-3 p-4 bg-muted/30 rounded-xl">
-            <TrendingUp className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+            <TrendingUp className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground mb-1">
                 optimization active

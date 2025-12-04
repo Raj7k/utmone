@@ -219,7 +219,7 @@ export function DataPrivacySettings() {
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground mb-4">
             for more information about how we handle your data, see our{' '}
-            <a href="/privacy-policy" className="text-primary hover:underline">
+            <a href="/privacy-policy" className="hover:underline" style={{ color: 'rgba(255,255,255,0.9)' }}>
               privacy policy
             </a>
             .

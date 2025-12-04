@@ -62,7 +62,7 @@ export const StateValueHeatmap = ({ workspaceId, conversionReward = 100 }: State
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-primary">
+                  <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     ${node.state_value.toFixed(2)}
                   </span>
                   {node.conversion_probability > 0 && (

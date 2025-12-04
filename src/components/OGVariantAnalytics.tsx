@@ -94,7 +94,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           </div>
           <div className="flex items-center gap-2">
             {testStatus?.ab_test_status === 'running' && (
-              <Badge variant="secondary" className="bg-primary/10 text-primary">
+              <Badge variant="secondary" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
                 Test Running
               </Badge>
             )}
@@ -131,7 +131,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
           )}
 
           {testStatus?.ab_test_status === 'running' && significance && (
-            <Alert className={significance.isSignificant ? "border-accent bg-accent/5" : "border-primary bg-primary/5"}>
+            <Alert className={significance.isSignificant ? "border-accent bg-accent/5" : ""} style={!significance.isSignificant ? { borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)' } : undefined}>
               <AlertTitle>
                 {significance.isSignificant ? "Statistical Significance Reached!" : "Test In Progress"}
               </AlertTitle>
@@ -208,7 +208,7 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium">{variant.variantName}</span>
                       {index === 0 && (
-                        <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded">
+                        <span className="text-xs px-2 py-0.5 rounded" style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' }}>
                           Winner
                         </span>
                       )}

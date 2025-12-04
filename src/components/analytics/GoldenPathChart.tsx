@@ -113,7 +113,7 @@ export const GoldenPathChart = ({ workspaceId }: GoldenPathChartProps) => {
                   <span className="text-sm font-medium">
                     {path.total_steps} steps
                   </span>
-                  <span className="text-sm font-bold text-primary">
+                  <span className="text-sm font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
                     ${path.total_value.toFixed(2)}
                   </span>
                 </div>

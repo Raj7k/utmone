@@ -75,8 +75,8 @@ export function SmartTestMonitor({
     <div className="space-y-4">
       {/* Early Stop Recommendation */}
       {earlyStop.shouldStop && (
-        <Alert className="bg-primary/5 border-primary">
-          <CheckCircle className="h-4 w-4 text-primary" />
+        <Alert style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.2)' }}>
+          <CheckCircle className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
           <AlertDescription>
             <div className="flex items-center justify-between">
               <div>

@@ -196,15 +196,15 @@ export function TrafficForecastChart({ historical, forecast, needsMoreData }: Tr
 
         <div className="mt-4 text-xs text-muted-foreground space-y-1">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-0.5 bg-primary" />
+            <div className="w-8 h-0.5" style={{ background: 'rgba(255,255,255,0.6)' }} />
             <span>historical data (past 7 days)</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-0.5 bg-primary" style={{ backgroundImage: 'repeating-linear-gradient(to right, currentColor 0, currentColor 5px, transparent 5px, transparent 10px)' }} />
+            <div className="w-8 h-0.5" style={{ background: 'rgba(255,255,255,0.6)', backgroundImage: 'repeating-linear-gradient(to right, currentColor 0, currentColor 5px, transparent 5px, transparent 10px)' }} />
             <span>predicted trajectory (next 7 days)</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-4 bg-primary/15" />
+            <div className="w-8 h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
             <span>95% confidence interval (uncertainty grows over time)</span>
           </div>
         </div>
