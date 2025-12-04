@@ -64,7 +64,7 @@ const Examples = () => {
                 className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
                 <div className="space-y-3">
-                  <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                  <h2 className="text-2xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
                     {example.title}
                   </h2>
                   <p className="text-base text-white/60 leading-relaxed">

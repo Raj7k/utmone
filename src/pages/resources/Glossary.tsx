@@ -516,7 +516,7 @@ const Glossary = () => {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white">
                   Glossary
                 </h1>
-                <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/20 text-primary">
+                <span className="text-sm font-medium px-3 py-1 rounded-full" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
                   {terms.length} terms
                 </span>
               </div>
@@ -543,9 +543,10 @@ const Glossary = () => {
                 onClick={() => setSelectedCategory(null)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
-                    ? "bg-primary text-primary-foreground"
+                    ? "text-white"
                     : "bg-white/10 text-white/60 hover:bg-white/20"
                 }`}
+                style={!selectedCategory ? { background: 'rgba(59,130,246,1)' } : {}}
               >
                 all terms
               </button>
@@ -596,7 +597,7 @@ const Glossary = () => {
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-4">
-                        <h2 className="text-xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                        <h2 className="text-xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
                           {item.term}
                         </h2>
                         <span

@@ -67,7 +67,7 @@ const Academy = () => {
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-4">
-                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
                       {lesson.title}
                     </h2>
                     <span className="text-xs text-white/60 font-medium px-3 py-1 rounded-full bg-white/10">
