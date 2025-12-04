@@ -103,7 +103,7 @@ export const ManualTestChecklist = () => {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Smartphone className="h-5 w-5 text-primary" />
+              <Smartphone className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
               <CardTitle>Mobile Responsiveness</CardTitle>
             </div>
             <CardDescription>
@@ -132,7 +132,7 @@ export const ManualTestChecklist = () => {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Monitor className="h-5 w-5 text-primary" />
+              <Monitor className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
               <CardTitle>Cross-Browser</CardTitle>
             </div>
             <CardDescription>
@@ -161,7 +161,7 @@ export const ManualTestChecklist = () => {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <CheckCircle2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
               <CardTitle>Accessibility</CardTitle>
             </div>
             <CardDescription>

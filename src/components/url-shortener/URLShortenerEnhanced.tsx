@@ -207,7 +207,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
               <Link2 className="h-8 w-8 text-primary-foreground" />
             </div>
             <h1 className="text-5xl font-display font-bold tracking-tight">
-              url <span className="text-primary">shortener</span>
+              url <span style={{ color: 'rgba(59,130,246,1)' }}>shortener</span>
             </h1>
           </div>
           <p className="text-lg text-secondary-label">smart duplicate detection with AI-powered resolution</p>
@@ -235,12 +235,12 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                       setUrl(e.target.value);
                       setError("");
                     }}
-                    className="bg-white/5 border-white/10 focus:border-primary"
+                    className="bg-white/5 border-white/10 focus:border-white/30"
                     disabled={!!shortURL}
                   />
                   {isCheckingDuplicates && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                      <RefreshCw className="h-4 w-4 animate-spin text-primary" />
+                      <RefreshCw className="h-4 w-4 animate-spin" style={{ color: 'rgba(59,130,246,1)' }} />
                     </div>
                   )}
                 </div>
@@ -261,7 +261,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                     placeholder="leave blank for auto-generate"
                     value={customSlug}
                     onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                    className="flex-1 bg-white/5 border-white/10 focus:border-primary"
+                    className="flex-1 bg-white/5 border-white/10 focus:border-white/30"
                     disabled={!!shortURL}
                   />
                   <Button
@@ -324,7 +324,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
 
                 <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                   <div className="text-sm text-secondary-label mb-1">short url</div>
-                  <div className="text-lg font-medium text-primary break-all">
+                  <div className="text-lg font-medium break-all" style={{ color: 'rgba(59,130,246,1)' }}>
                     {shortURL}
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 <div className="space-y-3">
                   <Button
                     onClick={handleCopy}
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full" style={{ background: 'rgba(59,130,246,1)' }}
                     size="lg"
                   >
                     <Copy className="h-4 w-4 mr-2" />
@@ -368,8 +368,8 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
             ) : (
               <div className="h-full flex items-center justify-center min-h-[400px]">
                 <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                    <Link2 className="h-8 w-8 text-primary" />
+                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                    <Link2 className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
                   </div>
                   <div>
                     <div className="text-lg font-medium text-foreground mb-1">

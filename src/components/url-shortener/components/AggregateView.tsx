@@ -87,7 +87,7 @@ export const AggregateView = ({
         return (
           <Card
             key={group.destination_url}
-            className="overflow-hidden border-border hover:border-primary/30 hover:shadow-md transition-all"
+            className="overflow-hidden border-border hover:border-white/30 hover:shadow-md transition-all"
           >
             {/* Group Header */}
             <div
@@ -97,7 +97,7 @@ export const AggregateView = ({
               <div className="flex items-start gap-3">
                 <button className="mt-1 flex-shrink-0">
                   {isExpanded ? (
-                    <ChevronDown className="h-5 w-5 text-primary" />
+                    <ChevronDown className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
                   ) : (
                     <ChevronRight className="h-5 w-5 text-secondary-label" />
                   )}
@@ -105,7 +105,7 @@ export const AggregateView = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
-                    <GitBranch className="h-4 w-4 text-primary flex-shrink-0" />
+                    <GitBranch className="h-4 w-4 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
                     <p className="text-sm font-mono text-foreground break-all">{group.destination_url}</p>
                   </div>
 
@@ -142,8 +142,8 @@ export const AggregateView = ({
                           key={version.id}
                           className={`p-3 rounded-lg border transition-all ${
                             isBest
-                              ? 'bg-gradient-to-br from-primary/10 to-primary/5 border-primary/30'
-                              : 'bg-muted/10 border-border hover:border-primary/30'
+                              ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30'
+                              : 'bg-muted/10 border-border hover:border-white/30'
                           }`}
                           onClick={() => onSelectVersion?.(version.id)}
                         >
@@ -159,7 +159,7 @@ export const AggregateView = ({
                                   v{version.version}
                                 </Badge>
                                 {isBest && (
-                                  <Badge className="text-xs bg-primary/20 text-primary border-primary/30">
+                                  <Badge className="text-xs bg-white/20 text-white border-white/30">
                                     <Star className="h-3 w-3 mr-1" />
                                     best
                                   </Badge>

@@ -37,7 +37,7 @@ export const FreeVsProTable = ({ features }: FreeVsProTableProps) => {
                   <th className="text-center p-6 font-display font-semibold text-foreground w-1/4">
                     free
                   </th>
-                  <th className="text-center p-6 font-display font-semibold text-primary w-1/4">
+                  <th className="text-center p-6 font-display font-semibold w-1/4" style={{ color: 'rgba(59,130,246,1)' }}>
                     pro
                   </th>
                 </tr>
@@ -60,11 +60,11 @@ export const FreeVsProTable = ({ features }: FreeVsProTableProps) => {
                     </td>
                     <td className="p-6 text-center">
                       {typeof feature.pro === 'string' ? (
-                        <span className="text-sm font-medium text-primary">
+                        <span className="text-sm font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
                           {feature.pro}
                         </span>
                       ) : feature.pro ? (
-                        <CheckCircle2 className="h-5 w-5 text-primary mx-auto" />
+                        <CheckCircle2 className="h-5 w-5 mx-auto" style={{ color: 'rgba(59,130,246,1)' }} />
                       ) : (
                         <Lock className="h-5 w-5 text-muted-foreground mx-auto" />
                       )}

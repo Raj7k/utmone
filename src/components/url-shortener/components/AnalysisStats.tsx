@@ -9,7 +9,7 @@ export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
     <div className="grid grid-cols-3 gap-3">
       <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/10">
         <div className="flex items-center gap-2 mb-1">
-          <MousePointerClick className="h-4 w-4 text-primary" />
+          <MousePointerClick className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
           <span className="text-xs text-muted-foreground">total clicks</span>
         </div>
         <div className="text-xl font-bold text-foreground">

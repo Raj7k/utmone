@@ -68,7 +68,7 @@ export const SalaryBarChart = ({
             <span>50th Percentile (Median)</span>
             <span>{formatCurrency(p50)}</span>
           </div>
-          <div className="h-10 bg-muted/30 rounded-lg overflow-hidden border-2 border-primary/20">
+          <div className="h-10 bg-muted/30 rounded-lg overflow-hidden" style={{ border: '2px solid rgba(59,130,246,0.2)' }}>
             <div
               className="h-full bg-green-500/60 transition-all duration-500"
               style={{ width: getWidth(p50) }}
@@ -108,16 +108,16 @@ export const SalaryBarChart = ({
         {currentSalary && (
           <div className="pt-4 border-t border-border/50">
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs text-primary font-medium">
+              <div className="flex items-center justify-between text-xs font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
                 <span>Your Current Salary</span>
                 <span>{formatCurrency(currentSalary)}</span>
               </div>
-              <div className="h-10 bg-muted/30 rounded-lg overflow-hidden border-2 border-primary">
+              <div className="h-10 bg-muted/30 rounded-lg overflow-hidden" style={{ border: '2px solid rgba(59,130,246,1)' }}>
                 <div
-                  className="h-full bg-primary transition-all duration-500 flex items-center justify-end pr-2"
-                  style={{ width: getWidth(currentSalary) }}
+                  className="h-full transition-all duration-500 flex items-center justify-end pr-2"
+                  style={{ width: getWidth(currentSalary), background: 'rgba(59,130,246,1)' }}
                 >
-                  <span className="text-xs text-primary-foreground font-bold">YOU</span>
+                  <span className="text-xs font-bold text-white">YOU</span>
                 </div>
               </div>
             </div>

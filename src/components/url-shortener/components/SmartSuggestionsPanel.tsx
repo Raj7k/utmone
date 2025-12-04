@@ -41,7 +41,7 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
       case 'use-best':
         return 'from-green-500/10 to-green-500/5 border-green-500/20';
       case 'create-campaign':
-        return 'from-primary/10 to-primary/5 border-primary/20';
+        return 'from-white/10 to-white/5 border-white/20';
       case 'ab-test':
         return 'from-purple-500/10 to-purple-500/5 border-purple-500/20';
       case 'archive':
@@ -119,7 +119,7 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
                       className={`w-full p-3 rounded-lg border bg-gradient-to-br ${getColor(suggestion.type, false)} text-left hover:scale-[1.02] transition-all`}
                     >
                       <div className="flex items-start gap-3">
-                        <Icon className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                        <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-foreground mb-0.5">
                             {suggestion.action}
@@ -135,11 +135,11 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
         )}
 
         {/* AI Insight Box */}
-        <div className="mt-4 p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
+        <div className="mt-4 p-3 rounded-lg bg-gradient-to-br border" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
           <div className="flex items-start gap-2">
-            <Sparkles className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+            <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
             <div>
-              <p className="text-xs font-semibold text-primary mb-1">AI Analysis</p>
+              <p className="text-xs font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>AI Analysis</p>
               <p className="text-xs text-secondary-label">
                 Based on {suggestions.length} factors including click-through rates, campaign context, 
                 and version history, our AI recommends the action above for optimal performance.

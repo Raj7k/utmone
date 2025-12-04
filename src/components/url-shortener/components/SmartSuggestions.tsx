@@ -21,7 +21,7 @@ export const SmartSuggestions = ({ suggestions }: SmartSuggestionsProps) => {
             key={index}
             className={`p-3 rounded-lg border transition-all ${
               suggestion.recommended
-                ? 'border-primary bg-primary/10'
+                ? 'border-white/30 bg-white/10'
                 : 'border-white/10 bg-white/5'
             }`}
           >
@@ -32,7 +32,7 @@ export const SmartSuggestions = ({ suggestions }: SmartSuggestionsProps) => {
                     {suggestion.action}
                   </span>
                   {suggestion.recommended && (
-                    <span className="px-2 py-0.5 bg-primary/20 text-primary rounded text-xs font-medium">
+                    <span className="px-2 py-0.5 bg-white/20 text-white rounded text-xs font-medium">
                       recommended
                     </span>
                   )}
