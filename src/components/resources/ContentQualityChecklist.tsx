@@ -117,7 +117,7 @@ export const ContentQualityChecklist = () => {
         <Progress value={progress} className="h-3" />
         
         <div className="text-center">
-          <span className="text-4xl font-bold text-primary">
+          <span className="text-4xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
             {completed.length}/{checklist.length}
           </span>
           <p className="text-sm text-muted-foreground mt-1">Items completed</p>
@@ -138,15 +138,16 @@ export const ContentQualityChecklist = () => {
             >
               <button
                 onClick={() => toggleItem(item.id)}
-                className="w-full text-left p-4 rounded-lg border border-border/50 hover:border-primary/50 transition-all duration-200 space-y-2"
+                className="w-full text-left p-4 rounded-lg border border-border/50 hover:border-white/30 transition-all duration-200 space-y-2"
               >
                 <div className="flex items-start gap-3">
                   <div
                     className={`flex-shrink-0 w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
                       isCompleted
-                        ? 'bg-primary border-primary text-white'
+                        ? 'text-white'
                         : 'border-muted-foreground/30'
                     }`}
+                    style={isCompleted ? { background: 'rgba(59,130,246,1)', borderColor: 'rgba(59,130,246,1)' } : undefined}
                   >
                     {isCompleted && <Check className="w-4 h-4" />}
                   </div>
@@ -171,9 +172,10 @@ export const ContentQualityChecklist = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center p-6 bg-primary/10 rounded-lg border-2 border-primary/30"
+          className="text-center p-6 rounded-lg border-2"
+          style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}
         >
-          <p className="text-lg font-semibold text-primary">
+          <p className="text-lg font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
             🎉 Content is ready to publish!
           </p>
           <p className="text-sm text-muted-foreground mt-2">

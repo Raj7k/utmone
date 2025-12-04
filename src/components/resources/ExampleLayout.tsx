@@ -31,7 +31,7 @@ export const ExampleLayout = ({
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <div className="inline-block mb-6 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-medium text-primary">
+            <div className="inline-block mb-6 rounded-full px-4 py-1.5 text-xs font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               {totalCount}
             </div>
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-foreground">
@@ -68,7 +68,7 @@ export const ExampleLayout = ({
                       <span className="text-sm text-foreground">
                         {resource.title}
                       </span>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-all" style={{ color: 'rgba(59,130,246,1)' }} />
                     </Link>
                   ))}
                 </div>
