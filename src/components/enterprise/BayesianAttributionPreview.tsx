@@ -7,7 +7,7 @@ export const BayesianAttributionPreview = () => {
     { name: "LinkedIn Ads", influence: 92, revenue: 284000, color: "bg-[#0077B5]" },
     { name: "Google Search", influence: 78, revenue: 156000, color: "bg-[#4285F4]" },
     { name: "Email Campaign", influence: 65, revenue: 98000, color: "bg-blazeOrange" },
-    { name: "Partner Links", influence: 54, revenue: 67000, color: "bg-primary" },
+    { name: "Partner Links", influence: 54, revenue: 67000, color: "bg-[#3B82F6]" },
     { name: "Direct Traffic", influence: 32, revenue: 45000, color: "bg-muted-foreground" },
   ];
 
@@ -15,8 +15,8 @@ export const BayesianAttributionPreview = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <TrendingUp className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <TrendingUp className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -44,7 +44,7 @@ export const BayesianAttributionPreview = () => {
                   <span className="text-sm text-secondary-label">
                     Influence Score: {channel.influence}
                   </span>
-                  <span className="text-sm font-semibold text-primary">
+                  <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
                     ${(channel.revenue / 1000).toFixed(0)}K
                   </span>
                 </div>
@@ -63,12 +63,12 @@ export const BayesianAttributionPreview = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
-            <DollarSign className="w-6 h-6 text-primary mb-2" />
+          <div className="p-6 rounded-xl border" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
+            <DollarSign className="w-6 h-6 mb-2" style={{ color: 'rgba(59,130,246,1)' }} />
             <div className="text-3xl font-bold text-label mb-1">$650K</div>
             <div className="text-sm text-secondary-label">Total Attributed Revenue</div>
           </div>
-          <div className="p-6 rounded-xl bg-gradient-to-br from-blazeOrange/10 to-blazeOrange/5 border border-blazeOrange/20">
+          <div className="p-6 rounded-xl border" style={{ background: 'linear-gradient(to bottom right, rgba(255,107,0,0.1), rgba(255,107,0,0.05))', borderColor: 'rgba(255,107,0,0.2)' }}>
             <TrendingUp className="w-6 h-6 text-blazeOrange mb-2" />
             <div className="text-3xl font-bold text-label mb-1">5.2x</div>
             <div className="text-sm text-secondary-label">Average ROI</div>

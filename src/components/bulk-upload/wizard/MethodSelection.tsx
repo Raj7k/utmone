@@ -20,7 +20,7 @@ export const MethodSelection = ({ workspaceId, onUseTemplate, onStartFresh }: Me
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <Card className="cursor-pointer hover:border-primary/50 transition-colors">
+        <Card className="cursor-pointer hover:border-white/30 transition-colors">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
@@ -44,7 +44,7 @@ export const MethodSelection = ({ workspaceId, onUseTemplate, onStartFresh }: Me
           </CardContent>
         </Card>
 
-        <Card className="cursor-pointer hover:border-primary/50 transition-colors">
+        <Card className="cursor-pointer hover:border-white/30 transition-colors">
           <CardHeader>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center">
