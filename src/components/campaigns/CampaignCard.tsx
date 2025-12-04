@@ -38,7 +38,7 @@ export const CampaignCard = ({
                 style={{ backgroundColor: color }}
               />
               <div>
-                <h3 className="font-semibold text-label group-hover:text-primary transition-colors">
+                <h3 className="font-semibold transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
                   {name}
                 </h3>
                 <Badge
@@ -69,13 +69,13 @@ export const CampaignCard = ({
           )}
 
           {/* Stats */}
-          <div className="flex items-center justify-between pt-2 border-t border-border">
-            <div className="flex items-center gap-2 text-sm text-secondary-label">
+          <div className="flex items-center justify-between pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+            <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
               <Link2 className="h-4 w-4" />
               <span>{linkCount} link{linkCount !== 1 ? "s" : ""}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm font-medium text-label">
-              <TrendingUp className="h-4 w-4 text-primary" />
+            <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              <TrendingUp className="h-4 w-4" style={{ color: 'rgba(59,130,246,0.8)' }} />
               <span>{totalClicks.toLocaleString()} clicks</span>
             </div>
           </div>

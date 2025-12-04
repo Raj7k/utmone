@@ -64,16 +64,18 @@ export const DragDropUploader = ({ onFileSelect, accept = ".csv,.txt" }: DragDro
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       data-dragging={isDragging}
-      className="border-2 border-dashed border-border rounded-xl p-12 
-                 transition-all duration-200 hover:border-primary/50 cursor-pointer
-                 data-[dragging=true]:border-primary data-[dragging=true]:bg-primary/5"
+      className="border-2 border-dashed rounded-xl p-12 transition-all duration-200 cursor-pointer"
+      style={{
+        borderColor: isDragging ? 'rgba(59,130,246,0.8)' : 'rgba(255,255,255,0.1)',
+        backgroundColor: isDragging ? 'rgba(59,130,246,0.05)' : 'transparent',
+      }}
       onClick={handleClick}
     >
-      <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-      <p className="font-display text-lg font-semibold text-center text-label">
+      <Upload className="h-12 w-12 mx-auto mb-4" style={{ color: 'rgba(255,255,255,0.5)' }} />
+      <p className="font-display text-lg font-semibold text-center" style={{ color: 'rgba(255,255,255,0.9)' }}>
         drop your file here
       </p>
-      <p className="text-sm text-secondary-label text-center mt-2">
+      <p className="text-sm text-center mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
         or click to browse • supports CSV and TXT
       </p>
       <Button variant="outline" size="sm" className="mx-auto mt-4 block pointer-events-none">

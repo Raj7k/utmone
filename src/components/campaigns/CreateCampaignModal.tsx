@@ -188,7 +188,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <Sparkles className="h-5 w-5" style={{ color: 'rgba(59,130,246,0.8)' }} />
             Create Campaign
           </DialogTitle>
           <DialogDescription>
@@ -207,7 +207,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                   {...form.register("name")}
                 />
                 {form.formState.errors.name && (
-                  <p className="text-sm text-destructive mt-1">{form.formState.errors.name.message}</p>
+                  <p className="text-sm mt-1" style={{ color: 'rgba(239,68,68,0.8)' }}>{form.formState.errors.name.message}</p>
                 )}
               </div>
 
@@ -219,10 +219,12 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                       key={color}
                       type="button"
                       onClick={() => form.setValue("color", color)}
-                      className={`h-10 w-10 rounded-full border-2 transition-all ${
-                        form.watch("color") === color ? "border-primary scale-110" : "border-transparent"
-                      }`}
-                      style={{ backgroundColor: color }}
+                      className="h-10 w-10 rounded-full border-2 transition-all"
+                      style={{ 
+                        backgroundColor: color,
+                        borderColor: form.watch("color") === color ? 'rgba(59,130,246,0.8)' : 'transparent',
+                        transform: form.watch("color") === color ? 'scale(1.1)' : 'scale(1)',
+                      }}
                     />
                   ))}
                 </div>
@@ -234,7 +236,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             <div className="space-y-4">
               <div>
                 <Label htmlFor="destinationUrl">Destination URL</Label>
-                <p className="text-xs text-secondary-label mb-2">Where should this campaign send traffic?</p>
+                <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Where should this campaign send traffic?</p>
                 <Input
                   id="destinationUrl"
                   type="url"
@@ -242,7 +244,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                   {...form.register("destinationUrl")}
                 />
                 {form.formState.errors.destinationUrl && (
-                  <p className="text-sm text-destructive mt-1">{form.formState.errors.destinationUrl.message}</p>
+                  <p className="text-sm mt-1" style={{ color: 'rgba(239,68,68,0.8)' }}>{form.formState.errors.destinationUrl.message}</p>
                 )}
               </div>
             </div>
@@ -252,7 +254,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             <div className="space-y-4">
               <div>
                 <Label>Select Channels</Label>
-                <p className="text-xs text-secondary-label mb-3">
+                <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>
                   We'll automatically generate a unique short link for each channel with proper UTM tags
                 </p>
                 <div className="grid grid-cols-2 gap-3">
@@ -260,11 +262,11 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                     <div
                       key={channel.id}
                       onClick={() => toggleChannel(channel.id)}
-                      className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                        selectedChannels.includes(channel.id)
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
-                      }`}
+                      className="flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all"
+                      style={{
+                        borderColor: selectedChannels.includes(channel.id) ? 'rgba(59,130,246,0.8)' : 'rgba(255,255,255,0.1)',
+                        backgroundColor: selectedChannels.includes(channel.id) ? 'rgba(59,130,246,0.05)' : 'transparent',
+                      }}
                     >
                       <Checkbox
                         checked={selectedChannels.includes(channel.id)}
@@ -272,14 +274,14 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                       />
                       <div className="flex-1">
                         <p className="font-medium text-sm">{channel.name}</p>
-                        <p className="text-xs text-secondary-label">utm_source={channel.utmSource}</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>utm_source={channel.utmSource}</p>
                       </div>
                     </div>
                   ))}
                 </div>
                 {selectedChannels.length > 0 && (
-                  <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                    <p className="text-sm text-secondary-label">
+                  <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                    <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
                       {selectedChannels.length} link{selectedChannels.length > 1 ? "s" : ""} will be generated
                     </p>
                   </div>
@@ -288,7 +290,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             </div>
           )}
 
-          <div className="flex justify-between pt-4 border-t">
+          <div className="flex justify-between pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
             {step > 1 ? (
               <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
