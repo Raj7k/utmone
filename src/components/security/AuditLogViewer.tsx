@@ -58,7 +58,7 @@ export const AuditLogViewer = () => {
     return (
       <Card className="p-6">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: 'rgba(59,130,246,1)' }}></div>
         </div>
       </Card>
     );
@@ -106,7 +106,7 @@ export const AuditLogViewer = () => {
                 <div className="flex items-start gap-4 p-4 rounded-lg border border-border bg-card hover:bg-muted/50 transition-colors">
                   {/* Timeline dot */}
                   <div className="relative">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                    <div className="w-2 h-2 rounded-full mt-2" style={{ background: 'rgba(59,130,246,1)' }} />
                     {index < logs.length - 1 && (
                       <div className="absolute top-4 left-1/2 -translate-x-1/2 w-px h-[calc(100%+12px)] bg-border" />
                     )}
@@ -140,7 +140,7 @@ export const AuditLogViewer = () => {
                         </span>
                       </div>
                       {(log.old_values || log.new_values) && (
-                        <div className="flex items-center gap-1 text-primary">
+                        <div className="flex items-center gap-1" style={{ color: 'rgba(59,130,246,1)' }}>
                           <FileText className="w-3 h-3" />
                           <span>view changes</span>
                         </div>
