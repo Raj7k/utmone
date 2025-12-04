@@ -34,7 +34,7 @@ export const RoleHierarchy = ({ roles }: RoleHierarchyProps) => {
   }, []);
 
   const colorMap = {
-    primary: "border-primary/30",
+    primary: "border-white/20",
     accent: "border-accent/30",
     secondary: "border-secondary/30",
     muted: "border-muted/30",

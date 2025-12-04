@@ -113,8 +113,8 @@ const TrackingArchitecture = () => {
           {/* Principle 1 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Database className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Database className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">1. single source of truth</h3>
@@ -131,8 +131,8 @@ const TrackingArchitecture = () => {
           {/* Principle 2 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <GitBranch className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <GitBranch className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">2. consistent taxonomy</h3>
@@ -140,7 +140,7 @@ const TrackingArchitecture = () => {
                   Every campaign follows the same naming structure. UTM parameters use standardized values. Channel names don't drift from <code className="text-sm bg-muted px-2 py-1 rounded">email</code> to <code className="text-sm bg-muted px-2 py-1 rounded">newsletter</code> to <code className="text-sm bg-muted px-2 py-1 rounded">email_marketing</code>.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  → Details in our <Link to="/resources/guides/clean-track-framework" className="text-primary hover:underline">Clean-Track Framework</Link>
+                  → Details in our <Link to="/resources/guides/clean-track-framework" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Clean-Track Framework</Link>
                 </p>
               </div>
             </div>
@@ -149,8 +149,8 @@ const TrackingArchitecture = () => {
           {/* Principle 3 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Zap className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Zap className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">3. clean event pipeline</h3>
@@ -167,8 +167,8 @@ const TrackingArchitecture = () => {
           {/* Principle 4 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <BarChart3 className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <BarChart3 className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">4. unified attribution model</h3>
@@ -185,8 +185,8 @@ const TrackingArchitecture = () => {
           {/* Principle 5 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Users className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Users className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">5. standardized reporting layer</h3>
@@ -194,7 +194,7 @@ const TrackingArchitecture = () => {
                   Dashboards, metrics, and aggregation rules are consistent across teams. Everyone sees the same campaign performance instead of building their own competing reports.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  → Minimal dashboard approach in <Link to="/resources/guides/simple-analytics" className="text-primary hover:underline">Simple Analytics Guide</Link>
+                  → Minimal dashboard approach in <Link to="/resources/guides/simple-analytics" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Simple Analytics Guide</Link>
                 </p>
               </div>
             </div>

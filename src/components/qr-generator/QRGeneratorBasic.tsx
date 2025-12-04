@@ -129,7 +129,7 @@ export const QRGeneratorBasic = () => {
 
         <p className="text-sm text-secondary-label text-center mt-6">
           create branded qr codes instantly.{" "}
-          <a href="/pricing" className="text-primary hover:underline">
+          <a href="/pricing" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>
             upgrade to pro
           </a>{" "}
           to remove watermark and add custom logos
@@ -220,19 +220,19 @@ export const QRGeneratorBasic = () => {
               </div>
               <div className="space-y-2 text-sm text-secondary-label">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span><strong>remove branding</strong> — clean qr for your brand</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span><strong>custom logo</strong> — add your logo to qr center</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span><strong>scan analytics</strong> — track who scanned where</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4 text-primary" />
+                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <span><strong>bulk qr codes</strong> — generate hundreds at once</span>
                 </div>
               </div>
@@ -243,7 +243,7 @@ export const QRGeneratorBasic = () => {
 
         <p className="text-sm text-secondary-label text-center mt-6">
           utm.one branding is included in free tier.{" "}
-          <a href="/pricing" className="text-primary hover:underline">
+          <a href="/pricing" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>
             upgrade to pro
           </a>{" "}
           for white-label qr codes and advanced features
