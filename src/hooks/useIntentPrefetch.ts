@@ -36,8 +36,9 @@ export function useIntentPrefetch(options: PrefetchOptions = {}) {
       return; // Don't prefetch if user wants to save data
     }
 
-    const handleLinkHover = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
+    const handleLinkHover = (event: MouseEvent | TouchEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
       const link = target.closest('a[href^="/"]') as HTMLAnchorElement;
       
       if (!link || !link.href) return;
@@ -62,7 +63,8 @@ export function useIntentPrefetch(options: PrefetchOptions = {}) {
     };
 
     const handleLinkLeave = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
       const link = target.closest('a[href^="/"]') as HTMLAnchorElement;
       
       if (!link || !link.href) return;
