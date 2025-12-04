@@ -39,11 +39,17 @@ export const RetentionRiskCalculator = () => {
     const finalScore = Math.max(0, Math.min(100, score));
     const replacementCost = salary * 1.5; // 150% of salary
     
+    const getStyleForScore = (score: number) => {
+      if (score > 70) return { color: 'rgba(220,38,38,1)', bg: 'rgba(220,38,38,0.1)' };
+      if (score > 40) return { color: 'rgba(202,138,4,1)', bg: 'rgba(202,138,4,0.1)' };
+      return { color: 'rgba(22,163,74,1)', bg: 'rgba(22,163,74,0.1)' };
+    };
+    const styles = getStyleForScore(finalScore);
+    
     setRiskScore({
       score: finalScore,
       level: finalScore > 70 ? 'High' : finalScore > 40 ? 'Medium' : 'Low',
-      color: finalScore > 70 ? 'text-red-600' : finalScore > 40 ? 'text-yellow-600' : 'text-green-600',
-      bgColor: finalScore > 70 ? 'bg-red-50' : finalScore > 40 ? 'bg-yellow-50' : 'bg-green-50',
+      colorStyle: styles,
       replacementCost,
       recommendations: finalScore > 70 
         ? ['Immediate salary adjustment of 10-15%', 'Quarterly retention bonus', 'Career path conversation']
@@ -125,18 +131,18 @@ export const RetentionRiskCalculator = () => {
 
         {riskScore && (
           <div className="mt-6 space-y-4">
-            <div className={`p-6 ${riskScore.bgColor} dark:bg-opacity-20 rounded-lg`}>
+            <div className="p-6 rounded-lg" style={{ background: riskScore.colorStyle.bg }}>
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm text-secondary-label">Flight Risk Score</p>
-                  <p className={`text-4xl font-bold ${riskScore.color}`}>
+                  <p className="text-4xl font-bold" style={{ color: riskScore.colorStyle.color }}>
                     {riskScore.score}/100
                   </p>
-                  <p className={`text-lg font-semibold ${riskScore.color}`}>
+                  <p className="text-lg font-semibold" style={{ color: riskScore.colorStyle.color }}>
                     {riskScore.level} Risk
                   </p>
                 </div>
-                <AlertTriangle className={`w-12 h-12 ${riskScore.color}`} />
+                <AlertTriangle className="w-12 h-12" style={{ color: riskScore.colorStyle.color }} />
               </div>
 
               <div className="mb-4">

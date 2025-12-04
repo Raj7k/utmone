@@ -87,10 +87,10 @@ export const ContentQualityChecklist = () => {
   const progress = (completed.length / checklist.length) * 100;
 
   const getReadinessLevel = () => {
-    if (progress === 100) return { label: "Ready to Publish", color: "text-green-600" };
-    if (progress >= 70) return { label: "Almost There", color: "text-blue-600" };
-    if (progress >= 40) return { label: "In Progress", color: "text-yellow-600" };
-    return { label: "Needs Work", color: "text-red-600" };
+    if (progress === 100) return { label: "Ready to Publish", colorStyle: { color: 'rgba(22,163,74,1)' } };
+    if (progress >= 70) return { label: "Almost There", colorStyle: { color: 'rgba(59,130,246,1)' } };
+    if (progress >= 40) return { label: "In Progress", colorStyle: { color: 'rgba(202,138,4,1)' } };
+    return { label: "Needs Work", colorStyle: { color: 'rgba(220,38,38,1)' } };
   };
 
   const readiness = getReadinessLevel();
@@ -109,7 +109,7 @@ export const ContentQualityChecklist = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium">Completion Progress</span>
-          <span className={`text-sm font-semibold ${readiness.color}`}>
+          <span className="text-sm font-semibold" style={readiness.colorStyle}>
             {readiness.label}
           </span>
         </div>

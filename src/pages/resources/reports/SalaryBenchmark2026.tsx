@@ -69,49 +69,49 @@ const SalaryBenchmark2026Content = () => {
       label: "Average Salary Jump", 
       value: "+33.5%", 
       description: "From Manager to Senior Manager",
-      color: "blazeOrange"
+      colorStyle: { color: 'hsl(var(--blaze-orange))', borderColor: 'rgba(249,115,22,0.2)', hoverBorderColor: 'rgba(249,115,22,0.4)' }
     },
     { 
       label: "Gender Pay Gap", 
       value: "5.8%", 
       description: "Median across all roles",
-      color: "mirage"
+      colorStyle: { color: 'hsl(var(--mirage))', borderColor: 'rgba(24,36,51,0.2)', hoverBorderColor: 'rgba(24,36,51,0.4)' }
     },
-    { 
+    {
       label: "Median Marketing Manager", 
       value: "$95K", 
       description: "Across all US markets",
-      color: "blazeOrange"
+      colorStyle: { color: 'hsl(var(--blaze-orange))', borderColor: 'rgba(249,115,22,0.2)', hoverBorderColor: 'rgba(249,115,22,0.4)' }
     },
     { 
       label: "Top Skill Premium", 
       value: "+$15K", 
       description: "AI/ML expertise",
-      color: "deepSea"
+      colorStyle: { color: 'hsl(var(--deep-sea))', borderColor: 'rgba(20,184,166,0.2)', hoverBorderColor: 'rgba(20,184,166,0.4)' }
     },
     { 
       label: "Remote Work Discount", 
       value: "-10.2%", 
       description: "Fully remote vs on-site",
-      color: "mirage"
+      colorStyle: { color: 'hsl(var(--mirage))', borderColor: 'rgba(24,36,51,0.2)', hoverBorderColor: 'rgba(24,36,51,0.4)' }
     },
     { 
       label: "India Growth Rate", 
       value: "+21%", 
       description: "YoY salary increase in tech hubs",
-      color: "deepSea"
+      colorStyle: { color: 'hsl(var(--deep-sea))', borderColor: 'rgba(20,184,166,0.2)', hoverBorderColor: 'rgba(20,184,166,0.4)' }
     },
     { 
       label: "Tech Industry Premium", 
       value: "+15%", 
       description: "Vs other industries",
-      color: "blazeOrange"
+      colorStyle: { color: 'hsl(var(--blaze-orange))', borderColor: 'rgba(249,115,22,0.2)', hoverBorderColor: 'rgba(249,115,22,0.4)' }
     },
     { 
       label: "Director Level Jump", 
       value: "+$40K", 
       description: "Median promotion increase",
-      color: "deepSea"
+      colorStyle: { color: 'hsl(var(--deep-sea))', borderColor: 'rgba(20,184,166,0.2)', hoverBorderColor: 'rgba(20,184,166,0.4)' }
     }
   ];
 
@@ -288,9 +288,12 @@ const SalaryBenchmark2026Content = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.05 }}
               >
-                <Card className={`text-center border-2 border-${finding.color}/20 hover:shadow-lg transition-all hover:border-${finding.color}/40`}>
+                <Card 
+                  className="text-center border-2 hover:shadow-lg transition-all"
+                  style={{ borderColor: finding.colorStyle.borderColor }}
+                >
                   <CardHeader>
-                    <div className={`text-4xl font-display font-extrabold mb-2`} style={{ color: `hsl(var(--${finding.color}))` }}>
+                    <div className="text-4xl font-display font-extrabold mb-2" style={{ color: finding.colorStyle.color }}>
                       {finding.value}
                     </div>
                     <CardTitle className="text-base font-medium">
