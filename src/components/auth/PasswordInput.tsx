@@ -37,7 +37,7 @@ export const PasswordInput = ({
         required={required}
         minLength={minLength}
         disabled={disabled}
-        className={`h-14 rounded-xl border-2 text-base pr-12 focus-visible:border-primary ${className}`}
+        className={`h-14 rounded-xl border-2 text-base pr-12 focus-visible:border-white/30 ${className}`}
       />
       <Button
         type="button"

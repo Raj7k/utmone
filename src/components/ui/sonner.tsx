@@ -15,8 +15,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
           toast:
             "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
           description: "group-[.toast]:text-secondary-label",
-          actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+          actionButton: "group-[.toast]:text-white",
           cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-secondary-label",
+        },
+        style: {
+          // Action button styling via inline
         },
       }}
       {...props}
@@ -24,4 +27,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster, toast };
+// Add global styles for toast action button
+const ToasterStyles = () => (
+  <style>{`
+    .toast [data-button] {
+      background: rgba(59,130,246,1) !important;
+      color: white !important;
+    }
+  `}</style>
+);
+
+export { Toaster, ToasterStyles, toast };

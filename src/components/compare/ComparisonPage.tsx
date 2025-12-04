@@ -69,7 +69,10 @@ export const ComparisonPage = ({
       <section className="py-24 md:py-32">
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
-            <div className="inline-block px-4 py-1.5 bg-primary/20 text-primary text-xs font-semibold rounded-full uppercase tracking-wide">
+            <div 
+              className="inline-block px-4 py-1.5 text-xs font-semibold rounded-full uppercase tracking-wide"
+              style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}
+            >
               {category}
             </div>
             <div className="hero-glow">
@@ -114,7 +117,7 @@ export const ComparisonPage = ({
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-3">
             <p className="text-lg text-white brand-lowercase">{summary.line1}</p>
-            <p className="text-lg text-primary font-semibold brand-lowercase">{summary.line2}</p>
+            <p className="text-lg font-semibold brand-lowercase" style={{ color: 'rgba(59,130,246,1)' }}>{summary.line2}</p>
           </AnimatedSection>
         </div>
       </section>
@@ -130,7 +133,7 @@ export const ComparisonPage = ({
                   <p className="text-sm font-semibold text-white brand-lowercase">capability</p>
                 </div>
                 <div className="p-6 text-center">
-                  <p className="text-sm font-semibold text-primary brand-lowercase">utm.one</p>
+                  <p className="text-sm font-semibold brand-lowercase" style={{ color: 'rgba(59,130,246,1)' }}>utm.one</p>
                 </div>
                 <div className="p-6 text-center">
                   <p className="text-sm font-semibold text-white/60 brand-lowercase">{competitor}</p>
@@ -201,8 +204,11 @@ export const ComparisonPage = ({
               </div>
 
               {/* utm.one */}
-              <div className="space-y-6 p-8 bg-primary/10 backdrop-blur-xl rounded-2xl border border-primary/30">
-                <h3 className="text-2xl font-display font-bold text-primary brand-lowercase">
+              <div 
+                className="space-y-6 p-8 backdrop-blur-xl rounded-2xl border"
+                style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}
+              >
+                <h3 className="text-2xl font-display font-bold brand-lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
                   {whoUtmOneIsFor.title}
                 </h3>
                 <ul className="space-y-3">
@@ -212,7 +218,10 @@ export const ComparisonPage = ({
                     </li>
                   ))}
                 </ul>
-                <p className="text-sm text-primary font-semibold brand-lowercase pt-4 border-t border-primary/30">
+                <p 
+                  className="text-sm font-semibold brand-lowercase pt-4 border-t"
+                  style={{ color: 'rgba(59,130,246,1)', borderColor: 'rgba(59,130,246,0.3)' }}
+                >
                   teams that want clean, trustworthy links.
                 </p>
               </div>
