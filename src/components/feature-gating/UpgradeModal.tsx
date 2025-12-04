@@ -31,8 +31,8 @@ export const UpgradeModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-            <Lock className="h-6 w-6 text-primary" />
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Lock className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <DialogTitle className="text-center text-xl">
             unlock {featureName}
@@ -52,7 +52,7 @@ export const UpgradeModal = ({
             <div className="my-2 border-t border-border" />
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">required plan</span>
-              <div className="flex items-center gap-1 font-medium text-primary">
+              <div className="flex items-center gap-1 font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
                 <Sparkles className="h-4 w-4" />
                 {requiredPlan}
               </div>
@@ -91,8 +91,8 @@ export const UpgradeModal = ({
           </div>
 
           {/* Pricing */}
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-center">
-            <div className="text-3xl font-bold text-primary">
+          <div className="rounded-lg p-4 text-center" style={{ border: '1px solid rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.05)' }}>
+            <div className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
               ${planDetails.price}
               <span className="text-base font-normal text-muted-foreground">/month</span>
             </div>
@@ -119,7 +119,7 @@ export const UpgradeModal = ({
 
 const FeatureItem = ({ text }: { text: string }) => (
   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-    <Check className="h-4 w-4 text-primary" />
+    <Check className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
     <span>{text}</span>
   </div>
 );

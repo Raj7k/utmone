@@ -14,7 +14,7 @@ export const JustInTimeProvisioningVisual = () => {
       icon: Shield,
       title: "Auto-captured",
       description: "Automatically added to Nike workspace",
-      color: "text-primary"
+      color: "text-[#3B82F6]"
     },
     {
       icon: CheckCircle2,
@@ -28,8 +28,8 @@ export const JustInTimeProvisioningVisual = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <Shield className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Shield className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -68,9 +68,9 @@ export const JustInTimeProvisioningVisual = () => {
           ))}
         </div>
 
-        <div className="p-6 rounded-xl bg-gradient-to-br from-blazeOrange/10 to-primary/10 border border-primary/20">
+        <div className="p-6 rounded-xl border" style={{ background: 'linear-gradient(to bottom right, rgba(255,107,0,0.1), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}>
           <div className="flex items-start gap-4">
-            <Shield className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+            <Shield className="w-6 h-6 flex-shrink-0 mt-1" style={{ color: 'rgba(59,130,246,1)' }} />
             <div>
               <h4 className="font-semibold text-label mb-2 lowercase">prevents shadow it</h4>
               <p className="text-sm text-secondary-label">
@@ -84,15 +84,15 @@ export const JustInTimeProvisioningVisual = () => {
 
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">100%</div>
+            <div className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>100%</div>
             <div className="text-xs text-secondary-label">Capture Rate</div>
           </div>
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">0</div>
+            <div className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>0</div>
             <div className="text-xs text-secondary-label">Shadow Accounts</div>
           </div>
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">&lt;30s</div>
+            <div className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>&lt;30s</div>
             <div className="text-xs text-secondary-label">Provisioning Time</div>
           </div>
         </div>

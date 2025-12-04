@@ -56,8 +56,8 @@ export const TimeTravelAuditMockup = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <Clock className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Clock className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -85,11 +85,11 @@ export const TimeTravelAuditMockup = () => {
             {events.map((event, index) => (
               <div
                 key={index}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  Math.abs(event.position - sliderValue[0]) < 15
-                    ? "bg-primary scale-150"
-                    : "bg-muted-foreground/30"
-                }`}
+                className="w-3 h-3 rounded-full transition-all"
+                style={Math.abs(event.position - sliderValue[0]) < 15 
+                  ? { background: 'rgba(59,130,246,1)', transform: 'scale(1.5)' }
+                  : { background: 'rgba(255,255,255,0.3)' }
+                }
               />
             ))}
           </div>
@@ -102,11 +102,11 @@ export const TimeTravelAuditMockup = () => {
           className="p-6 rounded-xl bg-muted/50 border-2 border-border"
         >
           <div className="flex items-start gap-4">
-            <div className="p-3 rounded-full bg-primary/10">
+            <div className="p-3 rounded-full" style={{ background: 'rgba(59,130,246,0.1)' }}>
               {currentEvent.action.includes("destination") ? (
-                <ExternalLink className="w-5 h-5 text-primary" />
+                <ExternalLink className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
               ) : (
-                <Edit3 className="w-5 h-5 text-primary" />
+                <Edit3 className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
               )}
             </div>
             <div className="flex-1">
