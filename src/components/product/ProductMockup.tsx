@@ -70,7 +70,7 @@ const UTMParameterCard = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-2 md:space-y-3 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <div className="flex items-center justify-between">
       <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>UTM Parameters</h3>
-      <div className={`text-primary bg-primary/5 px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)', background: 'rgba(59,130,246,0.05)' }}>✓ Valid</div>
+      <div className={`px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)', background: 'rgba(59,130,246,0.05)' }}>✓ Valid</div>
     </div>
     <div className="space-y-2">
       <div className={`flex items-center justify-between ${size === "large" ? "text-sm" : "text-xs"}`}>
