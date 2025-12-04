@@ -28,7 +28,7 @@ export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
               <th className="text-center py-4 px-6 font-display text-subheadline font-medium text-white/40">
                 Competitors
               </th>
-              <th className="text-center py-4 px-6 font-display text-subheadline font-medium text-primary">
+              <th className="text-center py-4 px-6 font-display text-subheadline font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
                 utm.one
               </th>
             </tr>
@@ -53,7 +53,7 @@ export const FeatureComparison = ({ title, items }: FeatureComparisonProps) => {
                 </td>
                 <td className="py-4 px-6 text-center">
                   {item.utmOne ? (
-                    <Check className="w-5 h-5 text-primary mx-auto" />
+                    <Check className="w-5 h-5 mx-auto" style={{ color: 'rgba(255,255,255,0.9)' }} />
                   ) : (
                     <X className="w-5 h-5 text-white/10 mx-auto" />
                   )}

@@ -23,14 +23,24 @@ export const PersonaCalloutCards = ({ callouts }: PersonaCalloutCardsProps) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-primary/5 border-2 border-primary/20 rounded-xl p-6 hover:border-primary/40 transition-colors"
+            className="rounded-xl p-6 transition-colors"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '2px solid rgba(255,255,255,0.15)'
+            }}
           >
             <div className="flex items-start gap-4">
-              <div className="p-2 rounded-lg bg-primary/10 text-primary shrink-0">
+              <div 
+                className="p-2 rounded-lg shrink-0"
+                style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}
+              >
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-primary uppercase tracking-wide mb-2">
+                <h4 
+                  className="text-sm font-semibold uppercase tracking-wide mb-2"
+                  style={{ color: 'rgba(255,255,255,0.8)' }}
+                >
                   {callout.title}
                 </h4>
                 <p className="text-foreground">
