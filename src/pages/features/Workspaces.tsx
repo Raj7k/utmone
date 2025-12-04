@@ -95,7 +95,7 @@ const Workspaces = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               Manage every client in isolated workspaces with custom branding, permissions, and analytics rollup.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
               get started
             </Button>
           </motion.div>
@@ -120,9 +120,9 @@ const Workspaces = () => {
                 <li>❌ No per-client branding</li>
               </ul>
             </div>
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-8">
+            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
               <p className="text-lg text-label leading-relaxed mb-4">
-                <strong className="text-primary">After:</strong> Each client gets isolated workspace.
+                <strong style={{ color: 'rgba(59,130,246,1)' }}>After:</strong> Each client gets isolated workspace.
               </p>
               <ul className="space-y-2 text-label">
                 <li>✓ Complete data isolation via RLS</li>
@@ -180,7 +180,7 @@ const Workspaces = () => {
             <p className="text-xl text-white/90 mb-8">
               Start with isolated workspaces, custom branding, and full data separation.
             </p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 lowercase">
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
               get started
             </Button>
           </motion.div>
