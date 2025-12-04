@@ -62,7 +62,7 @@ export default function ClientWorkspaces() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {workspaces?.map((workspace) => (
-          <Card key={workspace.id} className={currentWorkspace?.id === workspace.id ? "ring-2 ring-primary" : ""}>
+          <Card key={workspace.id} className={currentWorkspace?.id === workspace.id ? "ring-2" : ""} style={currentWorkspace?.id === workspace.id ? { boxShadow: '0 0 0 2px rgba(59,130,246,1)' } : {}}>
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">

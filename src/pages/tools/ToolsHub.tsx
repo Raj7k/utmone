@@ -168,7 +168,8 @@ export default function ToolsHub() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-blazeOrange text-white font-semibold text-lg shadow-lg shadow-primary/20"
+              className="px-8 py-4 rounded-xl text-white font-semibold text-lg shadow-lg"
+              style={{ background: 'linear-gradient(to right, rgba(59,130,246,1), rgba(255,106,0,1))', boxShadow: '0 10px 15px -3px rgba(59,130,246,0.2)' }}
             >
               Get Early Access
               <ArrowRight className="inline-block ml-2 w-5 h-5" />

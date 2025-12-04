@@ -15,8 +15,8 @@ export const ParallaxBackground = () => {
   return (
     <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        style={{ y: y1 }}
-        className="absolute top-0 left-0 w-full h-[300%] bg-gradient-to-br from-primary/5 to-transparent opacity-30"
+        style={{ y: y1, background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), transparent)' }}
+        className="absolute top-0 left-0 w-full h-[300%] opacity-30"
       />
       <motion.div
         style={{ y: y2 }}

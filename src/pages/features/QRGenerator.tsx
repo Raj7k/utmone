@@ -237,7 +237,7 @@ const QRGenerator = () => {
 
           {/* Right: Visual */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl blur-3xl" />
+            <div className="absolute inset-0 rounded-2xl blur-3xl" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.2), transparent)' }} />
             <div className="relative bg-card border border-border rounded-xl p-8 text-center space-y-6">
               <div className="inline-flex p-6 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
                 <div className="w-32 h-32 bg-foreground/90 rounded-lg flex items-center justify-center">

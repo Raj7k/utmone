@@ -285,7 +285,8 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 <Button
                   onClick={handleShorten}
                   disabled={!url || isLoading || (strategy === 'ASK' && duplicates.length > 0)}
-                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:shadow-lg hover:shadow-primary/25 transition-all"
+                  className="w-full hover:shadow-lg transition-all"
+                  style={{ background: 'linear-gradient(to right, rgba(59,130,246,1), rgba(59,130,246,0.8))', boxShadow: '0 10px 15px -3px rgba(59,130,246,0.25)' }}
                   size="lg"
                 >
                   {isLoading ? (

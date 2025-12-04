@@ -67,9 +67,9 @@ const trustBadges = [
 ];
 
 const quickTools = [
-  { icon: LinkIcon, label: "shorten", href: "/tools/url-shortener", color: "from-primary to-primary/60" },
-  { icon: BarChart3, label: "utm builder", href: "/tools/utm-builder", color: "from-blazeOrange to-blazeOrange/60" },
-  { icon: QrCode, label: "qr code", href: "/tools/qr-generator", color: "from-primary to-blazeOrange" },
+  { icon: LinkIcon, label: "shorten", href: "/tools/url-shortener", gradient: "linear-gradient(to right, rgba(59,130,246,1), rgba(59,130,246,0.6))" },
+  { icon: BarChart3, label: "utm builder", href: "/tools/utm-builder", gradient: "linear-gradient(to right, rgba(255,106,0,1), rgba(255,106,0,0.6))" },
+  { icon: QrCode, label: "qr code", href: "/tools/qr-generator", gradient: "linear-gradient(to right, rgba(59,130,246,1), rgba(255,106,0,1))" },
 ];
 
 export const EnhancedFooter = () => {
