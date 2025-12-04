@@ -229,10 +229,11 @@ export const ABTestControls = ({
               {variants.map((variant, idx) => (
                 <div
                   key={variant.id}
-                className={`flex items-center justify-center text-xs font-semibold text-white ${
-                    idx === 0 ? 'bg-white/80' : idx === 1 ? 'bg-purple-500' : 'bg-cyan-500'
-                  }`}
-                  style={{ width: `${variant.trafficPercentage}%` }}
+                  className="flex items-center justify-center text-xs font-semibold text-white"
+                  style={{ 
+                    width: `${variant.trafficPercentage}%`,
+                    background: idx === 0 ? 'rgba(255,255,255,0.8)' : idx === 1 ? 'rgba(168,85,247,1)' : 'rgba(6,182,212,1)'
+                  }}
                 >
                   {variant.trafficPercentage > 15 && `${variant.trafficPercentage}%`}
                 </div>

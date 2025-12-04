@@ -895,7 +895,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           <AccordionItem value="preferences" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-purple-600" />
+                <Sparkles className="h-5 w-5" style={{ color: 'rgba(168,85,247,1)' }} />
                 <span className="font-serif text-lg font-semibold">Smart Defaults</span>
                 <Badge variant="secondary" className="text-xs">Preferences</Badge>
               </div>

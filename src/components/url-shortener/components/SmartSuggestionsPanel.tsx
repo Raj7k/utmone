@@ -32,22 +32,22 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
     }
   };
 
-  const getColor = (type: Suggestion['type'], recommended: boolean) => {
+  const getColorStyle = (type: Suggestion['type'], recommended: boolean): React.CSSProperties => {
     if (recommended) {
-      return 'from-amber-500/20 to-amber-500/10 border-amber-500/50';
+      return { background: 'linear-gradient(to bottom right, rgba(245,158,11,0.2), rgba(245,158,11,0.1))', borderColor: 'rgba(245,158,11,0.5)' };
     }
     
     switch (type) {
       case 'use-best':
-        return 'from-green-500/10 to-green-500/5 border-green-500/20';
+        return { background: 'linear-gradient(to bottom right, rgba(34,197,94,0.1), rgba(34,197,94,0.05))', borderColor: 'rgba(34,197,94,0.2)' };
       case 'create-campaign':
-        return 'from-white/10 to-white/5 border-white/20';
+        return { background: 'linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05))', borderColor: 'rgba(255,255,255,0.2)' };
       case 'ab-test':
-        return 'from-purple-500/10 to-purple-500/5 border-purple-500/20';
+        return { background: 'linear-gradient(to bottom right, rgba(168,85,247,0.1), rgba(168,85,247,0.05))', borderColor: 'rgba(168,85,247,0.2)' };
       case 'archive':
-        return 'from-white/10 to-white/5 border-white/20';
+        return { background: 'linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05))', borderColor: 'rgba(255,255,255,0.2)' };
       default:
-        return 'from-white/5 to-white/5 border-white/10';
+        return { background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.05))', borderColor: 'rgba(255,255,255,0.1)' };
     }
   };
 
@@ -71,7 +71,8 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
               RECOMMENDED ACTION
             </p>
             <div
-              className={`p-4 rounded-lg border bg-gradient-to-br ${getColor(recommended.type, true)}`}
+              className="p-4 rounded-lg border"
+              style={getColorStyle(recommended.type, true)}
             >
               <div className="flex items-start gap-3 mb-3">
                 {(() => {
@@ -116,7 +117,8 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
                     <button
                       key={suggestion.type}
                       onClick={() => onSelectSuggestion(suggestion.type)}
-                      className={`w-full p-3 rounded-lg border bg-gradient-to-br ${getColor(suggestion.type, false)} text-left hover:scale-[1.02] transition-all`}
+                      className="w-full p-3 rounded-lg border text-left hover:scale-[1.02] transition-all"
+                      style={getColorStyle(suggestion.type, false)}
                     >
                       <div className="flex items-start gap-3">
                         <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />

@@ -93,8 +93,8 @@ export default function Casino() {
       
       {/* Neon glow effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px]" style={{ background: 'rgba(168,85,247,0.1)' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px]" style={{ background: 'rgba(6,182,212,0.1)' }} />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-16">
@@ -104,9 +104,9 @@ export default function Casino() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 mb-6">
-            <BarChart3 className="w-4 h-4 text-purple-400" />
-            <span className="text-sm font-medium text-purple-300 uppercase tracking-wider">monte carlo simulator</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-6" style={{ background: 'linear-gradient(to right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.3)' }}>
+            <BarChart3 className="w-4 h-4" style={{ color: 'rgba(192,132,252,1)' }} />
+            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'rgba(216,180,254,1)' }}>monte carlo simulator</span>
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
@@ -155,20 +155,18 @@ export default function Casino() {
             {/* Channel Selection */}
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
               <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-purple-400" />
+                <TrendingUp className="w-5 h-5" style={{ color: 'rgba(192,132,252,1)' }} />
                 Select Channels
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {CHANNELS.map(channel => (
                   <label
                     key={channel.id}
-                    className={`
-                      flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all
-                      ${selectedChannels.includes(channel.id)
-                        ? "bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/50"
-                        : "bg-white/5 border border-white/10 hover:border-white/20"
-                      }
-                    `}
+                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border"
+                    style={selectedChannels.includes(channel.id) 
+                      ? { background: 'linear-gradient(to right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.5)' }
+                      : { background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }
+                    }
                   >
                     <Checkbox
                       checked={selectedChannels.includes(channel.id)}
@@ -179,7 +177,8 @@ export default function Casino() {
                           setSelectedChannels(selectedChannels.filter(c => c !== channel.id));
                         }
                       }}
-                      className="border-purple-500/50 data-[state=checked]:bg-purple-500"
+                      className="data-[state=checked]:bg-purple-500"
+                      style={{ borderColor: 'rgba(168,85,247,0.5)' }}
                     />
                     <div>
                       <span className="text-white text-sm">{channel.name}</span>
@@ -236,7 +235,7 @@ export default function Casino() {
                   className="space-y-6"
                 >
                   {/* Win Probability */}
-                  <div className="bg-gradient-to-br from-purple-500/20 to-cyan-500/20 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-8 text-center">
+                  <div className="backdrop-blur-xl border rounded-2xl p-8 text-center" style={{ background: 'linear-gradient(to bottom right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.3)' }}>
                     <p className="text-white/60 text-sm uppercase tracking-wider mb-2">
                       chance of 2x+ ROI
                     </p>
@@ -290,7 +289,8 @@ export default function Casino() {
                     <Button
                       onClick={shareResult}
                       variant="outline"
-                      className="flex-1 border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
+                      className="flex-1"
+                      style={{ borderColor: 'rgba(168,85,247,0.5)', color: 'rgba(216,180,254,1)' }}
                     >
                       <Share2 className="w-4 h-4 mr-2" />
                       Share Betting Slip

@@ -101,7 +101,7 @@ export const QRCodeTool = ({ initialURL }: QRCodeToolProps) => {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <QrCodeIcon className="h-5 w-5 text-purple-600" />
+          <QrCodeIcon className="h-5 w-5" style={{ color: 'rgba(168,85,247,1)' }} />
           <CardTitle>QR Code Generator</CardTitle>
         </div>
         <CardDescription>Generate branded QR codes for your links</CardDescription>

@@ -97,12 +97,12 @@ export const AdminHealthHUD = () => {
       </Card>
 
       {/* Signups Today */}
-      <Card className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/5 border-green-500/20">
+      <Card className="p-4" style={{ background: 'linear-gradient(to bottom right, rgba(34,197,94,0.1), rgba(34,197,94,0.05))', borderColor: 'rgba(34,197,94,0.2)' }}>
         <div className="flex items-center justify-between mb-2">
           <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
             Signups Today
           </div>
-          <Users className="w-4 h-4 text-green-500" />
+          <Users className="w-4 h-4" style={{ color: 'rgba(34,197,94,1)' }} />
         </div>
         <div className="text-3xl font-bold font-mono">
           {signupsToday || 0}
@@ -113,12 +113,12 @@ export const AdminHealthHUD = () => {
       </Card>
 
       {/* Revenue Velocity */}
-      <Card className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-purple-500/20">
+      <Card className="p-4" style={{ background: 'linear-gradient(to bottom right, rgba(168,85,247,0.1), rgba(168,85,247,0.05))', borderColor: 'rgba(168,85,247,0.2)' }}>
         <div className="flex items-center justify-between mb-2">
           <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
             MRR Velocity
           </div>
-          <TrendingUp className="w-4 h-4 text-purple-500" />
+          <TrendingUp className="w-4 h-4" style={{ color: 'rgba(168,85,247,1)' }} />
         </div>
         <div className="text-3xl font-bold font-mono">
           ${((revenueVelocity || 0) / 1000).toFixed(1)}k
