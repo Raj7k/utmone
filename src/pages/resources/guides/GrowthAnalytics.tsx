@@ -116,7 +116,7 @@ const GrowthAnalytics = () => {
           {/* Stage 1 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">stage 1</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>stage 1</div>
               <h3 className="text-lg font-display font-semibold text-foreground">acquisition</h3>
               <p className="text-muted-foreground">
                 How many people are entering your funnel? Measured as clicks, visits, or signups depending on your model.
@@ -130,7 +130,7 @@ const GrowthAnalytics = () => {
           {/* Stage 2 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">stage 2</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>stage 2</div>
               <h3 className="text-lg font-display font-semibold text-foreground">activation</h3>
               <p className="text-muted-foreground">
                 Did users experience your product's core value? For SaaS, this might be "completed onboarding" or "sent first campaign."
@@ -144,7 +144,7 @@ const GrowthAnalytics = () => {
           {/* Stage 3 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">stage 3</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>stage 3</div>
               <h3 className="text-lg font-display font-semibold text-foreground">retention</h3>
               <p className="text-muted-foreground">
                 Are users coming back? Measured as Day 7, Day 30, or Month 2 retention depending on your product cycle.
@@ -158,7 +158,7 @@ const GrowthAnalytics = () => {
           {/* Stage 4 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">stage 4</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>stage 4</div>
               <h3 className="text-lg font-display font-semibold text-foreground">revenue</h3>
               <p className="text-muted-foreground">
                 Are users converting to paid customers? Measured as conversion rate, MRR, or LTV.
@@ -172,7 +172,7 @@ const GrowthAnalytics = () => {
           {/* Stage 5 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">stage 5</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>stage 5</div>
               <h3 className="text-lg font-display font-semibold text-foreground">referral</h3>
               <p className="text-muted-foreground">
                 Are customers bringing new users? Measured as referral rate, viral coefficient, or NPS.
@@ -189,7 +189,7 @@ const GrowthAnalytics = () => {
         </p>
 
         <p className="text-sm text-muted-foreground">
-          → Simplified approach in our <Link to="/resources/guides/simple-analytics" className="text-primary hover:underline">Simple Analytics Guide</Link>
+          → Simplified approach in our <Link to="/resources/guides/simple-analytics" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Simple Analytics Guide</Link>
         </p>
       </section>
 
