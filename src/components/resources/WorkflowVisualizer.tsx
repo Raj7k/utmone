@@ -125,7 +125,7 @@ export const WorkflowVisualizer = () => {
               {completedSteps.length} of {steps.length} steps completed
             </p>
           </div>
-          <div className="text-3xl font-bold text-primary">
+          <div className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
             {Math.round(progress)}%
           </div>
         </div>
@@ -142,8 +142,9 @@ export const WorkflowVisualizer = () => {
             <Card
               key={step.number}
               className={`overflow-hidden transition-all duration-300 ${
-                isCompleted ? 'border-primary/50 bg-primary/5' : ''
+                isCompleted ? '' : ''
               }`}
+              style={isCompleted ? { borderColor: 'rgba(59,130,246,0.5)', background: 'rgba(59,130,246,0.05)' } : undefined}
             >
               {/* Step Header */}
               <div
@@ -158,9 +159,10 @@ export const WorkflowVisualizer = () => {
                     }}
                     className={`flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${
                       isCompleted
-                        ? 'bg-primary border-primary text-white'
-                        : 'border-muted-foreground/30 hover:border-primary'
+                        ? 'text-white'
+                        : 'border-muted-foreground/30 hover:border-white/30'
                     }`}
+                    style={isCompleted ? { background: 'rgba(59,130,246,1)', borderColor: 'rgba(59,130,246,1)' } : undefined}
                   >
                     {isCompleted ? (
                       <Check className="w-5 h-5" />
@@ -202,7 +204,8 @@ export const WorkflowVisualizer = () => {
                           {step.aiTools.map((tool) => (
                             <span
                               key={tool}
-                              className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full"
+                              className="px-3 py-1 text-xs rounded-full"
+                              style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
                             >
                               {tool}
                             </span>

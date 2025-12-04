@@ -146,9 +146,9 @@ export const EffortCalculator = () => {
               <p className="text-2xl font-bold">{contentType.traditionalHours} hours</p>
             </div>
 
-            <div className="p-4 bg-primary/10 rounded-lg border-2 border-primary/30">
+            <div className="p-4 rounded-lg border-2" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}>
               <p className="text-sm text-muted-foreground">With AI Assistance (per piece)</p>
-              <p className="text-2xl font-bold text-primary">{contentType.aiHours} hours</p>
+              <p className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{contentType.aiHours} hours</p>
             </div>
 
             <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border-2 border-green-200 dark:border-green-800">
@@ -201,9 +201,9 @@ export const EffortCalculator = () => {
             <p className="text-2xl font-bold">{totalTraditionalHours}h</p>
           </div>
           
-          <div className="text-center p-4 bg-primary/10 rounded-lg">
+          <div className="text-center p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
             <p className="text-sm text-muted-foreground mb-1">With AI</p>
-            <p className="text-2xl font-bold text-primary">{totalAIHours}h</p>
+            <p className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{totalAIHours}h</p>
           </div>
           
           <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
@@ -212,11 +212,11 @@ export const EffortCalculator = () => {
           </div>
         </div>
 
-        <div className="text-center p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg">
+        <div className="text-center p-6 rounded-lg" style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))' }}>
           <p className="text-sm text-muted-foreground mb-2">
             That's equivalent to
           </p>
-          <p className="text-3xl font-bold text-primary">
+          <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
             {(totalHoursSaved / 40).toFixed(1)} weeks
           </p>
           <p className="text-sm text-muted-foreground mt-2">

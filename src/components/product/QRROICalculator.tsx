@@ -47,8 +47,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">monthly print volume</label>
                 <div className="flex items-center gap-2">
-                  <Printer className="w-4 h-4 text-primary" />
-                  <span className="text-lg font-bold text-primary">
+                  <Printer className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
                     {printVolume.toLocaleString()}
                   </span>
                 </div>
@@ -68,8 +68,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">cost per print</label>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-primary" />
-                  <span className="text-lg font-bold text-primary">${reprintCost}</span>
+                  <DollarSign className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>${reprintCost}</span>
                 </div>
               </div>
               <Slider
@@ -87,8 +87,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">expected scan rate</label>
                 <div className="flex items-center gap-2">
-                  <Percent className="w-4 h-4 text-primary" />
-                  <span className="text-lg font-bold text-primary">{scanRate}%</span>
+                  <Percent className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{scanRate}%</span>
                 </div>
               </div>
               <Slider
@@ -108,7 +108,7 @@ export const QRROICalculator = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-8 bg-gradient-to-br from-primary/5 via-background to-primary/5 border-primary/20 h-full flex flex-col">
+            <Card className="p-8 h-full flex flex-col border-white/10" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), transparent, rgba(59,130,246,0.05))' }}>
               <div className="flex-1 space-y-6">
                 <div className="text-center">
                   <h4 className="text-lg font-display font-semibold text-label mb-2 brand-lowercase">

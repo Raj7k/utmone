@@ -85,8 +85,8 @@ export const WeeklySyncTimer = () => {
     <Card className="my-8 border-border/50">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Clock className="w-6 h-6 text-primary" />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <Clock className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <CardTitle className="text-2xl">Weekly 15-Minute Sync</CardTitle>
@@ -96,7 +96,7 @@ export const WeeklySyncTimer = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Timer Display */}
-        <div className="p-8 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 text-center">
+        <div className="p-8 rounded-xl border text-center" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}>
           <motion.div
             key={timeLeft}
             initial={{ scale: 1.1 }}
@@ -144,10 +144,11 @@ export const WeeklySyncTimer = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
                 className={`p-4 rounded-xl border-2 transition-all ${
-                  isCurrent ? "border-primary bg-primary/5" :
+                  isCurrent ? "" :
                   isCompleted ? "border-green-500/50 bg-green-500/5" :
                   "border-border bg-muted/20"
                 }`}
+                style={isCurrent ? { borderColor: 'rgba(59,130,246,1)', background: 'rgba(59,130,246,0.05)' } : undefined}
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
@@ -158,7 +159,7 @@ export const WeeklySyncTimer = () => {
                     {isCompleted ? (
                       <CheckCircle2 className="w-5 h-5 text-green-600" />
                     ) : (
-                      <span className={`text-sm font-bold ${isCurrent ? "text-primary" : "text-muted-foreground"}`}>
+                      <span className={`text-sm font-bold ${isCurrent ? "" : "text-muted-foreground"}`} style={isCurrent ? { color: 'rgba(59,130,246,1)' } : undefined}>
                         {index + 1}
                       </span>
                     )}

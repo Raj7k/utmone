@@ -27,10 +27,10 @@ export function AIStyleRecommendation({ workspaceId, onApplyStyle }: AIStyleReco
   if (!recommendation) return null;
 
   return (
-    <Card className="p-4 border-primary/20 bg-primary/5">
+    <Card className="p-4 border-white/10" style={{ background: 'rgba(59,130,246,0.05)' }}>
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
+          <Sparkles className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           <h3 className="font-semibold text-sm">clean track recommends</h3>
         </div>
 
@@ -68,8 +68,8 @@ export function AIStyleRecommendation({ workspaceId, onApplyStyle }: AIStyleReco
             </div>
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
               <div 
-                className="h-full bg-primary transition-all duration-500"
-                style={{ width: `${recommendation.confidence * 100}%` }}
+                className="h-full transition-all duration-500"
+                style={{ width: `${recommendation.confidence * 100}%`, background: 'rgba(59,130,246,1)' }}
               />
             </div>
           </div>

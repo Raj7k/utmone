@@ -114,7 +114,7 @@ export const RoadmapTimeline = () => {
       </CardHeader>
       <CardContent className="space-y-8">
         {/* Progress Overview */}
-        <div className="p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 space-y-4">
+        <div className="p-6 rounded-xl border space-y-4" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground mb-1">Overall Progress</p>
@@ -153,11 +153,11 @@ export const RoadmapTimeline = () => {
               >
                 <div className={`p-6 rounded-xl bg-gradient-to-br ${month.color} border-2 ${monthCompleted ? "border-green-500/50" : "border-border"}`}>
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl ${monthCompleted ? "bg-green-500/20" : "bg-primary/10"} flex items-center justify-center flex-shrink-0`}>
+                  <div className={`w-12 h-12 rounded-xl ${monthCompleted ? "bg-green-500/20" : ""} flex items-center justify-center flex-shrink-0`} style={!monthCompleted ? { background: 'rgba(59,130,246,0.1)' } : undefined}>
                       {monthCompleted ? (
                         <CheckCircle2 className="w-6 h-6 text-green-600" />
                       ) : (
-                        <Icon className="w-6 h-6 text-primary" />
+                        <Icon className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
                       )}
                     </div>
                     <div className="flex-1">

@@ -104,7 +104,7 @@ export const NinetyDayTimeline = () => {
       <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <Calendar className="w-5 h-5 text-primary" />
+            <Calendar className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
             <h3 className="text-lg font-semibold text-foreground">
               90-Day Implementation Progress
             </h3>
@@ -182,16 +182,19 @@ export const NinetyDayTimeline = () => {
                       viewport={{ once: true }}
                       className={cn(
                         "bg-card rounded-xl p-4 border-2 transition-all cursor-pointer",
-                        isCompleted ? "border-primary/50 bg-primary/5" : "border-border/50 hover:border-border"
+                        isCompleted ? "border-white/20" : "border-border/50 hover:border-border",
+                        isCompleted ? "" : ""
                       )}
+                      style={isCompleted ? { borderColor: 'rgba(59,130,246,0.5)', background: 'rgba(59,130,246,0.05)' } : undefined}
                       onClick={() => toggleTask(task.id)}
                     >
                       <div className="flex items-start gap-4">
                         <div
                           className={cn(
                             "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
-                            isCompleted ? "bg-primary text-primary-foreground" : "bg-muted"
+                            isCompleted ? "text-white" : "bg-muted"
                           )}
+                          style={isCompleted ? { background: 'rgba(59,130,246,1)' } : undefined}
                         >
                           {isCompleted && <Check className="w-4 h-4" />}
                         </div>

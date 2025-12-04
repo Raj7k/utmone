@@ -19,8 +19,8 @@ export const PlaybookSteps = ({ steps, currentStep, className }: PlaybookStepsPr
       {/* Progress Line */}
       <div className="absolute top-6 left-0 right-0 h-0.5 bg-border">
         <div 
-          className="h-full bg-primary transition-all duration-500"
-          style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%` }}
+          className="h-full transition-all duration-500"
+          style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`, background: 'rgba(59,130,246,1)' }}
         />
       </div>
 
@@ -37,10 +37,11 @@ export const PlaybookSteps = ({ steps, currentStep, className }: PlaybookStepsPr
                 className={cn(
                   "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300",
                   "border-2 font-semibold text-sm",
-                  isCompleted && "bg-primary border-primary text-primary-foreground",
-                  isCurrent && "bg-primary/10 border-primary text-primary scale-110",
+                  isCompleted && "text-white",
+                  isCurrent && "border-white/30 scale-110",
                   !isCompleted && !isCurrent && "bg-background border-border text-muted-foreground"
                 )}
+                style={isCompleted ? { background: 'rgba(59,130,246,1)', borderColor: 'rgba(59,130,246,1)' } : isCurrent ? { background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,1)', color: 'rgba(59,130,246,1)' } : undefined}
               >
                 {isCompleted ? (
                   <CheckCircle2 className="w-5 h-5" />
