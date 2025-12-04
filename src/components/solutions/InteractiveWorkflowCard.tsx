@@ -59,7 +59,8 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
       <div className="relative p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500">
         {/* Glow Effect */}
         <motion.div
-          className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-500"
+          className="absolute inset-0 opacity-0 transition-opacity duration-500"
+          style={{ background: 'rgba(255,255,255,0.1)' }}
           animate={{ opacity: isHovered ? 1 : 0 }}
         />
         

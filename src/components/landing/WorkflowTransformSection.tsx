@@ -23,16 +23,16 @@ const FeatureBlock = ({ step, reversed }: FeatureBlockProps) => (
   >
     {/* Text Content - 40% width */}
     <div className="w-full md:w-[40%] space-y-6">
-      <span className="text-sm font-medium text-muted-foreground tracking-wider uppercase">
+      <span className="text-sm font-medium tracking-wider uppercase" style={{ color: 'rgba(255,255,255,0.5)' }}>
         {step.number}
       </span>
-      <h3 className="text-3xl md:text-4xl font-display font-semibold text-foreground brand-lowercase leading-tight">
+      <h3 className="text-3xl md:text-4xl font-display font-semibold brand-lowercase leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>
         {step.title}
       </h3>
-      <p className="text-lg text-muted-foreground leading-relaxed">
+      <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
         {step.description}
       </p>
-      <span className="inline-block text-primary font-semibold text-lg">
+      <span className="inline-block font-semibold text-lg" style={{ color: 'rgba(255,255,255,0.8)' }}>
         {step.metric}
       </span>
     </div>
@@ -85,7 +85,8 @@ export const WorkflowTransformSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-display font-bold text-foreground brand-lowercase"
+          className="text-4xl md:text-5xl font-display font-bold brand-lowercase"
+          style={{ color: 'rgba(255,255,255,0.9)' }}
         >
           how it transforms your workflow
         </motion.h2>

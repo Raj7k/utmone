@@ -16,15 +16,23 @@ export const ProblemCard = ({ icon: Icon, title, description, delay = 0 }: Probl
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className="bg-card border border-separator rounded-xl md:rounded-2xl p-5 sm:p-6 md:p-8 hover:shadow-lg hover:border-primary/20 transition-all group"
+      className="rounded-xl md:rounded-2xl p-5 sm:p-6 md:p-8 hover:shadow-lg transition-all group"
+      style={{ 
+        background: 'rgba(24,24,27,0.4)', 
+        backdropFilter: 'blur(40px)',
+        border: '1px solid rgba(255,255,255,0.08)'
+      }}
     >
-      <div className="p-2.5 md:p-3 rounded-lg md:rounded-xl bg-primary/10 text-primary inline-flex mb-3 md:mb-4 group-hover:bg-primary/20 transition-colors">
+      <div 
+        className="p-2.5 md:p-3 rounded-lg md:rounded-xl inline-flex mb-3 md:mb-4 transition-colors"
+        style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}
+      >
         <Icon className="w-5 h-5 md:w-6 md:h-6" />
       </div>
-      <h3 className="text-lg sm:text-xl font-display font-semibold text-label mb-2 md:mb-3">
+      <h3 className="text-lg sm:text-xl font-display font-semibold mb-2 md:mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
         {formatText(title)}
       </h3>
-      <p className="text-sm md:text-base text-secondary-label leading-relaxed">
+      <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
         {description}
       </p>
     </motion.div>

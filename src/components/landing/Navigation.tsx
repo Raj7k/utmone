@@ -712,90 +712,96 @@ export const Navigation = () => {
                         <div className="grid grid-cols-2 gap-2 mb-4">
                           <Link
                             to="/resources/guides"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <BookOpen className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <BookOpen className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Guides</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               educational content
                             </p>
                           </Link>
 
                           <Link
                             to="/resources/playbooks"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <ClipboardList className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <ClipboardList className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Playbooks</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               step-by-step
                             </p>
                           </Link>
 
                           <Link
                             to="/resources/templates"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <FileText className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <FileText className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Templates</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               ready-to-use
                             </p>
                           </Link>
 
                           <Link
                             to="/resources/frameworks"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <Puzzle className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <Puzzle className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Frameworks</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               mental models
                             </p>
                           </Link>
 
                           <Link
                             to="/resources/examples"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <FolderOpen className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <FolderOpen className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Examples</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               real-world cases
                             </p>
                           </Link>
 
                           <Link
                             to="/resources/glossary"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <BookMarked className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <BookMarked className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Glossary</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               utm terminology
                             </p>
                           </Link>
@@ -807,60 +813,64 @@ export const Navigation = () => {
                         <div className="grid grid-cols-2 gap-2">
                           <Link
                             to="/tools/shorten"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <Link2 className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <Link2 className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">URL Shortener</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               instant short links
                             </p>
                           </Link>
 
                           <Link
                             to="/tools/utm-builder"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <Tags className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <Tags className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">UTM Builder</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               clean utm urls
                             </p>
                           </Link>
 
                           <Link
                             to="/tools/qr"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <QrCode className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <QrCode className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">QR Generator</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               branded qr codes
                             </p>
                           </Link>
 
                           <Link
                             to="/tools/link-health-checker"
-                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary"
+                            className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
                           >
                             <div className="flex items-center gap-2 mb-1">
-                              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                                <SearchCheck className="w-4 h-4 text-primary" />
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center group-hover:bg-white/15 transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                                <SearchCheck className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
                               </div>
                               <div className="text-sm font-medium leading-none">Link Checker</div>
                             </div>
-                            <p className="text-xs leading-snug text-muted-foreground">
+                            <p className="text-xs leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
                               check for broken links
                             </p>
                           </Link>
