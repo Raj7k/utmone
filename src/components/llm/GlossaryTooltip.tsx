@@ -39,7 +39,7 @@ export const GlossaryTooltip = ({ term, definition, inline = false }: GlossaryTo
       <TooltipProvider delayDuration={200}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="underline decoration-dotted decoration-primary/50 cursor-help">
+            <span className="underline decoration-dotted cursor-help" style={{ textDecorationColor: 'rgba(59,130,246,0.5)' }}>
               {term}
             </span>
           </TooltipTrigger>
@@ -60,7 +60,7 @@ export const GlossaryTooltip = ({ term, definition, inline = false }: GlossaryTo
     <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <button className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors">
+          <button className="inline-flex items-center gap-1 transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
             <HelpCircle className="h-4 w-4" />
           </button>
         </TooltipTrigger>
