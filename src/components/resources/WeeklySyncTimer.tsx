@@ -153,9 +153,9 @@ export const WeeklySyncTimer = () => {
                 <div className="flex items-center gap-4">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                     isCompleted ? "bg-green-500/20" :
-                    isCurrent ? "bg-primary/20" :
+                    isCurrent ? "" :
                     "bg-muted"
-                  }`}>
+                  }`} style={isCurrent ? { background: 'rgba(59,130,246,0.2)' } : undefined}>
                     {isCompleted ? (
                       <CheckCircle2 className="w-5 h-5 text-green-600" />
                     ) : (

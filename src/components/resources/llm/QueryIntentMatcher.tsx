@@ -157,8 +157,9 @@ export const QueryIntentMatcher = () => {
                   <div 
                     key={key}
                     className={`flex items-center gap-3 p-3 rounded-lg mb-2 transition-all ${
-                      isActive ? 'bg-primary/10 border border-primary/20' : 'bg-muted/20'
+                      isActive ? 'border' : 'bg-muted/20'
                     }`}
+                    style={isActive ? { background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.2)' } : undefined}
                   >
                     <div className={`w-10 h-10 rounded-full ${isActive ? config.color : 'bg-muted'} flex items-center justify-center`}>
                       <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-muted-foreground'}`} />
