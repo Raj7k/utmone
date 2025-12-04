@@ -124,7 +124,7 @@ const FAQ = () => {
       tags: ["beginner", "technical"],
       answer: (
         <div className="space-y-4">
-          <p className="text-amber-600 dark:text-amber-400 font-medium">
+          <p className="font-medium" style={{ color: 'rgba(255,200,100,0.9)' }}>
             ⚠️ without the tracking pixel, you won't be able to track conversions.
           </p>
           <p>
@@ -341,7 +341,7 @@ const FAQ = () => {
           <p>
             from the link detail page or links table, click the "..." menu and select "delete."
           </p>
-          <p className="text-amber-600 dark:text-amber-400 font-medium">
+          <p className="font-medium" style={{ color: 'rgba(255,200,100,0.9)' }}>
             ⚠️ deletion is permanent. the short url will stop working immediately.
           </p>
           <p>
