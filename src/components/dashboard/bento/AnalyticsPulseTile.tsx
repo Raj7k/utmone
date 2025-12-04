@@ -87,7 +87,8 @@ export const AnalyticsPulseTile = () => {
 
   return (
     <div 
-      className="bg-card rounded-2xl border border-border shadow-sm p-4 cursor-pointer hover:border-blue-200 transition-colors h-full"
+      className="bg-card rounded-2xl border border-border shadow-sm p-4 cursor-pointer transition-colors h-full"
+      style={{ '--hover-border': 'rgba(255,255,255,0.2)' } as React.CSSProperties}
       onClick={() => navigate('/dashboard/analytics')}
     >
       <div className="flex items-center gap-2 mb-3">

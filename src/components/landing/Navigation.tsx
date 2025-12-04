@@ -689,11 +689,12 @@ export const Navigation = () => {
                         {/* GTM Salary Insights - COMING SOON */}
                         <Link 
                           to="/resources/reports/salary-benchmark-2026" 
-                          className="group rounded-lg bg-gradient-to-br from-blue-500/10 via-blue-500/5 to-background p-3 flex flex-col gap-2 border border-blue-500/20 hover:border-blue-500/40 transition-all hover:scale-[1.02]"
+                          className="group rounded-lg p-3 flex flex-col gap-2 border transition-all hover:scale-[1.02]"
+                          style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05), rgb(24,24,27))', borderColor: 'rgba(59,130,246,0.2)' }}
                         >
                           <div className="flex items-center justify-between">
-                            <DollarSign className="w-4 h-4 text-blue-500" />
-                            <Badge className="bg-blue-500 text-white text-[10px] px-2 py-0">COMING SOON</Badge>
+                            <DollarSign className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                            <Badge className="text-white text-[10px] px-2 py-0" style={{ background: 'rgba(59,130,246,1)' }}>COMING SOON</Badge>
                           </div>
                           <div>
                             <h3 className="text-xs font-semibold mb-1">gtm salary insights</h3>
