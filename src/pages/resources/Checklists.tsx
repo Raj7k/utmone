@@ -70,7 +70,7 @@ const Checklists = () => {
                 className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
               >
                 <div className="space-y-3">
-                  <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                  <h2 className="text-2xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
                     {checklist.title}
                   </h2>
                   <p className="text-base text-white/60 leading-relaxed">
@@ -83,7 +83,7 @@ const Checklists = () => {
                     <span className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white font-medium">
                       {checklist.time}
                     </span>
-                    <span className="text-xs px-3 py-1.5 rounded-full bg-primary/20 text-primary font-medium">
+                    <span className="text-xs px-3 py-1.5 rounded-full" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
                       {checklist.frequency}
                     </span>
                   </div>

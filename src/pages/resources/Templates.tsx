@@ -71,7 +71,7 @@ const Templates = () => {
               >
                 <div className="flex items-start justify-between gap-6">
                   <div className="flex-1 space-y-3">
-                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
                       {template.title}
                     </h2>
                     <p className="text-base text-white/60 leading-relaxed">
