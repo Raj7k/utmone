@@ -41,7 +41,7 @@ export const ClickTrendPredictor = ({ linkId }: ClickTrendPredictorProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-primary" />
+          <TrendingUp className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           click predictions
         </CardTitle>
       </CardHeader>
