@@ -21,10 +21,10 @@ export const WalkAwayCalculator = () => {
 
   const getRiskZone = (salary: number) => {
     if (!result) return null;
-    if (salary < result) return { zone: "Red Zone", color: "text-mirage", bg: "bg-mirage/10" };
+    if (salary < result) return { zone: "Red Zone", colorStyle: { color: 'rgba(24,36,51,1)', bg: 'rgba(24,36,51,0.1)' } };
     if (salary < result * 1.2)
-      return { zone: "Yellow Zone", color: "text-blazeOrange", bg: "bg-blazeOrange/10" };
-    return { zone: "Green Zone", color: "text-deepSea", bg: "bg-deepSea/10" };
+      return { zone: "Yellow Zone", colorStyle: { color: 'rgba(249,115,22,1)', bg: 'rgba(249,115,22,0.1)' } };
+    return { zone: "Green Zone", colorStyle: { color: 'rgba(20,184,166,1)', bg: 'rgba(20,184,166,0.1)' } };
   };
 
   return (
@@ -101,18 +101,18 @@ export const WalkAwayCalculator = () => {
             </div>
 
             <div className="grid grid-cols-3 gap-3 text-center text-sm">
-              <div className={`${getRiskZone(result * 0.9)?.bg} rounded-lg p-3`}>
-                <p className={`font-bold ${getRiskZone(result * 0.9)?.color}`}>Red Zone</p>
+              <div className="rounded-lg p-3" style={{ background: getRiskZone(result * 0.9)?.colorStyle.bg }}>
+                <p className="font-bold" style={{ color: getRiskZone(result * 0.9)?.colorStyle.color }}>Red Zone</p>
                 <p className="text-xs text-muted-foreground mt-1">&lt; ${result.toLocaleString()}</p>
               </div>
-              <div className={`${getRiskZone(result * 1.1)?.bg} rounded-lg p-3`}>
-                <p className={`font-bold ${getRiskZone(result * 1.1)?.color}`}>Yellow Zone</p>
+              <div className="rounded-lg p-3" style={{ background: getRiskZone(result * 1.1)?.colorStyle.bg }}>
+                <p className="font-bold" style={{ color: getRiskZone(result * 1.1)?.colorStyle.color }}>Yellow Zone</p>
                 <p className="text-xs text-muted-foreground mt-1">
                   ${result.toLocaleString()} - ${(result * 1.2).toLocaleString()}
                 </p>
               </div>
-              <div className={`${getRiskZone(result * 1.3)?.bg} rounded-lg p-3`}>
-                <p className={`font-bold ${getRiskZone(result * 1.3)?.color}`}>Green Zone</p>
+              <div className="rounded-lg p-3" style={{ background: getRiskZone(result * 1.3)?.colorStyle.bg }}>
+                <p className="font-bold" style={{ color: getRiskZone(result * 1.3)?.colorStyle.color }}>Green Zone</p>
                 <p className="text-xs text-muted-foreground mt-1">&gt; ${(result * 1.2).toLocaleString()}</p>
               </div>
             </div>
