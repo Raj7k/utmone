@@ -305,16 +305,15 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                     <motion.div 
                       key={useCase.id}
                       initial={false}
-                      animate={{ 
-                        backgroundColor: isActive ? "hsl(var(--primary))" : "hsl(var(--card))"
+                      className="rounded-xl overflow-hidden transition-colors"
+                      style={isActive ? {
+                        background: 'rgba(255,255,255,0.15)',
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        boxShadow: '0 10px 25px -5px rgba(0,0,0,0.3)'
+                      } : {
+                        background: 'rgba(24,24,27,0.4)',
+                        border: '1px solid rgba(255,255,255,0.08)'
                       }}
-                      className={`
-                        rounded-xl border overflow-hidden transition-colors
-                        ${isActive 
-                          ? "border-primary shadow-lg shadow-primary/20" 
-                          : "border-border"
-                        }
-                      `}
                     >
                       <button
                         onClick={() => handleUseCaseChange(useCase.id)}
@@ -322,22 +321,25 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       >
                         {/* Text first */}
                         <div className="flex-1 text-left">
-                          <div className={`font-semibold lowercase text-sm ${isActive ? "text-primary-foreground" : "text-foreground"}`}>
+                          <div 
+                            className="font-semibold lowercase text-sm"
+                            style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)' }}
+                          >
                             {useCase.label}
                           </div>
-                          <div className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                          <div 
+                            className="text-xs"
+                            style={{ color: isActive ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.5)' }}
+                          >
                             {useCase.sublabel}
                           </div>
                         </div>
                         {/* Icon last */}
-                        <div className={`
-                          w-10 h-10 rounded-lg flex items-center justify-center ml-3
-                          ${isActive 
-                            ? "bg-primary-foreground/20" 
-                            : "bg-primary/10"
-                          }
-                        `}>
-                          <Icon className={`w-5 h-5 ${isActive ? "text-primary-foreground" : "text-primary"}`} />
+                        <div 
+                          className="w-10 h-10 rounded-lg flex items-center justify-center ml-3"
+                          style={{ background: isActive ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)' }}
+                        >
+                          <Icon className="w-5 h-5" style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)' }} />
                         </div>
                       </button>
                       
@@ -358,7 +360,8 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                   {content.features.map((feature) => (
                                     <span
                                       key={feature.name}
-                                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-foreground/20 text-xs text-primary-foreground"
+                                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs"
+                                      style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.95)' }}
                                     >
                                       <ChevronRight className="w-3 h-3" />
                                       {feature.name}
@@ -373,7 +376,8 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                   <Button 
                                     size="sm" 
                                     variant="secondary" 
-                                    className="w-full lowercase bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                                    className="w-full lowercase"
+                                    style={{ background: 'rgba(255,255,255,0.95)', color: '#050505' }}
                                   >
                                     {content.cta}
                                     <ArrowRight className="ml-2 h-3 w-3" />
@@ -381,7 +385,8 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                 </Link>
                                 <Link 
                                   to={useCase.route}
-                                  className="p-2 rounded-lg bg-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/30 transition-colors"
+                                  className="p-2 rounded-lg transition-colors"
+                                  style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.95)' }}
                                   aria-label={`Learn more about ${useCase.label}`}
                                 >
                                   <ArrowRight className="w-4 h-4" />

@@ -33,7 +33,7 @@ const faqCards = [
   },
   {
     title: "Pricing & Features",
-    bgColor: "bg-primary/5",
+    bgColor: "bg-white/5",
     questions: [
       {
         q: "How much does utm.one cost?",

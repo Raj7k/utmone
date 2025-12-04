@@ -36,7 +36,7 @@ export const PermanenceShowcase = () => {
             style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             <h4 className="font-semibold lowercase mb-4 flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              <Clock className="w-4 h-4 text-primary" />
+              <Clock className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
               link survival timeline
             </h4>
             
@@ -64,24 +64,30 @@ export const PermanenceShowcase = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: i * 0.08 }}
                     >
-                      <div className={`
-                        w-8 h-8 rounded-full flex items-center justify-center relative z-10
-                        ${isActive 
-                          ? "bg-primary text-primary-foreground" 
-                          : "bg-destructive/10 text-destructive border border-destructive/20"
+                      <div 
+                        className="w-8 h-8 rounded-full flex items-center justify-center relative z-10"
+                        style={isActive 
+                          ? { background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' }
+                          : { background: 'rgba(239,68,68,0.1)', color: 'rgba(239,68,68,0.8)', border: '1px solid rgba(239,68,68,0.2)' }
                         }
-                      `}>
+                      >
                         <Icon className="w-4 h-4" />
                       </div>
                       <div className="flex-1 pt-0.5">
                         <div className="flex items-center gap-2">
                           <span className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.year}</span>
-                          <span className={`font-medium text-sm ${isActive ? "" : "text-destructive"}`} style={isActive ? { color: 'rgba(255,255,255,0.9)' } : {}}>
+                          <span 
+                            className="font-medium text-sm"
+                            style={isActive ? { color: 'rgba(255,255,255,0.9)' } : { color: 'rgba(239,68,68,0.8)' }}
+                          >
                             {item.event}
                           </span>
                         </div>
                         {item.desc && (
-                          <div className={`text-xs mt-0.5 ${isActive ? "text-primary" : ""}`} style={!isActive ? { color: 'rgba(255,255,255,0.5)' } : {}}>
+                          <div 
+                            className="text-xs mt-0.5"
+                            style={isActive ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.5)' }}
+                          >
                             {item.desc}
                           </div>
                         )}
@@ -129,8 +135,11 @@ export const PermanenceShowcase = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                    <Icon className="w-5 h-5 text-primary" />
+                  <div 
+                    className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
+                    style={{ background: 'rgba(255,255,255,0.1)' }}
+                  >
+                    <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
                   </div>
                   <h3 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
                   <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.description}</p>
@@ -138,13 +147,14 @@ export const PermanenceShowcase = () => {
               );
             })}
             
-            <p className="text-lg font-semibold text-primary lowercase text-center lg:text-left pt-2">
+            <p className="text-lg font-semibold lowercase text-center lg:text-left pt-2" style={{ color: 'rgba(255,255,255,0.8)' }}>
               Reliability is a feature, not a nice-to-have.
             </p>
             
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors lowercase text-sm"
+              className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80"
+              style={{ color: 'rgba(255,255,255,0.7)' }}
             >
               learn about link immunity
               <ArrowRight className="h-4 w-4" />
