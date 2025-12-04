@@ -27,8 +27,8 @@ export default function BayesianTesting() {
             </Link>
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <Beaker className="h-6 w-6 text-primary" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Beaker className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground hero-gradient">
                 bayesian a/b testing
@@ -66,7 +66,7 @@ export default function BayesianTesting() {
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary font-bold">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                     1
                   </div>
                   <div>
@@ -79,7 +79,7 @@ export default function BayesianTesting() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary font-bold">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                     2
                   </div>
                   <div>
@@ -92,7 +92,7 @@ export default function BayesianTesting() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary font-bold">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg font-bold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                     3
                   </div>
                   <div>
@@ -147,7 +147,7 @@ export default function BayesianTesting() {
               </h2>
               <div className="grid md:grid-cols-2 gap-4 not-prose">
                 <Card className="p-6 border-border/50">
-                  <TrendingUp className="h-8 w-8 text-primary mb-4" />
+                  <TrendingUp className="h-8 w-8 mb-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     landing page optimization
                   </h3>
@@ -157,7 +157,7 @@ export default function BayesianTesting() {
                 </Card>
 
                 <Card className="p-6 border-border/50">
-                  <Trophy className="h-8 w-8 text-primary mb-4" />
+                  <Trophy className="h-8 w-8 mb-4" style={{ color: 'rgba(59,130,246,1)' }} />
                   <h3 className="text-lg font-semibold text-foreground mb-2">
                     campaign messaging
                   </h3>

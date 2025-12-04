@@ -156,7 +156,7 @@ const AIMarketingPlaybook = () => {
 
           {/* Badges */}
           <div className="flex flex-wrap gap-2 mb-6">
-            <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
+            <Badge className="text-white animate-pulse" style={{ background: 'rgba(59,130,246,1)' }}>NEW</Badge>
             <Badge variant="secondary">Most Read</Badge>
             <Badge variant="outline">25-page guide</Badge>
             <Badge variant="outline">30+ AI tools</Badge>
@@ -201,20 +201,20 @@ const AIMarketingPlaybook = () => {
           </h2>
           
           <p className="text-lg text-foreground max-w-[720px] mx-auto">
-            Once your AI-generated content is created, make sure it's discoverable by AI search engines. See our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline font-semibold">LLM Ranking Playbook</Link> for a complete 90-day implementation guide to rank in ChatGPT, Claude, and Perplexity.
+            Once your AI-generated content is created, make sure it's discoverable by AI search engines. See our <Link to="/resources/playbooks/llm-ranking" className="font-semibold hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>LLM Ranking Playbook</Link> for a complete 90-day implementation guide to rank in ChatGPT, Claude, and Perplexity.
           </p>
           
           <div className="grid md:grid-cols-3 gap-8 pt-8">
             <Card className="p-6 text-center space-y-2">
-              <p className="text-3xl font-bold text-primary">0 hours</p>
+              <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>0 hours</p>
               <p className="text-sm text-muted-foreground">AI removed the production bottleneck</p>
             </Card>
             <Card className="p-6 text-center space-y-2">
-              <p className="text-3xl font-bold text-primary">10x</p>
+              <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>10x</p>
               <p className="text-sm text-muted-foreground">More content published daily</p>
             </Card>
             <Card className="p-6 text-center space-y-2">
-              <p className="text-3xl font-bold text-primary">-40%</p>
+              <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>-40%</p>
               <p className="text-sm text-muted-foreground">SEO traffic decline as LLMs serve direct answers</p>
             </Card>
           </div>
@@ -402,7 +402,7 @@ const AIMarketingPlaybook = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <Link to="/resources/playbooks/utm-governance-playbook">
               <Card className="p-6 space-y-3 hover:shadow-lg transition-all">
-                <BookOpen className="w-10 h-10 text-primary" />
+                <BookOpen className="w-10 h-10" style={{ color: 'rgba(59,130,246,1)' }} />
                 <h3 className="font-semibold">UTM Governance Playbook</h3>
                 <p className="text-sm text-muted-foreground">
                   Track campaign performance with consistent naming
@@ -412,7 +412,7 @@ const AIMarketingPlaybook = () => {
 
             <Link to="/resources/playbooks/llm-ranking">
               <Card className="p-6 space-y-3 hover:shadow-lg transition-all">
-                <Sparkles className="w-10 h-10 text-primary" />
+                <Sparkles className="w-10 h-10" style={{ color: 'rgba(59,130,246,1)' }} />
                 <h3 className="font-semibold">LLM Ranking Playbook</h3>
                 <p className="text-sm text-muted-foreground">
                   Optimize your AI content for ChatGPT and Claude discovery
@@ -422,7 +422,7 @@ const AIMarketingPlaybook = () => {
 
             <Link to="/resources/glossary/content">
               <Card className="p-6 space-y-3 hover:shadow-lg transition-all">
-                <CheckCircle2 className="w-10 h-10 text-primary" />
+                <CheckCircle2 className="w-10 h-10" style={{ color: 'rgba(59,130,246,1)' }} />
                 <h3 className="font-semibold">Content (utm_content)</h3>
                 <p className="text-sm text-muted-foreground">
                   Understand UTM content parameter for A/B testing
@@ -432,7 +432,7 @@ const AIMarketingPlaybook = () => {
 
             <Link to="/resources/guides/growth-analytics">
               <Card className="p-6 space-y-3 hover:shadow-lg transition-all">
-                <TrendingUp className="w-10 h-10 text-primary" />
+                <TrendingUp className="w-10 h-10" style={{ color: 'rgba(59,130,246,1)' }} />
                 <h3 className="font-semibold">Growth Analytics Guide</h3>
                 <p className="text-sm text-muted-foreground">
                   Measure content marketing ROI effectively

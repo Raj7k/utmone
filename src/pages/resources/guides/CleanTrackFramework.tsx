@@ -113,8 +113,8 @@ const CleanTrackFramework = () => {
           {/* Layer 1 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Layers className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Layers className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">layer 1: campaign taxonomy</h3>
@@ -125,7 +125,7 @@ const CleanTrackFramework = () => {
                   Example: <code className="text-sm bg-muted px-2 py-1 rounded">linkedin-demand-product-q1</code> tells you the channel (LinkedIn), team (demand), focus (product), and timing (Q1) instantly.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  → Learn more in our <Link to="/resources/guides/utm-guide" className="text-primary hover:underline">UTM Guide</Link>
+                  → Learn more in our <Link to="/resources/guides/utm-guide" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>UTM Guide</Link>
                 </p>
               </div>
             </div>
@@ -134,8 +134,8 @@ const CleanTrackFramework = () => {
           {/* Layer 2 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Database className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Database className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">layer 2: UTM governance</h3>
@@ -146,7 +146,7 @@ const CleanTrackFramework = () => {
                   This layer enforces lowercase, prevents spaces, validates allowed values, and auto-applies templates so no link ever breaks your taxonomy.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  → See implementation in our <Link to="/resources/guides/tracking-architecture" className="text-primary hover:underline">Tracking Architecture Guide</Link>
+                  → See implementation in our <Link to="/resources/guides/tracking-architecture" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Tracking Architecture Guide</Link>
                 </p>
               </div>
             </div>
@@ -155,8 +155,8 @@ const CleanTrackFramework = () => {
           {/* Layer 3 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <LineChart className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <LineChart className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">layer 3: attribution logic</h3>
@@ -173,8 +173,8 @@ const CleanTrackFramework = () => {
           {/* Layer 4 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Shield className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <Shield className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-semibold text-foreground">layer 4: reporting standards</h3>
@@ -185,7 +185,7 @@ const CleanTrackFramework = () => {
                   Standardized reporting means your marketing, sales, and ops teams trust the same dashboards instead of building competing versions.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  → Simplified approach in our <Link to="/resources/guides/simple-analytics" className="text-primary hover:underline">Simple Analytics Guide</Link>
+                  → Simplified approach in our <Link to="/resources/guides/simple-analytics" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Simple Analytics Guide</Link>
                 </p>
               </div>
             </div>

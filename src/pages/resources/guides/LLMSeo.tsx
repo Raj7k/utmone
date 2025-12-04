@@ -206,7 +206,7 @@ const LLMSeo = () => {
         </StaggerContainer>
 
         <p className="text-lg text-foreground leading-relaxed">
-          For a complete 90-day implementation roadmap with embedded tools and real-world case studies, see our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline font-semibold">LLM Ranking Playbook</Link>.
+          For a complete 90-day implementation roadmap with embedded tools and real-world case studies, see our <Link to="/resources/playbooks/llm-ranking" className="font-semibold hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>LLM Ranking Playbook</Link>.
         </p>
       </section>
 
@@ -226,7 +226,7 @@ const LLMSeo = () => {
           {/* Principle 1 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 1</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 1</div>
               <h3 className="text-lg font-display font-semibold text-foreground">semantic naming (canonical terms)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Use the simplest, most canonical term for every concept. If something is called "UTM parameters," don't alternate with "tracking parameters" or "campaign tags." LLMs surface content that uses consistent terminology.
@@ -240,7 +240,7 @@ const LLMSeo = () => {
           {/* Principle 2 */}
           <div className="p-6 bg-card rounded-xl border border-border/50">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-primary uppercase tracking-wide">principle 2</div>
+              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>principle 2</div>
               <h3 className="text-lg font-display font-semibold text-foreground">dense definitions (answer-first structure)</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Start every page with a clear, extractable definition. LLMs pull from the first 2-3 paragraphs. Don't bury your answer in paragraph 5—state it upfront.
@@ -378,27 +378,27 @@ const LLMSeo = () => {
 
         <div className="grid md:grid-cols-5 gap-4">
           <div className="bg-card p-6 rounded-xl border border-border/50">
-            <div className="text-sm font-medium text-primary mb-2">Step 1</div>
+            <div className="text-sm font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Step 1</div>
             <h4 className="font-semibold text-foreground mb-2">User Query</h4>
             <p className="text-sm text-muted-foreground">"What are UTM parameters?"</p>
           </div>
           <div className="bg-card p-6 rounded-xl border border-border/50">
-            <div className="text-sm font-medium text-primary mb-2">Step 2</div>
+            <div className="text-sm font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Step 2</div>
             <h4 className="font-semibold text-foreground mb-2">Embedding</h4>
             <p className="text-sm text-muted-foreground">Query converted to vector representation</p>
           </div>
           <div className="bg-card p-6 rounded-xl border border-border/50">
-            <div className="text-sm font-medium text-primary mb-2">Step 3</div>
+            <div className="text-sm font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Step 3</div>
             <h4 className="font-semibold text-foreground mb-2">Semantic Search</h4>
             <p className="text-sm text-muted-foreground">Find content chunks with highest similarity</p>
           </div>
           <div className="bg-card p-6 rounded-xl border border-border/50">
-            <div className="text-sm font-medium text-primary mb-2">Step 4</div>
+            <div className="text-sm font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Step 4</div>
             <h4 className="font-semibold text-foreground mb-2">Chunk Retrieval</h4>
             <p className="text-sm text-muted-foreground">Top 3-5 relevant passages retrieved</p>
           </div>
           <div className="bg-card p-6 rounded-xl border border-border/50">
-            <div className="text-sm font-medium text-primary mb-2">Step 5</div>
+            <div className="text-sm font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Step 5</div>
             <h4 className="font-semibold text-foreground mb-2">Answer Generation</h4>
             <p className="text-sm text-muted-foreground">LLM synthesizes answer and cites sources</p>
           </div>
@@ -432,8 +432,8 @@ const LLMSeo = () => {
           {/* Pillar 1 */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">1</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>1</span>
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-bold text-foreground">Retrieval Optimization</h3>
@@ -452,8 +452,8 @@ const LLMSeo = () => {
           {/* Pillar 2 */}
           <div className="bg-card p-8 rounded-xl border border-border/50">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">2</span>
+              <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
+                <span className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>2</span>
               </div>
               <div className="space-y-3">
                 <h3 className="text-xl font-display font-bold text-foreground">Semantic Authority</h3>
