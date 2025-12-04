@@ -36,8 +36,8 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
       {/* Total Active Links */}
       <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-primary/10 rounded-lg">
-            <LinkIcon className="h-5 w-5 text-primary" />
+          <div className="p-3 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <LinkIcon className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div>
             <p className="text-sm text-muted-foreground">active links</p>
@@ -49,8 +49,8 @@ export const LinksHeroStats = ({ workspaceId }: LinksHeroStatsProps) => {
       {/* This Week's Clicks */}
       <div className="bg-card border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-primary/10 rounded-lg">
-            <BarChart3 className="h-5 w-5 text-primary" />
+          <div className="p-3 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
+            <BarChart3 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
           <div className="flex-1">
             <p className="text-sm text-muted-foreground">this week's clicks</p>
