@@ -54,8 +54,9 @@ export const MobileCreateLink = ({ onClose, onSubmit }: MobileCreateLinkProps) =
           <div
             key={s}
             className={`h-1 flex-1 rounded-full transition-colors ${
-              s <= step ? "bg-primary" : "bg-fill-tertiary"
+              s <= step ? "" : "bg-fill-tertiary"
             }`}
+            style={s <= step ? { background: 'rgba(59,130,246,1)' } : undefined}
           />
         ))}
       </div>

@@ -64,9 +64,10 @@ export const SwipeableTabs = ({ tabs, defaultTab }: SwipeableTabsProps) => {
               }}
               className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all ${
                 index === activeIndex
-                  ? "bg-primary text-primary-foreground"
+                  ? "text-white"
                   : "bg-fill-tertiary text-secondary-label"
               }`}
+              style={index === activeIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
             >
               {tab.label}
             </button>
@@ -119,8 +120,9 @@ export const SwipeableTabs = ({ tabs, defaultTab }: SwipeableTabsProps) => {
           <div
             key={index}
             className={`h-2 rounded-full transition-all ${
-              index === activeIndex ? "w-8 bg-primary" : "w-2 bg-fill-tertiary"
+              index === activeIndex ? "w-8" : "w-2 bg-fill-tertiary"
             }`}
+            style={index === activeIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
           />
         ))}
       </div>

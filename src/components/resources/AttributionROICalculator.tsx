@@ -118,7 +118,7 @@ export const AttributionROICalculator = () => {
           className="bg-card rounded-2xl p-6 border-2 border-border/50"
         >
           <div className="text-sm text-muted-foreground mb-2">Efficiency Gain</div>
-          <div className="text-4xl font-display font-bold text-primary mb-1">
+          <div className="text-4xl font-display font-bold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>
             {results.efficiency}%
           </div>
           <div className="text-xs text-muted-foreground">marketing efficiency improvement</div>
@@ -131,7 +131,7 @@ export const AttributionROICalculator = () => {
           className="bg-card rounded-2xl p-6 border-2 border-border/50"
         >
           <div className="text-sm text-muted-foreground mb-2">CAC Reduction</div>
-          <div className="text-4xl font-display font-bold text-primary mb-1">
+          <div className="text-4xl font-display font-bold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>
             {results.cacReduction}%
           </div>
           <div className="text-xs text-muted-foreground">lower customer acquisition cost</div>
@@ -144,7 +144,7 @@ export const AttributionROICalculator = () => {
           className="bg-card rounded-2xl p-6 border-2 border-border/50"
         >
           <div className="text-sm text-muted-foreground mb-2">Payback Period</div>
-          <div className="text-4xl font-display font-bold text-primary mb-1">
+          <div className="text-4xl font-display font-bold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>
             {results.paybackDays}
           </div>
           <div className="text-xs text-muted-foreground">days to break even</div>
@@ -156,15 +156,16 @@ export const AttributionROICalculator = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4 }}
-        className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-8 border-2 border-primary/20"
+        className="rounded-2xl p-8 border-2"
+        style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}
       >
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <TrendingUp className="w-6 h-6 text-primary" />
+            <TrendingUp className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
             <h3 className="text-lg font-semibold text-foreground">Attribution ROI</h3>
           </div>
           
-          <div className="text-7xl font-display font-bold text-primary">
+          <div className="text-7xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
             {results.roi}%
           </div>
           

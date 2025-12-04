@@ -38,7 +38,7 @@ export const PullToRefresh = ({ onRefresh, children }: PullToRefreshProps) => {
               ease: "linear",
             }}
           >
-            <RefreshCw className="h-5 w-5 text-primary" />
+            <RefreshCw className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
           </motion.div>
         </div>
       </motion.div>

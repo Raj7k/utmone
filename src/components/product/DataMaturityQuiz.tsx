@@ -73,13 +73,13 @@ export const DataMaturityQuiz = () => {
       return {
         title: "data infrastructure pro",
         subtitle: "your team is ready for ml/ai models",
-        color: "text-primary"
+        color: "electric-blue"
       };
     } else if (percentage >= 50) {
       return {
         title: "solid foundation",
         subtitle: "close to real-time insights",
-        color: "text-primary"
+        color: "electric-blue"
       };
     } else if (percentage >= 25) {
       return {
@@ -115,17 +115,17 @@ export const DataMaturityQuiz = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-3xl mx-auto px-6">
           <Card className="p-12 text-center space-y-8">
-            <Award className={`w-20 h-20 mx-auto ${color}`} />
+            <Award className="w-20 h-20 mx-auto" style={{ color: color === 'electric-blue' ? 'rgba(59,130,246,1)' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }} />
             
             <div>
-              <h3 className={`text-4xl font-display font-bold ${color} brand-lowercase mb-2`}>
+              <h3 className="text-4xl font-display font-bold brand-lowercase mb-2" style={{ color: color === 'electric-blue' ? 'rgba(59,130,246,1)' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }}>
                 {title}
               </h3>
               <p className="text-xl text-muted-foreground">{subtitle}</p>
             </div>
 
-            <div className="bg-primary/10 rounded-xl p-8">
-              <div className="text-6xl font-bold text-primary mb-2">{percentage}%</div>
+            <div className="rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <div className="text-6xl font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>{percentage}%</div>
               <div className="text-sm text-muted-foreground">data maturity score</div>
             </div>
 
@@ -162,7 +162,8 @@ export const DataMaturityQuiz = () => {
         <div className="mb-8">
           <div className="h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-primary"
+              className="h-full"
+              style={{ background: 'rgba(59,130,246,1)' }}
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}
