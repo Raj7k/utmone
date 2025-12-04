@@ -48,7 +48,7 @@ export default function SlackIntegration() {
       <div className="text-center">
         <div className="flex justify-center mb-4">
           <div className="p-4 bg-accent rounded-full">
-            <MessageSquare className="w-8 h-8 text-primary" />
+            <MessageSquare className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
           </div>
         </div>
         <h1 className="text-4xl font-display font-bold mb-4 bg-gradient-to-b from-label to-label/60 bg-clip-text text-transparent">
@@ -93,7 +93,7 @@ export default function SlackIntegration() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Hash className="w-5 h-5 text-primary" />
+              <Hash className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
               <CardTitle>Slash Commands</CardTitle>
             </div>
             <CardDescription>Create links directly from Slack</CardDescription>
@@ -111,7 +111,7 @@ export default function SlackIntegration() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-primary" />
+              <Bell className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
               <CardTitle>Notifications</CardTitle>
             </div>
             <CardDescription>Stay informed about link performance</CardDescription>

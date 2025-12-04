@@ -100,7 +100,7 @@ const UTMBuilder = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <CheckSquare className="w-6 h-6" />
               </div>
               <div>
@@ -111,7 +111,7 @@ const UTMBuilder = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <Type className="w-6 h-6" />
               </div>
               <div>
@@ -122,7 +122,7 @@ const UTMBuilder = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
                 <FileText className="w-6 h-6" />
               </div>
               <div>
@@ -137,7 +137,7 @@ const UTMBuilder = () => {
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
             <h4 className="text-lg font-semibold mb-4 lowercase text-label">utm autocomplete dropdown</h4>
             <div className="space-y-3">
-              <div className="bg-card border-2 border-primary rounded-lg p-4">
+              <div className="bg-card border-2 rounded-lg p-4" style={{ borderColor: 'rgba(59,130,246,1)' }}>
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-semibold text-label">google</p>
                   <span className="text-xs">🔥 High impact</span>
@@ -240,11 +240,11 @@ const UTMBuilder = () => {
               Smart autocomplete shows predicted CTR based on your team's historical performance, guiding you toward high-impact UTM choices.
             </p>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+              <div className="flex items-center gap-3 p-3 rounded-lg border" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.2)' }}>
                 <div className="text-2xl">🔥</div>
                 <div className="flex-1">
                   <div className="font-medium text-foreground">google</div>
-                  <div className="text-xs text-primary">3.2% avg CTR — High impact</div>
+                  <div className="text-xs" style={{ color: 'rgba(59,130,246,1)' }}>3.2% avg CTR — High impact</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
@@ -261,14 +261,14 @@ const UTMBuilder = () => {
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="text-sm font-semibold mb-4 text-label">UTM Source Selection</div>
             <div className="space-y-2">
-              <div className="p-3 bg-primary/20 rounded-lg border-2 border-primary">
+              <div className="p-3 rounded-lg border-2" style={{ background: 'rgba(59,130,246,0.2)', borderColor: 'rgba(59,130,246,1)' }}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-foreground">google</span>
-                  <span className="text-xs px-2 py-1 bg-primary text-primary-foreground rounded-full font-semibold">RECOMMENDED</span>
+                  <span className="text-xs px-2 py-1 rounded-full font-semibold text-white" style={{ background: 'rgba(59,130,246,1)' }}>RECOMMENDED</span>
                 </div>
                 <div className="text-xs text-muted-foreground">Based on 847 historical links • Avg 3.2% CTR</div>
-                <div className="mt-2 h-2 bg-primary/20 rounded-full overflow-hidden">
-                  <div className="h-full w-[85%] bg-primary rounded-full" />
+                <div className="mt-2 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(59,130,246,0.2)' }}>
+                  <div className="h-full w-[85%] rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
                 </div>
               </div>
               <div className="p-3 bg-muted rounded-lg opacity-60">
