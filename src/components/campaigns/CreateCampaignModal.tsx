@@ -188,7 +188,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5" style={{ color: 'rgba(59,130,246,0.8)' }} />
+            <Sparkles className="h-5 w-5 text-primary" />
             Create Campaign
           </DialogTitle>
           <DialogDescription>
@@ -207,7 +207,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                   {...form.register("name")}
                 />
                 {form.formState.errors.name && (
-                  <p className="text-sm mt-1" style={{ color: 'rgba(239,68,68,0.8)' }}>{form.formState.errors.name.message}</p>
+                  <p className="text-sm mt-1 text-destructive">{form.formState.errors.name.message}</p>
                 )}
               </div>
 
@@ -219,12 +219,8 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                       key={color}
                       type="button"
                       onClick={() => form.setValue("color", color)}
-                      className="h-10 w-10 rounded-full border-2 transition-all"
-                      style={{ 
-                        backgroundColor: color,
-                        borderColor: form.watch("color") === color ? 'rgba(59,130,246,0.8)' : 'transparent',
-                        transform: form.watch("color") === color ? 'scale(1.1)' : 'scale(1)',
-                      }}
+                      className={`h-10 w-10 rounded-full border-2 transition-all ${form.watch("color") === color ? 'border-primary scale-110' : 'border-transparent'}`}
+                      style={{ backgroundColor: color }}
                     />
                   ))}
                 </div>
@@ -244,7 +240,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                   {...form.register("destinationUrl")}
                 />
                 {form.formState.errors.destinationUrl && (
-                  <p className="text-sm mt-1" style={{ color: 'rgba(239,68,68,0.8)' }}>{form.formState.errors.destinationUrl.message}</p>
+                  <p className="text-sm mt-1 text-destructive">{form.formState.errors.destinationUrl.message}</p>
                 )}
               </div>
             </div>
@@ -262,11 +258,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                     <div
                       key={channel.id}
                       onClick={() => toggleChannel(channel.id)}
-                      className="flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all"
-                      style={{
-                        borderColor: selectedChannels.includes(channel.id) ? 'rgba(59,130,246,0.8)' : 'rgba(255,255,255,0.1)',
-                        backgroundColor: selectedChannels.includes(channel.id) ? 'rgba(59,130,246,0.05)' : 'transparent',
-                      }}
+                      className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${selectedChannels.includes(channel.id) ? 'border-primary bg-primary/5' : 'border-border'}`}
                     >
                       <Checkbox
                         checked={selectedChannels.includes(channel.id)}

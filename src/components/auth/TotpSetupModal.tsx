@@ -136,7 +136,7 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
           <div className="space-y-4">
             {setupMutation.isPending && (
               <div className="text-center py-8">
-                <div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: 'rgba(59,130,246,1)', borderTopColor: 'transparent' }} />
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                 <p className="text-sm text-muted-foreground">generating qr code...</p>
               </div>
             )}

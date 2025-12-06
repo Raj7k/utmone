@@ -64,11 +64,7 @@ export const DragDropUploader = ({ onFileSelect, accept = ".csv,.txt" }: DragDro
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       data-dragging={isDragging}
-      className="border-2 border-dashed rounded-xl p-12 transition-all duration-200 cursor-pointer"
-      style={{
-        borderColor: isDragging ? 'rgba(59,130,246,0.8)' : 'rgba(255,255,255,0.1)',
-        backgroundColor: isDragging ? 'rgba(59,130,246,0.05)' : 'transparent',
-      }}
+      className={`border-2 border-dashed rounded-xl p-12 transition-all duration-200 cursor-pointer ${isDragging ? 'border-primary bg-primary/5' : 'border-border'}`}
       onClick={handleClick}
     >
       <Upload className="h-12 w-12 mx-auto mb-4" style={{ color: 'rgba(255,255,255,0.5)' }} />

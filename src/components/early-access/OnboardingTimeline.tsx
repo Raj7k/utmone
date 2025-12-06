@@ -22,16 +22,13 @@ export const OnboardingTimeline = () => {
         
         <div className="relative">
           {/* Gradient vertical line */}
-          <div className="absolute left-6 top-8 bottom-8 w-1 rounded-full" style={{ background: 'linear-gradient(to bottom, rgba(59,130,246,0.8), rgba(0,128,128,0.8), rgba(59,130,246,0.8))' }} />
+          <div className="absolute left-6 top-8 bottom-8 w-1 rounded-full bg-gradient-to-b from-primary via-teal-500 to-primary" />
           
           {steps.map((step, index) => (
             <AnimatedHeadline key={index} delay={index * 100}>
               <div className="flex items-start gap-6 mb-8 relative group">
                 {/* Step number with glow */}
-                <div 
-                  className="flex-shrink-0 w-12 h-12 rounded-full text-white flex items-center justify-center font-bold z-10 transition-all group-hover:scale-110"
-                  style={{ backgroundColor: 'rgba(59,130,246,0.8)', boxShadow: '0 0 20px rgba(59,130,246,0.3)' }}
-                >
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold z-10 transition-all group-hover:scale-110 shadow-[0_0_20px_hsl(var(--primary)/0.3)]">
                   {index + 1}
                 </div>
                 
