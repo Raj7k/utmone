@@ -42,7 +42,7 @@ export const PipelineIntegration = () => {
       {/* Webhook URL */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Webhook className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <Webhook className="h-5 w-5 text-primary" />
           <h3 className="font-semibold">webhook endpoint</h3>
         </div>
         

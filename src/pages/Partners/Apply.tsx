@@ -120,7 +120,7 @@ export default function PartnerApply() {
                 htmlFor="terms"
                 className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I agree to the <a href="/partners/terms" className="hover:underline" style={{ color: 'rgba(59,130,246,0.9)' }} target="_blank">partner program terms and conditions</a>, including the 10%
+                I agree to the <a href="/partners/terms" className="text-primary hover:underline" target="_blank">partner program terms and conditions</a>, including the 10%
                 commission structure and minimum $50 payout threshold
               </label>
             </div>

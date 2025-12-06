@@ -29,7 +29,7 @@ export const Integrations = () => {
       </div>
 
       {/* Hero Feature Banner */}
-      <Card className="p-6" style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}>
+      <Card className="p-6 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="text-lg font-semibold mb-2">revenue attribution unlocked</h3>

@@ -80,11 +80,11 @@ const Accessibility = () => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <CheckCircle2 className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-xs uppercase font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>Accessible</div>
+                  <div className="text-xs uppercase font-semibold mb-1 text-primary">Accessible</div>
                   <div className="font-mono text-sm text-foreground">utm.one/summer-webinar-2025</div>
                   <div className="text-xs text-muted-foreground mt-1">Clear, readable, meaningful</div>
                 </div>
@@ -115,9 +115,9 @@ const Accessibility = () => {
             </div>
 
             {/* After: Semantic Slug */}
-            <div className="bg-card border-2 rounded-xl p-6 space-y-4" style={{ borderColor: 'rgba(59,130,246,0.2)' }}>
-              <div className="text-xs uppercase font-semibold tracking-wider mb-2" style={{ color: 'rgba(59,130,246,1)' }}>Accessible</div>
-              <div className="border rounded-lg p-4 font-mono text-sm" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+            <div className="bg-card border-2 rounded-xl p-6 space-y-4 border-primary/20">
+              <div className="text-xs uppercase font-semibold tracking-wider mb-2 text-primary">Accessible</div>
+              <div className="border rounded-lg p-4 font-mono text-sm bg-primary/5 border-primary/20 text-primary">
                 utm.one/summer-webinar-2025
               </div>
               <div className="space-y-2 text-label text-sm">
@@ -147,7 +147,7 @@ const Accessibility = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Eye className="w-6 h-6" />
               </div>
               <div>
@@ -158,7 +158,7 @@ const Accessibility = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Keyboard className="w-6 h-6" />
               </div>
               <div>
@@ -169,7 +169,7 @@ const Accessibility = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Monitor className="w-6 h-6" />
               </div>
               <div>
@@ -238,16 +238,16 @@ const Accessibility = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-display font-semibold lowercase text-label">after</h3>
               <div className="space-y-3">
-                <div className="p-4 border rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-                  <div className="font-mono text-sm mb-2" style={{ color: 'rgba(59,130,246,1)' }}>utm.one/summer-webinar</div>
+                <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
+                  <div className="font-mono text-sm mb-2 text-primary">utm.one/summer-webinar</div>
                   <div className="text-xs text-secondary-label">Screen reader: "summer webinar"</div>
                 </div>
-                <div className="p-4 border rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-                  <div className="font-mono text-sm mb-2" style={{ color: 'rgba(59,130,246,1)' }}>utm.one/product-launch</div>
+                <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
+                  <div className="font-mono text-sm mb-2 text-primary">utm.one/product-launch</div>
                   <div className="text-xs text-secondary-label">Screen reader: "product launch"</div>
                 </div>
-                <div className="p-4 border rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-                  <div className="font-mono text-sm mb-2" style={{ color: 'rgba(59,130,246,1)' }}>utm.one/q4-newsletter</div>
+                <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
+                  <div className="font-mono text-sm mb-2 text-primary">utm.one/q4-newsletter</div>
                   <div className="text-xs text-secondary-label">Screen reader: "q four newsletter"</div>
                 </div>
               </div>

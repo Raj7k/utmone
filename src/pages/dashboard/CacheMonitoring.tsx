@@ -150,7 +150,7 @@ export default function CacheMonitoring() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+            <Zap className="w-5 h-5 text-primary" />
             how instant links work
           </CardTitle>
           <CardDescription>
@@ -160,8 +160,8 @@ export default function CacheMonitoring() {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>1</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+                <span className="text-sm font-semibold text-primary">1</span>
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">we track which links get the most traffic</p>
@@ -172,8 +172,8 @@ export default function CacheMonitoring() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>2</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+                <span className="text-sm font-semibold text-primary">2</span>
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">popular links are kept ready for instant access</p>
@@ -184,8 +184,8 @@ export default function CacheMonitoring() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>3</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+                <span className="text-sm font-semibold text-primary">3</span>
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-foreground">less popular links still work, just slightly slower</p>
@@ -198,7 +198,7 @@ export default function CacheMonitoring() {
 
           <div className="pt-4 border-t border-border">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Clock className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Clock className="w-4 h-4 text-primary" />
               <span>optimization happens automatically every 10 minutes</span>
             </div>
           </div>

@@ -98,8 +98,8 @@ export default function MFAVerify() {
     <div className="min-h-screen flex items-center justify-center bg-muted/20 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Shield className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="mx-auto w-16 h-16 rounded-xl flex items-center justify-center bg-primary/10">
+            <Shield className="w-8 h-8 text-primary" />
           </div>
           <div>
             <CardTitle className="text-2xl font-display">mission control access</CardTitle>
@@ -109,8 +109,8 @@ export default function MFAVerify() {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="p-4 border rounded-lg text-center" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-            <Key className="h-12 w-12 mx-auto mb-3 opacity-50" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="p-4 border rounded-lg text-center bg-primary/5 border-primary/20">
+            <Key className="h-12 w-12 mx-auto mb-3 opacity-50 text-primary" />
             <p className="text-sm text-muted-foreground">
               tap your yubikey or use touchid to authenticate
             </p>

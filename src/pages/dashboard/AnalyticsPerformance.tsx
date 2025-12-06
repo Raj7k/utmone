@@ -27,7 +27,7 @@ export default function AnalyticsPerformance() {
         </div>
 
         {/* How It Works Card */}
-        <Card style={{ borderColor: 'rgba(59,130,246,0.2)', background: 'rgba(59,130,246,0.05)' }}>
+        <Card className="border-primary/20 bg-primary/5">
           <CardHeader>
             <CardTitle className="text-xl font-display">
               how it works

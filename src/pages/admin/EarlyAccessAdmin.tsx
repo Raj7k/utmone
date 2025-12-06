@@ -378,7 +378,7 @@ export default function EarlyAccessAdmin() {
                           <div className="flex items-center gap-2">
                             <span className="font-mono text-sm text-secondary-label">#{index + 1}</span>
                             {index < 10 && (
-                              <TrendingUp className="h-3 w-3" style={{ color: 'rgba(59,130,246,1)' }} />
+                              <TrendingUp className="h-3 w-3 text-primary" />
                             )}
                           </div>
                         </TableCell>
@@ -537,7 +537,7 @@ export default function EarlyAccessAdmin() {
                   <div className="col-span-2">
                     <Label className="text-secondary-label mb-3">scoring breakdown</Label>
                     <div className="space-y-2 mt-2">
-                      <div className="flex items-center justify-between p-3 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)' }}>
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-primary/5">
                         <span className="font-medium">total access score</span>
                         <span className="text-2xl font-bold">{selectedRequest.total_access_score || 0}</span>
                       </div>

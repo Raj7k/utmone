@@ -66,8 +66,8 @@ export const Tracking = () => {
         <h3 className="text-title-3 font-semibold heading mb-4">how it works</h3>
         <div className="space-y-4">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>1</span>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+              <span className="text-sm font-semibold text-primary">1</span>
             </div>
             <div>
               <p className="text-sm font-medium text-label mb-1">auto-capture visitor id</p>
@@ -79,8 +79,8 @@ export const Tracking = () => {
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>2</span>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+              <span className="text-sm font-semibold text-primary">2</span>
             </div>
             <div>
               <p className="text-sm font-medium text-label mb-1">track every pageview</p>
@@ -92,8 +92,8 @@ export const Tracking = () => {
           </div>
 
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>3</span>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-primary/10">
+              <span className="text-sm font-semibold text-primary">3</span>
             </div>
             <div>
               <p className="text-sm font-medium text-label mb-1">identity resolution</p>
@@ -110,7 +110,7 @@ export const Tracking = () => {
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Code className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+            <Code className="h-5 w-5 text-primary" />
             <h3 className="text-title-3 font-semibold heading">installation snippet</h3>
           </div>
           <Button
@@ -155,7 +155,7 @@ export const Tracking = () => {
       {/* No-Code Auto-Capture */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Users className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <Users className="h-5 w-5 text-primary" />
           <h3 className="text-title-3 font-semibold heading">no-code auto-capture</h3>
         </div>
         <p className="text-sm text-secondary-label mb-4">
