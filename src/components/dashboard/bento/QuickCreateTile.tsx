@@ -150,13 +150,13 @@ export const QuickCreateTile = () => {
 
         {/* Recent Tags */}
         <div className="flex gap-2 mt-3">
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
+          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
             campaign
           </span>
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
+          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
             social
           </span>
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
+          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
             email
           </span>
         </div>

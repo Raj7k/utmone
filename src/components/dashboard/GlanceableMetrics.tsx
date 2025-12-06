@@ -119,7 +119,7 @@ export function GlanceableMetrics() {
       <Card className="p-6 hover:shadow-lg transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <p className="text-sm font-medium text-muted-foreground">Total Links</p>
-          <Link2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <Link2 className="h-5 w-5 text-primary" />
         </div>
         <div className="space-y-1">
           <p className="text-3xl font-bold">{metrics.totalLinks.toLocaleString()}</p>
@@ -130,7 +130,7 @@ export function GlanceableMetrics() {
       <Card className="p-6 hover:shadow-lg transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <p className="text-sm font-medium text-muted-foreground">Total Clicks</p>
-          <MousePointerClick className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <MousePointerClick className="h-5 w-5 text-primary" />
         </div>
         <div className="space-y-1">
           <p className="text-3xl font-bold">{metrics.totalClicks.toLocaleString()}</p>
@@ -149,7 +149,7 @@ export function GlanceableMetrics() {
       <Card className="p-6 hover:shadow-lg transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <p className="text-sm font-medium text-muted-foreground">QR Codes</p>
-          <QrCodeIcon className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <QrCodeIcon className="h-5 w-5 text-primary" />
         </div>
         <div className="space-y-1">
           <p className="text-3xl font-bold">{metrics.totalQRCodes.toLocaleString()}</p>
@@ -160,7 +160,7 @@ export function GlanceableMetrics() {
       <Card className="p-6 hover:shadow-lg transition-shadow">
         <div className="flex items-start justify-between mb-3">
           <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
-          <TrendingUp className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <TrendingUp className="h-5 w-5 text-primary" />
         </div>
         <div className="space-y-1">
           <p className="text-3xl font-bold">{metrics.avgConversionRate.toFixed(1)}%</p>

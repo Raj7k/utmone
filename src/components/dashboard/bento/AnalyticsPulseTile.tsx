@@ -87,12 +87,11 @@ export const AnalyticsPulseTile = () => {
 
   return (
     <div 
-      className="bg-card rounded-2xl border border-border shadow-sm p-4 cursor-pointer transition-colors h-full"
-      style={{ '--hover-border': 'rgba(255,255,255,0.2)' } as React.CSSProperties}
+      className="bg-card rounded-2xl border border-border shadow-sm p-4 cursor-pointer transition-colors hover:border-border/80 h-full"
       onClick={() => navigate('/dashboard/analytics')}
     >
       <div className="flex items-center gap-2 mb-3">
-        <Activity className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+        <Activity className="h-5 w-5 text-primary" />
         <h3 className="text-title-3 font-display">Analytics Pulse</h3>
       </div>
 

@@ -147,7 +147,7 @@ export const OnboardingChecklist = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>getting started</span>
-            <span className="text-body-apple" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <span className="text-body-apple text-muted-foreground">
               {completedCount}/{totalCount}
             </span>
           </CardTitle>
@@ -201,7 +201,7 @@ export const OnboardingChecklist = () => {
                       e.stopPropagation();
                       item.action();
                     }}
-                    className="flex-shrink-0 hover:bg-white/10" style={{ color: 'rgba(255,255,255,0.9)' }}
+                    className="flex-shrink-0 hover:bg-accent text-foreground"
                   >
                     {item.buttonLabel}
                     <ChevronRight className="h-4 w-4 ml-1" />
