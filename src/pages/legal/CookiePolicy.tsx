@@ -77,7 +77,7 @@ const CookiePolicy = () => {
             <h2 className="text-2xl font-display font-semibold text-white">4. contact</h2>
             <p className="text-white/60">
               questions?{" "}
-              <a href="mailto:privacy@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+              <a href="mailto:privacy@utm.one" className="transition-colors text-primary hover:underline">
                 privacy@utm.one
               </a>
             </p>

@@ -70,7 +70,7 @@ export default function ZapierIntegration() {
       <div className="text-center">
         <div className="flex justify-center mb-4">
           <div className="p-4 bg-accent rounded-full">
-            <Zap className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+            <Zap className="w-8 h-8 text-primary" />
           </div>
         </div>
         <h1 className="text-4xl font-display font-bold mb-4 hero-gradient">
@@ -163,7 +163,7 @@ export default function ZapierIntegration() {
         </CardHeader>
         <CardContent className="prose prose-sm max-w-none">
           <ol>
-            <li>Go to <a href="https://zapier.com" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(59,130,246,1)' }}>Zapier.com</a> and create a new Zap</li>
+            <li>Go to <a href="https://zapier.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Zapier.com</a> and create a new Zap</li>
             <li>Choose "Webhooks by Zapier" as your trigger app</li>
             <li>Select "Catch Hook" as the trigger event</li>
             <li>Copy the webhook URL provided by Zapier</li>

@@ -94,7 +94,7 @@ const PartnerProgram = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <MousePointerClick className="w-6 h-6" />
               </div>
               <div>
@@ -105,7 +105,7 @@ const PartnerProgram = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Activity className="w-6 h-6" />
               </div>
               <div>
@@ -116,7 +116,7 @@ const PartnerProgram = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <DollarSign className="w-6 h-6" />
               </div>
               <div>

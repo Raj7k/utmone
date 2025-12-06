@@ -79,7 +79,7 @@ const AcceptableUse = () => {
             <h2 className="text-2xl font-display font-semibold text-white">5. contact</h2>
             <p className="text-white/60">
               report abuse or violations:{" "}
-              <a href="mailto:abuse@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+              <a href="mailto:abuse@utm.one" className="transition-colors text-primary hover:underline">
                 abuse@utm.one
               </a>
             </p>

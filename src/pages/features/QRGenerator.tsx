@@ -95,7 +95,7 @@ const QRGenerator = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Image className="w-6 h-6" />
               </div>
               <div>
@@ -106,7 +106,7 @@ const QRGenerator = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Palette className="w-6 h-6" />
               </div>
               <div>
@@ -117,7 +117,7 @@ const QRGenerator = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,0.9)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <QrCode className="w-6 h-6" />
               </div>
               <div>
@@ -206,8 +206,8 @@ const QRGenerator = () => {
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <QrCode className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
+                  <QrCode className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">User scans QR</div>
@@ -215,8 +215,8 @@ const QRGenerator = () => {
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <Repeat className="w-6 h-6" style={{ color: 'rgba(59,130,246,0.9)' }} />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
+                  <Repeat className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">Redirects through utm.one</div>
@@ -237,9 +237,9 @@ const QRGenerator = () => {
 
           {/* Right: Visual */}
           <div className="relative">
-            <div className="absolute inset-0 rounded-2xl blur-3xl" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.2), transparent)' }} />
+            <div className="absolute inset-0 rounded-2xl blur-3xl bg-gradient-to-br from-primary/20 to-transparent" />
             <div className="relative bg-card border border-border rounded-xl p-8 text-center space-y-6">
-              <div className="inline-flex p-6 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
+              <div className="inline-flex p-6 rounded-2xl bg-primary/10">
                 <div className="w-32 h-32 bg-foreground/90 rounded-lg flex items-center justify-center">
                   <QrCode className="w-20 h-20 text-background" />
                 </div>
