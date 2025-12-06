@@ -21,7 +21,7 @@ export const NextBestActionPanel = ({
   edges,
 }: NextBestActionPanelProps) => {
   return (
-    <Card style={{ borderColor: 'rgba(59,130,246,0.5)' }}>
+    <Card className="border-primary/50">
       <CardHeader>
         <CardTitle className="text-lg">{nodeName}</CardTitle>
         <CardDescription>
@@ -32,7 +32,7 @@ export const NextBestActionPanel = ({
         {nextBestAction && (
           <div className="p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.1)' }}>
             <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <TrendingUp className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">recommended next step</span>
             </div>
             <p className="text-sm">{nextBestAction.split(': ')[1]}</p>

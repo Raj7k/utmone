@@ -27,7 +27,7 @@ const actionTypeLabels: Record<string, string> = {
 };
 
 const actionTypeStyles: Record<string, { background: string; color: string }> = {
-  created: { background: 'rgba(59,130,246,0.15)', color: 'rgba(59,130,246,0.9)' },
+  created: { background: 'hsl(var(--primary) / 0.15)', color: 'hsl(var(--primary))' },
   processed: { background: 'rgba(34,197,94,0.15)', color: 'rgba(34,197,94,0.9)' },
   commented: { background: 'rgba(168,85,247,0.15)', color: 'rgba(168,85,247,0.9)' },
   approval_requested: { background: 'rgba(234,179,8,0.15)', color: 'rgba(234,179,8,0.9)' },

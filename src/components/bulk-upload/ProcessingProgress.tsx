@@ -43,14 +43,9 @@ export const ProcessingProgress = ({
         return (
           <div key={stageItem.key} className="flex items-center gap-3">
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center transition-all"
-              style={{
-                backgroundColor: status === "complete"
-                  ? 'rgba(34,197,94,0.8)'
-                  : status === "active"
-                  ? 'rgba(59,130,246,0.8)'
-                  : 'rgba(255,255,255,0.1)',
-              }}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                status === "complete" ? 'bg-green-500' : status === "active" ? 'bg-primary' : 'bg-muted'
+              }`}
             >
               {status === "complete" ? (
                 <Check className="h-4 w-4 text-white" />

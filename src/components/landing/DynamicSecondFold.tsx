@@ -101,12 +101,12 @@ const AttributionContent = () => (
                   <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{item.credit}%</span>
                 </div>
                 <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                  <motion.div 
-                    className="h-full rounded-full"
-                    style={{ background: `rgba(59,130,246,${item.opacity})` }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.credit}%` }}
-                    transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
+                                <motion.div 
+                                  className="h-full rounded-full bg-primary"
+                                  style={{ opacity: item.opacity }}
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${item.credit}%` }}
+                                  transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
                   />
                 </div>
               </div>
@@ -114,13 +114,10 @@ const AttributionContent = () => (
           </div>
           
           {/* Comparison Badge */}
-          <div 
-            className="mt-4 p-3 rounded-lg"
-            style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}
-          >
+          <div className="mt-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
             <div className="flex items-center gap-2 text-sm">
-              <CheckCircle2 className="w-4 h-4" style={{ color: '#3B82F6' }} />
-              <span style={{ color: 'rgba(255,255,255,0.5)' }}>vs Last-Click: Google Ads would get <span className="font-semibold" style={{ color: 'rgba(239,68,68,0.8)' }}>100%</span></span>
+              <CheckCircle2 className="w-4 h-4 text-primary" />
+              <span style={{ color: 'rgba(255,255,255,0.5)' }}>vs Last-Click: Google Ads would get <span className="font-semibold text-destructive">100%</span></span>
             </div>
           </div>
         </div>
@@ -134,8 +131,8 @@ const AttributionContent = () => (
         className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4"
         style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <div className="text-2xl font-bold" style={{ color: '#3B82F6' }}>3.2x</div>
-        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>better ROAS</div>
+        <div className="text-2xl font-bold text-primary">3.2x</div>
+        <div className="text-xs text-muted-foreground">better ROAS</div>
       </motion.div>
     </motion.div>
     
@@ -168,22 +165,21 @@ const AttributionContent = () => (
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
             >
-              <Icon className="w-5 h-5 mb-2" style={{ color: '#3B82F6' }} />
-              <div className="text-2xl font-display font-bold" style={{ color: '#3B82F6' }}>{item.stat}</div>
-              <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.label}</div>
+              <Icon className="w-5 h-5 mb-2 text-primary" />
+              <div className="text-2xl font-display font-bold text-primary">{item.stat}</div>
+              <div className="text-xs mt-1 text-muted-foreground">{item.label}</div>
             </motion.div>
           );
         })}
       </div>
       
-      <Link 
-        to="/features/attribution-graph"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-        style={{ color: '#3B82F6' }}
-      >
-        see how clean-track attribution works
-        <ArrowRight className="h-4 w-4" />
-      </Link>
+        <Link 
+          to="/features/attribution-graph"
+          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+        >
+          see how clean-track attribution works
+          <ArrowRight className="h-4 w-4" />
+        </Link>
     </div>
   </div>
 );
@@ -194,7 +190,7 @@ const JourneyContent = () => (
     {/* Left: Content */}
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider" style={{ color: '#3B82F6' }}>complete visibility</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">complete visibility</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           see every touchpoint, across every device
         </h2>
@@ -219,7 +215,7 @@ const JourneyContent = () => (
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
           >
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: '#3B82F6' }} />
+            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
             <div>
               <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
               <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.desc}</p>
@@ -228,14 +224,13 @@ const JourneyContent = () => (
         ))}
       </div>
       
-      <Link 
-        to="/features/predictive-analytics"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-        style={{ color: '#3B82F6' }}
-      >
-        explore clean-track journey analytics
-        <ArrowRight className="h-4 w-4" />
-      </Link>
+        <Link 
+          to="/features/predictive-analytics"
+          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+        >
+          explore clean-track journey analytics
+          <ArrowRight className="h-4 w-4" />
+        </Link>
     </div>
     
     {/* Right: Product Mockup */}
@@ -248,7 +243,7 @@ const JourneyContent = () => (
       {/* Journey Timeline Mockup */}
       <div 
         className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px rgba(59,130,246,0.1)' }}
+        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
       >
         <div 
           className="flex items-center gap-2 px-4 py-3"
@@ -272,10 +267,7 @@ const JourneyContent = () => (
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h4 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>customer journey</h4>
-            <span 
-              className="text-xs px-2 py-1 rounded-full"
-              style={{ background: 'rgba(59,130,246,0.1)', color: '#3B82F6' }}
-            >
+            <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
               Nike enterprise deal
             </span>
           </div>
@@ -307,9 +299,9 @@ const JourneyContent = () => (
                     <div 
                       className="w-12 h-12 rounded-full flex items-center justify-center relative z-10"
                       style={step.highlight ? {
-                        background: '#3B82F6',
+                        background: 'hsl(var(--primary))',
                         color: 'white',
-                        boxShadow: '0 0 20px rgba(59,130,246,0.4)'
+                        boxShadow: '0 0 20px hsl(var(--primary) / 0.4)'
                       } : {
                         background: 'rgba(24,24,27,0.6)',
                         border: '1px solid rgba(255,255,255,0.1)',
@@ -341,8 +333,8 @@ const JourneyContent = () => (
         className="absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4"
         style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <div className="text-2xl font-bold" style={{ color: '#3B82F6' }}>18</div>
-        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>days to close</div>
+        <div className="text-2xl font-bold text-primary">18</div>
+        <div className="text-xs text-muted-foreground">days to close</div>
       </motion.div>
     </motion.div>
   </div>
@@ -361,7 +353,7 @@ const LinksContent = () => (
       {/* Link Builder Mockup */}
       <div 
         className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px rgba(59,130,246,0.1)' }}
+        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
       >
         <div 
           className="flex items-center gap-2 px-4 py-3"
@@ -416,8 +408,8 @@ const LinksContent = () => (
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
                 >
                   <div 
-                    className="w-8 h-8 rounded-md flex items-center justify-center"
-                    style={{ background: `rgba(59,130,246,${layer.opacity})`, color: 'white' }}
+                    className="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white"
+                    style={{ opacity: layer.opacity }}
                   >
                     <Icon className="w-4 h-4" />
                   </div>
@@ -452,7 +444,7 @@ const LinksContent = () => (
     {/* Right: Content */}
     <div className="space-y-6">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider" style={{ color: '#3B82F6' }}>one link. five layers.</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">one link. five layers.</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           every link tells the same story
         </h2>
@@ -477,16 +469,15 @@ const LinksContent = () => (
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
           >
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: '#3B82F6' }} />
-            <span style={{ color: 'rgba(255,255,255,0.5)' }}>{benefit}</span>
+            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
+            <span className="text-muted-foreground">{benefit}</span>
           </motion.div>
         ))}
       </div>
       
       <Link 
         to="/how-it-works"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-        style={{ color: '#3B82F6' }}
+        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
       >
         see how it works
         <ArrowRight className="h-4 w-4" />
@@ -507,17 +498,14 @@ const IntelligenceContent = () => (
     >
       <div 
         className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px rgba(59,130,246,0.1)' }}
+        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
       >
         {/* Chat Header */}
         <div 
           className="flex items-center gap-2 px-4 py-3"
           style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
-          <div 
-            className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #3B82F6, #F97316)' }}
-          >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-primary to-orange-500">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -530,10 +518,7 @@ const IntelligenceContent = () => (
         <div className="p-4 space-y-4">
           {/* User Message */}
           <div className="flex justify-end">
-            <div 
-              className="rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%]"
-              style={{ background: '#3B82F6', color: 'white' }}
-            >
+            <div className="rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%] bg-primary text-white">
               <p className="text-sm">Which Nike campaign performed best this quarter?</p>
             </div>
           </div>
@@ -545,11 +530,8 @@ const IntelligenceContent = () => (
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <div 
-              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: 'rgba(59,130,246,0.1)' }}
-            >
-              <Brain className="w-4 h-4" style={{ color: '#3B82F6' }} />
+            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
+              <Brain className="w-4 h-4 text-primary" />
             </div>
             <div 
               className="rounded-2xl rounded-tl-sm px-4 py-3 space-y-3"
@@ -573,10 +555,7 @@ const IntelligenceContent = () => (
                   </div>
                 ))}
               </div>
-              <div 
-                className="flex items-center gap-2 text-xs pt-2"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.1)', color: '#3B82F6' }}
-              >
+              <div className="flex items-center gap-2 text-xs pt-2 border-t border-border text-primary">
                 <TrendingUp className="w-3 h-3" />
                 Clean-Track confidence: 94%
               </div>

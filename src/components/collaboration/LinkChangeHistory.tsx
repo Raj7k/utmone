@@ -84,8 +84,7 @@ export const LinkChangeHistory = ({ linkId }: LinkChangeHistoryProps) => {
                 className="relative pl-6 pb-4 border-l-2 border-border last:border-l-0"
               >
                 <div 
-                  className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2" 
-                  style={{ borderColor: 'rgba(59,130,246,1)' }}
+                  className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-background border-2 border-primary" 
                 />
                 
                 <div className="space-y-2">

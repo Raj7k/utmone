@@ -117,11 +117,7 @@ export function ErrorRecovery({ failedResults, onRetry, onDismiss }: ErrorRecove
           {failedResults.map((result, index) => (
             <div
               key={index}
-              className="p-3 border rounded-lg cursor-pointer transition-colors"
-              style={{
-                backgroundColor: selectedUrls.has(result.url) ? 'rgba(59,130,246,0.05)' : 'transparent',
-                borderColor: selectedUrls.has(result.url) ? 'rgba(59,130,246,0.5)' : 'rgba(255,255,255,0.1)',
-              }}
+              className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedUrls.has(result.url) ? 'bg-primary/5 border-primary/50' : 'border-border'}`}
               onClick={() => toggleUrl(result.url)}
             >
               <div className="flex items-start justify-between gap-2">
