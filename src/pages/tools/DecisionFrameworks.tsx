@@ -310,9 +310,9 @@ const ROIForecaster = () => {
 
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { label: "Projected Conversions", value: conversions.toLocaleString(), colorStyle: { color: 'inherit' } },
-            { label: "Projected Revenue", value: `$${revenue.toLocaleString()}`, colorStyle: { color: 'rgba(59,130,246,1)' } },
-            { label: "Projected ROI", value: `${roi.toFixed(1)}%`, colorStyle: { color: roi > 0 ? 'rgba(22,163,74,1)' : 'rgba(220,38,38,1)' } },
+            { label: "Projected Conversions", value: conversions.toLocaleString(), colorClass: "text-foreground" },
+            { label: "Projected Revenue", value: `$${revenue.toLocaleString()}`, colorClass: "text-primary" },
+            { label: "Projected ROI", value: `${roi.toFixed(1)}%`, colorClass: roi > 0 ? "text-green-500" : "text-destructive" },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -321,7 +321,7 @@ const ROIForecaster = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
             >
-              <div className="text-2xl font-bold" style={stat.colorStyle}>{stat.value}</div>
+              <div className={`text-2xl font-bold ${stat.colorClass}`}>{stat.value}</div>
               <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
             </motion.div>
           ))}
