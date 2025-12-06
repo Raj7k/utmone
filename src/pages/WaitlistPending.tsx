@@ -116,8 +116,8 @@ export default function WaitlistPending() {
               <Clock className="h-8 w-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
             </motion.div>
 
-            <h1 className="text-4xl font-display font-bold text-white">
-              You're on the list!
+            <h1 className="text-4xl font-display font-bold hero-gradient">
+              you're on the list!
             </h1>
             
             <p className="text-lg text-white/60 max-w-md mx-auto">

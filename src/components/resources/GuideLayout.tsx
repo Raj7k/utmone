@@ -82,7 +82,7 @@ export const GuideLayout = ({
           </nav>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient mb-6">
             {title}
           </h1>
           
