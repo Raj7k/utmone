@@ -715,8 +715,7 @@ const GovernanceContent = () => (
       className="relative lg:order-1"
     >
       <div 
-        className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px rgba(59,130,246,0.1)' }}
+        className="rounded-2xl shadow-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/[0.08] shadow-[0_0_40px_hsl(var(--primary)/0.1)]"
       >
         <div 
           className="flex items-center gap-2 px-4 py-3"

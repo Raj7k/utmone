@@ -47,8 +47,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">monthly print volume</label>
                 <div className="flex items-center gap-2">
-                  <Printer className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
-                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <Printer className="w-4 h-4 text-primary" />
+                  <span className="text-lg font-bold text-primary">
                     {printVolume.toLocaleString()}
                   </span>
                 </div>
@@ -68,8 +68,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">cost per print</label>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
-                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>${reprintCost}</span>
+                  <DollarSign className="w-4 h-4 text-primary" />
+                  <span className="text-lg font-bold text-primary">${reprintCost}</span>
                 </div>
               </div>
               <Slider
@@ -87,8 +87,8 @@ export const QRROICalculator = () => {
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-label">expected scan rate</label>
                 <div className="flex items-center gap-2">
-                  <Percent className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
-                  <span className="text-lg font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{scanRate}%</span>
+                  <Percent className="w-4 h-4 text-primary" />
+                  <span className="text-lg font-bold text-primary">{scanRate}%</span>
                 </div>
               </div>
               <Slider
