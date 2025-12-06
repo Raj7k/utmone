@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, Activity, Sparkles, Link as LinkIcon } from "lucide-react";
 import { useRealAnalytics } from "@/hooks/useRealAnalytics";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip as RechartsTooltip } from "recharts";
+import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Link } from "react-router-dom";
 import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";
 import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
@@ -320,27 +320,29 @@ export default function Analytics() {
               </CardHeader>
               <CardContent>
                 {analytics.devices.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie
-                        data={analytics.devices}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      >
-                        {analytics.devices.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={COLORS[entry.name.toLowerCase() as keyof typeof COLORS] || COLORS.unknown} 
-                          />
-                        ))}
-                      </Pie>
-                      <RechartsTooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <LazyChartContainer height={300}>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <LazyPieChart>
+                        <Pie
+                          data={analytics.devices}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        >
+                          {analytics.devices.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={COLORS[entry.name.toLowerCase() as keyof typeof COLORS] || COLORS.unknown} 
+                            />
+                          ))}
+                        </Pie>
+                        <RechartsTooltip />
+                      </LazyPieChart>
+                    </ResponsiveContainer>
+                  </LazyChartContainer>
                 ) : (
                   <p className="text-sm text-secondary-label text-center py-8">no device data available</p>
                 )}

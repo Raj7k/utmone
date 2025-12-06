@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
 import { useChartAccessibility } from "@/hooks/useChartAccessibility";
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Line } from "recharts";
+import { LazyScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Line, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { TrendingUp, Award, AlertTriangle } from "lucide-react";
 
 interface LinkPerformance {
@@ -114,71 +114,73 @@ export function ParetoFrontier({ links }: ParetoFrontierProps) {
           </div>
 
           <ChartWrapper height={400} accessibilityData={accessibilityData}>
-            <ResponsiveContainer width="100%" height={400}>
-            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis 
-                type="number" 
-                dataKey="ctr" 
-                name="CTR"
-                domain={[0, 'auto']}
-                tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
-                stroke="hsl(var(--muted-foreground))"
-              />
-              <YAxis 
-                type="number" 
-                dataKey="conversionRate" 
-                name="Conversion Rate"
-                domain={[0, 'auto']}
-                tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
-                stroke="hsl(var(--muted-foreground))"
-              />
-              <Tooltip content={<CustomTooltip />} />
-              
-              {/* Reference lines for averages */}
-              <ReferenceLine 
-                x={avgCTR} 
-                stroke="hsl(var(--muted-foreground))" 
-                strokeDasharray="5 5"
-                label={{ value: 'avg CTR', position: 'top', fill: 'hsl(var(--muted-foreground))' }}
-              />
-              <ReferenceLine 
-                y={avgConversion} 
-                stroke="hsl(var(--muted-foreground))" 
-                strokeDasharray="5 5"
-                label={{ value: 'avg conversion', position: 'right', fill: 'hsl(var(--muted-foreground))' }}
-              />
-              
-              {/* Non-optimal links (gray) */}
-              <Scatter 
-                name="room to improve" 
-                data={chartData.filter(d => !d.isParetoOptimal)} 
-                fill="hsl(var(--muted-foreground))"
-                fillOpacity={0.3}
-              />
-              
-              {/* Pareto-optimal links (gold) */}
-              <Scatter 
-                name="top performers" 
-                data={chartData.filter(d => d.isParetoOptimal)} 
-                fill="hsl(45 93% 47%)"
-                fillOpacity={0.9}
-              />
-              
-              {/* Gold line connecting Pareto frontier */}
-              {sortedParetoPoints.length > 1 && (
-                <Line
-                  data={sortedParetoPoints}
-                  type="monotone"
-                  dataKey="conversionRate"
-                  stroke="hsl(45 93% 47%)"
-                  strokeWidth={3}
-                  dot={false}
-                  isAnimationActive={false}
-                />
-              )}
-            </ScatterChart>
-          </ResponsiveContainer>
+            <LazyChartContainer height={400}>
+              <ResponsiveContainer width="100%" height={400}>
+                <LazyScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis 
+                    type="number" 
+                    dataKey="ctr" 
+                    name="CTR"
+                    domain={[0, 'auto']}
+                    tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
+                    stroke="hsl(var(--muted-foreground))"
+                  />
+                  <YAxis 
+                    type="number" 
+                    dataKey="conversionRate" 
+                    name="Conversion Rate"
+                    domain={[0, 'auto']}
+                    tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
+                    stroke="hsl(var(--muted-foreground))"
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  
+                  {/* Reference lines for averages */}
+                  <ReferenceLine 
+                    x={avgCTR} 
+                    stroke="hsl(var(--muted-foreground))" 
+                    strokeDasharray="5 5"
+                    label={{ value: 'avg CTR', position: 'top', fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  <ReferenceLine 
+                    y={avgConversion} 
+                    stroke="hsl(var(--muted-foreground))" 
+                    strokeDasharray="5 5"
+                    label={{ value: 'avg conversion', position: 'right', fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  
+                  {/* Non-optimal links (gray) */}
+                  <Scatter 
+                    name="room to improve" 
+                    data={chartData.filter(d => !d.isParetoOptimal)} 
+                    fill="hsl(var(--muted-foreground))"
+                    fillOpacity={0.3}
+                  />
+                  
+                  {/* Pareto-optimal links (gold) */}
+                  <Scatter 
+                    name="top performers" 
+                    data={chartData.filter(d => d.isParetoOptimal)} 
+                    fill="hsl(45 93% 47%)"
+                    fillOpacity={0.9}
+                  />
+                  
+                  {/* Gold line connecting Pareto frontier */}
+                  {sortedParetoPoints.length > 1 && (
+                    <Line
+                      data={sortedParetoPoints}
+                      type="monotone"
+                      dataKey="conversionRate"
+                      stroke="hsl(45 93% 47%)"
+                      strokeWidth={3}
+                      dot={false}
+                      isAnimationActive={false}
+                    />
+                  )}
+                </LazyScatterChart>
+              </ResponsiveContainer>
+            </LazyChartContainer>
           </ChartWrapper>
 
           <div className="flex items-center gap-6 text-xs text-muted-foreground">

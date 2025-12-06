@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Download, MoreVertical, Archive, Trash2 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { LazyPieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -252,25 +252,27 @@ export default function CampaignDetails() {
             </div>
           ) : channelData && channelData.length > 0 ? (
             <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={channelData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {channelData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={256}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LazyPieChart>
+                    <Pie
+                      data={channelData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {channelData.map((_, index) => (
+                        <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </LazyPieChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
           ) : (
             <div className="h-64 flex items-center justify-center text-secondary-label">

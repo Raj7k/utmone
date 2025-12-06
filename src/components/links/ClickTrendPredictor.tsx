@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area } from "recharts";
+import { LazyLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { TrendingUp } from "lucide-react";
 import { useClickTrendPredictor } from "@/hooks/useClickTrendPredictor";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -52,44 +52,46 @@ export const ClickTrendPredictor = ({ linkId }: ClickTrendPredictorProps) => {
             based on your last 30 days — {data.confidence}% confidence
           </p>
         </div>
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={data.predictions}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis
-              dataKey="date"
-              stroke="hsl(var(--secondary-label))"
-              fontSize={12}
-              tickFormatter={(date) => new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-            />
-            <YAxis stroke="hsl(var(--secondary-label))" fontSize={12} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "hsl(var(--card))",
-                border: "1px solid hsl(var(--border))",
-                borderRadius: "8px",
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="clicks"
-              stroke="hsl(var(--primary))"
-              strokeWidth={2}
-              dot={(props) => {
-                const { cx, cy, payload } = props;
-                return (
-                  <circle
-                    cx={cx}
-                    cy={cy}
-                    r={payload.predicted ? 3 : 4}
-                    fill={payload.predicted ? "hsl(var(--primary))" : "hsl(var(--primary))"}
-                    fillOpacity={payload.predicted ? 0.5 : 1}
-                    strokeDasharray={payload.predicted ? "3 3" : "0"}
-                  />
-                );
-              }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={200}>
+          <ResponsiveContainer width="100%" height={200}>
+            <LazyLineChart data={data.predictions}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis
+                dataKey="date"
+                stroke="hsl(var(--secondary-label))"
+                fontSize={12}
+                tickFormatter={(date) => new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+              />
+              <YAxis stroke="hsl(var(--secondary-label))" fontSize={12} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="clicks"
+                stroke="hsl(var(--primary))"
+                strokeWidth={2}
+                dot={(props) => {
+                  const { cx, cy, payload } = props;
+                  return (
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={payload.predicted ? 3 : 4}
+                      fill={payload.predicted ? "hsl(var(--primary))" : "hsl(var(--primary))"}
+                      fillOpacity={payload.predicted ? 0.5 : 1}
+                      strokeDasharray={payload.predicted ? "3 3" : "0"}
+                    />
+                  );
+                }}
+              />
+            </LazyLineChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
       </CardContent>
     </Card>
   );

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { LazyPieChart, Pie, Cell, ResponsiveContainer, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
 
@@ -121,30 +121,32 @@ export const PerformanceMetrics = ({ workspaceId }: PerformanceMetricsProps) => 
               device breakdown
             </h4>
             <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={metrics.deviceData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={70}
-                    paddingAngle={2}
-                    dataKey="value"
-                  >
-                    {metrics.deviceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: 'hsl(var(--secondary-grouped-background))',
-                      border: '1px solid hsl(var(--separator))',
-                      borderRadius: '8px',
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={192}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LazyPieChart>
+                    <Pie
+                      data={metrics.deviceData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={40}
+                      outerRadius={70}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {metrics.deviceData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--secondary-grouped-background))',
+                        border: '1px solid hsl(var(--separator))',
+                        borderRadius: '8px',
+                      }}
+                    />
+                  </LazyPieChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
             <div className="flex flex-wrap gap-4 justify-center mt-2">
               {metrics.deviceData.map((device, idx) => (

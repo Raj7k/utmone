@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { LazyBarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 
 interface UTMCampaignRollupsProps {
   workspaceId: string;
@@ -96,15 +96,17 @@ export const UTMCampaignRollups = ({ workspaceId }: UTMCampaignRollupsProps) => 
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px]">
+            <LazyChartContainer height={300}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={campaignData.topCampaigns}>
+                <LazyBarChart data={campaignData.topCampaigns}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
                   <YAxis stroke="hsl(var(--secondary-label))" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="clicks" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                </BarChart>
+                </LazyBarChart>
               </ResponsiveContainer>
+            </LazyChartContainer>
           </ChartContainer>
         </CardContent>
       </Card>

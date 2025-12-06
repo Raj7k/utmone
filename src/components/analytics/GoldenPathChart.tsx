@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGoldenPaths } from "@/hooks/useGoldenPaths";
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Line, ReferenceLine } from "recharts";
+import { LazyScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Crown, Zap } from "lucide-react";
 
 interface GoldenPathChartProps {
@@ -47,59 +47,61 @@ export const GoldenPathChart = ({ workspaceId }: GoldenPathChartProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              type="number" 
-              dataKey="total_steps" 
-              name="Steps" 
-              label={{ value: 'Steps', position: 'insideBottom', offset: -10 }}
-            />
-            <YAxis 
-              type="number" 
-              dataKey="total_value" 
-              name="Value" 
-              label={{ value: 'Value ($)', angle: -90, position: 'insideLeft' }}
-            />
-            <Tooltip 
-              cursor={{ strokeDasharray: '3 3' }}
-              content={({ active, payload }) => {
-                if (active && payload && payload[0]) {
-                  const data = payload[0].payload;
-                  return (
-                    <div className="bg-card border border-border p-3 rounded-lg shadow-lg">
-                      <p className="font-semibold mb-1">
-                        {data.is_pareto_optimal ? '⭐ Golden Path' : 'Path'} #{data.path_id}
-                      </p>
-                      <p className="text-sm">Steps: {data.total_steps}</p>
-                      <p className="text-sm">Value: ${data.total_value.toFixed(2)}</p>
-                      <p className="text-sm">Efficiency: {data.efficiency_score.toFixed(2)}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {data.path_nodes.join(' → ')}
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            
-            {/* Sub-optimal paths (gray) */}
-            <Scatter name="Sub-optimal" data={subOptimal} fill="hsl(var(--muted-foreground))" opacity={0.3}>
-              {subOptimal.map((entry, index) => (
-                <Cell key={`cell-${index}`} />
-              ))}
-            </Scatter>
-            
-            {/* Pareto-optimal paths (gold) */}
-            <Scatter name="Golden Path" data={paretoOptimal} fill="#FFD700">
-              {paretoOptimal.map((entry, index) => (
-                <Cell key={`cell-${index}`} />
-              ))}
-            </Scatter>
-          </ScatterChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={300}>
+          <ResponsiveContainer width="100%" height={300}>
+            <LazyScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                type="number" 
+                dataKey="total_steps" 
+                name="Steps" 
+                label={{ value: 'Steps', position: 'insideBottom', offset: -10 }}
+              />
+              <YAxis 
+                type="number" 
+                dataKey="total_value" 
+                name="Value" 
+                label={{ value: 'Value ($)', angle: -90, position: 'insideLeft' }}
+              />
+              <Tooltip 
+                cursor={{ strokeDasharray: '3 3' }}
+                content={({ active, payload }) => {
+                  if (active && payload && payload[0]) {
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-card border border-border p-3 rounded-lg shadow-lg">
+                        <p className="font-semibold mb-1">
+                          {data.is_pareto_optimal ? '⭐ Golden Path' : 'Path'} #{data.path_id}
+                        </p>
+                        <p className="text-sm">Steps: {data.total_steps}</p>
+                        <p className="text-sm">Value: ${data.total_value.toFixed(2)}</p>
+                        <p className="text-sm">Efficiency: {data.efficiency_score.toFixed(2)}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {data.path_nodes.join(' → ')}
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              
+              {/* Sub-optimal paths (gray) */}
+              <Scatter name="Sub-optimal" data={subOptimal} fill="hsl(var(--muted-foreground))" opacity={0.3}>
+                {subOptimal.map((entry, index) => (
+                  <Cell key={`cell-${index}`} />
+                ))}
+              </Scatter>
+              
+              {/* Pareto-optimal paths (gold) */}
+              <Scatter name="Golden Path" data={paretoOptimal} fill="#FFD700">
+                {paretoOptimal.map((entry, index) => (
+                  <Cell key={`cell-${index}`} />
+                ))}
+              </Scatter>
+            </LazyScatterChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
 
         {paretoOptimal.length > 0 && (
           <div className="mt-4 space-y-2">

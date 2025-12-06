@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Link2 } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LazyLineChart, Line, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 
 interface CampaignCardProps {
   id: string;
@@ -54,17 +54,19 @@ export const CampaignCard = ({
           {/* Sparkline Chart */}
           {recentClicks.length > 0 && (
             <div className="h-16">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={sparklineData}>
-                  <Line
-                    type="monotone"
-                    dataKey="y"
-                    stroke={color}
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={64}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LazyLineChart data={sparklineData}>
+                    <Line
+                      type="monotone"
+                      dataKey="y"
+                      stroke={color}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LazyLineChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
           )}
 

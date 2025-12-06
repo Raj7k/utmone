@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
+import { LazyLineChart, LazyAreaChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
 import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { EstimatedBadge } from "./EstimatedBadge";
@@ -56,73 +56,75 @@ export function StratifiedAnalyticsChart({
       </CardHeader>
       <CardContent>
         <ChartWrapper height={300} accessibilityData={accessibilityData}>
-          <ResponsiveContainer width="100%" height={300}>
-          {isEstimated ? (
-            <AreaChart data={data.timeSeries}>
-              <defs>
-                <linearGradient id="estimatedGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis
-                dataKey="date"
-                stroke="hsl(var(--muted-foreground))"
-                tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              />
-              <YAxis stroke="hsl(var(--muted-foreground))" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                }}
-                labelFormatter={(value) => new Date(value).toLocaleDateString()}
-              />
-              <Area
-                type="monotone"
-                dataKey="totalClicks"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
-                fill="url(#estimatedGradient)"
-                strokeDasharray="5 5"
-              />
-            </AreaChart>
-          ) : (
-            <LineChart data={data.timeSeries}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis
-                dataKey="date"
-                stroke="hsl(var(--muted-foreground))"
-                tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              />
-              <YAxis stroke="hsl(var(--muted-foreground))" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                }}
-                labelFormatter={(value) => new Date(value).toLocaleDateString()}
-              />
-              <Line
-                type="monotone"
-                dataKey="totalClicks"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
-                dot={false}
-              />
-              <Line
-                type="monotone"
-                dataKey="uniqueClicks"
-                stroke="hsl(var(--chart-2))"
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
-          )}
-        </ResponsiveContainer>
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+            {isEstimated ? (
+              <LazyAreaChart data={data.timeSeries}>
+                <defs>
+                  <linearGradient id="estimatedGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="date"
+                  stroke="hsl(var(--muted-foreground))"
+                  tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="totalClicks"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  fill="url(#estimatedGradient)"
+                  strokeDasharray="5 5"
+                />
+              </LazyAreaChart>
+            ) : (
+              <LazyLineChart data={data.timeSeries}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis
+                  dataKey="date"
+                  stroke="hsl(var(--muted-foreground))"
+                  tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                />
+                <YAxis stroke="hsl(var(--muted-foreground))" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="totalClicks"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="uniqueClicks"
+                  stroke="hsl(var(--chart-2))"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LazyLineChart>
+            )}
+          </ResponsiveContainer>
+          </LazyChartContainer>
         </ChartWrapper>
 
         <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { AnimatedCounter } from "@/components/reports/AnimatedCounter";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LazyLineChart, Line, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 
 interface GlanceableStatsProps {
   workspaceId: string;
@@ -130,17 +130,19 @@ export const GlanceableStats = ({ workspaceId }: GlanceableStatsProps) => {
           </div>
           {/* Sparkline */}
           <div className="h-12 mt-2 -mx-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={stats?.sparklineData || []}>
-                <Line 
-                  type="monotone" 
-                  dataKey="value" 
-                  stroke="hsl(var(--system-blue))" 
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <LazyChartContainer height={48}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LazyLineChart data={stats?.sparklineData || []}>
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--system-blue))" 
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LazyLineChart>
+              </ResponsiveContainer>
+            </LazyChartContainer>
           </div>
           {stats?.recentClickCount && stats.recentClickCount > 10 && (
             <p className="text-caption-1 text-system-blue mt-2">
