@@ -113,7 +113,7 @@ const B2BAttributionFramework = () => {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <Badge className="text-white animate-pulse" style={{ background: 'rgba(59,130,246,1)' }}>NEW</Badge>
+              <Badge className="bg-primary text-primary-foreground animate-pulse">NEW</Badge>
               <Badge variant="outline">25-page framework</Badge>
               <Badge variant="outline">5 case studies</Badge>
               <Badge variant="outline">4-stage model</Badge>
@@ -147,15 +147,15 @@ const B2BAttributionFramework = () => {
               
               <div className="grid md:grid-cols-3 gap-6 my-12">
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>76%</div>
+                  <div className="text-5xl font-display font-bold mb-2 text-primary">76%</div>
                   <p className="text-sm text-muted-foreground">have or will have attribution capability within 12 months</p>
                 </div>
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>29%</div>
+                  <div className="text-5xl font-display font-bold mb-2 text-primary">29%</div>
                   <p className="text-sm text-muted-foreground">consider themselves very successful at using attribution</p>
                 </div>
                 <div className="bg-card rounded-2xl p-6 border-2 border-border/50">
-                  <div className="text-5xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>56</div>
+                  <div className="text-5xl font-display font-bold mb-2 text-primary">56</div>
                   <p className="text-sm text-muted-foreground">touchpoints average consumer needs before purchasing</p>
                 </div>
               </div>
@@ -368,33 +368,33 @@ const B2BAttributionFramework = () => {
                     Apple's ATT framework destroyed Facebook pixel tracking overnight.
                   </p>
                   <p className="text-sm text-foreground font-medium">
-                    Fallback: Switch to first-party data + conversion API. Implement server-side tracking. Use Segment CDP.
+                    Solution: First-party data collection, UTM discipline, self-reported attribution
                   </p>
                 </div>
-
-                <div className="bg-card rounded-2xl p-6 border-2 border-red-500/20">
+                
+                <div className="bg-card rounded-2xl p-6 border-2 border-yellow-500/20">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-red-500" />
-                    <h3 className="font-display font-semibold text-foreground">Sales Won't Log Activities</h3>
+                    <div className="w-2 h-2 rounded-full bg-yellow-500" />
+                    <h3 className="font-display font-semibold text-foreground">Cookie Death</h3>
                   </div>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Your beautiful attribution system is worthless if sales doesn't use the CRM.
+                    Third-party cookies being deprecated across browsers.
                   </p>
                   <p className="text-sm text-foreground font-medium">
-                    Solution: Automate everything. Use calendar integrations, email tracking, and call recording. Remove manual data entry.
+                    Solution: Server-side tracking, first-party cookies, identity graphs
                   </p>
                 </div>
-
-                <div className="bg-card rounded-2xl p-6 border-2 border-red-500/20">
+                
+                <div className="bg-card rounded-2xl p-6 border-2 border-green-500/20">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full bg-red-500" />
-                    <h3 className="font-display font-semibold text-foreground">Board Doesn't Trust Data</h3>
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    <h3 className="font-display font-semibold text-foreground">CRM Data Chaos</h3>
                   </div>
                   <p className="text-sm text-muted-foreground mb-3">
-                    C-suite questions your attribution model credibility during budget season.
+                    50% of CRM data is incomplete or incorrect on average.
                   </p>
                   <p className="text-sm text-foreground font-medium">
-                    Defense: Run incrementality tests. Show correlation vs causation. Present multiple models. Always include self-reported data.
+                    Solution: Required fields, validation rules, data enrichment automation
                   </p>
                 </div>
               </div>
@@ -403,26 +403,23 @@ const B2BAttributionFramework = () => {
         </section>
 
         {/* Related Resources */}
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-background border-t border-border/50">
           <div className="max-w-[900px] mx-auto px-8">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-display font-semibold text-foreground">
-                related resources
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                {relatedResources.map((resource, index) => (
-                  <Link
-                    key={index}
-                    to={resource.url}
-                    className="group bg-card rounded-xl p-6 border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
-                  >
-                    <div className="text-xs font-medium mb-2" style={{ color: 'rgba(59,130,246,1)' }}>{resource.type}</div>
-                    <div className="text-base font-semibold text-foreground group-hover:text-white/80 transition-colors">
-                      {resource.title}
-                    </div>
-                  </Link>
-                ))}
-              </div>
+            <h2 className="text-2xl font-display font-semibold text-foreground mb-8">
+              related resources
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              {relatedResources.map((resource, index) => (
+                <Link
+                  key={index}
+                  to={resource.url}
+                  className="block p-6 bg-card rounded-xl border border-border/50 hover:border-white/20 hover:shadow-lg transition-all"
+                >
+                  <div className="text-xs font-medium text-primary mb-2">{resource.type}</div>
+                  <h3 className="text-lg font-semibold text-foreground">{resource.title}</h3>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
