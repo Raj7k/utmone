@@ -131,8 +131,8 @@ export default function SmartRouting() {
               { num: "4", text: "Routes to best match", icon: Zap }
             ].map((step, i) => (
               <div key={i} className="text-center">
-                <div className="rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 font-bold text-xl" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>{step.num}</div>
-                <step.icon className="w-8 h-8 mx-auto mb-2" style={{ color: 'rgba(59,130,246,1)' }} />
+                <div className="rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 font-bold text-xl bg-primary/10 text-primary">{step.num}</div>
+                <step.icon className="w-8 h-8 mx-auto mb-2 text-primary" />
                 <p className="text-sm text-muted-foreground">{step.text}</p>
               </div>
             ))}
@@ -142,7 +142,7 @@ export default function SmartRouting() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Globe className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Globe className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">geo routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -155,20 +155,20 @@ export default function SmartRouting() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Smartphone className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Smartphone className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">device routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Route by device type, OS, or browser for optimal experience.
               </p>
-              <div className="rounded-lg p-4 text-sm" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>Example:</span> iOS → App Store, Android → Play Store, Desktop → Web app
+              <div className="rounded-lg p-4 text-sm bg-primary/10">
+                <span className="font-semibold text-primary">Example:</span> iOS → App Store, Android → Play Store, Desktop → Web app
               </div>
             </div>
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <GitBranch className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <GitBranch className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">conditional routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -203,7 +203,7 @@ export default function SmartRouting() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <Target className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Target className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">traffic splitting</h3>
               </div>
               <p className="text-muted-foreground mb-4">Route 50% of US traffic to Page A, 50% to Page B for clean A/B testing.</p>
@@ -219,7 +219,7 @@ export default function SmartRouting() {
 
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <GitBranch className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                <GitBranch className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">cascade fallbacks</h3>
               </div>
               <p className="text-muted-foreground mb-4">If primary destination fails, automatically route to backup destination.</p>

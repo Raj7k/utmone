@@ -91,9 +91,9 @@ const ShortLinks = () => {
             </div>
 
             {/* After: Clean Link */}
-            <div className="bg-card border-2 rounded-xl p-6 space-y-4" style={{ borderColor: 'rgba(59,130,246,0.2)' }}>
-              <div className="text-xs uppercase font-semibold tracking-wider mb-2" style={{ color: 'rgba(59,130,246,1)' }}>After</div>
-              <div className="border rounded-lg p-4 font-mono text-sm" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+            <div className="bg-card border-2 rounded-xl p-6 space-y-4 border-primary/20">
+              <div className="text-xs uppercase font-semibold tracking-wider mb-2 text-primary">After</div>
+              <div className="border rounded-lg p-4 font-mono text-sm bg-primary/5 border-primary/20 text-primary">
                 utm.one/q4-webinar
               </div>
               <div className="space-y-2 text-label text-sm">
@@ -123,7 +123,7 @@ const ShortLinks = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="space-y-6">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Eye className="w-6 h-6" />
               </div>
               <div>
@@ -134,7 +134,7 @@ const ShortLinks = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <Shield className="w-6 h-6" />
               </div>
               <div>
@@ -145,7 +145,7 @@ const ShortLinks = () => {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
@@ -161,8 +161,8 @@ const ShortLinks = () => {
             <h4 className="text-lg font-semibold mb-4 lowercase text-label">link preview card</h4>
             <div className="space-y-4 bg-card border border-border rounded-lg p-6">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <Link2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                <div className="w-8 h-8 rounded flex items-center justify-center shrink-0 bg-primary/10">
+                  <Link2 className="w-4 h-4 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-label mb-1">Landing Page</p>
@@ -265,9 +265,9 @@ const ShortLinks = () => {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full mt-2" style={{ background: 'rgba(59,130,246,1)' }} />
+                <div className="w-2 h-2 rounded-full mt-2 bg-primary" />
                 <div>
-                  <div className="font-mono text-sm mb-1" style={{ color: 'rgba(59,130,246,1)' }}>utm.one/acme-webinar-2025</div>
+                  <div className="font-mono text-sm mb-1 text-primary">utm.one/acme-webinar-2025</div>
                   <div className="text-sm text-muted-foreground">Clear destination. Users click confidently.</div>
                 </div>
               </div>
@@ -282,14 +282,14 @@ const ShortLinks = () => {
               <div className="text-sm text-muted-foreground">No context • No trust • Lower CTR</div>
             </div>
             
-            <div className="border rounded-xl p-6" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' }}>
-              <div className="text-xs uppercase font-semibold mb-3" style={{ color: 'rgba(59,130,246,1)' }}>after</div>
+            <div className="border rounded-xl p-6 bg-primary/10 border-primary/30">
+              <div className="text-xs uppercase font-semibold mb-3 text-primary">after</div>
               <div className="font-mono text-sm text-foreground mb-2 break-all">utm.one/acme-webinar-2025</div>
-              <div className="flex items-center gap-2 text-sm mt-3" style={{ color: 'rgba(59,130,246,1)' }}>
+              <div className="flex items-center gap-2 text-sm mt-3 text-primary">
                 <Shield className="w-4 h-4" />
                 <span>✓ Scanned & Safe</span>
               </div>
-              <div className="flex items-center gap-2 text-sm mt-2" style={{ color: 'rgba(59,130,246,1)' }}>
+              <div className="flex items-center gap-2 text-sm mt-2 text-primary">
                 <Eye className="w-4 h-4" />
                 <span>✓ Preview Available</span>
               </div>

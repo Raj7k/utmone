@@ -95,7 +95,7 @@ const CustomDomains = () => {
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
               Use go.yourcompany.com for all short links with auto SSL and easy DNS setup.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
               get started
             </Button>
           </motion.div>
@@ -120,9 +120,9 @@ const CustomDomains = () => {
                 <li>❌ Can't customize domain per client</li>
               </ul>
             </div>
-            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
+            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
               <p className="text-lg text-label leading-relaxed mb-4">
-                <strong style={{ color: 'rgba(59,130,246,1)' }}>Branded custom domain:</strong> go.yourcompany.com/webinar
+                <strong className="text-primary">Branded custom domain:</strong> go.yourcompany.com/webinar
               </p>
               <ul className="space-y-2 text-label">
                 <li>✓ 34% higher click-through rate</li>
@@ -170,16 +170,16 @@ const CustomDomains = () => {
             {formatText("The Data on Branded Links")}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>34%</div>
+            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
+              <div className="text-5xl font-bold mb-2 text-primary">34%</div>
               <p className="text-secondary-label">Higher click-through rate with branded domains</p>
             </div>
-            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>2.5x</div>
+            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
+              <div className="text-5xl font-bold mb-2 text-primary">2.5x</div>
               <p className="text-secondary-label">More trust vs generic short links</p>
             </div>
-            <div className="border rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-              <div className="text-5xl font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>&lt; 5min</div>
+            <div className="border rounded-xl p-8 bg-primary/5 border-primary/20">
+              <div className="text-5xl font-bold mb-2 text-primary">&lt; 5min</div>
               <p className="text-secondary-label">Average DNS setup time</p>
             </div>
           </div>
@@ -203,7 +203,7 @@ const CustomDomains = () => {
             <p className="text-xl text-white/90 mb-8">
               Setup takes 5 minutes. SSL provisioning is automatic. Branding is instant.
             </p>
-            <Button size="lg" className="bg-white hover:bg-white/90 lowercase" style={{ color: 'rgba(59,130,246,1)' }}>
+            <Button size="lg" className="bg-white hover:bg-white/90 lowercase text-primary">
               get started
             </Button>
           </motion.div>
