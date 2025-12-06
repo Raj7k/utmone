@@ -650,7 +650,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           <AccordionItem value="social-preview" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
-                <Eye className="h-5 w-5 text-blue-600" />
+                <Eye className="h-5 w-5 text-primary" />
                 <span className="font-serif text-lg font-semibold">Social Media Preview</span>
                 <Badge variant="secondary" className="text-xs">Optional</Badge>
               </div>

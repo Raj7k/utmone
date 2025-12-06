@@ -165,7 +165,7 @@ export const TeamSkillsGapAnalyzer = () => {
                         <p className="font-medium">{rec.skill}</p>
                         <span className={`px-2 py-1 text-xs font-medium rounded ${
                           rec.action === 'Hire specialist'
-                            ? 'bg-blue-100 text-blue-700'
+                            ? 'bg-primary/10 text-primary'
                             : 'bg-green-100 text-green-700'
                         }`}>
                           {rec.action}

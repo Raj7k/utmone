@@ -24,7 +24,7 @@ const fileColors = {
   csv: "text-green-600",
   xlsx: "text-emerald-600",
   pdf: "text-red-600",
-  json: "text-blue-600",
+  json: "text-primary",
 };
 
 export const TemplateDownload = ({

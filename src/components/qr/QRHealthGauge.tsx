@@ -22,7 +22,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
   const getStatusColor = () => {
     switch (status) {
       case 'perfect': return 'text-emerald-600 dark:text-emerald-400';
-      case 'good': return 'text-blue-600 dark:text-blue-400';
+      case 'good': return 'text-primary dark:text-primary/90';
       case 'risky': return 'text-amber-600 dark:text-amber-400';
       case 'unscannable': return 'text-red-600 dark:text-red-400';
     }
@@ -31,7 +31,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
   const getStatusBg = () => {
     switch (status) {
       case 'perfect': return 'bg-emerald-100 dark:bg-emerald-900/30';
-      case 'good': return 'bg-blue-100 dark:bg-blue-900/30';
+      case 'good': return 'bg-primary/10 dark:bg-primary/20';
       case 'risky': return 'bg-amber-100 dark:bg-amber-900/30';
       case 'unscannable': return 'bg-red-100 dark:bg-red-900/30';
     }

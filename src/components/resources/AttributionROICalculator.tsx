@@ -51,7 +51,7 @@ export const AttributionROICalculator = () => {
 
   const getROITier = () => {
     if (results.roi >= 300) return { label: "Excellent", color: "text-green-600" };
-    if (results.roi >= 200) return { label: "Great", color: "text-blue-600" };
+    if (results.roi >= 200) return { label: "Great", color: "text-primary" };
     if (results.roi >= 100) return { label: "Good", color: "text-yellow-600" };
     return { label: "Needs Improvement", color: "text-red-600" };
   };

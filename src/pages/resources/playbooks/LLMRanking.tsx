@@ -176,9 +176,9 @@ const LLMRanking = () => {
                 The way people find information is shifting from traditional <Link to="/resources/glossary/seo" className="text-primary hover:underline">search engines</Link> to conversational AI platforms like ChatGPT, Claude, and Google's Gemini. Unlike a Google search results page with ten blue links, these large language models (LLMs) deliver direct answers and recommendations in a conversational format.
               </p>
 
-              <div className="my-8 p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+              <div className="my-8 p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="w-6 h-6 text-blue-500 shrink-0 mt-1" />
+                  <AlertCircle className="w-6 h-6 text-primary shrink-0 mt-1" />
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Critical Insight</h3>
                     <p className="text-foreground">
@@ -582,7 +582,7 @@ Allow: /`}
             </div>
 
               <div className="prose prose-lg max-w-none space-y-8">
-                <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+                <div className="p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                   <h3 className="text-lg font-semibold text-foreground mb-3">Go Deep Rather Than Wide</h3>
                   <p className="text-foreground">
                     LLMs reward <Link to="/resources/glossary/taxonomy" className="text-primary hover:underline">topic authority</Link>. Instead of covering 50 topics shallowly, master 5-10 topics deeply. This builds semantic authority and increases citation probability.
@@ -885,7 +885,7 @@ Allow: /`}
                 </div>
               </div>
 
-              <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+              <div className="p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                 <h3 className="text-lg font-semibold text-foreground mb-3">Schema Best Practices</h3>
                 <ul className="space-y-2 text-foreground">
                   <li className="flex items-start gap-2">
@@ -1103,7 +1103,7 @@ Allow: /`}
                 </div>
               </div>
 
-              <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+              <div className="p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                 <h3 className="text-lg font-semibold text-foreground mb-4">Comprehensiveness Matrix</h3>
                 <p className="text-foreground mb-4">Ideal content coverage distribution:</p>
                 <div className="space-y-3">
@@ -1212,7 +1212,7 @@ Allow: /`}
                 The only way to know if your content is LLM-optimized is to test it with real prompts in real AI systems. This section provides a systematic framework for validation and iteration.
               </p>
 
-              <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+              <div className="p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                 <h3 className="text-lg font-semibold text-foreground mb-4">20+ Test Prompts to Validate Citation Probability</h3>
                 <p className="text-foreground mb-4">Test your content across these prompt categories:</p>
                 
@@ -1353,7 +1353,7 @@ Allow: /`}
                 Internal linking creates a knowledge graph that LLMs use to understand topic relationships and authority. Dense, contextual links significantly boost retrieval probability.
               </p>
 
-              <div className="p-6 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/50 rounded-xl">
+              <div className="p-6 bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl">
                 <h3 className="text-lg font-semibold text-foreground mb-3">Golden Rule: 3-5 Contextual Links Per 1000 Words</h3>
                 <p className="text-foreground">
                   This density creates strong semantic connections without feeling spammy. Each link should add context, not just navigation.
