@@ -31,7 +31,7 @@ export const LinkedInPostCard1 = () => {
             <div className="w-full md:w-1/3 bg-white rounded-xl p-4 border border-deepSea/10">
               <div className="flex items-center gap-2 mb-3">
                 <MapPin className="h-4 w-4 text-blazeOrange" />
-                <p className="text-xs font-semibold text-mirage uppercase tracking-wide">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wide">
                   Geographic Salary Spread
                 </p>
               </div>
@@ -48,7 +48,7 @@ export const LinkedInPostCard1 = () => {
 
             {/* Content */}
             <div className="w-full md:w-2/3">
-              <p className="text-xl md:text-2xl font-bold text-mirage mb-4 leading-tight">
+              <p className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
                 Marketing Managers earn 4.8× more in California than Mexico—despite identical
                 responsibilities. Geographic fragmentation is accelerating.
               </p>

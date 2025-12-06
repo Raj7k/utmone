@@ -111,7 +111,7 @@ Best regards,
         <div className="bg-wildSand/30 rounded-lg p-4 text-sm">
           <div className="flex justify-between mb-2">
             <span className="text-muted-foreground">Your Total Comp:</span>
-            <span className="font-bold text-mirage">
+            <span className="font-bold text-foreground">
               ${(baseOffer + equity + bonus).toLocaleString()}
             </span>
           </div>
@@ -167,7 +167,7 @@ Best regards,
 
                 <div className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 rounded-lg p-4">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="font-semibold text-mirage">Acceptance Probability</p>
+                    <p className="font-semibold text-foreground">Acceptance Probability</p>
                     <p className="text-2xl font-bold" style={{ color: 'rgba(249,115,22,1)' }}>{scenario.probability}</p>
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -177,7 +177,7 @@ Best regards,
 
                 <div className="bg-zinc-900/40 backdrop-blur-xl rounded-lg p-4 border-2 border-dashed border-white/20">
                   <div className="flex justify-between items-center mb-3">
-                    <p className="text-sm font-semibold text-mirage">Email Template</p>
+                    <p className="text-sm font-semibold text-foreground">Email Template</p>
                     <Button
                       variant="ghost"
                       size="sm"

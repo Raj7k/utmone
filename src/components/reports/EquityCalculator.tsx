@@ -136,7 +136,7 @@ export const EquityCalculator = () => {
             </div>
             <div>
               <div className="text-sm text-secondary-label mb-1">Cost to Exercise</div>
-              <div className="text-2xl font-bold text-mirage">
+              <div className="text-2xl font-bold text-foreground">
                 ${result.costToExercise.toLocaleString()}
               </div>
             </div>
@@ -181,9 +181,9 @@ export const EquityCalculator = () => {
           </div>
         </div>
 
-        <div className="p-6 bg-mirage/5 rounded-lg border border-mirage/20">
+        <div className="p-6 bg-foreground/5 rounded-lg border border-foreground/20">
           <div className="flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-mirage mt-0.5" />
+            <AlertCircle className="h-5 w-5 text-foreground mt-0.5" />
             <div className="text-sm text-secondary-label space-y-2">
               <p className="font-semibold text-foreground">Important Considerations:</p>
               <ul className="space-y-1 ml-4 list-disc">

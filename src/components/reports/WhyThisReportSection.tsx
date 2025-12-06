@@ -61,25 +61,25 @@ export const WhyThisReportSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="p-10 bg-mirage/5 border-2 border-mirage/20 h-full">
-              <h3 className="text-2xl font-display font-bold mb-6 text-mirage">
+            <Card className="p-10 bg-foreground/5 border-2 border-foreground/20 h-full">
+              <h3 className="text-2xl font-display font-bold mb-6 text-foreground">
                 The Problem
               </h3>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="text-mirage mt-1">×</span>
+                  <span className="text-foreground mt-1">×</span>
                   <span className="text-muted-foreground">Salary data is scattered across Glassdoor, Levels.fyi, LinkedIn, Payscale with no unified view</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-mirage mt-1">×</span>
+                  <span className="text-foreground mt-1">×</span>
                   <span className="text-muted-foreground">Most benchmarks are US-centric and ignore geographic fragmentation</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-mirage mt-1">×</span>
+                  <span className="text-foreground mt-1">×</span>
                   <span className="text-muted-foreground">Self-reported data is unreliable with inflated numbers</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-mirage mt-1">×</span>
+                  <span className="text-foreground mt-1">×</span>
                   <span className="text-muted-foreground">No transparency on how skills, company size, or remote status impact salary</span>
                 </li>
               </ul>

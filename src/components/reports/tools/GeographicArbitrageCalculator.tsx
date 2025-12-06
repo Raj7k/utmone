@@ -224,7 +224,7 @@ export const GeographicArbitrageCalculator = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-muted-foreground">Gross Salary</p>
-                    <p className="text-2xl font-bold text-mirage">
+                    <p className="text-2xl font-bold text-foreground">
                       ${currentSalary.toLocaleString()}
                     </p>
                   </div>
@@ -246,7 +246,7 @@ export const GeographicArbitrageCalculator = () => {
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm text-muted-foreground">Expected Salary</p>
-                    <p className="text-2xl font-bold text-mirage">
+                    <p className="text-2xl font-bold text-foreground">
                       ${targetSalary.toLocaleString()}
                     </p>
                   </div>
@@ -266,14 +266,14 @@ export const GeographicArbitrageCalculator = () => {
 
             <div className="bg-gradient-to-r from-blazeOrange/5 to-deepSea/5 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
-                <p className="font-semibold text-mirage">Purchasing Power Change</p>
+                <p className="font-semibold text-foreground">Purchasing Power Change</p>
                 {purchasingPowerChange > 0 ? (
                   <div className="flex items-center gap-2 text-blazeOrange">
                     <TrendingUp className="h-5 w-5" />
                     <span className="text-2xl font-bold">+{purchasingPowerChange.toFixed(1)}%</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 text-mirage">
+                  <div className="flex items-center gap-2 text-foreground">
                     <TrendingDown className="h-5 w-5" />
                     <span className="text-2xl font-bold">{purchasingPowerChange.toFixed(1)}%</span>
                   </div>
@@ -295,7 +295,7 @@ export const GeographicArbitrageCalculator = () => {
                 <p className="text-sm text-white/60 mb-1">Monthly Savings Potential</p>
                 <p
                   className={`text-3xl font-bold ${
-                    monthlySavings > 0 ? "text-blazeOrange" : "text-mirage"
+                    monthlySavings > 0 ? "text-blazeOrange" : "text-foreground"
                   }`}
                 >
                   {monthlySavings > 0 ? "+" : ""}${Math.abs(monthlySavings).toLocaleString()}
@@ -305,7 +305,7 @@ export const GeographicArbitrageCalculator = () => {
                 <p className="text-sm text-white/60 mb-1">Annual Savings Potential</p>
                 <p
                   className={`text-3xl font-bold ${
-                    annualSavings > 0 ? "text-deepSea" : "text-mirage"
+                    annualSavings > 0 ? "text-deepSea" : "text-foreground"
                   }`}
                 >
                   {annualSavings > 0 ? "+" : ""}${Math.abs(annualSavings).toLocaleString()}

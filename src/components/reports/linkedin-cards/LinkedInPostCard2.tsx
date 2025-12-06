@@ -29,7 +29,7 @@ export const LinkedInPostCard2 = () => {
             <div className="w-full md:w-1/3 bg-white rounded-xl p-4 border border-deepSea/10">
               <div className="flex items-center gap-2 mb-3">
                 <TrendingUp className="h-4 w-4 text-deepSea" />
-                <p className="text-xs font-semibold text-mirage uppercase tracking-wide">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wide">
                   B2B vs B2C Pay Gap
                 </p>
               </div>
@@ -48,7 +48,7 @@ export const LinkedInPostCard2 = () => {
 
             {/* Content */}
             <div className="w-full md:w-2/3">
-              <p className="text-xl md:text-2xl font-bold text-mirage mb-4 leading-tight">
+              <p className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
                 B2B Product Marketers earn $125K median. B2C? $95K. Same title, 24% pay gap. The
                 industry you choose matters more than your skills.
               </p>

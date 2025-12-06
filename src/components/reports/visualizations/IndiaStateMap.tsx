@@ -35,7 +35,7 @@ export const IndiaStateMap = () => {
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-bold text-lg text-mirage">{state.state}</h3>
+                <h3 className="font-bold text-lg text-foreground">{state.state}</h3>
                 <Badge
                   style={{ backgroundColor: getIndiaStateColor(state.medianSalaryUSD) }}
                   className="text-white text-xs"
@@ -61,7 +61,7 @@ export const IndiaStateMap = () => {
         {/* Selected State Details */}
         {stateData && (
           <div className="p-6 bg-gradient-to-r from-blazeOrange/5 to-deepSea/5 rounded-xl border-2 border-blazeOrange/20">
-            <h3 className="text-2xl font-bold text-mirage mb-4">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
               {stateData.state} - City Breakdown
             </h3>
             <div className="space-y-3">
@@ -75,7 +75,7 @@ export const IndiaStateMap = () => {
                       <MapPin className="h-5 w-5 text-blazeOrange" />
                     </div>
                     <div>
-                      <p className="font-semibold text-mirage">{city.city}</p>
+                      <p className="font-semibold text-foreground">{city.city}</p>
                       <p className="text-xs text-muted-foreground">
                         Tech Hub Rank: #{city.techHubRank}
                       </p>
@@ -99,7 +99,7 @@ export const IndiaStateMap = () => {
         <div className="mt-8 p-6 bg-white rounded-xl border-2 border-deepSea/10">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="h-5 w-5 text-deepSea" />
-            <h3 className="text-xl font-bold text-mirage">Top 15 Tech Hubs in India</h3>
+            <h3 className="text-xl font-bold text-foreground">Top 15 Tech Hubs in India</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-3">
             {top15IndiaCities.map((city, idx) => (
@@ -108,7 +108,7 @@ export const IndiaStateMap = () => {
                 className="flex items-center justify-between p-3 bg-wildSand/30 rounded-lg border border-deepSea/5"
               >
                 <div>
-                  <p className="font-semibold text-sm text-mirage">
+                  <p className="font-semibold text-sm text-foreground">
                     {idx + 1}. {city.city}
                   </p>
                   <p className="text-xs text-muted-foreground">{city.state}</p>

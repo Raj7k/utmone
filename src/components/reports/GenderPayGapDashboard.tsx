@@ -24,12 +24,12 @@ export const GenderPayGapDashboard = () => {
 
   return (
     <div className="space-y-8">
-      <Card className="border-2 border-mirage/20">
+      <Card className="border-2 border-foreground/20">
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-mirage/10">
-                <Users className="h-6 w-6 text-mirage" />
+              <div className="p-3 rounded-xl bg-foreground/10">
+                <Users className="h-6 w-6 text-foreground" />
               </div>
               <div>
                 <CardTitle className="text-2xl font-display">Gender Pay Gap Analysis</CardTitle>
@@ -38,7 +38,7 @@ export const GenderPayGapDashboard = () => {
                 </CardDescription>
               </div>
             </div>
-            <Badge variant="outline" className="border-mirage text-mirage">
+            <Badge variant="outline" className="border-foreground text-foreground">
               2026 Data
             </Badge>
           </div>
@@ -81,7 +81,7 @@ export const GenderPayGapDashboard = () => {
 
           <div className="grid md:grid-cols-3 gap-4 pt-4 border-t border-border">
             {roleData.map(d => (
-              <Card key={d.role} className="border-mirage/20">
+              <Card key={d.role} className="border-foreground/20">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium">{d.role}</CardTitle>
                 </CardHeader>
@@ -107,7 +107,7 @@ export const GenderPayGapDashboard = () => {
       </Card>
 
       {/* Industry Breakdown */}
-      <Card className="border-2 border-mirage/20">
+      <Card className="border-2 border-foreground/20">
         <CardHeader>
           <CardTitle className="text-xl font-display">Pay Gap by Industry</CardTitle>
         </CardHeader>
@@ -135,8 +135,8 @@ export const GenderPayGapDashboard = () => {
             ))}
           </div>
 
-          <div className="mt-6 p-4 bg-mirage/5 rounded-lg flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-mirage mt-0.5" />
+          <div className="mt-6 p-4 bg-foreground/5 rounded-lg flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 text-foreground mt-0.5" />
             <div className="text-sm text-muted-foreground">
               <strong className="text-foreground">Methodology Note:</strong> Gender pay gap calculated as 
               the percentage difference between male and female median salaries for equivalent roles and experience levels. 

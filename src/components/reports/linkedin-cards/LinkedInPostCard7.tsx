@@ -21,7 +21,7 @@ export const LinkedInPostCard7 = () => {
             <div className="w-full md:w-1/3 bg-white rounded-xl p-6 border border-deepSea/10">
               <div className="flex items-center gap-2 mb-4">
                 <DollarSign className="h-5 w-5 text-blazeOrange" />
-                <p className="text-xs font-semibold text-mirage uppercase tracking-wide">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wide">
                   Negotiation ROI
                 </p>
               </div>
@@ -31,7 +31,7 @@ export const LinkedInPostCard7 = () => {
                   <p className="text-sm text-secondary-label mt-1">Average Increase From Negotiating</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
-                  <p className="text-4xl font-bold text-mirage">63%</p>
+                  <p className="text-4xl font-bold text-foreground">63%</p>
                   <p className="text-sm text-secondary-label mt-1">Don't Negotiate At All</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
@@ -42,7 +42,7 @@ export const LinkedInPostCard7 = () => {
 
             {/* Content */}
             <div className="w-full md:w-2/3">
-              <p className="text-xl md:text-2xl font-bold text-mirage mb-4 leading-tight">
+              <p className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
                 The average negotiation adds $8K-$15K to offers. But 63% of people don't negotiate.
                 Don't leave money on the table.
               </p>

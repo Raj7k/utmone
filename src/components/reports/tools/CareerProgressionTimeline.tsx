@@ -134,7 +134,7 @@ export const CareerProgressionTimeline = () => {
                     <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-4 border border-white/10 hover:border-white/20 transition-colors">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <p className="font-bold text-lg text-mirage">{stage.role}</p>
+                          <p className="font-bold text-lg text-foreground">{stage.role}</p>
                           <div className="flex items-center gap-2 text-xs text-secondary-label mt-1">
                             <Clock className="h-3 w-3" />
                             <span>Year {stage.years}</span>

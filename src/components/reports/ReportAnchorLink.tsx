@@ -38,7 +38,7 @@ export const ReportAnchorLink = ({
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-display font-semibold text-mirage">
+            <h3 className="text-lg font-display font-semibold text-foreground">
               {title}
             </h3>
             {comingSoon && (
@@ -47,7 +47,7 @@ export const ReportAnchorLink = ({
               </Badge>
             )}
           </div>
-          <p className="text-sm text-mirage/70 leading-relaxed">
+          <p className="text-sm text-foreground/70 leading-relaxed">
             📍 {description}
           </p>
         </div>

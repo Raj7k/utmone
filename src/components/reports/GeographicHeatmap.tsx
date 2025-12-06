@@ -60,7 +60,7 @@ export const GeographicHeatmap = () => {
                         ? 'bg-blazeOrange text-white' 
                         : index < 3 
                         ? 'bg-deepSea text-white' 
-                        : 'bg-mirage/10 text-mirage'
+                        : 'bg-foreground/10 text-foreground'
                     }`}>
                       {index + 1}
                     </div>
