@@ -17,14 +17,14 @@ export const CTABanner = ({
   buttonHref,
   variant = "default" 
 }: CTABannerProps) => {
-  const bgStyle = variant === "primary" 
-    ? { background: 'rgba(59,130,246,0.05)' }
+  const bgClass = variant === "primary" 
+    ? "bg-primary/5"
     : variant === "accent" 
-    ? { background: 'linear-gradient(to right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))' }
-    : undefined;
+    ? "bg-gradient-to-r from-primary/10 to-primary/5"
+    : "bg-muted/30";
 
   return (
-    <div className={`my-8 p-8 rounded-2xl ${variant === "default" ? "bg-muted/30" : ""} border border-border/50`} style={bgStyle}>
+    <div className={`my-8 p-8 rounded-2xl ${bgClass} border border-border/50`}>
       <div className="max-w-[600px] mx-auto text-center space-y-4">
         <h3 className="text-xl md:text-2xl font-display font-semibold text-foreground">
           {title}

@@ -63,7 +63,7 @@ export const RetentionRiskCalculator = () => {
     <Card className="border-2">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Target className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <Target className="w-5 h-5 text-primary" />
           Retention Risk Calculator
         </CardTitle>
         <CardDescription>
@@ -161,7 +161,7 @@ export const RetentionRiskCalculator = () => {
               <ul className="space-y-2">
                 {riskScore.recommendations.map((rec: string, index: number) => (
                   <li key={index} className="flex items-start gap-2">
-                    <span style={{ color: 'rgba(59,130,246,1)' }}>•</span>
+                    <span className="text-primary">•</span>
                     <span className="text-sm">{rec}</span>
                   </li>
                 ))}

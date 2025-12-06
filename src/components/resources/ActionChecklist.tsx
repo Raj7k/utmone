@@ -86,8 +86,8 @@ export const ActionChecklist = ({ items, storageKey, title = "Action Items", cla
       {/* Progress Bar */}
       <div className="h-1 bg-muted">
         <div 
-          className="h-full transition-all duration-500"
-          style={{ width: `${progress}%`, background: 'rgba(59,130,246,1)' }}
+          className="h-full transition-all duration-500 bg-primary"
+          style={{ width: `${progress}%` }}
         />
       </div>
 
@@ -102,9 +102,9 @@ export const ActionChecklist = ({ items, storageKey, title = "Action Items", cla
               className="w-full flex items-start gap-3 text-left hover:bg-muted/20 p-3 rounded-lg transition-colors group"
             >
               {isCompleted ? (
-                <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary" />
               ) : (
-                <Circle className="w-5 h-5 text-muted-foreground group-hover:text-white flex-shrink-0 mt-0.5 transition-colors" style={{ color: undefined }} />
+                <Circle className="w-5 h-5 text-muted-foreground group-hover:text-white flex-shrink-0 mt-0.5 transition-colors" />
               )}
               <span className={cn(
                 "text-sm transition-colors",

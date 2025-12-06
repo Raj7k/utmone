@@ -61,7 +61,7 @@ export const TeamBudgetOptimizer = () => {
     <Card className="border-2">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Users className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <Users className="w-5 h-5 text-primary" />
           Team Budget Optimizer
         </CardTitle>
         <CardDescription>
@@ -136,11 +136,11 @@ export const TeamBudgetOptimizer = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-secondary-label">Total Annual Budget</p>
-                <p className="text-3xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
+                <p className="text-3xl font-bold text-primary">
                   ${results.totalBudget.toLocaleString()}
                 </p>
               </div>
-              <DollarSign className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+              <DollarSign className="w-8 h-8 text-primary" />
             </div>
 
             <div className="grid grid-cols-3 gap-4">

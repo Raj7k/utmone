@@ -34,7 +34,7 @@ export const HiringCompetitivenessDashboard = () => {
     <Card className="border-2">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <TrendingUp className="w-5 h-5 text-primary" />
           Hiring Competitiveness Dashboard
         </CardTitle>
         <CardDescription>
