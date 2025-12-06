@@ -169,8 +169,7 @@ export const ToolRecommendationEngine = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="rounded-2xl p-8 border-2"
-        style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}
+        className="rounded-2xl p-8 border-2 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20"
       >
         <h3 className="text-2xl font-display font-semibold text-foreground mb-6">
           Recommended Tool Stack
@@ -178,8 +177,8 @@ export const ToolRecommendationEngine = () => {
 
         <div className="grid md:grid-cols-3 gap-6 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <DollarSign className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <DollarSign className="w-6 h-6 text-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Total Cost</div>
@@ -190,8 +189,8 @@ export const ToolRecommendationEngine = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <Clock className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <Clock className="w-6 h-6 text-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Setup Time</div>
@@ -202,8 +201,8 @@ export const ToolRecommendationEngine = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <Zap className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <Zap className="w-6 h-6 text-primary" />
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Complexity</div>
@@ -239,7 +238,7 @@ export const ToolRecommendationEngine = () => {
                     <span>•</span>
                     <div className="flex items-center gap-1">
                       {Array.from({ length: tool.complexity }).map((_, i) => (
-                        <div key={i} className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(59,130,246,1)' }} />
+                        <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary" />
                       ))}
                       {Array.from({ length: 5 - tool.complexity }).map((_, i) => (
                         <div key={i} className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />

@@ -15,7 +15,7 @@ export const RoleChecklistTabs = () => {
     marketer: {
       title: "Marketer's Weekly Checklist",
       icon: Users,
-      colorStyle: { color: 'rgba(59,130,246,1)' },
+      colorClass: "text-primary",
       items: [
         { id: "mk-1", text: "Sent 3+ campaigns this week" },
         { id: "mk-2", text: "Reviewed lead quality feedback from sales" },
@@ -25,7 +25,7 @@ export const RoleChecklistTabs = () => {
     sales: {
       title: "Sales Rep's Daily Checklist",
       icon: UserCheck,
-      colorStyle: { color: 'rgba(22,163,74,1)' },
+      colorClass: "text-green-500",
       items: [
         { id: "sr-1", text: "Checked new MQLs in CRM" },
         { id: "sr-2", text: "Called/emailed all MQLs within 1 hour" },
@@ -35,7 +35,7 @@ export const RoleChecklistTabs = () => {
     leader: {
       title: "Sales Leader's Weekly Checklist",
       icon: Shield,
-      colorStyle: { color: 'rgba(147,51,234,1)' },
+      colorClass: "text-purple-500",
       items: [
         { id: "sl-1", text: "Reviewed MQL-to-SQL rate this week" },
         { id: "sl-2", text: "Checked team response times" },
@@ -45,7 +45,7 @@ export const RoleChecklistTabs = () => {
     ops: {
       title: "Marketing Ops Weekly Checklist",
       icon: Settings,
-      colorStyle: { color: 'rgba(234,88,12,1)' },
+      colorClass: "text-orange-500",
       items: [
         { id: "mo-1", text: "Verified scoring model working correctly" },
         { id: "mo-2", text: "Confirmed routing and alerts fired correctly" },
@@ -68,7 +68,7 @@ export const RoleChecklistTabs = () => {
               const Icon = checklist.icon;
               return (
                 <TabsTrigger key={key} value={key} className="flex items-center gap-2 py-3">
-                  <Icon className="w-4 h-4" style={checklist.colorStyle} />
+                  <Icon className={`w-4 h-4 ${checklist.colorClass}`} />
                   <span className="hidden sm:inline">
                     {key === "marketer" ? "Marketer" : 
                      key === "sales" ? "Sales Rep" :
@@ -92,8 +92,8 @@ export const RoleChecklistTabs = () => {
               <TabsContent key={key} value={key} className="mt-6">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                      <Icon className="w-5 h-5" style={checklist.colorStyle} />
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Icon className={`w-5 h-5 ${checklist.colorClass}`} />
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg">{checklist.title}</h3>

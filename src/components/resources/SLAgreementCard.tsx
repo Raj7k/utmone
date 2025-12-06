@@ -56,8 +56,8 @@ Once signed, post this in both team channels.
       <CardHeader>
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <Handshake className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Handshake className="w-6 h-6 text-primary" />
             </div>
             <div>
               <CardTitle className="text-2xl">The SLA (Handshake Agreement)</CardTitle>
@@ -89,7 +89,7 @@ Once signed, post this in both team channels.
                 <div key={promise.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                   <Checkbox id={promise.id} />
                   <label htmlFor={promise.id} className="text-sm leading-relaxed cursor-pointer flex-1">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>{index + 1}.</span> {promise.text}
+                    <span className="font-semibold text-primary">{index + 1}.</span> {promise.text}
                   </label>
                 </div>
               ))}
@@ -107,7 +107,7 @@ Once signed, post this in both team channels.
                 <div key={promise.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                   <Checkbox id={promise.id} />
                   <label htmlFor={promise.id} className="text-sm leading-relaxed cursor-pointer flex-1">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>{index + 1}.</span> {promise.text}
+                    <span className="font-semibold text-primary">{index + 1}.</span> {promise.text}
                   </label>
                 </div>
               ))}
@@ -136,7 +136,7 @@ Once signed, post this in both team channels.
           </div>
         </div>
 
-        <div className="mt-6 p-4 rounded-xl border" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
+        <div className="mt-6 p-4 rounded-xl border bg-primary/5 border-primary/20">
           <p className="text-sm text-muted-foreground">
             <strong className="text-foreground">Why this matters:</strong> A signed SLA creates accountability. When both teams commit publicly to these promises, execution improves by 3-5x. Post this in Slack after signing.
           </p>

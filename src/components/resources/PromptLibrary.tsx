@@ -196,7 +196,7 @@ export const PromptLibrary = () => {
               <div className="space-y-1 flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-semibold text-lg">{item.title}</h3>
-                  <span className="text-xs px-2 py-1 rounded-full" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
                     {item.category}
                   </span>
                 </div>

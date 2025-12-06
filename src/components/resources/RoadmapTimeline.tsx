@@ -33,7 +33,7 @@ export const RoadmapTimeline = () => {
       title: "Month 1: Foundation",
       subtitle: "Definitions, scoring, routing live",
       icon: Target,
-      color: "from-[rgba(59,130,246,0.1)] to-[rgba(59,130,246,0.05)]",
+      color: "from-primary/10 to-primary/5",
       milestones: [
         { id: "m1-1", title: "Define MQL & SQL criteria", description: "1-hour meeting with sales & marketing leaders", completed: false },
         { id: "m1-2", title: "Set up lead scoring model", description: "Configure fit + engagement scoring (35 + 65 points)", completed: false },
@@ -114,7 +114,7 @@ export const RoadmapTimeline = () => {
       </CardHeader>
       <CardContent className="space-y-8">
         {/* Progress Overview */}
-        <div className="p-6 rounded-xl border space-y-4" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))', borderColor: 'rgba(59,130,246,0.2)' }}>
+        <div className="p-6 rounded-xl border space-y-4 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-muted-foreground mb-1">Overall Progress</p>
@@ -153,11 +153,11 @@ export const RoadmapTimeline = () => {
               >
                 <div className={`p-6 rounded-xl bg-gradient-to-br ${month.color} border-2 ${monthCompleted ? "border-green-500/50" : "border-border"}`}>
                   <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl ${monthCompleted ? "bg-green-500/20" : ""} flex items-center justify-center flex-shrink-0`} style={!monthCompleted ? { background: 'rgba(59,130,246,0.1)' } : undefined}>
+                  <div className={`w-12 h-12 rounded-xl ${monthCompleted ? "bg-green-500/20" : "bg-primary/10"} flex items-center justify-center flex-shrink-0`}>
                       {monthCompleted ? (
                         <CheckCircle2 className="w-6 h-6 text-green-600" />
                       ) : (
-                        <Icon className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                        <Icon className="w-6 h-6 text-primary" />
                       )}
                     </div>
                     <div className="flex-1">

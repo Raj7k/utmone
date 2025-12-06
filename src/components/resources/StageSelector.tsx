@@ -77,17 +77,16 @@ export const StageSelector = () => {
           className={cn(
             "bg-card rounded-2xl border-2 transition-all cursor-pointer",
             selectedStage === stage.id
-              ? ""
+              ? "border-primary shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)]"
               : "border-border/50 hover:border-border"
           )}
-          style={selectedStage === stage.id ? { borderColor: 'rgba(59,130,246,1)', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.3)' } : undefined}
           onClick={() => setSelectedStage(selectedStage === stage.id ? null : stage.id)}
         >
           <div className="p-8">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <span className="text-sm font-semibold text-primary">
                     stage {stage.id}
                   </span>
                   <span className="px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
@@ -95,7 +94,7 @@ export const StageSelector = () => {
                   </span>
                   <div className="flex items-center gap-1">
                     {Array.from({ length: stage.complexity }).map((_, i) => (
-                      <Star key={i} className="w-3 h-3" style={{ fill: 'rgba(59,130,246,1)', color: 'rgba(59,130,246,1)' }} />
+                      <Star key={i} className="w-3 h-3 fill-primary text-primary" />
                     ))}
                     {Array.from({ length: 5 - stage.complexity }).map((_, i) => (
                       <Star key={i} className="w-3 h-3 text-muted-foreground/30" />
@@ -147,7 +146,7 @@ export const StageSelector = () => {
                       <ul className="space-y-2">
                         {stage.keyMetrics.map((metric, i) => (
                           <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                            <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>•</span>
+                            <span className="mt-1 text-primary">•</span>
                             {metric}
                           </li>
                         ))}
@@ -162,8 +161,7 @@ export const StageSelector = () => {
                         {stage.tools.map((tool, i) => (
                             <span
                               key={i}
-                              className="px-3 py-1 rounded-full text-xs border"
-                              style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)', borderColor: 'rgba(59,130,246,0.2)' }}
+                              className="px-3 py-1 rounded-full text-xs border bg-primary/10 text-primary border-primary/20"
                             >
                             {tool}
                           </span>
