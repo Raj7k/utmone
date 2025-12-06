@@ -10,8 +10,8 @@ const inputVariants = cva(
       variant: {
         default: "h-11 px-3 py-2 border-border bg-card text-base md:text-sm ring-offset-background file:text-foreground placeholder:text-tertiary-label focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2",
         system: "h-[44px] px-4 py-2.5 border-separator bg-fill-tertiary text-label placeholder:text-tertiary-label focus-visible:outline-none focus-visible:border-system-blue focus-visible:ring-4 focus-visible:ring-system-blue/15",
-        // Obsidian "Recessed Glass" input - dark inset appearance
-        glass: "h-11 px-4 py-2 bg-black/50 border-white/10 text-white placeholder:text-white/40 focus-visible:outline-none focus-visible:border-white/30 focus-visible:ring-2 focus-visible:ring-white/10 transition-all",
+        // Glass input - theme-aware
+        glass: "h-11 px-4 py-2 bg-muted/50 dark:bg-black/50 border-border dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-white/40 focus-visible:outline-none focus-visible:border-primary/30 dark:focus-visible:border-white/30 focus-visible:ring-2 focus-visible:ring-primary/10 dark:focus-visible:ring-white/10 transition-all",
       }
     },
     defaultVariants: {

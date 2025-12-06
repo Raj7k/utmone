@@ -238,11 +238,11 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 97%) 0%, hsl(0, 0%, 100%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 97%) 100%);
 
-    /* Obsidian Platinum gradients (replaces nature-inspired) */
-    --gradient-nature-1: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    --gradient-nature-2: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(161,161,170,0.1) 100%);
-    --gradient-nature-3: linear-gradient(135deg, rgba(161,161,170,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    --gradient-nature-4: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(161,161,170,0.08) 100%);
+    /* Nature gradients - Light mode uses dark colors for visibility */
+    --gradient-nature-1: linear-gradient(135deg, hsl(240 6% 11% / 0.1) 0%, hsl(240 6% 11% / 0.05) 100%);
+    --gradient-nature-2: linear-gradient(135deg, hsl(240 6% 11% / 0.08) 0%, hsl(240 6% 40% / 0.1) 100%);
+    --gradient-nature-3: linear-gradient(135deg, hsl(240 6% 40% / 0.1) 0%, hsl(240 6% 11% / 0.05) 100%);
+    --gradient-nature-4: linear-gradient(135deg, hsl(240 6% 11% / 0.05) 0%, hsl(240 6% 40% / 0.08) 100%);
 
     /* Accent color tokens - Obsidian Platinum system */
     --accent-teal: 0 0% 70%;           /* Silver/platinum */

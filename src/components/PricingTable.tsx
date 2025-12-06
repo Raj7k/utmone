@@ -80,15 +80,13 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
     
     if (typeof value === 'string') {
       if (value.toLowerCase().includes('unlimited')) {
-        return <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>unlimited</span>;
+        return <span className="font-medium text-foreground">unlimited</span>;
       }
       return value;
     }
     
     return value?.toString() || '—';
   };
-
-  // Badge is now rendered outside the table structure
 
   return (
     <>
@@ -117,54 +115,45 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
           </button>
         </div>
         
-        {/* Savings badge - always visible but styled differently */}
+        {/* Savings badge */}
         <div 
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200"
-          style={billingPeriod === 'annual' 
-            ? { background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }
-            : { background: 'transparent' }
-          }
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-200 ${
+            billingPeriod === 'annual' 
+              ? 'bg-primary/10 border border-primary/20' 
+              : 'bg-transparent'
+          }`}
         >
           <svg 
-            className="w-4 h-4 transition-colors" 
+            className={`w-4 h-4 transition-colors ${billingPeriod === 'annual' ? 'text-foreground' : 'text-muted-foreground'}`}
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
-            style={{ color: billingPeriod === 'annual' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          <span 
-            className="text-xs font-medium transition-colors"
-            style={{ color: billingPeriod === 'annual' ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
-          >
+          <span className={`text-xs font-medium transition-colors ${billingPeriod === 'annual' ? 'text-foreground' : 'text-muted-foreground'}`}>
             save up to 20% with annual billing
           </span>
         </div>
       </div>
 
-      {/* Desktop Grid View - Wrapper with badge */}
+      {/* Desktop Grid View */}
       <div className="hidden md:block relative">
-        {/* MOST POPULAR Badge - Floating above table */}
+        {/* MOST POPULAR Badge */}
         <div className="absolute -top-4 z-20" style={{ left: '62.5%', transform: 'translateX(-50%)' }}>
-          <span 
-            className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm"
-            style={{ background: 'rgba(255,255,255,0.9)', color: 'rgba(24,24,27,0.9)' }}
-          >
+          <span className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm bg-primary text-primary-foreground">
             most popular
           </span>
         </div>
 
-        {/* Table Structure */}
-        <div className="border border-white/10 rounded-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-xl">
+        {/* Table Structure - Theme-aware */}
+        <div className="border border-border rounded-2xl overflow-hidden bg-card dark:bg-zinc-900/40 backdrop-blur-xl">
           {/* Header Row 1: Plan Names & Prices */}
-          <div className="grid grid-cols-4 divide-x divide-white/10 border-b border-white/10">
-            {/* Column 1: Label */}
+          <div className="grid grid-cols-4 divide-x divide-border border-b border-border">
             <div className="p-6">
               <p className="text-sm text-muted-foreground font-medium">choose your plan</p>
             </div>
             
-            {/* Columns 2-4: Plan Names & Prices */}
             {plans.slice(0, 3).map((plan) => (
               <div key={plan.tier} className="p-6 space-y-2">
                 <h3 className="text-xl font-display font-bold text-foreground brand-lowercase">
@@ -178,8 +167,8 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   <div className="text-sm text-muted-foreground">
                     /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
                   </div>
-                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                    <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                    <div className="text-xs font-medium text-foreground/80">
                       save ${getAnnualSavings(plan.tier)}/year
                     </div>
                   )}
@@ -188,12 +177,10 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
             ))}
           </div>
 
-          {/* Header Row 2: CTA Buttons - All Aligned */}
-          <div className="grid grid-cols-4 divide-x divide-white/10 border-b border-white/10">
-            {/* Column 1: Empty */}
+          {/* Header Row 2: CTA Buttons */}
+          <div className="grid grid-cols-4 divide-x divide-border border-b border-border">
             <div className="p-6"></div>
             
-            {/* Columns 2-4: CTA Buttons */}
             {plans.slice(0, 3).map((plan) => (
               <div key={`cta-${plan.tier}`} className="p-6">
                 <Button
@@ -207,33 +194,31 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
             ))}
           </div>
 
-        {/* Feature Rows */}
-        {PRICING_FEATURES.map((feature) => (
-          <div 
-            key={feature.key}
-            className="grid grid-cols-4 divide-x divide-white/10 border-b border-white/10 last:border-b-0 hover:bg-white/5 transition-colors"
-          >
-            {/* Column 1: Feature Name */}
-            <div className="py-4 px-6 text-left">
-              <span className="text-sm text-white font-medium">{feature.label}</span>
-            </div>
-            
-            {/* Columns 2-4: Feature Values */}
-            {plans.slice(0, 3).map((plan) => (
-              <div 
-                key={`${plan.tier}-${feature.key}`}
-                className="py-4 px-6 text-center flex items-center justify-center"
-              >
-                <span className="text-sm text-white/70">
-                  {formatValue((plan.features as any)[feature.key], feature.type)}
-                </span>
+          {/* Feature Rows */}
+          {PRICING_FEATURES.map((feature) => (
+            <div 
+              key={feature.key}
+              className="grid grid-cols-4 divide-x divide-border border-b border-border last:border-b-0 hover:bg-muted/50 transition-colors"
+            >
+              <div className="py-4 px-6 text-left">
+                <span className="text-sm text-foreground font-medium">{feature.label}</span>
               </div>
-            ))}
-          </div>
-        ))}
-        
+              
+              {plans.slice(0, 3).map((plan) => (
+                <div 
+                  key={`${plan.tier}-${feature.key}`}
+                  className="py-4 px-6 text-center flex items-center justify-center"
+                >
+                  <span className="text-sm text-muted-foreground">
+                    {formatValue((plan.features as any)[feature.key], feature.type)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ))}
+          
           {/* Enterprise Row */}
-          <div className="bg-white/5 p-6 text-center border-t border-white/10">
+          <div className="bg-muted/50 p-6 text-center border-t border-border">
             <div className="space-y-3">
               <h3 className="text-lg font-display font-bold text-foreground brand-lowercase">
                 enterprise
@@ -257,15 +242,15 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
       {/* Mobile Tabbed View */}
       <div className="md:hidden space-y-6">
         {/* Tabs */}
-        <div className="flex gap-2 p-1 bg-white/10 rounded-lg">
+        <div className="flex gap-2 p-1 bg-muted/50 rounded-lg">
           {plans.slice(0, 3).map((plan) => (
             <button
               key={plan.tier}
               onClick={() => setSelectedTab(plan.tier as any)}
               className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors brand-lowercase ${
                 selectedTab === plan.tier
-                  ? 'bg-zinc-900 text-white shadow-sm'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-card text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {plan.name}
@@ -276,69 +261,65 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         {/* Selected Plan Content */}
         {plans.slice(0, 3).filter(plan => plan.tier === selectedTab).map((plan) => (
           <div key={plan.tier} className="relative">
-            {/* Badge for mobile */}
             {plan.tier === 'pro' && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                <span 
-                  className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm"
-                  style={{ background: 'rgba(255,255,255,0.9)', color: 'rgba(24,24,27,0.9)' }}
-                >
+                <span className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm bg-primary text-primary-foreground">
                   most popular
                 </span>
               </div>
             )}
-            <div className="border border-white/10 rounded-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-xl">
-            {/* Plan Header */}
-            <div className="p-6 space-y-4 border-b border-white/10">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-display font-bold text-foreground brand-lowercase">
-                  {plan.name}
-                </h3>
-              </div>
-              
-              <div className="space-y-1">
-                <div className="text-4xl font-display font-bold text-foreground">
-                  {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
+            <div className="border border-border rounded-2xl overflow-hidden bg-card dark:bg-zinc-900/40 backdrop-blur-xl">
+              {/* Plan Header */}
+              <div className="p-6 space-y-4 border-b border-border">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-display font-bold text-foreground brand-lowercase">
+                    {plan.name}
+                  </h3>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
-                </div>
-                {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
-                  <div className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                    save ${getAnnualSavings(plan.tier)}/year
+                
+                <div className="space-y-1">
+                  <div className="text-4xl font-display font-bold text-foreground">
+                    {plan.price === 0 ? '$0' : `$${getPrice(plan)}`}
                   </div>
-                )}
+                  <div className="text-sm text-muted-foreground">
+                    /{billingPeriod === 'annual' ? 'month, billed annually' : 'monthly'}
+                  </div>
+                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                    <div className="text-xs font-medium text-foreground/80">
+                      save ${getAnnualSavings(plan.tier)}/year
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  size="lg"
+                  onClick={() => onSelect(plan.tier)}
+                  className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
+                >
+                  {plan.cta}
+                </Button>
               </div>
 
-              <Button
-                size="lg"
-                onClick={() => onSelect(plan.tier)}
-                className="w-full brand-lowercase bg-blazeOrange text-white hover:bg-blazeOrange/90"
-              >
-                {plan.cta}
-              </Button>
-            </div>
-
-            {/* Features List */}
-            <div className="divide-y divide-white/10">
-              {PRICING_FEATURES.map((feature) => (
-                <div 
-                  key={feature.key}
-                  className="py-4 px-6 flex items-center justify-between"
-                >
-                  <span className="text-sm text-white font-medium">{feature.label}</span>
-                  <span className="text-sm text-white/70">
-                    {formatValue((plan.features as any)[feature.key], feature.type)}
-                  </span>
-                </div>
-              ))}
-            </div>
+              {/* Features List */}
+              <div className="divide-y divide-border">
+                {PRICING_FEATURES.map((feature) => (
+                  <div 
+                    key={feature.key}
+                    className="py-4 px-6 flex items-center justify-between"
+                  >
+                    <span className="text-sm text-foreground font-medium">{feature.label}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {formatValue((plan.features as any)[feature.key], feature.type)}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
         
         {/* Enterprise Card */}
-        <div className="border border-white/10 rounded-2xl p-6 bg-white/5 text-center space-y-4">
+        <div className="border border-border rounded-2xl p-6 bg-muted/50 text-center space-y-4">
           <h3 className="text-xl font-display font-bold text-foreground brand-lowercase">
             enterprise
           </h3>

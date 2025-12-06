@@ -12,9 +12,9 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground",
         outline: "text-foreground",
-        // Obsidian variants
-        glass: "border-white/10 bg-zinc-900/40 backdrop-blur-xl text-white/90",
-        platinum: "border-white/20 bg-white/10 text-white",
+        // Glass variants - theme-aware
+        glass: "border-border dark:border-white/10 bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl text-foreground dark:text-white/90",
+        platinum: "border-border dark:border-white/20 bg-muted/10 dark:bg-white/10 text-foreground dark:text-white",
       },
     },
     defaultVariants: {

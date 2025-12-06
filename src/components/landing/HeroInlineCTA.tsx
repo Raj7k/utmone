@@ -29,7 +29,7 @@ export const HeroInlineCTA = () => {
     <div className="relative max-w-[600px] mx-auto">
       <form 
         onSubmit={handleSubmit}
-        className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all duration-300"
+        className="bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl border border-border dark:border-white/10 rounded-2xl p-4 hover:border-border/80 dark:hover:border-white/20 transition-all duration-300"
       >
         <div className="flex flex-col sm:flex-row gap-3">
           <Input
@@ -37,10 +37,7 @@ export const HeroInlineCTA = () => {
             placeholder="enter your email..."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 h-12 bg-white/5 border-white/10 text-white placeholder:text-white/40 transition-all"
-            style={{ 
-              // Focus styles handled via CSS
-            }}
+            className="flex-1 h-12 bg-muted/50 dark:bg-white/5 border-border dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-white/40 transition-all"
             required
           />
           <Button
@@ -54,7 +51,7 @@ export const HeroInlineCTA = () => {
           </Button>
         </div>
         {error && (
-          <p className="text-sm mt-2" style={{ color: 'rgba(239,68,68,0.9)' }}>{error}</p>
+          <p className="text-sm mt-2 text-destructive">{error}</p>
         )}
       </form>
     </div>
