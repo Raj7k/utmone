@@ -30,10 +30,10 @@ const StepProgress = ({ currentStep, totalSteps }: StepProgressProps) => {
           <motion.div
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
               index < currentStep
-                ? "bg-blazeOrange text-white"
+                ? "bg-primary text-primary-foreground"
                 : index === currentStep
-                ? "bg-blazeOrange text-white ring-4 ring-blazeOrange/20"
-                : "bg-white/10 text-white/40"
+                ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
+                : "bg-muted text-muted-foreground"
             }`}
             initial={{ scale: 0.8 }}
             animate={{ scale: index === currentStep ? 1.1 : 1 }}
@@ -48,7 +48,7 @@ const StepProgress = ({ currentStep, totalSteps }: StepProgressProps) => {
           {index < totalSteps - 1 && (
             <motion.div
               className={`w-12 h-1 mx-1 rounded-full transition-all ${
-                index < currentStep ? "bg-blazeOrange" : "bg-white/10"
+                index < currentStep ? "bg-primary" : "bg-muted"
               }`}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: index < currentStep ? 1 : 0.3 }}
@@ -83,12 +83,11 @@ export const FirstPrinciplesWizard = () => {
       ]);
       setStep(2);
       
-      // Trigger confetti
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#191265', '#FF6B35', '#3B82F6']
+        colors: ['#3B82F6', '#FF6B35', '#10B981']
       });
     } else {
       toast.error("please fill at least 3 'why' answers");
@@ -121,16 +120,7 @@ export const FirstPrinciplesWizard = () => {
   };
 
   return (
-    <div 
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'rgba(24, 24, 27, 0.6)',
-        backdropFilter: 'blur(40px)',
-        WebkitBackdropFilter: 'blur(40px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-      }}
-    >
+    <div className="glass-card rounded-2xl overflow-hidden">
       <div className="p-6 md:p-8">
         <StepProgress currentStep={step} totalSteps={3} />
         
@@ -147,13 +137,13 @@ export const FirstPrinciplesWizard = () => {
               className="space-y-4"
             >
               <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))' }}>
-                  <Target className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-8 h-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
                   define your problem
                 </h3>
-                <p className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                <p className="text-sm mt-1 text-muted-foreground">
                   What decision are you trying to make?
                 </p>
               </div>
@@ -162,7 +152,7 @@ export const FirstPrinciplesWizard = () => {
                 placeholder="e.g., Our marketing campaigns aren't generating enough leads and we're not sure where to focus our budget..."
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
-                className="min-h-[120px] text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                className="min-h-[120px] text-sm"
               />
               
               <Button onClick={nextStep} className="w-full lowercase" size="lg">
@@ -184,23 +174,20 @@ export const FirstPrinciplesWizard = () => {
               className="space-y-4"
             >
               <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blazeOrange to-blazeOrange/60 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-orange to-system-orange/60 flex items-center justify-center mx-auto mb-4">
                   <Lightbulb className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
                   ask "why" 5 times
                 </h3>
-                <p className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                <p className="text-sm mt-1 text-muted-foreground">
                   Dig deeper with each answer
                 </p>
               </div>
               
-              <div 
-                className="rounded-lg p-3 mb-4"
-                style={{ background: 'rgba(255, 255, 255, 0.05)' }}
-              >
-                <p className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>Your problem:</p>
-                <p className="text-sm font-medium" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{problem}</p>
+              <div className="rounded-lg p-3 mb-4 bg-muted">
+                <p className="text-xs text-muted-foreground lowercase">your problem:</p>
+                <p className="text-sm font-medium text-foreground">{problem}</p>
               </div>
               
               <div className="space-y-3">
@@ -214,7 +201,7 @@ export const FirstPrinciplesWizard = () => {
                   >
                     <div 
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0 transition-all ${
-                        why.trim() ? "bg-blazeOrange text-white" : "bg-white/10 text-white/40"
+                        why.trim() ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {index + 1}
@@ -223,7 +210,7 @@ export const FirstPrinciplesWizard = () => {
                       placeholder={index === 0 ? "Why is this happening?" : `Why? (dig deeper)`}
                       value={why}
                       onChange={(e) => updateWhy(index, e.target.value)}
-                      className="text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                      className="text-sm"
                     />
                   </motion.div>
                 ))}
@@ -233,7 +220,7 @@ export const FirstPrinciplesWizard = () => {
                 <Button 
                   onClick={prevStep} 
                   variant="outline" 
-                  className="lowercase border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                  className="lowercase"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   back
@@ -259,17 +246,17 @@ export const FirstPrinciplesWizard = () => {
             >
               <div className="text-center mb-6">
                 <motion.div 
-                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mx-auto mb-4"
+                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-green to-system-green/80 flex items-center justify-center mx-auto mb-4"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1, rotate: [0, -10, 10, 0] }}
                   transition={{ type: "spring", delay: 0.2 }}
                 >
                   <PartyPopper className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-xl font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                <h3 className="text-xl font-display font-semibold lowercase text-foreground">
                   fundamental insights revealed
                 </h3>
-                <p className="text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                <p className="text-sm mt-1 text-muted-foreground">
                   Here's what we discovered
                 </p>
               </div>
@@ -281,14 +268,10 @@ export const FirstPrinciplesWizard = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + i * 0.15 }}
-                    className="flex items-start gap-3 p-4 rounded-xl"
-                    style={{
-                      background: 'rgba(255, 107, 53, 0.1)',
-                      border: '1px solid rgba(255, 107, 53, 0.2)'
-                    }}
+                    className="flex items-start gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20"
                   >
-                    <CheckCircle2 className="w-5 h-5 text-blazeOrange shrink-0 mt-0.5" />
-                    <span className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{f}</span>
+                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm text-foreground">{f}</span>
                   </motion.div>
                 ))}
               </div>
@@ -297,7 +280,7 @@ export const FirstPrinciplesWizard = () => {
                 <Button 
                   onClick={() => setStep(0)} 
                   variant="outline" 
-                  className="lowercase border-white/10 bg-white/5 hover:bg-white/10 text-white"
+                  className="lowercase"
                 >
                   start over
                 </Button>

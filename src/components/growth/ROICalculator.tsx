@@ -30,23 +30,23 @@ export const ROICalculator = () => {
     <div className="max-w-5xl mx-auto">
       <div className="grid md:grid-cols-2 gap-8">
         {/* Left: Inputs */}
-        <div className="p-8 space-y-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl">
+        <div className="p-8 space-y-8 glass-card rounded-2xl">
           <div>
-            <h3 className="text-2xl font-display font-bold text-white mb-2 lowercase">
-              calculate your ROI
+            <h3 className="text-2xl font-display font-bold text-foreground mb-2 lowercase">
+              calculate your roi
             </h3>
-            <p className="text-white/60">
-              See how much time and money you're losing to manual utm cleanup
+            <p className="text-muted-foreground lowercase">
+              see how much time and money you're losing to manual utm cleanup
             </p>
           </div>
 
           {/* Team Size */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-white">Team Size</label>
+              <label className="text-sm font-medium text-foreground lowercase">team size</label>
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-white" />
-                <span className="text-lg font-bold text-white">{teamSize}</span>
+                <Users className="w-4 h-4 text-primary" />
+                <span className="text-lg font-bold text-foreground">{teamSize}</span>
               </div>
             </div>
             <Slider
@@ -62,10 +62,10 @@ export const ROICalculator = () => {
           {/* Hours per Week */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-white">Hours/Week Cleaning Data</label>
+              <label className="text-sm font-medium text-foreground lowercase">hours/week cleaning data</label>
               <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-white" />
-                <span className="text-lg font-bold text-white">{hoursPerWeek}h</span>
+                <Clock className="w-4 h-4 text-primary" />
+                <span className="text-lg font-bold text-foreground">{hoursPerWeek}h</span>
               </div>
             </div>
             <Slider
@@ -81,10 +81,10 @@ export const ROICalculator = () => {
           {/* Average Salary */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-white">Average Salary</label>
+              <label className="text-sm font-medium text-foreground lowercase">average salary</label>
               <div className="flex items-center gap-2">
-                <DollarSign className="w-4 h-4 text-white" />
-                <span className="text-lg font-bold text-white">
+                <DollarSign className="w-4 h-4 text-primary" />
+                <span className="text-lg font-bold text-foreground">
                   ${(avgSalary / 1000).toFixed(0)}k
                 </span>
               </div>
@@ -106,19 +106,19 @@ export const ROICalculator = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="p-8 bg-zinc-900/60 backdrop-blur-xl border border-white/15 rounded-2xl h-full flex flex-col">
+          <div className="p-8 glass-card rounded-2xl h-full flex flex-col">
             <div className="flex-1 space-y-6">
               <div className="text-center">
-                <TrendingUp className="w-12 h-12 text-white mx-auto mb-4" />
-                <h4 className="text-lg font-display font-semibold text-white mb-2 lowercase">
+                <TrendingUp className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h4 className="text-lg font-display font-semibold text-foreground mb-2 lowercase">
                   your potential savings
                 </h4>
               </div>
 
               {/* Yearly Waste */}
-              <div className="text-center p-6 bg-red-500/10 rounded-xl border border-red-500/20">
-                <div className="text-sm text-white/60 mb-1">wasted annually on manual cleanup</div>
-                <div className="text-4xl font-bold text-red-400">
+              <div className="text-center p-6 bg-system-red/10 rounded-xl border border-system-red/20">
+                <div className="text-sm text-muted-foreground mb-1 lowercase">wasted annually on manual cleanup</div>
+                <div className="text-4xl font-display font-bold text-system-red">
                   {new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'USD',
@@ -128,9 +128,9 @@ export const ROICalculator = () => {
               </div>
 
               {/* Savings */}
-              <div className="text-center p-6 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
-                <div className="text-sm text-white/60 mb-1">saved with utm.one</div>
-                <div className="text-4xl font-bold text-emerald-400">
+              <div className="text-center p-6 bg-system-green/10 rounded-xl border border-system-green/20">
+                <div className="text-sm text-muted-foreground mb-1 lowercase">saved with utm.one</div>
+                <div className="text-4xl font-display font-bold text-system-green">
                   {new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'USD',
@@ -141,22 +141,21 @@ export const ROICalculator = () => {
 
               {/* ROI */}
               <div className="text-center">
-                <div className="text-sm text-white/60 mb-1">return on investment</div>
-                <div className="text-5xl font-bold text-white">{roi}%</div>
+                <div className="text-sm text-muted-foreground mb-1 lowercase">return on investment</div>
+                <div className="text-5xl font-display font-bold text-foreground">{roi}%</div>
               </div>
             </div>
 
             {/* Share Button */}
-            <div className="pt-6 border-t border-white/10 space-y-3">
+            <div className="pt-6 border-t border-border space-y-3">
               <Button
-                variant="marketing"
-                className="w-full"
+                className="w-full lowercase"
                 onClick={handleShare}
               >
-                Share on LinkedIn
+                share on linkedin
               </Button>
-              <p className="text-xs text-center text-white/40">
-                Show your team the cost of bad data
+              <p className="text-xs text-center text-muted-foreground lowercase">
+                show your team the cost of bad data
               </p>
             </div>
           </div>
