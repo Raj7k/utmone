@@ -231,16 +231,16 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
 const GeoMapMockup = ({ size = "default" }: { size?: "default" | "large" }) => (
   <div className="bg-card border border-border rounded-xl p-6">
     <div className="flex items-center gap-2 mb-4">
-      <Globe className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+      <Globe className="w-4 h-4 text-primary" />
       <h4 className="text-sm font-semibold text-label">Geo-Targeting Rules</h4>
     </div>
     <div className="space-y-3">
-      <div className="rounded-lg p-3 flex items-center justify-between" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}>
+      <div className="rounded-lg p-3 flex items-center justify-between bg-primary/10 border border-primary/20">
         <div className="flex items-center gap-2">
           <span className="text-lg">🇺🇸</span>
           <span className="text-sm font-semibold text-label">United States</span>
         </div>
-        <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+        <CheckCircle2 className="w-4 h-4 text-primary" />
       </div>
       <div className="bg-muted/50 rounded-lg p-3 flex items-center justify-between opacity-60">
         <div className="flex items-center gap-2">
@@ -262,21 +262,21 @@ const QRCustomizerMockup = ({ size = "default" }: { size?: "default" | "large" }
   <div className="bg-card border border-border rounded-xl p-6">
     <h4 className="text-sm font-semibold text-label mb-4">QR Code Customization</h4>
     <div className="flex flex-col items-center gap-4">
-      <div className="w-40 h-40 bg-white rounded-lg flex items-center justify-center" style={{ border: '2px solid rgba(59,130,246,0.2)' }}>
+      <div className="w-40 h-40 bg-white rounded-lg flex items-center justify-center border-2 border-primary/20">
         <div className="grid grid-cols-8 gap-1">
           {Array.from({ length: 64 }).map((_, i) => (
-            <div key={i} className={`w-3 h-3 ${Math.random() > 0.5 ? '' : 'bg-white'} rounded-sm`} style={Math.random() > 0.5 ? { background: 'rgba(59,130,246,1)' } : undefined} />
+            <div key={i} className={`w-3 h-3 rounded-sm ${Math.random() > 0.5 ? 'bg-primary' : 'bg-white'}`} />
           ))}
         </div>
       </div>
       <div className="w-full space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="text-secondary-label">Brand Colors</span>
-          <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(59,130,246,1)' }} />
+          <CheckCircle2 className="w-3 h-3 text-primary" />
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-secondary-label">Logo</span>
-          <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(59,130,246,1)' }} />
+          <CheckCircle2 className="w-3 h-3 text-primary" />
         </div>
       </div>
     </div>
@@ -287,18 +287,18 @@ const ValidationMockup = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className="bg-card border border-border rounded-xl p-6 space-y-3">
     <h4 className="text-sm font-semibold text-label mb-4">Real-Time Validation</h4>
     <div className="space-y-2">
-      <div className="rounded-lg p-3 flex items-center gap-2" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
-        <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+      <div className="rounded-lg p-3 flex items-center gap-2 bg-primary/5 border border-primary/20">
+        <CheckCircle2 className="w-4 h-4 text-primary" />
         <div className="flex-1">
           <p className="text-xs font-semibold text-label">utm_source</p>
-          <p className="text-xs font-mono" style={{ color: 'rgba(59,130,246,1)' }}>google</p>
+          <p className="text-xs font-mono text-primary">google</p>
         </div>
       </div>
-      <div className="rounded-lg p-3 flex items-center gap-2" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
-        <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+      <div className="rounded-lg p-3 flex items-center gap-2 bg-primary/5 border border-primary/20">
+        <CheckCircle2 className="w-4 h-4 text-primary" />
         <div className="flex-1">
           <p className="text-xs font-semibold text-label">utm_medium</p>
-          <p className="text-xs font-mono" style={{ color: 'rgba(59,130,246,1)' }}>cpc</p>
+          <p className="text-xs font-mono text-primary">cpc</p>
         </div>
       </div>
       <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-2">
@@ -328,12 +328,12 @@ const IdentityStitchingMockup = ({ size = "default" }: { size?: "default" | "lar
         </div>
       </div>
       <div className="flex justify-center">
-        <div className={`${size === "large" ? "text-2xl" : "text-xl"}`} style={{ color: 'rgba(59,130,246,1)' }}>↓</div>
+        <div className={`text-primary ${size === "large" ? "text-2xl" : "text-xl"}`}>↓</div>
       </div>
-      <div className={`rounded-lg ${size === "large" ? "p-4" : "p-3"}`} style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}>
+      <div className={`rounded-lg ${size === "large" ? "p-4" : "p-3"} bg-primary/10 border border-primary/20`}>
         <div className="flex items-center gap-2">
-          <div className={`rounded-full ${size === "large" ? "w-10 h-10" : "w-8 h-8"} flex items-center justify-center`} style={{ background: 'rgba(59,130,246,0.2)' }}>
-            <span className={`font-bold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>SJ</span>
+          <div className={`rounded-full ${size === "large" ? "w-10 h-10" : "w-8 h-8"} flex items-center justify-center bg-primary/20`}>
+            <span className={`font-bold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>SJ</span>
           </div>
           <div>
             <p className={`font-semibold text-label ${size === "large" ? "text-sm" : "text-xs"}`}>Sarah Johnson</p>
@@ -353,9 +353,9 @@ const AttributionGraphMockup = ({ size = "default" }: { size?: "default" | "larg
     <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Bayesian Attribution</h4>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <div className={`rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2`} style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <p className={`font-semibold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>LinkedIn</p>
-          <p className={`${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`} style={{ color: 'rgba(59,130,246,1)' }}>42%</p>
+        <div className={`rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 mr-2 bg-primary/10`}>
+          <p className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>LinkedIn</p>
+          <p className={`text-primary ${size === "large" ? "text-lg font-bold" : "text-sm font-semibold"}`}>42%</p>
         </div>
         <div className={`bg-blazeOrange/10 rounded-lg ${size === "large" ? "p-3" : "p-2"} flex-1 ml-2`}>
           <p className={`font-semibold text-blazeOrange ${size === "large" ? "text-sm" : "text-xs"}`}>Webinar</p>
@@ -383,9 +383,9 @@ const StateValueMockup = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-card border border-border rounded-xl shadow-lg space-y-3 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
     <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Page Value Heatmap</h4>
     <div className="space-y-2">
-      <div className={`flex items-center justify-between rounded-lg ${size === "large" ? "p-3" : "p-2"}`} style={{ background: 'rgba(59,130,246,0.1)' }}>
+      <div className={`flex items-center justify-between rounded-lg ${size === "large" ? "p-3" : "p-2"} bg-primary/10`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/pricing</span>
-        <span className={`font-bold ${size === "large" ? "text-base" : "text-sm"}`} style={{ color: 'rgba(59,130,246,1)' }}>$45.00</span>
+        <span className={`font-bold text-primary ${size === "large" ? "text-base" : "text-sm"}`}>$45.00</span>
       </div>
       <div className={`flex items-center justify-between bg-blazeOrange/10 rounded-lg ${size === "large" ? "p-3" : "p-2"}`}>
         <span className={`text-label font-medium ${size === "large" ? "text-sm" : "text-xs"}`}>/features</span>
@@ -410,12 +410,12 @@ const GoldenPathMockup = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-card border border-border rounded-xl shadow-lg space-y-4 ${size === "large" ? "p-10 scale-125" : "p-6"}`}>
     <div className="flex items-center justify-between mb-2">
       <h4 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Top Conversion Paths</h4>
-      <Zap className={`${size === "large" ? "w-5 h-5" : "w-4 h-4"}`} style={{ color: 'rgba(59,130,246,1)' }} />
+      <Zap className={`text-primary ${size === "large" ? "w-5 h-5" : "w-4 h-4"}`} />
     </div>
     <div className="space-y-3">
-      <div className={`rounded-lg ${size === "large" ? "p-4" : "p-3"} relative`} style={{ background: 'rgba(59,130,246,0.1)', border: '2px solid rgba(59,130,246,0.3)' }}>
+      <div className={`rounded-lg ${size === "large" ? "p-4" : "p-3"} relative bg-primary/10 border-2 border-primary/30`}>
         <div className="absolute top-2 right-2">
-          <span className={`text-white px-2 py-0.5 rounded-full font-bold ${size === "large" ? "text-xs" : "text-[10px]"}`} style={{ background: 'rgba(59,130,246,1)' }}>GOLDEN</span>
+          <span className={`text-white px-2 py-0.5 rounded-full font-bold bg-primary ${size === "large" ? "text-xs" : "text-[10px]"}`}>GOLDEN</span>
         </div>
         <div className={`text-secondary-label mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>Path 1</div>
         <div className={`flex items-center gap-2 mb-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
@@ -427,7 +427,7 @@ const GoldenPathMockup = ({ size = "default" }: { size?: "default" | "large" }) 
         </div>
         <div className="flex items-center justify-between">
           <span className={`text-secondary-label ${size === "large" ? "text-sm" : "text-xs"}`}>Conv. Rate</span>
-          <span className={`font-bold ${size === "large" ? "text-lg" : "text-base"}`} style={{ color: 'rgba(59,130,246,1)' }}>68%</span>
+          <span className={`font-bold text-primary ${size === "large" ? "text-lg" : "text-base"}`}>68%</span>
         </div>
       </div>
       <div className={`bg-muted/50 rounded-lg ${size === "large" ? "p-4" : "p-3"}`}>
