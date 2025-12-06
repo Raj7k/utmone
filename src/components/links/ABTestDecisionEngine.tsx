@@ -39,7 +39,7 @@ export const ABTestDecisionEngine = ({ variants }: ABTestDecisionEngineProps) =>
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <TrendingUp className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <TrendingUp className="h-5 w-5 text-primary" />
           variant comparison
         </CardTitle>
       </CardHeader>

@@ -37,9 +37,9 @@ export const AnimatedFlowDiagram = () => {
                 <motion.div
                   animate={{
                     boxShadow: [
-                      "0 0 0 0 rgba(59,130,246,0.4)",
-                      "0 0 0 12px rgba(59,130,246,0)",
-                      "0 0 0 0 rgba(59,130,246,0)",
+                      "0 0 0 0 hsl(var(--primary) / 0.4)",
+                      "0 0 0 12px hsl(var(--primary) / 0)",
+                      "0 0 0 0 hsl(var(--primary) / 0)",
                     ],
                   }}
                   transition={{
@@ -47,8 +47,7 @@ export const AnimatedFlowDiagram = () => {
                     repeat: Infinity,
                     delay: index * 0.3,
                   }}
-                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))' }}
+                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center bg-gradient-to-br from-primary to-primary/60"
                 >
                   <Icon className="w-8 h-8 md:w-10 md:h-10 text-white" />
                 </motion.div>
@@ -71,7 +70,7 @@ export const AnimatedFlowDiagram = () => {
                 >
                   <div className="relative w-12 md:w-20 h-[2px]">
                     {/* Base line */}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.4), rgba(59,130,246,0.2))' }} />
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-primary/20" />
                     
                     {/* Animated particle */}
                     <motion.div
@@ -85,13 +84,12 @@ export const AnimatedFlowDiagram = () => {
                         delay: index * 0.3,
                         ease: "easeInOut",
                       }}
-                      className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
-                      style={{ background: 'rgba(59,130,246,1)' }}
+                      className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary"
                     />
                     
                     {/* Arrow head */}
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1">
-                      <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent" style={{ borderLeftWidth: '6px', borderLeftStyle: 'solid', borderLeftColor: 'rgba(59,130,246,0.4)' }} />
+                      <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-primary/40" />
                     </div>
                   </div>
                 </motion.div>

@@ -115,17 +115,17 @@ export const DataMaturityQuiz = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-3xl mx-auto px-6">
           <Card className="p-12 text-center space-y-8">
-            <Award className="w-20 h-20 mx-auto" style={{ color: color === 'electric-blue' ? 'rgba(59,130,246,1)' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }} />
+            <Award className="w-20 h-20 mx-auto" style={{ color: color === 'electric-blue' ? 'hsl(var(--primary))' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }} />
             
             <div>
-              <h3 className="text-4xl font-display font-bold brand-lowercase mb-2" style={{ color: color === 'electric-blue' ? 'rgba(59,130,246,1)' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }}>
+              <h3 className="text-4xl font-display font-bold brand-lowercase mb-2" style={{ color: color === 'electric-blue' ? 'hsl(var(--primary))' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }}>
                 {title}
               </h3>
               <p className="text-xl text-muted-foreground">{subtitle}</p>
             </div>
 
-            <div className="rounded-xl p-8" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <div className="text-6xl font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>{percentage}%</div>
+            <div className="rounded-xl p-8 bg-primary/10">
+              <div className="text-6xl font-bold mb-2 text-primary">{percentage}%</div>
               <div className="text-sm text-muted-foreground">data maturity score</div>
             </div>
 
@@ -162,8 +162,7 @@ export const DataMaturityQuiz = () => {
         <div className="mb-8">
           <div className="h-2 bg-muted rounded-full overflow-hidden">
             <motion.div
-              className="h-full"
-              style={{ background: 'rgba(59,130,246,1)' }}
+              className="h-full bg-primary"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}

@@ -59,7 +59,7 @@ export const LinkCard = ({ link }: LinkCardProps) => {
             <h3 className="font-display font-semibold text-foreground truncate mb-1">
               {link.title || "untitled link"}
             </h3>
-            <p className="text-sm font-mono truncate" style={{ color: 'rgba(59,130,246,1)' }}>
+            <p className="text-sm font-mono truncate text-primary">
               {link.short_url}
             </p>
           </div>

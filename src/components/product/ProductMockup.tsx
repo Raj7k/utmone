@@ -51,8 +51,8 @@ const BrowserMockup = ({ size = "default" }: { size?: "default" | "large" }) => 
     {/* Content */}
     <div className={`space-y-2 md:space-y-3 ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-12" : "p-4 md:p-6 lg:p-8"}`}>
       <div className="flex items-center gap-3">
-        <div className={`rounded-lg flex items-center justify-center ${size === "large" ? "w-14 h-14" : "w-10 h-10"}`} style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <span className={`font-bold ${size === "large" ? "text-xl" : "text-base"}`} style={{ color: 'rgba(59,130,246,1)' }}>✓</span>
+        <div className={`rounded-lg flex items-center justify-center bg-primary/10 ${size === "large" ? "w-14 h-14" : "w-10 h-10"}`}>
+          <span className={`font-bold text-primary ${size === "large" ? "text-xl" : "text-base"}`}>✓</span>
         </div>
         <div>
           <div className={`font-semibold text-label ${size === "large" ? "text-lg" : "text-sm"}`}>Clean, Readable URL</div>
@@ -70,7 +70,7 @@ const UTMParameterCard = ({ size = "default" }: { size?: "default" | "large" }) 
   <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-2 md:space-y-3 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <div className="flex items-center justify-between">
       <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>UTM Parameters</h3>
-      <div className={`px-2 py-1 rounded-full ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)', background: 'rgba(59,130,246,0.05)' }}>✓ Valid</div>
+      <div className={`px-2 py-1 rounded-full text-primary bg-primary/5 ${size === "large" ? "text-sm" : "text-xs"}`}>✓ Valid</div>
     </div>
     <div className="space-y-2">
       <div className={`flex items-center justify-between ${size === "large" ? "text-sm" : "text-xs"}`}>
@@ -100,21 +100,21 @@ const SecurityBadgeCard = ({ size = "default" }: { size?: "default" | "large" })
   <div className={`bg-card rounded-xl md:rounded-2xl border border-border shadow-lg space-y-3 md:space-y-4 w-full max-w-sm md:max-w-md ${size === "large" ? "p-4 sm:p-6 md:p-8 lg:p-10 lg:max-w-lg" : "p-4 md:p-6"}`}>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Security Status</h3>
     <div className="grid grid-cols-2 gap-3">
-      <div className={`rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`} style={{ background: 'rgba(59,130,246,0.05)' }}>
+      <div className={`rounded-lg text-center bg-primary/5 ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>🔒</div>
-        <div className={`font-semibold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>SSL Secured</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>SSL Secured</div>
       </div>
-      <div className={`rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`} style={{ background: 'rgba(59,130,246,0.05)' }}>
+      <div className={`rounded-lg text-center bg-primary/5 ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>✓</div>
-        <div className={`font-semibold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>Scanned</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>Scanned</div>
       </div>
-      <div className={`rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`} style={{ background: 'rgba(59,130,246,0.05)' }}>
+      <div className={`rounded-lg text-center bg-primary/5 ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>🛡️</div>
-        <div className={`font-semibold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>No Malware</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>No Malware</div>
       </div>
-      <div className={`rounded-lg text-center ${size === "large" ? "p-4" : "p-3"}`} style={{ background: 'rgba(59,130,246,0.05)' }}>
+      <div className={`rounded-lg text-center bg-primary/5 ${size === "large" ? "p-4" : "p-3"}`}>
         <div className={`mb-1 ${size === "large" ? "text-3xl" : "text-2xl"}`}>✅</div>
-        <div className={`font-semibold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>Verified</div>
+        <div className={`font-semibold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>Verified</div>
       </div>
     </div>
     <div className={`text-secondary-label text-center pt-2 ${size === "large" ? "text-sm" : "text-xs"}`}>
@@ -145,8 +145,8 @@ const AnalyticsMiniDash = ({ size = "default" }: { size?: "default" | "large" })
       {[40, 65, 45, 80, 55, 90, 70].map((height, i) => (
         <div
           key={i}
-          className="flex-1 rounded-t"
-          style={{ height: `${height}%`, background: 'rgba(59,130,246,1)' }}
+          className="flex-1 rounded-t bg-primary"
+          style={{ height: `${height}%` }}
         />
       ))}
     </div>
@@ -159,8 +159,8 @@ const GovernanceCard = ({ size = "default" }: { size?: "default" | "large" }) =>
     <h3 className={`font-semibold text-label ${size === "large" ? "text-base" : "text-sm"}`}>Audit Log</h3>
     <div className="space-y-2">
       <div className={`flex items-center gap-3 pb-2 border-b border-border ${size === "large" ? "text-sm" : "text-xs"}`}>
-        <div className={`rounded-full flex items-center justify-center ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`} style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <span className={`font-bold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>JD</span>
+        <div className={`rounded-full flex items-center justify-center bg-primary/10 ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`}>
+          <span className={`font-bold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>JD</span>
         </div>
         <div className="flex-1">
           <div className="font-medium text-label">Created link</div>
@@ -169,8 +169,8 @@ const GovernanceCard = ({ size = "default" }: { size?: "default" | "large" }) =>
         <div className="text-secondary-label">2m ago</div>
       </div>
       <div className={`flex items-center gap-3 pb-2 border-b border-border ${size === "large" ? "text-sm" : "text-xs"}`}>
-        <div className={`rounded-full flex items-center justify-center ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`} style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <span className={`font-bold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>SK</span>
+        <div className={`rounded-full flex items-center justify-center bg-primary/10 ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`}>
+          <span className={`font-bold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>SK</span>
         </div>
         <div className="flex-1">
           <div className="font-medium text-label">Updated UTMs</div>
@@ -179,8 +179,8 @@ const GovernanceCard = ({ size = "default" }: { size?: "default" | "large" }) =>
         <div className="text-secondary-label">5m ago</div>
       </div>
       <div className={`flex items-center gap-3 ${size === "large" ? "text-sm" : "text-xs"}`}>
-        <div className={`rounded-full flex items-center justify-center ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`} style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <span className={`font-bold ${size === "large" ? "text-sm" : "text-xs"}`} style={{ color: 'rgba(59,130,246,1)' }}>MH</span>
+        <div className={`rounded-full flex items-center justify-center bg-primary/10 ${size === "large" ? "w-10 h-10" : "w-8 h-8"}`}>
+          <span className={`font-bold text-primary ${size === "large" ? "text-sm" : "text-xs"}`}>MH</span>
         </div>
         <div className="flex-1">
           <div className="font-medium text-label">Generated QR</div>
@@ -200,13 +200,13 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
   <div className="bg-card border border-border rounded-xl p-6 space-y-4">
     <div className="flex items-center justify-between mb-2">
       <h4 className="text-sm font-semibold text-label">Analytics Overview</h4>
-      <BarChart3 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+      <BarChart3 className="w-4 h-4 text-primary" />
     </div>
     <div className="grid grid-cols-2 gap-4">
-      <div className="rounded-lg p-4" style={{ background: 'rgba(59,130,246,0.05)' }}>
+      <div className="rounded-lg p-4 bg-primary/5">
         <p className="text-xs text-secondary-label mb-1">Total Clicks</p>
-        <p className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>2,847</p>
-        <div className="flex items-center gap-1 text-xs mt-1" style={{ color: 'rgba(59,130,246,1)' }}>
+        <p className="text-2xl font-bold text-primary">2,847</p>
+        <div className="flex items-center gap-1 text-xs mt-1 text-primary">
           <TrendingUp className="w-3 h-3" />
           <span>+18%</span>
         </div>
@@ -214,7 +214,7 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
       <div className="bg-muted/50 rounded-lg p-4">
         <p className="text-xs text-secondary-label mb-1">Conversions</p>
         <p className="text-2xl font-bold text-label">127</p>
-        <div className="flex items-center gap-1 text-xs mt-1" style={{ color: 'rgba(59,130,246,1)' }}>
+        <div className="flex items-center gap-1 text-xs mt-1 text-primary">
           <TrendingUp className="w-3 h-3" />
           <span>+23%</span>
         </div>
@@ -222,7 +222,7 @@ const DashboardMockup = ({ size = "default" }: { size?: "default" | "large" }) =
     </div>
     <div className="h-24 bg-muted/30 rounded-lg flex items-end gap-1 p-2">
       {[40, 65, 55, 80, 45, 90, 70].map((height, i) => (
-        <div key={i} className="flex-1 rounded-t" style={{ height: `${height}%`, background: 'rgba(59,130,246,0.3)' }} />
+        <div key={i} className="flex-1 rounded-t bg-primary/30" style={{ height: `${height}%` }} />
       ))}
     </div>
   </div>

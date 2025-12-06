@@ -24,8 +24,8 @@ export function ContextualRoutingToggle({
     <TooltipProvider>
       <div className="flex items-center justify-between p-4 border border-border rounded-lg bg-card">
       <div className="flex items-start gap-3 flex-1">
-        <div className="p-2 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <Brain className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+        <div className="p-2 rounded-lg bg-primary/10">
+          <Brain className="h-5 w-5 text-primary" />
         </div>
         <div className="flex-1 space-y-1">
           <div className="flex items-center gap-2">

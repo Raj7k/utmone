@@ -169,10 +169,9 @@ export const FloatingNavigation = () => {
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
                         to="/features/analytics" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
-                        style={{ borderColor: 'rgba(59,130,246,0.2)', background: 'linear-gradient(to bottom right, rgba(59,130,246,0.15), rgba(59,130,246,0.05), transparent)' }}
+                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm border-primary/20 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent"
                       >
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-primary/20 text-primary">
                           <BarChart3 className="w-3 h-3" />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -503,12 +502,11 @@ export const FloatingNavigation = () => {
                       {/* GTM Salary - COMING SOON */}
                       <Link 
                         to="/resources/reports/salary-benchmark-2026" 
-                        className="group rounded-lg p-2.5 flex flex-col gap-1.5 border transition-all hover:scale-[1.02]"
-                        style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05), transparent)', borderColor: 'rgba(59,130,246,0.2)' }}
+                        className="group rounded-lg p-2.5 flex flex-col gap-1.5 border transition-all hover:scale-[1.02] bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-primary/20"
                       >
                         <div className="flex items-center justify-between">
-                          <DollarSign className="w-3.5 h-3.5" style={{ color: 'rgba(59,130,246,1)' }} />
-                          <Badge className="text-white text-[9px] px-1.5 py-0" style={{ background: 'rgba(59,130,246,1)' }}>SOON</Badge>
+                          <DollarSign className="w-3.5 h-3.5 text-primary" />
+                          <Badge className="text-white text-[9px] px-1.5 py-0 bg-primary">SOON</Badge>
                         </div>
                         <div>
                           <h3 className="text-[10px] font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.9)' }}>gtm salary</h3>
