@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, Building2 } from 'lucide-react';
 import { useReportMode } from '@/contexts/ReportModeContext';
@@ -7,21 +6,9 @@ import { toast } from 'sonner';
 export const ModeToggle = () => {
   const { mode, setMode, isEmployeeMode, isEmployerMode } = useReportMode();
 
-  // Debug logging
-  useEffect(() => {
-    console.log('🔄 Mode Toggle State:', {
-      mode,
-      isEmployeeMode,
-      isEmployerMode,
-      localStorage: localStorage.getItem('salary-report-mode')
-    });
-  }, [mode, isEmployeeMode, isEmployerMode]);
-
   const toggleMode = () => {
     const newMode = isEmployeeMode ? 'employer' : 'employee';
-    console.log(`👆 Toggling to ${newMode}`);
     setMode(newMode);
-    console.log(`✅ Set mode to ${newMode}`);
     
     toast.success(`Switched to ${newMode === 'employee' ? 'Employee' : 'Employer'} View`, {
       description: newMode === 'employee' 
