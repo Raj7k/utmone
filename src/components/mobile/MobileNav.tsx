@@ -35,9 +35,8 @@ export const MobileNav = () => {
               onClick={() => handleNavigation(item.path)}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 flex-1 h-full transition-colors relative",
-                isActive ? "" : "text-secondary-label"
+                isActive ? "text-primary" : "text-secondary-label"
               )}
-              style={isActive ? { color: 'rgba(59,130,246,1)' } : undefined}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -46,13 +45,12 @@ export const MobileNav = () => {
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute inset-0 rounded-lg"
-                  style={{ background: 'rgba(59,130,246,0.1)' }}
+                  className="absolute inset-0 rounded-lg bg-primary/10"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
-              <Icon className="h-5 w-5 relative z-10" style={isActive ? { color: 'rgba(59,130,246,1)' } : undefined} />
-              <span className="text-xs font-medium relative z-10" style={isActive ? { color: 'rgba(59,130,246,1)' } : undefined}>
+              <Icon className={cn("h-5 w-5 relative z-10", isActive && "text-primary")} />
+              <span className={cn("text-xs font-medium relative z-10", isActive && "text-primary")}>
                 {item.label}
               </span>
             </motion.button>

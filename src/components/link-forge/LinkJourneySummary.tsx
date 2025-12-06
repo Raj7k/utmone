@@ -49,7 +49,7 @@ export const LinkJourneySummary = ({
         {utm && (
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 rounded-lg bg-fill-primary flex items-center justify-center flex-shrink-0">
-              <Zap className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Zap className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-secondary-label mb-1">utm tagged url</p>
@@ -71,8 +71,8 @@ export const LinkJourneySummary = ({
 
         {shortened && (
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">
+              <Link2 className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-secondary-label mb-1">shortened url</p>

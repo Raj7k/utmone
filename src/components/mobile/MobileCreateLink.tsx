@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface MobileCreateLinkProps {
   onClose: () => void;
@@ -53,10 +54,10 @@ export const MobileCreateLink = ({ onClose, onSubmit }: MobileCreateLinkProps) =
         {[1, 2, 3].map((s) => (
           <div
             key={s}
-            className={`h-1 flex-1 rounded-full transition-colors ${
-              s <= step ? "" : "bg-fill-tertiary"
-            }`}
-            style={s <= step ? { background: 'rgba(59,130,246,1)' } : undefined}
+            className={cn(
+              "h-1 flex-1 rounded-full transition-colors",
+              s <= step ? "bg-primary" : "bg-fill-tertiary"
+            )}
           />
         ))}
       </div>

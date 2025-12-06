@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Tab {
   id: string;
@@ -62,12 +63,12 @@ export const SwipeableTabs = ({ tabs, defaultTab }: SwipeableTabsProps) => {
                 setDirection(index > activeIndex ? 1 : -1);
                 setActiveIndex(index);
               }}
-              className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all ${
+              className={cn(
+                "px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all",
                 index === activeIndex
-                  ? "text-white"
+                  ? "text-white bg-primary"
                   : "bg-fill-tertiary text-secondary-label"
-              }`}
-              style={index === activeIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
+              )}
             >
               {tab.label}
             </button>
@@ -119,10 +120,10 @@ export const SwipeableTabs = ({ tabs, defaultTab }: SwipeableTabsProps) => {
         {tabs.map((_, index) => (
           <div
             key={index}
-            className={`h-2 rounded-full transition-all ${
-              index === activeIndex ? "w-8" : "w-2 bg-fill-tertiary"
-            }`}
-            style={index === activeIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
+            className={cn(
+              "h-2 rounded-full transition-all",
+              index === activeIndex ? "w-8 bg-primary" : "w-2 bg-fill-tertiary"
+            )}
           />
         ))}
       </div>
