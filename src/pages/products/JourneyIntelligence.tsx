@@ -48,17 +48,17 @@ export default function JourneyIntelligence() {
           visual={
             <div className="bg-destructive/10 rounded-lg p-6">
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
-                  <span className="text-sm font-mono text-label">Direct / None</span>
+                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
+                  <span className="text-sm font-mono text-foreground">Direct / None</span>
                   <span className="text-sm font-semibold text-destructive">60 leads (60%)</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
-                  <span className="text-sm font-mono text-label">Google / Organic</span>
-                  <span className="text-sm font-semibold text-label">25 leads (25%)</span>
+                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
+                  <span className="text-sm font-mono text-foreground">Google / Organic</span>
+                  <span className="text-sm font-semibold text-foreground">25 leads (25%)</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-white rounded border border-border">
-                  <span className="text-sm font-mono text-label">LinkedIn / Paid</span>
-                  <span className="text-sm font-semibold text-label">15 leads (15%)</span>
+                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
+                  <span className="text-sm font-mono text-foreground">LinkedIn / Paid</span>
+                  <span className="text-sm font-semibold text-foreground">15 leads (15%)</span>
                 </div>
               </div>
               <p className="text-xs text-center text-muted-foreground mt-4">
@@ -101,23 +101,23 @@ export default function JourneyIntelligence() {
               }
               afterContent={
                 <div className="space-y-4">
-                  <div className="text-center text-2xl font-bold mb-4" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <div className="text-center text-2xl font-bold text-primary mb-4">
                     100% journeys mapped
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Every touchpoint visible</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Credit distributed fairly</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Visitor memory reconnects them</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Prove every channel's ROI</span>
                     </div>
@@ -182,7 +182,7 @@ export default function JourneyIntelligence() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Card className="p-6 h-full transition-colors hover:border-white/20">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
                     <h3 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-2">
@@ -216,7 +216,7 @@ export default function JourneyIntelligence() {
                 { step: "5", label: "attribute", desc: "full journey mapped" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                     {item.step}
                   </div>
                   <h4 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-1">
@@ -259,7 +259,7 @@ export default function JourneyIntelligence() {
                       {feature.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-primary">
                       <span>learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -326,7 +326,7 @@ export default function JourneyIntelligence() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 md:py-32" style={{ background: 'rgba(59,130,246,0.05)' }}>
+        <section className="py-24 md:py-32 bg-primary/5">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase">
               ready to see the full customer journey?
