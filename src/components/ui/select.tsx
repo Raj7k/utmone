@@ -66,10 +66,10 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        // Obsidian Glass styling for select dropdowns
+        // Theme-aware select dropdown styling with strong visibility
         "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-xl",
-        "bg-zinc-900/95 backdrop-blur-2xl border border-white/[0.1] text-white",
-        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]",
+        "bg-popover text-popover-foreground border border-border/50 dark:border-border",
+        "shadow-[0_4px_24px_rgba(0,0,0,0.12)] dark:shadow-lg",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
@@ -109,10 +109,10 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      // Obsidian Glass item styling
+      // Theme-aware select item styling
       "relative flex w-full cursor-default select-none items-center rounded-lg py-1.5 pl-8 pr-2 text-sm outline-none",
-      "text-white/70 hover:text-white hover:bg-white/10",
-      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-white/10 focus:text-white",
+      "text-foreground/70 hover:text-foreground hover:bg-accent",
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground",
       className,
     )}
     {...props}
