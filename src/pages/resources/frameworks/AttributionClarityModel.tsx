@@ -220,11 +220,11 @@ const AttributionClarityModel = () => {
               </ul>
             </div>
             
-            <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-3">
+            <div className="bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-3">
                 🎯 the goal
               </h3>
-              <p className="text-sm text-blue-800 dark:text-blue-200">
+              <p className="text-sm text-foreground/80">
                 Move from "mysterious black box" to "transparent set of views we all understand"
               </p>
             </div>

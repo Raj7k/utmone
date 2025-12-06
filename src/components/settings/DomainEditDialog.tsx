@@ -360,8 +360,8 @@ export function DomainEditDialog({ domain, open, onOpenChange }: DomainEditDialo
 
             {domain?.is_verified && (
               <div className="ml-11 space-y-4">
-                <Alert className="bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900">
-                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <Alert className="bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30">
+                  <Info className="h-4 w-4 text-primary dark:text-primary/90" />
                   <AlertDescription className="text-sm">
                     <strong>not ready for custom domain setup?</strong> use <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">utm.click</code> or <code className="bg-background px-1 py-0.5 rounded text-xs font-mono">go.utm.one</code> for now - they work immediately with zero configuration.
                   </AlertDescription>
@@ -633,8 +633,8 @@ export default {
                           </CollapsibleContent>
                         </Collapsible>
 
-                        <Alert className="bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-900">
-                          <Info className="h-4 w-4 text-blue-600" />
+                        <Alert className="bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30">
+                          <Info className="h-4 w-4 text-primary" />
                           <AlertDescription className="text-xs">
                             <strong>estimated time:</strong> 30-60 minutes (mostly waiting for DNS propagation)
                           </AlertDescription>

@@ -292,7 +292,7 @@ export function FlagImpactMonitoring() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Activity className="w-5 h-5 text-blue-600" />
+            <Activity className="w-5 h-5 text-primary" />
             <CardTitle>flag impact analysis</CardTitle>
           </div>
           <CardDescription>
@@ -318,7 +318,7 @@ export function FlagImpactMonitoring() {
                     ) : contrib.type === 'negative' ? (
                       <TrendingUp className="w-4 h-4 text-red-600" />
                     ) : (
-                      <Zap className="w-4 h-4 text-blue-600" />
+                      <Zap className="w-4 h-4 text-primary" />
                     )}
                     <div>
                       <code className="text-sm font-mono">{contrib.flag}</code>

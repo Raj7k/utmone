@@ -102,7 +102,7 @@ export function FeatureFlagsPanel() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-blue-600" />
+              <Shield className="w-5 h-5 text-primary" />
               <CardTitle>security flags</CardTitle>
             </div>
             <CardDescription>
