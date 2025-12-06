@@ -253,12 +253,12 @@ export default function AnnouncementAdmin() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="border border-border rounded-lg p-4 bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-teal">
+                <div className="border border-white/10 rounded-lg p-4 bg-gradient-to-r from-white/10 via-white/20 to-white/10 backdrop-blur-xl">
                   <div className="flex items-center justify-center gap-3 text-center">
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium text-foreground">
                       🎉 Early access now open! Limited spots available for design partners.
                     </p>
-                    <span className="text-sm font-semibold text-white">Join the waitlist →</span>
+                    <span className="text-sm font-semibold text-foreground">Join the waitlist →</span>
                   </div>
                 </div>
 

@@ -86,7 +86,7 @@ export const AnnouncementBar = ({
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed top-0 left-0 right-0 z-[100] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-teal bg-[length:200%_100%] animate-gradient"
+          className="fixed top-0 left-0 right-0 z-[100] bg-gradient-to-r from-white/10 via-white/20 to-white/10 backdrop-blur-xl border-b border-white/10"
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}

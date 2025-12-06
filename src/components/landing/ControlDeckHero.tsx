@@ -377,8 +377,8 @@ const AttributionVisual = () => (
     </motion.div>
     <motion.div className="absolute right-0 top-[100px] flex items-center gap-1"
       initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }}>
-      <DollarSign className="w-4 h-4" style={{ color: '#09090B' }} />
-      <span className="text-sm font-bold" style={{ color: '#09090B' }}>revenue</span>
+      <DollarSign className="w-4 h-4 text-zinc-900" />
+      <span className="text-sm font-bold text-zinc-900">revenue</span>
     </motion.div>
   </div>
 );
@@ -435,7 +435,7 @@ const JourneyVisual = () => {
             } : {}}
             transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
           >
-            {i === touchpoints.length - 1 && <CheckCircle2 className="w-5 h-5" style={{ color: '#09090B' }} />}
+            {i === touchpoints.length - 1 && <CheckCircle2 className="w-5 h-5 text-zinc-900" />}
           </motion.div>
           {/* Label */}
           <span 

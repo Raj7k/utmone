@@ -41,13 +41,13 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
 
   return (
     <nav
-      className={`h-[72px] border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50 transition-apple ${
-        isScrolled ? "bg-white/95 shadow-sm" : "bg-white/80"
+      className={`h-[72px] border-b border-white/10 backdrop-blur-xl sticky top-0 z-50 transition-apple ${
+        isScrolled ? "bg-zinc-900/95 shadow-sm" : "bg-zinc-900/80"
       }`}
     >
-      {/* Scroll Progress Bar - Matching Homepage Colors */}
+      {/* Scroll Progress Bar - Obsidian Platinum */}
       <motion.div
-        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-accent-teal via-accent-yellow-green to-accent-mint origin-left"
+        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-white/20 via-white/40 to-white/20 origin-left"
         style={{ width: progressWidth }}
       />
       
@@ -55,7 +55,7 @@ export const ReportNavigation = ({ onScrollToSection, activeSection }: ReportNav
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link to="/" className="flex items-center group transition-apple hover:opacity-70">
-            <span className="text-xl font-bold text-blazeOrange">utm.one</span>
+            <span className="text-xl font-bold text-foreground">utm.one</span>
           </Link>
 
           {/* Desktop Navigation - Centered */}

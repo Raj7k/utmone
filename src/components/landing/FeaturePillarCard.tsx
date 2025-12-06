@@ -35,20 +35,20 @@ export const FeaturePillarCard = ({
       )}
     >
       <div className="flex flex-col items-start space-y-4">
-        <div className="p-3 rounded-xl transition-colors" style={{ background: 'rgba(25,18,101,0.2)', color: '#191265' }}>
+        <div className="p-3 rounded-xl transition-colors text-foreground" style={{ background: 'rgba(255,255,255,0.1)' }}>
           <Icon className="w-6 h-6" />
         </div>
         <h3 className="text-xl font-display font-semibold lowercase transition-colors relative" style={{ color: 'rgba(255,255,255,0.9)' }}>
           {formatText(title)}
           {href && (
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ background: '#191265' }} />
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 bg-foreground" />
           )}
         </h3>
         <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
           {description}
         </p>
         {href && (
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: '#191265' }}>
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity text-foreground">
             <span className="text-sm font-medium lowercase">learn more</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>

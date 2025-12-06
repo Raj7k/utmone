@@ -36,7 +36,7 @@ export const AccessibilityShowcase = () => {
             {/* Semantic URL Comparison */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                <Globe className="w-4 h-4" style={{ color: '#191265' }} />
+                <Globe className="w-4 h-4 text-foreground" />
                 semantic slugs
               </h4>
               <div className="space-y-2">
@@ -52,12 +52,12 @@ export const AccessibilityShowcase = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'rgba(25,18,101,0.2)' }}>
-                    <CheckCircle2 className="w-4 h-4" style={{ color: '#191265' }} />
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                    <CheckCircle2 className="w-4 h-4 text-foreground" />
                   </div>
                   <div className="flex-1">
                     <div className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>semantic slug</div>
-                    <div className="font-mono text-xs rounded px-2 py-1" style={{ color: '#191265', background: 'rgba(25,18,101,0.2)', border: '1px solid rgba(25,18,101,0.3)' }}>
+                    <div className="font-mono text-xs rounded px-2 py-1" style={{ color: 'rgba(255,255,255,0.9)', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}>
                       utm.one/nike-product-demo
                     </div>
                   </div>
@@ -71,13 +71,13 @@ export const AccessibilityShowcase = () => {
             {/* Screen Reader Mockup */}
             <div className="rounded-xl p-5 space-y-3" style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <h4 className="font-semibold lowercase flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                <Eye className="w-4 h-4" style={{ color: '#191265' }} />
+                <Eye className="w-4 h-4 text-foreground" />
                 screen reader ready
               </h4>
-              <div className="rounded-lg p-3 font-mono text-[11px] space-y-1" style={{ background: 'rgba(255,255,255,0.9)', color: '#050505' }}>
-                <div style={{ color: 'rgba(5,5,5,0.6)' }}>// NVDA output</div>
+              <div className="rounded-lg p-3 font-mono text-[11px] space-y-1" style={{ background: 'rgba(255,255,255,0.9)', color: 'rgba(0,0,0,0.9)' }}>
+                <div style={{ color: 'rgba(0,0,0,0.5)' }}>// NVDA output</div>
                 <div>Link: "Visit Tesla product demo"</div>
-                <div style={{ color: 'rgba(5,5,5,0.6)' }}>URL: utm.one/tesla-product-demo</div>
+                <div style={{ color: 'rgba(0,0,0,0.5)' }}>URL: utm.one/tesla-product-demo</div>
                 <div>Button: "Copy link to clipboard"</div>
               </div>
             </div>
@@ -133,8 +133,8 @@ export const AccessibilityShowcase = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: i * 0.08 }}
                 >
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(25,18,101,0.2)' }}>
-                    <Icon className="w-4 h-4" style={{ color: '#191265' }} />
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                    <Icon className="w-4 h-4 text-foreground" />
                   </div>
                   <div>
                     <h3 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
@@ -147,8 +147,7 @@ export const AccessibilityShowcase = () => {
             <div className="pt-2">
               <Link 
                 to="/features/accessibility" 
-                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80"
-                style={{ color: '#191265' }}
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80 text-foreground"
               >
                 learn more about accessibility
                 <ArrowRight className="h-4 w-4" />
