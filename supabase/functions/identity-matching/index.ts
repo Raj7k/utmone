@@ -8,9 +8,11 @@ const corsHeaders = {
 
 interface MatchingPayload {
   visitor_id: string;
-  workspace_id: string;
-  ip_address: string;
+  workspace_id?: string;
+  pixel_id?: string;
+  ip_address?: string;
   user_agent: string;
+  geo_location?: string;
   geo_country?: string;
   geo_city?: string;
   timestamp?: string;
@@ -91,11 +93,40 @@ Deno.serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const payload: MatchingPayload = await req.json();
-    const { visitor_id, workspace_id, ip_address, user_agent, geo_country, geo_city, timestamp } = payload;
+    let { visitor_id, workspace_id, pixel_id, user_agent, geo_location, geo_country, geo_city, timestamp } = payload;
+    
+    // Get IP from headers if not provided
+    const ip_address = payload.ip_address || 
+      req.headers.get('cf-connecting-ip') || 
+      req.headers.get('x-forwarded-for')?.split(',')[0] || 
+      'unknown';
 
-    if (!visitor_id || !workspace_id || !ip_address) {
+    // If pixel_id provided instead of workspace_id, look up workspace
+    if (!workspace_id && pixel_id) {
+      const { data: pixelConfig } = await supabase
+        .from('pixel_configs')
+        .select('workspace_id')
+        .eq('pixel_id', pixel_id)
+        .eq('is_active', true)
+        .single();
+      
+      if (pixelConfig) {
+        workspace_id = pixelConfig.workspace_id;
+      }
+    }
+
+    // Parse geo_location if provided as "city, country"
+    if (geo_location && (!geo_country || !geo_city)) {
+      const parts = geo_location.split(',').map(s => s.trim());
+      if (parts.length >= 2) {
+        geo_city = parts[0];
+        geo_country = parts[1];
+      }
+    }
+
+    if (!visitor_id || !workspace_id) {
       return new Response(
-        JSON.stringify({ error: 'visitor_id, workspace_id, and ip_address are required' }),
+        JSON.stringify({ error: 'visitor_id and (workspace_id or pixel_id) are required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
