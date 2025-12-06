@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Share2, ArrowRight, Upload, AlertTriangle, CheckCircle2, XCircle, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { GlassCard } from "@/components/ui/glass-card";
 import { toast } from "sonner";
 
 interface TestResult {
@@ -100,26 +101,26 @@ export default function QRTest() {
   };
 
   return (
-    <div className="dark min-h-screen bg-gradient-to-br from-amber-950 via-stone-900 to-amber-950">
+    <div className="dark min-h-screen bg-background">
       <AppHeader />
       
-      {/* Industrial overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-10">
+      {/* Industrial overlay - subtle */}
+      <div className="fixed inset-0 pointer-events-none opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: `repeating-linear-gradient(
             45deg,
             transparent,
             transparent 20px,
-            rgba(255,200,0,0.1) 20px,
-            rgba(255,200,0,0.1) 40px
+            hsl(var(--system-yellow) / 0.1) 20px,
+            hsl(var(--system-yellow) / 0.1) 40px
           )`
         }} />
       </div>
 
-      {/* Hazard stripes */}
-      <div className="h-4 bg-gradient-to-r from-yellow-500 via-black to-yellow-500" style={{
+      {/* Hazard stripes - branded */}
+      <div className="h-2 bg-system-yellow/20" style={{
         backgroundSize: "40px 100%",
-        backgroundImage: "repeating-linear-gradient(45deg, #000 0px, #000 10px, #fbbf24 10px, #fbbf24 20px)"
+        backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--background)) 0px, hsl(var(--background)) 10px, hsl(var(--system-yellow) / 0.3) 10px, hsl(var(--system-yellow) / 0.3) 20px)"
       }} />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
@@ -129,15 +130,15 @@ export default function QRTest() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-yellow-500/20 border border-yellow-500/50 mb-6">
-            <AlertTriangle className="w-5 h-5 text-yellow-500" />
-            <span className="text-sm font-bold text-yellow-500 uppercase tracking-wider">robustness lab</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6">
+            <AlertTriangle className="w-5 h-5 text-system-yellow" />
+            <span className="text-sm font-display font-bold text-system-yellow uppercase tracking-wider">robustness lab</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 hero-gradient">
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient brand-lowercase">
             qr crash test
           </h1>
-          <p className="text-amber-200/70 max-w-xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-lg">
             stress-test your QR codes against real-world conditions
           </p>
         </motion.div>
@@ -147,7 +148,7 @@ export default function QRTest() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="border-4 border-dashed border-yellow-500/50 rounded-2xl p-12 text-center bg-black/20 backdrop-blur-sm cursor-pointer hover:border-yellow-500 hover:bg-black/30 transition-all"
+            className="glass-card border-2 border-dashed border-system-yellow/50 rounded-2xl p-12 text-center cursor-pointer hover:border-system-yellow hover:bg-card/30 transition-all"
             onClick={() => fileInputRef.current?.click()}
           >
             <input
@@ -157,11 +158,11 @@ export default function QRTest() {
               onChange={handleFileUpload}
               className="hidden"
             />
-            <Upload className="w-16 h-16 mx-auto mb-4 text-yellow-500/70" />
-            <p className="text-xl font-semibold text-white mb-2">
-              Upload Your QR Code
+            <Upload className="w-16 h-16 mx-auto mb-4 text-system-yellow/70" />
+            <p className="text-xl font-display font-semibold text-foreground mb-2 brand-lowercase">
+              upload your qr code
             </p>
-            <p className="text-amber-200/50">
+            <p className="text-muted-foreground">
               PNG, JPG, or SVG • Max 5MB
             </p>
           </motion.div>
@@ -176,9 +177,9 @@ export default function QRTest() {
               animate={{ opacity: 1, x: 0 }}
               className="space-y-6"
             >
-              <div className="bg-black/40 backdrop-blur-xl border-2 border-yellow-500/30 rounded-2xl p-6">
+              <GlassCard className="p-6 border-system-yellow/30">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-yellow-500 font-bold uppercase text-sm">test subject</span>
+                  <span className="text-system-yellow font-display font-bold uppercase text-sm">test subject</span>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -186,13 +187,13 @@ export default function QRTest() {
                       setImage(null);
                       setResults([]);
                     }}
-                    className="text-yellow-500/70 hover:text-yellow-500"
+                    className="text-muted-foreground hover:text-foreground"
                   >
                     Replace
                   </Button>
                 </div>
                 
-                <div className="relative aspect-square bg-white rounded-xl overflow-hidden flex items-center justify-center p-4">
+                <div className="relative aspect-square bg-card rounded-xl overflow-hidden flex items-center justify-center p-4 border border-border">
                   <img 
                     src={image} 
                     alt="QR Code" 
@@ -208,20 +209,20 @@ export default function QRTest() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end justify-center pb-4"
+                      className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end justify-center pb-4"
                     >
-                      <Badge className="bg-yellow-500 text-black font-bold animate-pulse">
+                      <Badge className="bg-system-yellow text-black font-display font-bold animate-pulse">
                         {TESTS[currentTest]?.name}
                       </Badge>
                     </motion.div>
                   )}
                 </div>
-              </div>
+              </GlassCard>
 
               <Button
                 onClick={runTests}
                 disabled={isTesting}
-                className="w-full h-14 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-lg hover:from-yellow-400 hover:to-orange-400"
+                className="w-full h-14 bg-system-yellow text-black font-display font-bold text-lg hover:bg-system-yellow/90"
               >
                 {isTesting ? (
                   <>
@@ -256,46 +257,42 @@ export default function QRTest() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className={`
-                    rounded-2xl p-6 border-2 text-center
-                    ${passedCount === totalTests 
-                      ? "bg-green-500/20 border-green-500/50" 
-                      : passedCount >= 2 
-                        ? "bg-yellow-500/20 border-yellow-500/50"
-                        : "bg-red-500/20 border-red-500/50"
-                    }
-                  `}
                 >
-                  <p className="text-white/60 text-sm uppercase tracking-wider mb-2">
-                    durability score
-                  </p>
-                  <div className={`
-                    text-6xl font-bold mb-2
-                    ${passedCount === totalTests 
-                      ? "text-green-400" 
+                  <GlassCard className={`p-6 text-center ${
+                    passedCount === totalTests 
+                      ? "border-system-green/50" 
                       : passedCount >= 2 
-                        ? "text-yellow-400"
-                        : "text-red-400"
-                    }
-                  `}>
-                    {score}%
-                  </div>
-                  <Badge className={`
-                    ${passedCount === totalTests 
-                      ? "bg-green-500/30 text-green-300" 
-                      : passedCount >= 2 
-                        ? "bg-yellow-500/30 text-yellow-300"
-                        : "bg-red-500/30 text-red-300"
-                    }
-                  `}>
-                    {passedCount === totalTests ? "💪 UNBREAKABLE" : passedCount >= 2 ? "⚠️ NEEDS WORK" : "❌ FRAGILE"}
-                  </Badge>
+                        ? "border-system-yellow/50"
+                        : "border-system-red/50"
+                  }`}>
+                    <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2 font-display">
+                      durability score
+                    </p>
+                    <div className={`text-6xl font-display font-bold mb-2 ${
+                      passedCount === totalTests 
+                        ? "text-system-green" 
+                        : passedCount >= 2 
+                          ? "text-system-yellow"
+                          : "text-system-red"
+                    }`}>
+                      {score}%
+                    </div>
+                    <Badge className={`${
+                      passedCount === totalTests 
+                        ? "bg-system-green/20 text-system-green" 
+                        : passedCount >= 2 
+                          ? "bg-system-yellow/20 text-system-yellow"
+                          : "bg-system-red/20 text-system-red"
+                    }`}>
+                      {passedCount === totalTests ? "💪 UNBREAKABLE" : passedCount >= 2 ? "⚠️ NEEDS WORK" : "❌ FRAGILE"}
+                    </Badge>
+                  </GlassCard>
                 </motion.div>
               )}
 
               {/* Test Results */}
-              <div className="bg-black/40 backdrop-blur-xl border-2 border-yellow-500/30 rounded-2xl p-6">
-                <h3 className="text-yellow-500 font-bold uppercase text-sm mb-4">test results</h3>
+              <GlassCard className="p-6 border-system-yellow/30">
+                <h3 className="text-system-yellow font-display font-bold uppercase text-sm mb-4">test results</h3>
                 <div className="space-y-3">
                   {TESTS.map((test, i) => {
                     const result = results[i];
@@ -310,17 +307,15 @@ export default function QRTest() {
                           opacity: isComplete || isRunning ? 1 : 0.5,
                           scale: isRunning ? 1.02 : 1,
                         }}
-                        className={`
-                          flex items-center justify-between p-4 rounded-xl border transition-all
-                          ${isRunning 
-                            ? "bg-yellow-500/20 border-yellow-500/50" 
+                        className={`flex items-center justify-between p-4 rounded-xl border transition-all ${
+                          isRunning 
+                            ? "bg-system-yellow/10 border-system-yellow/50" 
                             : isComplete
                               ? result.passed 
-                                ? "bg-green-500/10 border-green-500/30"
-                                : "bg-red-500/10 border-red-500/30"
-                              : "bg-white/5 border-white/10"
-                          }
-                        `}
+                                ? "bg-system-green/5 border-system-green/30"
+                                : "bg-system-red/5 border-system-red/30"
+                              : "bg-card/50 border-border"
+                        }`}
                       >
                         <div className="flex items-center gap-3">
                           {isRunning ? (
@@ -328,24 +323,24 @@ export default function QRTest() {
                               animate={{ rotate: 360 }}
                               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                             >
-                              <Zap className="w-5 h-5 text-yellow-500" />
+                              <Zap className="w-5 h-5 text-system-yellow" />
                             </motion.div>
                           ) : isComplete ? (
                             result.passed ? (
-                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                              <CheckCircle2 className="w-5 h-5 text-system-green" />
                             ) : (
-                              <XCircle className="w-5 h-5 text-red-500" />
+                              <XCircle className="w-5 h-5 text-system-red" />
                             )
                           ) : (
-                            <div className="w-5 h-5 rounded-full border-2 border-white/20" />
+                            <div className="w-5 h-5 rounded-full border-2 border-border" />
                           )}
                           <div>
-                            <p className="text-white font-medium">{test.name}</p>
-                            <p className="text-white/50 text-sm">{test.description}</p>
+                            <p className="text-foreground font-medium">{test.name}</p>
+                            <p className="text-muted-foreground text-sm">{test.description}</p>
                           </div>
                         </div>
                         {isComplete && (
-                          <Badge className={result.passed ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                          <Badge className={result.passed ? "bg-system-green/20 text-system-green" : "bg-system-red/20 text-system-red"}>
                             {result.passed ? "PASS" : "FAIL"}
                           </Badge>
                         )}
@@ -353,7 +348,7 @@ export default function QRTest() {
                     );
                   })}
                 </div>
-              </div>
+              </GlassCard>
 
               {/* Actions */}
               {results.length === TESTS.length && (
@@ -365,13 +360,13 @@ export default function QRTest() {
                   <Button
                     onClick={shareResult}
                     variant="outline"
-                    className="flex-1 border-yellow-500/50 text-yellow-400 hover:bg-yellow-500/10"
+                    className="flex-1"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Share Report
                   </Button>
                   <Link to="/features/qr-generator" className="flex-1">
-                    <Button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold">
+                    <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground font-display font-bold">
                       Create Unbreakable Codes
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -384,9 +379,9 @@ export default function QRTest() {
       </div>
 
       {/* Bottom hazard stripe */}
-      <div className="h-4 bg-gradient-to-r from-yellow-500 via-black to-yellow-500 mt-auto" style={{
+      <div className="h-2 bg-system-yellow/20 mt-auto" style={{
         backgroundSize: "40px 100%",
-        backgroundImage: "repeating-linear-gradient(45deg, #000 0px, #000 10px, #fbbf24 10px, #fbbf24 20px)"
+        backgroundImage: "repeating-linear-gradient(45deg, hsl(var(--background)) 0px, hsl(var(--background)) 10px, hsl(var(--system-yellow) / 0.3) 10px, hsl(var(--system-yellow) / 0.3) 20px)"
       }} />
     </div>
   );

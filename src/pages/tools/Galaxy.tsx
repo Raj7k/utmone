@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Share2, ArrowRight, Plus, Sparkles, Orbit } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { GlassCard } from "@/components/ui/glass-card";
 import ReactFlow, {
   Node,
   Edge,
@@ -19,12 +20,12 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 
 const CHANNEL_NODES = [
-  { id: "google", label: "Google Ads", color: "#4285F4", benchmarkFlow: 0.35 },
-  { id: "meta", label: "Meta Ads", color: "#1877F2", benchmarkFlow: 0.25 },
-  { id: "linkedin", label: "LinkedIn", color: "#0A66C2", benchmarkFlow: 0.15 },
-  { id: "email", label: "Email", color: "#EA4335", benchmarkFlow: 0.4 },
-  { id: "organic", label: "Organic", color: "#34A853", benchmarkFlow: 0.3 },
-  { id: "referral", label: "Referral", color: "#FBBC04", benchmarkFlow: 0.5 },
+  { id: "google", label: "Google Ads", benchmarkFlow: 0.35 },
+  { id: "meta", label: "Meta Ads", benchmarkFlow: 0.25 },
+  { id: "linkedin", label: "LinkedIn", benchmarkFlow: 0.15 },
+  { id: "email", label: "Email", benchmarkFlow: 0.4 },
+  { id: "organic", label: "Organic", benchmarkFlow: 0.3 },
+  { id: "referral", label: "Referral", benchmarkFlow: 0.5 },
 ];
 
 const initialNodes: Node[] = [
@@ -34,15 +35,15 @@ const initialNodes: Node[] = [
     position: { x: 400, y: 300 },
     data: { label: "💰 Revenue" },
     style: {
-      background: "linear-gradient(135deg, #FFD700, #FFA500)",
-      border: "2px solid #FFD700",
+      background: "hsl(var(--primary))",
+      border: "2px solid hsl(var(--primary))",
       borderRadius: "50%",
       width: 100,
       height: 100,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      color: "#000",
+      color: "hsl(var(--primary-foreground))",
       fontWeight: "bold",
       fontSize: "14px",
     },
@@ -67,7 +68,7 @@ export default function Galaxy() {
             ...params,
             animated: true,
             style: {
-              stroke: sourceNode?.color || "#fff",
+              stroke: "hsl(var(--primary))",
               strokeWidth: Math.max(2, flowRate * 10),
             },
           },
@@ -93,15 +94,15 @@ export default function Galaxy() {
       position: { x, y },
       data: { label: channel.label },
       style: {
-        background: `${channel.color}20`,
-        border: `2px solid ${channel.color}`,
+        background: "hsl(var(--card))",
+        border: "2px solid hsl(var(--primary) / 0.5)",
         borderRadius: "50%",
         width: 80,
         height: 80,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "#fff",
+        color: "hsl(var(--foreground))",
         fontWeight: "500",
         fontSize: "12px",
       },
@@ -132,22 +133,22 @@ export default function Galaxy() {
   };
 
   return (
-    <div className="dark min-h-screen bg-[#0a0a1a]">
+    <div className="dark min-h-screen bg-background">
       <AppHeader />
       
-      {/* Stars background */}
+      {/* Stars background - subtle */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 100 }).map((_, i) => (
+        {Array.from({ length: 50 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-white rounded-full"
+            className="absolute w-1 h-1 bg-foreground rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.1,
+              opacity: Math.random() * 0.2 + 0.05,
             }}
             animate={{
-              opacity: [0.1, 0.5, 0.1],
+              opacity: [0.05, 0.2, 0.05],
               scale: [1, 1.2, 1],
             }}
             transition={{
@@ -167,17 +168,15 @@ export default function Galaxy() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/20 border border-purple-500/30 mb-4">
-              <Orbit className="w-4 h-4 text-purple-400" />
-              <span className="text-sm font-medium text-purple-300 uppercase tracking-wider">causal graph builder</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-4">
+              <Orbit className="w-4 h-4 text-primary" />
+              <span className="text-sm font-display font-medium text-muted-foreground uppercase tracking-wider">causal graph builder</span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-                Attribution Galaxy
-              </span>
+            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient brand-lowercase">
+              attribution galaxy
             </h1>
-            <p className="text-white/60 max-w-xl mx-auto">
+            <p className="text-muted-foreground max-w-xl mx-auto">
               drag planets to build your marketing constellation. connect them to revenue to see the golden path.
             </p>
           </motion.div>
@@ -192,18 +191,7 @@ export default function Galaxy() {
                   onClick={() => addChannel(channel)}
                   disabled={isAdded}
                   variant="outline"
-                  className={`
-                    border-2 transition-all
-                    ${isAdded 
-                      ? "opacity-50 cursor-not-allowed" 
-                      : "hover:scale-105"
-                    }
-                  `}
-                  style={{
-                    borderColor: channel.color,
-                    color: isAdded ? "#666" : channel.color,
-                    background: isAdded ? "transparent" : `${channel.color}10`,
-                  }}
+                  className={`transition-all ${isAdded ? "opacity-50 cursor-not-allowed" : "hover:scale-105 hover:border-primary"}`}
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   {channel.label}
@@ -214,7 +202,7 @@ export default function Galaxy() {
         </div>
 
         {/* Canvas */}
-        <div className="h-[500px] w-full border-y border-purple-500/20 bg-[#05051a]">
+        <div className="h-[500px] w-full border-y border-border bg-card/50">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -224,14 +212,11 @@ export default function Galaxy() {
             fitView
             className="attribution-galaxy"
           >
-            <Background color="#1a1a3a" gap={32} />
-            <Controls className="[&_button]:bg-purple-500/20 [&_button]:border-purple-500/30 [&_button:hover]:bg-purple-500/40" />
+            <Background color="hsl(var(--border))" gap={32} />
+            <Controls className="[&_button]:bg-card [&_button]:border-border [&_button:hover]:bg-muted" />
             <MiniMap 
-              style={{ background: "#0a0a1a" }}
-              nodeColor={(node) => {
-                const channel = CHANNEL_NODES.find(c => c.id === node.id);
-                return channel?.color || "#FFD700";
-              }}
+              style={{ background: "hsl(var(--card))" }}
+              nodeColor={() => "hsl(var(--primary))"}
             />
           </ReactFlow>
         </div>
@@ -242,7 +227,7 @@ export default function Galaxy() {
             <Button
               onClick={calculateGoldenPath}
               disabled={edges.length === 0}
-              className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-semibold"
+              className="bg-system-yellow text-black font-display font-semibold hover:bg-system-yellow/90"
             >
               <Sparkles className="w-4 h-4 mr-2" />
               Find Golden Path
@@ -254,7 +239,7 @@ export default function Galaxy() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex items-center gap-2"
               >
-                <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 px-4 py-2">
+                <Badge className="bg-system-yellow/20 text-system-yellow border-system-yellow/30 px-4 py-2">
                   ✨ {goldenPath.map(p => {
                     const channel = CHANNEL_NODES.find(c => c.id === p);
                     return channel?.label || p;
@@ -268,13 +253,12 @@ export default function Galaxy() {
             <Button
               onClick={shareResult}
               variant="outline"
-              className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
             >
               <Share2 className="w-4 h-4 mr-2" />
               Share Star Map
             </Button>
             <Link to="/early-access">
-              <Button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+              <Button className="bg-primary hover:bg-primary-hover text-primary-foreground">
                 Build This Reality
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

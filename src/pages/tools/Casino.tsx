@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { TrendingUp, Zap, Share2, ArrowRight, DollarSign, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { GlassCard } from "@/components/ui/glass-card";
 
 const CHANNELS = [
   { id: "google", name: "Google Ads", volatility: 0.25, avgROI: 2.1 },
@@ -88,13 +89,13 @@ export default function Casino() {
   };
 
   return (
-    <div className="dark min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e]">
+    <div className="dark min-h-screen bg-background">
       <AppHeader />
       
-      {/* Neon glow effects */}
+      {/* Subtle glow effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px]" style={{ background: 'rgba(168,85,247,0.1)' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px]" style={{ background: 'rgba(6,182,212,0.1)' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-[120px] bg-primary/5" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full blur-[120px] bg-primary/5" />
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-16">
@@ -104,17 +105,15 @@ export default function Casino() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-6" style={{ background: 'linear-gradient(to right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.3)' }}>
-            <BarChart3 className="w-4 h-4" style={{ color: 'rgba(192,132,252,1)' }} />
-            <span className="text-sm font-medium uppercase tracking-wider" style={{ color: 'rgba(216,180,254,1)' }}>monte carlo simulator</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-6">
+            <BarChart3 className="w-4 h-4 text-primary" />
+            <span className="text-sm font-display font-medium uppercase tracking-wider text-muted-foreground">monte carlo simulator</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-              GTM Casino
-            </span>
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient brand-lowercase">
+            gtm casino
           </h1>
-          <p className="text-white/60 max-w-xl mx-auto text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-lg">
             run 1,000 simulations to see your odds of hitting 2x ROI
           </p>
         </motion.div>
@@ -128,13 +127,13 @@ export default function Casino() {
             className="space-y-8"
           >
             {/* Budget Slider */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <GlassCard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white font-semibold flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-green-400" />
-                  Monthly Budget
+                <h3 className="text-foreground font-display font-semibold flex items-center gap-2 brand-lowercase">
+                  <DollarSign className="w-5 h-5 text-system-green" />
+                  monthly budget
                 </h3>
-                <span className="text-2xl font-bold text-green-400">
+                <span className="text-2xl font-display font-bold text-system-green">
                   ${budget[0].toLocaleString()}
                 </span>
               </div>
@@ -144,29 +143,29 @@ export default function Casino() {
                 min={1000}
                 max={100000}
                 step={1000}
-                className="[&_[role=slider]]:bg-gradient-to-r [&_[role=slider]]:from-purple-500 [&_[role=slider]]:to-cyan-500"
+                className="[&_[role=slider]]:bg-primary"
               />
-              <div className="flex justify-between mt-2 text-sm text-white/40">
+              <div className="flex justify-between mt-2 text-sm text-muted-foreground">
                 <span>$1K</span>
                 <span>$100K</span>
               </div>
-            </div>
+            </GlassCard>
 
             {/* Channel Selection */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" style={{ color: 'rgba(192,132,252,1)' }} />
-                Select Channels
+            <GlassCard className="p-6">
+              <h3 className="text-foreground font-display font-semibold mb-4 flex items-center gap-2 brand-lowercase">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                select channels
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 {CHANNELS.map(channel => (
                   <label
                     key={channel.id}
-                    className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border"
-                    style={selectedChannels.includes(channel.id) 
-                      ? { background: 'linear-gradient(to right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.5)' }
-                      : { background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }
-                    }
+                    className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border ${
+                      selectedChannels.includes(channel.id) 
+                        ? "bg-primary/10 border-primary/50" 
+                        : "bg-card/50 border-border hover:border-primary/30"
+                    }`}
                   >
                     <Checkbox
                       checked={selectedChannels.includes(channel.id)}
@@ -177,14 +176,13 @@ export default function Casino() {
                           setSelectedChannels(selectedChannels.filter(c => c !== channel.id));
                         }
                       }}
-                      className="data-[state=checked]:bg-purple-500"
-                      style={{ borderColor: 'rgba(168,85,247,0.5)' }}
+                      className="data-[state=checked]:bg-primary border-primary/50"
                     />
                     <div>
-                      <span className="text-white text-sm">{channel.name}</span>
-                      <div className="flex items-center gap-2 text-xs text-white/40">
+                      <span className="text-foreground text-sm">{channel.name}</span>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <span>~{channel.avgROI}x ROI</span>
-                        <span className={channel.volatility > 0.3 ? "text-red-400" : "text-green-400"}>
+                        <span className={channel.volatility > 0.3 ? "text-system-red" : "text-system-green"}>
                           {channel.volatility > 0.3 ? "High Risk" : "Low Risk"}
                         </span>
                       </div>
@@ -192,13 +190,13 @@ export default function Casino() {
                   </label>
                 ))}
               </div>
-            </div>
+            </GlassCard>
 
             {/* Run Button */}
             <Button
               onClick={runSimulation}
               disabled={isSimulating || selectedChannels.length === 0}
-              className="w-full h-14 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white text-lg font-semibold"
+              className="w-full h-14 bg-primary hover:bg-primary-hover text-primary-foreground text-lg font-display font-semibold"
             >
               {isSimulating ? (
                 <>
@@ -235,37 +233,37 @@ export default function Casino() {
                   className="space-y-6"
                 >
                   {/* Win Probability */}
-                  <div className="backdrop-blur-xl border rounded-2xl p-8 text-center" style={{ background: 'linear-gradient(to bottom right, rgba(168,85,247,0.2), rgba(6,182,212,0.2))', borderColor: 'rgba(168,85,247,0.3)' }}>
-                    <p className="text-white/60 text-sm uppercase tracking-wider mb-2">
+                  <GlassCard variant="elevated" className="p-8 text-center">
+                    <p className="text-muted-foreground text-sm uppercase tracking-wider mb-2 font-display">
                       chance of 2x+ ROI
                     </p>
-                    <div className="text-7xl font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+                    <div className="text-7xl font-display font-bold hero-gradient mb-2">
                       {result.winProbability.toFixed(1)}%
                     </div>
-                    <Badge className={`${result.winProbability > 70 ? "bg-green-500/20 text-green-400" : result.winProbability > 40 ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}`}>
+                    <Badge className={`${result.winProbability > 70 ? "bg-system-green/20 text-system-green" : result.winProbability > 40 ? "bg-system-yellow/20 text-system-yellow" : "bg-system-red/20 text-system-red"}`}>
                       {result.winProbability > 70 ? "FAVORABLE ODDS" : result.winProbability > 40 ? "MODERATE RISK" : "HIGH RISK"}
                     </Badge>
-                  </div>
+                  </GlassCard>
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 text-center">
-                      <p className="text-white/40 text-xs uppercase mb-1">Expected</p>
-                      <p className="text-2xl font-bold text-white">{result.expectedROI.toFixed(2)}x</p>
-                    </div>
-                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 text-center">
-                      <p className="text-white/40 text-xs uppercase mb-1">Best Case</p>
-                      <p className="text-2xl font-bold text-green-400">{result.bestCase.toFixed(2)}x</p>
-                    </div>
-                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4 text-center">
-                      <p className="text-white/40 text-xs uppercase mb-1">Worst Case</p>
-                      <p className="text-2xl font-bold text-red-400">{result.worstCase.toFixed(2)}x</p>
-                    </div>
+                    <GlassCard className="p-4 text-center">
+                      <p className="text-muted-foreground text-xs uppercase mb-1 font-display">Expected</p>
+                      <p className="text-2xl font-display font-bold text-foreground">{result.expectedROI.toFixed(2)}x</p>
+                    </GlassCard>
+                    <GlassCard className="p-4 text-center">
+                      <p className="text-muted-foreground text-xs uppercase mb-1 font-display">Best Case</p>
+                      <p className="text-2xl font-display font-bold text-system-green">{result.bestCase.toFixed(2)}x</p>
+                    </GlassCard>
+                    <GlassCard className="p-4 text-center">
+                      <p className="text-muted-foreground text-xs uppercase mb-1 font-display">Worst Case</p>
+                      <p className="text-2xl font-display font-bold text-system-red">{result.worstCase.toFixed(2)}x</p>
+                    </GlassCard>
                   </div>
 
                   {/* Distribution Chart */}
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                    <p className="text-white/60 text-sm mb-4">ROI Distribution (1,000 simulations)</p>
+                  <GlassCard className="p-6">
+                    <p className="text-muted-foreground text-sm mb-4 font-display">ROI Distribution (1,000 simulations)</p>
                     <div className="flex items-end gap-1 h-32">
                       {result.distribution.map((count, i) => (
                         <motion.div
@@ -273,16 +271,16 @@ export default function Casino() {
                           initial={{ height: 0 }}
                           animate={{ height: `${(count / Math.max(...result.distribution)) * 100}%` }}
                           transition={{ delay: i * 0.05 }}
-                          className="flex-1 bg-gradient-to-t from-purple-500 to-cyan-500 rounded-t"
+                          className="flex-1 bg-primary rounded-t"
                         />
                       ))}
                     </div>
-                    <div className="flex justify-between mt-2 text-xs text-white/40">
+                    <div className="flex justify-between mt-2 text-xs text-muted-foreground">
                       <span>0.5x</span>
                       <span>2.5x</span>
                       <span>4.5x+</span>
                     </div>
-                  </div>
+                  </GlassCard>
 
                   {/* Actions */}
                   <div className="flex gap-4">
@@ -290,13 +288,12 @@ export default function Casino() {
                       onClick={shareResult}
                       variant="outline"
                       className="flex-1"
-                      style={{ borderColor: 'rgba(168,85,247,0.5)', color: 'rgba(216,180,254,1)' }}
                     >
                       <Share2 className="w-4 h-4 mr-2" />
                       Share Betting Slip
                     </Button>
                     <Link to="/early-access" className="flex-1">
-                      <Button className="w-full bg-gradient-to-r from-purple-600 to-cyan-600">
+                      <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground">
                         Don't Gamble. Track ROI.
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
@@ -310,7 +307,7 @@ export default function Casino() {
                   animate={{ opacity: 1 }}
                   className="h-full flex items-center justify-center"
                 >
-                  <div className="text-center text-white/30">
+                  <div className="text-center text-muted-foreground">
                     <BarChart3 className="w-16 h-16 mx-auto mb-4 opacity-30" />
                     <p>Select channels and run simulation</p>
                   </div>
