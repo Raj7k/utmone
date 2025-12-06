@@ -9,9 +9,10 @@ interface ObsidianCardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * ObsidianCard - Glass morphism card for the Obsidian Design System
+ * ObsidianCard - Glass morphism card component
  * 
  * Features:
+ * - Theme-aware: works in both light and dark modes
  * - Backdrop blur glass effect
  * - Chamfered top border (light catch)
  * - Squircle border radius (32px)
@@ -28,31 +29,31 @@ const ObsidianCard = React.forwardRef<HTMLDivElement, ObsidianCardProps>(
   }, ref) => {
     const variantStyles = {
       glass: [
-        "bg-zinc-900/40",
+        // Light mode: light gray glass, Dark mode: dark glass
+        "bg-muted/40 dark:bg-zinc-900/40",
         "backdrop-blur-xl",
-        "border border-white/[0.08]",
-        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]", // Chamfer light
+        "border border-border dark:border-white/[0.08]",
+        "shadow-lg dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]",
       ].join(" "),
       solid: [
-        "bg-obsidian-surface",
-        "border border-white/[0.08]",
+        "bg-card dark:bg-obsidian-surface",
+        "border border-border dark:border-white/[0.08]",
       ].join(" "),
       outline: [
         "bg-transparent",
-        "border border-white/[0.15]",
+        "border border-border dark:border-white/[0.15]",
       ].join(" "),
     };
 
     const hoverStyles = hover ? [
       "transition-all duration-300 ease-out",
       "hover:scale-[1.02]",
-      "hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.15)]",
-      "hover:border-white/[0.15]",
+      "hover:shadow-xl dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.15)]",
+      "hover:border-border/80 dark:hover:border-white/[0.15]",
     ].join(" ") : "";
 
     const glowStyles = glow ? [
-      "shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)]",
-      "animate-glow-pulse",
+      "shadow-[0_0_30px_-10px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)]",
     ].join(" ") : "";
 
     return (

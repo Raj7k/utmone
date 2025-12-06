@@ -28,23 +28,25 @@ export const FeaturePillarCard = ({
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay }}
       className={cn(
-        "group relative bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8",
-        "hover:border-white/20 transition-all duration-300",
+        // Theme-aware glass card
+        "group relative bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl",
+        "border border-border dark:border-white/10 rounded-2xl p-8",
+        "hover:border-border/80 dark:hover:border-white/20 transition-all duration-300",
         href && "cursor-pointer",
         className
       )}
     >
       <div className="flex flex-col items-start space-y-4">
-        <div className="p-3 rounded-xl transition-colors text-foreground" style={{ background: 'rgba(255,255,255,0.1)' }}>
+        <div className="p-3 rounded-xl transition-colors bg-primary/10 dark:bg-white/10 text-primary dark:text-foreground">
           <Icon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-display font-semibold lowercase transition-colors relative" style={{ color: 'rgba(255,255,255,0.9)' }}>
+        <h3 className="text-xl font-display font-semibold lowercase transition-colors relative text-foreground">
           {formatText(title)}
           {href && (
             <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 bg-foreground" />
           )}
         </h3>
-        <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <p className="text-sm leading-relaxed text-muted-foreground">
           {description}
         </p>
         {href && (
