@@ -120,7 +120,7 @@ const SimpleAnalytics = () => {
           {/* Metric 1 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="space-y-3">
-              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>metric 1</div>
+              <div className="text-sm font-medium uppercase tracking-wide text-primary">metric 1</div>
               <h3 className="text-xl font-display font-semibold text-foreground">acquisition</h3>
               <p className="text-muted-foreground leading-relaxed">
                 How many people are entering your funnel? Measured as clicks, visits, or signups depending on your business.
@@ -134,7 +134,7 @@ const SimpleAnalytics = () => {
           {/* Metric 2 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="space-y-3">
-              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>metric 2</div>
+              <div className="text-sm font-medium uppercase tracking-wide text-primary">metric 2</div>
               <h3 className="text-xl font-display font-semibold text-foreground">engagement</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Are people activating and coming back? Measured as activation rate (did they complete onboarding?) and retention (did they return in 7 days?).
@@ -148,7 +148,7 @@ const SimpleAnalytics = () => {
           {/* Metric 3 */}
           <div className="p-8 bg-card rounded-2xl border border-border/50">
             <div className="space-y-3">
-              <div className="text-sm font-medium uppercase tracking-wide" style={{ color: 'rgba(59,130,246,1)' }}>metric 3</div>
+              <div className="text-sm font-medium uppercase tracking-wide text-primary">metric 3</div>
               <h3 className="text-xl font-display font-semibold text-foreground">revenue</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Are campaigns profitable? Measured as conversions, MRR, or LTV depending on your business model.
@@ -157,7 +157,7 @@ const SimpleAnalytics = () => {
                 Example: "Campaign generated $50K MRR at $200 CAC."
               </p>
               <p className="text-sm text-muted-foreground">
-                → Track conversions with our <Link to="/resources/guides/utm-guide" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>UTM Guide</Link>
+                → Track conversions with our <Link to="/resources/guides/utm-guide" className="text-primary hover:underline">UTM Guide</Link>
               </p>
             </div>
           </div>
@@ -214,15 +214,15 @@ const SimpleAnalytics = () => {
 
         <ul className="space-y-3 text-lg text-muted-foreground leading-relaxed ml-6">
           <li className="flex items-start gap-3">
-            <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>→</span>
+            <span className="mt-1 text-primary">→</span>
             <span><strong className="text-foreground">Section 1:</strong> Acquisition (clicks, visits, signups by campaign)</span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>→</span>
+            <span className="mt-1 text-primary">→</span>
             <span><strong className="text-foreground">Section 2:</strong> Engagement (activation rate, retention by cohort)</span>
           </li>
           <li className="flex items-start gap-3">
-            <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>→</span>
+            <span className="mt-1 text-primary">→</span>
             <span><strong className="text-foreground">Section 3:</strong> Revenue (conversions, MRR, CAC by channel)</span>
           </li>
         </ul>
@@ -232,7 +232,7 @@ const SimpleAnalytics = () => {
         </p>
 
         <p className="text-sm text-muted-foreground">
-          → Implementation details in our <Link to="/resources/guides/tracking-architecture" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Tracking Architecture Guide</Link>
+          → Implementation details in our <Link to="/resources/guides/tracking-architecture" className="text-primary hover:underline">Tracking Architecture Guide</Link>
         </p>
       </section>
 
