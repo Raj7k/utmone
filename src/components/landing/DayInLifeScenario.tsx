@@ -49,23 +49,19 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
             >
               <div className="flex flex-col items-center">
                 <div 
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: 'rgba(59,130,246,0.15)' }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary/15"
                 >
-                  <step.icon className="w-5 h-5" style={{ color: '#3B82F6' }} />
+                  <step.icon className="w-5 h-5 text-primary" />
                 </div>
                 {index < timeline.length - 1 && (
-                  <div className="w-0.5 h-8 mt-2" style={{ background: 'rgba(59,130,246,0.2)' }} />
+                  <div className="w-0.5 h-8 mt-2 bg-primary/20" />
                 )}
               </div>
               <div className="pt-2">
-                <div 
-                  className="text-xs font-semibold uppercase tracking-wide mb-1"
-                  style={{ color: '#3B82F6' }}
-                >
+                <div className="text-xs font-semibold uppercase tracking-wide mb-1 text-primary">
                   {step.time}
                 </div>
-                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                <div className="text-sm text-white/80">
                   {step.action}
                 </div>
               </div>

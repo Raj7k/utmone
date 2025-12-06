@@ -30,7 +30,7 @@ export function ViralDashboardPreview() {
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-white/5 rounded-xl p-6 border border-white/10">
               <div className="flex items-center gap-3 mb-3">
-                <TrendingUp className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <TrendingUp className="w-5 h-5 text-primary" />
                 <p className="text-sm text-white/40">your position</p>
               </div>
               <p className="text-3xl font-bold text-white">#4,502 <span className="text-base text-white/60">in line</span></p>
@@ -38,7 +38,7 @@ export function ViralDashboardPreview() {
 
             <div className="bg-white/5 rounded-xl p-6 border border-white/10">
               <div className="flex items-center gap-3 mb-3">
-                <Users className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Users className="w-5 h-5 text-primary" />
                 <p className="text-sm text-white/40">your progress</p>
               </div>
               <p className="text-3xl font-bold text-white">0 / 3 <span className="text-base text-white/60">referrals</span></p>
@@ -46,15 +46,15 @@ export function ViralDashboardPreview() {
 
             <div className="bg-white/5 rounded-xl p-6 border border-white/10">
               <div className="flex items-center gap-3 mb-3">
-                <Gift className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Gift className="w-5 h-5 text-primary" />
                 <p className="text-sm text-white/40">your reward</p>
               </div>
-              <p className="text-xl font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>1 month of pro for free</p>
+              <p className="text-xl font-semibold text-primary">1 month of pro for free</p>
             </div>
 
             <div className="bg-white/5 rounded-xl p-6 border border-white/10">
               <div className="flex items-center gap-3 mb-3">
-                <LinkIcon className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <LinkIcon className="w-5 h-5 text-primary" />
                 <p className="text-sm text-white/40">share link</p>
               </div>
               <p className="text-sm font-mono text-white break-all">utm.one/join?ref=SAM-82</p>
