@@ -83,7 +83,7 @@ const Checklists = () => {
                     <span className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-white font-medium">
                       {checklist.time}
                     </span>
-                    <span className="text-xs px-3 py-1.5 rounded-full" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+                    <span className="text-xs px-3 py-1.5 rounded-full bg-primary/20 text-primary">
                       {checklist.frequency}
                     </span>
                   </div>

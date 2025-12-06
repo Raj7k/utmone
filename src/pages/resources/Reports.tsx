@@ -34,7 +34,7 @@ const Reports = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center justify-center gap-2 mb-4">
-              <FileText className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+              <FileText className="h-8 w-8 text-primary" />
             </div>
             <h1 className="text-5xl md:text-6xl font-display font-extrabold hero-gradient">
               Reports
@@ -61,7 +61,7 @@ const Reports = () => {
                   <div className="group bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] p-8">
                     <div className="mb-6">
                       <div className="flex items-start justify-between mb-4">
-                        <div className="p-3 rounded-xl bg-white/10" style={{ color: 'rgba(59,130,246,1)' }}>
+                        <div className="p-3 rounded-xl bg-white/10 text-primary">
                           <TrendingUp className="h-8 w-8" />
                         </div>
                         {report.badge && (

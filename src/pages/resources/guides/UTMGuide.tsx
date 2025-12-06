@@ -95,7 +95,7 @@ const UTMGuide = () => {
             <p>Marketing breaks when links break. And links break when UTMs are inconsistent, incomplete, or forgotten entirely.</p>
             <p>You've seen it happen: campaigns launch with mismatched UTM values. Some links use "linkedin", others use "LinkedIn". Some use underscores, others use hyphens. By the time you open Google Analytics, your data is fragmented across dozens of inconsistent sources.</p>
             <p>This isn't a tracking problem. It's a governance problem. And it compounds over time.</p>
-            <p>This guide explains how to build a UTM system that scales—one that works for small teams launching their first campaign, and for enterprises running hundreds of campaigns across dozens of channels. <a href="/resources/guides/llm-seo" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Learn how to optimize your UTM-tracked content for discovery by AI systems</a> to ensure your campaigns are visible not just in analytics, but in AI-powered search.</p>
+            <p>This guide explains how to build a UTM system that scales—one that works for small teams launching their first campaign, and for enterprises running hundreds of campaigns across dozens of channels. <a href="/resources/guides/llm-seo" className="text-primary hover:underline">Learn how to optimize your UTM-tracked content for discovery by AI systems</a> to ensure your campaigns are visible not just in analytics, but in AI-powered search.</p>
           </div>
         </section>
       </ProgressiveReveal>
@@ -232,7 +232,7 @@ const UTMGuide = () => {
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Even with perfect governance, mistakes happen. The UTM Debugger identifies issues and provides corrected versions automatically.</p>
-            <p>Once your UTMs are clean and consistent, make sure your landing pages are discoverable by AI systems. See our <Link to="/resources/guides/llm-seo" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>LLM-First SEO Guide</Link> or follow our <Link to="/resources/playbooks/llm-ranking" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>90-day LLM Ranking Playbook</Link> for complete implementation guidance.</p>
+            <p>Once your UTMs are clean and consistent, make sure your landing pages are discoverable by AI systems. See our <Link to="/resources/guides/llm-seo" className="text-primary hover:underline">LLM-First SEO Guide</Link> or follow our <Link to="/resources/playbooks/llm-ranking" className="text-primary hover:underline">90-day LLM Ranking Playbook</Link> for complete implementation guidance.</p>
           </div>
 
           <UTMDebugger />
@@ -246,7 +246,7 @@ const UTMGuide = () => {
           
           <div className="space-y-4 text-lg text-foreground leading-relaxed mb-8">
             <p>Implementing UTM governance takes time. This 90-day roadmap breaks the work into manageable phases with specific tasks and milestones.</p>
-            <p>Phase 2 includes optimizing your campaign landing pages for discoverability. Use our <a href="/resources/guides/llm-seo#schema-generator" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>Schema Generator</a> and <a href="/resources/guides/llm-seo#readiness-scorer" className="hover:underline" style={{ color: 'rgba(59,130,246,1)' }}>LLM Readiness Scorer</a> to make your content AI-discoverable.</p>
+            <p>Phase 2 includes optimizing your campaign landing pages for discoverability. Use our <a href="/resources/guides/llm-seo#schema-generator" className="text-primary hover:underline">Schema Generator</a> and <a href="/resources/guides/llm-seo#readiness-scorer" className="text-primary hover:underline">LLM Readiness Scorer</a> to make your content AI-discoverable.</p>
           </div>
 
           <RoadmapTimeline />

@@ -75,8 +75,8 @@ const DashboardCard = ({ dashboard }: { dashboard: DashboardExample }) => {
             <Badge variant="outline" className="text-xs">{dashboard.category}</Badge>
           </div>
         </div>
-        <div className="rounded-full p-3" style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <BarChart3 className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
+        <div className="rounded-full p-3 bg-primary/10">
+          <BarChart3 className="h-6 w-6 text-primary" />
         </div>
       </div>
 
@@ -86,7 +86,7 @@ const DashboardCard = ({ dashboard }: { dashboard: DashboardExample }) => {
         <div className="space-y-2">
           {dashboard.sections.map((section, idx) => (
             <div key={idx} className="flex items-start gap-2">
-              <span className="text-xs font-mono mt-0.5" style={{ color: 'rgba(59,130,246,1)' }}>{String(idx + 1).padStart(2, '0')}</span>
+              <span className="text-xs font-mono mt-0.5 text-primary">{String(idx + 1).padStart(2, '0')}</span>
               <span className="text-sm text-foreground">{section}</span>
             </div>
           ))}

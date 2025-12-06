@@ -516,7 +516,7 @@ const Glossary = () => {
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient">
                   Glossary
                 </h1>
-                <span className="text-sm font-medium px-3 py-1 rounded-full" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+                <span className="text-sm font-medium px-3 py-1 rounded-full bg-primary/20 text-primary">
                   {terms.length} terms
                 </span>
               </div>
@@ -543,10 +543,9 @@ const Glossary = () => {
                 onClick={() => setSelectedCategory(null)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   !selectedCategory
-                    ? "text-white"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-white/10 text-white/60 hover:bg-white/20"
                 }`}
-                style={!selectedCategory ? { background: 'rgba(59,130,246,1)' } : {}}
               >
                 all terms
               </button>

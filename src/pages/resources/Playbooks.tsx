@@ -107,7 +107,7 @@ const Playbooks = () => {
                   className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 relative shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
                 >
                   {playbook.badge && (
-                    <Badge className="absolute top-4 right-4 animate-pulse" style={{ background: 'rgba(59,130,246,1)', color: 'white' }}>
+                    <Badge className="absolute top-4 right-4 animate-pulse bg-primary text-primary-foreground">
                       {playbook.badge}
                     </Badge>
                   )}

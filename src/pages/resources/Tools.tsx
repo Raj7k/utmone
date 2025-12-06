@@ -115,7 +115,7 @@ const Tools = () => {
                       <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
                         <Icon className="w-6 h-6 text-white" />
                       </div>
-                      <Badge className="animate-pulse" style={{ background: 'rgba(59,130,246,1)', color: 'white' }}>NEW</Badge>
+                      <Badge className="animate-pulse bg-primary text-primary-foreground">NEW</Badge>
                     </div>
                     <div className="space-y-2">
                       <h3 className="text-xl font-display font-semibold text-white">
@@ -154,7 +154,7 @@ const Tools = () => {
               { label: "Roles Covered", value: "50+" }
             ].map((stat) => (
               <div key={stat.label} className="text-center p-4 bg-zinc-900/40 backdrop-blur-xl rounded-xl border border-white/10">
-                <div className="text-2xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{stat.value}</div>
+                <div className="text-2xl font-display font-bold text-primary">{stat.value}</div>
                 <div className="text-xs text-white/60">{stat.label}</div>
               </div>
             ))}
