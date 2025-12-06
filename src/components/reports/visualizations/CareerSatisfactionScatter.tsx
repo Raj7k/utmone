@@ -1,4 +1,4 @@
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ZAxis, Label } from 'recharts';
+import { LazyScatterChart, LazyChartContainer, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ZAxis, Label } from '@/components/charts/LazyCharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const data = [
@@ -26,48 +26,50 @@ export const CareerSatisfactionScatter = () => {
         <CardTitle className="text-2xl font-display">Career Satisfaction vs Compensation</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={450}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis 
-              type="number" 
-              dataKey="salary" 
-              domain={[50, 250]} 
-              tickFormatter={(value) => `$${value}K`}
-            >
-              <Label value="Salary (USD thousands)" position="insideBottom" offset={-10} />
-            </XAxis>
-            <YAxis 
-              type="number" 
-              dataKey="satisfaction" 
-              domain={[4, 9]}
-            >
-              <Label value="Satisfaction (1-10)" angle={-90} position="insideLeft" />
-            </YAxis>
-            <ZAxis type="number" dataKey="respondents" range={[100, 800]} />
-            <Tooltip 
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload;
-                  return (
-                    <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-                      <p className="font-semibold">{data.role}</p>
-                      <p className="text-sm text-muted-foreground">Salary: ${data.salary}K</p>
-                      <p className="text-sm text-muted-foreground">Satisfaction: {data.satisfaction}/10</p>
-                      <p className="text-sm text-muted-foreground">Respondents: {data.respondents}</p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Scatter data={data} fill="#FF5B04">
-              {data.map((entry, index) => (
-                <circle key={`dot-${index}`} fill={entry.color} />
-              ))}
-            </Scatter>
-          </ScatterChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={450}>
+          <ResponsiveContainer width="100%" height={450}>
+            <LazyScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis 
+                type="number" 
+                dataKey="salary" 
+                domain={[50, 250]} 
+                tickFormatter={(value) => `$${value}K`}
+              >
+                <Label value="Salary (USD thousands)" position="insideBottom" offset={-10} />
+              </XAxis>
+              <YAxis 
+                type="number" 
+                dataKey="satisfaction" 
+                domain={[4, 9]}
+              >
+                <Label value="Satisfaction (1-10)" angle={-90} position="insideLeft" />
+              </YAxis>
+              <ZAxis type="number" dataKey="respondents" range={[100, 800]} />
+              <Tooltip 
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+                        <p className="font-semibold">{data.role}</p>
+                        <p className="text-sm text-muted-foreground">Salary: ${data.salary}K</p>
+                        <p className="text-sm text-muted-foreground">Satisfaction: {data.satisfaction}/10</p>
+                        <p className="text-sm text-muted-foreground">Respondents: {data.respondents}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Scatter data={data} fill="#FF5B04">
+                {data.map((entry, index) => (
+                  <circle key={`dot-${index}`} fill={entry.color} />
+                ))}
+              </Scatter>
+            </LazyScatterChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
         <div className="mt-4 p-4 bg-muted/30 rounded-lg">
           <p className="text-sm text-muted-foreground">
             <strong className="text-foreground">Goal Zone:</strong> Top-right quadrant (high pay + high satisfaction). 
