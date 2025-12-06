@@ -23,7 +23,8 @@ import {
   Zap,
   TrendingUp,
   Shield,
-  Beaker
+  Beaker,
+  Network
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -63,6 +64,7 @@ const toolsNavigation = [
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
   { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
+  { name: "Robust Attribution", href: "/dashboard/robust-attribution", icon: Network },
   { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Analytics Performance", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
