@@ -92,23 +92,23 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
                 <h3 className="text-xl font-semibold text-foreground mb-4">the flow</h3>
                 <ol className="space-y-3 text-muted-foreground">
                   <li className="flex gap-3">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>1.</span>
+                    <span className="font-semibold text-primary">1.</span>
                     <span>Lead clicks your utm.one short link and converts on your website.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>2.</span>
+                    <span className="font-semibold text-primary">2.</span>
                     <span>Your sales team works the deal in Salesforce or HubSpot.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>3.</span>
+                    <span className="font-semibold text-primary">3.</span>
                     <span>When they change the stage (e.g., mark as "Closed Won"), your CRM fires a webhook.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>4.</span>
+                    <span className="font-semibold text-primary">4.</span>
                     <span>We receive the deal value and attribute it to the original campaign.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>5.</span>
+                    <span className="font-semibold text-primary">5.</span>
                     <span>You see revenue-per-campaign metrics in your analytics dashboard.</span>
                   </li>
                 </ol>
@@ -124,10 +124,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
               <div className="space-y-6">
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       1
                     </div>
                     <div className="flex-1">
@@ -146,10 +143,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       2
                     </div>
                     <div className="flex-1">
@@ -164,10 +158,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       3
                     </div>
                     <div className="flex-1">
@@ -210,10 +201,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       4
                     </div>
                     <div className="flex-1">
@@ -237,10 +225,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
               <div className="space-y-6">
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       1
                     </div>
                     <div className="flex-1">
@@ -259,10 +244,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       2
                     </div>
                     <div className="flex-1">
@@ -276,10 +258,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       3
                     </div>
                     <div className="flex-1">
@@ -317,10 +296,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
                 <div className="border border-border rounded-2xl p-8 bg-card">
                   <div className="flex items-start gap-4">
-                    <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold"
-                      style={{ backgroundColor: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}
-                    >
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-primary/10 text-primary">
                       4
                     </div>
                     <div className="flex-1">
@@ -347,7 +323,7 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
 
               <div className="border border-border rounded-2xl p-8 bg-card mb-8">
                 <div className="flex items-start gap-4 mb-4">
-                  <Zap className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Zap className="w-6 h-6 flex-shrink-0 mt-0.5 text-primary" />
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">Zapier integration</h3>
                     <p className="text-muted-foreground mb-4">
@@ -359,14 +335,14 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
                 <ol className="text-sm text-muted-foreground space-y-2 ml-10">
                   <li>1. Create a new Zap with your CRM as the trigger (e.g., "Deal stage changed").</li>
                   <li>2. Add a Webhook action (POST request).</li>
-                  <li>3. Use the Pipeline API endpoint: <code style={{ color: 'rgba(59,130,246,1)' }}>https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/track-pipeline</code></li>
+                  <li>3. Use the Pipeline API endpoint: <code className="text-primary">https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/track-pipeline</code></li>
                   <li>4. Map the fields: email, stage, value, timestamp.</li>
                 </ol>
               </div>
 
               <div className="border border-border rounded-2xl p-8 bg-card">
                 <div className="flex items-start gap-4 mb-4">
-                  <Webhook className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Webhook className="w-6 h-6 flex-shrink-0 mt-0.5 text-primary" />
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">direct API access</h3>
                     <p className="text-muted-foreground mb-4">
@@ -374,58 +350,19 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
                     </p>
                   </div>
                 </div>
-                <Link to="/settings/pipeline">
-                  <Button variant="outline" size="sm">
-                    View API Documentation
-                  </Button>
-                </Link>
-              </div>
-            </section>
+                <pre className="bg-muted/50 p-4 rounded-xl overflow-x-auto text-sm">
+                  <code>{`POST /functions/v1/track-pipeline
+Content-Type: application/json
+x-api-key: YOUR_API_KEY
 
-            {/* Troubleshooting */}
-            <section id="troubleshooting">
-              <h2 className="text-3xl font-display font-bold text-foreground mb-6">
-                troubleshooting
-              </h2>
-
-              <div className="space-y-6">
-                <div className="border border-border rounded-xl p-6 bg-card">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    Webhook not firing
-                  </h3>
-                  <ul className="text-muted-foreground space-y-2 text-sm">
-                    <li>• Verify the webhook URL is correct (check Settings → Integrations)</li>
-                    <li>• Check that the workflow/process is active in your CRM</li>
-                    <li>• Ensure the trigger conditions are met (e.g., stage = "Closed Won")</li>
-                    <li>• Look at CRM logs for any error messages</li>
-                  </ul>
-                </div>
-
-                <div className="border border-border rounded-xl p-6 bg-card">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    Revenue not appearing
-                  </h3>
-                  <ul className="text-muted-foreground space-y-2 text-sm">
-                    <li>• Ensure the Amount field is being sent in the webhook</li>
-                    <li>• Check that the email matches a visitor in our system</li>
-                    <li>• Allow 5-10 minutes for data to sync</li>
-                    <li>• Contact support if issues persist</li>
-                  </ul>
-                </div>
-
-                <div className="border border-border rounded-xl p-6 bg-card">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    Need help?
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Contact support with your workspace ID and CRM type. We'll help you get set up.
-                  </p>
-                  <Link to="/support">
-                    <Button variant="outline" size="sm">
-                      Contact Support
-                    </Button>
-                  </Link>
-                </div>
+{
+  "email": "customer@example.com",
+  "stage": "closed_won",
+  "value": 10000,
+  "currency": "USD",
+  "timestamp": "2024-01-15T10:00:00Z"
+}`}</code>
+                </pre>
               </div>
             </section>
 
@@ -433,20 +370,20 @@ https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/webhook-hubspot/YOUR_WORKS
             <section className="border-t border-border pt-16">
               <div className="bg-muted/20 border border-border rounded-2xl p-12 text-center">
                 <h2 className="text-2xl font-display font-bold text-foreground mb-4">
-                  CRM connected? what's next?
+                  need help setting up?
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  View your revenue attribution dashboard and see which campaigns drive actual sales.
+                  Our team can help you configure your CRM integration.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <Link to="/dashboard/analytics">
+                  <Link to="/support">
                     <Button variant="marketing">
-                      View Analytics
+                      Contact Support
                     </Button>
                   </Link>
-                  <Link to="/docs/revenue-attribution">
+                  <Link to="/docs/api">
                     <Button variant="outline">
-                      Revenue Attribution Guide
+                      API Documentation
                     </Button>
                   </Link>
                 </div>

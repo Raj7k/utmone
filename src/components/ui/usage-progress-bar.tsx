@@ -12,12 +12,12 @@ export const UsageProgressBar = ({ label, used, limit, className }: UsageProgres
   const isUnlimited = limit === 'unlimited';
   const percentage = isUnlimited ? 0 : Math.min((used / (limit as number)) * 100, 100);
   
-  // Color coding based on usage - using rgba for Obsidian compliance
-  const getProgressColor = () => {
-    if (isUnlimited) return "rgba(59,130,246,1)"; // Electric Blue
-    if (percentage >= 90) return "rgba(239,68,68,0.9)"; // Red
-    if (percentage >= 75) return "rgba(245,158,11,0.9)"; // Amber
-    return "rgba(59,130,246,1)"; // Electric Blue
+  // Color coding based on usage
+  const getProgressColorClass = () => {
+    if (isUnlimited) return "bg-primary";
+    if (percentage >= 90) return "bg-destructive";
+    if (percentage >= 75) return "bg-amber-500";
+    return "bg-primary";
   };
 
   const formatNumber = (num: number) => {
@@ -40,12 +40,11 @@ export const UsageProgressBar = ({ label, used, limit, className }: UsageProgres
           className="h-2"
         />
         <div 
-          className="absolute inset-0 h-2 rounded-full transition-all"
-          style={{ 
-            width: `${isUnlimited ? 100 : percentage}%`,
-            opacity: 0.8,
-            background: getProgressColor()
-          }}
+          className={cn(
+            "absolute inset-0 h-2 rounded-full transition-all opacity-80",
+            getProgressColorClass()
+          )}
+          style={{ width: `${isUnlimited ? 100 : percentage}%` }}
         />
       </div>
     </div>
