@@ -51,7 +51,6 @@ const Analytics = lazy(() => import("./pages/Analytics"));
 const Settings = lazy(() => import("./pages/Settings"));
 const OnboardingEnhanced = lazy(() => import("./pages/OnboardingEnhanced"));
 const OnboardingWizard = lazy(() => import("./pages/OnboardingWizard"));
-const Backups = lazy(() => import("./pages/settings/Backups"));
 const Backup = lazy(() => import("./pages/Settings/Backup"));
 const DeveloperSettings = lazy(() => import("./pages/DeveloperSettings"));
 const ApprovalQueue = lazy(() => import("./pages/ApprovalQueue"));
@@ -441,7 +440,7 @@ const App = () => (
               <Route path="/settings/profile" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
               <Route path="/settings/domains" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
               <Route path="/settings/billing" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
-              <Route path="/settings/backups" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backups /></Suspense></ProtectedRoute>} />
+              <Route path="/settings/backups" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/approvals" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><ApprovalQueue /></DashboardLayout></Suspense></ProtectedRoute>} />

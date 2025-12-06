@@ -20,7 +20,7 @@ import { TotpSettings } from "@/components/settings/TotpSettings";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileNav } from "@/components/mobile/MobileNav";
 import { AppHeader } from "@/components/layout/AppHeader";
-import BillingSettings from "./settings/Billing";
+import BillingSettings from "./Settings/Billing";
 import { SettingsSidebar } from "@/components/settings/SettingsSidebar";
 import { AuditLogViewer } from "@/components/security/AuditLogViewer";
 import { RoleRecommender } from "@/components/security/RoleRecommender";

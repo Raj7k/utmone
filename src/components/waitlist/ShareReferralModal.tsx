@@ -83,9 +83,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
           text: shareMessages.twitter,
           url: referralLink,
         });
-      } catch (error) {
-        // User cancelled or error occurred
-        console.log("Share cancelled");
+      } catch {
+        // User cancelled share dialog
       }
     } else {
       copyToClipboard();
