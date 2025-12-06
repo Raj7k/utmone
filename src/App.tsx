@@ -49,7 +49,7 @@ const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const Settings = lazy(() => import("./pages/Settings"));
-const OnboardingEnhanced = lazy(() => import("./pages/OnboardingEnhanced"));
+
 const OnboardingWizard = lazy(() => import("./pages/OnboardingWizard"));
 const Backup = lazy(() => import("./pages/Settings/Backup"));
 const DeveloperSettings = lazy(() => import("./pages/DeveloperSettings"));
@@ -412,7 +412,7 @@ const App = () => (
                
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
-              <Route path="/onboarding-old" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingEnhanced /></Suspense>} />
+              
               <Route path="/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Links /></Suspense></ProtectedRoute>} />
               <Route path="/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><LinkDetail /></Suspense></ProtectedRoute>} />
               <Route path="/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Analytics /></Suspense></ProtectedRoute>} />
