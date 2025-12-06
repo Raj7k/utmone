@@ -78,8 +78,8 @@ export const LeadScoringCalculator = () => {
     <Card className="my-8 border-border/50">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Calculator className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10">
+            <Calculator className="w-6 h-6 text-primary" />
           </div>
           <div>
             <CardTitle className="text-2xl">Lead Scoring Calculator</CardTitle>
@@ -96,8 +96,7 @@ export const LeadScoringCalculator = () => {
             key={scores.fit}
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
-            className="text-2xl font-bold"
-            style={{ color: 'rgba(59,130,246,1)' }}
+            className="text-2xl font-bold text-primary"
           >
               {scores.fit}
             </motion.span>
@@ -146,8 +145,7 @@ export const LeadScoringCalculator = () => {
             key={scores.engagement}
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
-            className="text-2xl font-bold"
-            style={{ color: 'rgba(59,130,246,1)' }}
+            className="text-2xl font-bold text-primary"
           >
               {scores.engagement}
             </motion.span>

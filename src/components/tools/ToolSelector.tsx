@@ -45,8 +45,8 @@ export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
           >
             <CardHeader className="p-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <Icon className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" />
                 </div>
                 <CardTitle className="text-lg font-display font-semibold">{tool.name}</CardTitle>
               </div>

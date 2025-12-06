@@ -272,7 +272,7 @@ export const GlossaryTermLayout = ({
                         >
                           <div className="space-y-2">
                             <div className="flex items-center justify-between gap-2">
-                              <h3 className="text-base font-display font-semibold text-white transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+                              <h3 className="text-base font-display font-semibold text-primary transition-colors">
                                 {relatedTerm.term}
                               </h3>
                               <span 
@@ -309,7 +309,7 @@ export const GlossaryTermLayout = ({
                         className="block group"
                       >
                         <div className="space-y-1">
-                          <p className="text-sm font-medium text-white transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+                          <p className="text-sm font-medium text-primary transition-colors">
                             {resource.title}
                           </p>
                           <p className="text-xs text-white/40">

@@ -446,10 +446,10 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Link2 className="h-5 w-5 text-primary" />
                 <CardTitle className="text-lg">Shortened links</CardTitle>
                 {processedURLs.length > 0 && (
-                  <span className="px-2 py-0.5 rounded-lg text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <span className="px-2 py-0.5 rounded-lg text-sm font-medium bg-primary/10 text-primary">
                     {processedURLs.length}
                   </span>
                 )}
