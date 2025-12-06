@@ -29,7 +29,7 @@ export default function FeatureFlags() {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'performance':
-        return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+        return 'bg-primary/20 text-primary/80 border-primary/30';
       case 'security':
         return 'bg-red-500/20 text-red-300 border-red-500/30';
       case 'maintenance':

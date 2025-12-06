@@ -64,8 +64,8 @@ const Support = () => {
           {/* Live Chat */}
           <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 text-blue-400" />
+              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                <MessageSquare className="w-6 h-6 text-primary" />
               </div>
               <h2 className="text-xl font-display font-bold text-white">
                 Live Chat
@@ -78,7 +78,7 @@ const Support = () => {
               onClick={() => {
                 alert("Live chat opening soon!");
               }}
-              className="px-6 py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-colors"
+              className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-colors"
             >
               Start Live Chat
             </button>

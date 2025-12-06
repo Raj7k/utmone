@@ -11,7 +11,7 @@ const insightStyles: Record<InsightType, string> = {
   declining: "bg-orange-500/20 text-orange-300 border-orange-500/30",
   "at-risk": "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
   dormant: "bg-white/10 text-white/60 border-white/20",
-  testing: "bg-blue-500/20 text-blue-300 border-blue-500/30",
+  testing: "bg-primary/20 text-primary/80 border-primary/30",
 };
 
 export const LinkInsightBadge = ({ linkId }: LinkInsightBadgeProps) => {

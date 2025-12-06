@@ -69,7 +69,7 @@ export function SecurityOverview() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-3">
-              <Activity className="w-8 h-8 text-blue-500" />
+              <Activity className="w-8 h-8 text-primary" />
               <div>
                 <div className="text-2xl font-bold">{totalSecurityEvents}</div>
                 <p className="text-xs text-secondary-label">Last 24 hours</p>
@@ -140,7 +140,7 @@ export function SecurityOverview() {
                   <div className={`w-2 h-2 rounded-full ${
                     event.action === 'rate_limit_exceeded' ? 'bg-yellow-500' :
                     event.action === 'auth_failed' ? 'bg-red-500' :
-                    'bg-blue-500'
+                    'bg-primary'
                   }`} />
                   <span className="text-sm">{event.action}</span>
                 </div>

@@ -50,7 +50,7 @@ export const AuditLogViewer = () => {
     if (action.includes('create')) return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400';
     if (action.includes('update')) return 'bg-amber-500/10 text-amber-700 dark:text-amber-400';
     if (action.includes('delete')) return 'bg-destructive/10 text-destructive';
-    if (action.includes('approve')) return 'bg-blue-500/10 text-blue-700 dark:text-blue-400';
+    if (action.includes('approve')) return 'bg-primary/10 text-primary';
     return 'bg-muted text-muted-foreground';
   };
 

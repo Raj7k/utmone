@@ -85,7 +85,7 @@ export const LLMCitationChecklist = () => {
     switch (priority) {
       case "high": return "text-red-500";
       case "medium": return "text-yellow-500";
-      case "low": return "text-blue-500";
+      case "low": return "text-primary";
       default: return "text-muted-foreground";
     }
   };

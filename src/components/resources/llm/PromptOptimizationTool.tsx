@@ -100,9 +100,9 @@ export const PromptOptimizationTool = () => {
 
         {prompts && (
           <div className="mt-6 space-y-6">
-            <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
               <div className="flex items-center gap-2 mb-3">
-                <Badge variant="outline" className="text-blue-600 border-blue-600">
+                <Badge variant="outline" className="text-primary border-primary">
                   Informational
                 </Badge>
                 <span className="text-xs text-muted-foreground">

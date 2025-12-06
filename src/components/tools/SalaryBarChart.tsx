@@ -84,7 +84,7 @@ export const SalaryBarChart = ({
           </div>
           <div className="h-8 bg-muted/30 rounded-lg overflow-hidden">
             <div
-              className="h-full bg-blue-500/60 transition-all duration-500"
+              className="h-full bg-primary/60 transition-all duration-500"
               style={{ width: getWidth(p75) }}
             />
           </div>
