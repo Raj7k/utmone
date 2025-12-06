@@ -6403,6 +6403,41 @@ export type Database = {
       generate_invite_token: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_verification_code: { Args: never; Returns: string }
+      get_channel_lift: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          baseline_conversions: number
+          baseline_rate: number
+          baseline_total: number
+          channel: string
+          lift_category: string
+          lift_percent: number
+          treatment_conversions: number
+          treatment_rate: number
+          treatment_total: number
+        }[]
+      }
+      get_conversion_velocity: {
+        Args: {
+          p_end_date?: string
+          p_start_date?: string
+          p_workspace_id: string
+        }
+        Returns: {
+          avg_days_to_convert: number
+          bucket_1_7_days: number
+          bucket_31_90_days: number
+          bucket_8_30_days: number
+          bucket_90_plus_days: number
+          channel: string
+          median_days_to_convert: number
+          total_conversions: number
+        }[]
+      }
       get_customer_journey: {
         Args: { p_user_id: string; p_workspace_id: string }
         Returns: {
