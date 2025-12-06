@@ -46,33 +46,17 @@ export const SecurityKeyManager = () => {
     mutationFn: async (name: string) => {
       try {
         // Step 1: Get registration options from server
-        console.log('Requesting WebAuthn registration options from:', window.location.origin);
         const { data: options, error: optionsError } = await supabase.functions.invoke(
           'generate-webauthn-registration',
           { body: {} }
         );
 
         if (optionsError) throw optionsError;
-        
-        console.log('Received registration options:', {
-          rpId: options?.rp?.id,
-          rpName: options?.rp?.name,
-          currentOrigin: window.location.origin,
-          currentHostname: window.location.hostname,
-        });
 
-        // CRITICAL DEBUG: Check for domain mismatch
+        // Check for domain mismatch
         if (options?.rp?.id !== window.location.hostname) {
-          console.error('🚨 DOMAIN MISMATCH DETECTED:', {
-            rpIdFromServer: options?.rp?.id,
-            browserHostname: window.location.hostname,
-            message: 'These MUST match exactly!'
-          });
           throw new Error(`Domain mismatch: RP ID "${options?.rp?.id}" !== hostname "${window.location.hostname}"`);
         }
-
-        console.log('✅ Domain match verified. Calling navigator.credentials.create()...');
-        console.log('Full options being sent to WebAuthn API:', JSON.stringify(options, null, 2));
 
         // Step 2: Prompt user to use their security key
         const credential = await startRegistration({ optionsJSON: options });
@@ -118,7 +102,6 @@ export const SecurityKeyManager = () => {
       });
     },
     onError: (error: any) => {
-      console.error('Registration error:', error);
       toast({
         title: "registration failed",
         description: error.message || "could not register security key",
@@ -145,7 +128,6 @@ export const SecurityKeyManager = () => {
       });
     },
     onError: (error: any) => {
-      console.error('Delete error:', error);
       toast({
         title: "deletion failed",
         description: error.message || "could not remove security key",

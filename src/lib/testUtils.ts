@@ -20,9 +20,6 @@ export async function testRedirect(shortUrl: string): Promise<TestResult> {
   const testName = "Redirect Functionality";
 
   try {
-    console.log(`[Test] ${testName}: Testing URL ${shortUrl}`);
-    
-    // Test if URL responds
     const response = await fetch(shortUrl, {
       method: 'HEAD',
       redirect: 'manual'
@@ -30,10 +27,8 @@ export async function testRedirect(shortUrl: string): Promise<TestResult> {
 
     const duration = Date.now() - startTime;
 
-    // Check for redirect (302 or 301)
     if (response.status === 302 || response.status === 301) {
       const location = response.headers.get('location');
-      console.log(`[Test] ${testName}: ✓ Redirect successful to ${location}`);
       return {
         name: testName,
         passed: true,
@@ -43,7 +38,6 @@ export async function testRedirect(shortUrl: string): Promise<TestResult> {
       };
     }
 
-    console.log(`[Test] ${testName}: ✗ Unexpected status ${response.status}`);
     return {
       name: testName,
       passed: false,
@@ -53,7 +47,6 @@ export async function testRedirect(shortUrl: string): Promise<TestResult> {
     };
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(`[Test] ${testName}: ✗ Error:`, error);
     return {
       name: testName,
       passed: false,
@@ -71,8 +64,6 @@ export async function testLinkCreation(workspaceId: string): Promise<TestResult>
   const testName = "Link Creation Flow";
 
   try {
-    console.log(`[Test] ${testName}: Creating test link...`);
-
     const testData = {
       workspace_id: workspaceId,
       title: `Test Link ${Date.now()}`,
@@ -99,7 +90,6 @@ export async function testLinkCreation(workspaceId: string): Promise<TestResult>
     const duration = Date.now() - startTime;
 
     if (error) {
-      console.error(`[Test] ${testName}: ✗ Database error:`, error);
       return {
         name: testName,
         passed: false,
@@ -107,8 +97,6 @@ export async function testLinkCreation(workspaceId: string): Promise<TestResult>
         duration
       };
     }
-
-    console.log(`[Test] ${testName}: ✓ Link created successfully`, link.id);
 
     // Clean up test link
     await supabase.from("links").delete().eq("id", link.id);
@@ -122,7 +110,6 @@ export async function testLinkCreation(workspaceId: string): Promise<TestResult>
     };
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(`[Test] ${testName}: ✗ Error:`, error);
     return {
       name: testName,
       passed: false,
@@ -140,9 +127,6 @@ export async function testQRGeneration(linkId: string): Promise<TestResult> {
   const testName = "QR Code Generation";
 
   try {
-    console.log(`[Test] ${testName}: Checking QR code generation capability...`);
-
-    // Check if qr_codes table exists and is accessible
     const { data, error } = await supabase
       .from("qr_codes")
       .select("id")
@@ -152,7 +136,6 @@ export async function testQRGeneration(linkId: string): Promise<TestResult> {
     const duration = Date.now() - startTime;
 
     if (error) {
-      console.error(`[Test] ${testName}: ✗ Database error:`, error);
       return {
         name: testName,
         passed: false,
@@ -161,11 +144,9 @@ export async function testQRGeneration(linkId: string): Promise<TestResult> {
       };
     }
 
-    // Check storage bucket accessibility
     const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
     
     if (bucketError) {
-      console.error(`[Test] ${testName}: ✗ Storage error:`, bucketError);
       return {
         name: testName,
         passed: false,
@@ -176,7 +157,6 @@ export async function testQRGeneration(linkId: string): Promise<TestResult> {
 
     const hasQRBucket = buckets?.some(b => b.name === "qr-codes");
 
-    console.log(`[Test] ${testName}: ✓ QR system accessible`);
     return {
       name: testName,
       passed: true,
@@ -186,7 +166,6 @@ export async function testQRGeneration(linkId: string): Promise<TestResult> {
     };
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(`[Test] ${testName}: ✗ Error:`, error);
     return {
       name: testName,
       passed: false,
@@ -204,9 +183,6 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
   const testName = "Analytics Tracking";
 
   try {
-    console.log(`[Test] ${testName}: Verifying analytics tracking...`);
-
-    // Check if link_clicks table is accessible
     const { data: clicks, error } = await supabase
       .from("link_clicks")
       .select("id, clicked_at")
@@ -217,7 +193,6 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
     const duration = Date.now() - startTime;
 
     if (error) {
-      console.error(`[Test] ${testName}: ✗ Database error:`, error);
       return {
         name: testName,
         passed: false,
@@ -226,12 +201,10 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
       };
     }
 
-    // Check if analytics materialized views exist
     const { error: viewError } = await supabase.rpc("get_link_analytics", {
-      p_workspace_id: "00000000-0000-0000-0000-000000000000" // Test with dummy ID
+      p_workspace_id: "00000000-0000-0000-0000-000000000000"
     });
 
-    console.log(`[Test] ${testName}: ✓ Analytics system accessible`);
     return {
       name: testName,
       passed: true,
@@ -244,7 +217,6 @@ export async function testAnalyticsTracking(linkId: string): Promise<TestResult>
     };
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(`[Test] ${testName}: ✗ Error:`, error);
     return {
       name: testName,
       passed: false,
@@ -281,7 +253,6 @@ export async function testAuthSignUp(): Promise<TestResult> {
       };
     }
 
-    // Cleanup if user was created
     if (data.user) {
       await supabase.auth.signOut();
     }
@@ -373,7 +344,6 @@ export async function testLinkDuplication(linkId: string, workspaceId: string): 
 
     const duration = Date.now() - startTime;
 
-    // Cleanup
     if (duplicate) {
       await supabase.from("links").delete().eq("id", duplicate.id);
     }
@@ -402,8 +372,6 @@ export async function testActualQRGeneration(linkId: string, shortUrl: string): 
   const testName = "Actual QR Generation";
 
   try {
-    // This would need actual QR generation logic
-    // For now, just verify the system is ready
     const { data: bucket } = await supabase.storage.getBucket("qr-codes");
     
     const duration = Date.now() - startTime;
@@ -432,7 +400,6 @@ export async function testClickRecording(linkId: string): Promise<TestResult> {
   const testName = "Click Recording";
 
   try {
-    // Record a test click
     const { error } = await supabase
       .from("link_clicks")
       .insert({
@@ -466,11 +433,8 @@ export async function testClickRecording(linkId: string): Promise<TestResult> {
  * Run all critical path tests
  */
 export async function runAllTests(workspaceId: string, linkId: string, shortUrl: string): Promise<TestResult[]> {
-  console.log("[Test Suite] Starting critical path tests...");
-  
   const results: TestResult[] = [];
 
-  // Run tests sequentially to avoid overwhelming the system
   results.push(await testRedirect(shortUrl));
   results.push(await testLinkCreation(workspaceId));
   results.push(await testQRGeneration(linkId));
@@ -479,11 +443,6 @@ export async function runAllTests(workspaceId: string, linkId: string, shortUrl:
   results.push(await testLinkDuplication(linkId, workspaceId));
   results.push(await testActualQRGeneration(linkId, shortUrl));
   results.push(await testClickRecording(linkId));
-
-  const passedCount = results.filter(r => r.passed).length;
-  const totalDuration = results.reduce((sum, r) => sum + r.duration, 0);
-
-  console.log(`[Test Suite] Completed: ${passedCount}/${results.length} passed in ${totalDuration}ms`);
 
   return results;
 }
