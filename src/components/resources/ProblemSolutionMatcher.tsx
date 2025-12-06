@@ -173,8 +173,8 @@ export const ProblemSolutionMatcher = () => {
     <Card className="my-8 border-border/50">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Lightbulb className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Lightbulb className="w-6 h-6 text-primary" />
           </div>
           <div>
             <CardTitle className="text-2xl">9 Common Problems + Quick Fixes</CardTitle>
@@ -243,12 +243,12 @@ export const ProblemSolutionMatcher = () => {
               </div>
 
               {/* Action Steps */}
-              <div className="p-4 rounded-xl border" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
+              <div className="p-4 rounded-xl border bg-primary/5 border-primary/20">
                 <p className="text-sm font-medium text-foreground mb-3">Action Steps:</p>
                 <ol className="space-y-2">
                   {selectedProblem.actionSteps.map((step, index) => (
                     <li key={index} className="flex items-start gap-3 text-sm">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full text-white flex items-center justify-center text-xs font-bold" style={{ background: 'rgba(59,130,246,1)' }}>
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">
                         {index + 1}
                       </span>
                       <span className="text-muted-foreground pt-0.5">{step}</span>

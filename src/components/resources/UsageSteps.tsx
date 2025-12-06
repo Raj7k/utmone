@@ -25,7 +25,7 @@ export const UsageSteps = ({ steps, className }: UsageStepsProps) => {
             key={step.number}
             className="flex gap-4 p-4 rounded-lg bg-muted/30 border border-border/50"
           >
-            <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm text-white" style={{ background: 'rgba(59,130,246,1)' }}>
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-sm">
               {step.number}
             </div>
             

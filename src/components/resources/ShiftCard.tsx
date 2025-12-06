@@ -10,8 +10,8 @@ export const ShiftCard = ({ icon: Icon, title, bullets }: ShiftCardProps) => {
   return (
     <div className="p-6 bg-card rounded-xl border border-border/50 hover:border-white/30 transition-all duration-300">
       <div className="space-y-4">
-        <div className="flex items-center justify-center w-12 h-12 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <Icon className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+        <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
+          <Icon className="w-6 h-6 text-primary" />
         </div>
         <h3 className="text-lg font-display font-semibold text-foreground">{title}</h3>
         <ul className="space-y-2">
