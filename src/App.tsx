@@ -27,6 +27,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ComingSoonPage from "./pages/ComingSoon";
 import LinkExpired from "./pages/LinkExpired";
 import Blog from "./pages/Blog";
+import { DashboardLayout } from "./components/layout/DashboardLayout";
 
 // Auth callback gatekeeper and waitlist pages
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
@@ -45,7 +46,7 @@ const LinkHealth = lazy(() => import("./pages/dashboard/LinkHealth"));
 const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
 const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
-const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
+// DashboardLayout is imported directly above (not lazy) since it wraps other lazy components
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
