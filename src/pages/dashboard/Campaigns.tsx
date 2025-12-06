@@ -112,8 +112,8 @@ export default function Campaigns() {
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full mb-4" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Megaphone className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-primary/10">
+            <Megaphone className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-lg font-semibold text-label mb-2">No campaigns yet</h3>
           <p className="text-sm text-secondary-label mb-4">

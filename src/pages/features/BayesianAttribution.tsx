@@ -82,7 +82,7 @@ const BayesianAttribution = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+              <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Powered by Causal Inference • 95% Confidence Intervals</span>
             </div>
           </div>
@@ -122,8 +122,8 @@ const BayesianAttribution = () => {
         <div className="max-w-7xl mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <TrendingUp className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+                <TrendingUp className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 find true ROI
@@ -134,8 +134,8 @@ const BayesianAttribution = () => {
             </Card>
 
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <Target className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+                <Target className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 assisted conversions
@@ -146,8 +146,8 @@ const BayesianAttribution = () => {
             </Card>
 
             <Card className="p-8 space-y-4">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <GitBranch className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
+                <GitBranch className="w-8 h-8 text-primary" />
               </div>
               <h3 className="text-2xl font-display font-bold text-label lowercase">
                 confidence intervals

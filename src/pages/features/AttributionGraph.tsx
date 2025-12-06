@@ -130,7 +130,7 @@ export default function AttributionGraph() {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Target className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Target className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">journey tracking</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -143,14 +143,14 @@ export default function AttributionGraph() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <BarChart3 className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <BarChart3 className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">bayesian inference</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 We calculate the incremental lift each touchpoint contributed to conversion probability.
               </p>
-              <div className="rounded-lg p-4 text-sm" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                <span className="font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>Credit distribution:</span>
+              <div className="rounded-lg p-4 text-sm bg-primary/10">
+                <span className="font-semibold text-primary">Credit distribution:</span>
                 <div className="mt-2 text-foreground font-medium">
                   LinkedIn: 40% • Email: 30% • Google: 30%
                 </div>
@@ -159,7 +159,7 @@ export default function AttributionGraph() {
 
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Lightbulb className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">hidden revenue</h3>
               </div>
               <p className="text-muted-foreground mb-4">
@@ -176,25 +176,25 @@ export default function AttributionGraph() {
             <h3 className="text-xl font-semibold lowercase mb-6 text-foreground">example journey with credit distribution</h3>
             <div className="flex items-center justify-center gap-4 flex-wrap">
               <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Email</div>
-                <span className="text-sm font-bold" style={{ color: 'rgba(59,130,246,1)' }}>22% credit</span>
+                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Email</div>
+                <span className="text-sm font-bold text-primary">22% credit</span>
                 <p className="text-xs text-muted-foreground mt-1">First touchpoint</p>
               </div>
               <span className="text-2xl text-muted-foreground">→</span>
               <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Facebook</div>
-                <span className="text-sm font-bold" style={{ color: 'rgba(59,130,246,1)' }}>35% credit</span>
+                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Facebook</div>
+                <span className="text-sm font-bold text-primary">35% credit</span>
                 <p className="text-xs text-muted-foreground mt-1">Nurture touchpoint</p>
               </div>
               <span className="text-2xl text-muted-foreground">→</span>
               <div className="text-center">
-                <div className="rounded-xl px-6 py-3 mb-2 font-semibold" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>Google</div>
-                <span className="text-sm font-bold" style={{ color: 'rgba(59,130,246,1)' }}>43% credit</span>
+                <div className="rounded-xl px-6 py-3 mb-2 font-semibold bg-primary/10 text-primary">Google</div>
+                <span className="text-sm font-bold text-primary">43% credit</span>
                 <p className="text-xs text-muted-foreground mt-1">Final touchpoint</p>
               </div>
               <span className="text-2xl text-muted-foreground">→</span>
               <div className="text-center">
-                <div className="text-white rounded-xl px-6 py-3 mb-2 font-semibold" style={{ background: 'rgba(59,130,246,1)' }}>Convert</div>
+                <div className="text-white rounded-xl px-6 py-3 mb-2 font-semibold bg-primary">Convert</div>
                 <p className="text-xs text-muted-foreground mt-1">$15,000 revenue</p>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function AttributionGraph() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <DollarSign className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                <DollarSign className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">push to CRM</h3>
               </div>
               <p className="text-muted-foreground mb-4">Send attribution data to HubSpot, Salesforce, or Pipedrive via webhooks.</p>
@@ -240,7 +240,7 @@ export default function AttributionGraph() {
 
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
-                <BarChart3 className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                <BarChart3 className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">use alongside GA4</h3>
               </div>
               <p className="text-muted-foreground mb-4">Keep GA4 for site analytics. Use utm.one for campaign attribution.</p>

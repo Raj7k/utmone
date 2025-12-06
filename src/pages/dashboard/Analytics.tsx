@@ -46,7 +46,7 @@ export default function Analytics() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-12 w-12 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: 'rgba(59,130,246,1)' }} />
+          <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           <p className="text-sm text-secondary-label">loading analytics…</p>
         </div>
       </div>
@@ -133,10 +133,10 @@ export default function Analytics() {
 
       {/* AI Insights */}
       {analytics.insights && analytics.insights.length > 0 && (
-        <Card className="rounded-2xl shadow-sm" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(139,92,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
+        <Card className="rounded-2xl shadow-sm bg-gradient-to-br from-primary/5 to-purple-500/5 border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Sparkles className="h-5 w-5 text-primary" />
               ai insights
             </CardTitle>
             <CardDescription>powered by your real data</CardDescription>
@@ -145,7 +145,7 @@ export default function Analytics() {
             <div className="space-y-3">
               {analytics.insights.map((insight, index) => (
                 <div key={index} className="flex items-start gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(59,130,246,1)' }} />
+                  <div className="h-1.5 w-1.5 rounded-full mt-2 flex-shrink-0 bg-primary" />
                   <p className="text-sm text-label">{insight}</p>
                 </div>
               ))}
@@ -205,7 +205,7 @@ export default function Analytics() {
                               if (intensity < 0.75) return "opacity-60";
                               return "opacity-100";
                             };
-                            const baseStyle = { background: intensity > 0 ? 'rgba(59,130,246,1)' : undefined };
+                            const baseStyle = { background: intensity > 0 ? 'hsl(var(--primary))' : undefined };
 
                             return (
                               <div
@@ -213,7 +213,7 @@ export default function Analytics() {
                                 className={`w-8 h-8 rounded ${getColor(intensity)} 
                                   transition-all hover:ring-2 hover:ring-offset-1 
                                   cursor-pointer relative group`}
-                                style={{ ...baseStyle, '--tw-ring-color': 'rgba(59,130,246,1)' } as React.CSSProperties}
+                                style={{ ...baseStyle, '--tw-ring-color': 'hsl(var(--primary))' } as React.CSSProperties}
                                 title={`${day}, ${hourIndex}:00 - ${clicks} clicks`}
                               >
                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 
@@ -236,10 +236,10 @@ export default function Analytics() {
                     <span>less</span>
                     <div className="flex gap-1">
                       <div className="w-4 h-4 rounded bg-muted" />
-                      <div className="w-4 h-4 rounded" style={{ background: 'rgba(59,130,246,0.2)' }} />
-                      <div className="w-4 h-4 rounded" style={{ background: 'rgba(59,130,246,0.4)' }} />
-                      <div className="w-4 h-4 rounded" style={{ background: 'rgba(59,130,246,0.6)' }} />
-                      <div className="w-4 h-4 rounded" style={{ background: 'rgba(59,130,246,1)' }} />
+                      <div className="w-4 h-4 rounded bg-primary/20" />
+                      <div className="w-4 h-4 rounded bg-primary/40" />
+                      <div className="w-4 h-4 rounded bg-primary/60" />
+                      <div className="w-4 h-4 rounded bg-primary" />
                     </div>
                     <span>more</span>
                   </div>

@@ -46,7 +46,7 @@ export default function AdminSecurity() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Shield className="h-5 w-5 text-primary" />
               <CardTitle>multi-factor authentication status</CardTitle>
             </div>
             {mfaStatus?.hasKeys && (
@@ -62,7 +62,7 @@ export default function AdminSecurity() {
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex items-start gap-3 p-4 border border-border rounded-lg">
-              <Key className="h-5 w-5 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Key className="h-5 w-5 mt-0.5 text-primary" />
               <div>
                 <p className="font-medium">hardware keys</p>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -71,7 +71,7 @@ export default function AdminSecurity() {
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 border border-border rounded-lg">
-              <CheckCircle2 className="h-5 w-5 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <CheckCircle2 className="h-5 w-5 mt-0.5 text-primary" />
               <div>
                 <p className="font-medium">session verification</p>
                 <p className="text-sm text-muted-foreground mt-1">
