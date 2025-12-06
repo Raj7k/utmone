@@ -6,12 +6,16 @@ interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
+/**
+ * GlassCard - Theme-aware glassmorphism card component
+ * Uses semantic tokens for consistent appearance in light/dark modes
+ */
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
   ({ className, variant = "default", children, ...props }, ref) => {
     const variants = {
-      default: "bg-zinc-900/40 backdrop-blur-xl border border-white/10",
-      elevated: "bg-zinc-900/60 backdrop-blur-2xl border border-white/15",
-      subtle: "bg-zinc-900/20 backdrop-blur-md border border-white/5",
+      default: "bg-card/40 backdrop-blur-xl border border-border",
+      elevated: "bg-card/60 backdrop-blur-2xl border border-border shadow-lg",
+      subtle: "bg-card/20 backdrop-blur-md border border-border/50",
     };
 
     return (
