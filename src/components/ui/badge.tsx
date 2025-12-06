@@ -8,9 +8,9 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent text-white",
+        default: "border-transparent bg-primary text-primary-foreground",
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive: "border-transparent text-white",
+        destructive: "border-transparent bg-destructive text-destructive-foreground",
         outline: "text-foreground",
         // Obsidian variants
         glass: "border-white/10 bg-zinc-900/40 backdrop-blur-xl text-white/90",
@@ -25,14 +25,8 @@ const badgeVariants = cva(
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, style, ...props }: BadgeProps) {
-  const defaultStyle = variant === "default" 
-    ? { background: 'rgba(59,130,246,1)', ...style }
-    : variant === "destructive"
-    ? { background: 'rgba(239,68,68,0.9)', ...style }
-    : style;
-    
-  return <div className={cn(badgeVariants({ variant }), className)} style={defaultStyle} {...props} />;
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
 }
 
 export { Badge, badgeVariants };

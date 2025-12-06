@@ -34,7 +34,7 @@ export default function APIDocumentation() {
           </div>
         </div>
 
-        <Card style={{ borderColor: 'rgba(59,130,246,0.2)' }}>
+        <Card className="border-primary/20">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Key className="h-5 w-5" />
