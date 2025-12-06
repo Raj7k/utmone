@@ -10,7 +10,7 @@ export const HowToUse = ({ steps }: HowToUseProps) => {
     <Card className="mb-8 bg-muted/20 border-dashed">
       <CardHeader>
         <CardTitle className="text-lg lowercase flex items-center gap-2">
-          <HelpCircle className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <HelpCircle className="h-5 w-5 text-primary" />
           how to use this tool
         </CardTitle>
       </CardHeader>
@@ -18,7 +18,7 @@ export const HowToUse = ({ steps }: HowToUseProps) => {
         <ol className="space-y-3">
           {steps.map((step, index) => (
             <li key={index} className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full text-sm font-bold flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+              <span className="flex-shrink-0 w-6 h-6 rounded-full text-sm font-bold flex items-center justify-center bg-primary/10 text-primary">
                 {index + 1}
               </span>
               <div>

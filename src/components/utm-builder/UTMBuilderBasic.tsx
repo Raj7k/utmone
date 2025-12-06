@@ -97,7 +97,7 @@ export const UTMBuilderBasic = () => {
 
         <p className="text-sm text-secondary-label text-center mt-6">
           add utm parameters to track your campaigns.{" "}
-          <a href="/pricing" className="hover:underline" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <a href="/pricing" className="hover:underline text-foreground/90">
             upgrade to pro
           </a>{" "}
           for templates and team governance
@@ -235,19 +235,19 @@ export const UTMBuilderBasic = () => {
               </div>
               <div className="space-y-2 text-sm text-secondary-label">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Lock className="h-4 w-4 text-muted-foreground" />
                   <span><strong>utm templates</strong> — reusable, team-shared templates</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Lock className="h-4 w-4 text-muted-foreground" />
                   <span><strong>bulk url builder</strong> — create hundreds at once</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Lock className="h-4 w-4 text-muted-foreground" />
                   <span><strong>governance rules</strong> — enforce naming conventions</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Lock className="h-4 w-4 text-muted-foreground" />
                   <span><strong>analytics integration</strong> — track utm performance</span>
                 </div>
               </div>
@@ -258,7 +258,7 @@ export const UTMBuilderBasic = () => {
 
         <p className="text-sm text-secondary-label text-center mt-6">
           basic utm builder is free.{" "}
-          <a href="/pricing" className="hover:underline" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <a href="/pricing" className="hover:underline text-foreground/90">
             upgrade to pro
           </a>{" "}
           for team templates, bulk creation, and governance
