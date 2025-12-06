@@ -1,4 +1,4 @@
-// Dashboard layout component with sidebar and header
+// Dashboard layout component with sidebar and header - v2
 import { ReactNode, useEffect, useState } from "react";
 import { AppHeader } from "./AppHeader";
 import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge";

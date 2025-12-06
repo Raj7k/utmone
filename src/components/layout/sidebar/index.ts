@@ -1,3 +1,4 @@
+// Sidebar components index
 export { SidebarProvider, useSidebar } from './SidebarProvider';
 export { CollapsedSidebar } from './CollapsedSidebar';
 export { ExpandedSidebar } from './ExpandedSidebar';
