@@ -61,7 +61,7 @@ function SortableRuleCard({ rule, onToggle, onDelete }: {
                 if {getRuleTypeLabel(rule.rule_type).toLowerCase()} {rule.condition.replace('_', ' ')} <span className="font-mono">{rule.value.join(', ')}</span>
               </div>
               <div className="text-sm">
-                → <span className="font-mono" style={{ color: 'rgba(59,130,246,1)' }}>{rule.redirect_url}</span>
+                → <span className="font-mono text-primary">{rule.redirect_url}</span>
               </div>
             </div>
           </div>
@@ -464,7 +464,7 @@ export function EnhancedTargetingRulesManager({ linkId }: TargetingRulesManagerP
                         <div className="text-sm text-secondary-label">
                           User would be redirected to:
                         </div>
-                        <div className="text-sm font-mono break-all" style={{ color: 'rgba(59,130,246,1)' }}>
+                        <div className="text-sm font-mono break-all text-primary">
                           {matchingRule.redirect_url}
                         </div>
                       </div>

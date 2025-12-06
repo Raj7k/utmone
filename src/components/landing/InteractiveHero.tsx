@@ -116,7 +116,7 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
                     background: isSelected ? 'hsl(217 91% 50%)' : 'rgba(255,255,255,0.05)',
                     color: isSelected ? 'white' : 'rgba(255,255,255,0.7)',
                     border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: isSelected ? '0 10px 25px -5px rgba(59,130,246,0.25)' : 'none'
+                    boxShadow: isSelected ? '0 10px 25px -5px hsl(var(--primary) / 0.25)' : 'none'
                   }}
                   aria-pressed={isSelected}
                 >
