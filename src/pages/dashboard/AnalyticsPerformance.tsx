@@ -49,7 +49,7 @@ export default function AnalyticsPerformance() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <TrendingUp className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+              <TrendingUp className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
               <div>
                 <span className="font-medium text-foreground">always accurate:</span>{" "}
                 <span className="text-muted-foreground">what you see is always reliable—no guessing.</span>

@@ -58,7 +58,7 @@ const pitfalls: Pitfall[] = [
 const impactColors = {
   high: "border-red-500/50 bg-red-50 dark:bg-red-950/20",
   medium: "border-yellow-500/50 bg-yellow-50 dark:bg-yellow-950/20",
-  low: "border-blue-500/50 bg-blue-50 dark:bg-blue-950/20"
+  low: "border-primary/50 bg-primary/5 dark:bg-primary/10"
 };
 
 export const PitfallWarningCards = () => {

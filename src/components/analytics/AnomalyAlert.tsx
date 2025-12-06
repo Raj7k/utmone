@@ -50,9 +50,9 @@ export function AnomalyAlert({ anomaly, onDismiss }: AnomalyAlertProps) {
         };
       case 'low': 
         return {
-          bg: 'bg-blue-50 dark:bg-blue-950/20',
-          border: 'border-blue-500',
-          text: 'text-blue-600 dark:text-blue-400',
+          bg: 'bg-primary/5 dark:bg-primary/10',
+          border: 'border-primary',
+          text: 'text-primary',
           icon: '🔵'
         };
       default:

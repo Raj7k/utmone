@@ -18,7 +18,7 @@ export function BulkOperationsManager() {
       case "failed":
         return <XCircle className="h-4 w-4 text-red-500" />;
       case "processing":
-        return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />;
+        return <Loader2 className="h-4 w-4 animate-spin text-primary" />;
       default:
         return <Clock className="h-4 w-4 text-muted-foreground" />;
     }

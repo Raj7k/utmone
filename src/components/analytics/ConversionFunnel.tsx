@@ -24,7 +24,7 @@ export const ConversionFunnel = ({
       label: 'Clicks', 
       value: clicks, 
       icon: TrendingUp, 
-      color: 'bg-blue-500',
+      color: 'bg-primary',
       percentage: 100 
     },
     { 

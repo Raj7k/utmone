@@ -84,7 +84,7 @@ export const QueryIntentMatcher = () => {
   const intentConfig = {
     informational: {
       icon: Info,
-      color: "bg-blue-500",
+      color: "bg-primary",
       label: "Informational",
       description: "User wants to learn or understand something"
     },

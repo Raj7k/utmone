@@ -27,7 +27,7 @@ export const RoleRecommender = () => {
   const getRoleColor = (role: string) => {
     if (role === 'workspace_admin') return 'bg-white/10 text-white';
     if (role === 'editor') return 'bg-amber-500/10 text-amber-400';
-    if (role === 'contributor') return 'bg-blue-500/10 text-blue-400';
+    if (role === 'contributor') return 'bg-primary/10 text-primary';
     if (role === 'viewer') return 'bg-white/10 text-white/60';
     return 'bg-muted text-muted-foreground';
   };

@@ -44,7 +44,7 @@ const tasks: Task[] = [
 ];
 
 const phaseConfig = {
-  foundation: { label: "Foundation", color: "bg-blue-500" },
+  foundation: { label: "Foundation", color: "bg-primary" },
   integration: { label: "Integration", color: "bg-purple-500" },
   optimization: { label: "Optimization", color: "bg-green-500" }
 };

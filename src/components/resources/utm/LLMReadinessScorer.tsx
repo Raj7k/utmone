@@ -170,9 +170,9 @@ export const LLMReadinessScorer = () => {
           </div>
 
           {/* Recommendations */}
-          <div className="p-4 bg-blue-50/50 border border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-800/50 rounded-lg">
+          <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
             <div className="flex items-start gap-2">
-              <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+              <AlertCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-medium text-foreground mb-2">Top Recommendations:</p>
                 <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">

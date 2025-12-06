@@ -84,7 +84,7 @@ export default function UserManagement() {
       case "free":
         return "bg-white/10 text-white/70";
       case "pro":
-        return "bg-blue-500/20 text-blue-300";
+        return "bg-primary/20 text-primary/80";
       case "business":
         return "bg-purple-500/20 text-purple-300";
       case "enterprise":

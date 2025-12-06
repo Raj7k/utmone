@@ -82,13 +82,13 @@ export const DomainDNSInstructions = ({
       {copiedRecords.size > 0 && (
         <Alert className={cn(
           "border-2 transition-colors",
-          allCopied ? "border-green-500 bg-green-50" : "border-blue-500 bg-blue-50"
+          allCopied ? "border-green-500 bg-green-50" : "border-primary bg-primary/5"
         )}>
           <CheckCircle2 className={cn(
             "h-4 w-4",
-            allCopied ? "text-green-600" : "text-blue-600"
+            allCopied ? "text-green-600" : "text-primary"
           )} />
-          <AlertDescription className={allCopied ? "text-green-800" : "text-blue-800"}>
+          <AlertDescription className={allCopied ? "text-green-800" : "text-primary"}>
             <strong>{allCopied ? "All records copied!" : copyProgress}</strong>
             {allCopied && " Ready to verify your domain."}
           </AlertDescription>
