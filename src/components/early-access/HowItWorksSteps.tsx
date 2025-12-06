@@ -24,7 +24,7 @@ const steps = [
 
 export function HowItWorksSteps() {
   return (
-    <section className="py-24 md:py-32 px-6" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+    <section className="py-24 md:py-32 px-6 bg-card/50">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,20 +49,20 @@ export function HowItWorksSteps() {
             >
               {/* Connection line (desktop only) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-0.5" style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.5), transparent)' }} />
+                <div className="hidden md:block absolute top-12 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-primary/50 to-transparent" />
               )}
 
-              <div className="rounded-2xl p-8 h-full hover:shadow-lg transition-shadow" style={{ backgroundColor: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <div className="rounded-2xl p-8 h-full hover:shadow-lg transition-shadow bg-card border border-border">
                 <div className="relative mb-6">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ backgroundColor: 'rgba(59,130,246,0.1)' }}>
-                    <step.icon className="w-8 h-8" style={{ color: 'rgba(59,130,246,0.8)' }} />
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
+                    <step.icon className="w-8 h-8 text-primary/80" />
                   </div>
-                  <div className="absolute -top-2 -left-2 w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm" style={{ backgroundColor: 'rgba(59,130,246,0.8)' }}>
+                  <div className="absolute -top-2 -left-2 w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm bg-primary/80">
                     {step.number}
                   </div>
                 </div>
                 <h3 className="text-xl font-display font-bold mb-3">{step.title}</h3>
-                <p className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>{step.description}</p>
+                <p className="leading-relaxed text-muted-foreground">{step.description}</p>
               </div>
             </motion.div>
           ))}

@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Info } from "lucide-react";
 import { Footer } from "@/components/landing/Footer";
@@ -29,20 +28,20 @@ export const ToolLayout = ({
   relatedTools 
 }: ToolLayoutProps) => {
   return (
-    <div className="dark min-h-screen" style={{ background: '#050505' }}>
+    <div className="dark min-h-screen bg-background">
       {/* Breadcrumb */}
-      <div className="border-b border-white/10">
+      <div className="border-b border-border">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
-          <div className="flex items-center gap-2 text-sm text-white/40">
-            <Link to="/resources" className="hover:text-white transition-apple">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Link to="/resources" className="hover:text-foreground transition-apple">
               resources
             </Link>
             <span>/</span>
-            <Link to="/resources/tools" className="hover:text-white transition-apple">
+            <Link to="/resources/tools" className="hover:text-foreground transition-apple">
               tools
             </Link>
             <span>/</span>
-            <span className="text-white">{title}</span>
+            <span className="text-foreground">{title}</span>
           </div>
         </div>
       </div>
@@ -51,14 +50,14 @@ export const ToolLayout = ({
       <section className="py-16">
         <div className="max-w-[900px] mx-auto px-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="p-4 rounded-2xl bg-white/10 text-white">
+            <div className="p-4 rounded-2xl bg-card text-foreground">
               <Icon className="h-8 w-8" />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-extrabold hero-gradient mb-4">
             {title}
           </h1>
-          <p className="text-xl text-white/60 max-w-[640px]">
+          <p className="text-xl text-muted-foreground max-w-[640px]">
             {description}
           </p>
         </div>
@@ -87,8 +86,8 @@ export const ToolLayout = ({
                         to={tool.href}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group"
                       >
-                        <div style={{ color: 'rgba(59,130,246,1)' }}><tool.icon className="h-5 w-5" /></div>
-                        <span className="text-sm flex-1 group-hover:text-white transition-colors">
+                        <div className="text-primary"><tool.icon className="h-5 w-5" /></div>
+                        <span className="text-sm flex-1 group-hover:text-foreground transition-colors">
                           {tool.title}
                         </span>
                         <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />

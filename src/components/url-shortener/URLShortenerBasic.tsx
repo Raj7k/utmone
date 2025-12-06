@@ -117,7 +117,7 @@ export const URLShortenerBasic = () => {
           <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
             <span>links created on</span>
-            <span className="font-display font-semibold text-foreground px-2.5 py-1 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.1)' }}>utm.click</span>
+            <span className="font-display font-semibold text-foreground px-2.5 py-1 rounded-lg bg-primary/5 border border-primary/10">utm.click</span>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
@@ -158,7 +158,7 @@ export const URLShortenerBasic = () => {
           <p className="text-sm text-muted-foreground/80">
             free links on <span className="font-display font-medium text-foreground">utm.click</span>
             <span className="mx-2 text-border">•</span>
-            <a href="/pricing" className="hover:underline font-medium" style={{ color: 'rgba(59,130,246,1)' }}>upgrade for custom domains</a>
+            <a href="/pricing" className="hover:underline font-medium text-primary">upgrade for custom domains</a>
           </p>
         </div>
       </div>
@@ -180,7 +180,7 @@ export const URLShortenerBasic = () => {
           <div className="flex items-center justify-center gap-2 mb-6 text-sm text-secondary-label">
             <Link2 className="h-4 w-4" />
             <span>links created on</span>
-            <span className="font-display font-semibold text-foreground px-2.5 py-1 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.1)' }}>utm.click</span>
+            <span className="font-display font-semibold text-foreground px-2.5 py-1 rounded-lg bg-primary/5 border border-primary/10">utm.click</span>
           </div>
 
           <div className="space-y-6">
@@ -251,7 +251,7 @@ export const URLShortenerBasic = () => {
                 <div className="bg-muted/30 p-4 rounded-lg border border-border/40">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs text-secondary-label">short url</span>
-                    <span className="text-xs px-1.5 py-0.5 rounded font-mono" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>utm.click</span>
+                    <span className="text-xs px-1.5 py-0.5 rounded font-mono bg-primary/10 text-primary">utm.click</span>
                   </div>
                   <div className="text-base font-medium text-foreground break-all">
                     {shortURL}
@@ -312,19 +312,19 @@ export const URLShortenerBasic = () => {
               </div>
               <div className="space-y-2 text-sm text-secondary-label">
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Lock className="h-4 w-4 text-primary" />
                   <span><strong>geo-targeting</strong> — different urls for different countries</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Lock className="h-4 w-4 text-primary" />
                   <span><strong>team workspace</strong> — collaborate with unlimited members</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Lock className="h-4 w-4 text-primary" />
                   <span><strong>analytics dashboard</strong> — clicks, devices, locations</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Lock className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Lock className="h-4 w-4 text-primary" />
                   <span><strong>campaign manager</strong> — group links, track performance</span>
                 </div>
               </div>
@@ -338,7 +338,7 @@ export const URLShortenerBasic = () => {
           <p className="text-sm text-muted-foreground/80">
             free links on <span className="font-display font-medium text-foreground">utm.click</span>
             <span className="mx-2 text-border">•</span>
-            <a href="/pricing" className="hover:underline font-medium" style={{ color: 'rgba(59,130,246,1)' }}>upgrade for custom domains</a>
+            <a href="/pricing" className="hover:underline font-medium text-primary">upgrade for custom domains</a>
           </p>
         </div>
       </motion.div>

@@ -40,8 +40,8 @@ export const ToolUseCases = ({
                 className="p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="space-y-4">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                    <Icon className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10">
+                    <Icon className="h-6 w-6 text-primary" />
                   </div>
                   
                   <div>

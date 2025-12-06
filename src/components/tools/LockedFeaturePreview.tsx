@@ -35,8 +35,8 @@ export const LockedFeaturePreview = ({
             {/* Blur Overlay */}
             <div className="absolute inset-0 backdrop-blur-sm bg-background/30 z-10 flex items-center justify-center">
               <div className="text-center space-y-4 max-w-md px-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)' }}>
-                  <Lock className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 border border-primary/20">
+                  <Lock className="h-8 w-8 text-primary" />
                 </div>
                 <h3 className="text-2xl font-display font-bold text-foreground">
                   {title}
