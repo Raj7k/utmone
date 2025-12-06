@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link2, QrCode, Users, TrendingUp, MousePointerClick, Eye } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+import { Link2, QrCode, Users, MousePointerClick, Eye } from "lucide-react";
+import { LazyBarChart, LazyLineChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line } from "@/components/charts/LazyCharts";
 
 export default function ProductAnalytics() {
   // Fetch links created per day (last 30 days)
@@ -143,15 +143,17 @@ export default function ProductAnalytics() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={linkTrends}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={300}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LazyLineChart data={linkTrends}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} />
+                  </LazyLineChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </CardContent>
           </Card>
 
@@ -163,15 +165,17 @@ export default function ProductAnalytics() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={qrTrends}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={300}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LazyLineChart data={qrTrends}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} />
+                  </LazyLineChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </CardContent>
           </Card>
         </div>
@@ -186,15 +190,17 @@ export default function ProductAnalytics() {
             <CardDescription>workspaces by link count</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={topWorkspaces} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={150} />
-                <Tooltip />
-                <Bar dataKey="links" fill="hsl(var(--primary))" />
-              </BarChart>
-            </ResponsiveContainer>
+            <LazyChartContainer height={400}>
+              <ResponsiveContainer width="100%" height={400}>
+                <LazyBarChart data={topWorkspaces} layout="horizontal">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={150} />
+                  <Tooltip />
+                  <Bar dataKey="links" fill="hsl(var(--primary))" />
+                </LazyBarChart>
+              </ResponsiveContainer>
+            </LazyChartContainer>
           </CardContent>
         </Card>
       </div>

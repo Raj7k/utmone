@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, MapPin } from "lucide-react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, ResponsiveContainer, XAxis, YAxis } from "@/components/charts/LazyCharts";
 import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 const data = [
@@ -35,13 +35,15 @@ export const LinkedInPostCard1 = () => {
                   Geographic Salary Spread
                 </p>
               </div>
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart data={data}>
-                  <XAxis dataKey="city" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} />
-                  <Bar dataKey="value" fill="#FF5B04" radius={4} />
-                </BarChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={180}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <LazyBarChart data={data}>
+                    <XAxis dataKey="city" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Bar dataKey="value" fill="#FF5B04" radius={4} />
+                  </LazyBarChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
 
             {/* Content */}

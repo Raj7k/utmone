@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
+import { LazyPieChart, LazyChartContainer, Pie, Cell, ResponsiveContainer, Legend } from "@/components/charts/LazyCharts";
 
 interface ContentType {
   name: string;
@@ -165,24 +165,26 @@ export const EffortCalculator = () => {
         <div className="space-y-6">
           <h4 className="font-semibold text-lg">Effort Distribution</h4>
           
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={distributionData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {distributionData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          <LazyChartContainer height={200}>
+            <ResponsiveContainer width="100%" height={200}>
+              <LazyPieChart>
+                <Pie
+                  data={distributionData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {distributionData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Legend />
+              </LazyPieChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
 
           <div className="text-center text-sm text-muted-foreground space-y-1">
             <p>AI handles repetitive tasks: research, drafting, optimization</p>
