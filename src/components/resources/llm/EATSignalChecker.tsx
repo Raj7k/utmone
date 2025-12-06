@@ -180,8 +180,8 @@ export const EATSignalChecker = () => {
               return (
                 <div key={index} className="border border-border rounded-lg p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                      <Icon className="w-4 h-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary/10">
+                      <Icon className="w-4 h-4 text-primary" />
                     </div>
                     <h4 className="font-semibold text-foreground">{signal.category}</h4>
                   </div>

@@ -43,18 +43,17 @@ const raciData: RACIRole[] = [
 
 const RACIBadge = ({ type }: { type: string }) => {
   const config = {
-    R: { label: "R", style: { background: 'rgba(59,130,246,1)' }, tooltip: "Responsible (does the work)" },
-    A: { label: "A", style: { background: 'rgba(34,197,94,1)' }, tooltip: "Accountable (final approval)" },
-    C: { label: "C", style: { background: 'rgba(234,179,8,1)' }, tooltip: "Consulted (provides input)" },
-    I: { label: "I", style: { background: 'rgba(161,161,170,1)' }, tooltip: "Informed (kept updated)" }
+    R: { label: "R", className: "bg-primary text-primary-foreground", tooltip: "Responsible (does the work)" },
+    A: { label: "A", className: "bg-green-500 text-white", tooltip: "Accountable (final approval)" },
+    C: { label: "C", className: "bg-yellow-500 text-white", tooltip: "Consulted (provides input)" },
+    I: { label: "I", className: "bg-zinc-400 text-white", tooltip: "Informed (kept updated)" }
   };
   
   const c = config[type as keyof typeof config];
   
   return (
     <span 
-      className="inline-flex items-center justify-center w-6 h-6 rounded-full text-white text-xs font-bold"
-      style={c.style}
+      className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${c.className}`}
       title={c.tooltip}
     >
       {c.label}
@@ -97,8 +96,8 @@ export const TeamRACIMatrix = () => {
         {raciData.map((roleData, index) => (
           <div key={index} className="border border-border rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                {roleData.role === "Leadership" ? <User className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} /> : <Users className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />}
+              <div className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/10">
+                {roleData.role === "Leadership" ? <User className="w-5 h-5 text-primary" /> : <Users className="w-5 h-5 text-primary" />}
               </div>
               <h4 className="text-lg font-semibold text-foreground">{roleData.role}</h4>
             </div>

@@ -37,8 +37,8 @@ export const RoleRecommender = () => {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Lightbulb className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Lightbulb className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h3 className="text-headline font-display font-semibold text-label mb-1">

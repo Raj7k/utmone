@@ -108,7 +108,7 @@ export const QRROICalculator = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-8 h-full flex flex-col border-white/10" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), transparent, rgba(59,130,246,0.05))' }}>
+            <Card className="p-8 h-full flex flex-col border-white/10 bg-gradient-to-br from-primary/5 via-transparent to-primary/5">
               <div className="flex-1 space-y-6">
                 <div className="text-center">
                   <h4 className="text-lg font-display font-semibold text-label mb-2 brand-lowercase">
