@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useClickTimeSeries, TimeSeriesGranularity } from "@/hooks/useClickTimeSeries";
 import { useState, useMemo, memo } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LazyLineChart, LazyChartContainer, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "@/components/charts/LazyCharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TrendingUp } from "lucide-react";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
@@ -94,44 +94,46 @@ const ClicksOverTimeComponent = ({ workspaceId, linkId, campaignName }: ClicksOv
       </CardHeader>
       <CardContent>
         <ChartWrapper height={300} accessibilityData={accessibilityData}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-            <XAxis 
-              dataKey="date" 
-              className="text-xs"
-              tick={{ fill: "hsl(var(--secondary-label))" }}
-            />
-            <YAxis 
-              className="text-xs"
-              tick={{ fill: "hsl(var(--secondary-label))" }}
-            />
-            <Tooltip 
-              contentStyle={{ 
-                backgroundColor: "hsl(var(--card))",
-                border: "1px solid hsl(var(--border))",
-                borderRadius: "var(--radius)"
-              }}
-            />
-            <Legend />
-            <Line 
-              type="monotone" 
-              dataKey="totalClicks" 
-              stroke="hsl(var(--primary))" 
-              strokeWidth={2}
-              name="Total Clicks"
-              dot={{ fill: "hsl(var(--primary))" }}
-            />
-            <Line 
-              type="monotone" 
-              dataKey="uniqueClicks" 
-              stroke="hsl(var(--accent))" 
-              strokeWidth={2}
-              name="Unique Clicks"
-              dot={{ fill: "hsl(var(--accent))" }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+              <LazyLineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis 
+                  dataKey="date" 
+                  className="text-xs"
+                  tick={{ fill: "hsl(var(--secondary-label))" }}
+                />
+                <YAxis 
+                  className="text-xs"
+                  tick={{ fill: "hsl(var(--secondary-label))" }}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "var(--radius)"
+                  }}
+                />
+                <Legend />
+                <Line 
+                  type="monotone" 
+                  dataKey="totalClicks" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth={2}
+                  name="Total Clicks"
+                  dot={{ fill: "hsl(var(--primary))" }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="uniqueClicks" 
+                  stroke="hsl(var(--accent))" 
+                  strokeWidth={2}
+                  name="Unique Clicks"
+                  dot={{ fill: "hsl(var(--accent))" }}
+                />
+              </LazyLineChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
         </ChartWrapper>
       </CardContent>
     </Card>

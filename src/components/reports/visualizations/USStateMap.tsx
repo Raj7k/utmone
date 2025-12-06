@@ -5,6 +5,7 @@ import { usStateSalaryData, getUSStateColor } from "@/lib/mapData/usStateSalaryD
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
+// This component is lazy-loaded by its parent
 export const USStateMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -101,7 +102,7 @@ export const USStateMap = () => {
                   {stateData.topCities.map((city, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-2 bg-white rounded-lg border border-deepSea/10"
+                      className="flex items-center justify-between p-2 bg-card rounded-lg border border-border"
                     >
                       <span className="font-medium">{city.city}</span>
                       <div className="text-right">

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
 import { useChartAccessibility } from "@/hooks/useChartAccessibility";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "@/components/charts/LazyCharts";
 import { Globe } from "lucide-react";
 
 interface GeolocationMapProps {
@@ -75,17 +75,19 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         </CardHeader>
         <CardContent>
           <ChartWrapper height={400} accessibilityData={countriesAccessibility}>
-            <ChartContainer config={chartConfig} className="h-[400px]">
+            <LazyChartContainer height={400}>
+              <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.countries} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" stroke="hsl(var(--secondary-label))" />
-                  <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--secondary-label))" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+                  <LazyBarChart data={data.countries} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis type="number" stroke="hsl(var(--secondary-label))" />
+                    <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--secondary-label))" />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar dataKey="value" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
+                  </LazyBarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </LazyChartContainer>
           </ChartWrapper>
         </CardContent>
       </Card>
@@ -97,17 +99,19 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
         </CardHeader>
         <CardContent>
           <ChartWrapper height={400} accessibilityData={citiesAccessibility}>
-            <ChartContainer config={chartConfig} className="h-[400px]">
+            <LazyChartContainer height={400}>
+              <ChartContainer config={chartConfig} className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.cities} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" stroke="hsl(var(--secondary-label))" />
-                  <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--secondary-label))" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+                  <LazyBarChart data={data.cities} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis type="number" stroke="hsl(var(--secondary-label))" />
+                    <YAxis dataKey="name" type="category" width={120} stroke="hsl(var(--secondary-label))" />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar dataKey="value" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
+                  </LazyBarChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </LazyChartContainer>
           </ChartWrapper>
         </CardContent>
       </Card>

@@ -6,6 +6,7 @@ import { worldSalaryData, getSalaryColorScale } from "@/lib/mapData/worldSalaryD
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
+// This component is lazy-loaded by its parent
 export const InteractiveWorldMap = () => {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);

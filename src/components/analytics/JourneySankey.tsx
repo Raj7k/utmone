@@ -1,5 +1,11 @@
-import { ResponsiveSankey } from "@nivo/sankey";
+import { lazy, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapSkeleton } from "@/components/maps/LazyMaps";
+
+// Lazy load Sankey to reduce bundle size
+const LazyResponsiveSankey = lazy(() =>
+  import("@nivo/sankey").then((mod) => ({ default: mod.ResponsiveSankey }))
+);
 
 interface JourneyFlowData {
   source_node: string;
@@ -75,66 +81,68 @@ export const JourneySankey = ({ data, isLoading }: JourneySankeyProps) => {
       </CardHeader>
       <CardContent>
         <div className="h-[600px]">
-          <ResponsiveSankey
-            data={sankeyData}
-            margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
-            align="justify"
-            colors={{ scheme: "category10" }}
-            nodeOpacity={1}
-            nodeHoverOthersOpacity={0.35}
-            nodeThickness={18}
-            nodeSpacing={24}
-            nodeBorderWidth={0}
-            nodeBorderRadius={3}
-            linkOpacity={0.5}
-            linkHoverOthersOpacity={0.1}
-            linkContract={3}
-            enableLinkGradient={true}
-            labelPosition="outside"
-            labelOrientation="horizontal"
-            labelPadding={16}
-            labelTextColor={{
-              from: "color",
-              modifiers: [["darker", 1]],
-            }}
-            legends={[
-              {
-                anchor: "bottom-right",
-                direction: "column",
-                translateX: 130,
-                itemWidth: 100,
-                itemHeight: 14,
-                itemDirection: "right-to-left",
-                itemsSpacing: 2,
-                itemTextColor: "hsl(var(--foreground))",
-                symbolSize: 14,
-                effects: [
-                  {
-                    on: "hover",
-                    style: {
-                      itemTextColor: "hsl(var(--primary))",
+          <Suspense fallback={<MapSkeleton height={600} />}>
+            <LazyResponsiveSankey
+              data={sankeyData}
+              margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+              align="justify"
+              colors={{ scheme: "category10" }}
+              nodeOpacity={1}
+              nodeHoverOthersOpacity={0.35}
+              nodeThickness={18}
+              nodeSpacing={24}
+              nodeBorderWidth={0}
+              nodeBorderRadius={3}
+              linkOpacity={0.5}
+              linkHoverOthersOpacity={0.1}
+              linkContract={3}
+              enableLinkGradient={true}
+              labelPosition="outside"
+              labelOrientation="horizontal"
+              labelPadding={16}
+              labelTextColor={{
+                from: "color",
+                modifiers: [["darker", 1]],
+              }}
+              legends={[
+                {
+                  anchor: "bottom-right",
+                  direction: "column",
+                  translateX: 130,
+                  itemWidth: 100,
+                  itemHeight: 14,
+                  itemDirection: "right-to-left",
+                  itemsSpacing: 2,
+                  itemTextColor: "hsl(var(--foreground))",
+                  symbolSize: 14,
+                  effects: [
+                    {
+                      on: "hover",
+                      style: {
+                        itemTextColor: "hsl(var(--primary))",
+                      },
                     },
-                  },
-                ],
-              },
-            ]}
-            theme={{
-              text: {
-                fill: "hsl(var(--foreground))",
-                fontSize: 11,
-              },
-              tooltip: {
-                container: {
-                  background: "hsl(var(--card))",
-                  color: "hsl(var(--card-foreground))",
-                  fontSize: 12,
-                  borderRadius: "6px",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  padding: "8px 12px",
+                  ],
                 },
-              },
-            }}
-          />
+              ]}
+              theme={{
+                text: {
+                  fill: "hsl(var(--foreground))",
+                  fontSize: 11,
+                },
+                tooltip: {
+                  container: {
+                    background: "hsl(var(--card))",
+                    color: "hsl(var(--card-foreground))",
+                    fontSize: 12,
+                    borderRadius: "6px",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    padding: "8px 12px",
+                  },
+                },
+              }}
+            />
+          </Suspense>
         </div>
       </CardContent>
     </Card>

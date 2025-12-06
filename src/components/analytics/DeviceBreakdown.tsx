@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ChartWrapper } from "@/components/charts/ChartWrapper";
 import { usePieChartAccessibility, useChartAccessibility } from "@/hooks/useChartAccessibility";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { LazyBarChart, LazyPieChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Pie, Cell } from "@/components/charts/LazyCharts";
 
 interface DeviceBreakdownProps {
   workspaceId: string;
@@ -79,26 +79,28 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
           </CardHeader>
           <CardContent>
             <ChartWrapper height={300} accessibilityData={devicesAccessibility}>
-              <ChartContainer config={chartConfig} className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                  <Pie
-                    data={data.devices}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    label
-                  >
-                    {data.devices.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+              <LazyChartContainer height={300}>
+                <ChartContainer config={chartConfig} className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LazyPieChart>
+                      <Pie
+                        data={data.devices}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        label
+                      >
+                        {data.devices.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                    </LazyPieChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </LazyChartContainer>
             </ChartWrapper>
           </CardContent>
         </Card>
@@ -110,17 +112,19 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
           </CardHeader>
           <CardContent>
             <ChartWrapper height={300} accessibilityData={browsersAccessibility}>
-              <ChartContainer config={chartConfig} className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.browsers}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
-                  <YAxis stroke="hsl(var(--secondary-label))" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+              <LazyChartContainer height={300}>
+                <ChartContainer config={chartConfig} className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LazyBarChart data={data.browsers}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
+                      <YAxis stroke="hsl(var(--secondary-label))" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    </LazyBarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </LazyChartContainer>
             </ChartWrapper>
           </CardContent>
         </Card>
@@ -132,17 +136,19 @@ export const DeviceBreakdown = ({ workspaceId }: DeviceBreakdownProps) => {
           </CardHeader>
           <CardContent>
             <ChartWrapper height={300} accessibilityData={osAccessibility}>
-              <ChartContainer config={chartConfig} className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={data.os}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
-                  <YAxis stroke="hsl(var(--secondary-label))" />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+              <LazyChartContainer height={300}>
+                <ChartContainer config={chartConfig} className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LazyBarChart data={data.os}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="name" stroke="hsl(var(--secondary-label))" />
+                      <YAxis stroke="hsl(var(--secondary-label))" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="value" fill="hsl(var(--accent))" radius={[4, 4, 0, 0]} />
+                    </LazyBarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </LazyChartContainer>
             </ChartWrapper>
           </CardContent>
         </Card>

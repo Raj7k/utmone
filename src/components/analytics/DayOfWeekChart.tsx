@@ -3,7 +3,7 @@ import { ChartWrapper } from "@/components/charts/ChartWrapper";
 import { useChartAccessibility } from "@/hooks/useChartAccessibility";
 import { useClickHeatmap } from "@/hooks/useClickHeatmap";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "@/components/charts/LazyCharts";
 
 interface DayOfWeekChartProps {
   workspaceId: string;
@@ -69,56 +69,58 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
       </CardHeader>
       <CardContent>
         <ChartWrapper height={300} accessibilityData={accessibilityData}>
-          <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
-            <XAxis
-              dataKey="day"
-              tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
-            <Tooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload[0]) {
-                  const data = payload[0].payload;
-                  const percentDiff = ((data.clicks - average) / average * 100).toFixed(1);
-                  return (
-                    <div 
-                      className="rounded-lg shadow-lg p-3"
-                      style={{ 
-                        background: 'rgba(24,24,27,0.95)', 
-                        border: '1px solid rgba(255,255,255,0.1)' 
-                      }}
-                    >
-                      <p className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.day}</p>
-                      <p className="text-sm">
-                        <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.clicks}</span>
-                        <span style={{ color: 'rgba(255,255,255,0.5)' }}> clicks</span>
-                      </p>
-                      {data.isBest && (
-                        <p className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                          🏆 Best Day
-                        </p>
-                      )}
-                      <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        {Number(percentDiff) > 0 ? "+" : ""}{percentDiff}% vs avg
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Bar dataKey="clicks" radius={[8, 8, 0, 0]}>
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={entry.isBest ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.3)"}
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={chartData}>
+                <XAxis
+                  dataKey="day"
+                  tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }}
+                  tickFormatter={(value) => value.slice(0, 3)}
                 />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+                <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload[0]) {
+                      const data = payload[0].payload;
+                      const percentDiff = ((data.clicks - average) / average * 100).toFixed(1);
+                      return (
+                        <div 
+                          className="rounded-lg shadow-lg p-3"
+                          style={{ 
+                            background: 'rgba(24,24,27,0.95)', 
+                            border: '1px solid rgba(255,255,255,0.1)' 
+                          }}
+                        >
+                          <p className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.day}</p>
+                          <p className="text-sm">
+                            <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.clicks}</span>
+                            <span style={{ color: 'rgba(255,255,255,0.5)' }}> clicks</span>
+                          </p>
+                          {data.isBest && (
+                            <p className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                              🏆 Best Day
+                            </p>
+                          )}
+                          <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                            {Number(percentDiff) > 0 ? "+" : ""}{percentDiff}% vs avg
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Bar dataKey="clicks" radius={[8, 8, 0, 0]}>
+                  {chartData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.isBest ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.3)"}
+                    />
+                  ))}
+                </Bar>
+              </LazyBarChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
         </ChartWrapper>
 
         {/* Legend */}
