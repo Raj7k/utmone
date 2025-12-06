@@ -362,6 +362,15 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
         console.error('Webhook trigger failed:', webhookError);
       }
       
+      // Trigger content fingerprinting for topic attribution
+      try {
+        await supabase.functions.invoke('content-fingerprint', {
+          body: { link_id: link.id, destination_url: link.destination_url }
+        });
+      } catch (fingerprintError) {
+        console.error('Content fingerprinting failed:', fingerprintError);
+      }
+      
       return link;
     },
     onSuccess: async (link) => {
