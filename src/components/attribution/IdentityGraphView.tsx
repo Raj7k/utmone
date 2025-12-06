@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { useIdentityGraph } from '@/hooks/useAttribution';
-import { Network, Smartphone, Monitor, Tablet, CheckCircle, AlertCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Network, Smartphone, Monitor, Tablet, CheckCircle, AlertCircle, Code, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PixelInstallGuide } from './PixelInstallGuide';
+import { supabase } from '@/integrations/supabase/client';
 
 interface IdentityEdge {
   id: string;
@@ -100,6 +103,27 @@ const IdentityEdgeCard: React.FC<{ edge: IdentityEdge; index: number }> = ({ edg
 export const IdentityGraphView: React.FC = () => {
   const { currentWorkspace } = useWorkspaceContext();
   const { data: edges, isLoading } = useIdentityGraph(currentWorkspace?.id);
+  const [showInstallGuide, setShowInstallGuide] = useState(false);
+  const [pixelId, setPixelId] = useState<string | null>(null);
+
+  // Fetch or create pixel config for this workspace
+  React.useEffect(() => {
+    async function fetchPixelId() {
+      if (!currentWorkspace?.id) return;
+      
+      const { data } = await supabase
+        .from('pixel_configs')
+        .select('pixel_id')
+        .eq('workspace_id', currentWorkspace.id)
+        .eq('is_active', true)
+        .single();
+      
+      if (data) {
+        setPixelId(data.pixel_id);
+      }
+    }
+    fetchPixelId();
+  }, [currentWorkspace?.id]);
 
   const highConfidenceEdges = edges?.filter(e => e.confidence >= 0.7) || [];
   const mediumConfidenceEdges = edges?.filter(e => e.confidence >= 0.5 && e.confidence < 0.7) || [];
@@ -199,6 +223,34 @@ export const IdentityGraphView: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* SDK Installation Guide */}
+      <div className="space-y-2">
+        <Button
+          variant="outline"
+          className="w-full justify-between"
+          onClick={() => setShowInstallGuide(!showInstallGuide)}
+        >
+          <span className="flex items-center gap-2">
+            <Code className="h-4 w-4" />
+            {showInstallGuide ? 'hide' : 'show'} sdk installation guide
+          </span>
+          {showInstallGuide ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </Button>
+        
+        <AnimatePresence>
+          {showInstallGuide && pixelId && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PixelInstallGuide pixelId={pixelId} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

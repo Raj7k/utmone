@@ -73,36 +73,52 @@ Deno.serve((req) => {
   w.utmone.visitorId = visitorId;
   
   // Base tracking URL
-  var baseUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/track-pixel';
-  var identifyUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identify-visitor';
-  
-  // Track event function
-  w.utmone.track = function(eventType, params) {
-    params = params || {};
-    
-    var url = baseUrl + 
-      '?pixel_id=' + encodeURIComponent(pixelId) +
-      '&event=' + encodeURIComponent(eventType);
-    
-    if (params.revenue) {
-      url += '&revenue=' + encodeURIComponent(params.revenue);
-    }
-    
-    if (params.event_name) {
-      url += '&event_name=' + encodeURIComponent(params.event_name);
-    }
-    
-    // Send beacon (works even during page unload)
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(url);
-    } else {
-      // Fallback for older browsers
-      var img = new Image();
-      img.src = url;
-    }
-    
-    console.log('[utm.one] Tracked:', eventType, params);
-  };
+76:   var baseUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/track-pixel';
+77:   var identifyUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identify-visitor';
+78:   var identityMatchUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identity-matching';
+79:   
+80:   // Track event function
+81:   w.utmone.track = function(eventType, params) {
+82:     params = params || {};
+83:     
+84:     var url = baseUrl + 
+85:       '?pixel_id=' + encodeURIComponent(pixelId) +
+86:       '&event=' + encodeURIComponent(eventType);
+87:     
+88:     if (params.revenue) {
+89:       url += '&revenue=' + encodeURIComponent(params.revenue);
+90:     }
+91:     
+92:     if (params.event_name) {
+93:       url += '&event_name=' + encodeURIComponent(params.event_name);
+94:     }
+95:     
+96:     // Send beacon (works even during page unload)
+97:     if (navigator.sendBeacon) {
+98:       navigator.sendBeacon(url);
+99:     } else {
+100:       // Fallback for older browsers
+101:       var img = new Image();
+102:       img.src = url;
+103:     }
+104:     
+105:     console.log('[utm.one] Tracked:', eventType, params);
+106:     
+107:     // Trigger cross-device identity matching on pageviews (fire and forget)
+108:     if (eventType === 'pageview') {
+109:       fetch(identityMatchUrl, {
+110:         method: 'POST',
+111:         headers: { 'Content-Type': 'application/json' },
+112:         body: JSON.stringify({
+113:           visitor_id: visitorId,
+114:           pixel_id: pixelId,
+115:           user_agent: navigator.userAgent,
+116:           timestamp: new Date().toISOString()
+117:         }),
+118:         keepalive: true
+119:       }).catch(function() { /* ignore errors */ });
+120:     }
+121:   };
   
   // Identify user function
   w.utmone.identify = function(email, name) {

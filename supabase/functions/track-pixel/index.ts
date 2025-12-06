@@ -124,6 +124,23 @@ Deno.serve(async (req) => {
 
     console.log(`✅ Conversion logged: ${eventType}, link_id: ${click.link_id}, revenue: ${revenue}`);
 
+    // Trigger identity matching for cross-device attribution (fire and forget)
+    const userAgent = req.headers.get('user-agent') || '';
+    const cfCountry = req.headers.get('cf-ipcountry') || 'unknown';
+    const cfCity = req.headers.get('cf-ipcity') || 'unknown';
+    const clientIp = req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+    
+    supabase.functions.invoke('identity-matching', {
+      body: {
+        visitor_id: visitorId,
+        workspace_id: pixelConfig.workspace_id,
+        ip_address: clientIp,
+        user_agent: userAgent,
+        geo_location: `${cfCity}, ${cfCountry}`,
+        timestamp: new Date().toISOString(),
+      },
+    }).catch(err => console.error('Identity matching failed:', err));
+
     // Check if this click was part of an experiment and update experiment stats
     const clickMetadata = click.metadata as any;
     if (clickMetadata?.experiment_id && clickMetadata?.experiment_variant) {
