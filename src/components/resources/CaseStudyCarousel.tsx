@@ -114,7 +114,7 @@ export const CaseStudyCarousel = () => {
                 {currentStudy.company}
               </h3>
               <div className="flex items-center gap-4 mb-4">
-                <span className="text-5xl font-display font-bold" style={{ color: 'rgba(59,130,246,1)' }}>
+                <span className="text-5xl font-display font-bold text-primary">
                   {currentStudy.growth}
                 </span>
                 <div className="text-sm text-muted-foreground">
@@ -157,7 +157,7 @@ export const CaseStudyCarousel = () => {
                     <ul className="space-y-2">
                       {currentStudy.details.map((detail, i) => (
                         <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                          <span className="mt-1" style={{ color: 'rgba(59,130,246,1)' }}>•</span>
+                          <span className="mt-1 text-primary">•</span>
                           {detail}
                         </li>
                       ))}
@@ -193,10 +193,9 @@ export const CaseStudyCarousel = () => {
               className={cn(
                 "w-2 h-2 rounded-full transition-all",
                 index === currentIndex
-                  ? "w-8"
+                  ? "w-8 bg-primary"
                   : "bg-muted hover:bg-muted-foreground/50"
               )}
-              style={index === currentIndex ? { background: 'rgba(59,130,246,1)' } : undefined}
             />
           ))}
         </div>

@@ -56,7 +56,7 @@ export const ChecklistLayout = ({
             <span className="px-4 py-2 rounded-full bg-muted text-label text-sm font-medium">
               {estimatedTime}
             </span>
-            <span className="px-4 py-2 rounded-full text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+            <span className="px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary">
               {frequency}
             </span>
           </div>
@@ -112,7 +112,7 @@ export const ChecklistLayout = ({
                 </div>
 
                 {/* CTA Card */}
-                <div className="rounded-2xl border border-separator p-6" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))' }}>
+                <div className="rounded-2xl border border-separator p-6 bg-gradient-to-br from-primary/5 to-primary/10">
                   <h3 className="font-display font-semibold text-label mb-3">
                     Automate Your Checks
                   </h3>

@@ -31,7 +31,7 @@ export const ExampleLayout = ({
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <div className="inline-block mb-6 rounded-full px-4 py-1.5 text-xs font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+            <div className="inline-block mb-6 rounded-full px-4 py-1.5 text-xs font-medium bg-primary/10 text-primary">
               {totalCount}
             </div>
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 hero-gradient">
@@ -68,14 +68,14 @@ export const ExampleLayout = ({
                       <span className="text-sm text-foreground">
                         {resource.title}
                       </span>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-all" style={{ color: 'rgba(59,130,246,1)' }} />
+                      <ArrowRight className="h-4 w-4 text-primary group-hover:translate-x-1 transition-all" />
                     </Link>
                   ))}
                 </div>
               </div>
 
               {/* CTA */}
-              <div className="rounded-2xl border border-border p-8" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(59,130,246,0.1))' }}>
+              <div className="rounded-2xl border border-border p-8 bg-gradient-to-br from-primary/5 to-primary/10">
                 <h3 className="text-lg font-display font-semibold mb-2">
                   build with utm.one
                 </h3>

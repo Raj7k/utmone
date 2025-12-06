@@ -49,8 +49,8 @@ export const CaseStudyCard = ({ title, before, after, highlightMetric }: CaseStu
 
         {/* Arrow */}
         <div className="hidden md:flex items-center justify-center py-8">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <ArrowRight className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center bg-primary/10">
+            <ArrowRight className="w-6 h-6 text-primary" />
           </div>
         </div>
 
@@ -83,7 +83,7 @@ export const CaseStudyCard = ({ title, before, after, highlightMetric }: CaseStu
       {highlightMetric && (
         <div className="mt-8 pt-8 border-t border-border/50">
           <div className="text-center">
-            <p className="text-3xl font-display font-bold mb-2" style={{ color: 'rgba(59,130,246,1)' }}>
+            <p className="text-3xl font-display font-bold mb-2 text-primary">
               {highlightMetric}
             </p>
             <p className="text-sm text-muted-foreground">
