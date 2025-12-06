@@ -243,8 +243,8 @@ export const URLShortenerUltimate = () => {
     <div className="container max-w-7xl mx-auto py-8 px-4">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Brain className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="rounded-lg p-2 bg-primary/10">
+            <Brain className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-large-title font-bold text-label heading">ai url shortener</h1>
         </div>
@@ -279,8 +279,8 @@ export const URLShortenerUltimate = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-title-2 flex items-center gap-2">
-                    <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                      <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                    <div className="rounded-lg p-2 bg-primary/10">
+                      <Link2 className="h-5 w-5 text-primary" />
                     </div>
                     create short link
                   </CardTitle>

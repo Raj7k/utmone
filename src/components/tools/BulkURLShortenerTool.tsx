@@ -530,7 +530,7 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
                             
                             {url.status === 'success' ? (
                               <div className="flex items-center gap-2">
-                                <p className="font-mono text-sm truncate" style={{ color: 'rgba(59,130,246,1)' }}>
+                                <p className="font-mono text-sm truncate text-primary">
                                   {url.short}
                                 </p>
                                 <Button

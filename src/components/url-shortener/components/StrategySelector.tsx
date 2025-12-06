@@ -14,7 +14,7 @@ const strategies = [
     icon: Brain,
     label: 'smart mode',
     description: 'AI decides best action',
-    gradient: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))',
+    gradient: 'linear-gradient(to bottom right, hsl(var(--primary)), hsl(var(--primary)/0.6))',
   },
   {
     id: 'ASK' as DuplicateStrategy,
@@ -35,7 +35,7 @@ const strategies = [
     icon: RefreshCw,
     label: 'use existing',
     description: 'reuse best performer',
-    gradient: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(37,99,235,1))',
+    gradient: 'linear-gradient(to bottom right, hsl(var(--primary)), hsl(217 91% 50%))',
   },
 ];
 
