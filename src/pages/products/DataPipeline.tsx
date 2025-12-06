@@ -51,7 +51,7 @@ export default function DataPipeline() {
                 <span className="font-mono text-muted-foreground">last_export.csv</span>
                 <span className="text-destructive font-semibold">3 days old</span>
               </div>
-              <div className="bg-white rounded p-3 border border-border space-y-1 font-mono text-xs">
+              <div className="bg-card rounded p-3 border border-border space-y-1 font-mono text-xs">
                 <div className="text-muted-foreground">visitor_id, click_timestamp</div>
                 <div className="text-destructive line-through">utm_source, utm_medium</div>
                 <div className="text-muted-foreground">// missing 8 critical fields</div>
@@ -98,23 +98,23 @@ export default function DataPipeline() {
               afterContent={
                 <div className="space-y-4">
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Real-time streaming (&lt; 200ms)</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Instant availability</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Complete schema</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Guaranteed format</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Build your own models</span>
                     </div>
@@ -179,7 +179,7 @@ export default function DataPipeline() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Card className="p-6 h-full transition-colors hover:border-white/20">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
                     <h3 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-2">
@@ -213,7 +213,7 @@ export default function DataPipeline() {
                 { step: "5", label: "insight", desc: "real-time decisions" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                     {item.step}
                   </div>
                   <h4 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-1">
@@ -256,7 +256,7 @@ export default function DataPipeline() {
                       {feature.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-primary">
                       <span>learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -323,7 +323,7 @@ export default function DataPipeline() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 md:py-32" style={{ background: 'rgba(59,130,246,0.05)' }}>
+        <section className="py-24 md:py-32 bg-primary/5">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase">
               ready to own your click-stream data?

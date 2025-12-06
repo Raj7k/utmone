@@ -52,7 +52,7 @@ export default function LinkOrchestration() {
                 <p className="text-2xl font-bold text-destructive">404 Not Found</p>
                 <p className="text-sm text-muted-foreground">50,000 clicks → 50,000 errors</p>
               </div>
-              <div className="bg-white rounded-lg p-4 border border-border space-y-2 text-left text-sm">
+              <div className="bg-card rounded-lg p-4 border border-border space-y-2 text-left text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">emails sent</span>
                   <span className="font-semibold">50,000</span>
@@ -103,23 +103,23 @@ export default function LinkOrchestration() {
               }
               afterContent={
                 <div className="space-y-4">
-                  <div className="text-center text-2xl font-bold mb-4" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <div className="text-center text-2xl font-bold text-primary mb-4">
                     zero downtime
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Auto-route to backup url</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Every click still works</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Instant recovery</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm text-primary">
                       <span>✓</span>
                       <span>Campaign saved</span>
                     </div>
@@ -184,7 +184,7 @@ export default function LinkOrchestration() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Card className="p-6 h-full transition-colors hover:border-white/20">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
                     <h3 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-2">
@@ -218,7 +218,7 @@ export default function LinkOrchestration() {
                 { step: "5", label: "deliver", desc: "never shows 404" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                     {item.step}
                   </div>
                   <h4 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-1">
@@ -261,7 +261,7 @@ export default function LinkOrchestration() {
                       {feature.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
-                    <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: 'rgba(59,130,246,1)' }}>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-primary">
                       <span>learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -328,7 +328,7 @@ export default function LinkOrchestration() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 md:py-32" style={{ background: 'rgba(59,130,246,0.05)' }}>
+        <section className="py-24 md:py-32 bg-primary/5">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase">
               ready for links that never break?
