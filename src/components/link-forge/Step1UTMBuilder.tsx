@@ -80,7 +80,7 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-2">
         <div className="flex items-center gap-2 mb-4">
-          <Globe className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+          <Globe className="h-5 w-5 text-primary" />
           <h2 className="text-title-2 font-semibold heading">build your utm url</h2>
         </div>
         <p className="text-body-apple text-secondary-label">

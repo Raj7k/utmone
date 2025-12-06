@@ -160,7 +160,7 @@ export const ExpandedSidebar = () => {
                 <Icon className="h-5 w-5 flex-shrink-0" />
                 <span className="flex-1">{formatText(item.name)}</span>
                 {showBadge && (
-                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full text-white text-xs font-medium" style={{ background: 'rgba(59,130,246,1)' }}>
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs font-medium">
                     {pendingCount > 9 ? '9+' : pendingCount}
                   </span>
                 )}

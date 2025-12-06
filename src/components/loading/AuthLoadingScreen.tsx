@@ -112,8 +112,7 @@ export const AuthLoadingScreen = () => {
                     repeat: Infinity,
                     ease: "linear"
                   }}
-                  className="inline-block ml-1"
-                  style={{ color: 'rgba(59,130,246,1)' }}
+                  className="inline-block ml-1 text-primary"
                 >
                   |
                 </motion.span>
