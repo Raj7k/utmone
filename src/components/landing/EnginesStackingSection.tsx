@@ -112,26 +112,17 @@ export const EnginesStackingSection = () => {
                   {/* Left: Content */}
                   <div className="flex-1 space-y-6">
                     {/* Number Badge */}
-                    <div 
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-                      style={{ 
-                        background: 'rgba(59,130,246,0.15)',
-                        border: '1px solid rgba(59,130,246,0.3)'
-                      }}
-                    >
-                      <span className="text-xl font-display font-bold" style={{ color: '#3B82F6' }}>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/15 border border-primary/30">
+                      <span className="text-xl font-display font-bold text-primary">
                         {engine.number}/3
                       </span>
                     </div>
                     
-                    <h3 
-                      className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
-                      style={{ color: 'rgba(255,255,255,0.9)' }}
-                    >
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase text-white/90">
                       {engine.headline}
                     </h3>
 
-                    <p className="text-xl md:text-2xl font-semibold lowercase" style={{ color: '#3B82F6' }}>
+                    <p className="text-xl md:text-2xl font-semibold lowercase text-primary">
                       {engine.subheadline}
                     </p>
                     

@@ -18,8 +18,8 @@ export const MetadataCard = ({ title, icon: Icon, delay = 0 }: MetadataCardProps
     >
       <div className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Icon className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} strokeWidth={2} />
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">
+            <Icon className="w-6 h-6 text-primary" strokeWidth={2} />
           </div>
           <p className="text-base font-medium text-foreground lowercase">
             {title}

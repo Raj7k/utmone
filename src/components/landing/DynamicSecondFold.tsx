@@ -598,7 +598,7 @@ const IntelligenceContent = () => (
             <MessageSquare className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.5)' }} />
             <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Ask anything about your data...</span>
             <div className="ml-auto">
-              <Zap className="w-4 h-4" style={{ color: '#3B82F6' }} />
+              <Zap className="w-4 h-4 text-primary" />
             </div>
           </div>
         </div>
@@ -608,7 +608,7 @@ const IntelligenceContent = () => (
     {/* Right: Content */}
     <div className="space-y-6">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider" style={{ color: '#3B82F6' }}>clean-track intelligence</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">clean-track intelligence</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           AI that makes your data talk
         </h2>
@@ -635,11 +635,8 @@ const IntelligenceContent = () => (
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
             >
-              <div 
-                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                style={{ background: 'rgba(59,130,246,0.1)' }}
-              >
-                <Icon className="w-5 h-5" style={{ color: '#3B82F6' }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-primary/10">
+                <Icon className="w-5 h-5 text-primary" />
               </div>
               <div>
                 <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
@@ -652,8 +649,7 @@ const IntelligenceContent = () => (
       
       <Link 
         to="/features/predictive-analytics"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-        style={{ color: '#3B82F6' }}
+        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
       >
         explore clean-track AI
         <ArrowRight className="h-4 w-4" />
@@ -668,7 +664,7 @@ const GovernanceContent = () => (
     {/* Left: Content */}
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider" style={{ color: '#3B82F6' }}>enterprise control</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">enterprise control</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           your team's links, under control
         </h2>
@@ -693,7 +689,7 @@ const GovernanceContent = () => (
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
           >
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: '#3B82F6' }} />
+            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
             <div>
               <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
               <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.desc}</p>
@@ -704,8 +700,7 @@ const GovernanceContent = () => (
       
       <Link 
         to="/solutions/enterprise"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-        style={{ color: '#3B82F6' }}
+        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
       >
         explore enterprise features
         <ArrowRight className="h-4 w-4" />
@@ -760,10 +755,7 @@ const GovernanceContent = () => (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
               >
-                <div 
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold"
-                  style={{ background: 'rgba(59,130,246,0.2)', color: '#3B82F6' }}
-                >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold bg-primary/20 text-primary">
                   {member.avatar}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -771,12 +763,11 @@ const GovernanceContent = () => (
                   <div className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{member.email}</div>
                 </div>
                 <div 
-                  className="px-2 py-1 rounded-full text-xs font-medium"
-                  style={
-                    member.role === "Admin" ? { background: 'rgba(59,130,246,0.1)', color: '#3B82F6' } :
-                    member.role === "Editor" ? { background: 'rgba(245,158,11,0.1)', color: 'rgba(245,158,11,0.8)' } :
-                    { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }
-                  }
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    member.role === "Admin" ? 'bg-primary/10 text-primary' :
+                    member.role === "Editor" ? 'bg-amber-500/10 text-amber-500/80' :
+                    'bg-white/5 text-white/50'
+                  }`}
                 >
                   {member.role}
                 </div>
@@ -805,8 +796,8 @@ const GovernanceContent = () => (
         className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4"
         style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
       >
-        <div className="text-2xl font-bold" style={{ color: '#3B82F6' }}>100%</div>
-        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>policy compliance</div>
+        <div className="text-2xl font-bold text-primary">100%</div>
+        <div className="text-xs text-white/50">policy compliance</div>
       </motion.div>
     </motion.div>
   </div>

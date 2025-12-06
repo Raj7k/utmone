@@ -26,8 +26,8 @@ export const FlowStepCard = ({ number, title, description, icon: Icon, delay = 0
         </div>
 
         {/* Icon */}
-        <div className="relative z-10 w-16 h-16 rounded-xl flex items-center justify-center mb-4" style={{ background: 'rgba(59,130,246,0.1)' }}>
-          <Icon className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} strokeWidth={2} />
+        <div className="relative z-10 w-16 h-16 rounded-xl flex items-center justify-center mb-4 bg-primary/10">
+          <Icon className="w-8 h-8 text-primary" strokeWidth={2} />
         </div>
 
         {/* Content */}

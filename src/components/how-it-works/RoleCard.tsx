@@ -19,8 +19,8 @@ export const RoleCard = ({ title, description, icon: Icon, delay = 0 }: RoleCard
     >
       <div className="p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300">
         <div className="space-y-4">
-          <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Icon className="w-7 h-7" style={{ color: 'rgba(59,130,246,1)' }} strokeWidth={2} />
+          <div className="w-14 h-14 rounded-xl flex items-center justify-center bg-primary/10">
+            <Icon className="w-7 h-7 text-primary" strokeWidth={2} />
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-display font-semibold text-foreground">
