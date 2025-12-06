@@ -136,10 +136,10 @@ export const PublicLeaderboard = () => {
           {leaderboardData?.country && hasLocalLeaders ? (
             <>
               <div className="flex items-center justify-center gap-2 mb-4">
-                <MapPin className="w-5 h-5" style={{ color: 'rgba(59,130,246,0.8)' }} />
-                <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <MapPin className="w-5 h-5 text-primary/80" />
+                <p className="text-lg text-muted-foreground">
                   showing leaders from{" "}
-                  <span className="font-display font-bold" style={{ color: 'rgba(59,130,246,0.9)' }}>
+                  <span className="font-display font-bold text-primary">
                     {leaderboardData.country}
                   </span>
                 </p>
@@ -176,7 +176,7 @@ export const PublicLeaderboard = () => {
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="text-3xl font-display font-extrabold" style={{ color: 'rgba(59,130,246,0.9)' }}>
+                      <div className="text-3xl font-display font-extrabold text-primary">
                         {getMedalEmoji(index)}
                       </div>
                       <div>
@@ -186,12 +186,12 @@ export const PublicLeaderboard = () => {
                           </h3>
                           <span className="text-xl">{referrer.flag}</span>
                         </div>
-                        <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                        <p className="text-sm text-muted-foreground">
                           {referrer.score} referral {referrer.score === 1 ? "point" : "points"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2" style={{ color: 'rgba(59,130,246,0.8)' }}>
+                    <div className="flex items-center gap-2 text-primary/80">
                       <TrendingUp className="w-5 h-5" />
                       <span className="font-display font-bold text-2xl">
                         {referrer.score}

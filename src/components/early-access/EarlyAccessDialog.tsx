@@ -51,7 +51,7 @@ export const EarlyAccessDialog = ({
           </div>
         ) : (
           <div className="text-center space-y-6 py-8">
-            <CheckCircle2 className="w-16 h-16 mx-auto" style={{ color: 'rgba(59,130,246,0.8)' }} />
+            <CheckCircle2 className="w-16 h-16 mx-auto text-primary/80" />
             <h2 className="text-2xl md:text-3xl font-display font-bold brand-lowercase">
               thanks — we'll reach out soon.
             </h2>

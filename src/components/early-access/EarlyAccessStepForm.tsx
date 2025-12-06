@@ -141,7 +141,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
   return (
     <div className="relative">
       {/* Radial glow behind card */}
-      <div className="absolute inset-0 opacity-40 blur-3xl pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.2), transparent)' }} />
+      <div className="absolute inset-0 opacity-40 blur-3xl pointer-events-none bg-[radial-gradient(circle,hsl(var(--primary)/0.2),transparent)]" />
       
       {/* Premium gradient card container */}
       <div className="relative backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 transition-all duration-500" style={{ backgroundColor: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -149,24 +149,22 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
           {/* Animated Progress Bar */}
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
-              <span className="font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <span className="font-medium text-muted-foreground">
                 step {currentStep} of 2
               </span>
-              <span className="font-semibold" style={{ color: 'rgba(59,130,246,0.9)' }}>
+              <span className="font-semibold text-primary">
                 {Math.round((currentStep / 2) * 100)}%
               </span>
             </div>
-            <div className="relative h-2 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+            <div className="relative h-2 rounded-full overflow-hidden bg-muted">
               <motion.div
-                className="absolute inset-y-0 left-0 rounded-full"
-                style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.8), rgba(59,130,246,0.6))' }}
+                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary to-primary/60"
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
               />
               <motion.div
-                className="absolute inset-y-0 left-0 rounded-full opacity-50"
-                style={{ background: 'linear-gradient(to right, rgba(59,130,246,0.5), transparent)' }}
+                className="absolute inset-y-0 left-0 rounded-full opacity-50 bg-gradient-to-r from-primary/50 to-transparent"
                 initial={{ width: "0%" }}
                 animate={{ width: `${(currentStep / 2) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}

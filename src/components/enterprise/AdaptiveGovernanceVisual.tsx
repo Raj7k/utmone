@@ -16,8 +16,8 @@ export const AdaptiveGovernanceVisual = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Shield className="w-8 h-8" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="p-4 rounded-2xl bg-primary/10">
+            <Shield className="w-8 h-8 text-primary" />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -37,15 +37,15 @@ export const AdaptiveGovernanceVisual = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between p-4 rounded-xl border-2"
-              style={capability.granted 
-                ? { background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }
-                : { background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.1)' }
-              }
+              className={`flex items-center justify-between p-4 rounded-xl border-2 ${
+                capability.granted 
+                  ? 'bg-primary/5 border-primary/20' 
+                  : 'bg-white/[0.02] border-white/10'
+              }`}
             >
               <span className="font-medium text-label">{capability.name}</span>
               {capability.granted ? (
-                <Check className="w-5 h-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Check className="w-5 h-5 text-primary" />
               ) : (
                 <X className="w-5 h-5 text-secondary-label" />
               )}
@@ -53,8 +53,8 @@ export const AdaptiveGovernanceVisual = () => {
           ))}
         </div>
 
-        <div className="mt-8 p-6 rounded-xl border" style={{ background: 'rgba(59,130,246,0.05)', borderColor: 'rgba(59,130,246,0.2)' }}>
-          <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(59,130,246,1)' }}>
+        <div className="mt-8 p-6 rounded-xl border bg-primary/5 border-primary/20">
+          <div className="flex items-center gap-2 text-sm text-primary">
             <Shield className="w-4 h-4" />
             <span className="font-semibold">
               Privilege Surface Area: Minimized (3/6 capabilities)
