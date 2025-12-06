@@ -349,10 +349,10 @@ All colors MUST be HSL.
     --popover: 240 5% 18%;                   /* Elevated #2C2C2E */
     --popover-foreground: 0 0% 100%;
 
-    /* Primary - Keep functional for buttons in dark mode */
-    --primary: 240 6% 90%;                   /* Light gray for dark mode CTAs */
-    --primary-foreground: 240 6% 11%;        /* Dark text on light buttons */
-    --primary-hover: 240 6% 85%;             /* Slightly dimmed on hover */
+    /* Primary - White buttons for dark mode with dark text */
+    --primary: 0 0% 100%;                    /* Pure white for dark mode CTAs */
+    --primary-foreground: 240 6% 10%;        /* Near-black text on white buttons */
+    --primary-hover: 0 0% 95%;               /* Slightly off-white on hover */
 
     --secondary: 240 5% 18%;                 /* Elevated surface */
     --secondary-foreground: 0 0% 100%;
