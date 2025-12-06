@@ -180,9 +180,6 @@ verify_jwt = false
 [functions.send-referral-unlock-email]
 verify_jwt = false
 
-[functions.send-approval-email]
-verify_jwt = false
-
 [functions.batch-approve-waitlist]
 verify_jwt = false
 
@@ -202,6 +199,15 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.track-event]
+verify_jwt = false
+
+[functions.identity-matching]
+verify_jwt = false
+
+[functions.reconcile-offline]
+verify_jwt = true
+
+[functions.content-fingerprint]
 verify_jwt = false
 
 # Cron schedules for automated tasks

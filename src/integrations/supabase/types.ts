@@ -2434,6 +2434,100 @@ export type Database = {
           },
         ]
       }
+      identity_edges: {
+        Row: {
+          confidence: number
+          created_at: string
+          id: string
+          match_type: string
+          signals: Json
+          source_visitor_id: string
+          target_visitor_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          match_type?: string
+          signals?: Json
+          source_visitor_id: string
+          target_visitor_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          match_type?: string
+          signals?: Json
+          source_visitor_id?: string
+          target_visitor_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "identity_edges_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      import_batches: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          file_name: string
+          id: string
+          imported_by: string | null
+          matched_rows: number
+          status: string
+          total_rows: number
+          unmatched_rows: number
+          workspace_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          file_name: string
+          id?: string
+          imported_by?: string | null
+          matched_rows?: number
+          status?: string
+          total_rows?: number
+          unmatched_rows?: number
+          workspace_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          file_name?: string
+          id?: string
+          imported_by?: string | null
+          matched_rows?: number
+          status?: string
+          total_rows?: number
+          unmatched_rows?: number
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_batches_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       integrations: {
         Row: {
           access_token_encrypted: string | null
@@ -3428,6 +3522,10 @@ export type Database = {
           cache_score: number | null
           campaign_id: string | null
           clicks_last_hour: number | null
+          content_analyzed_at: string | null
+          content_description: string | null
+          content_tags: string[] | null
+          content_title: string | null
           contextual_routing: boolean | null
           conversion_rate: number | null
           created_at: string | null
@@ -3501,6 +3599,10 @@ export type Database = {
           cache_score?: number | null
           campaign_id?: string | null
           clicks_last_hour?: number | null
+          content_analyzed_at?: string | null
+          content_description?: string | null
+          content_tags?: string[] | null
+          content_title?: string | null
           contextual_routing?: boolean | null
           conversion_rate?: number | null
           created_at?: string | null
@@ -3576,6 +3678,10 @@ export type Database = {
           cache_score?: number | null
           campaign_id?: string | null
           clicks_last_hour?: number | null
+          content_analyzed_at?: string | null
+          content_description?: string | null
+          content_tags?: string[] | null
+          content_title?: string | null
           contextual_routing?: boolean | null
           conversion_rate?: number | null
           created_at?: string | null
@@ -3801,6 +3907,59 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      offline_conversions: {
+        Row: {
+          conversion_date: string
+          created_at: string
+          email: string
+          id: string
+          imported_by: string | null
+          match_status: string
+          matched_user_id: string | null
+          matched_visitor_id: string | null
+          metadata: Json | null
+          revenue: number | null
+          source_file: string | null
+          workspace_id: string
+        }
+        Insert: {
+          conversion_date: string
+          created_at?: string
+          email: string
+          id?: string
+          imported_by?: string | null
+          match_status?: string
+          matched_user_id?: string | null
+          matched_visitor_id?: string | null
+          metadata?: Json | null
+          revenue?: number | null
+          source_file?: string | null
+          workspace_id: string
+        }
+        Update: {
+          conversion_date?: string
+          created_at?: string
+          email?: string
+          id?: string
+          imported_by?: string | null
+          match_status?: string
+          matched_user_id?: string | null
+          matched_visitor_id?: string | null
+          metadata?: Json | null
+          revenue?: number | null
+          source_file?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offline_conversions_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       og_image_variants: {
         Row: {
@@ -6097,6 +6256,22 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_cross_device_attribution: {
+        Args: {
+          p_end_date: string
+          p_start_date: string
+          p_workspace_id: string
+        }
+        Returns: {
+          campaign: string
+          credit: number
+          cross_device_conversions: number
+          medium: string
+          source: string
+          total_conversions: number
+          total_revenue: number
+        }[]
+      }
       calculate_linear_attribution: {
         Args: {
           p_end_date?: string
@@ -6337,6 +6512,22 @@ export type Database = {
           total_clicks: number
           unique_clicks: number
           workspace_id: string
+        }[]
+      }
+      get_topic_attribution: {
+        Args: { p_workspace_id: string }
+        Returns: {
+          conversions: number
+          link_count: number
+          topic: string
+          total_revenue: number
+        }[]
+      }
+      get_unified_visitor_journeys: {
+        Args: { p_visitor_id: string; p_workspace_id: string }
+        Returns: {
+          confidence: number
+          journey_visitor_id: string
         }[]
       }
       get_utm_analytics: {

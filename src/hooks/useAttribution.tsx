@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-export type AttributionModel = "linear" | "time_decay" | "position";
+export type AttributionModel = "linear" | "time_decay" | "position" | "cross_device";
 
 interface AttributionResult {
   source: string;
@@ -10,6 +10,7 @@ interface AttributionResult {
   total_conversions: number;
   credit: number;
   total_revenue: number;
+  cross_device_conversions?: number;
 }
 
 export const useAttribution = (
@@ -28,7 +29,9 @@ export const useAttribution = (
           ? "calculate_linear_attribution"
           : model === "time_decay"
           ? "calculate_time_decay_attribution"
-          : "calculate_position_attribution";
+          : model === "position"
+          ? "calculate_position_attribution"
+          : "calculate_cross_device_attribution";
 
       const { data, error } = await supabase.rpc(functionName as any, {
         p_workspace_id: workspaceId,
@@ -103,6 +106,96 @@ export const useJourneyFlow = (
 
       if (error) throw error;
       return (data || []) as JourneyFlowNode[];
+    },
+    enabled: !!workspaceId,
+  });
+};
+
+// Identity Graph hooks
+interface IdentityEdge {
+  id: string;
+  source_visitor_id: string;
+  target_visitor_id: string;
+  match_type: 'deterministic' | 'probabilistic';
+  confidence: number;
+  signals: Record<string, boolean>;
+  created_at: string;
+}
+
+export const useIdentityGraph = (workspaceId: string | undefined) => {
+  return useQuery({
+    queryKey: ["identity-graph", workspaceId],
+    queryFn: async () => {
+      if (!workspaceId) return [];
+
+      const { data, error } = await supabase
+        .from('identity_edges')
+        .select('*')
+        .eq('workspace_id', workspaceId)
+        .gte('confidence', 0.5)
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      if (error) throw error;
+      return (data || []) as IdentityEdge[];
+    },
+    enabled: !!workspaceId,
+  });
+};
+
+// Topic Attribution hooks
+interface TopicAttribution {
+  topic: string;
+  conversions: number;
+  total_revenue: number;
+  link_count: number;
+}
+
+export const useTopicAttribution = (workspaceId: string | undefined) => {
+  return useQuery({
+    queryKey: ["topic-attribution", workspaceId],
+    queryFn: async () => {
+      if (!workspaceId) return [];
+
+      const { data, error } = await supabase.rpc('get_topic_attribution' as any, {
+        p_workspace_id: workspaceId,
+      });
+
+      if (error) throw error;
+      return (data || []) as TopicAttribution[];
+    },
+    enabled: !!workspaceId,
+  });
+};
+
+// Import Batches hooks
+interface ImportBatch {
+  id: string;
+  file_name: string;
+  total_rows: number;
+  matched_rows: number;
+  unmatched_rows: number;
+  status: 'processing' | 'completed' | 'failed';
+  error_message?: string;
+  created_at: string;
+  completed_at?: string;
+}
+
+export const useImportBatches = (workspaceId: string | undefined) => {
+  return useQuery({
+    queryKey: ["import-batches", workspaceId],
+    queryFn: async () => {
+      if (!workspaceId) return [];
+
+      const { data, error } = await supabase
+        .from('import_batches')
+        .select('*')
+        .eq('workspace_id', workspaceId)
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) throw error;
+      return (data || []) as ImportBatch[];
     },
     enabled: !!workspaceId,
   });
