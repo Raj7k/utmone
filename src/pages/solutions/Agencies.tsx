@@ -105,8 +105,8 @@ const Agencies = () => {
                   </div>
                 </div>
                 
-                <div className="rounded-xl p-6" style={{ background: 'rgba(59,130,246,0.05)', border: '2px solid rgba(59,130,246,0.3)' }}>
-                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide" style={{ color: 'rgba(59,130,246,0.9)' }}>With utm.one</div>
+                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid hsl(var(--primary) / 0.3)' }}>
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary">With utm.one</div>
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
                       <span style={{ color: 'rgba(255,255,255,0.5)' }}>utm.one clicks:</span>
@@ -125,7 +125,7 @@ const Agencies = () => {
                       <span className="font-semibold">12,043</span>
                     </div>
                   </div>
-                  <div className="mt-4 text-xs" style={{ color: 'rgba(59,130,246,0.9)' }}>
+                  <div className="mt-4 text-xs text-primary">
                     One source of truth. Every tool agrees.
                   </div>
                 </div>
@@ -168,15 +168,15 @@ const Agencies = () => {
             }
             afterContent={
               <div className="space-y-3">
-                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                  <div className="font-semibold mb-2 text-sm" style={{ color: 'rgba(59,130,246,0.9)' }}>Client A (single source of truth):</div>
+                <div className="rounded-lg p-4 font-mono text-xs bg-primary/10">
+                  <div className="font-semibold mb-2 text-sm text-primary">Client A (single source of truth):</div>
                   <div className="space-y-1 text-foreground">
                     <div>utm.one: 12,043 clicks</div>
                     <div>GA4: 12,043 sessions</div>
                     <div>HubSpot: 12,043 visits</div>
                     <div>Your report: 12,043 clicks</div>
                   </div>
-                  <div className="mt-3 pt-3 text-xs" style={{ borderTop: '1px solid rgba(59,130,246,0.2)', color: 'rgba(59,130,246,0.9)' }}>
+                  <div className="mt-3 pt-3 text-xs border-t border-primary/20 text-primary">
                     Every tool agrees. Client trusts you.
                   </div>
                 </div>
@@ -324,7 +324,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 6: ROI Calculator */}
-      <section className="py-24 md:py-32" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.05), rgba(255,106,0,0.05), rgb(24,24,27))' }}>
+      <section className="py-24 md:py-32" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.05), rgba(255,106,0,0.05), rgb(24,24,27))' }}>
         <div className="container mx-auto px-6">
           <ROICalculator />
         </div>

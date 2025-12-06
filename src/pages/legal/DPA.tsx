@@ -58,7 +58,7 @@ const DPA = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-display font-semibold text-white">4. contact</h2>
             <p>
-              <a href="mailto:dpo@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+              <a href="mailto:dpo@utm.one" className="transition-colors text-primary hover:underline">
                 dpo@utm.one
               </a>
             </p>

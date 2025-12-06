@@ -119,13 +119,13 @@ const DataSecurity = () => {
               <h2 className="text-2xl font-display font-semibold text-foreground">8. contact</h2>
               <p className="text-muted-foreground">
                 for security reports or disclosures:{" "}
-                <a href="mailto:security@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+                <a href="mailto:security@utm.one" className="transition-colors text-primary hover:underline">
                   security@utm.one
                 </a>
               </p>
               <p className="text-muted-foreground">
                 for enterprise compliance needs:{" "}
-                <a href="mailto:compliance@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>
+                <a href="mailto:compliance@utm.one" className="transition-colors text-primary hover:underline">
                   compliance@utm.one
                 </a>
               </p>

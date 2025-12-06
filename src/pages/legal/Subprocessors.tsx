@@ -29,7 +29,7 @@ const Subprocessors = () => {
             <p>stripe — billing & subscription management</p>
           </section>
           <section className="space-y-4 pt-8 border-t border-white/10">
-            <p>we update this list when subprocessors change. email <a href="mailto:privacy@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>privacy@utm.one</a></p>
+            <p>we update this list when subprocessors change. email <a href="mailto:privacy@utm.one" className="transition-colors text-primary hover:underline">privacy@utm.one</a></p>
           </section>
         </div>
 

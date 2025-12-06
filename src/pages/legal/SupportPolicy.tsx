@@ -19,8 +19,8 @@ const SupportPolicy = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-display font-semibold text-white">1. support channels</h2>
             <div className="space-y-3">
-              <p>email support: <a href="mailto:support@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>support@utm.one</a></p>
-              <p>security issues: <a href="mailto:security@utm.one" className="transition-colors" style={{ color: 'rgba(59,130,246,1)' }}>security@utm.one</a></p>
+              <p>email support: <a href="mailto:support@utm.one" className="transition-colors text-primary hover:underline">support@utm.one</a></p>
+              <p>security issues: <a href="mailto:security@utm.one" className="transition-colors text-primary hover:underline">security@utm.one</a></p>
             </div>
           </section>
           <section className="space-y-4">

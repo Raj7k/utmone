@@ -100,7 +100,7 @@ const Sales = () => {
               </CTAButton>
             </div>
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <CheckCircle2 className="w-4 h-4" style={{ color: 'rgba(59,130,246,0.9)' }} />
+              <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
           </div>
@@ -126,8 +126,8 @@ const Sales = () => {
                   </div>
                 </div>
                 
-                <div className="rounded-xl p-6" style={{ background: 'rgba(59,130,246,0.05)', border: '2px solid rgba(59,130,246,0.6)' }}>
-                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide" style={{ color: 'rgba(59,130,246,0.9)' }}>With utm.one</div>
+                <div className="rounded-xl p-6" style={{ background: 'hsl(var(--primary) / 0.05)', border: '2px solid hsl(var(--primary) / 0.6)' }}>
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary">With utm.one</div>
                   <div className="text-foreground text-sm space-y-2">
                     <p>✓ 7 views in last 48 hours</p>
                     <p>✓ Engagement spike = buying signal</p>
@@ -182,22 +182,22 @@ const Sales = () => {
             }
             afterContent={
               <div className="space-y-3">
-                <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)' }}>
+                <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
                   <div className="text-sm text-foreground space-y-2">
                     <div className="flex items-start gap-2">
-                      <span style={{ color: 'rgba(59,130,246,0.9)' }}>✓</span>
+                      <span className="text-primary">✓</span>
                       <span className="font-medium">7 views in last 48 hours</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span style={{ color: 'rgba(59,130,246,0.9)' }}>✓</span>
+                      <span className="text-primary">✓</span>
                       <span className="font-medium">Engagement spike = buying signal</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span style={{ color: 'rgba(59,130,246,0.9)' }}>✓</span>
+                      <span className="text-primary">✓</span>
                       <span className="font-medium">Perfect timing for follow-up</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span style={{ color: 'rgba(59,130,246,0.9)' }}>✓</span>
+                      <span className="text-primary">✓</span>
                       <span className="font-medium">Data backs your outreach</span>
                     </div>
                   </div>
