@@ -64,8 +64,8 @@ const Backups = () => {
     <div className="min-h-screen bg-background py-12 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-            Backup & Data Export
+          <h1 className="font-display text-4xl font-bold hero-gradient mb-4">
+            backup & data export
           </h1>
           <p className="text-lg text-muted-foreground">
             Own your data with automated GitHub backups and manual exports.

@@ -15,7 +15,7 @@ export default function LinkExpired() {
 
         {/* Content */}
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-white">
+          <h1 className="text-4xl md:text-5xl font-display font-bold hero-gradient">
             link expired
           </h1>
           <p className="text-lg text-white/60">

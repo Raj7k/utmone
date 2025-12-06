@@ -20,8 +20,8 @@ const Permanence = () => {
             <Shield className="w-4 h-4" />
             Permanence Guarantee
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-foreground">
-            Your Links Will Never Break
+          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 hero-gradient">
+            your links will never break
           </h1>
           <p className="text-xl max-w-2xl mx-auto mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
             A legal commitment that your links work forever, even if utm.one shuts down.

@@ -21,7 +21,7 @@ const NotFound = () => {
         {/* Content */}
         <div className="relative z-10 space-y-8">
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-white">
+            <h1 className="text-4xl md:text-5xl font-display font-bold hero-gradient">
               page not found
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-[600px] mx-auto leading-relaxed">

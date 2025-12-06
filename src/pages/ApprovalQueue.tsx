@@ -156,7 +156,7 @@ export default function ApprovalQueue() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">approval queue</h1>
+        <h1 className="text-3xl font-bold tracking-tight hero-gradient">approval queue</h1>
         <p className="mt-2" style={{ color: 'rgba(255,255,255,0.6)' }}>
           review and approve links submitted by your team
         </p>

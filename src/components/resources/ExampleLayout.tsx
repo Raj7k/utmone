@@ -34,7 +34,7 @@ export const ExampleLayout = ({
             <div className="inline-block mb-6 rounded-full px-4 py-1.5 text-xs font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
               {totalCount}
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-foreground">
+            <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 hero-gradient">
               {title}
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">

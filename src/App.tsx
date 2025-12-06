@@ -316,7 +316,7 @@ const PartnerTerms = lazy(() => import("./pages/Partners/Terms"));
 const ZapierIntegration = lazy(() => import("./pages/integrations/Zapier"));
 const SlackIntegration = lazy(() => import("./pages/integrations/Slack"));
 const GTMSettings = lazy(() => import("./pages/Integrations/GTMSettings"));
-const IntegrationsSettings = lazy(() => import("./pages/settings/Integrations"));
+const IntegrationsSettings = lazy(() => import("./pages/Settings/Integrations"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ClientWorkspaces = lazy(() => import("./pages/ClientWorkspaces"));
 const AnalyticsShare = lazy(() => import("./pages/AnalyticsShare"));

@@ -134,8 +134,8 @@ export default function QRTest() {
             <span className="text-sm font-bold text-yellow-500 uppercase tracking-wider">robustness lab</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
-            QR Crash Test
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 hero-gradient">
+            qr crash test
           </h1>
           <p className="text-amber-200/70 max-w-xl mx-auto text-lg">
             stress-test your QR codes against real-world conditions
