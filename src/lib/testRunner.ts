@@ -38,7 +38,6 @@ export async function runTestsByCategory(
   category: TestCategory,
   testSuites: TestSuite[]
 ): Promise<TestResult[]> {
-  console.log(`[Test Runner] Starting tests for category: ${category}`);
   
   const results: TestResult[] = [];
   const categoryTests = testSuites.filter(suite => suite.category === category);
@@ -68,7 +67,6 @@ export async function runTestsByCategory(
 export async function runAllTestSuites(
   testSuites: TestSuite[]
 ): Promise<{ category: string; results: TestResult[] }[]> {
-  console.log(`[Test Runner] Starting all test suites...`);
   
   const allResults: { category: string; results: TestResult[] }[] = [];
   

@@ -16,7 +16,6 @@ const AuthCallback = () => {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError || !session) {
-          console.error("Session error:", sessionError);
           toast({
             title: "Authentication failed",
             description: "Unable to complete sign in. Please try again.",
@@ -31,8 +30,7 @@ const AuthCallback = () => {
         // Priority 1: Check localStorage for pending invite token
         const pendingInviteToken = localStorage.getItem("pending_invite_token");
         if (pendingInviteToken) {
-          console.log("Found pending invite token in localStorage");
-          localStorage.removeItem("pending_invite_token"); // Clean up
+          localStorage.removeItem("pending_invite_token");
           navigate(`/accept-invite?token=${pendingInviteToken}`);
           return;
         }
@@ -47,7 +45,6 @@ const AuthCallback = () => {
           .limit(1);
 
         if (invitations && invitations.length > 0) {
-          console.log("Found workspace invitation for user");
           navigate(`/accept-invite?token=${invitations[0].token}`);
           return;
         }
@@ -68,7 +65,6 @@ const AuthCallback = () => {
         const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
         
         if (hasWorkspaces) {
-          console.log("User has existing workspace access");
           toast({
             title: "Signed in successfully",
             description: "Taking you to your dashboard...",
@@ -85,7 +81,6 @@ const AuthCallback = () => {
           .maybeSingle();
 
         if (accessRequest?.status === "approved" && (accessRequest.access_level || 0) >= 2) {
-          console.log("User has approved early access");
           toast({
             title: "Welcome to utm.one!",
             description: "Let's set up your workspace...",
@@ -95,7 +90,6 @@ const AuthCallback = () => {
         }
 
         // Access denied - sign out and redirect to waitlist locked page
-        console.log("User does not have access - signing out");
         await supabase.auth.signOut();
         
         toast({
@@ -107,7 +101,6 @@ const AuthCallback = () => {
         navigate("/waitlist-locked");
 
       } catch (error) {
-        console.error("Auth callback error:", error);
         toast({
           title: "Something went wrong",
           description: "Please try signing in again.",
@@ -122,7 +115,6 @@ const AuthCallback = () => {
     // Add timeout to prevent infinite loading
     const timeout = setTimeout(() => {
       if (isChecking) {
-        console.warn("Auth callback timeout - redirecting to auth");
         toast({
           title: "Authentication timeout",
           description: "Please try signing in again.",

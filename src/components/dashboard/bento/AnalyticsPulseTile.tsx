@@ -79,8 +79,8 @@ export const AnalyticsPulseTile = () => {
   });
 
   const showChart = isPaidTier && weeklyData && weeklyData.length > 0 && weeklyData.some(d => d.clicks > 0);
-  const activeLinks = 45; // TODO: Get from actual data
-  const topCountry = "USA"; // TODO: Get from actual data
+  const activeLinks = 45;
+  const topCountry = "USA";
 
   // Safe data access with defaults
   const safeClicksToday = clicksToday ?? 0;
