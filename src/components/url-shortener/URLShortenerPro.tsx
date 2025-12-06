@@ -242,8 +242,8 @@ export const URLShortenerPro = () => {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Layers className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="rounded-lg p-2 bg-primary/10">
+            <Layers className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-large-title font-display font-bold text-label">URL Shortener Pro</h1>
         </div>
@@ -275,7 +275,7 @@ export const URLShortenerPro = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-title-3 flex items-center gap-2">
-                  <Zap className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Zap className="h-5 w-5 text-primary" />
                   Smart Processing Options
                 </CardTitle>
               </CardHeader>
@@ -411,10 +411,10 @@ https://another-site.com/article"
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Link2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                <Link2 className="h-5 w-5 text-primary" />
                 <CardTitle className="text-title-3">Shortened URLs</CardTitle>
                 {urls.length > 0 && (
-                  <span className="ml-2 px-2 py-1 rounded-lg text-sm font-medium" style={{ background: 'rgba(59,130,246,0.1)', color: 'rgba(59,130,246,1)' }}>
+                  <span className="ml-2 px-2 py-1 rounded-lg text-sm font-medium bg-primary/10 text-primary">
                     {urls.length}
                   </span>
                 )}
@@ -487,7 +487,7 @@ https://another-site.com/article"
                               ) : (
                                 <AlertCircle className="h-4 w-4 text-system-red shrink-0" />
                               )}
-                              <code className="text-sm font-mono truncate" style={{ color: 'rgba(59,130,246,1)' }}>
+                              <code className="text-sm font-mono truncate text-primary">
                                 {url.short}
                               </code>
                             </div>
@@ -530,7 +530,7 @@ https://another-site.com/article"
           <CardContent className="py-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{urls.length}</p>
+                <p className="text-2xl font-bold text-primary">{urls.length}</p>
                 <p className="text-xs text-secondary-label">Total URLs</p>
               </div>
               <div>
@@ -542,7 +542,7 @@ https://another-site.com/article"
                 <p className="text-xs text-secondary-label">Errors</p>
               </div>
               <div>
-                <p className="text-2xl font-bold" style={{ color: 'rgba(59,130,246,1)' }}>{uniqueDomains}</p>
+                <p className="text-2xl font-bold text-primary">{uniqueDomains}</p>
                 <p className="text-xs text-secondary-label">Unique Domains</p>
               </div>
             </div>

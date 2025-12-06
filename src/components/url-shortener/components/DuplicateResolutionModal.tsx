@@ -80,9 +80,9 @@ export const DuplicateResolutionModal = ({
             {/* Performance Analysis */}
             {analysis && (
               <div className="grid grid-cols-3 gap-3">
-                <div className="p-4 rounded-lg bg-gradient-to-br border" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
+                <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
                   <div className="flex items-center gap-2 mb-1">
-                    <TrendingUp className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                    <TrendingUp className="h-4 w-4 text-primary" />
                     <span className="text-xs text-secondary-label">total clicks</span>
                   </div>
                   <p className="text-2xl font-bold text-foreground">{analysis.totalClicks.toLocaleString()}</p>
@@ -107,7 +107,7 @@ export const DuplicateResolutionModal = ({
             {/* Existing Versions */}
             <div>
               <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                <GitBranch className="h-4 w-4" style={{ color: 'rgba(59,130,246,1)' }} />
+                <GitBranch className="h-4 w-4 text-primary" />
                 existing versions
               </h3>
               <div className="space-y-2">
@@ -225,7 +225,7 @@ export const DuplicateResolutionModal = ({
             )}
             <Button
               onClick={() => onSelectAction(recommendedSuggestion?.type || 'create-campaign')}
-              className="hover:opacity-90" style={{ background: 'rgba(59,130,246,1)' }}
+              className="hover:opacity-90 bg-primary"
             >
               <Sparkles className="h-4 w-4 mr-2" />
               {recommendedSuggestion?.action || 'create new version'}

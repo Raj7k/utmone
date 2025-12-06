@@ -121,7 +121,7 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
                       style={getColorStyle(suggestion.type, false)}
                     >
                       <div className="flex items-start gap-3">
-                        <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
+                        <Icon className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                         <div className="flex-1">
                           <p className="text-sm font-semibold text-foreground mb-0.5">
                             {suggestion.action}
@@ -137,11 +137,11 @@ export const SmartSuggestionsPanel = ({ suggestions, onSelectSuggestion }: Smart
         )}
 
         {/* AI Insight Box */}
-        <div className="mt-4 p-3 rounded-lg bg-gradient-to-br border" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,0.1), rgba(59,130,246,0.05))', borderColor: 'rgba(59,130,246,0.2)' }}>
+        <div className="mt-4 p-3 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
           <div className="flex items-start gap-2">
-            <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
+            <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
             <div>
-              <p className="text-xs font-semibold mb-1" style={{ color: 'rgba(59,130,246,1)' }}>AI Analysis</p>
+              <p className="text-xs font-semibold mb-1 text-primary">AI Analysis</p>
               <p className="text-xs text-secondary-label">
                 Based on {suggestions.length} factors including click-through rates, campaign context, 
                 and version history, our AI recommends the action above for optimal performance.

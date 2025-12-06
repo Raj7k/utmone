@@ -60,8 +60,8 @@ export const ABTestControls = ({
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-title-2 flex items-center gap-2">
-            <div className="rounded-lg p-2" style={{ background: 'rgba(59,130,246,0.1)' }}>
-              <Split className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+            <div className="rounded-lg p-2 bg-primary/10">
+              <Split className="h-5 w-5 text-primary" />
             </div>
             A/B Test Controls
           </CardTitle>

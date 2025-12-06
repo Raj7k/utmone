@@ -61,7 +61,7 @@ export function TotpSettings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+            <Shield className="h-5 w-5 text-primary" />
             <CardTitle>two-factor authentication</CardTitle>
           </div>
         </CardHeader>
@@ -78,7 +78,7 @@ export function TotpSettings() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+              <Shield className="h-5 w-5 text-primary" />
               <div>
                 <CardTitle>two-factor authentication (2fa)</CardTitle>
                 <CardDescription className="mt-1">
@@ -114,7 +114,7 @@ export function TotpSettings() {
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3 p-4 border border-border rounded-lg">
-                  <Smartphone className="h-5 w-5 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Smartphone className="h-5 w-5 mt-0.5 text-primary" />
                   <div className="flex-1">
                     <h4 className="font-medium">authenticator app required</h4>
                     <p className="text-sm text-muted-foreground mt-1">
@@ -124,7 +124,7 @@ export function TotpSettings() {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 border border-border rounded-lg">
-                  <Key className="h-5 w-5 mt-0.5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <Key className="h-5 w-5 mt-0.5 text-primary" />
                   <div className="flex-1">
                     <h4 className="font-medium">recovery codes</h4>
                     <p className="text-sm text-muted-foreground mt-1">
@@ -144,10 +144,10 @@ export function TotpSettings() {
             </>
           ) : (
             <div className="space-y-4">
-              <div className="p-4 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
+              <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium">status</h4>
-                  <CheckCircle2 className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <CheckCircle2 className="h-5 w-5 text-primary" />
                 </div>
                 <p className="text-sm text-muted-foreground">
                   two-factor authentication is protecting your account

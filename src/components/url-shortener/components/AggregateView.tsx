@@ -97,7 +97,7 @@ export const AggregateView = ({
               <div className="flex items-start gap-3">
                 <button className="mt-1 flex-shrink-0">
                   {isExpanded ? (
-                    <ChevronDown className="h-5 w-5" style={{ color: 'rgba(59,130,246,1)' }} />
+                    <ChevronDown className="h-5 w-5 text-primary" />
                   ) : (
                     <ChevronRight className="h-5 w-5 text-secondary-label" />
                   )}
@@ -105,7 +105,7 @@ export const AggregateView = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
-                    <GitBranch className="h-4 w-4 flex-shrink-0" style={{ color: 'rgba(59,130,246,1)' }} />
+                    <GitBranch className="h-4 w-4 flex-shrink-0 text-primary" />
                     <p className="text-sm font-mono text-foreground break-all">{group.destination_url}</p>
                   </div>
 

@@ -193,21 +193,21 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(to bottom right, rgb(24,24,27), rgb(24,24,27), rgba(59,130,246,0.05))' }}>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-900 to-primary/5">
       {/* Animated background grid */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--primary)/0.1)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--primary)/0.1)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black,transparent)]" />
       </div>
 
       <div className="relative z-10 container mx-auto p-6 max-w-7xl">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-2xl rotate-3 transform hover:rotate-6 transition-transform" style={{ background: 'linear-gradient(to bottom right, rgba(59,130,246,1), rgba(59,130,246,0.6))' }}>
+            <div className="p-3 rounded-2xl rotate-3 transform hover:rotate-6 transition-transform bg-gradient-to-br from-primary to-primary/60">
               <Link2 className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-5xl font-display font-bold tracking-tight">
-              url <span style={{ color: 'rgba(59,130,246,1)' }}>shortener</span>
+              url <span className="text-primary">shortener</span>
             </h1>
           </div>
           <p className="text-lg text-secondary-label">smart duplicate detection with AI-powered resolution</p>
@@ -240,7 +240,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                   />
                   {isCheckingDuplicates && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                      <RefreshCw className="h-4 w-4 animate-spin" style={{ color: 'rgba(59,130,246,1)' }} />
+                      <RefreshCw className="h-4 w-4 animate-spin text-primary" />
                     </div>
                   )}
                 </div>
@@ -285,8 +285,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 <Button
                   onClick={handleShorten}
                   disabled={!url || isLoading || (strategy === 'ASK' && duplicates.length > 0)}
-                  className="w-full hover:shadow-lg transition-all"
-                  style={{ background: 'linear-gradient(to right, rgba(59,130,246,1), rgba(59,130,246,0.8))', boxShadow: '0 10px 15px -3px rgba(59,130,246,0.25)' }}
+                  className="w-full hover:shadow-lg transition-all bg-gradient-to-r from-primary to-primary/80 shadow-lg shadow-primary/25"
                   size="lg"
                 >
                   {isLoading ? (
@@ -325,7 +324,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
 
                 <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                   <div className="text-sm text-secondary-label mb-1">short url</div>
-                  <div className="text-lg font-medium break-all" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <div className="text-lg font-medium break-all text-primary">
                     {shortURL}
                   </div>
                 </div>
@@ -333,7 +332,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 <div className="space-y-3">
                   <Button
                     onClick={handleCopy}
-                    className="w-full" style={{ background: 'rgba(59,130,246,1)' }}
+                    className="w-full bg-primary"
                     size="lg"
                   >
                     <Copy className="h-4 w-4 mr-2" />
@@ -369,8 +368,8 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
             ) : (
               <div className="h-full flex items-center justify-center min-h-[400px]">
                 <div className="text-center space-y-3">
-                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-                    <Link2 className="h-8 w-8" style={{ color: 'rgba(59,130,246,1)' }} />
+                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center bg-primary/10">
+                    <Link2 className="h-8 w-8 text-primary" />
                   </div>
                   <div>
                     <div className="text-lg font-medium text-foreground mb-1">
