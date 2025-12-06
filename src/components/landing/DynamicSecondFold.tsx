@@ -436,7 +436,7 @@ const LinksContent = () => (
           className="w-16 h-16 rounded-lg flex items-center justify-center"
           style={{ background: 'rgba(255,255,255,0.9)' }}
         >
-          <QrCode className="w-12 h-12" style={{ color: '#050505' }} />
+          <QrCode className="w-12 h-12 text-zinc-900" />
         </div>
       </motion.div>
     </motion.div>

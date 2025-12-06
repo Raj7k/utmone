@@ -238,17 +238,17 @@ All colors MUST be HSL.
     --gradient-secondary: linear-gradient(135deg, hsl(0, 0%, 97%) 0%, hsl(0, 0%, 100%) 100%);
     --gradient-hero: linear-gradient(180deg, hsl(0, 0%, 100%) 0%, hsl(0, 0%, 97%) 100%);
 
-    /* Nature-inspired accent gradients */
-    --gradient-nature-1: linear-gradient(135deg, hsl(60, 99%, 94%) 0%, hsl(66, 82%, 55%) 100%);
-    --gradient-nature-2: linear-gradient(135deg, hsl(84, 86%, 90%) 0%, hsl(66, 82%, 55%) 50%, hsl(172, 91%, 25%) 100%);
-    --gradient-nature-3: linear-gradient(135deg, hsl(66, 82%, 55%) 0%, hsl(172, 91%, 25%) 50%, hsl(169, 75%, 10%) 100%);
-    --gradient-nature-4: linear-gradient(135deg, hsl(172, 91%, 25%) 0%, hsl(169, 75%, 10%) 50%, hsl(169, 68%, 6%) 100%);
+    /* Obsidian Platinum gradients (replaces nature-inspired) */
+    --gradient-nature-1: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    --gradient-nature-2: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(161,161,170,0.1) 100%);
+    --gradient-nature-3: linear-gradient(135deg, rgba(161,161,170,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    --gradient-nature-4: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(161,161,170,0.08) 100%);
 
-    /* Accent color tokens */
-    --accent-teal: 172 91% 25%;
-    --accent-yellow-green: 66 82% 55%;
-    --accent-mint: 84 86% 90%;
-    --accent-forest: 169 68% 6%;
+    /* Accent color tokens - Obsidian Platinum system */
+    --accent-teal: 0 0% 70%;           /* Silver/platinum */
+    --accent-yellow-green: 0 0% 80%;   /* Light platinum */
+    --accent-mint: 0 0% 90%;           /* Near white */
+    --accent-forest: 0 0% 20%;         /* Dark platinum */
 
     /* Shadows - Apple style: soft and minimal */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);

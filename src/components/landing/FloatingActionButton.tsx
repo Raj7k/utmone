@@ -91,8 +91,7 @@ export const FloatingActionButton = () => {
           >
             {/* Pulsing glow effect */}
             <motion.div
-              className="absolute inset-0 rounded-full blur-xl opacity-40"
-              style={{ background: '#191265' }}
+              className="absolute inset-0 rounded-full blur-xl opacity-40 bg-foreground"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.4, 0.6, 0.4]
@@ -105,15 +104,15 @@ export const FloatingActionButton = () => {
             />
 
             {/* Main button */}
-            <div className="relative w-14 h-14 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-colors" style={{ background: '#191265' }}>
+            <div className="relative w-14 h-14 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center transition-colors bg-foreground">
               <motion.div
                 animate={{ rotate: isExpanded ? 45 : 0 }}
                 transition={{ duration: 0.3 }}
               >
                 {isExpanded ? (
-                  <Plus className="h-6 w-6 text-white" />
+                  <Plus className="h-6 w-6 text-background" />
                 ) : (
-                  <ArrowRight className="h-6 w-6 text-white" />
+                  <ArrowRight className="h-6 w-6 text-background" />
                 )}
               </motion.div>
             </div>

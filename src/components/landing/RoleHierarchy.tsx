@@ -42,7 +42,7 @@ export const RoleHierarchy = ({ roles }: RoleHierarchyProps) => {
 
   const getColorStyle = (color: "primary" | "accent" | "secondary" | "muted") => {
     const styles = {
-      primary: { background: 'rgba(25,18,101,0.2)', color: '#191265' },
+      primary: { background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' },
       accent: { background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' },
       secondary: { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)' },
       muted: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' },

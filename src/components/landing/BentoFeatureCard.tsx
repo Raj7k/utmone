@@ -49,8 +49,8 @@ export const BentoFeatureCard = ({
           style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
         >
           <div className="space-y-3 md:space-y-4">
-            <div className="inline-flex p-3 md:p-4 rounded-xl md:rounded-2xl transition-colors" style={{ background: 'rgba(25,18,101,0.2)' }}>
-              <Icon className="h-6 w-6 md:h-8 md:w-8" style={{ color: '#191265' }} />
+            <div className="inline-flex p-3 md:p-4 rounded-xl md:rounded-2xl transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+              <Icon className="h-6 w-6 md:h-8 md:w-8 text-foreground" />
             </div>
             
             <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold lowercase transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
@@ -62,7 +62,7 @@ export const BentoFeatureCard = ({
             </p>
           </div>
           
-          <div className="flex items-center gap-2 font-medium mt-4 md:mt-6 group-hover:gap-3 transition-all text-sm md:text-base" style={{ color: '#191265' }}>
+          <div className="flex items-center gap-2 font-medium mt-4 md:mt-6 group-hover:gap-3 transition-all text-sm md:text-base text-foreground">
             learn more
             <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
           </div>

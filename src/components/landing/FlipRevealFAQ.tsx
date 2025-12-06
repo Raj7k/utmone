@@ -14,10 +14,10 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
 
   return (
     <div className="flex gap-6">
-      {/* Blaze Orange Bullet + Vertical Line */}
+      {/* Platinum Bullet + Vertical Line */}
       <div className="flex flex-col items-center flex-shrink-0">
-        <div className="w-3 h-3 rounded-full bg-blazeOrange" />
-        <div className="w-0.5 flex-1 bg-blazeOrange/40 mt-2" />
+        <div className="w-3 h-3 rounded-full bg-foreground" />
+        <div className="w-0.5 flex-1 bg-foreground/40 mt-2" />
       </div>
 
       {/* Flippable Card */}
@@ -39,7 +39,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
               {formatText(question)}
             </h3>
             <p style={{ color: 'rgba(255,255,255,0.5)' }}>{answer}</p>
-            <p className="text-sm mt-3 lowercase" style={{ color: '#191265' }}>tap to see example →</p>
+            <p className="text-sm mt-3 lowercase text-foreground">tap to see example →</p>
           </div>
 
           {/* Back: Visual Example */}
@@ -51,7 +51,7 @@ export const FlipRevealFAQ = ({ question, answer, visualExample, index }: FlipRe
             }}
           >
             {visualExample}
-            <p className="text-sm mt-4 lowercase" style={{ color: '#191265' }}>tap to go back ←</p>
+            <p className="text-sm mt-4 lowercase text-foreground">tap to go back ←</p>
           </div>
         </div>
       </motion.div>
