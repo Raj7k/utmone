@@ -110,10 +110,9 @@ export const UTMAnatomyVisualizer = ({ baseUrl, params }: UTMAnatomyVisualizerPr
               onMouseLeave={() => setHoveredParam(null)}
               className={`p-3 rounded-lg border transition-all cursor-pointer ${
                 isHovered
-                  ? "scale-[1.02]"
+                  ? "scale-[1.02] bg-primary/10 border-primary/30"
                   : "bg-background/50 border-border/30"
               }`}
-              style={isHovered ? { background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.3)' } : undefined}
             >
               <div className="flex items-center justify-between mb-2">
                 <code className="text-sm font-medium text-foreground">
@@ -138,7 +137,7 @@ export const UTMAnatomyVisualizer = ({ baseUrl, params }: UTMAnatomyVisualizerPr
                       ? paramDescriptions[key].marketer
                       : paramDescriptions[key].analytics}
                   </p>
-                  <p className="text-xs font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
+                  <p className="text-xs font-medium text-primary">
                     {paramDescriptions[key].ga4}
                   </p>
                 </div>

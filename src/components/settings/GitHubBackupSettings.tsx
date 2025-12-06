@@ -170,8 +170,8 @@ export function GitHubBackupSettings() {
     <div className="space-y-6">
       <Card className="p-6">
         <div className="flex items-start gap-4 mb-6">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <GitBranch className="h-6 w-6" style={{ color: 'rgba(59,130,246,1)' }} />
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-primary/10">
+            <GitBranch className="h-6 w-6 text-primary" />
           </div>
           <div className="flex-1">
             <h3 className="font-display text-xl font-semibold mb-2 text-foreground">
@@ -342,7 +342,7 @@ export function GitHubBackupSettings() {
                       href={backup.file_path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs hover:underline" style={{ color: 'rgba(59,130,246,1)' }}
+                      className="text-xs hover:underline text-primary"
                     >
                       View File
                     </a>

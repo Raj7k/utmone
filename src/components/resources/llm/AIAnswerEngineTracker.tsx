@@ -115,7 +115,7 @@ export const AIAnswerEngineTracker = () => {
               <div className="space-y-1">
                 {stat.topQueries.map((query, i) => (
                   <div key={i} className="text-xs text-muted-foreground flex items-start gap-2">
-                    <span style={{ color: 'rgba(59,130,246,1)' }}>•</span>
+                    <span className="text-primary">•</span>
                     <span>"{query}"</span>
                   </div>
                 ))}
@@ -125,7 +125,7 @@ export const AIAnswerEngineTracker = () => {
         ))}
       </div>
 
-      <div className="mt-6 p-4 border rounded-lg" style={{ background: 'rgba(59,130,246,0.1)', borderColor: 'rgba(59,130,246,0.2)' }}>
+      <div className="mt-6 p-4 border rounded-lg bg-primary/10 border-primary/20">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-foreground mb-1">
