@@ -709,14 +709,12 @@ All colors MUST be HSL.
   background-repeat: repeat;
 }
 
-/* H1 Hero Gradient System - Warm brown to teal to navy */
+/* H1 Hero Gradient System - Platinum (White to Silver) - Obsidian Design System */
 .hero-gradient {
-  background: linear-gradient(135deg,
-    hsl(20 80% 45%) 0%,          /* Warm rust brown */
-    hsl(20 100% 51%) 15%,        /* Blaze Orange */
-    hsl(184 89% 18%) 50%,        /* Deep Sea teal */
-    hsl(205 29% 13%) 85%,        /* Mirage navy */
-    hsl(205 29% 13%) 100%        /* Mirage navy solid */
+  background: linear-gradient(180deg,
+    hsl(0 0% 100%) 0%,           /* Pure white */
+    hsl(0 0% 100%) 40%,          /* White */
+    hsl(240 5% 65%) 100%         /* Zinc 400 silver */
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
