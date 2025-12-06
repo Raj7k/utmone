@@ -18,8 +18,8 @@ export const TrustFeatureCard = ({ title, icon: Icon, delay = 0 }: TrustFeatureC
     >
       <div className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-deepSea/30 transition-all duration-300">
         <div className="flex flex-col items-center text-center gap-3">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'rgba(59,130,246,0.1)' }}>
-            <Icon className="w-7 h-7" style={{ color: 'rgba(59,130,246,1)' }} strokeWidth={2} />
+          <div className="w-14 h-14 rounded-full flex items-center justify-center bg-primary/10">
+            <Icon className="w-7 h-7 text-primary" strokeWidth={2} />
           </div>
           <p className="text-sm font-medium text-foreground leading-snug lowercase">
             {title}

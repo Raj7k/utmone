@@ -67,9 +67,9 @@ const trustBadges = [
 ];
 
 const quickTools = [
-  { icon: LinkIcon, label: "shorten", href: "/tools/url-shortener", gradient: "linear-gradient(to right, rgba(59,130,246,1), rgba(59,130,246,0.6))" },
-  { icon: BarChart3, label: "utm builder", href: "/tools/utm-builder", gradient: "linear-gradient(to right, rgba(255,106,0,1), rgba(255,106,0,0.6))" },
-  { icon: QrCode, label: "qr code", href: "/tools/qr-generator", gradient: "linear-gradient(to right, rgba(59,130,246,1), rgba(255,106,0,1))" },
+  { icon: LinkIcon, label: "shorten", href: "/tools/url-shortener" },
+  { icon: BarChart3, label: "utm builder", href: "/tools/utm-builder" },
+  { icon: QrCode, label: "qr code", href: "/tools/qr-generator" },
 ];
 
 export const EnhancedFooter = () => {
@@ -86,8 +86,7 @@ export const EnhancedFooter = () => {
     >
       {/* Animated Gradient Accent Top */}
       <motion.div 
-        className="absolute top-0 left-0 right-0 h-1"
-        style={{ background: 'linear-gradient(90deg, #3B82F6, #F97316, #3B82F6)' }}
+        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-blazeOrange to-primary"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -96,8 +95,7 @@ export const EnhancedFooter = () => {
       
       {/* Subtle gradient overlay */}
       <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, rgba(59,130,246,0.05), transparent)' }}
+        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-primary/5 to-transparent"
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-10 md:py-14 relative z-10">
@@ -185,12 +183,10 @@ export const EnhancedFooter = () => {
               transition={{ duration: 0.4, delay: sectionIndex * 0.1 }}
             >
               <h3 
-                className="font-semibold mb-4 lowercase text-sm flex items-center gap-2"
-                style={{ color: 'rgba(255,255,255,0.9)' }}
+                className="font-semibold mb-4 lowercase text-sm flex items-center gap-2 text-white/90"
               >
                 <div 
-                  className="w-1 h-4 rounded-full"
-                  style={{ background: 'linear-gradient(to bottom, #3B82F6, #F97316)' }}
+                  className="w-1 h-4 rounded-full bg-gradient-to-b from-primary to-blazeOrange"
                 />
                 {section.title}
               </h3>
@@ -224,10 +220,9 @@ export const EnhancedFooter = () => {
           {/* Newsletter */}
           <div className="flex-1 max-w-md">
             <h4 
-              className="font-semibold mb-2 lowercase text-sm flex items-center gap-2"
-              style={{ color: 'rgba(255,255,255,0.9)' }}
+              className="font-semibold mb-2 lowercase text-sm flex items-center gap-2 text-white/90"
             >
-              <Sparkles className="w-4 h-4" style={{ color: '#3B82F6' }} />
+              <Sparkles className="w-4 h-4 text-primary" />
               stay updated
             </h4>
             <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
@@ -244,7 +239,7 @@ export const EnhancedFooter = () => {
                   color: 'rgba(255,255,255,0.9)'
                 }}
               />
-              <Button size="sm" className="lowercase" style={{ background: '#3B82F6' }}>
+              <Button size="sm" className="lowercase bg-primary hover:bg-primary/90">
                 subscribe
                 <ArrowRight className="w-3 h-3 ml-1" />
               </Button>
@@ -315,8 +310,8 @@ export const EnhancedFooter = () => {
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <Icon className="w-3 h-3" style={{ color: '#3B82F6' }} />
-                  <span className="text-[11px] font-medium" style={{ color: 'rgba(255,255,255,0.5)' }}>{badge.label}</span>
+                  <Icon className="w-3 h-3 text-primary" />
+                  <span className="text-[11px] font-medium text-white/50">{badge.label}</span>
                 </motion.div>
               );
             })}
