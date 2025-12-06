@@ -99,7 +99,7 @@ export const MegaTrendsSection = () => {
       case "mirage":
         return "text-[hsl(210,29%,12%)]";
       default:
-        return "text-[rgba(59,130,246,1)]";
+        return "text-primary";
     }
   };
 
@@ -112,7 +112,7 @@ export const MegaTrendsSection = () => {
       case "mirage":
         return "bg-[hsl(210,29%,12%)]/10";
       default:
-        return "bg-[rgba(59,130,246,0.1)]";
+        return "bg-primary/10";
     }
   };
 

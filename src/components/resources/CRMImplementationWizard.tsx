@@ -208,9 +208,8 @@ export const CRMImplementationWizard = () => {
                   <div
                     className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
-                      isCompleted ? "text-white" : "bg-muted text-muted-foreground"
+                      isCompleted ? "text-white bg-primary" : "bg-muted text-muted-foreground"
                     )}
-                    style={isCompleted ? { background: 'rgba(59,130,246,1)' } : undefined}
                   >
                     {isCompleted ? (
                       <Check className="w-4 h-4" />
@@ -240,10 +239,10 @@ export const CRMImplementationWizard = () => {
       </div>
 
       {/* Code Snippet */}
-      <div className="rounded-2xl p-6 relative" style={{ background: 'rgba(9,9,11,0.9)' }}>
+      <div className="rounded-2xl p-6 relative bg-zinc-900/90">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="px-3 py-1 rounded-md text-xs font-mono" style={{ background: 'rgba(59,130,246,0.2)', color: 'rgba(59,130,246,1)' }}>
+            <div className="px-3 py-1 rounded-md text-xs font-mono bg-primary/20 text-primary">
               {selectedCRM === "hubspot" ? "JavaScript" : "Apex"}
             </div>
           </div>
@@ -273,9 +272,8 @@ export const CRMImplementationWizard = () => {
               key={step.id}
               className={cn(
                 "w-8 h-2 rounded-full transition-colors",
-                completedSteps.includes(step.id) ? "" : "bg-muted"
+                completedSteps.includes(step.id) ? "bg-primary" : "bg-muted"
               )}
-              style={completedSteps.includes(step.id) ? { background: 'rgba(59,130,246,1)' } : undefined}
             />
           ))}
         </div>

@@ -125,8 +125,7 @@ export const AIToolMatrix = () => {
                 href={tool.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors"
-                style={{ color: 'rgba(59,130,246,1)' }}
+                className="text-primary transition-colors hover:text-primary/80"
               >
                 <ExternalLink className="w-4 h-4" />
               </a>

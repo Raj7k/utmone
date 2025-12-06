@@ -127,8 +127,7 @@ export const AttributionModelComparator = () => {
                 {Array.from({ length: currentModel.complexity }).map((_, i) => (
                   <div
                     key={i}
-                    className="w-2 h-2 rounded-full"
-                    style={{ background: 'rgba(59,130,246,1)' }}
+                    className="w-2 h-2 rounded-full bg-primary"
                   />
                 ))}
                 {Array.from({ length: 5 - currentModel.complexity }).map((_, i) => (
@@ -142,7 +141,7 @@ export const AttributionModelComparator = () => {
             <p className="text-lg text-muted-foreground mb-2">
               {currentModel.description}
             </p>
-            <p className="text-sm font-medium" style={{ color: 'rgba(59,130,246,1)' }}>
+            <p className="text-sm font-medium text-primary">
               best for: {currentModel.bestFor}
             </p>
           </div>

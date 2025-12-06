@@ -49,7 +49,7 @@ export const MarketingSalarySection = () => {
           {/* B2B vs B2C Divide */}
           <div className="bg-muted/30 rounded-2xl p-8 mb-12">
             <h3 className="text-2xl font-display font-semibold mb-4 flex items-center gap-2">
-              <AlertCircle className="w-6 h-6" style={{ color: 'rgba(59,130,246,1)' }} />
+              <AlertCircle className="w-6 h-6 text-primary" />
               The B2B vs. B2C Divide
             </h3>
             <p className="text-foreground mb-4">
@@ -280,126 +280,14 @@ export const MarketingSalarySection = () => {
                     <strong className="text-foreground">London:</strong> Highest European marketing salaries. PMM Directors: £80K-£110K ($100K-$140K). Demand Gen Managers: £60K-£85K. Fintech, enterprise software, consulting drive demand.
                   </p>
                   <p>
-                    <strong className="text-foreground">Berlin, Amsterdam, Stockholm:</strong> Tech hubs with strong startup ecosystems. 15-25% lower than London but cost-of-living adjusted comparable. Remote EU hiring compressing geographic gaps.
+                    <strong className="text-foreground">Germany (Berlin, Munich):</strong> 10-20% below London but strong benefits, job security, and work-life balance. Growing demand for English-fluent marketers.
                   </p>
                   <p>
-                    <strong className="text-foreground">Eastern Europe (Poland, Czech Republic, Romania):</strong> Emerging remote marketing hubs. English-speaking, western-educated marketers earning €25K-€45K ($27K-$48K)—50-60% less than Western Europe but equivalent purchasing power.
+                    <strong className="text-foreground">Netherlands, Ireland:</strong> Tech hubs with competitive US-style compensation. Dublin attracting US tech companies; Amsterdam strong for B2B SaaS.
                   </p>
                 </CardContent>
               </Card>
             </ScrollReveal>
-
-            <ScrollReveal delay={0.45}>
-              <Card className="hover:shadow-lg transition-apple hover:scale-101">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-2xl">
-                    🌏 APAC, LATAM, MENA
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm text-muted-foreground">
-                  <p>
-                    <strong className="text-foreground">Singapore, Hong Kong, Australia:</strong> Highest APAC salaries. PMM Managers: $70K-$110K. Demand Gen Managers: $60K-$90K. English fluency + cost-of-living premiums.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">LATAM (Mexico, Brazil, Argentina, Colombia):</strong> Fastest-growing remote marketing hiring region. Demand Gen Managers: $18K-$30K. Content strategists: $12K-$22K. Timezone overlap with US + English fluency drive demand.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">MENA (UAE, Saudi Arabia, Egypt):</strong> Enterprise B2B marketing (government, telco, oil/gas) pays premiums. PMM Managers in Dubai: $50K-$80K. Lower salaries than US/Europe but tax-free income in UAE/Saudi increases net comp.
-                  </p>
-                </CardContent>
-              </Card>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        {/* At-Risk vs Growing Roles */}
-        <div className="mb-12">
-          <h3 className="text-3xl font-display font-bold mb-8">At-Risk vs. High-Growth Marketing Roles</h3>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border-destructive/20 bg-destructive/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-destructive">
-                  <TrendingDown className="w-5 h-5" />
-                  At-Risk Roles (Declining Compensation)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Content Writing & Copywriting</p>
-                  <p className="text-sm text-muted-foreground">AI automation + freelancer platforms causing 10-18% YoY salary decline. Strategy roles still valuable; execution commoditized.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Social Media Management</p>
-                  <p className="text-sm text-muted-foreground">Highly saturated, low barriers to entry. Agencies, freelancers, offshore teams compete aggressively. Compensation stagnant or declining.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Basic SEO</p>
-                  <p className="text-sm text-muted-foreground">Content SEO commoditizing rapidly (AI + tools automate keyword research, on-page optimization). Technical SEO (site speed, core web vitals, schema) still valuable.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Generalist Marketing Managers</p>
-                  <p className="text-sm text-muted-foreground">Lack of specialization = declining value. Companies prefer specialists (Demand Gen, MarkOps, PMM) over generalists.</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-[hsl(184,92%,18%)]/20 bg-[hsl(184,92%,18%)]/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[hsl(184,92%,18%)]">
-                  <TrendingUp className="w-5 h-5" />
-                  High-Growth Roles (Rising Compensation)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Product Marketing (PMM)</p>
-                  <p className="text-sm text-muted-foreground">+18-25% YoY salary growth. AI hasn't commoditized positioning strategy. Scarcity of strong PMMs driving premiums.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Demand Generation</p>
-                  <p className="text-sm text-muted-foreground">+15-22% YoY growth. Pipeline accountability = direct revenue linkage. AI skills (automation orchestration) add 20-30% premiums.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Marketing Operations</p>
-                  <p className="text-sm text-muted-foreground">+20-28% YoY growth. Technical scarcity + marketing tech stack complexity driving demand. MarkOps increasingly overlaps with RevOps.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-1">Performance Marketing (B2C)</p>
-                  <p className="text-sm text-muted-foreground">+12-18% YoY growth. Direct ROAS accountability, technical complexity (Meta, Google, TikTok algorithms), A/B testing rigor.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Career Mobility Within Marketing */}
-        <div className="mb-12">
-          <h3 className="text-3xl font-display font-bold mb-6">Career Mobility Within Marketing</h3>
-          <div className="bg-muted/30 rounded-2xl p-8">
-            <div className="space-y-4 text-muted-foreground">
-              <p>
-                <strong className="text-foreground">Common transition paths and salary jumps:</strong>
-              </p>
-              <div className="grid md:grid-cols-2 gap-6 mt-6">
-                <div>
-                  <p className="font-semibold text-foreground mb-2">Content → Demand Gen</p>
-                  <p className="text-sm">Requires learning marketing automation, attribution, paid media. Salary jump: +22-35%.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-2">Demand Gen → Product Marketing</p>
-                  <p className="text-sm">Requires product knowledge, positioning strategy, competitive intelligence. Salary jump: +18-28%.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-2">Marketing Generalist → Marketing Operations</p>
-                  <p className="text-sm">Requires technical upskilling (Salesforce, HubSpot, SQL, APIs). Salary jump: +25-40%.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground mb-2">Marketing Operations → Revenue Operations</p>
-                  <p className="text-sm">Requires understanding sales processes, forecasting, pipeline architecture. Salary jump: +15-22%.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
