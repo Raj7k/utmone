@@ -1,4 +1,4 @@
-import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from "recharts";
+import { LazyLineChart, LazyChartContainer, Line, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from "@/components/charts/LazyCharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { formatCurrency } from "@/lib/salaryData";
 
@@ -61,7 +61,7 @@ export const SalaryDistributionChart = ({
       
       <ChartContainer config={chartConfig} className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LazyLineChart data={data}>
             <XAxis
               dataKey="salary"
               tickFormatter={(value) => formatCurrency(value)}
@@ -127,7 +127,7 @@ export const SalaryDistributionChart = ({
                 }}
               />
             )}
-          </LineChart>
+          </LazyLineChart>
         </ResponsiveContainer>
       </ChartContainer>
     </div>

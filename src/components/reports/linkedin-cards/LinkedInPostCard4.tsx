@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, Rocket } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Legend } from "recharts";
+import { LazyLineChart, LazyChartContainer, Line, ResponsiveContainer, XAxis, YAxis, Legend } from "@/components/charts/LazyCharts";
 import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 const data = [
@@ -33,16 +33,18 @@ export const LinkedInPostCard4 = () => {
                   RevOps Salary Growth
                 </p>
               </div>
-              <ResponsiveContainer width="100%" height={180}>
-                <LineChart data={data}>
-                  <XAxis dataKey="year" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} />
-                  <Legend wrapperStyle={{ fontSize: 9 }} />
-                  <Line type="monotone" dataKey="india" stroke="#FF5B04" strokeWidth={2} name="India" />
-                  <Line type="monotone" dataKey="us" stroke="#075056" strokeWidth={2} name="US" />
-                  <Line type="monotone" dataKey="europe" stroke="#16232A" strokeWidth={2} name="Europe" />
-                </LineChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={180}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <LazyLineChart data={data}>
+                    <XAxis dataKey="year" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Legend wrapperStyle={{ fontSize: 9 }} />
+                    <Line type="monotone" dataKey="india" stroke="#FF5B04" strokeWidth={2} name="India" />
+                    <Line type="monotone" dataKey="us" stroke="#075056" strokeWidth={2} name="US" />
+                    <Line type="monotone" dataKey="europe" stroke="#16232A" strokeWidth={2} name="Europe" />
+                  </LazyLineChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
 
             {/* Content */}

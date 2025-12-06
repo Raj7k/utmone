@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "@/components/charts/LazyCharts";
 
 const data = [
   {
@@ -38,32 +38,34 @@ export const CompanySizeChart = () => {
         </p>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis 
-              dataKey="size" 
-              stroke="hsl(var(--secondary-label))"
-              style={{ fontSize: '12px' }}
-            />
-            <YAxis 
-              stroke="hsl(var(--secondary-label))"
-              tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
-            />
-            <Tooltip 
-              formatter={(value: number) => `$${value.toLocaleString()}`}
-              contentStyle={{
-                backgroundColor: "hsl(var(--card))",
-                border: "1px solid hsl(var(--border))",
-                borderRadius: "8px"
-              }}
-            />
-            <Legend />
-            <Bar dataKey="cash" fill="hsl(var(--deep-sea))" name="Base Cash" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="equity" fill="hsl(var(--blaze-orange))" name="Equity Value (4yr)" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="benefits" fill="hsl(var(--mirage))" name="Benefits" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={400}>
+          <ResponsiveContainer width="100%" height={400}>
+            <LazyBarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis 
+                dataKey="size" 
+                stroke="hsl(var(--secondary-label))"
+                style={{ fontSize: '12px' }}
+              />
+              <YAxis 
+                stroke="hsl(var(--secondary-label))"
+                tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+              />
+              <Tooltip 
+                formatter={(value: number) => `$${value.toLocaleString()}`}
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px"
+                }}
+              />
+              <Legend />
+              <Bar dataKey="cash" fill="hsl(var(--deep-sea))" name="Base Cash" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="equity" fill="hsl(var(--blaze-orange))" name="Equity Value (4yr)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="benefits" fill="hsl(var(--mirage))" name="Benefits" radius={[4, 4, 0, 0]} />
+            </LazyBarChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
 
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           <div className="p-4 bg-wildSand rounded-lg">

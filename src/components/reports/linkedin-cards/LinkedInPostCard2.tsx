@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, TrendingUp } from "lucide-react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Legend } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, ResponsiveContainer, XAxis, YAxis, Legend } from "@/components/charts/LazyCharts";
 import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 const data = [
@@ -33,15 +33,17 @@ export const LinkedInPostCard2 = () => {
                   B2B vs B2C Pay Gap
                 </p>
               </div>
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart data={data}>
-                  <XAxis dataKey="role" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} />
-                  <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar dataKey="b2b" fill="#FF5B04" radius={4} name="B2B" />
-                  <Bar dataKey="b2c" fill="#075056" radius={4} name="B2C" />
-                </BarChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={180}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <LazyBarChart data={data}>
+                    <XAxis dataKey="role" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} />
+                    <Legend wrapperStyle={{ fontSize: 10 }} />
+                    <Bar dataKey="b2b" fill="#FF5B04" radius={4} name="B2B" />
+                    <Bar dataKey="b2c" fill="#075056" radius={4} name="B2C" />
+                  </LazyBarChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
 
             {/* Content */}

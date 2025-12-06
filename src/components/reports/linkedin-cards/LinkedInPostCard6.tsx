@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2, Download, Zap } from "lucide-react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Cell } from "recharts";
+import { LazyBarChart, LazyChartContainer, Bar, ResponsiveContainer, XAxis, YAxis, Cell } from "@/components/charts/LazyCharts";
 import { shareOnLinkedIn, downloadCardAsImage } from "@/lib/utils/linkedinShare";
 
 const data = [
@@ -35,17 +35,19 @@ export const LinkedInPostCard6 = () => {
                   Skill Salary Premium (%)
                 </p>
               </div>
-              <ResponsiveContainer width="100%" height={180}>
-                <BarChart data={data} layout="vertical">
-                  <XAxis type="number" tick={{ fontSize: 10 }} />
-                  <YAxis dataKey="skill" type="category" tick={{ fontSize: 10 }} width={70} />
-                  <Bar dataKey="premium" radius={4}>
-                    {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={180}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <LazyBarChart data={data} layout="vertical">
+                    <XAxis type="number" tick={{ fontSize: 10 }} />
+                    <YAxis dataKey="skill" type="category" tick={{ fontSize: 10 }} width={70} />
+                    <Bar dataKey="premium" radius={4}>
+                      {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Bar>
+                  </LazyBarChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
 
             {/* Content */}
