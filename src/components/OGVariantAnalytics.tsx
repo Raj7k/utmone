@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useOGVariantAnalytics, useABTestStatus, useCheckABTests } from "@/hooks/useOGVariants";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { LazyBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trophy, RefreshCw } from "lucide-react";
@@ -169,33 +169,35 @@ export const OGVariantAnalytics = ({ linkId }: OGVariantAnalyticsProps) => {
 
           {/* Bar Chart */}
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={analytics}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="variantName" 
-                  className="text-xs"
-                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
-                />
-                <YAxis 
-                  className="text-xs"
-                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
-                />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                  }}
-                  labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
-                />
-                <Bar dataKey="clicks" radius={[8, 8, 0, 0]}>
-                  {analytics.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            <LazyChartContainer height={256}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LazyBarChart data={analytics}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis 
+                    dataKey="variantName" 
+                    className="text-xs"
+                    tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  <YAxis 
+                    className="text-xs"
+                    tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--popover))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                    }}
+                    labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
+                  />
+                  <Bar dataKey="clicks" radius={[8, 8, 0, 0]}>
+                    {analytics.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Bar>
+                </LazyBarChart>
+              </ResponsiveContainer>
+            </LazyChartContainer>
           </div>
 
           {/* Detailed List */}

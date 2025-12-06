@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Activity } from "lucide-react";
 import { useWorkspace } from "@/hooks/useWorkspace";
-import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
+import { LazyAreaChart, Area, ResponsiveContainer, Tooltip, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useNavigate } from "react-router-dom";
 import { FeatureGuard } from "@/components/feature-gating";
@@ -127,32 +127,34 @@ export const AnalyticsPulseTile = () => {
             fallback={
               showChart ? (
                 <div className="h-20 -mx-2">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={weeklyData}>
-                      <defs>
-                        <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: '1px solid hsl(var(--border))',
-                          borderRadius: '8px',
-                          fontSize: '12px',
-                        }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="clicks"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth={2}
-                        fillOpacity={1}
-                        fill="url(#colorClicks)"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                  <LazyChartContainer height={80}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LazyAreaChart data={weeklyData}>
+                        <defs>
+                          <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'white',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="clicks"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorClicks)"
+                        />
+                      </LazyAreaChart>
+                    </ResponsiveContainer>
+                  </LazyChartContainer>
                 </div>
               ) : (
                 <p className="text-caption-2 text-tertiary-label text-center py-4">
@@ -164,32 +166,34 @@ export const AnalyticsPulseTile = () => {
             {showChart ? (
             // PAID TIER: Show chart if data exists
             <div className="h-20 -mx-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={weeklyData}>
-                  <defs>
-                    <linearGradient id="colorClicks" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                    }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="clicks"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#colorClicks)"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <LazyChartContainer height={80}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LazyAreaChart data={weeklyData}>
+                    <defs>
+                      <linearGradient id="colorClicksPaid" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        fontSize: '12px',
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="clicks"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorClicksPaid)"
+                    />
+                  </LazyAreaChart>
+                </ResponsiveContainer>
+              </LazyChartContainer>
             </div>
           ) : (
             <p className="text-caption-2 text-tertiary-label text-center py-4">

@@ -1,4 +1,4 @@
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LazyLineChart, Line, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfDay, subDays, format } from "date-fns";
@@ -82,17 +82,19 @@ export const CampaignSparkline = ({
   const hasActivity = maxClicks > 0;
 
   return (
-    <ResponsiveContainer width={80} height={32}>
-      <LineChart data={sparklineData}>
-        <Line
-          type="monotone"
-          dataKey="clicks"
-          stroke={hasActivity ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}
-          strokeWidth={1.5}
-          dot={false}
-          isAnimationActive={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <LazyChartContainer height={32}>
+      <ResponsiveContainer width={80} height={32}>
+        <LazyLineChart data={sparklineData}>
+          <Line
+            type="monotone"
+            dataKey="clicks"
+            stroke={hasActivity ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"}
+            strokeWidth={1.5}
+            dot={false}
+            isAnimationActive={false}
+          />
+        </LazyLineChart>
+      </ResponsiveContainer>
+    </LazyChartContainer>
   );
 };

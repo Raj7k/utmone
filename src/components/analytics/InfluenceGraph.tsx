@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useInfluenceGraph } from "@/hooks/useInfluenceGraph";
 import { Loader2, TrendingUp, TrendingDown, Minus } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { LazyBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LazyChartContainer } from "@/components/charts/LazyCharts";
 
 interface InfluenceGraphProps {
   workspaceId: string;
@@ -113,25 +113,27 @@ export const InfluenceGraph = ({ workspaceId, days = 30 }: InfluenceGraphProps) 
         <div className="space-y-6">
           {/* Channel Influence Chart */}
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis 
-                  dataKey="name" 
-                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-                />
-                <YAxis 
-                  label={{ value: "lift (%)", angle: -90, position: "insideLeft" }}
-                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="lift" radius={[4, 4, 0, 0]}>
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={getBarColor(entry.lift)} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+            <LazyChartContainer height={320}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LazyBarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+                  />
+                  <YAxis 
+                    label={{ value: "lift (%)", angle: -90, position: "insideLeft" }}
+                    tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="lift" radius={[4, 4, 0, 0]}>
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={getBarColor(entry.lift)} />
+                    ))}
+                  </Bar>
+                </LazyBarChart>
+              </ResponsiveContainer>
+            </LazyChartContainer>
           </div>
 
           {/* Top Performers List */}

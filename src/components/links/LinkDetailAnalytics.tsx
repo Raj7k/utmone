@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LazyBarChart, LazyPieChart, Bar, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { subDays } from "date-fns";
 import { ClicksOverTime } from "@/components/analytics/ClicksOverTime";
 import { ConversionFunnel } from "@/components/analytics/ConversionFunnel";
@@ -243,17 +243,19 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
           <CardTitle className="lowercase">devices & browsers</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie data={deviceChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-                {deviceChartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+              <LazyPieChart>
+                <Pie data={deviceChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+                  {deviceChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </LazyPieChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
         </CardContent>
       </Card>
 
@@ -263,15 +265,17 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
           <CardTitle className="lowercase">top browsers</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={browserChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="hsl(var(--primary))" />
-            </BarChart>
-          </ResponsiveContainer>
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={browserChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="value" fill="hsl(var(--primary))" />
+              </LazyBarChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
         </CardContent>
       </Card>
 
@@ -298,15 +302,17 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
           <CardTitle className="lowercase">top countries</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topCountries} layout="horizontal">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis dataKey="name" type="category" width={100} />
-              <Tooltip />
-              <Bar dataKey="clicks" fill="hsl(var(--primary))" />
-            </BarChart>
-          </ResponsiveContainer>
+          <LazyChartContainer height={300}>
+            <ResponsiveContainer width="100%" height={300}>
+              <LazyBarChart data={topCountries} layout="horizontal">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis dataKey="name" type="category" width={100} />
+                <Tooltip />
+                <Bar dataKey="clicks" fill="hsl(var(--primary))" />
+              </LazyBarChart>
+            </ResponsiveContainer>
+          </LazyChartContainer>
         </CardContent>
       </Card>
         </TabsContent>
