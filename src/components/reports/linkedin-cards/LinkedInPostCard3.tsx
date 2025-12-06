@@ -14,14 +14,14 @@ export const LinkedInPostCard3 = () => {
 
   return (
     <div className="max-w-[1280px] mx-auto px-8 py-8">
-      <Card id="linkedin-card-3" className="bg-gradient-to-br from-mirage/5 to-blazeOrange/5 border-2 border-mirage/20 hover:shadow-xl transition-shadow">
+      <Card id="linkedin-card-3" className="bg-gradient-to-br from-foreground/5 to-blazeOrange/5 border-2 border-foreground/20 hover:shadow-xl transition-shadow">
         <CardContent className="p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             {/* Visual - Stats Card */}
             <div className="w-full md:w-1/3 bg-white rounded-xl p-6 border border-deepSea/10">
               <div className="flex items-center gap-2 mb-4">
                 <AlertCircle className="h-5 w-5 text-blazeOrange" />
-                <p className="text-xs font-semibold text-mirage uppercase tracking-wide">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wide">
                   Sales Reality Check
                 </p>
               </div>
@@ -31,7 +31,7 @@ export const LinkedInPostCard3 = () => {
                   <p className="text-xs text-secondary-label">Enterprise AE OTE Range</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
-                  <p className="text-3xl font-bold text-mirage">71%</p>
+                  <p className="text-3xl font-bold text-foreground">71%</p>
                   <p className="text-xs text-secondary-label">Miss Their Quota</p>
                 </div>
                 <div className="pt-4 border-t border-deepSea/10">
@@ -42,7 +42,7 @@ export const LinkedInPostCard3 = () => {
 
             {/* Content */}
             <div className="w-full md:w-2/3">
-              <p className="text-xl md:text-2xl font-bold text-mirage mb-4 leading-tight">
+              <p className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
                 Enterprise AEs can earn $240-400K OTE. But 71% miss quota. The comp ceiling is
                 high, but so is the risk.
               </p>
@@ -55,7 +55,7 @@ export const LinkedInPostCard3 = () => {
                 <Button
                   onClick={handleShare}
                   variant="outline"
-                  className="border-mirage text-mirage hover:bg-mirage/10"
+                  className="border-foreground text-foreground hover:bg-foreground/10"
                 >
                   <Share2 className="mr-2 h-4 w-4" />
                   Share This Reality Check

@@ -120,7 +120,7 @@ export const WalkAwayCalculator = () => {
             <div className="flex items-start gap-3 p-4 bg-deepSea/5 rounded-lg">
               <AlertCircle className="h-5 w-5 text-deepSea mt-0.5" />
               <div className="text-sm">
-                <p className="font-semibold text-mirage mb-1">Negotiation Tip</p>
+                <p className="font-semibold text-foreground mb-1">Negotiation Tip</p>
                 <p className="text-muted-foreground">
                   Any offer below ${result.toLocaleString()} puts you in financial stress. Use this
                   number as your non-negotiable floor when evaluating offers.

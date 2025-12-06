@@ -80,7 +80,7 @@ export const USStateMap = () => {
           {stateData && (
             <div className="mt-6 p-6 bg-gradient-to-r from-blazeOrange/5 to-deepSea/5 rounded-xl border-2 border-blazeOrange/20">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-2xl font-bold text-mirage">{stateData.state}</h3>
+                <h3 className="text-2xl font-bold text-foreground">{stateData.state}</h3>
                 <div className="text-right">
                   <p className="text-sm text-muted-foreground">CoL Adjusted Salary</p>
                   <p className="text-4xl font-bold text-blazeOrange">

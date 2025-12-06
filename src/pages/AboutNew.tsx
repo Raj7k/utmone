@@ -51,7 +51,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
                   what is utm.one
                 </h2>
                 <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -88,7 +88,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
                   the idea behind it
                 </h2>
                 <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -151,7 +151,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
                   what makes utm.one different
                 </h2>
                 <ProgressiveReveal>
@@ -195,7 +195,7 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white lowercase">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
                 who is it for
               </h2>
               <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -239,7 +239,7 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6 text-center">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white lowercase">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
                 the promise
               </h2>
               <div className="space-y-6 text-lg text-white/60 leading-[1.75]">

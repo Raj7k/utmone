@@ -25,9 +25,9 @@ export const Section8Narrative = () => {
 
       {/* The Formula */}
       <Card className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 border-2 border-blazeOrange/20 p-8">
-        <h3 className="text-2xl font-bold text-mirage mb-4">The Formula</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-4">The Formula</h3>
         <div className="bg-zinc-900/40 backdrop-blur-xl rounded-xl p-6 border border-white/10">
-          <code className="text-lg text-mirage font-mono block whitespace-pre-wrap break-words">
+          <code className="text-lg text-foreground font-mono block whitespace-pre-wrap break-words">
             Global Salary = Base_Global × Region_Multiplier × Experience_Multiplier ×
             Company_Size_Multiplier × Industry_Multiplier × (1 + Skill_Premiums)
           </code>
@@ -40,18 +40,18 @@ export const Section8Narrative = () => {
 
       {/* Region Multipliers Table */}
       <div>
-        <h3 className="text-2xl font-bold text-mirage mb-6">Region Multipliers</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-6">Region Multipliers</h3>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-deepSea/10">
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Region
                 </th>
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Multiplier
                 </th>
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Example (Marketing Manager)
                 </th>
               </tr>
@@ -84,7 +84,7 @@ export const Section8Narrative = () => {
               </tr>
               <tr className="bg-wildSand/30">
                 <td className="border border-deepSea/10 p-3">Bangalore</td>
-                <td className="border border-deepSea/10 p-3 font-bold text-mirage">0.32</td>
+                <td className="border border-deepSea/10 p-3 font-bold text-foreground">0.32</td>
                 <td className="border border-deepSea/10 p-3">$30K</td>
               </tr>
             </tbody>
@@ -94,18 +94,18 @@ export const Section8Narrative = () => {
 
       {/* Experience Multipliers */}
       <div>
-        <h3 className="text-2xl font-bold text-mirage mb-6">Experience Multipliers</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-6">Experience Multipliers</h3>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-deepSea/10">
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Experience Level
                 </th>
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Multiplier
                 </th>
-                <th className="border border-deepSea/20 p-3 text-left font-semibold text-mirage">
+                <th className="border border-deepSea/20 p-3 text-left font-semibold text-foreground">
                   Typical Range
                 </th>
               </tr>
@@ -113,7 +113,7 @@ export const Section8Narrative = () => {
             <tbody>
               <tr>
                 <td className="border border-deepSea/10 p-3">0-2 years</td>
-                <td className="border border-deepSea/10 p-3 font-bold text-mirage">0.70</td>
+                <td className="border border-deepSea/10 p-3 font-bold text-foreground">0.70</td>
                 <td className="border border-deepSea/10 p-3">$66K-75K</td>
               </tr>
               <tr className="bg-wildSand/30">
@@ -144,7 +144,7 @@ export const Section8Narrative = () => {
       {/* Company Size & Industry Multipliers */}
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <h3 className="text-xl font-bold text-mirage mb-4">Company Size Multipliers</h3>
+          <h3 className="text-xl font-bold text-foreground mb-4">Company Size Multipliers</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
@@ -158,7 +158,7 @@ export const Section8Narrative = () => {
               <tbody>
                 <tr>
                   <td className="border border-deepSea/10 p-2">1-50</td>
-                  <td className="border border-deepSea/10 p-2 font-bold text-mirage">0.85</td>
+                  <td className="border border-deepSea/10 p-2 font-bold text-foreground">0.85</td>
                 </tr>
                 <tr className="bg-wildSand/30">
                   <td className="border border-deepSea/10 p-2">51-500</td>
@@ -178,7 +178,7 @@ export const Section8Narrative = () => {
         </div>
 
         <div>
-          <h3 className="text-xl font-bold text-mirage mb-4">Industry Multipliers</h3>
+          <h3 className="text-xl font-bold text-foreground mb-4">Industry Multipliers</h3>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
@@ -204,7 +204,7 @@ export const Section8Narrative = () => {
                 </tr>
                 <tr className="bg-wildSand/30">
                   <td className="border border-deepSea/10 p-2">Retail</td>
-                  <td className="border border-deepSea/10 p-2 font-bold text-mirage">0.90</td>
+                  <td className="border border-deepSea/10 p-2 font-bold text-foreground">0.90</td>
                 </tr>
               </tbody>
             </table>
@@ -214,7 +214,7 @@ export const Section8Narrative = () => {
 
       {/* Example Calculation */}
       <Card className="bg-gradient-to-br from-deepSea/5 to-wildSand/50 border-2 border-deepSea/20 p-8">
-        <h3 className="text-2xl font-bold text-mirage mb-4">Example Calculation</h3>
+        <h3 className="text-2xl font-bold text-foreground mb-4">Example Calculation</h3>
         <p className="text-muted-foreground mb-6">
           Let's calculate the salary for a <strong>Product Marketing Manager</strong> with{" "}
           <strong>6 years experience</strong> at a <strong>Series B startup (200 employees)</strong>{" "}
@@ -247,7 +247,7 @@ export const Section8Narrative = () => {
             <span className="font-bold text-blazeOrange">× 1.86 (86% premium)</span>
           </div>
           <div className="border-t-2 border-deepSea/20 pt-3 mt-3 flex justify-between text-lg">
-            <span className="font-bold text-mirage">Final Salary:</span>
+            <span className="font-bold text-foreground">Final Salary:</span>
             <span className="font-bold text-blazeOrange">$323,000</span>
           </div>
         </div>

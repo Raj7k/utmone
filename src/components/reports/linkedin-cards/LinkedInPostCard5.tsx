@@ -22,14 +22,14 @@ export const LinkedInPostCard5 = () => {
 
   return (
     <div className="max-w-[1280px] mx-auto px-8 py-8">
-      <Card id="linkedin-card-5" className="bg-gradient-to-br from-blazeOrange/5 to-mirage/5 border-2 border-blazeOrange/20 hover:shadow-xl transition-shadow">
+      <Card id="linkedin-card-5" className="bg-gradient-to-br from-blazeOrange/5 to-foreground/5 border-2 border-blazeOrange/20 hover:shadow-xl transition-shadow">
         <CardContent className="p-8">
           <div className="flex flex-col md:flex-row items-start gap-6">
             {/* Visual - City Rankings */}
             <div className="w-full md:w-1/3 bg-white rounded-xl p-4 border border-deepSea/10">
               <div className="flex items-center gap-2 mb-4">
                 <Globe className="h-4 w-4 text-blazeOrange" />
-                <p className="text-xs font-semibold text-mirage uppercase tracking-wide">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wide">
                   Top 5 PMM Cities
                 </p>
               </div>
@@ -37,7 +37,7 @@ export const LinkedInPostCard5 = () => {
                 {cities.map((city, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-semibold text-mirage">{city.city}</p>
+                      <p className="text-sm font-semibold text-foreground">{city.city}</p>
                       <p className="text-xs text-secondary-label">{city.multiplier} baseline</p>
                     </div>
                     <p className="text-base font-bold text-deepSea">{city.salary}</p>
@@ -48,7 +48,7 @@ export const LinkedInPostCard5 = () => {
 
             {/* Content */}
             <div className="w-full md:w-2/3">
-              <p className="text-xl md:text-2xl font-bold text-mirage mb-4 leading-tight">
+              <p className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
                 San Francisco PMM: $135K. Bangalore PMM: $32K. Same company, same role, 4.2×
                 difference.
               </p>

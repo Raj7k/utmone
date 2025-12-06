@@ -103,7 +103,7 @@ export const InteractiveWorldMap = () => {
             <div className="mt-6 p-6 bg-gradient-to-r from-blazeOrange/5 to-deepSea/5 rounded-xl border-2 border-blazeOrange/20">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-2xl font-bold text-mirage">{countryData.country}</h3>
+                  <h3 className="text-2xl font-bold text-foreground">{countryData.country}</h3>
                   <Badge className="mt-1">{countryData.region}</Badge>
                 </div>
                 <div className="text-right">
@@ -124,7 +124,7 @@ export const InteractiveWorldMap = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Top Cities</p>
-                  <p className="font-semibold text-mirage">
+                  <p className="font-semibold text-foreground">
                     {countryData.topCities.slice(0, 3).join(", ")}
                   </p>
                 </div>

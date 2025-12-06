@@ -95,7 +95,7 @@ const Compare = () => {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 hero-gradient">
               vs. link management
             </h2>
             <p className="text-lg text-white/60 lowercase max-w-2xl">
@@ -150,7 +150,7 @@ const Compare = () => {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 hero-gradient">
               vs. partner attribution
             </h2>
             <p className="text-lg text-white/60 lowercase max-w-2xl">
@@ -204,7 +204,7 @@ const Compare = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-6 text-white">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-6 hero-gradient">
               see the difference yourself
             </h2>
             <p className="text-lg text-white/60 lowercase mb-8 max-w-2xl mx-auto">

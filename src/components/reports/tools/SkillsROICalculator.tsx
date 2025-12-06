@@ -55,7 +55,7 @@ export const SkillsROICalculator = () => {
         </div>
 
         <div>
-          <p className="font-semibold text-mirage mb-4">Select Skills to Learn:</p>
+          <p className="font-semibold text-foreground mb-4">Select Skills to Learn:</p>
           <div className="space-y-3">
             {skills.map((skill) => (
               <div
@@ -76,7 +76,7 @@ export const SkillsROICalculator = () => {
                           ? "text-blazeOrange"
                           : skill.category === "B"
                           ? "text-deepSea"
-                          : "text-mirage"
+                          : "text-foreground"
                       }`}
                     >
                       Category {skill.category}
@@ -115,7 +115,7 @@ export const SkillsROICalculator = () => {
             <div className="bg-gradient-to-r from-blazeOrange/5 to-deepSea/5 rounded-xl p-6 text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <TrendingUp className="h-5 w-5 text-blazeOrange" />
-                <p className="text-sm font-semibold text-mirage">Return on Investment</p>
+                <p className="text-sm font-semibold text-foreground">Return on Investment</p>
               </div>
               <p className="text-4xl font-bold text-blazeOrange mb-2">
                 ${Math.round(roi).toLocaleString()}/hour
