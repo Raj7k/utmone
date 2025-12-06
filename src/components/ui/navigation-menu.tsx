@@ -81,10 +81,10 @@ const NavigationMenuViewport = React.forwardRef<
   <div className={cn("absolute left-0 top-full flex justify-center")}>
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        // Obsidian Glass viewport styling - rounded-2xl for harmony with outer pill
+        // Theme-aware navigation viewport styling with strong visibility
         "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-2xl",
-        "bg-zinc-900/95 backdrop-blur-2xl border border-white/[0.1] text-white",
-        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]",
+        "bg-popover text-popover-foreground border border-border/50 dark:border-border",
+        "shadow-[0_4px_24px_rgba(0,0,0,0.12)] dark:shadow-lg",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
         className,
       )}
