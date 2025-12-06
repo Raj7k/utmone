@@ -1,34 +1,15 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { formatText } from "@/utils/textFormatter";
-import { 
-  Link as LinkIcon, 
-  ArrowRight,
-  Code,
-  Database
-} from "lucide-react";
+import { ArrowRight, Code, Database } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { ParallaxSection } from "@/components/landing/ParallaxSection";
-import { FooterFAQ } from "@/components/landing/FooterFAQ";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
-import { SideNavHero, UseCaseType } from "@/components/landing/SideNavHero";
-import { DynamicSecondFold } from "@/components/landing/DynamicSecondFold";
-import { ControlDeckHero } from "@/components/landing/ControlDeckHero";
-import { EnterpriseGradeSection } from "@/components/landing/EnterpriseGradeSection";
-import { GrowthLoopSection } from "@/components/landing/GrowthLoopSection";
+import { UseCaseType } from "@/components/landing/SideNavHero";
 import { SectionDivider } from "@/components/landing/SectionDivider";
-import { GTMToolsShowcase } from "@/components/landing/GTMToolsShowcase";
-import { AccessibilityShowcase } from "@/components/landing/AccessibilityShowcase";
-import { PermanenceShowcase } from "@/components/landing/PermanenceShowcase";
-import { PowerToolsShowcase } from "@/components/landing/PowerToolsShowcase";
-import { IntelligenceShowcase } from "@/components/landing/IntelligenceShowcase";
-import { StrategicToolsShowcase } from "@/components/landing/StrategicToolsShowcase";
-import { AIIntelligenceHero } from "@/components/landing/AIIntelligenceHero";
-import { getOrCreateLandingPageVariant } from "@/lib/heroVariants";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -38,6 +19,25 @@ import {
 import { SEO } from "@/components/seo/SEO";
 import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";
+
+// Lazy load heavy landing components
+const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
+const EnterpriseGradeSection = lazy(() => import("@/components/landing/EnterpriseGradeSection").then(m => ({ default: m.EnterpriseGradeSection })));
+const GTMToolsShowcase = lazy(() => import("@/components/landing/GTMToolsShowcase").then(m => ({ default: m.GTMToolsShowcase })));
+const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
+const StrategicToolsShowcase = lazy(() => import("@/components/landing/StrategicToolsShowcase").then(m => ({ default: m.StrategicToolsShowcase })));
+const AccessibilityShowcase = lazy(() => import("@/components/landing/AccessibilityShowcase").then(m => ({ default: m.AccessibilityShowcase })));
+const PermanenceShowcase = lazy(() => import("@/components/landing/PermanenceShowcase").then(m => ({ default: m.PermanenceShowcase })));
+const PowerToolsShowcase = lazy(() => import("@/components/landing/PowerToolsShowcase").then(m => ({ default: m.PowerToolsShowcase })));
+const GrowthLoopSection = lazy(() => import("@/components/landing/GrowthLoopSection").then(m => ({ default: m.GrowthLoopSection })));
+const FooterFAQ = lazy(() => import("@/components/landing/FooterFAQ").then(m => ({ default: m.FooterFAQ })));
+
+// Simple loading placeholder
+const SectionSkeleton = () => (
+  <div className="w-full py-16 flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+  </div>
+);
 
 const Index = () => {
   useTrackPageView();
@@ -69,10 +69,9 @@ const Index = () => {
 
       {/* Control Deck Hero - Jony Ive Style */}
       {landingVariant === 'interactive' ? (
-        <>
-          {/* The Obsidian Control Deck */}
+        <Suspense fallback={<SectionSkeleton />}>
           <ControlDeckHero onUseCaseChange={(uc) => setSelectedUseCase(uc as UseCaseType)} />
-        </>
+        </Suspense>
       ) : (
         <>
           {/* Original Static Hero */}
@@ -136,45 +135,59 @@ const Index = () => {
       )}
 
       {/* Enterprise Grade Section */}
-      <EnterpriseGradeSection />
+      <Suspense fallback={<SectionSkeleton />}>
+        <EnterpriseGradeSection />
+      </Suspense>
 
       <SectionDivider variant="gradient" />
 
       {/* GTM Tools Showcase - Interactive with Parallax */}
-      <ParallaxSection speed={0.2}>
-        <GTMToolsShowcase />
-      </ParallaxSection>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ParallaxSection speed={0.2}>
+          <GTMToolsShowcase />
+        </ParallaxSection>
+      </Suspense>
 
       <SectionDivider variant="dots" />
 
       {/* AI Intelligence Hero - Prominent Section */}
-      <AIIntelligenceHero />
+      <Suspense fallback={<SectionSkeleton />}>
+        <AIIntelligenceHero />
+      </Suspense>
 
       <SectionDivider variant="gradient" />
 
       {/* Strategic Decision Tools */}
-      <StrategicToolsShowcase />
+      <Suspense fallback={<SectionSkeleton />}>
+        <StrategicToolsShowcase />
+      </Suspense>
 
       <SectionDivider variant="dots" />
 
       {/* Accessibility Showcase with Visual Demo */}
-      <ParallaxSection speed={0.3}>
-        <AccessibilityShowcase />
-      </ParallaxSection>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ParallaxSection speed={0.3}>
+          <AccessibilityShowcase />
+        </ParallaxSection>
+      </Suspense>
 
       <SectionDivider variant="gradient" />
 
       {/* Permanence Showcase with Timeline */}
-      <ParallaxSection speed={0.2}>
-        <PermanenceShowcase />
-      </ParallaxSection>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ParallaxSection speed={0.2}>
+          <PermanenceShowcase />
+        </ParallaxSection>
+      </Suspense>
 
       <SectionDivider variant="dots" />
 
       {/* Power Tools Showcase with Mockups */}
-      <ParallaxSection speed={0.3}>
-        <PowerToolsShowcase />
-      </ParallaxSection>
+      <Suspense fallback={<SectionSkeleton />}>
+        <ParallaxSection speed={0.3}>
+          <PowerToolsShowcase />
+        </ParallaxSection>
+      </Suspense>
 
       <SectionDivider variant="dots" />
 
@@ -265,10 +278,14 @@ const Index = () => {
       </AnimatedSection>
 
       {/* Growth Loop Section */}
-      <GrowthLoopSection />
+      <Suspense fallback={<SectionSkeleton />}>
+        <GrowthLoopSection />
+      </Suspense>
 
       {/* FAQ Section - Scroll-based reveal */}
-      <FooterFAQ />
+      <Suspense fallback={<SectionSkeleton />}>
+        <FooterFAQ />
+      </Suspense>
     </MainLayout>
   );
 };

@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { LazyPieChart, LazyChartContainer, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from '@/components/charts/LazyCharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const data = [
@@ -17,28 +17,30 @@ export const MarketingRoleDemandPie = () => {
         <CardTitle className="text-2xl font-display">Marketing Role Demand Distribution</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-              outerRadius={120}
-              fill="#8884d8"
-              dataKey="value"
-            >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            <Tooltip formatter={(value: number) => `${value}%`} 
-              contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
-              labelStyle={{ color: 'hsl(var(--foreground))' }} />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={400}>
+          <ResponsiveContainer width="100%" height={400}>
+            <LazyPieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip formatter={(value: number) => `${value}%`} 
+                contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}
+                labelStyle={{ color: 'hsl(var(--foreground))' }} />
+              <Legend />
+            </LazyPieChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
       </CardContent>
     </Card>
   );

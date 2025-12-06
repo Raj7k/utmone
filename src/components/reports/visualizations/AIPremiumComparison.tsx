@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { LazyBarChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from '@/components/charts/LazyCharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const data = [
@@ -16,36 +16,38 @@ export const AIPremiumComparison = () => {
         <CardTitle className="text-2xl font-display">AI Premium: Traditional vs AI-Enabled Roles</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis dataKey="role" />
-            <YAxis tickFormatter={(value) => `$${value}K`} label={{ value: 'Salary (USD thousands)', angle: -90, position: 'insideLeft' }} />
-            <Tooltip 
-              formatter={(value: number) => `$${value}K`}
-              labelStyle={{ color: 'hsl(var(--foreground))' }}
-            />
-            <Legend />
-            <Bar dataKey="traditional" fill="#16232A" name="Traditional" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="aiEnabled" fill="#FF5B04" name="AI-Enabled" radius={[8, 8, 0, 0]}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`}>
-                  <text
-                    x={0}
-                    y={0}
-                    dy={-10}
-                    fill="#FF5B04"
-                    fontSize={12}
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    +{entry.premium}%
-                  </text>
-                </Cell>
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={400}>
+          <ResponsiveContainer width="100%" height={400}>
+            <LazyBarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="role" />
+              <YAxis tickFormatter={(value) => `$${value}K`} label={{ value: 'Salary (USD thousands)', angle: -90, position: 'insideLeft' }} />
+              <Tooltip 
+                formatter={(value: number) => `$${value}K`}
+                labelStyle={{ color: 'hsl(var(--foreground))' }}
+              />
+              <Legend />
+              <Bar dataKey="traditional" fill="#16232A" name="Traditional" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="aiEnabled" fill="#FF5B04" name="AI-Enabled" radius={[8, 8, 0, 0]}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`}>
+                    <text
+                      x={0}
+                      y={0}
+                      dy={-10}
+                      fill="#FF5B04"
+                      fontSize={12}
+                      fontWeight="bold"
+                      textAnchor="middle"
+                    >
+                      +{entry.premium}%
+                    </text>
+                  </Cell>
+                ))}
+              </Bar>
+            </LazyBarChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
         <p className="text-sm text-secondary-label text-center mt-4">
           AI-enabled professionals command 16-35% salary premiums
         </p>

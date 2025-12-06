@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList } from 'recharts';
+import { LazyBarChart, LazyChartContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from '@/components/charts/LazyCharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const data = [
@@ -19,36 +19,38 @@ export const B2BvsB2CComparison = () => {
         <CardTitle className="text-2xl font-display">B2B vs B2C Marketing Salary Comparison</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={450}>
-          <BarChart data={data} layout="vertical">
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-            <XAxis type="number" tickFormatter={(value) => `$${value}K`} />
-            <YAxis dataKey="role" type="category" width={120} />
-            <Tooltip 
-              formatter={(value: number) => `$${value}K`}
-              labelStyle={{ color: 'hsl(var(--foreground))' }}
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  const data = payload[0].payload;
-                  return (
-                    <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-                      <p className="font-semibold mb-2">{data.role}</p>
-                      <p className="text-sm text-secondary-label">B2B: ${data.b2b}K</p>
-                      <p className="text-sm text-secondary-label">B2C: ${data.b2c}K</p>
-                      <p className="text-sm font-semibold mt-1">
-                        Gap: {data.gap > 0 ? '+' : ''}{data.gap}%
-                      </p>
-                    </div>
-                  );
-                }
-                return null;
-              }}
-            />
-            <Legend />
-            <Bar dataKey="b2b" fill="#FF5B04" name="B2B" radius={[0, 8, 8, 0]} />
-            <Bar dataKey="b2c" fill="#075056" name="B2C" radius={[0, 8, 8, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        <LazyChartContainer height={450}>
+          <ResponsiveContainer width="100%" height={450}>
+            <LazyBarChart data={data} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis type="number" tickFormatter={(value) => `$${value}K`} />
+              <YAxis dataKey="role" type="category" width={120} />
+              <Tooltip 
+                formatter={(value: number) => `$${value}K`}
+                labelStyle={{ color: 'hsl(var(--foreground))' }}
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+                        <p className="font-semibold mb-2">{data.role}</p>
+                        <p className="text-sm text-secondary-label">B2B: ${data.b2b}K</p>
+                        <p className="text-sm text-secondary-label">B2C: ${data.b2c}K</p>
+                        <p className="text-sm font-semibold mt-1">
+                          Gap: {data.gap > 0 ? '+' : ''}{data.gap}%
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Legend />
+              <Bar dataKey="b2b" fill="#FF5B04" name="B2B" radius={[0, 8, 8, 0]} />
+              <Bar dataKey="b2c" fill="#075056" name="B2C" radius={[0, 8, 8, 0]} />
+            </LazyBarChart>
+          </ResponsiveContainer>
+        </LazyChartContainer>
         <div className="mt-4 p-4 bg-muted/30 rounded-lg">
           <p className="text-sm text-secondary-label">
             <strong className="text-foreground">B2B pays 10-30% more</strong> for most roles. 
