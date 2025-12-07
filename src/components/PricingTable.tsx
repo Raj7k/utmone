@@ -105,7 +105,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
       {/* Desktop Grid View - 4 Columns */}
       <div className="hidden lg:block relative">
         {/* MOST POPULAR Badge */}
-        <div className="absolute -top-4 z-20" style={{ left: '37.5%', transform: 'translateX(-50%)' }}>
+        <div className="absolute -top-4 z-20" style={{ left: '62.5%', transform: 'translateX(-50%)' }}>
           <span className="rounded-full text-[10px] px-3 py-1 uppercase tracking-wide font-semibold shadow-sm bg-primary text-primary-foreground">
             most popular
           </span>
@@ -299,7 +299,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         <div className="border border-border rounded-2xl p-8 bg-card/50 backdrop-blur-sm">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="text-center lg:text-left">
-              <h2 className="text-2xl font-display font-bold mb-2">need enterprise-grade features?</h2>
+              <h2 className="text-2xl font-display font-bold mb-2 text-foreground">need enterprise-grade features?</h2>
               <p className="text-muted-foreground max-w-xl">
                 unlimited links, SSO, audit logs, dedicated support, custom SLAs, and more.
               </p>
@@ -319,7 +319,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
       {/* Add-ons Section */}
       <div className="mt-16">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-display font-bold mb-2">need more?</h2>
+          <h2 className="text-2xl font-display font-bold mb-2 text-foreground">need more?</h2>
           <p className="text-muted-foreground">
             add extra capacity or features to your starter, growth, or business plan
           </p>
@@ -333,7 +333,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
             >
               <div className="flex items-start justify-between mb-2">
                 <h3 className="font-medium text-foreground">{addon.name}</h3>
-                <span className="text-sm font-semibold text-primary">
+                <span className="text-sm font-semibold text-foreground">
                   {formatAddonPrice(addon)}
                 </span>
               </div>
