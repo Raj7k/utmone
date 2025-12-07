@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -53,8 +52,7 @@ const RobustAttribution: React.FC = () => {
   const churnDrivers = liftData?.filter((l: any) => l.lift_category === 'negative')?.length || 0;
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -292,7 +290,6 @@ const RobustAttribution: React.FC = () => {
           </Collapsible>
         </div>
       </div>
-    </DashboardLayout>
   );
 };
 
