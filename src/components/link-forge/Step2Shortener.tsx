@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle } from "lucide-react";
+import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,8 @@ import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { GeoTargetingModal } from "./GeoTargetingModal";
 import { Badge as BadgeComponent } from "@/components/ui/badge";
 import { useUserWorkspaceRole, requiresApproval } from "@/hooks/useUserWorkspaceRole";
+import { DestinationRotator } from "@/components/links/DestinationRotator";
+import { Destination } from "@/hooks/useSmartRotator";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
@@ -49,6 +51,13 @@ export const Step2Shortener = ({
   const [selectedDomain, setSelectedDomain] = useState<string>("utm.click");
   const [geoTargets, setGeoTargets] = useState<Record<string, string>>({});
   const [showGeoModal, setShowGeoModal] = useState(false);
+  
+  // Multiple destinations / A/B testing state
+  const [destinations, setDestinations] = useState<Destination[]>([
+    { url: utmUrl, weight: 100, clicks: 0, conversions: 0 }
+  ]);
+  const [smartRotate, setSmartRotate] = useState(false);
+  const [contextualRouting, setContextualRouting] = useState(false);
   
   // Check user role for approval workflow
   const { data: userRole } = useUserWorkspaceRole(workspaceId);
@@ -122,6 +131,10 @@ export const Step2Shortener = ({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("not authenticated");
 
+      // Prepare destinations data for storage
+      const hasMultipleDestinations = destinations.length > 1;
+      const destinationsData = hasMultipleDestinations ? JSON.parse(JSON.stringify(destinations)) : null;
+
       const { data: link, error } = await supabase
         .from("links")
         .insert({
@@ -129,14 +142,17 @@ export const Step2Shortener = ({
           created_by: user.id,
           title: data.title,
           slug: data.slug,
-          destination_url: utmUrl,
-          final_url: utmUrl,
+          destination_url: destinations[0]?.url || utmUrl,
+          final_url: destinations[0]?.url || utmUrl,
           domain: selectedDomain,
           path: "",
           expires_at: data.expires_at || null,
           max_clicks: data.max_clicks || null,
           fallback_url: data.fallback_url || null,
           geo_targets: Object.keys(geoTargets).length > 0 ? geoTargets : null,
+          destinations: destinationsData,
+          smart_rotate: hasMultipleDestinations ? smartRotate : false,
+          contextual_routing: hasMultipleDestinations ? contextualRouting : false,
           status: needsApproval ? 'pending' : 'active',
           approval_status: needsApproval ? 'pending' : 'approved',
           submitted_for_approval_at: needsApproval ? new Date().toISOString() : null,
@@ -344,10 +360,36 @@ export const Step2Shortener = ({
             </Button>
           </div>
 
-          <Accordion type="single" collapsible className="overflow-hidden">
-            <AccordionItem value="advanced">
-              <AccordionTrigger className="text-sm">advanced options</AccordionTrigger>
-              <AccordionContent className="space-y-4 pt-4 w-full overflow-hidden">
+          <Accordion type="multiple" className="overflow-hidden space-y-2">
+            {/* A/B Testing / Multiple Destinations */}
+            <AccordionItem value="ab-testing" className="border rounded-lg">
+              <AccordionTrigger className="text-sm px-4">
+                <span className="flex items-center gap-2">
+                  <Route className="h-4 w-4" />
+                  a/b testing & contextual routing
+                  {destinations.length > 1 && (
+                    <BadgeComponent variant="secondary" className="ml-2">
+                      {destinations.length} destinations
+                    </BadgeComponent>
+                  )}
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pt-2 pb-4">
+                <DestinationRotator
+                  destinations={destinations}
+                  onChange={setDestinations}
+                  smartRotate={smartRotate}
+                  onSmartRotateChange={setSmartRotate}
+                  contextualRouting={contextualRouting}
+                  onContextualRoutingChange={setContextualRouting}
+                />
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Advanced Options */}
+            <AccordionItem value="advanced" className="border rounded-lg">
+              <AccordionTrigger className="text-sm px-4">advanced options</AccordionTrigger>
+              <AccordionContent className="space-y-4 pt-4 px-4 pb-4 w-full overflow-hidden">
                 <div className="w-full">
                   <Label htmlFor="expires_at">expiry date (optional)</Label>
                   <Input
