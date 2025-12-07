@@ -63,20 +63,20 @@ export const UpgradeModal = ({
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">included in {requiredPlan}:</p>
             <div className="space-y-1">
-              {requiredPlan === 'pro' && (
+              {requiredPlan === 'growth' && (
                 <>
                   <FeatureItem text="1,000 links per month" />
-                  <FeatureItem text="1 custom domain" />
+                  <FeatureItem text="3 custom domains" />
                   <FeatureItem text="advanced analytics" />
-                  <FeatureItem text="priority support" />
+                  <FeatureItem text="geo-targeting" />
                 </>
               )}
               {requiredPlan === 'business' && (
                 <>
                   <FeatureItem text="10,000 links per month" />
-                  <FeatureItem text="5 custom domains" />
-                  <FeatureItem text="unlimited clicks" />
-                  <FeatureItem text="white-label branding" />
+                  <FeatureItem text="10 custom domains" />
+                  <FeatureItem text="smart routing" />
+                  <FeatureItem text="approval workflows" />
                 </>
               )}
               {requiredPlan === 'enterprise' && (

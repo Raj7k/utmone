@@ -26,12 +26,11 @@ import confetti from "canvas-confetti";
 import { UsageForecastWidget } from "@/components/workspace/UsageForecastWidget";
 import type { UsageDataPoint } from "@/lib/optimizations/usageForecasting";
 
-const PLAN_HIERARCHY = {
+const PLAN_HIERARCHY: Record<string, number> = {
   free: 0,
-  pro: 1,
+  growth: 1,
   business: 2,
   enterprise: 3,
-  lifetime: 1,
 };
 
 export default function BillingSettings() {
@@ -182,10 +181,10 @@ export default function BillingSettings() {
     return Math.min((used / limit) * 100, 100);
   };
 
-  const getPlanBadgeColor = (tier: PlanTier) => {
+  const getPlanBadgeColor = (tier: string) => {
     switch (tier) {
       case 'free': return "bg-muted/50 text-muted-foreground";
-      case 'pro': return "bg-system-blue/10 text-system-blue";
+      case 'growth': return "bg-system-blue/10 text-system-blue";
       case 'business': return "bg-purple-100 text-purple-700";
       case 'enterprise': return "bg-amber-100 text-amber-700";
       default: return "bg-muted/50 text-muted-foreground";
@@ -327,7 +326,7 @@ export default function BillingSettings() {
         <div>
           <h3 className="text-lg font-display font-semibold mb-4">Available Plans</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {(['free', 'pro', 'business', 'enterprise'] as PlanTier[]).map((tier) => {
+            {(['free', 'growth', 'business', 'enterprise'] as PlanTier[]).map((tier) => {
               const plan = PLAN_CONFIG[tier];
               const buttonState = getButtonState(tier);
               const isCurrentPlan = limits?.planTier === tier;
@@ -353,7 +352,7 @@ export default function BillingSettings() {
                       </span>
                       {plan.billingPeriod && (
                         <span className="text-sm text-muted-foreground">
-                          {plan.billingPeriod === 'lifetime' ? '' : `/${plan.billingPeriod}`}
+                          /{plan.billingPeriod}
                         </span>
                       )}
                     </div>
