@@ -142,9 +142,12 @@ export const CollapsedSidebar = () => {
         <div className="flex flex-col gap-2 w-full px-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <button className="w-10 h-10 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-colors">
+              <Link 
+                to="/settings?tab=notifications"
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+              >
                 <Bell className="h-5 w-5" />
-              </button>
+              </Link>
             </TooltipTrigger>
             <TooltipContent side="right" className="bg-mirage text-white border-white/10">
               Notifications

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   DropdownMenu, 
@@ -50,10 +50,13 @@ export const SidebarUserFooter = () => {
   return (
     <div className="p-3 border-t border-separator space-y-2">
       {/* Notifications */}
-      <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-label hover:bg-fill-tertiary transition-apple">
+      <Link 
+        to="/settings?tab=notifications" 
+        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-label hover:bg-fill-tertiary transition-apple"
+      >
         <Bell className="h-5 w-5" />
         <span className="text-sm">Notifications</span>
-      </button>
+      </Link>
 
       {/* User Profile Dropdown */}
       <DropdownMenu>
