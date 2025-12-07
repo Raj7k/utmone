@@ -67,10 +67,10 @@ const IdentityEdgeCard: React.FC<IdentityEdgeCardProps> = ({ edge, index, isNew 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className={`p-4 rounded-lg bg-muted/30 dark:bg-zinc-800/30 border transition-all duration-300 ${
+      className={`p-4 rounded-lg bg-muted/30 border transition-all duration-300 ${
         isNew 
           ? 'border-green-500 ring-2 ring-green-500/30 animate-pulse' 
-          : 'border-border dark:border-white/5'
+          : 'border-border'
       }`}
     >
       {isNew && (
@@ -180,7 +180,7 @@ export const IdentityGraphView: React.FC = () => {
     <div className="space-y-6">
       {/* Stats Overview */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-foreground">{stats.total}</p>
@@ -188,7 +188,7 @@ export const IdentityGraphView: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-green-500">{stats.highConfidence}</p>
@@ -196,7 +196,7 @@ export const IdentityGraphView: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-foreground">{stats.avgConfidence}%</p>
@@ -215,7 +215,7 @@ export const IdentityGraphView: React.FC = () => {
             exit={{ opacity: 0, y: -20, height: 0 }}
             className="overflow-hidden"
           >
-            <Card className="bg-green-500/10 border-green-500/30 dark:bg-green-500/5">
+            <Card className="bg-green-500/10 border-green-500/30">
               <CardContent className="py-4">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -238,7 +238,7 @@ export const IdentityGraphView: React.FC = () => {
       </AnimatePresence>
 
       {/* Identity Graph Visualization */}
-      <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+      <Card className="bg-card border-border">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>

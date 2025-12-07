@@ -42,7 +42,7 @@ export const TopicAttributionView: React.FC = () => {
     <div className="space-y-6">
       {/* Stats Overview */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-foreground">{sortedTopics.length}</p>
@@ -50,7 +50,7 @@ export const TopicAttributionView: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-green-500">
@@ -60,7 +60,7 @@ export const TopicAttributionView: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+        <Card className="bg-card border-border">
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-foreground">{totalConversions}</p>
@@ -71,7 +71,7 @@ export const TopicAttributionView: React.FC = () => {
       </div>
 
       {/* Revenue by Topic Chart */}
-      <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+      <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-foreground">
             <BarChart3 className="h-5 w-5" />
@@ -119,7 +119,7 @@ export const TopicAttributionView: React.FC = () => {
       </Card>
 
       {/* Topic Details Table */}
-      <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+      <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-foreground">
             <Tag className="h-5 w-5" />
@@ -145,7 +145,7 @@ export const TopicAttributionView: React.FC = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="flex items-center justify-between p-4 rounded-lg bg-muted/30 dark:bg-zinc-800/30"
+                    className="flex items-center justify-between p-4 rounded-lg bg-muted/30"
                   >
                     <div className="flex items-center gap-3">
                       <div 
