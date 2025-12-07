@@ -20,6 +20,8 @@ Deno.serve(async (req) => {
     const eventType = url.searchParams.get('event') || 'pageview';
     const revenue = parseFloat(url.searchParams.get('revenue') || '0');
     const eventName = url.searchParams.get('event_name') || null;
+    const pageUrl = url.searchParams.get('url') || null;
+    const pageTitle = url.searchParams.get('title') || null;
 
     if (!pixelId) {
       return new Response(
@@ -28,19 +30,25 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Get visitor_id from cookie
+    // Get visitor_id from cookie or query param (for debugging)
     const cookieHeader = req.headers.get('cookie') || '';
-    const visitorId = cookieHeader
+    let visitorId = cookieHeader
       .split(';')
       .find(c => c.trim().startsWith('utm_visitor_id='))
       ?.split('=')[1];
 
+    // Also check utm_vid query parameter (set during redirect)
     if (!visitorId) {
-      console.log('No visitor_id cookie found - conversion cannot be attributed');
-      return new Response(
-        JSON.stringify({ success: false, error: 'No visitor_id cookie found' }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      visitorId = url.searchParams.get('utm_vid') || undefined;
+    }
+
+    // Generate a visitor_id if none exists (for direct pageview tracking)
+    if (!visitorId) {
+      const randomPart = Array.from(crypto.getRandomValues(new Uint8Array(12)))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+      visitorId = `v_${randomPart}`;
+      console.log(`Generated new visitor_id for tracking: ${visitorId}`);
     }
 
     console.log(`Tracking pixel event: ${eventType}, visitor_id: ${visitorId}, pixel_id: ${pixelId}`);
@@ -64,53 +72,62 @@ Deno.serve(async (req) => {
     // Check domain whitelist if configured
     const referrer = req.headers.get('referer') || req.headers.get('referrer');
     if (pixelConfig.domain_whitelist && pixelConfig.domain_whitelist.length > 0 && referrer) {
-      const referrerDomain = new URL(referrer).hostname;
-      const isWhitelisted = pixelConfig.domain_whitelist.some((domain: string) => 
-        referrerDomain === domain || referrerDomain.endsWith(`.${domain}`)
-      );
-
-      if (!isWhitelisted) {
-        console.log(`Domain not whitelisted: ${referrerDomain}`);
-        return new Response(
-          JSON.stringify({ success: false, error: 'Domain not whitelisted' }),
-          { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      try {
+        const referrerDomain = new URL(referrer).hostname;
+        const isWhitelisted = pixelConfig.domain_whitelist.some((domain: string) => 
+          referrerDomain === domain || referrerDomain.endsWith(`.${domain}`)
         );
+
+        if (!isWhitelisted) {
+          console.log(`Domain not whitelisted: ${referrerDomain}`);
+          return new Response(
+            JSON.stringify({ success: false, error: 'Domain not whitelisted' }),
+            { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } catch (e) {
+        console.log('Could not parse referrer domain, skipping whitelist check');
       }
     }
 
-    // Find the original click using visitor_id
-    const { data: click, error: clickError } = await supabase
+    // Find the original click using visitor_id (optional - for conversion attribution)
+    let click = null;
+    const { data: clickData } = await supabase
       .from('link_clicks')
       .select('link_id, id, metadata')
       .eq('visitor_id', visitorId)
       .order('clicked_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
+    
+    click = clickData;
 
-    if (clickError || !click) {
-      console.log('No click found for visitor_id:', visitorId);
-      return new Response(
-        JSON.stringify({ success: false, error: 'No click found for visitor' }),
-        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    // For pageview events, we DON'T require a prior click match
+    // This allows the real-time debugger to work even for direct visits
+    const linkId = click?.link_id || null;
+    const clickId = click?.id || null;
 
-    // Insert conversion event
+    console.log(`Click lookup: ${click ? `found link_id=${linkId}` : 'no prior click found (OK for pageview)'}`);
+
+    // Insert conversion event (always, even without click match for debugger to work)
     const { error: conversionError } = await supabase
       .from('conversion_events')
       .insert({
-        link_id: click.link_id,
+        link_id: linkId,
         workspace_id: pixelConfig.workspace_id,
         visitor_id: visitorId,
-        click_id: click.id,
+        click_id: clickId,
         event_type: eventType,
-        event_name: eventName,
+        event_name: eventName || (eventType === 'pageview' ? pageTitle : null),
         event_value: revenue > 0 ? revenue : null,
         currency: 'USD',
         metadata: {
           pixel_id: pixelId,
           referrer: referrer,
+          page_url: pageUrl,
+          page_title: pageTitle,
           user_agent: req.headers.get('user-agent'),
+          has_prior_click: !!click,
         },
       });
 
@@ -129,18 +146,21 @@ Deno.serve(async (req) => {
         workspace_id: pixelConfig.workspace_id,
         visitor_id: visitorId,
         event_type: eventType,
-        event_name: eventName,
-        source: (click.metadata as any)?.utm_source || null,
-        medium: (click.metadata as any)?.utm_medium || null,
-        campaign: (click.metadata as any)?.utm_campaign || null,
-        landing_page: referrer,
+        event_name: eventName || (eventType === 'pageview' ? 'page_view' : null),
+        source: click ? (click.metadata as any)?.utm_source || null : null,
+        medium: click ? (click.metadata as any)?.utm_medium || null : null,
+        campaign: click ? (click.metadata as any)?.utm_campaign || null : null,
+        landing_page: pageUrl || referrer,
         referrer: referrer,
         revenue: revenue > 0 ? revenue : null,
         device_type: null,
         metadata: {
           pixel_id: pixelId,
-          link_id: click.link_id,
-          click_id: click.id,
+          link_id: linkId,
+          click_id: clickId,
+          page_url: pageUrl,
+          page_title: pageTitle,
+          has_prior_click: !!click,
         },
       });
 
@@ -148,47 +168,59 @@ Deno.serve(async (req) => {
       console.error('Error inserting journey event (non-fatal):', journeyError);
     }
 
-    console.log(`✅ Conversion logged: ${eventType}, link_id: ${click.link_id}, revenue: ${revenue}`);
+    console.log(`✅ Event logged: ${eventType}, link_id: ${linkId || 'none'}, workspace: ${pixelConfig.workspace_id}`);
 
-    // Trigger identity matching for cross-device attribution (fire and forget)
-    const userAgent = req.headers.get('user-agent') || '';
-    const cfCountry = req.headers.get('cf-ipcountry') || 'unknown';
-    const cfCity = req.headers.get('cf-ipcity') || 'unknown';
-    const clientIp = req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
-    
-    supabase.functions.invoke('identity-matching', {
-      body: {
-        visitor_id: visitorId,
-        workspace_id: pixelConfig.workspace_id,
-        ip_address: clientIp,
-        user_agent: userAgent,
-        geo_location: `${cfCity}, ${cfCountry}`,
-        timestamp: new Date().toISOString(),
-      },
-    }).catch(err => console.error('Identity matching failed:', err));
-
-    // Check if this click was part of an experiment and update experiment stats
-    const clickMetadata = click.metadata as any;
-    if (clickMetadata?.experiment_id && clickMetadata?.experiment_variant) {
-      console.log(`Updating experiment stats for conversion: ${clickMetadata.experiment_id}, variant ${clickMetadata.experiment_variant}`);
+    // Trigger identity matching for cross-device attribution (fire and forget) - only if we have a click
+    if (click) {
+      const userAgent = req.headers.get('user-agent') || '';
+      const cfCountry = req.headers.get('cf-ipcountry') || 'unknown';
+      const cfCity = req.headers.get('cf-ipcity') || 'unknown';
+      const clientIp = req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
       
-      // Call update-experiment-stats with conversion flag
-      supabase.functions.invoke('update-experiment-stats', {
+      supabase.functions.invoke('identity-matching', {
         body: {
-          experiment_id: clickMetadata.experiment_id,
-          variant: clickMetadata.experiment_variant,
-          is_conversion: true,
+          visitor_id: visitorId,
+          workspace_id: pixelConfig.workspace_id,
+          ip_address: clientIp,
+          user_agent: userAgent,
+          geo_location: `${cfCity}, ${cfCountry}`,
+          timestamp: new Date().toISOString(),
         },
-      }).catch(err => console.error('Failed to update experiment stats:', err));
+      }).catch(err => console.error('Identity matching failed:', err));
+
+      // Check if this click was part of an experiment and update experiment stats
+      const clickMetadata = click.metadata as any;
+      if (clickMetadata?.experiment_id && clickMetadata?.experiment_variant) {
+        console.log(`Updating experiment stats for conversion: ${clickMetadata.experiment_id}, variant ${clickMetadata.experiment_variant}`);
+        
+        supabase.functions.invoke('update-experiment-stats', {
+          body: {
+            experiment_id: clickMetadata.experiment_id,
+            variant: clickMetadata.experiment_variant,
+            is_conversion: true,
+          },
+        }).catch(err => console.error('Failed to update experiment stats:', err));
+      }
     }
 
+    // Set visitor_id cookie in response for future tracking
+    const cookieValue = `utm_visitor_id=${visitorId}; Path=/; Max-Age=2592000; SameSite=None; Secure`;
+
     return new Response(
-      JSON.stringify({ success: true, event: eventType, link_id: click.link_id }),
+      JSON.stringify({ 
+        success: true, 
+        event: eventType, 
+        link_id: linkId,
+        visitor_id: visitorId,
+        workspace_id: pixelConfig.workspace_id,
+        has_prior_click: !!click,
+      }),
       { 
         status: 200, 
         headers: { 
           ...corsHeaders, 
           'Content-Type': 'application/json',
+          'Set-Cookie': cookieValue,
           'Cache-Control': 'no-store, no-cache, must-revalidate'
         } 
       }
