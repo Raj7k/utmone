@@ -655,7 +655,11 @@ Deno.serve(async (req) => {
       ?.split('=')[1];
     
     if (!visitorId) {
-      visitorId = crypto.randomUUID();
+      // Generate visitor_id with v_ prefix for consistency with pixel SDK
+      const randomPart = Array.from(crypto.getRandomValues(new Uint8Array(12)))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+      visitorId = `v_${randomPart}`;
       console.log(`Generated new visitor_id: ${visitorId}`);
     } else {
       console.log(`Existing visitor_id: ${visitorId}`);
