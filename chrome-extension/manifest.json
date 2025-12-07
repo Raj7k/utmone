@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "utm.one - Smart Link Creator",
+  "version": "1.0.0",
+  "description": "Create branded short links and QR codes without leaving your tab. Auto-detects context for smart UTM tagging.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "sidePanel",
+    "clipboardWrite"
+  ],
+  "host_permissions": [
+    "https://whgnsmjdubnvbmarnjfx.supabase.co/*"
+  ],
+  "side_panel": {
+    "default_path": "sidepanel/index.html"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Open utm.one Sidebar"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
