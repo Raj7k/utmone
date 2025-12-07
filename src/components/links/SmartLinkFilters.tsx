@@ -105,7 +105,7 @@ export const SmartLinkFilters = ({
             checked={performanceFilter.includes("dormant")}
             onCheckedChange={() => handlePerformanceToggle("dormant")}
           >
-            <Activity className="h-4 w-4 mr-2 text-white/50" />
+            <Activity className="h-4 w-4 mr-2 text-muted-foreground" />
             dormant (no activity)
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>

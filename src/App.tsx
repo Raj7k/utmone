@@ -17,6 +17,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AnimatedRoutes } from "@/components/transitions/AnimatedRoutes";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
+import { LinkIdRedirect } from "./components/redirects/LinkIdRedirect";
 import { lazyWithRetry } from "./utils/lazyWithRetry";
 
 // Critical pages - not lazy loaded for fast initial load
@@ -417,8 +418,9 @@ const App = () => (
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
               
-              <Route path="/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Links /></Suspense></ProtectedRoute>} />
-              <Route path="/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><LinkDetail /></Suspense></ProtectedRoute>} />
+              <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
+              <Route path="/links/:linkId" element={<LinkIdRedirect />} />
+              <Route path="/dashboard/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkDetail /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Analytics /></Suspense></ProtectedRoute>} />
               
               {/* 2FA Verification Route */}

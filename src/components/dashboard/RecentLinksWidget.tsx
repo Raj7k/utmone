@@ -78,7 +78,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
             <div
               key={link.id}
               className="flex flex-col sm:flex-row items-start justify-between gap-4 p-3 rounded-lg border border-separator bg-system-background hover:bg-fill-tertiary transition-apple cursor-pointer"
-              onClick={() => navigate(`/links/${link.id}`)}
+              onClick={() => navigate(`/dashboard/links/${link.id}`)}
             >
               <div className="flex-1 min-w-0 w-full">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -151,7 +151,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
         <Button
           variant="system-secondary"
           className="w-full mt-4"
-          onClick={() => navigate("/links")}
+          onClick={() => navigate("/dashboard/links")}
         >
           view all links
         </Button>
