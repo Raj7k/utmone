@@ -54,7 +54,7 @@ export const LinkHealthWidget = () => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <Shield className="h-5 w-5 text-primary" />
           link health monitor
         </CardTitle>
       </CardHeader>
@@ -86,7 +86,7 @@ export const LinkHealthWidget = () => {
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full" style={{ background: 'rgba(161,161,170,1)' }} />
+            <div className="h-3 w-3 rounded-full bg-muted-foreground" />
               <span className="text-muted-foreground">unknown</span>
             </div>
             <span className="font-medium">{healthStats?.unknown || 0}</span>

@@ -137,10 +137,11 @@ export const AnalyticsPulseTile = () => {
                         </defs>
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: 'white',
+                            backgroundColor: 'hsl(var(--card))',
                             border: '1px solid hsl(var(--border))',
                             borderRadius: '8px',
                             fontSize: '12px',
+                            color: 'hsl(var(--foreground))',
                           }}
                         />
                         <Area
@@ -176,10 +177,11 @@ export const AnalyticsPulseTile = () => {
                     </defs>
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: 'white',
+                        backgroundColor: 'hsl(var(--card))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px',
                         fontSize: '12px',
+                        color: 'hsl(var(--foreground))',
                       }}
                     />
                     <Area
