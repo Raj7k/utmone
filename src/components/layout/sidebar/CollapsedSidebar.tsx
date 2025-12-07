@@ -16,7 +16,8 @@ import {
   ChevronRight,
   GitBranch,
   Route,
-  Beaker
+  Beaker,
+  DollarSign
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -29,6 +30,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
