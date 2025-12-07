@@ -455,3 +455,66 @@ export function getNextPlanTier(currentPlan: string): PlanTier | null {
   
   return planOrder[currentIndex + 1];
 }
+
+/**
+ * Format price for display
+ */
+export function formatPlanPrice(tier: PlanTier): string {
+  const plan = PLAN_CONFIG[tier];
+  if (plan.price === 'custom') return 'Custom';
+  if (plan.price === 0) return 'Free';
+  return `$${plan.price}`;
+}
+
+/**
+ * Get SEO-friendly pricing description
+ */
+export function getPricingMetaDescription(): string {
+  const free = PLAN_CONFIG.free;
+  const growth = PLAN_CONFIG.growth;
+  const business = PLAN_CONFIG.business;
+  return `Simple pricing with generous limits. Free forever plan with ${free.features.monthlyLinks} links/month, Growth at $${growth.price}/month with ${growth.features.monthlyLinks.toLocaleString()} links, Business at $${business.price}/month with ${(business.features.monthlyLinks as number).toLocaleString()} links.`;
+}
+
+/**
+ * Get competitor comparison data
+ */
+export function getCompetitorComparison() {
+  return {
+    utmOne: {
+      name: `utm.one ${PLAN_CONFIG.growth.name}`,
+      price: PLAN_CONFIG.growth.price as number,
+      links: PLAN_CONFIG.growth.features.monthlyLinks as number,
+      users: PLAN_CONFIG.growth.features.teamMembers as number,
+      highlight: true,
+    },
+    bitly: {
+      name: 'Bitly Pro',
+      price: 35,
+      links: 1500,
+      users: 1,
+      perUser: true,
+    },
+    rebrandly: {
+      name: 'Rebrandly',
+      price: 39,
+      links: 5000,
+      users: 1,
+      perUser: true,
+    },
+  };
+}
+
+/**
+ * Get all plan tiers in order
+ */
+export function getAllPlanTiers(): PlanTier[] {
+  return ['free', 'growth', 'business', 'enterprise'];
+}
+
+/**
+ * Get plan by tier
+ */
+export function getPlanByTier(tier: PlanTier): PlanDetails {
+  return PLAN_CONFIG[tier];
+}

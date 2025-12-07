@@ -5,9 +5,26 @@ import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/seo/SEO";
 import { LLMSchemaGenerator } from "@/components/seo/LLMSchemaGenerator";
 import { MainLayout } from "@/components/layout/MainLayout";
+import { 
+  getPricingMetaDescription, 
+  getCompetitorComparison,
+  formatPlanPrice,
+  PLAN_CONFIG
+} from "@/lib/planConfig";
+import { 
+  generatePricingFAQs, 
+  LIFETIME_DEAL_CONFIG, 
+  TRUST_INDICATORS,
+  getLifetimeDealDescription,
+  getLLMPricingData
+} from "@/lib/pricingPageConfig";
 
 const Pricing = () => {
   const navigate = useNavigate();
+  const competitorData = getCompetitorComparison();
+  const faqs = generatePricingFAQs();
+  const lifetimeDealDescription = getLifetimeDealDescription();
+  const llmData = getLLMPricingData();
 
   const handlePlanSelect = (tier: string) => {
     if (tier === 'enterprise') {
@@ -23,17 +40,13 @@ const Pricing = () => {
     <MainLayout showAnnouncement={false}>
       <SEO 
         title="Pricing - utm.one"
-        description="Simple pricing with generous limits. No per-seat charges, no hidden fees. Free forever plan with 100 links/month, Pro at $20/month, Business at $99/month."
+        description={getPricingMetaDescription()}
         canonical="https://utm.one/pricing"
         keywords={["utm.one pricing", "url shortener pricing", "link management pricing", "flat pricing", "no per-seat charges"]}
       />
       <LLMSchemaGenerator 
         type="pricing" 
-        data={{ 
-          planName: "utm.one Pro",
-          price: "20",
-          validUntil: "2026-12-31"
-        }} 
+        data={llmData} 
       />
 
       {/* Hero Section */}
@@ -45,7 +58,7 @@ const Pricing = () => {
                 simple pricing.<br />generous limits.
               </h1>
             </div>
-            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xl text-muted-foreground">
               no per-seat charges. no hidden fees. just straightforward pricing that scales with your links, not your team size.
             </p>
 
@@ -71,26 +84,16 @@ const Pricing = () => {
               </Button>
             </div>
 
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>no credit card required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>cancel anytime</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.7)' }} fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>99.9% uptime</span>
-              </div>
+            {/* Trust Indicators - Dynamic */}
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-8 text-sm text-muted-foreground">
+              {TRUST_INDICATORS.map((indicator) => (
+                <div key={indicator.text} className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-white/70" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>{indicator.text}</span>
+                </div>
+              ))}
             </div>
           </AnimatedSection>
         </div>
@@ -103,62 +106,75 @@ const Pricing = () => {
             <PricingTable onSelect={handlePlanSelect} />
           </AnimatedSection>
 
-          {/* Visual: What $20/mo Gets You */}
+          {/* Visual: What Growth Plan Gets You vs Competitors - Dynamic */}
           <AnimatedSection delay={0.15}>
             <div className="mt-16 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto">
               <h3 className="text-2xl font-display font-bold text-white mb-6 text-center lowercase">
-                what $20/mo gets you vs competitors
+                what {formatPlanPrice('growth')}/mo gets you vs competitors
               </h3>
               <div className="grid md:grid-cols-3 gap-6">
+                {/* Bitly */}
                 <div className="text-center p-4">
-                  <div style={{ color: 'rgba(255,100,100,0.8)' }} className="text-sm font-semibold mb-2">Bitly Pro</div>
-                  <div className="text-3xl font-bold text-white mb-1">$35</div>
+                  <div className="text-red-400/80 text-sm font-semibold mb-2">{competitorData.bitly.name}</div>
+                  <div className="text-3xl font-bold text-white mb-1">${competitorData.bitly.price}</div>
                   <div className="text-xs text-white/40 mb-3">per user/month</div>
-                  <div className="text-sm text-white/60">1,500 links • 1 user</div>
+                  <div className="text-sm text-white/60">
+                    {competitorData.bitly.links.toLocaleString()} links • {competitorData.bitly.users} user
+                  </div>
                 </div>
+                
+                {/* Rebrandly */}
                 <div className="text-center p-4">
-                  <div style={{ color: 'rgba(255,100,100,0.8)' }} className="text-sm font-semibold mb-2">Rebrandly</div>
-                  <div className="text-3xl font-bold text-white mb-1">$39</div>
+                  <div className="text-red-400/80 text-sm font-semibold mb-2">{competitorData.rebrandly.name}</div>
+                  <div className="text-3xl font-bold text-white mb-1">${competitorData.rebrandly.price}</div>
                   <div className="text-xs text-white/40 mb-3">per user/month</div>
-                  <div className="text-sm text-white/60">5,000 links • 1 user</div>
+                  <div className="text-sm text-white/60">
+                    {competitorData.rebrandly.links.toLocaleString()} links • {competitorData.rebrandly.users} user
+                  </div>
                 </div>
+                
+                {/* utm.one - Dynamic */}
                 <div className="text-center p-4 bg-white/10 rounded-xl border border-white/20">
-                  <div className="text-white text-sm font-semibold mb-2">utm.one Pro</div>
-                  <div className="text-3xl font-bold text-white mb-1">$20</div>
+                  <div className="text-white text-sm font-semibold mb-2">{competitorData.utmOne.name}</div>
+                  <div className="text-3xl font-bold text-white mb-1">${competitorData.utmOne.price}</div>
                   <div className="text-xs text-white/60 mb-3">total/month</div>
-                  <div className="text-sm text-white font-semibold">1,000 links • Unlimited users</div>
+                  <div className="text-sm text-white font-semibold">
+                    {competitorData.utmOne.links.toLocaleString()} links • {competitorData.utmOne.users} team members
+                  </div>
                 </div>
               </div>
             </div>
           </AnimatedSection>
 
-          {/* Lifetime Deal Banner */}
-          <AnimatedSection delay={0.2}>
-            <div className="mt-16 text-center space-y-6 p-12 bg-zinc-900/60 backdrop-blur-xl rounded-2xl border border-white/10">
-              <div className="space-y-3">
-                <div className="inline-block px-4 py-1 bg-white/10 text-white text-sm font-semibold rounded-full">
-                  🔥 limited time offer
+          {/* Lifetime Deal Banner - Dynamic */}
+          {LIFETIME_DEAL_CONFIG.enabled && (
+            <AnimatedSection delay={0.2}>
+              <div className="mt-16 text-center space-y-6 p-12 bg-zinc-900/60 backdrop-blur-xl rounded-2xl border border-white/10">
+                <div className="space-y-3">
+                  <div className="inline-block px-4 py-1 bg-white/10 text-white text-sm font-semibold rounded-full">
+                    {LIFETIME_DEAL_CONFIG.badge}
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+                    lifetime deal: ${LIFETIME_DEAL_CONFIG.price} once
+                  </h2>
+                  <p className="text-lg text-white/60 max-w-[640px] mx-auto">
+                    {lifetimeDealDescription}
+                  </p>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
-                  lifetime deal: $299 once
-                </h2>
-                <p className="text-lg text-white/60 max-w-[640px] mx-auto">
-                  get pro features forever with a one-time payment. limited to first 500 customers.
-                </p>
+                <Button 
+                  size="lg" 
+                  className="bg-white text-zinc-900 hover:bg-white/90 font-semibold"
+                  onClick={() => handlePlanSelect('lifetime')}
+                >
+                  Claim Lifetime Access →
+                </Button>
               </div>
-              <Button 
-                size="lg" 
-                className="bg-white text-zinc-900 hover:bg-white/90 font-semibold"
-                onClick={() => handlePlanSelect('lifetime')}
-              >
-                Claim Lifetime Access →
-              </Button>
-            </div>
-          </AnimatedSection>
+            </AnimatedSection>
+          )}
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section - Dynamic */}
       <section className="py-24 md:py-32">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection>
@@ -166,38 +182,16 @@ const Pricing = () => {
               frequently asked questions
             </h2>
             <div className="space-y-8">
-              <div className="space-y-3">
-                <h2 className="text-xl font-display font-semibold text-white">
-                  what happens if i exceed my plan limits?
-                </h2>
-                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.
-                </p>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-display font-semibold text-white">
-                  do you really offer unlimited team members on all plans?
-                </h2>
-                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  yes! unlike bitly ($35/mo for 1 user) and rebrandly ($39/mo for 1 user), we believe collaboration shouldn't cost extra. invite your entire team on any plan, even free.
-                </p>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-display font-semibold text-white">
-                  can i cancel anytime?
-                </h2>
-                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  absolutely. cancel anytime with no penalties. your links will continue working, and you'll have read-only access to your analytics.
-                </p>
-              </div>
-              <div className="space-y-3">
-                <h2 className="text-xl font-display font-semibold text-white">
-                  is the lifetime deal really lifetime?
-                </h2>
-                <p className="text-base" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  yes. pay once, use forever. even if we shut down, we guarantee your links will continue working through our permanence guarantee.
-                </p>
-              </div>
+              {faqs.map((faq) => (
+                <div key={faq.question} className="space-y-3">
+                  <h2 className="text-xl font-display font-semibold text-white">
+                    {faq.question}
+                  </h2>
+                  <p className="text-base text-muted-foreground">
+                    {faq.answer}
+                  </p>
+                </div>
+              ))}
             </div>
           </AnimatedSection>
         </div>
