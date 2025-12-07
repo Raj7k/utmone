@@ -17,9 +17,9 @@ interface PricingTableProps {
 export const PricingTable = ({ onSelect }: PricingTableProps) => {
   const plans = [
     PLAN_CONFIG.free,
+    PLAN_CONFIG.starter,
     PLAN_CONFIG.growth,
     PLAN_CONFIG.business,
-    PLAN_CONFIG.enterprise,
   ];
 
   const [selectedTab, setSelectedTab] = useState<PlanTier>('growth');
@@ -188,7 +188,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                     <span className="text-sm text-foreground">{feature.label}</span>
                   </div>
                   
-                  {(['free', 'growth', 'business', 'enterprise'] as PlanTier[]).map((tier) => (
+                  {(['free', 'starter', 'growth', 'business'] as PlanTier[]).map((tier) => (
                     <div 
                       key={`${tier}-${feature.key}`}
                       className={`py-3 px-6 text-center flex items-center justify-center ${tier === 'growth' ? 'bg-primary/5' : ''}`}
@@ -294,12 +294,34 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         ))}
       </div>
 
+      {/* Enterprise CTA Section */}
+      <div className="mt-16">
+        <div className="border border-border rounded-2xl p-8 bg-card/50 backdrop-blur-sm">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="text-center lg:text-left">
+              <h2 className="text-2xl font-display font-bold mb-2">need enterprise-grade features?</h2>
+              <p className="text-muted-foreground max-w-xl">
+                unlimited links, SSO, audit logs, dedicated support, custom SLAs, and more.
+              </p>
+            </div>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => onSelect('enterprise')}
+              className="whitespace-nowrap"
+            >
+              contact sales
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Add-ons Section */}
       <div className="mt-16">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-display font-bold mb-2">need more?</h2>
           <p className="text-muted-foreground">
-            add extra capacity or features to your growth or business plan
+            add extra capacity or features to your starter, growth, or business plan
           </p>
         </div>
 
