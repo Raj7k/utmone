@@ -34,7 +34,7 @@ const navigation = [
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
+  { name: "Clean-Track Attribution", href: "/dashboard/attribution", icon: GitBranch },
   { name: "Smart Routing", href: "/dashboard/targeting", icon: Route },
   { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
   { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
