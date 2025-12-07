@@ -22,6 +22,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
+const DynamicSecondFold = lazy(() => import("@/components/landing/DynamicSecondFold").then(m => ({ default: m.DynamicSecondFold })));
 const EnterpriseGradeSection = lazy(() => import("@/components/landing/EnterpriseGradeSection").then(m => ({ default: m.EnterpriseGradeSection })));
 const GTMToolsShowcase = lazy(() => import("@/components/landing/GTMToolsShowcase").then(m => ({ default: m.GTMToolsShowcase })));
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
@@ -133,6 +134,11 @@ const Index = () => {
           <LinkLayersSection />
         </>
       )}
+
+      {/* Dynamic Second Fold - Changes based on Control Deck selection */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <DynamicSecondFold selectedUseCase={selectedUseCase} />
+      </Suspense>
 
       {/* Enterprise Grade Section */}
       <Suspense fallback={<SectionSkeleton />}>
