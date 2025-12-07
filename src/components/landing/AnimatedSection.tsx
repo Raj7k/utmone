@@ -34,8 +34,8 @@ export const AnimatedSection = ({
       }}
       viewport={{ 
         once: true, 
-        margin: "-100px",
-        amount: 0.3
+        margin: "-50px",
+        amount: 0.1
       }}
       transition={{
         duration: 0.7,
