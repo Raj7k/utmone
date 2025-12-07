@@ -73,52 +73,65 @@ Deno.serve((req) => {
   w.utmone.visitorId = visitorId;
   
   // Base tracking URL
-76:   var baseUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/track-pixel';
-77:   var identifyUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identify-visitor';
-78:   var identityMatchUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identity-matching';
-79:   
-80:   // Track event function
-81:   w.utmone.track = function(eventType, params) {
-82:     params = params || {};
-83:     
-84:     var url = baseUrl + 
-85:       '?pixel_id=' + encodeURIComponent(pixelId) +
-86:       '&event=' + encodeURIComponent(eventType);
-87:     
-88:     if (params.revenue) {
-89:       url += '&revenue=' + encodeURIComponent(params.revenue);
-90:     }
-91:     
-92:     if (params.event_name) {
-93:       url += '&event_name=' + encodeURIComponent(params.event_name);
-94:     }
-95:     
-96:     // Send beacon (works even during page unload)
-97:     if (navigator.sendBeacon) {
-98:       navigator.sendBeacon(url);
-99:     } else {
-100:       // Fallback for older browsers
-101:       var img = new Image();
-102:       img.src = url;
-103:     }
-104:     
-105:     console.log('[utm.one] Tracked:', eventType, params);
-106:     
-107:     // Trigger cross-device identity matching on pageviews (fire and forget)
-108:     if (eventType === 'pageview') {
-109:       fetch(identityMatchUrl, {
-110:         method: 'POST',
-111:         headers: { 'Content-Type': 'application/json' },
-112:         body: JSON.stringify({
-113:           visitor_id: visitorId,
-114:           pixel_id: pixelId,
-115:           user_agent: navigator.userAgent,
-116:           timestamp: new Date().toISOString()
-117:         }),
-118:         keepalive: true
-119:       }).catch(function() { /* ignore errors */ });
-120:     }
-121:   };
+  var baseUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/track-pixel';
+  var identifyUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identify-visitor';
+  var identityMatchUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identity-matching';
+  
+  // Track event function
+  w.utmone.track = function(eventType, params) {
+    params = params || {};
+    
+    var url = baseUrl + 
+      '?pixel_id=' + encodeURIComponent(pixelId) +
+      '&event=' + encodeURIComponent(eventType);
+    
+    if (params.revenue) {
+      url += '&revenue=' + encodeURIComponent(params.revenue);
+    }
+    
+    if (params.event_name) {
+      url += '&event_name=' + encodeURIComponent(params.event_name);
+    }
+    
+    // Add form-specific params
+    if (params.form) {
+      url += '&form=' + encodeURIComponent(params.form);
+    }
+    
+    if (params.step) {
+      url += '&step=' + encodeURIComponent(params.step);
+    }
+    
+    if (params.auto_detected) {
+      url += '&auto_detected=true';
+    }
+    
+    // Send beacon (works even during page unload)
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url);
+    } else {
+      // Fallback for older browsers
+      var img = new Image();
+      img.src = url;
+    }
+    
+    console.log('[utm.one] Tracked:', eventType, params);
+    
+    // Trigger cross-device identity matching on pageviews (fire and forget)
+    if (eventType === 'pageview') {
+      fetch(identityMatchUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          visitor_id: visitorId,
+          pixel_id: pixelId,
+          user_agent: navigator.userAgent,
+          timestamp: new Date().toISOString()
+        }),
+        keepalive: true
+      }).catch(function() { /* ignore errors */ });
+    }
+  };
   
   // Identify user function
   w.utmone.identify = function(email, name) {
@@ -151,6 +164,140 @@ Deno.serve((req) => {
     });
   };
   
+  // ========================================
+  // FORM CONVERSION TRACKING HELPERS
+  // ========================================
+  
+  // Track form submission with optional email extraction
+  w.utmone.trackFormSubmit = function(eventType, formData) {
+    eventType = eventType || 'lead';
+    formData = formData || {};
+    
+    // If email is present, also identify the user for better attribution
+    if (formData.email) {
+      w.utmone.identify(formData.email, formData.name);
+    }
+    
+    w.utmone.track(eventType, formData);
+    console.log('[utm.one] Form conversion tracked:', eventType, formData);
+  };
+  
+  // Track form step progress (for multi-step forms)
+  w.utmone.trackFormStep = function(formName, stepNumber, totalSteps) {
+    w.utmone.track('form_step', {
+      form: formName,
+      step: stepNumber,
+      total_steps: totalSteps
+    });
+  };
+  
+  // Auto-detect form success patterns via DOM mutation observer
+  w.utmone.enableAutoDetect = function(options) {
+    options = options || {};
+    
+    var successPatterns = options.successPatterns || [
+      /success/i,
+      /thank\\s*you/i,
+      /confirmed/i,
+      /submitted/i,
+      /complete/i,
+      /received/i,
+      /we.?ll\\s*(be\\s*in\\s*touch|contact\\s*you)/i,
+      /journey\\s*starts/i
+    ];
+    
+    var excludePatterns = options.excludePatterns || [
+      /error/i,
+      /failed/i,
+      /invalid/i
+    ];
+    
+    var debounceTime = options.debounce || 1000;
+    var lastDetection = 0;
+    var detected = false;
+    
+    var observer = new MutationObserver(function(mutations) {
+      if (detected) return; // Only fire once per page
+      
+      var now = Date.now();
+      if (now - lastDetection < debounceTime) return;
+      
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType !== 1) return; // Only elements
+          
+          var text = node.textContent || '';
+          if (text.length < 5 || text.length > 500) return; // Reasonable length
+          
+          // Check for exclude patterns first
+          var hasExclude = excludePatterns.some(function(pattern) {
+            return pattern.test(text);
+          });
+          if (hasExclude) return;
+          
+          // Check for success patterns
+          var hasSuccess = successPatterns.some(function(pattern) {
+            return pattern.test(text);
+          });
+          
+          if (hasSuccess) {
+            detected = true;
+            lastDetection = now;
+            
+            w.utmone.track('lead', {
+              auto_detected: true,
+              success_text: text.substring(0, 100).trim()
+            });
+            
+            console.log('[utm.one] Auto-detected form success:', text.substring(0, 50));
+          }
+        });
+      });
+    });
+    
+    observer.observe(d.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    console.log('[utm.one] Auto-detection enabled');
+    return observer; // Return observer so it can be disconnected if needed
+  };
+  
+  // Check URL for success indicators on page load
+  function checkUrlForSuccess() {
+    var hash = w.location.hash.toLowerCase();
+    var params = new URLSearchParams(w.location.search);
+    var path = w.location.pathname.toLowerCase();
+    
+    var successIndicators = [
+      params.get('submitted') === 'true',
+      params.get('success') === 'true',
+      params.get('confirmed') === 'true',
+      params.get('complete') === 'true',
+      hash === '#success',
+      hash === '#thank-you',
+      hash === '#thankyou',
+      hash === '#confirmed',
+      hash === '#complete',
+      path.includes('/thank-you'),
+      path.includes('/thankyou'),
+      path.includes('/confirmation'),
+      path.includes('/success'),
+      path.includes('/complete')
+    ];
+    
+    if (successIndicators.some(Boolean)) {
+      w.utmone.track('lead', {
+        url_detected: true,
+        detection_source: 'url'
+      });
+      console.log('[utm.one] URL-based conversion detected');
+      return true;
+    }
+    return false;
+  }
+  
   // Process queued calls
   var q = w.utmone.q || [];
   for (var i = 0; i < q.length; i++) {
@@ -163,6 +310,9 @@ Deno.serve((req) => {
   
   // Auto-track pageview
   w.utmone.track('pageview');
+  
+  // Check URL for success indicators after pageview (slight delay)
+  setTimeout(checkUrlForSuccess, 100);
   
 })(window, document, '${pixelId}');
 `;
