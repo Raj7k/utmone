@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Activity, Sparkles, Link as LinkIcon } from "lucide-react";
+import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock } from "lucide-react";
 import { useRealAnalytics } from "@/hooks/useRealAnalytics";
+import { useExecutiveMetrics } from "@/hooks/useExecutiveMetrics";
 import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
 import { Link } from "react-router-dom";
 import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChart";
@@ -14,6 +14,13 @@ import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
 import { useTrafficForecast } from "@/hooks/useTrafficForecast";
 import { useCampaignPerformance } from "@/hooks/useCampaignPerformance";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { ExecutiveMetricsBar } from "@/components/analytics/ExecutiveMetricsBar";
+import { PerformanceTrendChart } from "@/components/analytics/PerformanceTrendChart";
+import { AICommandCenter } from "@/components/analytics/AICommandCenter";
+import { ChannelPerformanceGrid } from "@/components/analytics/ChannelPerformanceGrid";
+import { TopCampaignsTable } from "@/components/analytics/TopCampaignsTable";
+import { QuickActionsPanel } from "@/components/analytics/QuickActionsPanel";
+import { useQueryClient } from "@tanstack/react-query";
 
 const COLORS = {
   mobile: "hsl(var(--primary))",
@@ -27,20 +34,35 @@ const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export default function Analytics() {
   const { currentWorkspace } = useWorkspace();
   const { trackFirstAnalyticsView } = useActivationTracking();
+  const queryClient = useQueryClient();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   const { data: analytics, isLoading, error } = useRealAnalytics({ 
     workspaceId: currentWorkspace?.id || '',
     dateRange: 30 
   });
+
+  const { data: executiveMetrics, isLoading: metricsLoading } = useExecutiveMetrics({
+    workspaceId: currentWorkspace?.id || '',
+    dateRange: 30
+  });
   
-  // Feature 2: Traffic Forecasting
   const { data: forecastData } = useTrafficForecast(currentWorkspace?.id || '', 7);
-  
-  // Feature 3: Pareto Optimization
   const { data: campaignPerformance } = useCampaignPerformance(currentWorkspace?.id || '');
 
   useEffect(() => {
     trackFirstAnalyticsView();
   }, [trackFirstAnalyticsView]);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await queryClient.invalidateQueries({ queryKey: ["real-analytics"] });
+    await queryClient.invalidateQueries({ queryKey: ["executive-metrics"] });
+    await queryClient.invalidateQueries({ queryKey: ["performance-trend"] });
+    await queryClient.invalidateQueries({ queryKey: ["channel-performance"] });
+    await queryClient.invalidateQueries({ queryKey: ["top-campaigns"] });
+    setIsRefreshing(false);
+  };
 
   if (!currentWorkspace || isLoading) {
     return (
@@ -65,25 +87,24 @@ export default function Analytics() {
   if (analytics?.isEmpty) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-4xl font-bold text-label mb-2">analytics</h1>
-          <p className="text-sm text-secondary-label">
-            real-time insights into your link performance
-          </p>
-        </div>
+        <PageHeader
+          title="analytics command center"
+          description="executive insights into your link performance"
+          breadcrumbs={[{ label: "analytics" }]}
+        />
 
-        <Card className="p-12 text-center">
+        <Card className="p-12 text-center border-dashed">
           <div className="flex flex-col items-center gap-4">
-            <div className="h-16 w-16 rounded-2xl bg-muted flex items-center justify-center">
-              <Activity className="h-8 w-8 text-muted-foreground" />
+            <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+              <Activity className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-label mb-2">no data yet</h3>
+              <h3 className="text-xl font-semibold text-label mb-2">no data yet</h3>
               <p className="text-sm text-secondary-label max-w-md mx-auto">
-                your click data will appear here once your links start getting traffic. share your first link to see real-time insights.
+                your analytics dashboard will come alive once your links start getting traffic. create and share your first link to see real-time insights.
               </p>
             </div>
-            <Button asChild className="mt-2">
+            <Button asChild className="mt-4" size="lg">
               <Link to="/dashboard">
                 <LinkIcon className="h-4 w-4 mr-2" />
                 create your first link
@@ -97,78 +118,83 @@ export default function Analytics() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="analytics"
-        description="real-time insights, traffic forecasting, and campaign optimization"
-        breadcrumbs={[{ label: "analytics" }]}
+      {/* Header with Quick Actions */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <PageHeader
+          title="analytics command center"
+          description="executive insights for CMOs, marketing managers, and sales leaders"
+          breadcrumbs={[{ label: "analytics" }]}
+        />
+        <QuickActionsPanel onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+      </div>
+
+      {/* Executive Metrics Hero Bar */}
+      <ExecutiveMetricsBar
+        totalClicks={executiveMetrics?.totalClicks || analytics.totalClicks}
+        uniqueVisitors={executiveMetrics?.uniqueVisitors || analytics.uniqueVisitors}
+        conversionRate={executiveMetrics?.conversionRate || 0}
+        revenue={executiveMetrics?.revenue || 0}
+        clicksChange={executiveMetrics?.clicksChange || 0}
+        visitorsChange={executiveMetrics?.visitorsChange || 0}
+        conversionChange={executiveMetrics?.conversionChange || 0}
+        revenueChange={executiveMetrics?.revenueChange || 0}
+        clicksTrend={executiveMetrics?.clicksTrend || []}
+        visitorsTrend={executiveMetrics?.visitorsTrend || []}
+        isLoading={metricsLoading}
       />
-      <div className="hidden">
-        <h1 className="text-4xl font-bold text-label mb-2">analytics</h1>
-        <p className="text-sm text-secondary-label">
-          real-time insights into your link performance
-        </p>
+
+      {/* Main Dashboard Grid */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Performance Trend - Takes 2 columns */}
+        <div className="lg:col-span-2">
+          <PerformanceTrendChart workspaceId={currentWorkspace.id} />
+        </div>
+        
+        {/* AI Command Center - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <AICommandCenter
+            insights={analytics.insights || []}
+            topChannel={executiveMetrics?.topChannel}
+            topChannelClicks={executiveMetrics?.topChannelClicks}
+            peakDay={executiveMetrics?.peakDay}
+            peakDayClicks={executiveMetrics?.peakDayClicks}
+            avgClicksPerDay={executiveMetrics?.avgClicksPerDay}
+          />
+        </div>
       </div>
 
-      {/* Top Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 rounded-2xl shadow-sm border-border">
-          <div className="text-sm text-secondary-label mb-2">total clicks</div>
-          <div className="text-4xl font-bold text-label tracking-tight">
-            {analytics.totalClicks.toLocaleString()}
-          </div>
-        </Card>
-        <Card className="p-6 rounded-2xl shadow-sm border-border">
-          <div className="text-sm text-secondary-label mb-2">unique visitors</div>
-          <div className="text-4xl font-bold text-label tracking-tight">
-            {analytics.uniqueVisitors.toLocaleString()}
-          </div>
-        </Card>
-        <Card className="p-6 rounded-2xl shadow-sm border-border">
-          <div className="text-sm text-secondary-label mb-2">click rate</div>
-          <div className="text-4xl font-bold text-label tracking-tight">
-            {analytics.clickRate}
-          </div>
-        </Card>
+      {/* Channel Performance & Top Campaigns */}
+      <div className="grid lg:grid-cols-2 gap-6">
+        <ChannelPerformanceGrid workspaceId={currentWorkspace.id} />
+        <TopCampaignsTable workspaceId={currentWorkspace.id} />
       </div>
 
-      {/* AI Insights */}
-      {analytics.insights && analytics.insights.length > 0 && (
-        <Card className="rounded-2xl shadow-sm bg-gradient-to-br from-primary/5 to-purple-500/5 border-primary/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
-              ai insights
-            </CardTitle>
-            <CardDescription>powered by your real data</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {analytics.insights.map((insight, index) => (
-                <div key={index} className="flex items-start gap-2">
-                  <div className="h-1.5 w-1.5 rounded-full mt-2 flex-shrink-0 bg-primary" />
-                  <p className="text-sm text-label">{insight}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Google-Style Tabs */}
-      <Tabs defaultValue="when" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 rounded-2xl">
-          <TabsTrigger value="when">when</TabsTrigger>
-          <TabsTrigger value="where">where</TabsTrigger>
-          <TabsTrigger value="who">who</TabsTrigger>
-          <TabsTrigger value="trajectory">trajectory</TabsTrigger>
-          <TabsTrigger value="optimize">optimize</TabsTrigger>
+      {/* Detailed Tabs Section */}
+      <Tabs defaultValue="timing" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4 rounded-2xl h-12">
+          <TabsTrigger value="timing" className="gap-2">
+            <Clock className="h-4 w-4" />
+            <span className="hidden sm:inline">timing</span>
+          </TabsTrigger>
+          <TabsTrigger value="geography" className="gap-2">
+            <Globe className="h-4 w-4" />
+            <span className="hidden sm:inline">geography</span>
+          </TabsTrigger>
+          <TabsTrigger value="audience" className="gap-2">
+            <Users className="h-4 w-4" />
+            <span className="hidden sm:inline">audience</span>
+          </TabsTrigger>
+          <TabsTrigger value="forecast" className="gap-2">
+            <BarChart3 className="h-4 w-4" />
+            <span className="hidden sm:inline">forecast</span>
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="when">
+        <TabsContent value="timing">
           <Card className="rounded-2xl shadow-sm border-border">
             <CardHeader>
               <CardTitle>activity heatmap</CardTitle>
-              <CardDescription>when your audience is most active</CardDescription>
+              <CardDescription>when your audience is most active - optimize your posting schedule</CardDescription>
             </CardHeader>
             <CardContent>
               {analytics.heatmapData.length > 0 ? (
@@ -251,8 +277,8 @@ export default function Analytics() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="where">
-          <div className="grid gap-6">
+        <TabsContent value="geography">
+          <div className="grid md:grid-cols-2 gap-6">
             <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
                 <CardTitle>top countries</CardTitle>
@@ -311,7 +337,7 @@ export default function Analytics() {
           </div>
         </TabsContent>
 
-        <TabsContent value="who">
+        <TabsContent value="audience">
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
@@ -381,28 +407,18 @@ export default function Analytics() {
           </div>
         </TabsContent>
 
-        <TabsContent value="trajectory">
-          <TrafficForecastChart
-            historical={forecastData?.historical || []}
-            forecast={forecastData?.forecast || []}
-            needsMoreData={forecastData?.needsMoreData || true}
-          />
-        </TabsContent>
-
-        <TabsContent value="optimize">
-          {campaignPerformance && campaignPerformance.length > 0 ? (
-            <ParetoFrontier links={campaignPerformance} />
-          ) : (
-            <Card>
-              <CardContent className="pt-12 pb-12 text-center">
-                <TrendingUp className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-label mb-2">no campaign data yet</h3>
-                <p className="text-sm text-secondary-label max-w-md mx-auto">
-                  campaign optimization insights will appear here once you have links with conversions.
-                </p>
-              </CardContent>
-            </Card>
-          )}
+        <TabsContent value="forecast">
+          <div className="space-y-6">
+            <TrafficForecastChart
+              historical={forecastData?.historical || []}
+              forecast={forecastData?.forecast || []}
+              needsMoreData={forecastData?.needsMoreData || true}
+            />
+            
+            {campaignPerformance && campaignPerformance.length > 0 && (
+              <ParetoFrontier links={campaignPerformance} />
+            )}
+          </div>
         </TabsContent>
       </Tabs>
     </div>
