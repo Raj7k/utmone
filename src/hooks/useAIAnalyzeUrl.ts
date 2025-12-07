@@ -26,8 +26,9 @@ export function useAIAnalyzeUrl() {
   const [isAIPowered, setIsAIPowered] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const previousSuggestionsRef = useRef<string[]>([]);
 
-  const analyzeUrl = useCallback(async (url: string) => {
+  const analyzeUrl = useCallback(async (url: string, regenerate = false) => {
     // Clear previous debounce
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -40,7 +41,9 @@ export function useAIAnalyzeUrl() {
       return;
     }
 
-    // Debounce the request
+    // Skip debounce for regenerate requests
+    const delay = regenerate ? 0 : 500;
+
     debounceRef.current = setTimeout(async () => {
       // Cancel previous request
       if (abortControllerRef.current) {
@@ -53,7 +56,11 @@ export function useAIAnalyzeUrl() {
 
       try {
         const { data, error: fnError } = await supabase.functions.invoke('analyze-url', {
-          body: { url },
+          body: { 
+            url,
+            regenerate,
+            previousSuggestions: regenerate ? previousSuggestionsRef.current : []
+          },
         });
 
         if (fnError) {
@@ -61,8 +68,19 @@ export function useAIAnalyzeUrl() {
         }
 
         if (data?.success) {
-          setSuggestions(data.suggestions);
+          const newSuggestions = data.suggestions;
+          setSuggestions(newSuggestions);
           setIsAIPowered(data.ai_powered);
+          
+          // Track suggestions for deduplication on next regenerate
+          const tracked: string[] = [];
+          if (newSuggestions.utm_campaign) tracked.push(`campaign:${newSuggestions.utm_campaign}`);
+          if (newSuggestions.utm_content) tracked.push(`content:${newSuggestions.utm_content}`);
+          if (newSuggestions.utm_term) tracked.push(`term:${newSuggestions.utm_term}`);
+          newSuggestions.vanity_slugs?.forEach((slug: string) => tracked.push(`slug:${slug}`));
+          
+          // Append to previous (keep last 20 to avoid huge payload)
+          previousSuggestionsRef.current = [...previousSuggestionsRef.current, ...tracked].slice(-20);
         } else {
           setError(data?.error || 'Analysis failed');
         }
@@ -74,13 +92,18 @@ export function useAIAnalyzeUrl() {
       } finally {
         setIsAnalyzing(false);
       }
-    }, 500);
+    }, delay);
   }, []);
+
+  const regenerateUrl = useCallback((url: string) => {
+    analyzeUrl(url, true);
+  }, [analyzeUrl]);
 
   const clearSuggestions = useCallback(() => {
     setSuggestions(null);
     setError(null);
     setIsAIPowered(false);
+    previousSuggestionsRef.current = [];
   }, []);
 
   return {
@@ -89,6 +112,7 @@ export function useAIAnalyzeUrl() {
     error,
     isAIPowered,
     analyzeUrl,
+    regenerateUrl,
     clearSuggestions,
   };
 }

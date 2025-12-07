@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Sparkles } from "lucide-react";
+import { Globe, Sparkles, RefreshCw } from "lucide-react";
 import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
 import { motion, AnimatePresence } from "framer-motion";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const utmSchema = z.object({
   destination_url: z.string().url("enter a valid url"),
@@ -37,8 +38,9 @@ const suggestions = {
 
 export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProps) => {
   const [finalUrl, setFinalUrl] = useState("");
-  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, regenerateUrl, isAIPowered } = useAIAnalyzeUrl();
   const [aiFilledFields, setAiFilledFields] = useState<Set<string>>(new Set());
+  const [currentUrl, setCurrentUrl] = useState<string>("");
 
   const form = useForm<UTMFormData>({
     resolver: zodResolver(utmSchema),
@@ -60,9 +62,17 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
     
     try {
       new URL(pastedUrl);
+      setCurrentUrl(pastedUrl);
       analyzeUrl(pastedUrl);
     } catch {
       // Invalid URL
+    }
+  };
+
+  const handleRegenerate = () => {
+    if (currentUrl) {
+      setAiFilledFields(new Set()); // Clear badges to allow re-application
+      regenerateUrl(currentUrl);
     }
   };
 
@@ -177,14 +187,36 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
             </p>
           )}
           {isAIPowered && aiSuggestions && (
-            <motion.p 
+            <motion.div 
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-xs text-primary mt-1 flex items-center gap-1"
+              className="flex items-center justify-between mt-1"
             >
-              <Sparkles className="h-3 w-3" />
-              {aiSuggestions.context}
-            </motion.p>
+              <p className="text-xs text-primary flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
+                {aiSuggestions.context}
+              </p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 px-2 gap-1 text-xs text-primary hover:text-primary"
+                      onClick={handleRegenerate}
+                      disabled={isAnalyzing}
+                    >
+                      <RefreshCw className={`h-3 w-3 ${isAnalyzing ? 'animate-spin' : ''}`} />
+                      <span>regenerate</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>get different AI suggestions</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </motion.div>
           )}
         </div>
 
