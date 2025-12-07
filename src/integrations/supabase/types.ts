@@ -1436,7 +1436,7 @@ export type Database = {
           event_type: string
           event_value: number | null
           id: string
-          link_id: string
+          link_id: string | null
           metadata: Json | null
           user_identifier: string | null
           visitor_id: string | null
@@ -1451,7 +1451,7 @@ export type Database = {
           event_type: string
           event_value?: number | null
           id?: string
-          link_id: string
+          link_id?: string | null
           metadata?: Json | null
           user_identifier?: string | null
           visitor_id?: string | null
@@ -1466,7 +1466,7 @@ export type Database = {
           event_type?: string
           event_value?: number | null
           id?: string
-          link_id?: string
+          link_id?: string | null
           metadata?: Json | null
           user_identifier?: string | null
           visitor_id?: string | null
