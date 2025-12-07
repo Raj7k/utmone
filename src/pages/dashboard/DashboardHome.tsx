@@ -4,6 +4,7 @@ import { ReferralTile } from "@/components/dashboard/bento/ReferralTile";
 import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLinksTile";
 import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
 import { QuickActionsTile } from "@/components/dashboard/bento/QuickActionsTile";
+import { PulseWatchdogTile } from "@/components/dashboard/bento/PulseWatchdogTile";
 import { LinkHealthWidget } from "@/components/analytics/LinkHealthWidget";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { WorkspaceHygieneCard } from "@/components/dashboard/WorkspaceHygieneCard";
@@ -51,29 +52,36 @@ const DashboardHome = () => {
             </ErrorBoundary>
           </div>
 
-          {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
-          <div className="md:col-span-6 lg:col-span-6 order-4">
+          {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
+          <div className="md:col-span-6 lg:col-span-4 order-4">
             <ErrorBoundary section="ai-insights">
               <AIInsightsTile />
             </ErrorBoundary>
           </div>
 
-          {/* Row 3: Link Health (mobile: full width; tablet: 6 cols; desktop: 6 cols) */}
-          <div className="md:col-span-6 lg:col-span-6 order-5">
+          {/* Row 3: Pulse Watchdog (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
+          <div className="md:col-span-6 lg:col-span-4 order-5">
+            <ErrorBoundary section="pulse-watchdog">
+              <PulseWatchdogTile />
+            </ErrorBoundary>
+          </div>
+
+          {/* Row 3: Link Health (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
+          <div className="md:col-span-6 lg:col-span-4 order-6">
             <ErrorBoundary section="link-health">
               <LinkHealthWidget />
             </ErrorBoundary>
           </div>
           
           {/* Row 4: Referral (full width) */}
-          <div className="md:col-span-6 lg:col-span-12 order-6">
+          <div className="md:col-span-6 lg:col-span-12 order-7">
             <ErrorBoundary section="referral-tile">
               <ReferralTile />
             </ErrorBoundary>
           </div>
 
           {/* Row 5: Recent Links (full width on all breakpoints) */}
-          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-7 scroll-mt-6">
+          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-8 scroll-mt-6">
             <ErrorBoundary section="recent-links">
               <BentoRecentLinksTile />
             </ErrorBoundary>

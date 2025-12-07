@@ -133,8 +133,13 @@ export default function Settings() {
 
               {activeTab === "integrations" && currentWorkspace && (
                 <>
-                  <WebhookManager workspaceId={currentWorkspace.id} />
-                  <IntegrationsManager />
+                  <Integrations />
+                  <div className="mt-8">
+                    <WebhookManager workspaceId={currentWorkspace.id} />
+                  </div>
+                  <div className="mt-8">
+                    <IntegrationsManager />
+                  </div>
                 </>
               )}
 
@@ -171,8 +176,6 @@ export default function Settings() {
               {activeTab === "tracking" && <Tracking />}
               
               {activeTab === "pipeline" && <PipelineIntegration />}
-              
-              {activeTab === "integrations" && <Integrations />}
             </div>
           </div>
         </div>
