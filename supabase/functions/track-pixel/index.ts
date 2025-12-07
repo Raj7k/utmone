@@ -22,6 +22,28 @@ Deno.serve(async (req) => {
     const eventName = url.searchParams.get('event_name') || null;
     const pageUrl = url.searchParams.get('url') || null;
     const pageTitle = url.searchParams.get('title') || null;
+    const referrerParam = url.searchParams.get('referrer') || null;
+    
+    // Parse UTM parameters from request (sent by pixel SDK)
+    const utmSource = url.searchParams.get('utm_source') || null;
+    const utmMedium = url.searchParams.get('utm_medium') || null;
+    const utmCampaign = url.searchParams.get('utm_campaign') || null;
+    const utmTerm = url.searchParams.get('utm_term') || null;
+    const utmContent = url.searchParams.get('utm_content') || null;
+    
+    // Parse device type and browser from user-agent
+    const userAgent = req.headers.get('user-agent') || '';
+    const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
+    const isTablet = /Tablet|iPad/i.test(userAgent);
+    const deviceType = isTablet ? 'tablet' : (isMobile ? 'mobile' : 'desktop');
+    
+    // Extract browser name
+    const browserMatch = userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera|MSIE|Trident)/i);
+    const browser = browserMatch ? browserMatch[1].toLowerCase() : 'unknown';
+    
+    // Extract OS
+    const osMatch = userAgent.match(/(Windows|Mac OS|Linux|Android|iOS|iPhone OS)/i);
+    const os = osMatch ? osMatch[1] : 'unknown';
 
     if (!pixelId) {
       return new Response(
@@ -140,6 +162,12 @@ Deno.serve(async (req) => {
     }
 
     // Also insert into journey_events for real-time debugger and journey visualization
+    // Prioritize UTM params from pixel request, then fall back to click metadata
+    const finalSource = utmSource || (click ? (click.metadata as any)?.utm_source : null);
+    const finalMedium = utmMedium || (click ? (click.metadata as any)?.utm_medium : null);
+    const finalCampaign = utmCampaign || (click ? (click.metadata as any)?.utm_campaign : null);
+    const finalReferrer = referrerParam || referrer;
+    
     const { error: journeyError } = await supabase
       .from('journey_events')
       .insert({
@@ -147,13 +175,15 @@ Deno.serve(async (req) => {
         visitor_id: visitorId,
         event_type: eventType,
         event_name: eventName || (eventType === 'pageview' ? 'page_view' : null),
-        source: click ? (click.metadata as any)?.utm_source || null : null,
-        medium: click ? (click.metadata as any)?.utm_medium || null : null,
-        campaign: click ? (click.metadata as any)?.utm_campaign || null : null,
-        landing_page: pageUrl || referrer,
-        referrer: referrer,
+        source: finalSource,
+        medium: finalMedium,
+        campaign: finalCampaign,
+        landing_page: pageUrl || finalReferrer,
+        referrer: finalReferrer,
         revenue: revenue > 0 ? revenue : null,
-        device_type: null,
+        device_type: deviceType,
+        browser: browser,
+        os: os,
         metadata: {
           pixel_id: pixelId,
           link_id: linkId,
@@ -161,6 +191,9 @@ Deno.serve(async (req) => {
           page_url: pageUrl,
           page_title: pageTitle,
           has_prior_click: !!click,
+          utm_term: utmTerm,
+          utm_content: utmContent,
+          user_agent: userAgent,
         },
       });
 

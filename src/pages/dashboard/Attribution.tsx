@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AttributionModelSelector } from "@/components/analytics/AttributionModelSelector";
 import { AttributionTable } from "@/components/analytics/AttributionTable";
 import { JourneySankey } from "@/components/analytics/JourneySankey";
@@ -18,24 +19,28 @@ import { LiftAnalysis } from "@/components/attribution/LiftAnalysis";
 import { RevenueHeroCard } from "@/components/attribution/RevenueHeroCard";
 import { TopChannelsChart } from "@/components/attribution/TopChannelsChart";
 import { QuickInsightsCard } from "@/components/attribution/QuickInsightsCard";
+import { TestDataGenerator } from "@/components/attribution/TestDataGenerator";
 import { useAttribution, useJourneyFlow, useIdentityGraph, useTopicAttribution, type AttributionModel } from "@/hooks/useAttribution";
 import { useJourneyGraph, useDiscoverStructure } from "@/hooks/useJourneyGraph";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useRealtimeIdentityGraph } from "@/hooks/useRealtimeIdentityGraph";
+import { useQueryClient } from "@tanstack/react-query";
 import { subDays } from "date-fns";
 import { 
   Sparkles, Radio, Network, TrendingUp, Clock, Upload, Tag, 
   BarChart3, GitBranch, Route, Star, PieChart, Map, ArrowRight,
-  Eye, ChevronRight, DollarSign
+  Eye, ChevronRight, DollarSign, FlaskConical, ChevronDown
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 const Attribution = () => {
   const { currentWorkspace } = useWorkspace();
+  const queryClient = useQueryClient();
   const [model, setModel] = useState<AttributionModel>("linear");
   const [dateRangeDays, setDateRangeDays] = useState<number>(30);
   const [activeTab, setActiveTab] = useState("overview");
+  const [showTestGenerator, setShowTestGenerator] = useState(true);
   
   const dateRange = {
     from: subDays(new Date(), dateRangeDays),
@@ -100,6 +105,16 @@ const Attribution = () => {
   // Navigate to tab helper
   const navigateToTab = (tab: string) => setActiveTab(tab);
 
+  // Refresh all attribution data
+  const handleTestDataComplete = () => {
+    queryClient.invalidateQueries({ queryKey: ['attribution'] });
+    queryClient.invalidateQueries({ queryKey: ['journey-flow'] });
+    queryClient.invalidateQueries({ queryKey: ['journey-graph'] });
+    queryClient.invalidateQueries({ queryKey: ['identity-graph'] });
+    queryClient.invalidateQueries({ queryKey: ['topic-attribution'] });
+    queryClient.invalidateQueries({ queryKey: ['lift-analysis'] });
+  };
+
   return (
     <div className="space-y-6 p-6">
       {/* Header */}
@@ -134,10 +149,31 @@ const Attribution = () => {
             <SelectItem value="7">last 7 days</SelectItem>
             <SelectItem value="30">last 30 days</SelectItem>
             <SelectItem value="90">last 90 days</SelectItem>
-            <SelectItem value="365">last year</SelectItem>
+          <SelectItem value="365">last year</SelectItem>
           </SelectContent>
         </Select>
       </div>
+
+      {/* Test Data Generator - Collapsible */}
+      {totalConversions === 0 && (
+        <Collapsible open={showTestGenerator} onOpenChange={setShowTestGenerator}>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" className="w-full justify-between p-0 h-auto hover:bg-transparent">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <FlaskConical className="h-4 w-4 text-amber-500" />
+                <span>no attribution data yet? generate sample data to explore features</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${showTestGenerator ? 'rotate-180' : ''}`} />
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <TestDataGenerator 
+              workspaceId={currentWorkspace?.id}
+              onComplete={handleTestDataComplete}
+            />
+          </CollapsibleContent>
+        </Collapsible>
+      )}
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-muted/50 p-1">
