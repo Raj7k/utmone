@@ -47,27 +47,18 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
       <CardContent className="space-y-4">
         {/* Primary Insight */}
         {topTime && topTime.clicks > 0 ? (
-          <div 
-            className="p-4 rounded-lg"
-            style={{ 
-              background: 'rgba(255,255,255,0.05)', 
-              border: '1px solid rgba(255,255,255,0.15)' 
-            }}
-          >
-            <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Peak Activity</p>
-            <p className="text-2xl font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <div className="p-4 rounded-lg bg-muted/30 dark:bg-white/5 border border-border">
+            <p className="text-sm mb-2 text-muted-foreground">Peak Activity</p>
+            <p className="text-2xl font-semibold text-foreground">
               {topTime.dayName} at {formatHour(topTime.hour)}
             </p>
-            <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-sm mt-1 text-muted-foreground">
               {topTime.clicks} clicks during this hour
             </p>
           </div>
         ) : (
-          <div 
-            className="p-4 rounded-lg text-center"
-            style={{ background: 'rgba(255,255,255,0.05)' }}
-          >
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <div className="p-4 rounded-lg bg-muted/30 dark:bg-white/5 text-center">
+            <p className="text-sm text-muted-foreground">
               Not enough data to determine best posting times
             </p>
           </div>
@@ -75,14 +66,11 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
 
         {/* Best Day */}
         {bestDay.clicks > 0 && (
-          <div 
-            className="flex items-start gap-3 p-3 rounded-lg"
-            style={{ background: 'rgba(255,255,255,0.05)' }}
-          >
-            <CalendarDays className="h-5 w-5 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 dark:bg-white/5">
+            <CalendarDays className="h-5 w-5 mt-0.5 text-foreground/80" />
             <div>
-              <p className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{bestDay.dayName}</p>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <p className="font-medium text-foreground">{bestDay.dayName}</p>
+              <p className="text-sm text-muted-foreground">
                 Best day overall with {bestDay.clicks} total clicks
               </p>
             </div>
@@ -92,18 +80,17 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
         {/* Top 3 Times */}
         {bestTimes.length > 0 && bestTimes[0].clicks > 0 && (
           <div className="space-y-2">
-            <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Top Posting Times</p>
+            <p className="text-sm font-medium text-foreground">Top Posting Times</p>
             <div className="space-y-2">
               {bestTimes.slice(0, 3).map((time, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between text-sm p-2 rounded"
-                  style={{ background: 'rgba(255,255,255,0.03)' }}
+                  className="flex items-center justify-between text-sm p-2 rounded bg-muted/20 dark:bg-white/[0.03]"
                 >
-                  <span style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <span className="text-muted-foreground">
                     #{index + 1} · {time.dayName} at {formatHour(time.hour)}
                   </span>
-                  <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{time.clicks} clicks</span>
+                  <span className="font-medium text-foreground">{time.clicks} clicks</span>
                 </div>
               ))}
             </div>
