@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, CheckCircle2, Code, Zap, Users, DollarSign, Globe, Target, TrendingUp, BarChart3, Layers, ShieldCheck } from "lucide-react";
+import { Copy, CheckCircle2, Code, Zap, Users, DollarSign, Globe, Target, TrendingUp, BarChart3, Layers, ShieldCheck, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { PixelDebugger } from "@/components/tracking/PixelDebugger";
 import { EmailToDeveloperModal } from "@/components/tracking/EmailToDeveloperModal";
+import { InstallationMethodDecider } from "@/components/tracking/InstallationMethodDecider";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,6 +17,7 @@ export const Tracking = () => {
   const { toast } = useToast();
   const { currentWorkspace } = useWorkspaceContext();
   const [copied, setCopied] = useState<string | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState<'direct' | 'gtm' | null>(null);
 
   // Fetch pixel config
   const { data: pixelConfig, isLoading } = useQuery({
@@ -176,11 +178,14 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
               ⚠️ without the tracking pixel, you won't be able to track conversions
             </p>
             <p className="text-xs text-amber-800 dark:text-amber-200">
-              The pixel must be installed on your website's &lt;head&gt; tag to capture visitor data and enable attribution tracking.
+              The pixel must be installed on your website (not inside utm.one dashboard) to capture visitor data and enable attribution tracking.
             </p>
           </div>
         </div>
       </Card>
+
+      {/* Installation Method Decider */}
+      <InstallationMethodDecider onMethodSelect={setSelectedMethod} />
 
       {/* Pixel ID Display */}
       {pixelConfig && (
@@ -381,13 +386,35 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
           <EmailToDeveloperModal />
         </div>
 
-        <Tabs defaultValue="wordpress" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue={selectedMethod === 'gtm' ? 'gtm' : 'direct'} className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="direct">Direct</TabsTrigger>
             <TabsTrigger value="wordpress">WordPress</TabsTrigger>
             <TabsTrigger value="shopify">Shopify</TabsTrigger>
             <TabsTrigger value="react">React/Next.js</TabsTrigger>
-            <TabsTrigger value="gtm">GTM</TabsTrigger>
+            <TabsTrigger value="gtm">Via GTM</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="direct" className="mt-4">
+            <div className="mb-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>recommended for most users.</strong> paste this code in your website's &lt;head&gt; tag, just before the closing &lt;/head&gt;.
+              </p>
+            </div>
+            <div className="relative">
+              <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
+                <code>{baseSnippet}</code>
+              </pre>
+              <Button
+                variant="outline"
+                size="sm"
+                className="absolute top-2 right-2"
+                onClick={() => copyToClipboard(baseSnippet, 'Direct snippet')}
+              >
+                {copied === 'Direct snippet' ? <CheckCircle2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              </Button>
+            </div>
+          </TabsContent>
 
           <TabsContent value="wordpress" className="mt-4">
             <div className="relative">
@@ -438,6 +465,26 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
           </TabsContent>
 
           <TabsContent value="gtm" className="mt-4">
+            {/* GTM Clarification */}
+            <div className="mb-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+              <p className="text-sm text-blue-800 dark:text-blue-200 mb-2">
+                <strong>this installs the utm.one tracking pixel via google tag manager.</strong>
+              </p>
+              <p className="text-xs text-blue-700 dark:text-blue-300">
+                if you're already using GTM on your website, this is the recommended method. the pixel will be deployed through your GTM container.
+              </p>
+            </div>
+            
+            {/* Warning about dual installation */}
+            <div className="mb-3 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-amber-800 dark:text-amber-200">
+                  <strong>do NOT install both</strong> the GTM version AND the direct &lt;head&gt; version – choose one method only to avoid duplicate tracking.
+                </p>
+              </div>
+            </div>
+
             <div className="relative">
               <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-64">
                 <code>{gtmSnippet}</code>
