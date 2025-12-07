@@ -2,16 +2,44 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { useState, useEffect } from "react";
+import { PlanTier } from "@/lib/planConfig";
+
+const SIMULATED_PLAN_KEY = 'SIMULATED_PLAN';
+const DEMO_COLLAPSED_KEY = 'demo-mode-collapsed';
 
 export const useDemoMode = () => {
   const { currentWorkspace } = useWorkspaceContext();
   const [isDismissed, setIsDismissed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [simulatedPlan, setSimulatedPlan] = useState<PlanTier | null>(null);
 
-  // Check localStorage for dismissal
+  // Check localStorage for dismissal and collapse state
   useEffect(() => {
     const dismissed = localStorage.getItem(`demo-mode-dismissed-${currentWorkspace?.id}`);
+    const collapsed = localStorage.getItem(`${DEMO_COLLAPSED_KEY}-${currentWorkspace?.id}`);
     setIsDismissed(!!dismissed);
+    setIsCollapsed(!!collapsed);
   }, [currentWorkspace?.id]);
+
+  // Listen for simulated plan changes from AdminToolbar
+  useEffect(() => {
+    const updateSimulatedPlan = () => {
+      const plan = localStorage.getItem(SIMULATED_PLAN_KEY) as PlanTier | null;
+      setSimulatedPlan(plan);
+    };
+
+    // Initial read
+    updateSimulatedPlan();
+
+    // Listen for changes
+    window.addEventListener('storage-update', updateSimulatedPlan);
+    window.addEventListener('storage', updateSimulatedPlan);
+
+    return () => {
+      window.removeEventListener('storage-update', updateSimulatedPlan);
+      window.removeEventListener('storage', updateSimulatedPlan);
+    };
+  }, []);
 
   // Query to check if user has any links
   const { data: linksCount, isLoading } = useQuery({
@@ -37,10 +65,25 @@ export const useDemoMode = () => {
   const hasNoLinks = linksCount === 0;
   const showDemoMode = hasNoLinks && !isDismissed && !isLoading;
 
+  // Get the active plan (simulated or real)
+  const activePlan: PlanTier = simulatedPlan || (currentWorkspace?.plan_tier as PlanTier) || 'free';
+
   const dismissDemoMode = () => {
     if (currentWorkspace?.id) {
       localStorage.setItem(`demo-mode-dismissed-${currentWorkspace.id}`, "true");
       setIsDismissed(true);
+    }
+  };
+
+  const toggleCollapse = () => {
+    if (currentWorkspace?.id) {
+      const newState = !isCollapsed;
+      if (newState) {
+        localStorage.setItem(`${DEMO_COLLAPSED_KEY}-${currentWorkspace.id}`, "true");
+      } else {
+        localStorage.removeItem(`${DEMO_COLLAPSED_KEY}-${currentWorkspace.id}`);
+      }
+      setIsCollapsed(newState);
     }
   };
 
@@ -49,8 +92,54 @@ export const useDemoMode = () => {
     hasNoLinks,
     linksCount: linksCount || 0,
     isLoading,
+    isCollapsed,
+    activePlan,
     dismissDemoMode,
+    toggleCollapse,
   };
+};
+
+// Tier-aware demo data helper
+export const getDemoFeaturesForPlan = (planTier: PlanTier) => {
+  const features = {
+    clicks: true,
+    visitors: true,
+    basicAnalytics: true,
+    countries: false,
+    devices: false,
+    referrers: false,
+    attribution: false,
+    journeys: false,
+    predictive: false,
+    identityGraph: false,
+  };
+
+  switch (planTier) {
+    case 'starter':
+      features.countries = true;
+      features.devices = true;
+      features.referrers = true;
+      break;
+    case 'growth':
+      features.countries = true;
+      features.devices = true;
+      features.referrers = true;
+      features.attribution = true;
+      features.journeys = true;
+      break;
+    case 'business':
+    case 'enterprise':
+      features.countries = true;
+      features.devices = true;
+      features.referrers = true;
+      features.attribution = true;
+      features.journeys = true;
+      features.predictive = true;
+      features.identityGraph = true;
+      break;
+  }
+
+  return features;
 };
 
 // Demo data for visualizations

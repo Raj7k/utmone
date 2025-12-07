@@ -21,7 +21,10 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 const DashboardHome = () => {
   const { id: activePlan, displayName } = useCurrentPlan();
   const { currentWorkspace } = useWorkspaceContext();
-  const { showDemoMode, hasNoLinks } = useDemoMode();
+  const { showDemoMode, hasNoLinks, isCollapsed, activePlan: demoActivePlan } = useDemoMode();
+
+  // Show demo tiles only if demo mode is active and not collapsed
+  const showDemoTiles = showDemoMode && !isCollapsed;
 
   return (
     <ErrorBoundary section="dashboard-home">
@@ -79,19 +82,19 @@ const DashboardHome = () => {
           </div>
 
           {/* Row 3: Demo tiles OR real tiles based on demo mode */}
-          {showDemoMode ? (
+          {showDemoTiles ? (
             <>
-              {/* Demo Attribution Tile */}
+              {/* Demo Attribution Tile - Tier-aware */}
               <div className="md:col-span-6 lg:col-span-6 order-4">
                 <ErrorBoundary section="demo-attribution">
-                  <DemoAttributionTile />
+                  <DemoAttributionTile planTier={demoActivePlan} />
                 </ErrorBoundary>
               </div>
 
-              {/* Demo Analytics Tile */}
+              {/* Demo Analytics Tile - Tier-aware */}
               <div className="md:col-span-6 lg:col-span-6 order-5">
                 <ErrorBoundary section="demo-analytics">
-                  <DemoAnalyticsTile />
+                  <DemoAnalyticsTile planTier={demoActivePlan} />
                 </ErrorBoundary>
               </div>
             </>
@@ -140,4 +143,3 @@ const DashboardHome = () => {
 };
 
 export default DashboardHome;
-

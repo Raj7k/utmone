@@ -30,6 +30,7 @@ export const AdminToolbar = () => {
   const plans: Array<{ value: PlanTier | 'real'; label: string }> = [
     { value: 'real', label: 'Real' },
     { value: 'free', label: 'Free' },
+    { value: 'starter', label: 'Starter' },
     { value: 'growth', label: 'Growth' },
     { value: 'business', label: 'Business' },
     { value: 'enterprise', label: 'Enterprise' },
