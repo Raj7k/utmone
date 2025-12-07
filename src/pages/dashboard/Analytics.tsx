@@ -13,7 +13,7 @@ import { TrafficForecastChart } from "@/components/analytics/TrafficForecastChar
 import { ParetoFrontier } from "@/components/analytics/ParetoFrontier";
 import { useTrafficForecast } from "@/hooks/useTrafficForecast";
 import { useCampaignPerformance } from "@/hooks/useCampaignPerformance";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { ExecutiveMetricsBar } from "@/components/analytics/ExecutiveMetricsBar";
 import { PerformanceTrendChart } from "@/components/analytics/PerformanceTrendChart";
 import { AICommandCenter } from "@/components/analytics/AICommandCenter";
@@ -90,21 +90,19 @@ export default function Analytics() {
   // Empty state
   if (analytics?.isEmpty) {
     return (
-      <div className="space-y-6">
-        <PageHeader
-          title="analytics command center"
-          description="executive insights into your link performance"
-          breadcrumbs={[{ label: "analytics" }]}
-        />
-
+      <PageContentWrapper
+        title="analytics command center"
+        description="executive insights into your link performance"
+        breadcrumbs={[{ label: "analytics" }]}
+      >
         <Card className="p-12 text-center border-dashed">
           <div className="flex flex-col items-center gap-4">
             <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
               <Activity className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-label mb-2">no data yet</h3>
-              <p className="text-sm text-secondary-label max-w-md mx-auto">
+              <h3 className="text-xl font-semibold text-foreground mb-2">no data yet</h3>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 your analytics dashboard will come alive once your links start getting traffic. create and share your first link to see real-time insights.
               </p>
             </div>
@@ -116,19 +114,16 @@ export default function Analytics() {
             </Button>
           </div>
         </Card>
-      </div>
+      </PageContentWrapper>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header with Quick Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <PageHeader
-          title="analytics command center"
-          description="executive insights for CMOs, marketing managers, and sales leaders"
-          breadcrumbs={[{ label: "analytics" }]}
-        />
+    <PageContentWrapper
+      title="analytics command center"
+      description="executive insights for CMOs, marketing managers, and sales leaders"
+      breadcrumbs={[{ label: "analytics" }]}
+      action={
         <QuickActionsPanel 
           workspaceId={currentWorkspace.id}
           onRefresh={handleRefresh} 
@@ -136,7 +131,8 @@ export default function Analytics() {
           onShare={() => setShareDialogOpen(true)}
           onSchedule={() => setScheduleDialogOpen(true)}
         />
-      </div>
+      }
+    >
 
       {/* Share & Schedule Dialogs */}
       <AnalyticsShareDialog

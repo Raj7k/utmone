@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -87,22 +87,20 @@ export default function CacheMonitoring() {
   };
 
   return (
-    <div className="space-y-8">
-      <PageHeader
-        title="instant links"
-        description="your most popular links load in under 100 milliseconds"
-        breadcrumbs={[{ label: "instant links" }]}
-        action={
-          <Button
-            onClick={handleOptimize}
-            disabled={isOptimizing || optimizeMutation.isPending}
-            variant="marketing"
-          >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isOptimizing ? 'animate-spin' : ''}`} />
-            optimize now
-          </Button>
-        }
-      />
+    <PageContentWrapper
+      title="instant links"
+      description="your most popular links load in under 100 milliseconds"
+      breadcrumbs={[{ label: "instant links" }]}
+      action={
+        <Button
+          onClick={handleOptimize}
+          disabled={isOptimizing || optimizeMutation.isPending}
+        >
+          <RefreshCw className={`w-4 h-4 mr-2 ${isOptimizing ? 'animate-spin' : ''}`} />
+          optimize now
+        </Button>
+      }
+    >
 
       {/* Overview Cards */}
       <div className="grid md:grid-cols-3 gap-6">
@@ -273,6 +271,6 @@ export default function CacheMonitoring() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </PageContentWrapper>
   );
 }

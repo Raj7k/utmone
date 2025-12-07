@@ -17,6 +17,7 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 const DashboardHome = () => {
   const { id: activePlan, displayName } = useCurrentPlan();
@@ -28,7 +29,12 @@ const DashboardHome = () => {
 
   return (
     <ErrorBoundary section="dashboard-home">
-      <div className="space-y-6">
+      <PageContentWrapper
+        title="dashboard"
+        description="your command center for link management and analytics"
+        breadcrumbs={[]}
+        compact
+      >
         {/* Demo Mode Banner - Shows for users with 0 links */}
         {showDemoMode && (
           <ErrorBoundary section="demo-mode-banner">
@@ -137,7 +143,7 @@ const DashboardHome = () => {
             </ErrorBoundary>
           </div>
         </div>
-      </div>
+      </PageContentWrapper>
     </ErrorBoundary>
   );
 };

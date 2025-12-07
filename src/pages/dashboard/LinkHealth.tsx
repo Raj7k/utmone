@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Shield, RefreshCw, AlertTriangle, CheckCircle, HelpCircle, ExternalLink, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 interface Link {
   id: string;
@@ -53,7 +54,6 @@ export default function LinkHealth() {
         description: "checking your links... this may take a minute.",
       });
 
-      // Refetch after 30 seconds
       setTimeout(() => {
         refetch();
         setIsChecking(false);
@@ -97,7 +97,7 @@ export default function LinkHealth() {
       case "unhealthy":
         return <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />;
       default:
-        return <HelpCircle className="h-4 w-4 text-white/40" />;
+        return <HelpCircle className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -115,19 +115,17 @@ export default function LinkHealth() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-display font-bold">link guard</h1>
-          <p className="text-muted-foreground mt-2">
-            we check your links automatically so you never lose a click
-          </p>
-        </div>
-        <Button onClick={handleManualCheck} disabled={isChecking} variant="marketing">
+    <PageContentWrapper
+      title="link guard"
+      description="we check your links automatically so you never lose a click"
+      breadcrumbs={[{ label: "link guard" }]}
+      action={
+        <Button onClick={handleManualCheck} disabled={isChecking}>
           <RefreshCw className={`h-4 w-4 mr-2 ${isChecking ? "animate-spin" : ""}`} />
           check now
         </Button>
-      </div>
+      }
+    >
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -299,6 +297,6 @@ export default function LinkHealth() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </PageContentWrapper>
   );
 }

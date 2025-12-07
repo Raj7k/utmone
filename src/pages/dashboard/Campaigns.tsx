@@ -7,7 +7,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { CreateCampaignModal } from "@/components/campaigns/CreateCampaignModal";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { FeatureGuard } from "@/components/FeatureGuard";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 export default function Campaigns() {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -74,24 +74,22 @@ export default function Campaigns() {
   });
 
   return (
-    <div className="space-y-6 w-full max-w-full overflow-hidden">
-      <PageHeader
-        title="campaigns"
-        description="organize links by campaign and track channel performance"
-        breadcrumbs={[{ label: "campaigns" }]}
-        action={
-          <FeatureGuard feature="campaigns" showUpgradeModal>
-            <Button onClick={() => setShowCreateModal(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              create campaign
-            </Button>
-          </FeatureGuard>
-        }
-      />
-
+    <PageContentWrapper
+      title="campaigns"
+      description="organize links by campaign and track channel performance"
+      breadcrumbs={[{ label: "campaigns" }]}
+      action={
+        <FeatureGuard feature="campaigns" showUpgradeModal>
+          <Button onClick={() => setShowCreateModal(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            create campaign
+          </Button>
+        </FeatureGuard>
+      }
+    >
       {/* Campaigns Grid */}
       {isLoading ? (
-        <div className="text-center py-12 text-secondary-label">Loading campaigns...</div>
+        <div className="text-center py-12 text-muted-foreground">Loading campaigns...</div>
       ) : campaigns && campaigns.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {campaigns.map((campaign) => {
@@ -115,8 +113,8 @@ export default function Campaigns() {
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-full mb-4 bg-primary/10">
             <Megaphone className="h-8 w-8 text-primary" />
           </div>
-          <h3 className="text-lg font-semibold text-label mb-2">No campaigns yet</h3>
-          <p className="text-sm text-secondary-label mb-4">
+          <h3 className="text-lg font-semibold text-foreground mb-2">No campaigns yet</h3>
+          <p className="text-sm text-muted-foreground mb-4">
             Create your first campaign to organize links and track performance
           </p>
           <FeatureGuard feature="campaigns" showUpgradeModal>
@@ -130,6 +128,6 @@ export default function Campaigns() {
 
       {/* Create Campaign Modal */}
       <CreateCampaignModal open={showCreateModal} onOpenChange={setShowCreateModal} />
-    </div>
+    </PageContentWrapper>
   );
 }

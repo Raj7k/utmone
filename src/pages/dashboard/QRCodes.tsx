@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { QRCodeGenerator } from "@/components/QRCodeGenerator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 export default function QRCodes() {
   const { currentWorkspace } = useWorkspace();
@@ -75,7 +75,7 @@ export default function QRCodes() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-3">
           <div className="h-12 w-12 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-          <p className="text-body-apple text-secondary-label">loading QR Codes…</p>
+          <p className="text-sm text-muted-foreground">loading QR codes…</p>
         </div>
       </div>
     );
@@ -87,19 +87,17 @@ export default function QRCodes() {
   );
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="QR Codes"
-        description="create and manage branded QR codes with real-time scan health monitoring"
-        breadcrumbs={[{ label: "QR Codes" }]}
-        action={
-          <Button onClick={() => setShowCreateDialog(true)} size="lg">
-            <Plus className="h-4 w-4 mr-2" />
-            create qr code
-          </Button>
-        }
-      />
-
+    <PageContentWrapper
+      title="qr codes"
+      description="create and manage branded QR codes with real-time scan health monitoring"
+      breadcrumbs={[{ label: "qr codes" }]}
+      action={
+        <Button onClick={() => setShowCreateDialog(true)} size="lg">
+          <Plus className="h-4 w-4 mr-2" />
+          create qr code
+        </Button>
+      }
+    >
       <Tabs defaultValue="all" className="w-full">
         <div className="flex items-center justify-between mb-6">
           <TabsList>
@@ -117,76 +115,76 @@ export default function QRCodes() {
         <TabsContent value="all" className="space-y-6">
           {qrCodes && qrCodes.length > 0 ? (
             <>
-              <div className="flex items-center gap-4 text-sm text-secondary-label">
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span>{qrCodes.length} QR Codes</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(filteredQRCodes || qrCodes).map((qr) => (
-            <Card key={qr.id}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-title-3">
-                      {qr.links?.title || "untitled link"}
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      created {formatDistance(new Date(qr.created_at), new Date(), { addSuffix: true })}
-                    </CardDescription>
-                  </div>
-                  <Badge variant="outline">{qr.name}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-center p-4 bg-white rounded-lg">
-                  <img
-                    src={qr.png_url || qr.svg_url || ""}
-                    alt={`QR Code for ${qr.links?.title}`}
-                    className="w-32 h-32"
-                  />
-                </div>
+                {(filteredQRCodes || qrCodes).map((qr) => (
+                  <Card key={qr.id}>
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg">
+                            {qr.links?.title || "untitled link"}
+                          </CardTitle>
+                          <CardDescription className="text-xs">
+                            created {formatDistance(new Date(qr.created_at), new Date(), { addSuffix: true })}
+                          </CardDescription>
+                        </div>
+                        <Badge variant="outline">{qr.name}</Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-center p-4 bg-white rounded-lg">
+                        <img
+                          src={qr.png_url || qr.svg_url || ""}
+                          alt={`QR Code for ${qr.links?.title}`}
+                          className="w-32 h-32"
+                        />
+                      </div>
 
-                <div className="text-xs text-secondary-label font-mono">
-                  https://{qr.links?.domain}/{qr.links?.path ? `${qr.links.path}/` : ""}{qr.links?.slug}
-                </div>
+                      <div className="text-xs text-muted-foreground font-mono">
+                        https://{qr.links?.domain}/{qr.links?.path ? `${qr.links.path}/` : ""}{qr.links?.slug}
+                      </div>
 
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    asChild
-                  >
-                    <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>
-                      <Download className="h-4 w-4 mr-2" />
-                      Download
-                    </a>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    asChild
-                  >
-                    <a
-                      href={`https://${qr.links?.domain}/${qr.links?.path ? `${qr.links.path}/` : ""}${qr.links?.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Open
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-                </Card>
-              ))}
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          asChild
+                        >
+                          <a href={qr.png_url || qr.svg_url || ""} download={`qr-${qr.links?.slug}.png`}>
+                            <Download className="h-4 w-4 mr-2" />
+                            Download
+                          </a>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          asChild
+                        >
+                          <a
+                            href={`https://${qr.links?.domain}/${qr.links?.path ? `${qr.links.path}/` : ""}${qr.links?.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink className="h-4 w-4 mr-2" />
+                            Open
+                          </a>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </>
           ) : (
             <Card>
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <QrCode className="h-12 w-12 text-muted-foreground mb-4" />
-                <p className="text-body-apple text-secondary-label text-center mb-4">
+                <p className="text-sm text-muted-foreground text-center mb-4">
                   No QR Codes yet. Create your first branded QR Code.
                 </p>
                 <Button onClick={() => setShowCreateDialog(true)}>
@@ -203,7 +201,7 @@ export default function QRCodes() {
             <div className="max-w-4xl mx-auto space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-2">Create QR Code</h2>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground">
                   Select a link and customize your branded QR Code
                 </p>
               </div>
@@ -213,13 +211,13 @@ export default function QRCodes() {
                   {workspaceLinks.map((link) => (
                     <Card
                       key={link.id}
-                      className="p-4 cursor-pointer transition-colors hover:border-white/30"
+                      className="p-4 cursor-pointer transition-colors hover:border-primary/30"
                       onClick={() => setSelectedLink({ id: link.id, shortUrl: link.short_url || "" })}
                     >
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-foreground">{link.title}</p>
-                          <p className="text-sm text-secondary-label">{link.short_url}</p>
+                          <p className="text-sm text-muted-foreground">{link.short_url}</p>
                         </div>
                         <Button size="sm">
                           Select
@@ -230,7 +228,7 @@ export default function QRCodes() {
                 </div>
               ) : (
                 <Card className="p-12 text-center">
-                  <p className="text-secondary-label mb-4">
+                  <p className="text-muted-foreground mb-4">
                     You need to create a short link first before generating QR Codes
                   </p>
                   <Button onClick={() => window.location.href = "/dashboard/links"}>
@@ -257,7 +255,7 @@ export default function QRCodes() {
               workspaceLinks.map((link) => (
                 <Card
                   key={link.id}
-                  className="p-4 cursor-pointer transition-colors hover:border-white/30"
+                  className="p-4 cursor-pointer transition-colors hover:border-primary/30"
                   onClick={() => {
                     setSelectedLink({ id: link.id, shortUrl: link.short_url || "" });
                     setShowCreateDialog(false);
@@ -266,14 +264,14 @@ export default function QRCodes() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-foreground">{link.title}</p>
-                      <p className="text-sm text-secondary-label">{link.short_url}</p>
+                      <p className="text-sm text-muted-foreground">{link.short_url}</p>
                     </div>
                     <Button size="sm">Select</Button>
                   </div>
                 </Card>
               ))
             ) : (
-              <p className="text-secondary-label text-center py-4">
+              <p className="text-muted-foreground text-center py-4">
                 No links available. Create a link first.
               </p>
             )}
@@ -299,6 +297,6 @@ export default function QRCodes() {
           </DialogContent>
         </Dialog>
       )}
-    </div>
+    </PageContentWrapper>
   );
 }
