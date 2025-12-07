@@ -2216,28 +2216,40 @@ export type Database = {
       }
       feedback: {
         Row: {
+          browser_info: Json | null
+          category: string | null
           created_at: string | null
           id: string
           message: string
           page_url: string
+          priority: string | null
+          screenshot_url: string | null
           status: string
           type: string
           user_id: string | null
         }
         Insert: {
+          browser_info?: Json | null
+          category?: string | null
           created_at?: string | null
           id?: string
           message: string
           page_url: string
+          priority?: string | null
+          screenshot_url?: string | null
           status?: string
           type?: string
           user_id?: string | null
         }
         Update: {
+          browser_info?: Json | null
+          category?: string | null
           created_at?: string | null
           id?: string
           message?: string
           page_url?: string
+          priority?: string | null
+          screenshot_url?: string | null
           status?: string
           type?: string
           user_id?: string | null
