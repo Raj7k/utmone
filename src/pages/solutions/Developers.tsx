@@ -45,9 +45,9 @@ const Developers = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       <SEO 
         title="utm.one for Developers"
         description="Type-safe APIs. Clean docs. utm.one gives developers reliable APIs, fast performance, and control over link structure."
@@ -78,7 +78,7 @@ const Developers = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               type-safe APIs. clean docs. zero surprises.
             </h1>
-            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
               utm.one gives developers reliable APIs, fast performance, clean metadata, and control over link structure. build once, ship fast.
             </p>
             <div className="pt-4">
@@ -86,7 +86,7 @@ const Developers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -102,18 +102,18 @@ const Developers = () => {
             timestamp="Wednesday, 3:17 AM"
             scenario="Your link shortener API returns 500. Production is down. 50,000 campaign links are broken. Your CEO is awake. You're scrambling to find a replacement provider, but every other service requires migration, new DNS setup, and breaking changes to your codebase. By morning, you've lost $200K in campaign spend."
             visual={
-              <div className="rounded-xl p-6 font-mono text-sm" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(239,68,68,0.8)' }} />
-                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(234,179,8,0.8)' }} />
-                  <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(34,197,94,0.8)' }} />
-                  <span className="ml-2 text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>PagerDuty Alert</span>
+              <div className="rounded-xl p-6 font-mono text-sm bg-card border border-border">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border">
+                  <div className="w-3 h-3 rounded-full bg-destructive/80" />
+                  <div className="w-3 h-3 rounded-full bg-warning/80" />
+                  <div className="w-3 h-3 rounded-full bg-success/80" />
+                  <span className="ml-2 text-xs text-muted-foreground">PagerDuty Alert</span>
                 </div>
-                <div className="space-y-2" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                <div className="space-y-2 text-foreground">
                   <div className="text-destructive">❌ API Error 500: Service Unavailable</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Source: shortener-api.thirdparty.com</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Impact: 50,000 production links</div>
-                  <div style={{ color: 'rgba(255,255,255,0.5)' }}>Status: CRITICAL</div>
+                  <div className="text-muted-foreground">Source: shortener-api.thirdparty.com</div>
+                  <div className="text-muted-foreground">Impact: 50,000 production links</div>
+                  <div className="text-muted-foreground">Status: CRITICAL</div>
                   <div className="mt-4 text-destructive">Campaign spend wasted: $200K</div>
                 </div>
               </div>
@@ -126,10 +126,10 @@ const Developers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto font-sans text-muted-foreground">
               manual errors vs reliable infrastructure.
             </p>
           </div>
@@ -180,10 +180,10 @@ const Developers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               Fast. Predictable. Developer-friendly.
             </p>
           </div>
@@ -232,7 +232,7 @@ const Developers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-white/70 font-sans">
               How your day changes with utm.one
             </p>
           </div>
@@ -287,7 +287,7 @@ const Developers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
               from idea to production in 3 minutes
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground font-sans">
               Type-safe SDK with autocomplete. No guessing.
             </p>
           </div>
@@ -324,7 +324,7 @@ const Developers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
               built for developers
             </h2>
           </div>
@@ -372,11 +372,11 @@ const Developers = () => {
             />
             <FeatureMappedCard
               icon={FileText}
-              title="docs"
-              description="Copy-paste examples in 8 languages"
+              title="documentation"
+              description="Examples in 8 languages"
               color="primary"
               delay={0.5}
-              href="/features/integrations"
+              href="/docs"
             />
           </div>
         </div>
@@ -391,8 +391,8 @@ const Developers = () => {
 
       {/* Fold 9: CTA */}
       <PremiumCTASection
-        headline="ready to build with utm.one?"
-        subheadline="join developer teams who trust utm.one for reliable APIs and clean data."
+        headline="ready to ship?"
+        subheadline="join developers who trust utm.one for reliable, type-safe link infrastructure."
         primaryCTA="get early access →"
       />
 

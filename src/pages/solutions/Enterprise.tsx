@@ -47,21 +47,9 @@ const Enterprise = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      {/* Obsidian Noise Texture */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[1]"
-        style={{
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat'
-        }}
-      />
-      {/* Spotlight */}
-      <div 
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]"
-        style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }}
-      />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       
       <SEO
         title="utm.one for Enterprise - Governance, Attribution, Security"
@@ -93,10 +81,10 @@ const Enterprise = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase text-label mb-6">
+            <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl lowercase obsidian-platinum-text mb-6">
               enterprise-grade governance<br />for every click
             </h1>
-            <p className="text-xl md:text-2xl text-secondary-label max-w-3xl mx-auto mb-12">
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-sans">
               SSO, Bayesian attribution, time-travel audit logs, and adaptive access control. 
               Built for security-first organizations.
             </p>
@@ -116,10 +104,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               the three pillars
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
               large companies care about growth and risk. we deliver both.
             </p>
           </motion.div>
@@ -132,23 +120,23 @@ const Enterprise = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 hover:border-white/20 transition-all"
+                className="p-8 rounded-2xl obsidian-glass"
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-primary/10">
                   <pillar.icon className="w-8 h-8 text-primary" />
                 </div>
                 <div className="mb-4">
-                  <div className="text-sm font-semibold uppercase tracking-wide mb-2 text-primary">
+                  <div className="text-sm font-semibold uppercase tracking-wide mb-2 text-primary font-sans">
                     {pillar.subtitle}
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-label lowercase mb-3">
+                  <h3 className="text-2xl font-display font-bold text-foreground lowercase mb-3">
                     {pillar.title}
                   </h3>
-                  <p className="text-lg text-label font-medium mb-3">
+                  <p className="text-lg text-foreground font-medium mb-3 font-sans">
                     "{pillar.description}"
                   </p>
                 </div>
-                <p className="text-sm text-secondary-label">{pillar.detail}</p>
+                <p className="text-sm text-muted-foreground font-sans">{pillar.detail}</p>
               </motion.div>
             ))}
           </div>
@@ -164,10 +152,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               adaptive governance shield
             </h2>
-            <p className="text-xl text-secondary-label">
+            <p className="text-xl text-muted-foreground font-sans">
               Instead of just "user roles," we offer <span className="font-semibold text-primary">least privilege optimization</span>.
               A dynamic role engine that uses constraint satisfaction to create custom roles on the fly.
             </p>
@@ -181,19 +169,19 @@ const Enterprise = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10"
+            className="max-w-3xl mx-auto mt-12 p-8 rounded-2xl obsidian-glass"
           >
-            <h3 className="font-display font-bold text-2xl text-label lowercase mb-4">
+            <h3 className="font-display font-bold text-2xl text-foreground lowercase mb-4">
               the problem
             </h3>
-            <p className="text-secondary-label mb-6">
+            <p className="text-muted-foreground mb-6 font-sans">
               In big teams, users get "Admin" access because they need to do one specific thing 
               (e.g., view billing), but this exposes the company to risk (e.g., they can also delete links).
             </p>
-            <h3 className="font-display font-bold text-2xl text-label lowercase mb-4">
+            <h3 className="font-display font-bold text-2xl text-foreground lowercase mb-4">
               the solution
             </h3>
-            <p className="text-secondary-label">
+            <p className="text-muted-foreground font-sans">
               Check the exact capabilities a user needs. The system minimizes the "Privilege Surface Area" 
               while satisfying all work requirements. No more over-privileged accounts.
             </p>
@@ -217,10 +205,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               time-travel audit trail
             </h2>
-            <p className="text-xl text-secondary-label">
+            <p className="text-xl text-muted-foreground font-sans">
               Enterprises need to know who broke a link and when. We provide a forensic timeline 
               that lets admins replay the link's history over the last 30 days.
             </p>
@@ -236,7 +224,7 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto mt-12 text-center"
           >
-            <p className="text-lg text-white/60">
+            <p className="text-lg text-muted-foreground font-sans">
               Don't just show a text log—show a timeline visualization with before/after diffs, 
               user attribution, and change context. Perfect for compliance audits and incident investigation.
             </p>
@@ -253,10 +241,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               just-in-time provisioning
             </h2>
-            <p className="text-xl text-secondary-label">
+            <p className="text-xl text-muted-foreground font-sans">
               If a user signs up with @nike.com, they're automatically captured into the Nike workspace 
               and assigned the "Viewer" role until approved. This prevents Shadow IT.
             </p>
@@ -277,10 +265,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto mb-12 text-center"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               bayesian influence graph
             </h2>
-            <p className="text-xl text-secondary-label">
+            <p className="text-xl text-muted-foreground font-sans">
               Multi-touch attribution shows the true influence of every marketing channel, 
               not just last-click. Know exactly where revenue comes from.
             </p>
@@ -308,10 +296,10 @@ const Enterprise = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lowercase text-foreground mb-6">
               enterprise trust
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
               security and compliance built-in from day one
             </p>
           </motion.div>
@@ -324,15 +312,15 @@ const Enterprise = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border-2 border-white/10 text-center"
+                className="p-6 rounded-xl obsidian-glass text-center"
               >
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 bg-primary/10">
                   <Lock className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-label lowercase mb-2">
+                <h3 className="font-display font-bold text-lg text-foreground lowercase mb-2">
                   {badge.title}
                 </h3>
-                <p className="text-sm text-secondary-label">{badge.description}</p>
+                <p className="text-sm text-muted-foreground font-sans">{badge.description}</p>
               </motion.div>
             ))}
           </div>
@@ -348,10 +336,10 @@ const Enterprise = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase obsidian-platinum-text mb-6">
               talk to our enterprise team
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto mb-12">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 font-sans">
               Get a personalized demo and see how utm.one delivers enterprise-grade 
               governance, attribution, and reliability for your organization.
             </p>

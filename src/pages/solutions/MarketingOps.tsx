@@ -46,9 +46,9 @@ const MarketingOps = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       <SEO 
         title="utm.one for Marketing Ops"
         description="Governance without friction. utm.one enforces the structure your org needs—automatically, quietly, consistently."
@@ -79,7 +79,7 @@ const MarketingOps = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               governance without friction.
             </h1>
-            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
               utm.one enforces the structure your org needs—automatically, quietly, consistently. no more manual audits. no more broken reports.
             </p>
             <div className="pt-4">
@@ -87,7 +87,7 @@ const MarketingOps = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -103,12 +103,12 @@ const MarketingOps = () => {
             timestamp="Thursday, 3:12 PM"
             scenario="Your CMO wants a report on Q4 campaign performance. You pull GA4 data. 47 variations of 'utm_source' appear across 12 teams. 'linkedin', 'LinkedIn', 'LINKEDIN', 'linked-in', 'lnkdin'—all variations of the same source, but GA4 treats them as separate. 38% of traffic is '(not set)' because someone forgot UTM parameters. The report is worthless."
             visual={
-              <div className="rounded-xl p-6 font-mono text-sm" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.3)' }}>
+              <div className="rounded-xl p-6 font-mono text-sm bg-card border-2 border-destructive/30">
                 <div className="text-destructive font-semibold mb-3">❌ Your GA4 Data Nightmare:</div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>utm_source variations</div>
-                    <div className="space-y-1 text-xs">
+                    <div className="text-xs mb-2 text-muted-foreground">utm_source variations</div>
+                    <div className="space-y-1 text-xs text-foreground">
                       <div>linkedin (8,234 clicks)</div>
                       <div>LinkedIn (3,891 clicks)</div>
                       <div>LINKEDIN (1,203 clicks)</div>
@@ -119,8 +119,8 @@ const MarketingOps = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>utm_medium variations</div>
-                    <div className="space-y-1 text-xs">
+                    <div className="text-xs mb-2 text-muted-foreground">utm_medium variations</div>
+                    <div className="space-y-1 text-xs text-foreground">
                       <div>cpc (6,123 clicks)</div>
                       <div>CPC (2,456 clicks)</div>
                       <div>paid (1,890 clicks)</div>
@@ -142,10 +142,10 @@ const MarketingOps = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto font-sans text-muted-foreground">
               chaos vs governance in one comparison.
             </p>
           </div>
@@ -155,9 +155,9 @@ const MarketingOps = () => {
             afterTitle="1 standard"
             beforeContent={
               <div className="space-y-3">
-                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="rounded-lg p-4 font-mono text-xs bg-card border border-border">
                   <div className="text-destructive font-semibold mb-2 text-sm">utm_source chaos:</div>
-                  <div className="space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <div className="space-y-1 text-muted-foreground">
                     <div>linkedin (8,234)</div>
                     <div>LinkedIn (3,891)</div>
                     <div>LINKEDIN (1,203)</div>
@@ -194,10 +194,10 @@ const MarketingOps = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               Quality becomes the default.
             </p>
           </div>
@@ -246,7 +246,7 @@ const MarketingOps = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-white/70 font-sans">
               How your day changes with utm.one
             </p>
           </div>
@@ -301,7 +301,7 @@ const MarketingOps = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
               calculate your data quality ROI
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground font-sans">
               How much time does your team waste cleaning messy UTMs?
             </p>
           </div>
@@ -314,7 +314,7 @@ const MarketingOps = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
               built for marketing ops
             </h2>
           </div>

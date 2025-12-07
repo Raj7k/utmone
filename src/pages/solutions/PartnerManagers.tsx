@@ -46,9 +46,9 @@ const PartnerManagers = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       <SEO 
         title="utm.one for Partner Managers"
         description="Clear attribution, zero manual work. utm.one makes partner programs easier to run—with clean links, clean QR, and clean reporting."
@@ -79,7 +79,7 @@ const PartnerManagers = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               clear attribution. zero manual work.
             </h1>
-            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
               utm.one makes partner programs easier to run—with clean links, clean QR, and clean reporting. no spreadsheets. no disputes.
             </p>
             <div className="pt-4">
@@ -87,7 +87,7 @@ const PartnerManagers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -104,38 +104,38 @@ const PartnerManagers = () => {
             scenario="Your top partner says they referred 15 deals this month. Your spreadsheet shows 8. They're threatening to quit. You have no audit trail, no timestamps, no proof of where the referrals came from. You're managing attribution in Excel, manually matching emails to deals. It's 4:45 PM on Friday and you're about to lose your best partner over $14K in disputed commissions."
             visual={
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.5)' }}>
-                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Your Spreadsheet</div>
-                  <div className="text-sm space-y-2">
+                <div className="rounded-xl p-6 bg-card border-2 border-destructive/50">
+                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide font-sans">Your Spreadsheet</div>
+                  <div className="text-sm space-y-2 font-sans">
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Partner referrals:</span>
-                      <span className="font-semibold">8</span>
+                      <span className="text-muted-foreground">Partner referrals:</span>
+                      <span className="font-semibold text-foreground">8</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Total revenue:</span>
-                      <span className="font-semibold">$42,000</span>
+                      <span className="text-muted-foreground">Total revenue:</span>
+                      <span className="font-semibold text-foreground">$42,000</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Commission (15%):</span>
-                      <span className="font-semibold">$6,300</span>
+                      <span className="text-muted-foreground">Commission (15%):</span>
+                      <span className="font-semibold text-foreground">$6,300</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid hsl(var(--primary) / 0.5)' }}>
-                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary">Partner Claims</div>
-                  <div className="text-sm space-y-2">
+                <div className="rounded-xl p-6 bg-primary/5 border-2 border-primary/50">
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary font-sans">Partner Claims</div>
+                  <div className="text-sm space-y-2 font-sans">
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Partner referrals:</span>
-                      <span className="font-semibold">15</span>
+                      <span className="text-muted-foreground">Partner referrals:</span>
+                      <span className="font-semibold text-foreground">15</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Total revenue:</span>
-                      <span className="font-semibold">$78,750</span>
+                      <span className="text-muted-foreground">Total revenue:</span>
+                      <span className="font-semibold text-foreground">$78,750</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Commission (15%):</span>
-                      <span className="font-semibold">$11,812</span>
+                      <span className="text-muted-foreground">Commission (15%):</span>
+                      <span className="font-semibold text-foreground">$11,812</span>
                     </div>
                   </div>
                 </div>
@@ -149,10 +149,10 @@ const PartnerManagers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl mt-4 max-w-[640px] mx-auto font-sans text-muted-foreground">
               manual spreadsheets vs automated intelligence.
             </p>
           </div>
@@ -162,9 +162,9 @@ const PartnerManagers = () => {
             afterTitle="utm.one dashboard (automated)"
             beforeContent={
               <div className="space-y-3">
-                <div className="rounded-lg p-4 font-mono text-xs" style={{ background: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="rounded-lg p-4 font-mono text-xs bg-card border border-border">
                   <div className="text-destructive font-semibold mb-2 text-sm">Partner A Attribution:</div>
-                  <div className="space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <div className="space-y-1 text-muted-foreground">
                     <div className="flex justify-between">
                       <span>Your count:</span>
                       <span>8 referrals</span>
@@ -217,10 +217,10 @@ const PartnerManagers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl font-sans text-muted-foreground">
               Partners get clarity. You get peace of mind.
             </p>
           </div>
@@ -267,7 +267,7 @@ const PartnerManagers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
               calculate your partner program ROI
             </h2>
-            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg font-sans text-muted-foreground">
               How much revenue could your partner program generate?
             </p>
           </div>
@@ -285,7 +285,7 @@ const PartnerManagers = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-white/70 font-sans">
               How your day changes with utm.one
             </p>
           </div>
@@ -337,7 +337,7 @@ const PartnerManagers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
               built for partner teams
             </h2>
           </div>
@@ -370,26 +370,26 @@ const PartnerManagers = () => {
             <FeatureMappedCard
               icon={QrCode}
               title="qr generator"
-              description="Perfect for events, booths, flyers"
+              description="Branded QR for offline events"
               color="blazeOrange"
               delay={0.3}
               href="/features/qr-generator"
             />
             <FeatureMappedCard
-              icon={LinkIcon}
-              title="short links"
-              description="Safe, clear, customizable"
+              icon={DollarSign}
+              title="revenue attribution"
+              description="Know exactly what each partner is worth"
               color="deepSea"
               delay={0.4}
-              href="/features/short-links"
+              href="/features/attribution-graph"
             />
             <FeatureMappedCard
-              icon={DollarSign}
-              title="commission tracking"
-              description="Automated payout calculations"
+              icon={TrendingUp}
+              title="predictive analytics"
+              description="Forecast partner performance"
               color="primary"
               delay={0.5}
-              href="/features/analytics"
+              href="/features/predictive-analytics"
             />
           </div>
         </div>
@@ -405,7 +405,7 @@ const PartnerManagers = () => {
       {/* Fold 9: CTA */}
       <PremiumCTASection
         headline="ready to scale your partner program?"
-        subheadline="join partner teams who trust utm.one for clear attribution and zero manual work."
+        subheadline="join partner managers who trust utm.one for clean attribution and zero disputes."
         primaryCTA="get early access →"
       />
 
