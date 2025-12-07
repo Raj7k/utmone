@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, Link as LinkIcon } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -12,21 +12,79 @@ import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { PlanTier } from "@/lib/planConfig";
 import { BentoTileSkeleton } from "./BentoTileSkeleton";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
+import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
+import { AISuggestionsPanel } from "./AISuggestionsPanel";
+import { AnimatePresence } from "framer-motion";
 
 export const QuickCreateTile = () => {
   const [url, setUrl] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [upgradeData, setUpgradeData] = useState<any>(null);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [utmApplied, setUtmApplied] = useState(false);
+  const [appliedUtm, setAppliedUtm] = useState<{
+    campaign?: string;
+    content?: string;
+    term?: string;
+  }>({});
+  
   const { currentWorkspace } = useWorkspace();
   const { id: currentPlanId } = useCurrentPlan();
   const queryClient = useQueryClient();
   const { trackFirstLink } = useActivationTracking();
+  
+  const {
+    isAnalyzing,
+    suggestions,
+    analyzeUrl,
+    regenerateUrl,
+    clearSuggestions,
+  } = useAIAnalyzeUrl();
+
+  // Trigger AI analysis when URL changes (with debounce in hook)
+  useEffect(() => {
+    if (url) {
+      try {
+        new URL(url);
+        analyzeUrl(url);
+      } catch {
+        // Invalid URL, don't analyze
+      }
+    } else {
+      clearSuggestions();
+      setSelectedSlug(null);
+      setUtmApplied(false);
+      setAppliedUtm({});
+    }
+  }, [url, analyzeUrl, clearSuggestions]);
+
+  const handleSelectSlug = (slug: string) => {
+    setSelectedSlug(slug === selectedSlug ? null : slug);
+  };
+
+  const handleApplyUtm = () => {
+    if (suggestions) {
+      setAppliedUtm({
+        campaign: suggestions.utm_campaign,
+        content: suggestions.utm_content,
+        term: suggestions.utm_term,
+      });
+      setUtmApplied(true);
+      toast.success("UTM parameters applied");
+    }
+  };
+
+  const handleRegenerate = () => {
+    if (url) {
+      regenerateUrl(url);
+      setSelectedSlug(null);
+    }
+  };
 
   const createLinkMutation = useMutation({
     mutationFn: async (destinationUrl: string) => {
       if (!currentWorkspace?.id) throw new Error("No workspace selected");
 
-      // Check feature access (uses localStorage-based simulation if active)
       const simulatedPlan = localStorage.getItem('SIMULATED_PLAN') as PlanTier | null;
       const accessCheck = await checkFeatureAccess(
         currentWorkspace.id, 
@@ -46,14 +104,23 @@ export const QuickCreateTile = () => {
         throw new Error(accessCheck.reason || "Upgrade required");
       }
 
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Generate slug from URL
-      const urlObj = new URL(destinationUrl);
-      const slug = urlObj.pathname.split('/').filter(Boolean).join('-').substring(0, 20) || 
-                   Math.random().toString(36).substring(2, 8);
+      // Use AI-selected slug or generate from URL
+      const slug = selectedSlug || 
+        new URL(destinationUrl).pathname.split('/').filter(Boolean).join('-').substring(0, 20) || 
+        Math.random().toString(36).substring(2, 8);
+
+      // Build final URL with UTM if applied
+      let finalUrl = destinationUrl;
+      if (utmApplied && Object.keys(appliedUtm).length > 0) {
+        const urlObj = new URL(destinationUrl);
+        if (appliedUtm.campaign) urlObj.searchParams.set('utm_campaign', appliedUtm.campaign);
+        if (appliedUtm.content) urlObj.searchParams.set('utm_content', appliedUtm.content);
+        if (appliedUtm.term) urlObj.searchParams.set('utm_term', appliedUtm.term);
+        finalUrl = urlObj.toString();
+      }
 
       const { data, error } = await supabase
         .from("links")
@@ -61,9 +128,12 @@ export const QuickCreateTile = () => {
           workspace_id: currentWorkspace.id,
           created_by: user.id,
           destination_url: destinationUrl,
-          final_url: destinationUrl,
+          final_url: finalUrl,
           slug: slug,
           title: destinationUrl,
+          utm_campaign: utmApplied ? appliedUtm.campaign : undefined,
+          utm_content: utmApplied ? appliedUtm.content : undefined,
+          utm_term: utmApplied ? appliedUtm.term : undefined,
         }])
         .select()
         .single();
@@ -72,10 +142,7 @@ export const QuickCreateTile = () => {
       return data;
     },
     onSuccess: async (data) => {
-      // Track first link for onboarding
       trackFirstLink();
-      
-      // Invalidate and refetch onboarding progress immediately
       await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
       await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
@@ -83,11 +150,15 @@ export const QuickCreateTile = () => {
         description: `Your short link is ready: ${data.short_url}`,
       });
       setUrl("");
+      setSelectedSlug(null);
+      setUtmApplied(false);
+      setAppliedUtm({});
+      clearSuggestions();
+      
       queryClient.invalidateQueries({ queryKey: ["recent-links"] });
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["links-count"] });
       
-      // Auto-scroll to recent links section
       setTimeout(() => {
         const recentLinksSection = document.getElementById("recent-links");
         if (recentLinksSection) {
@@ -109,7 +180,7 @@ export const QuickCreateTile = () => {
     if (!url) return;
 
     try {
-      new URL(url); // Validate URL
+      new URL(url);
       createLinkMutation.mutate(url);
     } catch {
       toast.error("Invalid URL", {
@@ -125,16 +196,23 @@ export const QuickCreateTile = () => {
   return (
     <>
       <div className="bg-card rounded-2xl border border-border shadow-sm p-4 h-full flex flex-col">
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col justify-center">
+        <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex gap-2">
-            <Input
-              type="url"
-              placeholder="Paste URL..."
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              className="flex-1 h-12"
-              disabled={createLinkMutation.isPending}
-            />
+            <div className="relative flex-1">
+              <Input
+                type="url"
+                placeholder="Paste URL..."
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                className="h-12 pr-8"
+                disabled={createLinkMutation.isPending}
+              />
+              {isAnalyzing && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                </div>
+              )}
+            </div>
             <Button
               type="submit"
               className="h-12 px-6"
@@ -149,18 +227,35 @@ export const QuickCreateTile = () => {
           </div>
         </form>
 
-        {/* Recent Tags */}
-        <div className="flex gap-2 mt-3">
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
-            campaign
-          </span>
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
-            social
-          </span>
-          <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
-            email
-          </span>
-        </div>
+        {/* AI Suggestions Panel */}
+        <AnimatePresence>
+          {suggestions && (
+            <AISuggestionsPanel
+              suggestions={suggestions}
+              isAnalyzing={isAnalyzing}
+              onSelectSlug={handleSelectSlug}
+              onApplyUtm={handleApplyUtm}
+              onRegenerate={handleRegenerate}
+              selectedSlug={selectedSlug}
+              utmApplied={utmApplied}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Recent Tags - only show when no suggestions */}
+        {!suggestions && (
+          <div className="flex gap-2 mt-3">
+            <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
+              campaign
+            </span>
+            <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
+              social
+            </span>
+            <span className="px-2 py-1 text-xs rounded-full cursor-pointer transition-colors bg-muted text-muted-foreground hover:bg-accent">
+              email
+            </span>
+          </div>
+        )}
       </div>
 
       <UpgradeModal
