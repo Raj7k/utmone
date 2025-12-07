@@ -20,6 +20,8 @@ import { AICommandCenter } from "@/components/analytics/AICommandCenter";
 import { ChannelPerformanceGrid } from "@/components/analytics/ChannelPerformanceGrid";
 import { TopCampaignsTable } from "@/components/analytics/TopCampaignsTable";
 import { QuickActionsPanel } from "@/components/analytics/QuickActionsPanel";
+import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialog";
+import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialog";
 import { useQueryClient } from "@tanstack/react-query";
 
 const COLORS = {
@@ -36,6 +38,8 @@ export default function Analytics() {
   const { trackFirstAnalyticsView } = useActivationTracking();
   const queryClient = useQueryClient();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
 
   const { data: analytics, isLoading, error } = useRealAnalytics({ 
     workspaceId: currentWorkspace?.id || '',
@@ -125,8 +129,26 @@ export default function Analytics() {
           description="executive insights for CMOs, marketing managers, and sales leaders"
           breadcrumbs={[{ label: "analytics" }]}
         />
-        <QuickActionsPanel onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+        <QuickActionsPanel 
+          workspaceId={currentWorkspace.id}
+          onRefresh={handleRefresh} 
+          isRefreshing={isRefreshing}
+          onShare={() => setShareDialogOpen(true)}
+          onSchedule={() => setScheduleDialogOpen(true)}
+        />
       </div>
+
+      {/* Share & Schedule Dialogs */}
+      <AnalyticsShareDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        workspaceId={currentWorkspace.id}
+      />
+      <ScheduleReportDialog
+        open={scheduleDialogOpen}
+        onOpenChange={setScheduleDialogOpen}
+        workspaceId={currentWorkspace.id}
+      />
 
       {/* Executive Metrics Hero Bar */}
       <ExecutiveMetricsBar
