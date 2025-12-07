@@ -213,6 +213,9 @@ verify_jwt = false
 [functions.send-anomaly-alert]
 verify_jwt = false
 
+[functions.extension-create-link]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
