@@ -352,6 +352,7 @@ export type Database = {
           is_dismissed: boolean | null
           link_id: string | null
           metadata: Json | null
+          notification_sent_at: string | null
           severity: string
           title: string
           workspace_id: string
@@ -368,6 +369,7 @@ export type Database = {
           is_dismissed?: boolean | null
           link_id?: string | null
           metadata?: Json | null
+          notification_sent_at?: string | null
           severity: string
           title: string
           workspace_id: string
@@ -384,6 +386,7 @@ export type Database = {
           is_dismissed?: boolean | null
           link_id?: string | null
           metadata?: Json | null
+          notification_sent_at?: string | null
           severity?: string
           title?: string
           workspace_id?: string
@@ -5668,6 +5671,68 @@ export type Database = {
             foreignKeyName: "workspace_members_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workspace_notification_settings: {
+        Row: {
+          anomaly_threshold: number | null
+          created_at: string | null
+          debounce_hours: number | null
+          drop_alerts_enabled: boolean | null
+          email_enabled: boolean | null
+          email_recipients: string[] | null
+          id: string
+          new_source_alerts_enabled: boolean | null
+          quiet_hours_end: number | null
+          quiet_hours_start: number | null
+          slack_enabled: boolean | null
+          slack_webhook_url_encrypted: string | null
+          spike_alerts_enabled: boolean | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          anomaly_threshold?: number | null
+          created_at?: string | null
+          debounce_hours?: number | null
+          drop_alerts_enabled?: boolean | null
+          email_enabled?: boolean | null
+          email_recipients?: string[] | null
+          id?: string
+          new_source_alerts_enabled?: boolean | null
+          quiet_hours_end?: number | null
+          quiet_hours_start?: number | null
+          slack_enabled?: boolean | null
+          slack_webhook_url_encrypted?: string | null
+          spike_alerts_enabled?: boolean | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          anomaly_threshold?: number | null
+          created_at?: string | null
+          debounce_hours?: number | null
+          drop_alerts_enabled?: boolean | null
+          email_enabled?: boolean | null
+          email_recipients?: string[] | null
+          id?: string
+          new_source_alerts_enabled?: boolean | null
+          quiet_hours_end?: number | null
+          quiet_hours_start?: number | null
+          slack_enabled?: boolean | null
+          slack_webhook_url_encrypted?: string | null
+          spike_alerts_enabled?: boolean | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_notification_settings_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: true
             referencedRelation: "workspaces"
             referencedColumns: ["id"]
           },
