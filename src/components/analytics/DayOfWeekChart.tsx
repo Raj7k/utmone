@@ -74,34 +74,28 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
               <LazyBarChart data={chartData}>
                 <XAxis
                   dataKey="day"
-                  tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }}
+                  tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
                   tickFormatter={(value) => value.slice(0, 3)}
                 />
-                <YAxis tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
+                <YAxis tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
                 <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload[0]) {
                       const data = payload[0].payload;
                       const percentDiff = ((data.clicks - average) / average * 100).toFixed(1);
                       return (
-                        <div 
-                          className="rounded-lg shadow-lg p-3"
-                          style={{ 
-                            background: 'rgba(24,24,27,0.95)', 
-                            border: '1px solid rgba(255,255,255,0.1)' 
-                          }}
-                        >
-                          <p className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.day}</p>
+                        <div className="rounded-lg shadow-lg p-3 bg-popover border border-border">
+                          <p className="font-semibold text-popover-foreground">{data.day}</p>
                           <p className="text-sm">
-                            <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{data.clicks}</span>
-                            <span style={{ color: 'rgba(255,255,255,0.5)' }}> clicks</span>
+                            <span className="font-medium text-popover-foreground">{data.clicks}</span>
+                            <span className="text-muted-foreground"> clicks</span>
                           </p>
                           {data.isBest && (
-                            <p className="text-xs font-medium mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                            <p className="text-xs font-medium mt-1 text-popover-foreground/80">
                               🏆 Best Day
                             </p>
                           )}
-                          <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                          <p className="text-xs mt-1 text-muted-foreground">
                             {Number(percentDiff) > 0 ? "+" : ""}{percentDiff}% vs avg
                           </p>
                         </div>
@@ -114,7 +108,7 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
                   {chartData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={entry.isBest ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.3)"}
+                      fill={entry.isBest ? "hsl(var(--primary))" : "hsl(var(--muted-foreground) / 0.5)"}
                     />
                   ))}
                 </Bar>
@@ -126,12 +120,12 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
         {/* Legend */}
         <div className="flex items-center justify-center gap-4 mt-4 text-sm">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded" style={{ background: 'rgba(255,255,255,0.8)' }} />
-            <span style={{ color: 'rgba(255,255,255,0.5)' }}>Best Day</span>
+            <div className="w-3 h-3 rounded bg-primary" />
+            <span className="text-muted-foreground">Best Day</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded" style={{ background: 'rgba(255,255,255,0.3)' }} />
-            <span style={{ color: 'rgba(255,255,255,0.5)' }}>Other Days</span>
+            <div className="w-3 h-3 rounded bg-muted-foreground/50" />
+            <span className="text-muted-foreground">Other Days</span>
           </div>
         </div>
       </CardContent>
