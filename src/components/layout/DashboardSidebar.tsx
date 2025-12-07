@@ -24,7 +24,8 @@ import {
   TrendingUp,
   Shield,
   Beaker,
-  Network
+  Network,
+  DollarSign
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -55,7 +56,7 @@ const appNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "Sales", href: "/dashboard/sales", icon: Briefcase },
+  { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
