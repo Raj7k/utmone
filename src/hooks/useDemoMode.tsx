@@ -210,3 +210,35 @@ export const DEMO_RECENT_LINKS = [
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
+
+// Demo AI insights data
+export const DEMO_AI_INSIGHTS_DATA = [
+  {
+    type: "opportunity",
+    title: "LinkedIn driving 40% more conversions",
+    description: "Your LinkedIn campaigns have 40% higher conversion rate than other channels. Consider increasing budget allocation.",
+    severity: "info" as const,
+    action: { label: "View Attribution", url: "/dashboard/attribution" }
+  },
+  {
+    type: "warning", 
+    title: "Email click rate declining",
+    description: "Email campaign clicks dropped 15% this week. Review subject lines and send times.",
+    severity: "warning" as const,
+    action: { label: "View Email Links", url: "/dashboard/links?source=email" }
+  },
+  {
+    type: "pattern",
+    title: "Peak traffic at 2-4pm EST",
+    description: "Most conversions happen between 2-4pm EST. Schedule campaigns accordingly.",
+    severity: "info" as const,
+    action: { label: "View Timing", url: "/dashboard/analytics" }
+  },
+  {
+    type: "anomaly",
+    title: "Traffic spike detected",
+    description: "Your 'Product Launch' link saw 3x normal traffic yesterday. This may indicate viral sharing.",
+    severity: "info" as const,
+    action: { label: "View Link", url: "/dashboard/links" }
+  }
+];

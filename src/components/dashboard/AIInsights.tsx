@@ -5,8 +5,10 @@ import { Sparkles, TrendingUp, AlertCircle, Lightbulb } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
+import { useDemoMode } from "@/hooks/useDemoMode";
+import { DemoAIInsightsTile } from "./bento/DemoAIInsightsTile";
 export function AIInsights() {
+  const { showDemoMode, activePlan } = useDemoMode();
   const { data: insights, isLoading } = useQuery({
     queryKey: ["ai-insights"],
     queryFn: async () => {
@@ -91,6 +93,11 @@ export function AIInsights() {
   ];
 
   if (allInsights.length === 0) {
+    // Show demo tile when no real insights and demo mode is active
+    if (showDemoMode) {
+      return <DemoAIInsightsTile planTier={activePlan} />;
+    }
+    
     return (
       <Card className="p-6">
         <div className="flex items-start gap-3 mb-4">
