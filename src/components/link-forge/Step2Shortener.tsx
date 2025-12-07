@@ -197,6 +197,9 @@ export const Step2Shortener = ({
       await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
       await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
+      // Invalidate links-count to disable demo mode
+      queryClient.invalidateQueries({ queryKey: ["links-count"] });
+      
       toast({
         title: needsApproval ? "approval requested" : "link created",
         description: needsApproval 

@@ -160,6 +160,7 @@ export const BulkURLShortenerTool = ({ workspaceId }: BulkURLShortenerToolProps)
       setProcessedURLs(results);
       queryClient.invalidateQueries({ queryKey: ["links"] });
       queryClient.invalidateQueries({ queryKey: ["enhanced-links"] });
+      queryClient.invalidateQueries({ queryKey: ["links-count"] });
       
       // Track bulk upload completion
       trackBulkUpload('bulk', data.total, data.created);
