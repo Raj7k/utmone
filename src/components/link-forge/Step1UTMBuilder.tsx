@@ -8,6 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Globe, Sparkles } from "lucide-react";
 import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
+import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
+import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
+import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
+import { motion, AnimatePresence } from "framer-motion";
 
 const utmSchema = z.object({
   destination_url: z.string().url("enter a valid url"),
@@ -33,6 +37,8 @@ const suggestions = {
 
 export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProps) => {
   const [finalUrl, setFinalUrl] = useState("");
+  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  const [aiFilledFields, setAiFilledFields] = useState<Set<string>>(new Set());
 
   const form = useForm<UTMFormData>({
     resolver: zodResolver(utmSchema),
@@ -47,6 +53,45 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
   });
 
   const values = form.watch();
+
+  // Handle URL paste for AI analysis
+  const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pastedUrl = e.clipboardData.getData('text');
+    
+    try {
+      new URL(pastedUrl);
+      analyzeUrl(pastedUrl);
+    } catch {
+      // Invalid URL
+    }
+  };
+
+  // Apply AI suggestions when they arrive
+  const applySuggestions = () => {
+    if (!aiSuggestions) return;
+    
+    const newAiFields = new Set<string>();
+    
+    if (aiSuggestions.utm_campaign && !values.utm_campaign) {
+      form.setValue("utm_campaign", aiSuggestions.utm_campaign);
+      newAiFields.add("utm_campaign");
+    }
+    if (aiSuggestions.utm_content && !values.utm_content) {
+      form.setValue("utm_content", aiSuggestions.utm_content);
+      newAiFields.add("utm_content");
+    }
+    if (aiSuggestions.utm_term && !values.utm_term) {
+      form.setValue("utm_term", aiSuggestions.utm_term);
+      newAiFields.add("utm_term");
+    }
+    
+    setAiFilledFields(newAiFields);
+  };
+
+  // Auto-apply suggestions when they arrive
+  if (aiSuggestions && !isAnalyzing && aiFilledFields.size === 0) {
+    applySuggestions();
+  }
 
   // Generate preview URL
   React.useEffect(() => {
@@ -79,28 +124,67 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-2">
-        <div className="flex items-center gap-2 mb-4">
-          <Globe className="h-5 w-5 text-primary" />
-          <h2 className="text-title-2 font-semibold heading">build your utm url</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Globe className="h-5 w-5 text-primary" />
+            <h2 className="text-title-2 font-semibold heading">build your utm url</h2>
+          </div>
+          <LinkQualityScore
+            utmSource={values.utm_source}
+            utmMedium={values.utm_medium}
+            utmCampaign={values.utm_campaign}
+            utmTerm={values.utm_term}
+            utmContent={values.utm_content}
+            hasAISuggestions={aiFilledFields.size > 0}
+          />
         </div>
         <p className="text-body-apple text-secondary-label">
-          start with your destination url and add tracking parameters
+          paste a url and ai will auto-fill your tracking parameters
         </p>
       </div>
 
       <div className="space-y-4">
-        <div>
+        <div className="relative">
           <Label htmlFor="destination_url">destination url *</Label>
-          <Input
-            id="destination_url"
-            placeholder="https://example.com/landing-page"
-            {...form.register("destination_url")}
-            className="mt-1.5"
-          />
+          <div className="relative mt-1.5">
+            <Input
+              id="destination_url"
+              placeholder="https://example.com/landing-page — paste to auto-analyze ✨"
+              {...form.register("destination_url")}
+              onPaste={handleUrlPaste}
+            />
+            <AnimatePresence>
+              {isAnalyzing && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                >
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <Sparkles className="h-4 w-4 text-primary" />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           {form.formState.errors.destination_url && (
             <p className="text-xs text-system-red mt-1">
               {form.formState.errors.destination_url.message}
             </p>
+          )}
+          {isAIPowered && aiSuggestions && (
+            <motion.p 
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-xs text-primary mt-1 flex items-center gap-1"
+            >
+              <Sparkles className="h-3 w-3" />
+              {aiSuggestions.context}
+            </motion.p>
           )}
         </div>
 
@@ -133,21 +217,39 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
             </div>
           </div>
 
-          <div>
+          <div className="relative">
             <Label htmlFor="utm_campaign">campaign *</Label>
-            <Input
-              id="utm_campaign"
-              placeholder="summer-sale"
-              {...form.register("utm_campaign")}
-              className="mt-1.5"
-            />
+            <div className="relative">
+              <Input
+                id="utm_campaign"
+                placeholder="summer-sale"
+                {...form.register("utm_campaign")}
+                className="mt-1.5 pr-10"
+                onChange={(e) => {
+                  form.setValue("utm_campaign", e.target.value);
+                  setAiFilledFields(prev => {
+                    const next = new Set(prev);
+                    next.delete("utm_campaign");
+                    return next;
+                  });
+                }}
+              />
+              <AIFilledBadge show={aiFilledFields.has("utm_campaign")} />
+            </div>
             <div className="flex flex-wrap gap-1.5 mt-2">
               {suggestions.utm_campaign.map((suggestion) => (
                 <Badge
                   key={suggestion}
                   variant="outline"
                   className="cursor-pointer hover:bg-white/10 transition-apple"
-                  onClick={() => form.setValue("utm_campaign", suggestion)}
+                  onClick={() => {
+                    form.setValue("utm_campaign", suggestion);
+                    setAiFilledFields(prev => {
+                      const next = new Set(prev);
+                      next.delete("utm_campaign");
+                      return next;
+                    });
+                  }}
                 >
                   {suggestion}
                 </Badge>
@@ -157,24 +259,46 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
+          <div className="relative">
             <Label htmlFor="utm_term">term (optional)</Label>
-            <Input
-              id="utm_term"
-              placeholder="keyword"
-              {...form.register("utm_term")}
-              className="mt-1.5"
-            />
+            <div className="relative">
+              <Input
+                id="utm_term"
+                placeholder="keyword"
+                {...form.register("utm_term")}
+                className="mt-1.5 pr-10"
+                onChange={(e) => {
+                  form.setValue("utm_term", e.target.value);
+                  setAiFilledFields(prev => {
+                    const next = new Set(prev);
+                    next.delete("utm_term");
+                    return next;
+                  });
+                }}
+              />
+              <AIFilledBadge show={aiFilledFields.has("utm_term")} />
+            </div>
           </div>
 
-          <div>
+          <div className="relative">
             <Label htmlFor="utm_content">content (optional)</Label>
-            <Input
-              id="utm_content"
-              placeholder="banner-ad"
-              {...form.register("utm_content")}
-              className="mt-1.5"
-            />
+            <div className="relative">
+              <Input
+                id="utm_content"
+                placeholder="banner-ad"
+                {...form.register("utm_content")}
+                className="mt-1.5 pr-10"
+                onChange={(e) => {
+                  form.setValue("utm_content", e.target.value);
+                  setAiFilledFields(prev => {
+                    const next = new Set(prev);
+                    next.delete("utm_content");
+                    return next;
+                  });
+                }}
+              />
+              <AIFilledBadge show={aiFilledFields.has("utm_content")} />
+            </div>
           </div>
         </div>
 
