@@ -59,6 +59,28 @@
   function sendEvent(eventType, data) {
     const visitorId = getVisitorId();
     
+    // Extract revenue/value for standardization
+    let revenue = null;
+    let currency = 'USD';
+    
+    if (data) {
+      // Check for revenue or value fields and normalize
+      if (typeof data.revenue === 'number') {
+        revenue = data.revenue;
+      } else if (typeof data.value === 'number') {
+        revenue = data.value;
+      } else if (typeof data.revenue === 'string') {
+        revenue = parseFloat(data.revenue) || null;
+      } else if (typeof data.value === 'string') {
+        revenue = parseFloat(data.value) || null;
+      }
+      
+      // Extract currency if provided
+      if (data.currency && typeof data.currency === 'string') {
+        currency = data.currency.toUpperCase();
+      }
+    }
+    
     const payload = {
       visitor_id: visitorId,
       event_type: eventType,
@@ -67,8 +89,13 @@
       referrer: document.referrer || null,
       user_agent: navigator.userAgent,
       timestamp: new Date().toISOString(),
+      revenue: revenue,
+      currency: currency,
       ...data
     };
+    
+    // Log for debugging
+    console.log('[utm.one] Tracking:', eventType, payload);
     
     // Use sendBeacon if available (more reliable for page unload)
     if (navigator.sendBeacon) {
@@ -82,9 +109,11 @@
         body: JSON.stringify(payload),
         keepalive: true
       }).catch(function(err) {
-        console.error('utm.one tracking error:', err);
+        console.error('[utm.one] Tracking error:', err);
       });
     }
+    
+    return { success: true, visitor_id: visitorId, event: eventType };
   }
   
   // Track pageview on load
@@ -101,13 +130,26 @@
   // Identity resolution function
   function identify(email, additionalData) {
     if (!email || typeof email !== 'string') {
-      console.error('utm.one identify: email is required');
+      console.error('[utm.one] identify: email is required');
       return;
     }
     
     sendEvent('identify', {
       email: email.toLowerCase().trim(),
       ...additionalData
+    });
+  }
+  
+  // Custom event tracking function (for revenue, conversions, etc.)
+  function track(eventName, metadata) {
+    if (!eventName || typeof eventName !== 'string') {
+      console.error('[utm.one] track: eventName is required');
+      return { success: false, error: 'eventName is required' };
+    }
+    
+    return sendEvent(eventName, {
+      event_name: eventName,
+      ...metadata
     });
   }
   
@@ -133,7 +175,7 @@
   // Expose global API
   window.utm = window.utm || {};
   window.utm.identify = identify;
-  window.utm.track = sendEvent;
+  window.utm.track = track;
   window.utm.getVisitorId = getVisitorId;
   
   // Auto-init
@@ -146,4 +188,6 @@
     trackPageview();
     setupFormListener();
   }
+  
+  console.log('[utm.one] Pixel v2.0 initialized. Visitor ID:', getVisitorId());
 })();

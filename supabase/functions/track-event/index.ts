@@ -22,11 +22,14 @@ Deno.serve(async (req) => {
     const {
       visitor_id,
       event_type,
+      event_name,
       page_url,
       page_title,
       referrer,
       user_agent,
       email,
+      revenue,
+      currency,
       utm_source,
       utm_medium,
       utm_campaign,
@@ -97,30 +100,68 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Store journey event (now includes workspace_id if available)
+    // Parse user agent for device info
+    const deviceType = /Mobile|Android|iPhone|iPad/i.test(user_agent || '') ? 'mobile' : 
+                       /Tablet|iPad/i.test(user_agent || '') ? 'tablet' : 'desktop';
+    
+    const browserMatch = (user_agent || '').match(/(Chrome|Firefox|Safari|Edge|Opera|MSIE|Trident)/i);
+    const browser = browserMatch ? browserMatch[1] : 'unknown';
+    
+    const osMatch = (user_agent || '').match(/(Windows|Mac OS|Linux|Android|iOS)/i);
+    const os = osMatch ? osMatch[1] : 'unknown';
+
+    // Normalize revenue to a number
+    let normalizedRevenue = null;
+    if (revenue !== null && revenue !== undefined) {
+      normalizedRevenue = typeof revenue === 'number' ? revenue : parseFloat(revenue);
+      if (isNaN(normalizedRevenue)) normalizedRevenue = null;
+    }
+
+    // Store journey event in the database
     const journeyEvent = {
       visitor_id,
       event_type,
-      event_name: event_type === 'pageview' ? 'page_view' : event_type,
-      page_url,
-      page_title,
-      referrer: referrer || null,
-      user_agent,
+      event_name: event_name || (event_type === 'pageview' ? 'page_view' : event_type),
       source: utm_source || null,
       medium: utm_medium || null,
       campaign: utm_campaign || null,
       term: utm_term || null,
       content: utm_content || null,
-      metadata: metadata || {},
+      referrer: referrer || null,
+      landing_page: page_url || null,
+      device_type: deviceType,
+      browser: browser,
+      os: os,
+      revenue: normalizedRevenue,
+      currency: currency || 'USD',
+      metadata: {
+        page_title,
+        user_agent,
+        ...metadata
+      },
       created_at: new Date().toISOString()
     };
 
-    console.log('[track-event] Journey event:', journeyEvent);
+    console.log('[track-event] Inserting journey event:', journeyEvent);
+
+    const { data: insertedEvent, error: insertError } = await supabase
+      .from('journey_events')
+      .insert(journeyEvent)
+      .select('id')
+      .single();
+
+    if (insertError) {
+      console.error('[track-event] Insert error:', insertError);
+      // Don't fail the request, just log the error
+    } else {
+      console.log('[track-event] Event stored with ID:', insertedEvent?.id);
+    }
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         visitor_id,
+        event_id: insertedEvent?.id || null,
         message: 'Event tracked successfully' 
       }),
       { 
