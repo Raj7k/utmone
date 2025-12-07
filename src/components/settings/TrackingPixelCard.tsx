@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Check, Code2, AlertCircle } from "lucide-react";
+import { Copy, Check, Code2, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { FormTrackingWizard } from "@/components/tracking/FormTrackingWizard";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +18,7 @@ interface TrackingPixelCardProps {
 export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
   const [copied, setCopied] = useState(false);
   const [newDomain, setNewDomain] = useState("");
+  const [showFormTracking, setShowFormTracking] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -251,6 +253,30 @@ export function TrackingPixelCard({ workspaceId }: TrackingPixelCardProps) {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Form Tracking Toggle */}
+        <div className="pt-4 border-t border-separator">
+          <Button
+            variant="ghost"
+            className="w-full justify-between text-left"
+            onClick={() => setShowFormTracking(!showFormTracking)}
+          >
+            <span className="text-subheadline-apple font-medium text-label">
+              Form Conversion Tracking
+            </span>
+            {showFormTracking ? (
+              <ChevronUp className="h-4 w-4 text-secondary-label" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-secondary-label" />
+            )}
+          </Button>
+          
+          {showFormTracking && pixelConfig && (
+            <div className="mt-4">
+              <FormTrackingWizard pixelId={pixelConfig.pixel_id} />
+            </div>
+          )}
         </div>
       </div>
     </Card>
