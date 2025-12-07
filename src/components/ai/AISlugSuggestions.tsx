@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AISlugSuggestionsProps {
   slugs: string[];
@@ -32,16 +33,26 @@ export function AISlugSuggestions({
           <span>ai suggestions</span>
         </div>
         {onRefresh && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0"
-            onClick={onRefresh}
-            disabled={isLoading}
-          >
-            <RefreshCw className={`h-3 w-3 ${isLoading ? 'animate-spin' : ''}`} />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 px-2 gap-1 text-xs"
+                  onClick={onRefresh}
+                  disabled={isLoading}
+                >
+                  <RefreshCw className={`h-3 w-3 ${isLoading ? 'animate-spin' : ''}`} />
+                  <span className="hidden sm:inline">regenerate</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>get different suggestions</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </div>
       
@@ -49,12 +60,12 @@ export function AISlugSuggestions({
         <AnimatePresence mode="popLayout">
           {slugs.map((slug, index) => (
             <motion.button
-              key={slug}
+              key={`${slug}-${index}`}
               type="button"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ delay: index * 0.05 }}
+              initial={{ opacity: 0, scale: 0.8, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -10 }}
+              transition={{ delay: index * 0.05, type: "spring", stiffness: 500, damping: 30 }}
               onClick={() => onSelect(slug)}
               className={`px-3 py-1.5 text-sm rounded-full border transition-all ${
                 currentSlug === slug

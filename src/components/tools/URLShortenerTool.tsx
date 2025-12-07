@@ -62,9 +62,10 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [slugSuggestions, setSlugSuggestions] = useState<any[]>([]);
   
   // AI Analysis
-  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, regenerateUrl, isAIPowered } = useAIAnalyzeUrl();
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [usedAISlug, setUsedAISlug] = useState(false);
+  const [currentAnalyzedUrl, setCurrentAnalyzedUrl] = useState<string>("");
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -117,10 +118,17 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     
     try {
       new URL(pastedUrl);
+      setCurrentAnalyzedUrl(pastedUrl);
       analyzeUrl(pastedUrl);
       setShowAISuggestions(true);
     } catch {
       // Invalid URL
+    }
+  };
+
+  const handleRegenerateSlugSuggestions = () => {
+    if (currentAnalyzedUrl) {
+      regenerateUrl(currentAnalyzedUrl);
     }
   };
 
@@ -381,7 +389,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                   }}
                   currentSlug={values.slug}
                   isLoading={isAnalyzing}
-                  onRefresh={() => values.url && analyzeUrl(values.url)}
+                  onRefresh={handleRegenerateSlugSuggestions}
                 />
               )}
             </AnimatePresence>

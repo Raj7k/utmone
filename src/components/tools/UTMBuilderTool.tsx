@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import { Sparkles, RefreshCw } from "lucide-react";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
-import { AIAnalyzingOverlay } from "@/components/ai/AIAnalyzingOverlay";
 import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
 import { motion, AnimatePresence } from "framer-motion";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const utmSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -56,7 +56,8 @@ interface UTMBuilderToolProps {
 export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
   const [generatedURL, setGeneratedURL] = useState<string>("");
   const { currentWorkspace } = useWorkspace();
-  const { isAnalyzing, suggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  const { isAnalyzing, suggestions, analyzeUrl, regenerateUrl, isAIPowered } = useAIAnalyzeUrl();
+  const [currentUrl, setCurrentUrl] = useState<string>("");
   
   // Track which fields were AI-filled
   const [aiFilledFields, setAiFilledFields] = useState<Set<string>>(new Set());
@@ -87,9 +88,17 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
     // Validate URL before analyzing
     try {
       new URL(pastedUrl);
+      setCurrentUrl(pastedUrl);
       analyzeUrl(pastedUrl);
     } catch {
       // Invalid URL, skip analysis
+    }
+  };
+
+  const handleRegenerate = () => {
+    if (currentUrl) {
+      setAiFilledFields(new Set()); // Clear badges to allow re-application
+      regenerateUrl(currentUrl);
     }
   };
 
@@ -206,14 +215,36 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
               </p>
             )}
             {isAIPowered && suggestions && (
-              <motion.p 
+              <motion.div 
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-xs text-primary mt-1 flex items-center gap-1"
+                className="flex items-center justify-between mt-1"
               >
-                <Sparkles className="h-3 w-3" />
-                {suggestions.context}
-              </motion.p>
+                <p className="text-xs text-primary flex items-center gap-1">
+                  <Sparkles className="h-3 w-3" />
+                  {suggestions.context}
+                </p>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 gap-1 text-xs text-primary hover:text-primary"
+                        onClick={handleRegenerate}
+                        disabled={isAnalyzing}
+                      >
+                        <RefreshCw className={`h-3 w-3 ${isAnalyzing ? 'animate-spin' : ''}`} />
+                        <span>regenerate</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>get different AI suggestions</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </motion.div>
             )}
           </div>
 

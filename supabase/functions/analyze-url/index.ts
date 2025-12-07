@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { url } = await req.json();
+    const { url, regenerate = false, previousSuggestions = [] } = await req.json();
     
     if (!url) {
       return new Response(
@@ -77,13 +77,25 @@ serve(async (req) => {
       );
     }
 
+    // Build regeneration context if this is a retry
+    const regenerationContext = regenerate && previousSuggestions.length > 0
+      ? `\n\nIMPORTANT: The user didn't like the previous suggestions. Generate COMPLETELY DIFFERENT suggestions.
+Previous suggestions to AVOID (do NOT repeat any of these):
+- UTM campaigns: ${previousSuggestions.filter((s: string) => s.includes('campaign:')).map((s: string) => s.replace('campaign:', '')).join(', ') || 'none'}
+- UTM content: ${previousSuggestions.filter((s: string) => s.includes('content:')).map((s: string) => s.replace('content:', '')).join(', ') || 'none'}
+- UTM terms: ${previousSuggestions.filter((s: string) => s.includes('term:')).map((s: string) => s.replace('term:', '')).join(', ') || 'none'}
+- Vanity slugs: ${previousSuggestions.filter((s: string) => s.includes('slug:')).map((s: string) => s.replace('slug:', '')).join(', ') || 'none'}
+
+Be MORE creative this time. Use different angles, synonyms, or alternative interpretations of the content.`
+      : '';
+
     const prompt = `Analyze this URL and its page content to suggest UTM parameters and vanity slugs for a marketing campaign.
 
 URL: ${url}
 Page Title: ${pageTitle || 'Not available'}
 Page Description: ${pageDescription || 'Not available'}
 Page H1: ${pageContent || 'Not available'}
-URL Path Context: ${urlContext || 'None'}
+URL Path Context: ${urlContext || 'None'}${regenerationContext}
 
 Based on this context, provide:
 1. A suggested utm_campaign name (lowercase, hyphenated, short, descriptive)
