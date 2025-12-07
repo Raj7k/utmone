@@ -55,8 +55,7 @@ const toolsNavigation = [
 const intelligenceNavigation = [
   { name: "Instant Links", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
-  { name: "Attribution", href: "/dashboard/attribution", icon: GitBranch },
-  { name: "Robust Attribution", href: "/dashboard/robust-attribution", icon: GitBranch },
+  { name: "Clean-Track Attribution", href: "/dashboard/attribution", icon: GitBranch },
   { name: "Geo-Targeting", href: "/dashboard/targeting", icon: Route },
   { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
 ];
