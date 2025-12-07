@@ -16,7 +16,7 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export const TrustSection = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
+    <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <motion.div
@@ -26,18 +26,10 @@ export const TrustSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 space-y-3"
         >
-          <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
-            style={{
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase obsidian-platinum-text">
             built for trust & permanence
           </h1>
-          <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-base md:text-lg max-w-2xl mx-auto text-muted-foreground font-sans">
             links that include everyone and outlive your tools
           </p>
         </motion.div>
@@ -50,42 +42,33 @@ export const TrustSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-2xl p-6 space-y-4"
-            style={{
-              background: 'rgba(24, 24, 27, 0.4)',
-              backdropFilter: 'blur(40px)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-            }}
+            className="obsidian-glass rounded-2xl p-6 space-y-4"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div 
-                className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              >
-                <Eye className="w-5 h-5" style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10">
+                <Eye className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                <h2 className="text-lg font-display font-semibold lowercase text-foreground/90">
                   accessibility first
                 </h2>
-                <p className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                <p className="text-xs text-muted-foreground font-sans">
                   WCAG AAA certified platform
                 </p>
               </div>
             </div>
 
             {/* Semantic URL Example */}
-            <div className="rounded-xl p-4 space-y-2" style={{ background: 'rgba(255, 255, 255, 0.03)' }}>
+            <div className="rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
               <div className="flex items-center gap-2 text-xs">
                 <span className="text-destructive">✗</span>
-                <span className="font-mono" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>bit.ly/3xK9mzQ</span>
+                <span className="font-mono text-muted-foreground">bit.ly/3xK9mzQ</span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
-                <span className="font-mono" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>utm.one/nike-product-demo</span>
+                <CheckCircle2 className="w-3 h-3 text-foreground/80" />
+                <span className="font-mono text-foreground/90">utm.one/nike-product-demo</span>
               </div>
-              <p className="text-[10px]" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+              <p className="text-[10px] text-muted-foreground/60 font-sans">
                 Screen readers speak meaningful URLs
               </p>
             </div>
@@ -100,8 +83,8 @@ export const TrustSection = () => {
               ].map((feature) => {
                 const Icon = feature.icon;
                 return (
-                  <div key={feature.label} className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                    <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                  <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
+                    <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
                     <span className="lowercase">{feature.label}</span>
                   </div>
                 );
@@ -110,8 +93,7 @@ export const TrustSection = () => {
 
             <Link 
               to="/features/accessibility"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80"
-              style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />
@@ -124,42 +106,33 @@ export const TrustSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-2xl p-6 space-y-4"
-            style={{
-              background: 'rgba(24, 24, 27, 0.4)',
-              backdropFilter: 'blur(40px)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-            }}
+            className="obsidian-glass rounded-2xl p-6 space-y-4"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div 
-                className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-              >
-                <Shield className="w-5 h-5" style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-foreground/10">
+                <Shield className="w-5 h-5 text-foreground/80" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                <h2 className="text-lg font-display font-semibold lowercase text-foreground/90">
                   link immunity
                 </h2>
-                <p className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                <p className="text-xs text-muted-foreground font-sans">
                   your links outlive your tools
                 </p>
               </div>
             </div>
 
             {/* Mini Timeline */}
-            <div className="rounded-xl p-4 space-y-2" style={{ background: 'rgba(255, 255, 255, 0.03)' }}>
+            <div className="rounded-xl p-4 space-y-2 bg-foreground/[0.03]">
               {[
                 { year: "2025", event: "Tool A shuts down", status: "broken" },
                 { year: "2027", event: "Your utm.one link", status: "active" },
                 { year: "2030", event: "Still working", status: "active" },
               ].map((item) => (
-                <div key={item.year} className="flex items-center gap-2 text-xs">
-                  <Clock className="w-3 h-3" style={{ color: item.status === "active" ? 'rgba(255, 255, 255, 0.8)' : 'rgba(239, 68, 68, 0.6)' }} />
-                  <span className="font-mono" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{item.year}</span>
-                  <span style={{ color: item.status === "active" ? 'rgba(255, 255, 255, 0.9)' : 'rgba(239, 68, 68, 0.8)' }}>
+                <div key={item.year} className="flex items-center gap-2 text-xs font-sans">
+                  <Clock className={`w-3 h-3 ${item.status === "active" ? 'text-foreground/80' : 'text-destructive/60'}`} />
+                  <span className="font-mono text-muted-foreground">{item.year}</span>
+                  <span className={item.status === "active" ? 'text-foreground/90' : 'text-destructive/80'}>
                     {item.event}
                   </span>
                 </div>
@@ -176,8 +149,8 @@ export const TrustSection = () => {
               ].map((feature) => {
                 const Icon = feature.icon;
                 return (
-                  <div key={feature.label} className="flex items-center gap-2 text-xs" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                    <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: 'rgba(255, 255, 255, 0.5)' }} />
+                  <div key={feature.label} className="flex items-center gap-2 text-xs text-foreground/70 font-sans">
+                    <Icon className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
                     <span className="lowercase">{feature.label}</span>
                   </div>
                 );
@@ -186,8 +159,7 @@ export const TrustSection = () => {
 
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80"
-              style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+              className="inline-flex items-center gap-2 text-xs font-medium transition-colors lowercase hover:opacity-80 text-muted-foreground font-sans"
             >
               learn more
               <ArrowRight className="h-3 w-3" />

@@ -65,23 +65,15 @@ const CoreToolsContent = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="group p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
-            style={{
-              background: 'rgba(24, 24, 27, 0.4)',
-              backdropFilter: 'blur(40px)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-            }}
+            className="group p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02] obsidian-glass"
           >
-            <div 
-              className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
-              style={{ background: 'rgba(255, 255, 255, 0.08)' }}
-            >
-              <Icon className="w-5 h-5" style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-foreground/[0.08]">
+              <Icon className="w-5 h-5 text-foreground/80" />
             </div>
-            <h3 className="text-sm font-semibold lowercase mb-1" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+            <h3 className="text-sm font-display font-semibold lowercase mb-1 text-foreground/90">
               {tool.label}
             </h3>
-            <p className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+            <p className="text-xs text-muted-foreground font-sans">
               {tool.description}
             </p>
           </motion.div>
@@ -912,18 +904,10 @@ export const UnifiedToolsShowcase = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 space-y-3"
         >
-          <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
-            style={{
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase obsidian-platinum-text">
             your complete marketing toolbox
           </h1>
-          <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-base md:text-lg max-w-2xl mx-auto text-muted-foreground font-sans">
             six tools. one platform. zero data chaos.
           </p>
         </motion.div>
@@ -943,17 +927,11 @@ export const UnifiedToolsShowcase = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full transition-all text-sm font-medium"
-                style={isActive ? {
-                  background: 'rgba(255,255,255,0.9)',
-                  color: '#050505',
-                  boxShadow: '0 4px 20px rgba(255,255,255,0.15)'
-                } : {
-                  background: 'rgba(24, 24, 27, 0.4)',
-                  backdropFilter: 'blur(40px)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  color: 'rgba(255,255,255,0.7)',
-                }}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full transition-all text-sm font-medium font-sans ${
+                  isActive 
+                    ? 'bg-primary text-primary-foreground shadow-[0_4px_20px_rgba(255,255,255,0.15)]'
+                    : 'obsidian-glass text-foreground/70 hover:text-foreground'
+                }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="lowercase">{tab.label}</span>
@@ -988,8 +966,7 @@ export const UnifiedToolsShowcase = () => {
         >
           <Link 
             to="/features"
-            className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80"
-            style={{ color: 'rgba(255,255,255,0.7)' }}
+            className="inline-flex items-center gap-2 font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"
           >
             explore all features
             <ArrowRight className="h-4 w-4" />

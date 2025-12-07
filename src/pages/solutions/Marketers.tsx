@@ -46,21 +46,11 @@ const Marketers = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
       {/* Obsidian Noise Texture */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[1]"
-        style={{
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat'
-        }}
-      />
+      <div className="fixed inset-0 pointer-events-none z-[1] obsidian-noise" />
       {/* Spotlight */}
-      <div 
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]"
-        style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }}
-      />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2] obsidian-lighting" />
       
       <SEO 
         title="utm.one for Marketers"
@@ -89,10 +79,10 @@ const Marketers = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-[1.05]">
               stop cleaning UTMs. start running campaigns.
             </h1>
-            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl text-muted-foreground font-sans max-w-[640px] mx-auto">
               utm.one gives marketers clean links, zero-error tracking, and data you can actually trust. no manual cleanup. no broken reports.
             </p>
             <div className="pt-4">
@@ -100,7 +90,7 @@ const Marketers = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -149,10 +139,10 @@ const Marketers = () => {
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-white/60 mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground font-sans mt-4 max-w-[640px] mx-auto">
               same campaign. two different realities.
             </p>
           </div>
@@ -196,10 +186,10 @@ const Marketers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-white">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase obsidian-platinum-text">
               what you get
             </h2>
-            <p className="text-xl text-white/60">
+            <p className="text-xl text-muted-foreground font-sans">
               Clarity → Trust → Performance
             </p>
           </div>
@@ -245,10 +235,10 @@ const Marketers = () => {
         
         <div className="relative max-w-6xl mx-auto px-8 z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4 obsidian-platinum-text">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-muted-foreground font-sans">
               How your day changes with utm.one
             </p>
           </div>
@@ -300,10 +290,10 @@ const Marketers = () => {
       <section className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4 obsidian-platinum-text">
               how clean is your tracking?
             </h2>
-            <p className="text-lg text-white/60">
+            <p className="text-lg text-muted-foreground font-sans">
               Take the 2-minute quiz to find out your Clean-Track Score
             </p>
           </div>
@@ -316,7 +306,7 @@ const Marketers = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-white">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
               built for marketing teams
             </h2>
           </div>
