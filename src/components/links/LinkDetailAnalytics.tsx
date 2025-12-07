@@ -79,7 +79,9 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
     },
   });
 
+  if (isLoading) {
     return <div className="p-8 text-center text-secondary-label">loading analytics…</div>;
+  }
 
   if (!analyticsData || analyticsData.length === 0) {
     return (
