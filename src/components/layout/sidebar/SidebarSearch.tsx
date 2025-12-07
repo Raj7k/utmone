@@ -23,7 +23,13 @@ import {
   User,
   Building2,
   Plus,
-  X
+  X,
+  Beaker,
+  Network,
+  Zap,
+  TrendingUp,
+  Shield,
+  DollarSign
 } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 import { useEffect, useRef, useState } from "react";
@@ -31,15 +37,26 @@ import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDia
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 
 const allNavigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid, category: "Workspace" },
-  { name: "Links", href: "/dashboard/links", icon: Link2, category: "Workspace" },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3, category: "Workspace" },
-  { name: "Approvals", href: "/dashboard/approvals", icon: Clock, category: "Workspace" },
+  // App section
+  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid, category: "App" },
+  { name: "Links", href: "/dashboard/links", icon: Link2, category: "App" },
+  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3, category: "App" },
+  { name: "Sales", href: "/dashboard/sales", icon: DollarSign, category: "App" },
+  { name: "Approvals", href: "/dashboard/approvals", icon: Clock, category: "App" },
+  // Tools section
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode, category: "Tools" },
   { name: "Targeting", href: "/dashboard/targeting", icon: Target, category: "Tools" },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers, category: "Tools" },
   { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain, category: "Tools" },
+  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker, category: "Tools" },
+  // Intelligence section
+  { name: "Attribution", href: "/dashboard/attribution", icon: Network, category: "Intelligence" },
+  { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap, category: "Intelligence" },
+  { name: "Analytics Performance", href: "/dashboard/analytics-performance", icon: TrendingUp, category: "Intelligence" },
+  { name: "Link Health", href: "/dashboard/link-health", icon: Shield, category: "Intelligence" },
+  // Growth section
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone, category: "Growth" },
+  // Settings section
   { name: "Workspace Settings", href: "/settings/workspace", icon: Briefcase, category: "Settings" },
   { name: "Billing", href: "/settings/billing", icon: CreditCard, category: "Settings" },
   { name: "Account", href: "/settings/profile", icon: User, category: "Settings" },
