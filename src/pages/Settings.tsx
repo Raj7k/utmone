@@ -25,6 +25,7 @@ import { SettingsContentWrapper } from "@/components/settings/SettingsContentWra
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Loader2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
+import { CreateLinkModal } from "@/components/CreateLinkModal";
 
 const tabTitles: Record<string, { title: string; description: string }> = {
   profile: { title: "profile", description: "manage your personal information and preferences" },
@@ -193,6 +194,7 @@ export default function Settings() {
       </main>
       
       <MobileNav />
+      <CreateLinkModal />
     </div>
   );
 }
