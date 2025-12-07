@@ -112,7 +112,7 @@ export function AIInsights() {
           <h3 className="text-lg font-semibold">AI Insights</h3>
         </div>
         <Button variant="ghost" size="sm" asChild>
-          <Link to="/analytics">View All</Link>
+          <Link to="/dashboard/analytics">View All</Link>
         </Button>
       </div>
       <div className="space-y-3">

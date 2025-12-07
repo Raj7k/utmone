@@ -219,8 +219,8 @@ export const OGVariantManager = ({ linkId }: OGVariantManagerProps) => {
           </div>
         )}
         {testStatus?.ab_test_status === 'running' && (
-          <div className="mb-4 p-4 rounded-lg" style={{ borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.2)' }}>
-            <p className="text-sm font-medium">A/B Test Active</p>
+          <div className="mb-4 p-4 rounded-lg border border-border bg-muted/50">
+            <p className="text-sm font-medium text-foreground">A/B Test Active</p>
             <p className="text-sm text-secondary-label mt-1">
               The system is automatically tracking variant performance. When statistical significance is reached 
               (≥{((testStatus.ab_test_confidence_threshold || 0.95) * 100).toFixed(0)}% confidence, 

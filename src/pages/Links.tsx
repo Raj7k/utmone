@@ -110,7 +110,7 @@ const Links = () => {
                   dashboard
                 </Button>
                 <Button variant="system" size="sm">links</Button>
-                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/analytics")}>
+                <Button variant="system-tertiary" size="sm" onClick={() => navigate("/dashboard/analytics")}>
                   analytics
                 </Button>
               </nav>
