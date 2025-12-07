@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { useIdentityGraph } from '@/hooks/useAttribution';
-import { Network, Smartphone, Monitor, Tablet, CheckCircle, AlertCircle, Code, ChevronDown, ChevronUp } from 'lucide-react';
+import { useRealtimeIdentityGraph } from '@/hooks/useRealtimeIdentityGraph';
+import { Network, Smartphone, Monitor, CheckCircle, AlertCircle, Code, ChevronDown, ChevronUp, Radio, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PixelInstallGuide } from './PixelInstallGuide';
 import { supabase } from '@/integrations/supabase/client';
@@ -52,7 +53,13 @@ const SignalBadge: React.FC<{ signal: string; active: boolean }> = ({ signal, ac
   );
 };
 
-const IdentityEdgeCard: React.FC<{ edge: IdentityEdge; index: number }> = ({ edge, index }) => {
+interface IdentityEdgeCardProps {
+  edge: IdentityEdge;
+  index: number;
+  isNew?: boolean;
+}
+
+const IdentityEdgeCard: React.FC<IdentityEdgeCardProps> = ({ edge, index, isNew = false }) => {
   const signals = edge.signals || {};
   
   return (
@@ -60,8 +67,20 @@ const IdentityEdgeCard: React.FC<{ edge: IdentityEdge; index: number }> = ({ edg
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="p-4 rounded-lg bg-muted/30 dark:bg-zinc-800/30 border border-border dark:border-white/5"
+      className={`p-4 rounded-lg bg-muted/30 dark:bg-zinc-800/30 border transition-all duration-300 ${
+        isNew 
+          ? 'border-green-500 ring-2 ring-green-500/30 animate-pulse' 
+          : 'border-border dark:border-white/5'
+      }`}
     >
+      {isNew && (
+        <div className="flex items-center gap-2 mb-2">
+          <Badge variant="default" className="bg-green-500 text-white text-xs">
+            <Zap className="h-3 w-3 mr-1" />
+            new match
+          </Badge>
+        </div>
+      )}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
@@ -100,9 +119,30 @@ const IdentityEdgeCard: React.FC<{ edge: IdentityEdge; index: number }> = ({ edg
   );
 };
 
+// Live indicator component
+const LiveIndicator: React.FC<{ isConnected: boolean; liveCount: number }> = ({ isConnected, liveCount }) => {
+  return (
+    <div className="flex items-center gap-2">
+      {liveCount > 0 && (
+        <Badge variant="secondary" className="text-xs">
+          +{liveCount} this session
+        </Badge>
+      )}
+      <Badge 
+        variant={isConnected ? 'default' : 'outline'} 
+        className={`text-xs ${isConnected ? 'bg-green-500 text-white' : 'opacity-50'}`}
+      >
+        <Radio className={`h-3 w-3 mr-1 ${isConnected ? 'animate-pulse' : ''}`} />
+        {isConnected ? 'live' : 'connecting...'}
+      </Badge>
+    </div>
+  );
+};
+
 export const IdentityGraphView: React.FC = () => {
   const { currentWorkspace } = useWorkspaceContext();
   const { data: edges, isLoading } = useIdentityGraph(currentWorkspace?.id);
+  const { recentMatch, liveCount, isConnected, isLive } = useRealtimeIdentityGraph(currentWorkspace?.id);
   const [showInstallGuide, setShowInstallGuide] = useState(false);
   const [pixelId, setPixelId] = useState<string | null>(null);
 
@@ -166,16 +206,52 @@ export const IdentityGraphView: React.FC = () => {
         </Card>
       </div>
 
+      {/* New Match Alert Banner */}
+      <AnimatePresence>
+        {isLive && recentMatch && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
+            exit={{ opacity: 0, y: -20, height: 0 }}
+            className="overflow-hidden"
+          >
+            <Card className="bg-green-500/10 border-green-500/30 dark:bg-green-500/5">
+              <CardContent className="py-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Zap className="h-5 w-5 text-green-500" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-foreground">new cross-device match detected</p>
+                    <p className="text-xs text-muted-foreground">
+                      {Math.round(recentMatch.confidence * 100)}% confidence • {recentMatch.match_type} match
+                    </p>
+                  </div>
+                  <Badge variant="default" className="bg-green-500">
+                    just now
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Identity Graph Visualization */}
       <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <Network className="h-5 w-5" />
-            probabilistic identity graph
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            cross-device visitor connections detected using ip, geo, and behavioral signals
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <Network className="h-5 w-5" />
+                probabilistic identity graph
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                cross-device visitor connections detected using ip, geo, and behavioral signals
+              </CardDescription>
+            </div>
+            <LiveIndicator isConnected={isConnected} liveCount={liveCount} />
+          </div>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -200,7 +276,12 @@ export const IdentityGraphView: React.FC = () => {
                   </h4>
                   <div className="space-y-3">
                     {highConfidenceEdges.slice(0, 10).map((edge, idx) => (
-                      <IdentityEdgeCard key={edge.id} edge={edge} index={idx} />
+                      <IdentityEdgeCard 
+                        key={edge.id} 
+                        edge={edge} 
+                        index={idx}
+                        isNew={recentMatch?.id === edge.id}
+                      />
                     ))}
                   </div>
                 </div>
@@ -214,7 +295,12 @@ export const IdentityGraphView: React.FC = () => {
                   </h4>
                   <div className="space-y-3">
                     {mediumConfidenceEdges.slice(0, 5).map((edge, idx) => (
-                      <IdentityEdgeCard key={edge.id} edge={edge} index={idx} />
+                      <IdentityEdgeCard 
+                        key={edge.id} 
+                        edge={edge} 
+                        index={idx}
+                        isNew={recentMatch?.id === edge.id}
+                      />
                     ))}
                   </div>
                 </div>
