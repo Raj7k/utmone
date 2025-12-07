@@ -153,6 +153,7 @@ export default function Analytics() {
         {/* AI Command Center - Takes 1 column */}
         <div className="lg:col-span-1">
           <AICommandCenter
+            workspaceId={currentWorkspace.id}
             insights={analytics.insights || []}
             topChannel={executiveMetrics?.topChannel}
             topChannelClicks={executiveMetrics?.topChannelClicks}

@@ -219,6 +219,9 @@ verify_jwt = false
 [functions.send-hot-lead-alert]
 verify_jwt = false
 
+[functions.generate-smart-insights]
+verify_jwt = true
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
