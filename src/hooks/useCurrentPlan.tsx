@@ -32,7 +32,7 @@ export const useCurrentPlan = () => {
   return {
     id: activePlan,
     isFree: activePlan === 'free',
-    isPro: activePlan === 'pro',
+    isGrowth: activePlan === 'growth',
     isBusiness: activePlan === 'business',
     isEnterprise: activePlan === 'enterprise',
     isPaidTier: activePlan !== 'free',

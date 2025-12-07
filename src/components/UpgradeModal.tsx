@@ -21,8 +21,7 @@ export const UpgradeModal = ({
   feature,
   currentUsage,
   limit,
-  upgradeToTier = 'pro',
-  reason,
+  upgradeToTier = 'growth',
 }: UpgradeModalProps) => {
   const navigate = useNavigate();
   const targetPlan = PLAN_CONFIG[upgradeToTier];
@@ -33,13 +32,13 @@ export const UpgradeModal = ({
       : 100;
 
   const benefits = [
-    upgradeToTier === 'pro' && "1,000 links per month",
-    upgradeToTier === 'pro' && "1 custom domain",
+    upgradeToTier === 'growth' && "1,000 links per month",
+    upgradeToTier === 'growth' && "3 custom domains",
     upgradeToTier === 'business' && "10,000 links per month",
-    upgradeToTier === 'business' && "5 custom domains",
+    upgradeToTier === 'business' && "10 custom domains",
     "Advanced analytics",
     "Priority support",
-    upgradeToTier === 'business' && "White-label options",
+    upgradeToTier === 'business' && "Approval workflows",
   ].filter(Boolean) as string[];
 
   return (

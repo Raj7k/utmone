@@ -7,7 +7,7 @@ import { PLAN_CONFIG } from "@/lib/planConfig";
 
 const LifetimeDeal = () => {
   const navigate = useNavigate();
-  const lifetimePlan = PLAN_CONFIG.lifetime;
+  const growthPlan = PLAN_CONFIG.growth;
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,7 +26,7 @@ const LifetimeDeal = () => {
               </h1>
             </div>
             <p className="text-body-text text-secondary-label max-w-[640px] mx-auto">
-              get lifetime access to pro features for a one-time payment of $299. no recurring fees. no limits on time.
+              get lifetime access to growth features for a one-time payment of $299. no recurring fees. no limits on time.
             </p>
             <div className="pt-4">
               <Button size="lg" onClick={() => navigate('/early-access')}>
@@ -57,9 +57,9 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h2 className="text-heading-3 font-display font-semibold mb-2">unlimited domains</h2>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">3 custom domains</h2>
                   <p className="text-small-text text-secondary-label">
-                    connect as many custom domains as you need
+                    connect up to 3 custom branded domains
                   </p>
                 </div>
               </div>
@@ -84,18 +84,18 @@ const LifetimeDeal = () => {
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h2 className="text-heading-3 font-display font-semibold mb-2">unlimited team members</h2>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">5 team members</h2>
                   <p className="text-small-text text-secondary-label">
-                    invite your entire team at no extra cost
+                    invite up to 5 team members
                   </p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-6 bg-card rounded-xl border border-border">
                 <Check className="w-6 h-6 text-success flex-shrink-0 mt-1" />
                 <div>
-                  <h2 className="text-heading-3 font-display font-semibold mb-2">priority support</h2>
+                  <h2 className="text-heading-3 font-display font-semibold mb-2">geo-targeting</h2>
                   <p className="text-small-text text-secondary-label">
-                    get help faster with priority email support
+                    redirect visitors based on location
                   </p>
                 </div>
               </div>
@@ -120,25 +120,6 @@ const LifetimeDeal = () => {
               </p>
               <p>
                 once these 500 spots are gone, this offer closes forever. standard monthly pricing will be the only option.
-              </p>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Guarantee */}
-      <section className="py-group bg-muted/20">
-        <div className="max-w-[720px] mx-auto px-8">
-          <AnimatedSection>
-            <div className="text-center space-y-6 p-12 bg-card rounded-2xl border border-border">
-              <h2 className="text-heading-2 font-display font-bold">
-                our permanence guarantee
-              </h2>
-              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                even if utm.one shuts down in the future, we guarantee your links will continue working. we'll redirect them to an open-source service before closing.
-              </p>
-              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                your investment is protected. your links are permanent.
               </p>
             </div>
           </AnimatedSection>
