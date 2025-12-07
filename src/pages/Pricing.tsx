@@ -107,7 +107,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Table */}
-      <section id="pricing-table" className="py-24 md:py-32">
+      <section id="pricing-table" className="py-24 md:py-32 relative">
         <div className="max-w-[1400px] mx-auto px-8">
           <AnimatedSection>
             <PricingTable onSelect={handlePlanSelect} />
