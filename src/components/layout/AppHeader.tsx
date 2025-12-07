@@ -34,7 +34,10 @@ const getBreadcrumbs = (pathname: string) => {
       "analytics-performance": "Performance",
       "link-health": "Link Health",
       "billing": "Billing",
-      "team": "Team"
+      "team": "Team",
+      "approvals": "Approvals",
+      "sales": "Sales",
+      "attribution": "Attribution",
     };
     
     const page = segments[1];

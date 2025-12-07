@@ -2,28 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
 import { 
-  LayoutGrid, 
-  Link2, 
-  BarChart3, 
-  QrCode, 
-  Target,
-  Layers,
-  Brain,
-  Clock,
-  Briefcase, 
-  CreditCard, 
-  User,
   ChevronLeft,
   Search,
   Plus,
   Building2,
-  Shield,
-  Beaker,
-  Zap,
-  TrendingUp,
-  GitBranch,
-  Route,
-  DollarSign,
   ChevronDown
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
@@ -37,44 +19,19 @@ import { SidebarUserFooter } from "./SidebarUserFooter";
 import { Button } from "@/components/ui/button";
 import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 import { LucideIcon } from "lucide-react";
+import { 
+  appNavigation, 
+  toolsNavigation, 
+  intelligenceNavigation, 
+  settingsNavigation 
+} from "@/config/navigation";
 
 interface NavItem {
   name: string;
   href: string;
   icon: LucideIcon;
-  badge?: boolean;
+  badge?: boolean | string;
 }
-
-const appNavigation: NavItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
-  { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
-  { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
-];
-
-const toolsNavigation: NavItem[] = [
-  { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
-  { name: "Targeting", href: "/dashboard/targeting", icon: Target },
-  { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
-  { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "Link Guard", href: "/dashboard/link-health", icon: Shield },
-  { name: "Smart Testing", href: "/dashboard/experiments", icon: Beaker },
-];
-
-const intelligenceNavigation: NavItem[] = [
-  { name: "Instant Links", href: "/dashboard/cache-monitoring", icon: Zap },
-  { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
-  { name: "Revenue Attribution", href: "/dashboard/attribution", icon: GitBranch },
-  { name: "Geo-Targeting", href: "/dashboard/targeting", icon: Route },
-  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
-];
-
-const settingsNavigation: NavItem[] = [
-  { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
-  { name: "Billing", href: "/settings/billing", icon: CreditCard },
-  { name: "Account", href: "/settings/profile", icon: User },
-];
 
 interface NavGroupProps {
   name: string;
