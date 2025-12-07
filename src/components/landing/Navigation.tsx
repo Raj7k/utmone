@@ -110,7 +110,7 @@ export const Navigation = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center obsidian-nav">
+          <div className="hidden lg:flex items-center">
             <NavigationMenu>
               <NavigationMenuList className="gap-2">
                 {/* Product Dropdown */}
@@ -1054,9 +1054,9 @@ export const Navigation = () => {
           <div className="flex items-center gap-3">
             <Link to="/early-access">
               <MagneticButton
-                variant="ghost"
+                variant="default"
                 size="sm"
-                className="font-medium text-white hover:bg-white/10 rounded-full"
+                className="font-medium rounded-full bg-white text-black hover:bg-white/90"
                 strength={0.2}
               >
                 get early access
