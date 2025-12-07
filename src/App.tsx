@@ -17,6 +17,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { AnimatedRoutes } from "@/components/transitions/AnimatedRoutes";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { PerformanceProvider } from "@/components/performance/PerformanceProvider";
+import { lazyWithRetry } from "./utils/lazyWithRetry";
 
 // Critical pages - not lazy loaded for fast initial load
 import Index from "./pages/Index";
@@ -45,7 +46,8 @@ const LinkHealth = lazy(() => import("./pages/dashboard/LinkHealth"));
 const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
 const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
-const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
+// Critical layouts use retry wrapper for resilience
+const DashboardLayout = lazyWithRetry(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -83,20 +85,20 @@ const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 
-// Admin pages
-const AdminLayout = lazy(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
-const AdminDashboard = lazy(() => import("./pages/admin/Dashboard"));
-const WaitlistManagement = lazy(() => import("./pages/admin/WaitlistManagement"));
-const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
-const LandingManagement = lazy(() => import("./pages/admin/LandingManagement"));
-const ProductAnalytics = lazy(() => import("./pages/admin/ProductAnalytics"));
-const SystemMonitoring = lazy(() => import("./pages/admin/SystemMonitoring"));
-const FeatureFlags = lazy(() => import("./pages/admin/FeatureFlags"));
-const FlagDetails = lazy(() => import("./pages/admin/FlagDetails"));
-const PartnersManagement = lazy(() => import("./pages/admin/PartnersManagement"));
-const SystemTests = lazy(() => import("./pages/admin/SystemTests"));
-const MFAVerify = lazy(() => import("./pages/admin/MFAVerify"));
-const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
+// Admin pages - use retry wrapper for resilience
+const AdminLayout = lazyWithRetry(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
+const AdminDashboard = lazyWithRetry(() => import("./pages/admin/Dashboard"));
+const WaitlistManagement = lazyWithRetry(() => import("./pages/admin/WaitlistManagement"));
+const UserManagement = lazyWithRetry(() => import("./pages/admin/UserManagement"));
+const LandingManagement = lazyWithRetry(() => import("./pages/admin/LandingManagement"));
+const ProductAnalytics = lazyWithRetry(() => import("./pages/admin/ProductAnalytics"));
+const SystemMonitoring = lazyWithRetry(() => import("./pages/admin/SystemMonitoring"));
+const FeatureFlags = lazyWithRetry(() => import("./pages/admin/FeatureFlags"));
+const FlagDetails = lazyWithRetry(() => import("./pages/admin/FlagDetails"));
+const PartnersManagement = lazyWithRetry(() => import("./pages/admin/PartnersManagement"));
+const SystemTests = lazyWithRetry(() => import("./pages/admin/SystemTests"));
+const MFAVerify = lazyWithRetry(() => import("./pages/admin/MFAVerify"));
+const AdminSecurity = lazyWithRetry(() => import("./pages/admin/AdminSecurity"));
 const TotpVerification = lazy(() => import("./pages/auth/TotpVerification"));
 
 // Feature Pages

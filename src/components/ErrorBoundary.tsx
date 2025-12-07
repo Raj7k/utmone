@@ -68,11 +68,20 @@ export class ErrorBoundary extends Component<Props, State> {
     window.location.reload();
   };
 
+  private isModuleLoadError(): boolean {
+    const message = this.state.error?.message || '';
+    return message.includes('Failed to fetch dynamically imported module') ||
+           message.includes('error loading dynamically imported module') ||
+           message.includes('Importing a module script failed');
+  }
+
   public render() {
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
       }
+
+      const isModuleError = this.isModuleLoadError();
 
       return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-grouped-background">
@@ -82,14 +91,18 @@ export class ErrorBoundary extends Component<Props, State> {
                 <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
                   <AlertTriangle className="h-6 w-6 text-destructive" />
                 </div>
-                <CardTitle className="text-title-2">something went wrong</CardTitle>
+                <CardTitle className="text-title-2">
+                  {isModuleError ? 'page failed to load' : 'something went wrong'}
+                </CardTitle>
               </div>
               <CardDescription>
-                an unexpected error occurred. try refreshing the page.
+                {isModuleError 
+                  ? 'the page could not be loaded. this usually fixes itself with a refresh.'
+                  : 'an unexpected error occurred. try refreshing the page.'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {this.state.error && (
+              {!isModuleError && this.state.error && (
                 <div className="p-3 rounded-lg bg-muted/50 border border-separator">
                   <p className="text-xs font-mono text-secondary-label break-all">
                     {this.state.error.message}
@@ -102,10 +115,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 </p>
               )}
               <div className="flex gap-2">
-                <Button onClick={this.handleReset} variant="outline" className="flex-1">
-                  Try Again
-                </Button>
-                <Button onClick={this.handleReload} className="flex-1">
+                {!isModuleError && (
+                  <Button onClick={this.handleReset} variant="outline" className="flex-1">
+                    Try Again
+                  </Button>
+                )}
+                <Button onClick={this.handleReload} className={isModuleError ? "w-full" : "flex-1"}>
                   Refresh Page
                 </Button>
               </div>
