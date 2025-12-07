@@ -201,21 +201,21 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
-        {/* APP Category */}
+        {/* CORE Category */}
         <div className="space-y-1">
           <div className="px-3 mb-2">
             <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-              App
+              Core
             </p>
           </div>
           {appNavigation.map((item) => renderNavItem(item, item.badge === true))}
         </div>
 
-        {/* TOOLS Category */}
-        {renderCollapsibleSection("Tools", toolsNavigation, toolsOpen, setToolsOpen, hasActiveToolsRoute)}
+        {/* CREATE Category */}
+        {renderCollapsibleSection("Create", toolsNavigation, toolsOpen, setToolsOpen, hasActiveToolsRoute)}
 
-        {/* INTELLIGENCE Category */}
-        {renderCollapsibleSection("Intelligence", intelligenceNavigation, intelligenceOpen, setIntelligenceOpen, hasActiveIntelligenceRoute)}
+        {/* INSIGHTS Category */}
+        {renderCollapsibleSection("Insights", intelligenceNavigation, intelligenceOpen, setIntelligenceOpen, hasActiveIntelligenceRoute)}
 
         {/* GROWTH Category */}
         {renderCollapsibleSection("Growth", growthNavigation, growthOpen, setGrowthOpen, hasActiveGrowthRoute)}

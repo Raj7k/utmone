@@ -127,9 +127,9 @@ export const MobileNav = () => {
               <SheetTitle className="text-left">Navigation</SheetTitle>
             </SheetHeader>
             <div className="mt-6 space-y-6 overflow-y-auto max-h-[calc(80vh-100px)]">
-              {renderNavSection("App", appNavigation)}
-              {renderNavSection("Tools", toolsNavigation)}
-              {renderNavSection("Intelligence", intelligenceNavigation)}
+            {renderNavSection("Core", appNavigation)}
+              {renderNavSection("Create", toolsNavigation)}
+              {renderNavSection("Insights", intelligenceNavigation)}
               {renderNavSection("Growth", growthNavigation)}
               {renderNavSection("Settings", settingsNavigation)}
             </div>
