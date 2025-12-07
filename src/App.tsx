@@ -35,6 +35,7 @@ const WaitlistLocked = lazy(() => import("./pages/WaitlistLocked"));
 
 // Lazy-loaded pages for code splitting
 const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
+const UnibodyDashboardHome = lazy(() => import("./pages/dashboard/UnibodyDashboardHome"));
 const DashboardLinks = lazy(() => import("./pages/dashboard/Links"));
 const DashboardAnalytics = lazy(() => import("./pages/dashboard/Analytics"));
 const DashboardQRCodes = lazy(() => import("./pages/dashboard/QRCodes"));
@@ -48,6 +49,7 @@ const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
 // Critical layouts - static imports to prevent module loading failures
 import { DashboardLayout } from "./components/layout/DashboardLayout";
+import { UnibodyDashboardLayout } from "./components/layout/UnibodyDashboardLayout";
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -397,7 +399,7 @@ const App = () => (
                <Route path="/accept-invite" element={<Suspense fallback={<DashboardSkeleton />}><AcceptInvite /></Suspense>} />
               
                {/* Dashboard Routes - Protected */}
-              <Route path="/dashboard" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardHome /></DashboardLayout></Suspense></ProtectedRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><UnibodyDashboardLayout><UnibodyDashboardHome /></UnibodyDashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/links" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardLinks /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardAnalytics /></DashboardLayout></Suspense></ProtectedRoute>} />
               <Route path="/dashboard/qr-codes" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardQRCodes /></DashboardLayout></Suspense></ProtectedRoute>} />
