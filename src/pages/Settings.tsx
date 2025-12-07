@@ -78,6 +78,8 @@ export default function Settings() {
       setActiveTab("domains");
     } else if (location.pathname.includes("/billing")) {
       setActiveTab("billing");
+    } else if (location.pathname.includes("/tracking")) {
+      setActiveTab("tracking");
     }
 
     const searchParams = new URLSearchParams(location.search);
