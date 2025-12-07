@@ -45,21 +45,9 @@ const Sales = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      {/* Obsidian Noise Texture */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[1]"
-        style={{
-          opacity: 0.03,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat'
-        }}
-      />
-      {/* Spotlight */}
-      <div 
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]"
-        style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }}
-      />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       
       <SEO 
         title="utm.one for Sales Teams"
@@ -91,7 +79,7 @@ const Sales = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               know who clicked. know when they're ready.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto font-sans">
               utm.one helps sales teams track prospect engagement with clean links and clear attribution. stop guessing. start knowing.
             </p>
             <div className="pt-4">
@@ -99,7 +87,7 @@ const Sales = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free for 14 days • No credit card required</span>
             </div>
@@ -116,9 +104,9 @@ const Sales = () => {
             scenario="You sent your pricing deck to a Fortune 500 prospect last week. Radio silence since then. You have no idea if they even opened it. Today, you're about to follow up blind—until you check utm.one. They've viewed the deck 7 times in the last 48 hours. Someone's circulating it internally. You call with perfect timing and close the deal."
             visual={
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-card border-2 border-destructive rounded-xl p-6">
-                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Without utm.one</div>
-                  <div className="text-muted-foreground text-sm space-y-2">
+                <div className="bg-card border-2 border-destructive/30 rounded-xl p-6">
+                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide font-sans">Without utm.one</div>
+                  <div className="text-muted-foreground text-sm space-y-2 font-sans">
                     <p>❌ No idea if they opened the deck</p>
                     <p>❌ Guessing when to follow up</p>
                     <p>❌ Risk calling too early or too late</p>
@@ -126,9 +114,9 @@ const Sales = () => {
                   </div>
                 </div>
                 
-                <div className="rounded-xl p-6" style={{ background: 'hsl(var(--primary) / 0.05)', border: '2px solid hsl(var(--primary) / 0.6)' }}>
-                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary">With utm.one</div>
-                  <div className="text-foreground text-sm space-y-2">
+                <div className="rounded-xl p-6 bg-primary/5 border-2 border-primary/60">
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary font-sans">With utm.one</div>
+                  <div className="text-foreground text-sm space-y-2 font-sans">
                     <p>✓ 7 views in last 48 hours</p>
                     <p>✓ Engagement spike = buying signal</p>
                     <p>✓ Perfect timing for follow-up</p>
@@ -145,10 +133,10 @@ const Sales = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto font-sans">
               stop guessing. start knowing.
             </p>
           </div>
@@ -159,7 +147,7 @@ const Sales = () => {
             beforeContent={
               <div className="space-y-3">
                 <div className="p-4 bg-card rounded-lg border border-destructive/30">
-                  <div className="text-sm text-muted-foreground space-y-2">
+                  <div className="text-sm text-muted-foreground space-y-2 font-sans">
                     <div className="flex items-start gap-2">
                       <span className="text-destructive">❌</span>
                       <span>No idea if they opened the deck</span>
@@ -183,7 +171,7 @@ const Sales = () => {
             afterContent={
               <div className="space-y-3">
                 <div className="p-4 rounded-lg bg-primary/10 border border-primary/30">
-                  <div className="text-sm text-foreground space-y-2">
+                  <div className="text-sm text-foreground space-y-2 font-sans">
                     <div className="flex items-start gap-2">
                       <span className="text-primary">✓</span>
                       <span className="font-medium">7 views in last 48 hours</span>
@@ -213,10 +201,10 @@ const Sales = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               Send with confidence. Track with clarity.
             </p>
           </div>
@@ -265,7 +253,7 @@ const Sales = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               your workflow, transformed
             </h2>
-            <p className="text-lg text-white/70">
+            <p className="text-lg text-white/70 font-sans">
               How your day changes with utm.one
             </p>
           </div>
@@ -317,7 +305,7 @@ const Sales = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
               built for sales teams
             </h2>
           </div>

@@ -80,9 +80,9 @@ const ReportingTeam = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       <SEO 
         title="utm.one for Reporting Teams"
         description="Clean data in, clean reports out. utm.one gives BI analysts and reporting teams the data infrastructure they need to stop cleaning and start analyzing."
@@ -113,7 +113,7 @@ const ReportingTeam = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
               stop cleaning data. start trusting it.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto font-sans">
               utm.one gives reporting teams the clean, consistent source data they need. no more spending 40% of your time normalizing marketing's mess.
             </p>
             <div className="pt-4">
@@ -121,7 +121,7 @@ const ReportingTeam = () => {
                 get early access
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Enterprise-ready • SOC 2 compliant • GDPR ready</span>
             </div>
@@ -137,19 +137,19 @@ const ReportingTeam = () => {
             timestamp="Friday, 3:47 PM"
             scenario="The CMO wants a quarterly performance report by Monday. You query GA4 and find 47 different variations of 'utm_medium=social' (social, Social, SOCIAL, socialmedia, sm, social-media, soc, etc.). You spend the weekend manually grouping them into a single category. Again. This is the fourth quarter in a row."
             visual={
-              <div className="bg-card border-2 border-destructive rounded-xl p-6 font-mono text-sm">
+              <div className="bg-card border-2 border-destructive/30 rounded-xl p-6 font-mono text-sm">
                 <div className="text-destructive font-semibold mb-3">❌ Your Data Cleanup Spreadsheet:</div>
                 <div className="space-y-1">
                   <div className="text-muted-foreground">utm_medium variations for Q4:</div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-foreground">
                     <span>social, Social, SOCIAL, socialmedia</span>
                     <span className="text-destructive">→ social</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-foreground">
                     <span>sm, soc, social-media, social_media</span>
                     <span className="text-destructive">→ social</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between text-foreground">
                     <span>email, Email, EMAIL, em, eml</span>
                     <span className="text-destructive">→ email</span>
                   </div>
@@ -167,10 +167,10 @@ const ReportingTeam = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto font-sans">
               same data needs. different time investment.
             </p>
           </div>
@@ -209,10 +209,10 @@ const ReportingTeam = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               The data infrastructure your reports deserve.
             </p>
           </div>

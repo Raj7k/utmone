@@ -22,9 +22,9 @@ import { StaggerContainer, StaggerItem } from "@/components/landing/StaggerConta
 
 const Agencies = () => {
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="obsidian-noise" />
+      <div className="obsidian-lighting" />
       <SEO
         title="utm.one for Agencies - Multi-Client Link Management"
         description="Workspaces, team invites, white-label reports, and client-branded domains. Manage dozens of clients without chaos."
@@ -55,7 +55,7 @@ const Agencies = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
               manage every client from<br />one command center
             </h1>
-            <p className="text-lg md:text-xl max-w-[640px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
               multi-client workspaces, white-label QR codes, client-specific analytics, 
               and governance controls. built for agencies scaling fast.
             </p>
@@ -80,52 +80,52 @@ const Agencies = () => {
             scenario="Client asks about Q3 campaign performance. You have data from 4 different tools—Bitly, Google Analytics, HubSpot, and your agency's custom tracker. None of them match. Client A shows 12K clicks in Bitly, but GA4 shows 8.9K sessions. You're on the call scrambling to explain why the numbers don't align. Client asks: 'Are we paying for fake clicks?'"
             visual={
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid rgba(239,68,68,0.3)' }}>
-                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide">Your Reality</div>
-                  <div className="text-sm space-y-2">
+                <div className="rounded-xl p-6 bg-card border-2 border-destructive/30">
+                  <div className="text-destructive font-semibold mb-3 text-sm uppercase tracking-wide font-sans">Your Reality</div>
+                  <div className="text-sm space-y-2 font-sans">
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Bitly clicks:</span>
-                      <span className="font-semibold">12,043</span>
+                      <span className="text-muted-foreground">Bitly clicks:</span>
+                      <span className="font-semibold text-foreground">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>GA4 sessions:</span>
-                      <span className="font-semibold">8,912</span>
+                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span className="font-semibold text-foreground">8,912</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>HubSpot visits:</span>
-                      <span className="font-semibold">10,287</span>
+                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span className="font-semibold text-foreground">10,287</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Your tracker:</span>
-                      <span className="font-semibold">11,503</span>
+                      <span className="text-muted-foreground">Your tracker:</span>
+                      <span className="font-semibold text-foreground">11,503</span>
                     </div>
                   </div>
-                  <div className="mt-4 text-xs text-destructive">
+                  <div className="mt-4 text-xs text-destructive font-sans">
                     Which number is real? You have no answer.
                   </div>
                 </div>
                 
-                <div className="rounded-xl p-6" style={{ background: 'rgba(24,24,27,0.6)', border: '2px solid hsl(var(--primary) / 0.3)' }}>
-                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary">With utm.one</div>
-                  <div className="text-sm space-y-2">
+                <div className="rounded-xl p-6 bg-primary/5 border-2 border-primary/30">
+                  <div className="font-semibold mb-3 text-sm uppercase tracking-wide text-primary font-sans">With utm.one</div>
+                  <div className="text-sm space-y-2 font-sans">
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>utm.one clicks:</span>
-                      <span className="font-semibold">12,043</span>
+                      <span className="text-muted-foreground">utm.one clicks:</span>
+                      <span className="font-semibold text-foreground">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>GA4 sessions:</span>
-                      <span className="font-semibold">12,043</span>
+                      <span className="text-muted-foreground">GA4 sessions:</span>
+                      <span className="font-semibold text-foreground">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>HubSpot visits:</span>
-                      <span className="font-semibold">12,043</span>
+                      <span className="text-muted-foreground">HubSpot visits:</span>
+                      <span className="font-semibold text-foreground">12,043</span>
                     </div>
                     <div className="flex justify-between">
-                      <span style={{ color: 'rgba(255,255,255,0.5)' }}>Client report:</span>
-                      <span className="font-semibold">12,043</span>
+                      <span className="text-muted-foreground">Client report:</span>
+                      <span className="font-semibold text-foreground">12,043</span>
                     </div>
                   </div>
-                  <div className="mt-4 text-xs text-primary">
+                  <div className="mt-4 text-xs text-primary font-sans">
                     One source of truth. Every tool agrees.
                   </div>
                 </div>
@@ -139,10 +139,10 @@ const Agencies = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase text-foreground">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto font-sans">
               conflicting data vs one source of truth.
             </p>
           </div>
@@ -191,10 +191,10 @@ const Agencies = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase text-foreground">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               Everything you need to manage clients at scale
             </p>
           </div>
@@ -238,7 +238,7 @@ const Agencies = () => {
       <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
               built for agency workflows
             </h2>
           </div>
@@ -297,7 +297,7 @@ const Agencies = () => {
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight text-white mb-6 lowercase">
               your workflow, simplified
             </h2>
-            <p className="text-xl text-white/70">
+            <p className="text-xl text-white/70 font-sans">
               Onboard → Assign → Track → Report
             </p>
           </div>
@@ -324,7 +324,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 6: ROI Calculator */}
-      <section className="py-24 md:py-32" style={{ background: 'linear-gradient(to bottom right, hsl(var(--primary) / 0.05), rgba(255,106,0,0.05), rgb(24,24,27))' }}>
+      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-card">
         <div className="container mx-auto px-6">
           <ROICalculator />
         </div>
@@ -339,10 +339,10 @@ const Agencies = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase text-label mb-6">
+            <h2 className="font-display font-bold text-4xl md:text-5xl lg:text-6xl lowercase obsidian-platinum-text mb-6">
               ready to scale your agency?
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto mb-12">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 font-sans">
               join agencies managing millions of clicks for hundreds of clients. 
               start free, upgrade as you grow.
             </p>
