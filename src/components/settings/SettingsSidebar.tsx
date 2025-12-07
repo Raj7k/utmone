@@ -12,7 +12,8 @@ import {
   Code2,
   ChevronDown,
   Activity,
-  TrendingUp
+  TrendingUp,
+  Bell
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -54,6 +55,12 @@ const settingsGroups = [
     ],
   },
   {
+    name: "Alerts",
+    items: [
+      { id: "notifications", label: "Notifications", icon: Bell },
+    ],
+  },
+  {
     name: "Security",
     items: [
       { id: "security", label: "Security", icon: ShieldCheck },
@@ -69,6 +76,7 @@ export const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps
     Tracking: true,
     Billing: true,
     Developer: true,
+    Alerts: true,
     Security: true,
   });
 

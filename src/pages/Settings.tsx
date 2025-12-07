@@ -26,6 +26,7 @@ import { AuditLogViewer } from "@/components/security/AuditLogViewer";
 import { RoleRecommender } from "@/components/security/RoleRecommender";
 import { TimelineAuditViewer } from "@/components/security/TimelineAuditViewer";
 import { SecurityAlertsWidget } from "@/components/security/SecurityAlertsWidget";
+import { NotificationSettingsCard } from "@/components/settings/NotificationSettingsCard";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -162,6 +163,10 @@ export default function Settings() {
               )}
 
               {activeTab === "privacy" && <DataPrivacySettings />}
+              
+              {activeTab === "notifications" && (
+                <NotificationSettingsCard />
+              )}
               
               {activeTab === "tracking" && <Tracking />}
               
