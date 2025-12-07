@@ -96,11 +96,11 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   }
 
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center pb-16 md:pb-20 overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-center justify-center pb-8 overflow-hidden">
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
-          className="relative h-[620px] rounded-[32px] overflow-hidden"
+          className="relative h-[700px] rounded-[32px] overflow-hidden"
           style={{
             background: 'rgba(24, 24, 27, 0.2)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -218,7 +218,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   Clean-Track Intelligence
                 </p>
                 <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                  MIT & Harvard algorithms
+                  developed by utm.one with folks from MIT & Harvard
                 </p>
               </div>
 

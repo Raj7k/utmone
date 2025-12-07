@@ -9,10 +9,10 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "paid", label: "PAID ADS", y: 40 },
-  { id: "organic", label: "ORGANIC", y: 95 },
-  { id: "email", label: "EMAIL", y: 150 },
-  { id: "referral", label: "REFERRAL", y: 205 },
+  { id: "paid", label: "PAID ADS", y: 50 },
+  { id: "organic", label: "ORGANIC", y: 115 },
+  { id: "email", label: "EMAIL", y: 180 },
+  { id: "referral", label: "REFERRAL", y: 245 },
 ];
 
 export const FiberOpticGraph = () => {
@@ -22,9 +22,9 @@ export const FiberOpticGraph = () => {
   const particleIdRef = useRef(0);
   const [mounted, setMounted] = useState(false);
 
-  // Dimensions - more compact
-  const width = 420;
-  const height = 245;
+  // Dimensions - larger for better visibility
+  const width = 500;
+  const height = 300;
   const leftX = 90;
   const rightX = width - 50;
   const rightY = height / 2;
@@ -63,7 +63,7 @@ export const FiberOpticGraph = () => {
         id: particleIdRef.current++,
         pathIndex,
         progress: 0,
-        speed: 0.012 + Math.random() * 0.008,
+        speed: 0.005 + Math.random() * 0.003,
       };
       setParticles(prev => [...prev.slice(-20), newParticle]); // Keep max 20 particles
     };
@@ -73,7 +73,7 @@ export const FiberOpticGraph = () => {
       setTimeout(() => spawnParticle(), i * 200);
     }
 
-    const interval = setInterval(spawnParticle, 600);
+    const interval = setInterval(spawnParticle, 900);
     return () => clearInterval(interval);
   }, [mounted]);
 
