@@ -6737,6 +6737,7 @@ export type Database = {
         | "rejected"
       plan_tier:
         | "free"
+        | "starter"
         | "pro"
         | "business"
         | "enterprise"
@@ -6910,6 +6911,7 @@ export const Constants = {
       ],
       plan_tier: [
         "free",
+        "starter",
         "pro",
         "business",
         "enterprise",

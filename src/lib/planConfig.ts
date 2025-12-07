@@ -1,4 +1,4 @@
-export type PlanTier = 'free' | 'growth' | 'business' | 'enterprise';
+export type PlanTier = 'free' | 'starter' | 'growth' | 'business' | 'enterprise';
 
 // Feature categories for organized display
 export interface FeatureCategory {
@@ -7,6 +7,7 @@ export interface FeatureCategory {
     key: string;
     label: string;
     free: boolean | string | number;
+    starter: boolean | string | number;
     growth: boolean | string | number;
     business: boolean | string | number;
     enterprise: boolean | string | number;
@@ -152,6 +153,73 @@ export const PLAN_CONFIG: Record<PlanTier, PlanDetails> = {
       qrMaxResolution: 512,
     },
     cta: 'get started free',
+  },
+  starter: {
+    name: 'starter',
+    tier: 'starter',
+    price: 29,
+    billingPeriod: 'monthly',
+    description: 'for freelancers and solopreneurs',
+    features: {
+      // Limits
+      monthlyLinks: 500,
+      customDomains: 1,
+      monthlyClicks: 25000,
+      teamMembers: 2,
+      qrMonthlyLimit: 25,
+      analyticsRetentionDays: 90,
+      
+      // Link Intelligence
+      shortLinks: true,
+      utmBuilder: true,
+      basicQr: true,
+      brandedQr: true,
+      linkExpiry: true,
+      passwordProtection: false,
+      geoTargeting: false,
+      smartRouting: false,
+      linkImmunity: false,
+      
+      // Analytics & Attribution
+      clickAnalytics: true,
+      deviceBrowser: true,
+      referrerTracking: true,
+      attributionModels: false,
+      journeyAnalytics: false,
+      predictiveAnalytics: false,
+      identityGraph: false,
+      liftAnalysis: false,
+      offlineImport: false,
+      
+      // Team & Governance
+      teamRoles: true,
+      campaigns: true,
+      bulkCreate: false,
+      approvalWorkflows: false,
+      auditLogs: false,
+      ssoSaml: false,
+      whiteLabel: false,
+      
+      // Integrations
+      apiAccess: false,
+      webhooks: false,
+      ga4Integration: false,
+      customIntegrations: false,
+      dedicatedCsm: false,
+      customSla: false,
+      
+      // QR Features
+      canRemoveQRWatermark: true,
+      canExportSVG: true,
+      canExportPDF: false,
+      canUploadLogo: true,
+      canUseGradients: true,
+      canUseAdvancedShapes: false,
+      canBulkGenerateQR: false,
+      canSaveQRTemplates: false,
+      qrMaxResolution: 1024,
+    },
+    cta: 'start starter',
   },
   growth: {
     name: 'growth',
@@ -363,64 +431,64 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
   {
     name: 'link intelligence',
     features: [
-      { key: 'monthlyLinks', label: 'monthly links', free: 25, growth: '1,000', business: '10,000', enterprise: 'unlimited' },
-      { key: 'customDomains', label: 'custom domains', free: 0, growth: 3, business: 10, enterprise: 'unlimited' },
-      { key: 'utmBuilder', label: 'utm builder', free: true, growth: true, business: true, enterprise: true },
-      { key: 'linkExpiry', label: 'link expiration', free: false, growth: true, business: true, enterprise: true },
-      { key: 'passwordProtection', label: 'password protection', free: false, growth: true, business: true, enterprise: true },
-      { key: 'geoTargeting', label: 'geo-targeting', free: false, growth: true, business: true, enterprise: true },
-      { key: 'smartRouting', label: 'smart routing', free: false, growth: false, business: true, enterprise: true },
-      { key: 'linkImmunity', label: 'link immunity', free: false, growth: false, business: false, enterprise: true },
+      { key: 'monthlyLinks', label: 'monthly links', free: 25, starter: 500, growth: '1,000', business: '10,000', enterprise: 'unlimited' },
+      { key: 'customDomains', label: 'custom domains', free: 0, starter: 1, growth: 3, business: 10, enterprise: 'unlimited' },
+      { key: 'utmBuilder', label: 'utm builder', free: true, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'linkExpiry', label: 'link expiration', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'passwordProtection', label: 'password protection', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'geoTargeting', label: 'geo-targeting', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'smartRouting', label: 'smart routing', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'linkImmunity', label: 'link immunity', free: false, starter: false, growth: false, business: false, enterprise: true },
     ],
   },
   {
     name: 'analytics & attribution',
     features: [
-      { key: 'monthlyClicks', label: 'monthly clicks', free: '1K', growth: '100K', business: '1M', enterprise: 'unlimited' },
-      { key: 'analyticsRetention', label: 'analytics retention', free: '30 days', growth: '1 year', business: '2 years', enterprise: 'unlimited' },
-      { key: 'deviceBrowser', label: 'device & browser', free: false, growth: true, business: true, enterprise: true },
-      { key: 'referrerTracking', label: 'referrer tracking', free: false, growth: true, business: true, enterprise: true },
-      { key: 'attributionModels', label: 'attribution models', free: false, growth: true, business: true, enterprise: true },
-      { key: 'journeyAnalytics', label: 'journey analytics', free: false, growth: true, business: true, enterprise: true },
-      { key: 'predictiveAnalytics', label: 'predictive analytics', free: false, growth: false, business: true, enterprise: true },
-      { key: 'identityGraph', label: 'identity graph', free: false, growth: false, business: false, enterprise: true },
-      { key: 'liftAnalysis', label: 'lift analysis', free: false, growth: false, business: false, enterprise: true },
-      { key: 'offlineImport', label: 'offline import', free: false, growth: false, business: false, enterprise: true },
+      { key: 'monthlyClicks', label: 'monthly clicks', free: '1K', starter: '25K', growth: '100K', business: '1M', enterprise: 'unlimited' },
+      { key: 'analyticsRetention', label: 'analytics retention', free: '30 days', starter: '90 days', growth: '1 year', business: '2 years', enterprise: 'unlimited' },
+      { key: 'deviceBrowser', label: 'device & browser', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'referrerTracking', label: 'referrer tracking', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'attributionModels', label: 'attribution models', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'journeyAnalytics', label: 'journey analytics', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'predictiveAnalytics', label: 'predictive analytics', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'identityGraph', label: 'identity graph', free: false, starter: false, growth: false, business: false, enterprise: true },
+      { key: 'liftAnalysis', label: 'lift analysis', free: false, starter: false, growth: false, business: false, enterprise: true },
+      { key: 'offlineImport', label: 'offline import', free: false, starter: false, growth: false, business: false, enterprise: true },
     ],
   },
   {
     name: 'team & governance',
     features: [
-      { key: 'teamMembers', label: 'team members', free: 1, growth: 5, business: 25, enterprise: 'unlimited' },
-      { key: 'teamRoles', label: 'team roles', free: false, growth: true, business: true, enterprise: true },
-      { key: 'campaigns', label: 'campaigns', free: false, growth: true, business: true, enterprise: true },
-      { key: 'bulkCreate', label: 'bulk create', free: false, growth: true, business: true, enterprise: true },
-      { key: 'approvalWorkflows', label: 'approval workflows', free: false, growth: false, business: true, enterprise: true },
-      { key: 'auditLogs', label: 'audit logs', free: false, growth: false, business: true, enterprise: true },
-      { key: 'ssoSaml', label: 'sso (saml)', free: false, growth: false, business: false, enterprise: true },
-      { key: 'whiteLabel', label: 'white-label', free: false, growth: false, business: false, enterprise: true },
+      { key: 'teamMembers', label: 'team members', free: 1, starter: 2, growth: 5, business: 25, enterprise: 'unlimited' },
+      { key: 'teamRoles', label: 'team roles', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'campaigns', label: 'campaigns', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'bulkCreate', label: 'bulk create', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'approvalWorkflows', label: 'approval workflows', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'auditLogs', label: 'audit logs', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'ssoSaml', label: 'sso (saml)', free: false, starter: false, growth: false, business: false, enterprise: true },
+      { key: 'whiteLabel', label: 'white-label', free: false, starter: false, growth: false, business: false, enterprise: true },
     ],
   },
   {
     name: 'integrations',
     features: [
-      { key: 'apiAccess', label: 'api access', free: false, growth: true, business: true, enterprise: true },
-      { key: 'webhooks', label: 'webhooks', free: false, growth: true, business: true, enterprise: true },
-      { key: 'ga4Integration', label: 'ga4 integration', free: false, growth: true, business: true, enterprise: true },
-      { key: 'customIntegrations', label: 'custom integrations', free: false, growth: false, business: false, enterprise: true },
-      { key: 'dedicatedCsm', label: 'dedicated csm', free: false, growth: false, business: false, enterprise: true },
-      { key: 'customSla', label: 'custom sla', free: false, growth: false, business: false, enterprise: true },
+      { key: 'apiAccess', label: 'api access', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'webhooks', label: 'webhooks', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'ga4Integration', label: 'ga4 integration', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'customIntegrations', label: 'custom integrations', free: false, starter: false, growth: false, business: false, enterprise: true },
+      { key: 'dedicatedCsm', label: 'dedicated csm', free: false, starter: false, growth: false, business: false, enterprise: true },
+      { key: 'customSla', label: 'custom sla', free: false, starter: false, growth: false, business: false, enterprise: true },
     ],
   },
   {
     name: 'qr codes',
     features: [
-      { key: 'qrMonthlyLimit', label: 'qr codes/month', free: 5, growth: 100, business: 500, enterprise: 'unlimited' },
-      { key: 'brandedQr', label: 'branded qr codes', free: false, growth: true, business: true, enterprise: true },
-      { key: 'canRemoveQRWatermark', label: 'remove watermark', free: false, growth: true, business: true, enterprise: true },
-      { key: 'canExportSVG', label: 'svg/pdf export', free: false, growth: true, business: true, enterprise: true },
-      { key: 'canUploadLogo', label: 'logo upload', free: false, growth: true, business: true, enterprise: true },
-      { key: 'canBulkGenerateQR', label: 'bulk generate', free: false, growth: false, business: true, enterprise: true },
+      { key: 'qrMonthlyLimit', label: 'qr codes/month', free: 5, starter: 25, growth: 100, business: 500, enterprise: 'unlimited' },
+      { key: 'brandedQr', label: 'branded qr codes', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'canRemoveQRWatermark', label: 'remove watermark', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'canExportSVG', label: 'svg/pdf export', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'canUploadLogo', label: 'logo upload', free: false, starter: true, growth: true, business: true, enterprise: true },
+      { key: 'canBulkGenerateQR', label: 'bulk generate', free: false, starter: false, growth: false, business: true, enterprise: true },
     ],
   },
 ];
@@ -428,9 +496,10 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
 // Plan tier hierarchy for comparisons
 export const PLAN_HIERARCHY: Record<PlanTier, number> = {
   free: 0,
-  growth: 1,
-  business: 2,
-  enterprise: 3,
+  starter: 1,
+  growth: 2,
+  business: 3,
+  enterprise: 4,
 };
 
 /**
@@ -446,7 +515,7 @@ export function hasMinPlanTier(userPlan: string, minPlan: string): boolean {
  * Get the next plan tier for upgrade messaging
  */
 export function getNextPlanTier(currentPlan: string): PlanTier | null {
-  const planOrder: PlanTier[] = ['free', 'growth', 'business', 'enterprise'];
+  const planOrder: PlanTier[] = ['free', 'starter', 'growth', 'business', 'enterprise'];
   const currentIndex = planOrder.indexOf(currentPlan as PlanTier);
   
   if (currentIndex === -1 || currentIndex === planOrder.length - 1) {

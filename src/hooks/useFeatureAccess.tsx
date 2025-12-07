@@ -12,9 +12,10 @@ export interface FeatureCheckResult {
 
 const PLAN_HIERARCHY: Record<PlanTier, number> = {
   free: 0,
-  growth: 1,
-  business: 2,
-  enterprise: 3,
+  starter: 1,
+  growth: 2,
+  business: 3,
+  enterprise: 4,
 };
 
 /**

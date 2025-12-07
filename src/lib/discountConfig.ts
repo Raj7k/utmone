@@ -13,6 +13,7 @@ export interface AnnualDiscount {
 }
 
 export const ANNUAL_DISCOUNTS: AnnualDiscount[] = [
+  { tier: 'starter', percentOff: 10, enabled: true },
   { tier: 'growth', percentOff: 15, enabled: true },
   { tier: 'business', percentOff: 20, enabled: true },
 ];
@@ -42,7 +43,7 @@ export const PROMO_DISCOUNTS: PromoDiscount[] = [
     name: 'launch discount',
     type: 'percentage',
     value: 20,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     applicableCycles: ['monthly', 'annual'],
     validFrom: '2025-01-01',
     validUntil: '2025-03-31',
@@ -57,7 +58,7 @@ export const PROMO_DISCOUNTS: PromoDiscount[] = [
     name: 'black friday',
     type: 'percentage',
     value: 40,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     applicableCycles: ['annual'],
     validFrom: '2025-11-20',
     validUntil: '2025-12-02',
@@ -82,6 +83,7 @@ export interface FirstPeriodDiscount {
 }
 
 export const FIRST_PERIOD_DISCOUNTS: FirstPeriodDiscount[] = [
+  { tier: 'starter', type: 'percentage', value: 25, periods: 1, enabled: false, description: '25% off first month' },
   { tier: 'growth', type: 'percentage', value: 50, periods: 1, enabled: false, description: '50% off first month' },
   { tier: 'business', type: 'free', value: 100, periods: 1, enabled: false, description: 'first month free' },
 ];
