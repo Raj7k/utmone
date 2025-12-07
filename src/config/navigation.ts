@@ -17,6 +17,15 @@ import {
   Shield,
   DollarSign,
   Megaphone,
+  Globe,
+  Palette,
+  Users,
+  Activity,
+  Code2,
+  Webhook,
+  Chrome,
+  Bell,
+  ShieldCheck,
   LucideIcon
 } from "lucide-react";
 
@@ -24,8 +33,9 @@ export interface NavItem {
   name: string;
   href: string;
   icon: LucideIcon;
-  badge?: boolean;
+  badge?: boolean | string;
   isNew?: boolean;
+  category?: string;
 }
 
 export interface NavCategory {
@@ -64,10 +74,61 @@ export const growthNavigation: NavItem[] = [
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
 ];
 
-// SETTINGS - Configuration and account settings
+// SETTINGS - All settings sub-pages grouped by category
+export interface SettingsGroup {
+  name: string;
+  items: NavItem[];
+}
+
+export const settingsGroups: SettingsGroup[] = [
+  {
+    name: "General",
+    items: [
+      { name: "Domains", href: "/settings?tab=domains", icon: Globe },
+      { name: "Branding", href: "/settings?tab=branding", icon: Palette },
+      { name: "Team", href: "/settings?tab=team", icon: Users },
+    ],
+  },
+  {
+    name: "Billing",
+    items: [
+      { name: "Plans & Billing", href: "/settings?tab=billing", icon: CreditCard },
+    ],
+  },
+  {
+    name: "Tracking",
+    items: [
+      { name: "Tracking Pixel", href: "/settings?tab=tracking", icon: Activity, badge: "!" },
+      { name: "Pipeline Sync", href: "/settings?tab=pipeline", icon: TrendingUp },
+    ],
+  },
+  {
+    name: "Developer",
+    items: [
+      { name: "API Keys", href: "/settings?tab=developers", icon: Code2 },
+      { name: "Integrations", href: "/settings?tab=integrations", icon: Webhook },
+      { name: "Chrome Extension", href: "/settings?tab=extension", icon: Chrome, isNew: true },
+    ],
+  },
+  {
+    name: "Alerts",
+    items: [
+      { name: "Notifications", href: "/settings?tab=notifications", icon: Bell },
+    ],
+  },
+  {
+    name: "Security",
+    items: [
+      { name: "Security", href: "/settings?tab=security", icon: ShieldCheck },
+      { name: "Data & Privacy", href: "/settings?tab=privacy", icon: Shield },
+    ],
+  },
+];
+
+// Flattened settings for quick access in sidebar
 export const settingsNavigation: NavItem[] = [
-  { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
-  { name: "Billing", href: "/settings/billing", icon: CreditCard },
+  { name: "Workspace", href: "/settings?tab=domains", icon: Briefcase },
+  { name: "Billing", href: "/settings?tab=billing", icon: CreditCard },
   { name: "Account", href: "/settings/profile", icon: User },
 ];
 
@@ -77,7 +138,9 @@ export const allNavigationWithCategories = [
   ...toolsNavigation.map(item => ({ ...item, category: "Tools" })),
   ...intelligenceNavigation.map(item => ({ ...item, category: "Intelligence" })),
   ...growthNavigation.map(item => ({ ...item, category: "Growth" })),
-  ...settingsNavigation.map(item => ({ ...item, category: "Settings" })),
+  ...settingsGroups.flatMap(group => 
+    group.items.map(item => ({ ...item, category: `Settings / ${group.name}` }))
+  ),
 ];
 
 // Navigation categories for sidebar

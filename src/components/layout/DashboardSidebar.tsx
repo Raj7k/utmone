@@ -35,8 +35,10 @@ import {
   toolsNavigation, 
   intelligenceNavigation, 
   growthNavigation,
-  settingsNavigation 
+  settingsGroups,
+  NavItem 
 } from "@/config/navigation";
+import { Badge } from "@/components/ui/badge";
 
 interface DashboardSidebarProps {
   onNavigate?: () => void;
@@ -52,6 +54,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const [toolsOpen, setToolsOpen] = useState(true);
   const [intelligenceOpen, setIntelligenceOpen] = useState(true);
   const [growthOpen, setGrowthOpen] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [, setTextModeUpdate] = useState(0);
 
   // Listen for text mode changes
@@ -126,6 +129,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const hasActiveToolsRoute = toolsNavigation.some(item => isActive(item.href));
   const hasActiveIntelligenceRoute = intelligenceNavigation.some(item => isActive(item.href));
   const hasActiveGrowthRoute = growthNavigation.some(item => isActive(item.href));
+  const hasActiveSettingsRoute = location.pathname.startsWith('/settings');
 
   const renderNavItem = (item: typeof appNavigation[0], showBadge = false) => {
     const active = isActive(item.href);
@@ -204,7 +208,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
               App
             </p>
           </div>
-          {appNavigation.map((item) => renderNavItem(item, item.badge))}
+          {appNavigation.map((item) => renderNavItem(item, item.badge === true))}
         </div>
 
         {/* TOOLS Category */}
@@ -219,12 +223,57 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
 
       {/* SETTINGS (Bottom Section) */}
       <div className="px-3 py-4 border-t border-separator space-y-1">
-        <div className="px-3 mb-2">
-          <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-            Settings
-          </p>
-        </div>
-        {settingsNavigation.map((item) => renderNavItem(item))}
+        <Collapsible open={settingsOpen || hasActiveSettingsRoute} onOpenChange={setSettingsOpen}>
+          <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
+            <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+              Settings
+            </p>
+            <ChevronDown className={cn(
+              "h-3 w-3 text-tertiary-label transition-transform",
+              (settingsOpen || hasActiveSettingsRoute) && "rotate-180"
+            )} />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3">
+            {settingsGroups.map((group) => (
+              <div key={group.name} className="space-y-1">
+                <p className="px-3 text-[10px] font-medium text-tertiary-label/60 uppercase tracking-wider">
+                  {group.name}
+                </p>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const active = location.pathname === '/settings' && location.search.includes(`tab=${item.href.split('tab=')[1]}`);
+                  
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={onNavigate}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-apple",
+                        active
+                          ? "bg-muted text-foreground font-medium"
+                          : "text-label hover:bg-fill-tertiary"
+                      )}
+                    >
+                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="flex-1">{formatText(item.name)}</span>
+                      {item.isNew && (
+                        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 px-1.5 py-0 text-[10px]">
+                          New
+                        </Badge>
+                      )}
+                      {typeof item.badge === 'string' && (
+                        <Badge variant="outline" className="bg-system-orange/10 text-system-orange border-system-orange/20 px-1.5 py-0 text-[10px]">
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            ))}
+          </CollapsibleContent>
+        </Collapsible>
       </div>
 
       {/* User Profile Footer */}
