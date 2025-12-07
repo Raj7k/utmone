@@ -22,26 +22,59 @@ interface LinkDetailOverviewProps {
   link: LinkDetail;
 }
 
+// Parse UTM parameters from a URL
+const parseUtmFromUrl = (url: string) => {
+  try {
+    const urlObj = new URL(url);
+    return {
+      utm_source: urlObj.searchParams.get('utm_source') || '',
+      utm_medium: urlObj.searchParams.get('utm_medium') || '',
+      utm_campaign: urlObj.searchParams.get('utm_campaign') || '',
+      utm_term: urlObj.searchParams.get('utm_term') || '',
+      utm_content: urlObj.searchParams.get('utm_content') || '',
+    };
+  } catch {
+    return { utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '' };
+  }
+};
+
+// Strip UTM params from URL to get base destination
+const stripUtmFromUrl = (url: string) => {
+  try {
+    const urlObj = new URL(url);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
+      urlObj.searchParams.delete(param);
+    });
+    return urlObj.toString().replace(/\?$/, '');
+  } catch {
+    return url;
+  }
+};
+
 export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [isRescanning, setIsRescanning] = useReactState(false);
   const updateLink = useUpdateLink();
   const { toast } = useToast();
 
+  // Parse UTMs from destination URL as fallback when columns are empty
+  const parsedUtms = parseUtmFromUrl(link.destination_url);
+  const baseDestination = stripUtmFromUrl(link.destination_url);
+
   const { register, handleSubmit, watch, setValue, formState: { isDirty } } = useForm({
     defaultValues: {
       title: link.title,
       description: link.description || "",
-      destination_url: link.destination_url,
+      destination_url: baseDestination,
       domain: link.domain,
       path: link.path,
       slug: link.slug,
       status: link.status,
-      utm_source: link.utm_source || "",
-      utm_medium: link.utm_medium || "",
-      utm_campaign: link.utm_campaign || "",
-      utm_term: link.utm_term || "",
-      utm_content: link.utm_content || "",
+      utm_source: link.utm_source || parsedUtms.utm_source,
+      utm_medium: link.utm_medium || parsedUtms.utm_medium,
+      utm_campaign: link.utm_campaign || parsedUtms.utm_campaign,
+      utm_term: link.utm_term || parsedUtms.utm_term,
+      utm_content: link.utm_content || parsedUtms.utm_content,
       og_title: link.og_title || "",
       og_description: link.og_description || "",
       og_image: link.og_image || "",
@@ -113,14 +146,16 @@ export const LinkDetailOverview = ({ link }: LinkDetailOverviewProps) => {
   };
 
   const computedFinalUrl = () => {
-    const dest = watchedFields.destination_url;
+    // Strip any existing UTM params from destination to avoid duplication
+    const dest = stripUtmFromUrl(watchedFields.destination_url);
     const params = new URLSearchParams();
     if (watchedFields.utm_source) params.append("utm_source", watchedFields.utm_source);
     if (watchedFields.utm_medium) params.append("utm_medium", watchedFields.utm_medium);
     if (watchedFields.utm_campaign) params.append("utm_campaign", watchedFields.utm_campaign);
     if (watchedFields.utm_term) params.append("utm_term", watchedFields.utm_term);
     if (watchedFields.utm_content) params.append("utm_content", watchedFields.utm_content);
-    return params.toString() ? `${dest}?${params.toString()}` : dest;
+    const separator = dest.includes('?') ? '&' : '?';
+    return params.toString() ? `${dest}${separator}${params.toString()}` : dest;
   };
 
   return (
