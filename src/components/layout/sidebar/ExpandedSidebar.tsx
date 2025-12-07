@@ -97,9 +97,9 @@ export const ExpandedSidebar = () => {
   const { toggleSidebar, openSearch } = useSidebar();
   
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    Workspace: true,
-    Tools: true,
-    Intelligence: true,
+    Core: true,
+    Create: true,
+    Insights: true,
     Settings: true,
   });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -160,27 +160,27 @@ export const ExpandedSidebar = () => {
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-4 overflow-y-auto">
         <NavGroup
-          name="Workspace"
+          name="Core"
           items={appNavigation}
-          isOpen={openGroups.Workspace}
-          onToggle={() => toggleGroup('Workspace')}
+          isOpen={openGroups.Core}
+          onToggle={() => toggleGroup('Core')}
           isActive={isActive}
           pendingCount={pendingCount}
         />
 
         <NavGroup
-          name="Tools"
+          name="Create"
           items={toolsNavigation}
-          isOpen={openGroups.Tools}
-          onToggle={() => toggleGroup('Tools')}
+          isOpen={openGroups.Create}
+          onToggle={() => toggleGroup('Create')}
           isActive={isActive}
         />
 
         <NavGroup
-          name="Intelligence"
+          name="Insights"
           items={intelligenceNavigation}
-          isOpen={openGroups.Intelligence}
-          onToggle={() => toggleGroup('Intelligence')}
+          isOpen={openGroups.Insights}
+          onToggle={() => toggleGroup('Insights')}
           isActive={isActive}
         />
 
