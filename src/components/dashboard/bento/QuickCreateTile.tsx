@@ -85,6 +85,7 @@ export const QuickCreateTile = () => {
       setUrl("");
       queryClient.invalidateQueries({ queryKey: ["recent-links"] });
       queryClient.invalidateQueries({ queryKey: ["links"] });
+      queryClient.invalidateQueries({ queryKey: ["links-count"] });
       
       // Auto-scroll to recent links section
       setTimeout(() => {

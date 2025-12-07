@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Link2, Shuffle, CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { generateSlugFromTitle } from "@/lib/slugify";
 import { useLinkWebhooks } from "@/hooks/useLinkWebhooks";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
@@ -40,6 +40,7 @@ interface URLShortenerToolProps {
 
 export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLShortenerToolProps) => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const { triggerWebhook } = useLinkWebhooks(workspaceId);
   const [slugAvailable, setSlugAvailable] = useState<boolean | null>(null);
   const [shortURL, setShortURL] = useState<string>("");
@@ -174,6 +175,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       const url = `https://${link.domain}/${link.slug}`;
       setShortURL(url);
       setCreatedLinkId(link.id);
+      // Invalidate links-count to disable demo mode
+      queryClient.invalidateQueries({ queryKey: ["links-count"] });
     },
     onError: (error: Error) => {
       toast({
