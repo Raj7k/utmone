@@ -77,13 +77,39 @@ Deno.serve((req) => {
   var identifyUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identify-visitor';
   var identityMatchUrl = '${Deno.env.get('SUPABASE_URL')}/functions/v1/identity-matching';
   
+  // Extract UTM parameters from current page URL
+  function getUTMParams() {
+    var params = new URLSearchParams(w.location.search);
+    return {
+      utm_source: params.get('utm_source') || '',
+      utm_medium: params.get('utm_medium') || '',
+      utm_campaign: params.get('utm_campaign') || '',
+      utm_term: params.get('utm_term') || '',
+      utm_content: params.get('utm_content') || ''
+    };
+  }
+  
   // Track event function
   w.utmone.track = function(eventType, params) {
     params = params || {};
     
+    // Get UTM parameters from current page
+    var utmParams = getUTMParams();
+    
     var url = baseUrl + 
       '?pixel_id=' + encodeURIComponent(pixelId) +
-      '&event=' + encodeURIComponent(eventType);
+      '&event=' + encodeURIComponent(eventType) +
+      '&visitor_id=' + encodeURIComponent(visitorId) +
+      '&url=' + encodeURIComponent(w.location.href) +
+      '&title=' + encodeURIComponent(d.title) +
+      '&referrer=' + encodeURIComponent(d.referrer);
+    
+    // Add UTM parameters if present
+    if (utmParams.utm_source) url += '&utm_source=' + encodeURIComponent(utmParams.utm_source);
+    if (utmParams.utm_medium) url += '&utm_medium=' + encodeURIComponent(utmParams.utm_medium);
+    if (utmParams.utm_campaign) url += '&utm_campaign=' + encodeURIComponent(utmParams.utm_campaign);
+    if (utmParams.utm_term) url += '&utm_term=' + encodeURIComponent(utmParams.utm_term);
+    if (utmParams.utm_content) url += '&utm_content=' + encodeURIComponent(utmParams.utm_content);
     
     if (params.revenue) {
       url += '&revenue=' + encodeURIComponent(params.revenue);
@@ -115,7 +141,7 @@ Deno.serve((req) => {
       img.src = url;
     }
     
-    console.log('[utm.one] Tracked:', eventType, params);
+    console.log('[utm.one] Tracked:', eventType, params, utmParams);
     
     // Trigger cross-device identity matching on pageviews (fire and forget)
     if (eventType === 'pageview') {
