@@ -80,9 +80,9 @@ const Startups = () => {
   ];
 
   return (
-    <div className="dark min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
-      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ opacity: 0.03, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundRepeat: 'repeat' }} />
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2]" style={{ background: 'radial-gradient(ellipse at center top, rgba(255,255,255,0.06) 0%, rgba(200,220,255,0.03) 30%, transparent 70%)' }} />
+    <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="fixed inset-0 pointer-events-none z-[1] obsidian-noise" />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2] obsidian-lighting" />
       <SEO 
         title="utm.one for Startups"
         description="Enterprise-grade attribution without enterprise pricing. utm.one gives seed to Series B startups clean links, reliable tracking, and investor-ready metrics."
@@ -110,10 +110,10 @@ const Startups = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-[1.05]">
               enterprise attribution. startup pricing.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground font-sans max-w-[640px] mx-auto">
               utm.one gives seed to Series B startups the tracking infrastructure VCs expect, without burning runway on enterprise tools.
             </p>
             <div className="pt-4">
@@ -121,7 +121,7 @@ const Startups = () => {
                 start free today
               </CTAButton>
             </div>
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground font-sans">
               <CheckCircle2 className="w-4 h-4 text-primary" />
               <span>Free forever • No credit card • Upgrade when you scale</span>
             </div>
@@ -166,10 +166,10 @@ const Startups = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
               the problem vs the solution
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-[640px] mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground font-sans mt-4 max-w-[640px] mx-auto">
               same spend. different data confidence.
             </p>
           </div>
@@ -224,10 +224,10 @@ const Startups = () => {
       <section className="py-24 md:py-32">
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 lowercase obsidian-platinum-text">
               what you get
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-muted-foreground font-sans">
               Everything you need. Nothing you don't.
             </p>
           </div>

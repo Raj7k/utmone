@@ -267,12 +267,12 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   {/* Content */}
                   <div className="space-y-3">
                     {/* Headline with Brushed Metal Gradient */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
                       {activeItem.headline}
                     </h1>
 
                     {/* Subheadline - Muted Silver */}
-                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-zinc-400">
+                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground font-sans">
                       {activeItem.subheadline}
                     </p>
 
@@ -281,20 +281,14 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       <Link to="/early-access">
                         <Button 
                           size="lg"
-                          className="rounded-full px-8 lowercase font-medium"
-                          style={{
-                            background: '#FFFFFF',
-                            color: '#09090B',
-                            boxShadow: '0 0 30px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.2)',
-                          }}
+                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_rgba(255,255,255,0.3),0_4px_15px_rgba(0,0,0,0.2)]"
                         >
                           get early access
                         </Button>
                       </Link>
                       <Link 
                         to={activeItem.route}
-                        className="inline-flex items-center gap-2 text-sm font-medium transition-colors lowercase"
-                        style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+                        className="inline-flex items-center gap-2 text-sm font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"
                       >
                         learn more
                         <ArrowRight className="w-4 h-4" />
