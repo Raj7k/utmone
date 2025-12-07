@@ -1,18 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const authMessages = [
+const defaultMessages = [
   "simplicity is loading…",
   "clarity is loading…",
   "your link governance starts here…",
   "welcome to utm.one…",
 ];
 
-export const AuthLoadingScreen = () => {
+interface AuthLoadingScreenProps {
+  message?: string;
+}
+
+export const AuthLoadingScreen = ({ message }: AuthLoadingScreenProps) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
 
+  // Use custom message or cycle through defaults
+  const authMessages = message ? [message] : defaultMessages;
   const currentMessage = authMessages[currentMessageIndex];
 
   useEffect(() => {
