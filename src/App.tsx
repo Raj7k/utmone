@@ -46,8 +46,8 @@ const LinkHealth = lazy(() => import("./pages/dashboard/LinkHealth"));
 const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
 const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
-// Critical layouts use retry wrapper for resilience
-const DashboardLayout = lazyWithRetry(() => import("./components/layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
+// Critical layouts - static imports to prevent module loading failures
+import { DashboardLayout } from "./components/layout/DashboardLayout";
 const Links = lazy(() => import("./pages/Links"));
 const LinkDetail = lazy(() => import("./pages/LinkDetail"));
 const Analytics = lazy(() => import("./pages/Analytics"));
@@ -85,8 +85,8 @@ const URLShortenerPro = lazy(() => import("./pages/dashboard/URLShortenerPro"));
 const Campaigns = lazy(() => import("./pages/dashboard/Campaigns"));
 const CampaignDetails = lazy(() => import("./pages/dashboard/CampaignDetails"));
 
-// Admin pages - use retry wrapper for resilience
-const AdminLayout = lazyWithRetry(() => import("./components/admin/AdminLayout").then(m => ({ default: m.AdminLayout })));
+// Admin pages - AdminLayout is static, pages use retry wrapper for resilience
+import { AdminLayout } from "./components/admin/AdminLayout";
 const AdminDashboard = lazyWithRetry(() => import("./pages/admin/Dashboard"));
 const WaitlistManagement = lazyWithRetry(() => import("./pages/admin/WaitlistManagement"));
 const UserManagement = lazyWithRetry(() => import("./pages/admin/UserManagement"));
