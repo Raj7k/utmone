@@ -22,6 +22,7 @@ export const UpgradeModal = ({
   currentUsage,
   limit,
   upgradeToTier = 'growth',
+  reason,
 }: UpgradeModalProps) => {
   const navigate = useNavigate();
   const targetPlan = PLAN_CONFIG[upgradeToTier];

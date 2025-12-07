@@ -44,7 +44,7 @@ export async function checkFeatureAccess(
         reason: limits.reason,
         currentUsage: limits.currentUsage.linksThisMonth,
         limit: limits.limits.monthlyLinks,
-        upgradeRequired: limits.canCreateLink ? undefined : 'pro',
+        upgradeRequired: limits.canCreateLink ? undefined : 'growth',
         planLimits: limits,
       };
     }
@@ -55,7 +55,7 @@ export async function checkFeatureAccess(
         reason: limits.reason,
         currentUsage: limits.currentUsage.customDomains,
         limit: limits.limits.customDomains,
-        upgradeRequired: limits.canAddDomain ? undefined : 'pro',
+        upgradeRequired: limits.canAddDomain ? undefined : 'growth',
         planLimits: limits,
       };
     }

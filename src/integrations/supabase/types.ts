@@ -6735,7 +6735,13 @@ export type Database = {
         | "scheduled"
         | "pending"
         | "rejected"
-      plan_tier: "free" | "pro" | "business" | "enterprise" | "lifetime"
+      plan_tier:
+        | "free"
+        | "pro"
+        | "business"
+        | "enterprise"
+        | "lifetime"
+        | "growth"
       report_frequency: "daily" | "weekly" | "monthly" | "custom"
       report_template:
         | "weekly_summary"
@@ -6902,7 +6908,14 @@ export const Constants = {
         "pending",
         "rejected",
       ],
-      plan_tier: ["free", "pro", "business", "enterprise", "lifetime"],
+      plan_tier: [
+        "free",
+        "pro",
+        "business",
+        "enterprise",
+        "lifetime",
+        "growth",
+      ],
       report_frequency: ["daily", "weekly", "monthly", "custom"],
       report_template: [
         "weekly_summary",
