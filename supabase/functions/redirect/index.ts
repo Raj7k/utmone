@@ -35,6 +35,11 @@ interface LinkRecord {
   geo_targets: Record<string, string> | null;
   destinations: Destination[] | null;
   smart_rotate: boolean;
+  // Sales Companion Mode fields
+  alert_on_click: boolean | null;
+  prospect_name: string | null;
+  link_type: string | null;
+  created_by: string | null;
 }
 
 interface OGVariant {
@@ -293,7 +298,7 @@ Deno.serve(async (req) => {
     // Look up the link (now using optimized index)
     const { data: link, error: linkError } = await supabase
       .from('links')
-      .select('id, final_url, status, approval_status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets, destinations, smart_rotate')
+      .select('id, final_url, status, approval_status, expires_at, max_clicks, total_clicks, fallback_url, custom_expiry_message, redirect_type, title, og_title, og_description, og_image, password_hash, password_hint, domain, path, slug, workspace_id, geo_targets, destinations, smart_rotate, alert_on_click, prospect_name, link_type, created_by')
       .eq('domain', domain)
       .eq('path', path)
       .eq('slug', slug)
@@ -840,6 +845,24 @@ Deno.serve(async (req) => {
           },
         },
       }).catch(err => console.error('Webhook trigger failed:', err));
+      
+      // Trigger Hot Lead Alert for sales links with alerts enabled
+      if (linkRecord.alert_on_click && linkRecord.link_type === 'sales' && linkRecord.created_by) {
+        console.log(`🔥 Triggering Hot Lead Alert for link ${linkRecord.id}`);
+        supabase.functions.invoke('send-hot-lead-alert', {
+          body: {
+            linkId: linkRecord.id,
+            clickMetadata: {
+              device: deviceType,
+              os: os,
+              browser: browser,
+              city: city || 'Unknown',
+              country: country || 'Unknown',
+              clicked_at: new Date().toISOString(),
+            },
+          },
+        }).catch(err => console.error('Hot Lead Alert trigger failed:', err));
+      }
       
       // Update experiment stats if this is an experiment click
       if (experimentId && experimentVariant) {
