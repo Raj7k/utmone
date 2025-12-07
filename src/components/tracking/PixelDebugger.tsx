@@ -23,19 +23,33 @@ export const PixelDebugger = () => {
   const [secondsSinceLastEvent, setSecondsSinceLastEvent] = useState<number | null>(null);
 
   useEffect(() => {
-    // Subscribe to realtime journey_events
+    if (!currentWorkspace?.id) return;
+
+    // Subscribe to realtime conversion_events for this workspace
     const channel = supabase
-      .channel('pixel-debugger')
+      .channel(`pixel-debugger-${currentWorkspace.id}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'journey_events'
+          table: 'conversion_events',
+          filter: `workspace_id=eq.${currentWorkspace.id}`
         },
         (payload) => {
-          console.log('[PixelDebugger] New event received:', payload);
-          const newEvent = payload.new as TrackedEvent;
+          console.log('[PixelDebugger] New conversion event received:', payload);
+          const raw = payload.new as any;
+          
+          // Map conversion_events columns to TrackedEvent interface
+          const newEvent: TrackedEvent = {
+            id: raw.id,
+            event_type: raw.event_type,
+            event_name: raw.event_name,
+            visitor_id: raw.visitor_id || raw.user_identifier || 'unknown',
+            landing_page: raw.metadata?.referrer || null,
+            revenue: raw.event_value,
+            created_at: raw.created_at || raw.attributed_at,
+          };
           
           setStatus('active');
           setLastEvent(newEvent);

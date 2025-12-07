@@ -122,6 +122,32 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Also insert into journey_events for real-time debugger and journey visualization
+    const { error: journeyError } = await supabase
+      .from('journey_events')
+      .insert({
+        workspace_id: pixelConfig.workspace_id,
+        visitor_id: visitorId,
+        event_type: eventType,
+        event_name: eventName,
+        source: (click.metadata as any)?.utm_source || null,
+        medium: (click.metadata as any)?.utm_medium || null,
+        campaign: (click.metadata as any)?.utm_campaign || null,
+        landing_page: referrer,
+        referrer: referrer,
+        revenue: revenue > 0 ? revenue : null,
+        device_type: null,
+        metadata: {
+          pixel_id: pixelId,
+          link_id: click.link_id,
+          click_id: click.id,
+        },
+      });
+
+    if (journeyError) {
+      console.error('Error inserting journey event (non-fatal):', journeyError);
+    }
+
     console.log(`✅ Conversion logged: ${eventType}, link_id: ${click.link_id}, revenue: ${revenue}`);
 
     // Trigger identity matching for cross-device attribution (fire and forget)
