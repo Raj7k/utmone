@@ -3,8 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Check, Zap, Eye, Code2, AlertTriangle, Sparkles } from "lucide-react";
+import { Copy, Check, Zap, Eye, Code2, AlertTriangle, Sparkles, FlaskConical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { FormTrackingTester } from "./FormTrackingTester";
 
 interface FormTrackingWizardProps {
   pixelId: string;
@@ -91,7 +92,7 @@ window.fetch = async function(...args) {
       </p>
 
       <Tabs defaultValue="manual" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-4">
+        <TabsList className="grid w-full grid-cols-5 mb-4">
           <TabsTrigger value="manual" className="text-xs">
             <Code2 className="h-3 w-3 mr-1" />
             Manual
@@ -105,6 +106,10 @@ window.fetch = async function(...args) {
           </TabsTrigger>
           <TabsTrigger value="advanced" className="text-xs">
             Advanced
+          </TabsTrigger>
+          <TabsTrigger value="test" className="text-xs">
+            <FlaskConical className="h-3 w-3 mr-1" />
+            Test
           </TabsTrigger>
         </TabsList>
 
@@ -261,6 +266,10 @@ window.fetch = async function(...args) {
               <strong>URL-based detection:</strong> The pixel automatically detects success when URLs contain <code className="font-mono">?success=true</code>, <code className="font-mono">#thank-you</code>, or paths like <code className="font-mono">/confirmation</code>.
             </p>
           </div>
+        </TabsContent>
+
+        <TabsContent value="test">
+          <FormTrackingTester />
         </TabsContent>
       </Tabs>
     </Card>
