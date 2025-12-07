@@ -1,8 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { 
   Globe, 
-  Key, 
   Webhook, 
   Shield, 
   Palette, 
@@ -15,11 +14,15 @@ import {
   TrendingUp,
   Bell,
   Chrome,
-  User
+  User,
+  Settings
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SettingsSidebarProps {
   activeTab: string;
@@ -54,7 +57,7 @@ const settingsGroups = [
     items: [
       { id: "developers", label: "API Keys", icon: Code2 },
       { id: "integrations", label: "Integrations", icon: Webhook },
-      { id: "extension", label: "Chrome Extension", icon: Chrome, badge: "new" },
+      { id: "extension", label: "Browser Extension", icon: Chrome, badge: "new" },
     ],
   },
   {
@@ -72,8 +75,13 @@ const settingsGroups = [
   },
 ];
 
+// Flatten items for mobile select
+const allItems = settingsGroups.flatMap(group => 
+  group.items.map(item => ({ ...item, group: group.name }))
+);
+
 export const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps) => {
-  const location = useLocation();
+  const isMobile = useIsMobile();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     General: true,
     Tracking: true,
@@ -87,66 +95,134 @@ export const SettingsSidebar = ({ activeTab, onTabChange }: SettingsSidebarProps
     setOpenGroups(prev => ({ ...prev, [groupName]: !prev[groupName] }));
   };
 
-  // Check if any item in group is active
   const hasActiveItem = (groupName: string) => {
     const group = settingsGroups.find(g => g.name === groupName);
     return group?.items.some(item => item.id === activeTab);
   };
 
-  return (
-    <aside className="w-64 border-r border-separator bg-system-background p-4">
-      <div className="space-y-6">
-        {settingsGroups.map((group) => {
-          const isGroupOpen = openGroups[group.name] || hasActiveItem(group.name);
-          
-          return (
-            <Collapsible key={group.name} open={isGroupOpen} onOpenChange={() => toggleGroup(group.name)}>
-              <div className="space-y-1">
-                <CollapsibleTrigger className="w-full flex items-center justify-between px-3 py-1.5 group">
-                  <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-                    {group.name}
-                  </p>
-                  <ChevronDown className={cn(
-                    "h-3 w-3 text-tertiary-label transition-transform",
-                    isGroupOpen && "rotate-180"
-                  )} />
-                </CollapsibleTrigger>
-                
-                <CollapsibleContent className="space-y-1">
-                  {group.items.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = activeTab === item.id;
+  const activeItem = allItems.find(item => item.id === activeTab);
 
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => onTabChange(item.id)}
-                        className={cn(
-                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                          isActive
-                            ? "bg-muted text-foreground font-medium"
-                            : "text-label hover:bg-fill-tertiary"
-                        )}
-                      >
-                        <Icon className="h-5 w-5 flex-shrink-0" />
-                        <span className="flex-1 text-left">{item.label}</span>
-                        {item.badge && (
-                          <Badge 
-                            variant="outline" 
-                            className="bg-system-orange/10 text-system-orange border-system-orange/20 px-1.5 py-0"
-                          >
-                            {item.badge}
-                          </Badge>
-                        )}
-                      </button>
-                    );
-                  })}
-                </CollapsibleContent>
+  // Mobile: Render as Select dropdown
+  if (isMobile) {
+    return (
+      <Select value={activeTab} onValueChange={onTabChange}>
+        <SelectTrigger className="w-full h-12 bg-card border-border">
+          <div className="flex items-center gap-3">
+            {activeItem && (
+              <>
+                <activeItem.icon className="h-5 w-5 text-muted-foreground" />
+                <span className="font-medium">{activeItem.label}</span>
+              </>
+            )}
+          </div>
+        </SelectTrigger>
+        <SelectContent className="max-h-[60vh]">
+          {settingsGroups.map((group) => (
+            <div key={group.name}>
+              <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {group.name}
               </div>
-            </Collapsible>
-          );
-        })}
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <SelectItem 
+                    key={item.id} 
+                    value={item.id}
+                    className="py-2.5"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="h-4 w-4" />
+                      <span>{item.label}</span>
+                      {item.badge && (
+                        <Badge 
+                          variant="outline" 
+                          className="ml-auto bg-primary/10 text-primary border-primary/20 px-1.5 py-0 text-xs"
+                        >
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </div>
+          ))}
+        </SelectContent>
+      </Select>
+    );
+  }
+
+  // Desktop: Render as sidebar
+  return (
+    <aside className="w-64 border-r border-border bg-card/50 flex flex-col">
+      <div className="p-4 border-b border-border/50">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-primary/10">
+            <Settings className="h-4 w-4 text-primary" />
+          </div>
+          <span className="font-medium text-sm">settings</span>
+        </div>
       </div>
+      
+      <ScrollArea className="flex-1 p-3">
+        <div className="space-y-4">
+          {settingsGroups.map((group) => {
+            const isGroupOpen = openGroups[group.name] || hasActiveItem(group.name);
+            
+            return (
+              <Collapsible key={group.name} open={isGroupOpen} onOpenChange={() => toggleGroup(group.name)}>
+                <div className="space-y-1">
+                  <CollapsibleTrigger className="w-full flex items-center justify-between px-3 py-2 group rounded-lg hover:bg-muted/50 transition-colors">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      {group.name}
+                    </p>
+                    <ChevronDown className={cn(
+                      "h-3.5 w-3.5 text-muted-foreground transition-transform duration-200",
+                      isGroupOpen && "rotate-180"
+                    )} />
+                  </CollapsibleTrigger>
+                  
+                  <CollapsibleContent className="space-y-0.5">
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = activeTab === item.id;
+
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => onTabChange(item.id)}
+                          className={cn(
+                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 relative",
+                            isActive
+                              ? "bg-primary text-primary-foreground font-medium shadow-sm"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                          )}
+                        >
+                          <Icon className="h-4 w-4 flex-shrink-0" />
+                          <span className="flex-1 text-left">{item.label}</span>
+                          {item.badge && (
+                            <Badge 
+                              variant="outline" 
+                              className={cn(
+                                "px-1.5 py-0 text-xs",
+                                isActive 
+                                  ? "bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                                  : "bg-primary/10 text-primary border-primary/20"
+                              )}
+                            >
+                              {item.badge}
+                            </Badge>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </CollapsibleContent>
+                </div>
+              </Collapsible>
+            );
+          })}
+        </div>
+      </ScrollArea>
     </aside>
   );
 };
