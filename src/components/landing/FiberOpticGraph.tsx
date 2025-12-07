@@ -9,10 +9,10 @@ interface Particle {
 }
 
 const SOURCES = [
-  { id: "paid", label: "PAID ADS", y: 50 },
-  { id: "organic", label: "ORGANIC", y: 115 },
-  { id: "email", label: "EMAIL", y: 180 },
-  { id: "referral", label: "REFERRAL", y: 245 },
+  { id: "paid", label: "PAID ADS", y: 30 },
+  { id: "organic", label: "ORGANIC", y: 70 },
+  { id: "email", label: "EMAIL", y: 110 },
+  { id: "referral", label: "REFERRAL", y: 150 },
 ];
 
 export const FiberOpticGraph = () => {
@@ -22,9 +22,9 @@ export const FiberOpticGraph = () => {
   const particleIdRef = useRef(0);
   const [mounted, setMounted] = useState(false);
 
-  // Dimensions - larger for better visibility
-  const width = 500;
-  const height = 300;
+  // Dimensions - compact for first fold
+  const width = 460;
+  const height = 200;
   const leftX = 90;
   const rightX = width - 50;
   const rightY = height / 2;
