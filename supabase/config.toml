@@ -210,6 +210,9 @@ verify_jwt = true
 [functions.content-fingerprint]
 verify_jwt = false
 
+[functions.send-anomaly-alert]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
@@ -260,3 +263,8 @@ schedule = "*/30 * * * *"
 [[edge_runtime.scheduler]]
 function = "activate-scheduled-links"
 schedule = "*/5 * * * *"
+
+# Pulse Watchdog - detect anomalies hourly
+[[edge_runtime.scheduler]]
+function = "detect-analytics-anomalies"
+schedule = "0 * * * *"
