@@ -55,6 +55,7 @@ const appNavigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Sales", href: "/dashboard/sales", icon: Briefcase },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 

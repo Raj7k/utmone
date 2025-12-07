@@ -3528,6 +3528,8 @@ export type Database = {
           ab_test_status: string | null
           ab_test_winner_id: string | null
           activation_at: string | null
+          alert_last_sent_at: string | null
+          alert_on_click: boolean | null
           approval_notes: string | null
           approval_status: string | null
           approved_at: string | null
@@ -3564,6 +3566,7 @@ export type Database = {
           last_cached_at: string | null
           last_clicked_at: string | null
           last_health_check: string | null
+          link_type: string | null
           max_clicks: number | null
           og_description: string | null
           og_image: string | null
@@ -3573,6 +3576,7 @@ export type Database = {
           password_hint: string | null
           path: string
           pending_approval_by: string | null
+          prospect_name: string | null
           redirect_type: string | null
           rejection_reason: string | null
           routing_strategy: string | null
@@ -3605,6 +3609,8 @@ export type Database = {
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
           activation_at?: string | null
+          alert_last_sent_at?: string | null
+          alert_on_click?: boolean | null
           approval_notes?: string | null
           approval_status?: string | null
           approved_at?: string | null
@@ -3641,6 +3647,7 @@ export type Database = {
           last_cached_at?: string | null
           last_clicked_at?: string | null
           last_health_check?: string | null
+          link_type?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
@@ -3650,6 +3657,7 @@ export type Database = {
           password_hint?: string | null
           path?: string
           pending_approval_by?: string | null
+          prospect_name?: string | null
           redirect_type?: string | null
           rejection_reason?: string | null
           routing_strategy?: string | null
@@ -3684,6 +3692,8 @@ export type Database = {
           ab_test_status?: string | null
           ab_test_winner_id?: string | null
           activation_at?: string | null
+          alert_last_sent_at?: string | null
+          alert_on_click?: boolean | null
           approval_notes?: string | null
           approval_status?: string | null
           approved_at?: string | null
@@ -3720,6 +3730,7 @@ export type Database = {
           last_cached_at?: string | null
           last_clicked_at?: string | null
           last_health_check?: string | null
+          link_type?: string | null
           max_clicks?: number | null
           og_description?: string | null
           og_image?: string | null
@@ -3729,6 +3740,7 @@ export type Database = {
           password_hint?: string | null
           path?: string
           pending_approval_by?: string | null
+          prospect_name?: string | null
           redirect_type?: string | null
           rejection_reason?: string | null
           routing_strategy?: string | null
@@ -4720,6 +4732,58 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"]
         }
         Relationships: []
+      }
+      sales_click_alerts: {
+        Row: {
+          click_metadata: Json | null
+          created_at: string | null
+          id: string
+          link_id: string | null
+          prospect_name: string | null
+          sent_at: string | null
+          user_id: string
+        }
+        Insert: {
+          click_metadata?: Json | null
+          created_at?: string | null
+          id?: string
+          link_id?: string | null
+          prospect_name?: string | null
+          sent_at?: string | null
+          user_id: string
+        }
+        Update: {
+          click_metadata?: Json | null
+          created_at?: string | null
+          id?: string
+          link_id?: string | null
+          prospect_name?: string | null
+          sent_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_click_alerts_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_click_alerts_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sales_click_alerts_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+        ]
       }
       scheduled_reports: {
         Row: {

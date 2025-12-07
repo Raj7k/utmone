@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route } from "lucide-react";
+import { Link2, ArrowLeft, Shuffle, CheckCircle2, AlertCircle, Globe, AlertTriangle, Route, Briefcase, Bell } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import { Badge as BadgeComponent } from "@/components/ui/badge";
 import { useUserWorkspaceRole, requiresApproval } from "@/hooks/useUserWorkspaceRole";
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
+import { Switch } from "@/components/ui/switch";
 
 const shortenerSchema = z.object({
   title: z.string().min(1, "title is required").max(100),
@@ -58,6 +59,11 @@ export const Step2Shortener = ({
   ]);
   const [smartRotate, setSmartRotate] = useState(false);
   const [contextualRouting, setContextualRouting] = useState(false);
+  
+  // Sales Mode state
+  const [isSalesLink, setIsSalesLink] = useState(false);
+  const [prospectName, setProspectName] = useState("");
+  const [alertOnClick, setAlertOnClick] = useState(true);
   
   // Check user role for approval workflow
   const { data: userRole } = useUserWorkspaceRole(workspaceId);
@@ -156,6 +162,10 @@ export const Step2Shortener = ({
           status: needsApproval ? 'pending' : 'active',
           approval_status: needsApproval ? 'pending' : 'approved',
           submitted_for_approval_at: needsApproval ? new Date().toISOString() : null,
+          // Sales Mode fields
+          link_type: isSalesLink ? 'sales' : 'marketing',
+          prospect_name: isSalesLink ? prospectName : null,
+          alert_on_click: isSalesLink ? alertOnClick : false,
         })
         .select()
         .single();
@@ -358,6 +368,59 @@ export const Step2Shortener = ({
                 </BadgeComponent>
               )}
             </Button>
+          </div>
+
+          {/* Sales Mode Toggle */}
+          <div className="p-4 border border-border rounded-lg bg-card">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Briefcase className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground">sales link</p>
+                  <p className="text-xs text-muted-foreground">track prospect engagement with instant alerts</p>
+                </div>
+              </div>
+              <Switch
+                checked={isSalesLink}
+                onCheckedChange={(checked) => {
+                  setIsSalesLink(checked);
+                  if (checked) setAlertOnClick(true);
+                }}
+              />
+            </div>
+            
+            {isSalesLink && (
+              <div className="mt-4 space-y-4 pt-4 border-t border-border">
+                <div>
+                  <Label htmlFor="prospect-name" className="text-sm text-muted-foreground">
+                    who is this for?
+                  </Label>
+                  <Input
+                    id="prospect-name"
+                    placeholder="e.g., John Doe - Acme Corp"
+                    value={prospectName}
+                    onChange={(e) => setProspectName(e.target.value)}
+                    className="mt-1.5"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    this name will appear in your alerts
+                  </p>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Bell className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-foreground">instant email alerts</span>
+                  </div>
+                  <Switch
+                    checked={alertOnClick}
+                    onCheckedChange={setAlertOnClick}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <Accordion type="multiple" className="overflow-hidden space-y-2">
