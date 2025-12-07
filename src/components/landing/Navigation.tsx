@@ -1054,9 +1054,9 @@ export const Navigation = () => {
           <div className="flex items-center gap-3">
             <Link to="/early-access">
               <MagneticButton
-                variant="default"
+                variant="halo"
                 size="sm"
-                className="font-medium rounded-full"
+                className="font-medium"
                 strength={0.2}
               >
                 get early access

@@ -96,7 +96,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   }
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center py-16 md:py-24 overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-center justify-center pt-8 md:pt-12 pb-16 md:pb-24 overflow-hidden">
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
