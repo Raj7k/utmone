@@ -38,47 +38,59 @@ const Auth = () => {
   const hasNavigated = useRef(false);
 
   useEffect(() => {
+    let isMounted = true;
     const redirectTo = searchParams.get("redirect_to");
+    
+    console.log('[Auth] Component mounted, checking session...');
     
     // Load invitation context if invite token present
     if (inviteToken) {
       loadInvitationContext(inviteToken);
     } else {
-      // Also check localStorage for pending invite token
       const pendingInvite = localStorage.getItem("pending_invite_token");
       if (pendingInvite) {
         loadInvitationContext(pendingInvite);
       }
     }
 
-    // Add timeout to prevent infinite loading - use functional update to avoid stale closure
+    // Shorter timeout (3s) to prevent infinite loading
     const sessionCheckTimeout = setTimeout(() => {
-      setIsCheckingSession(prev => {
-        if (prev) {
-          console.warn("Session check timeout - proceeding to login form");
-        }
-        return false;
-      });
-    }, 5000);
+      if (isMounted) {
+        console.warn('[Auth] Session check timeout (3s) - showing form');
+        setIsCheckingSession(false);
+      }
+    }, 3000);
 
     // Safety timeout for isAuthenticating state
     const authTimeout = setTimeout(() => {
-      setIsAuthenticating(prev => {
-        if (prev) {
-          console.warn("Authentication timeout - showing form");
-        }
-        return false;
-      });
-    }, 10000);
+      if (isMounted) {
+        console.warn('[Auth] Auth timeout (8s) - showing form');
+        setIsAuthenticating(false);
+      }
+    }, 8000);
 
-    // Check if user is already logged in
-    supabase.auth.getSession()
-      .then(({ data: { session } }) => {
+    // Check session with async/await for cleaner control flow
+    const checkSession = async () => {
+      try {
+        console.log('[Auth] Calling getSession...');
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (!isMounted) {
+          console.log('[Auth] Component unmounted during session check');
+          return;
+        }
+        
+        if (error) {
+          console.error('[Auth] Session check error:', error);
+          setIsCheckingSession(false);
+          return;
+        }
+        
+        console.log('[Auth] Session check result:', !!session);
+        
         if (session) {
-          // Mark as navigated to prevent duplicate processing
           hasNavigated.current = true;
           
-          // Existing session - navigate immediately
           if (inviteToken) {
             navigate(`/accept-invite?token=${inviteToken}`);
           } else if (redirectTo) {
@@ -87,83 +99,90 @@ const Auth = () => {
             navigate("/dashboard");
           }
         }
-      })
-      .catch((error) => {
-        console.error("Session check failed:", error);
-        toast({
-          title: "Authentication Error",
-          description: "Failed to check authentication status. Please try again.",
-          variant: "destructive",
-        });
-      })
-      .finally(() => {
-        clearTimeout(sessionCheckTimeout);
-        setIsCheckingSession(false);
-      });
+      } catch (error) {
+        console.error('[Auth] Session check failed:', error);
+        if (isMounted) {
+          toast({
+            title: "Authentication Error",
+            description: "Failed to check authentication status. Please try again.",
+            variant: "destructive",
+          });
+        }
+      } finally {
+        if (isMounted) {
+          console.log('[Auth] Setting isCheckingSession to false');
+          clearTimeout(sessionCheckTimeout);
+          setIsCheckingSession(false);
+        }
+      }
+    };
 
-    // Listen for auth changes - only process fresh sign-ins
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // Skip if we already navigated (prevents duplicate processing for existing sessions)
+    checkSession();
+
+    // Listen for auth changes - synchronous callback, defer async work
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[Auth] Auth state change:', event);
+      
       if (hasNavigated.current) return;
       
       if (event === "SIGNED_IN" && session) {
         setIsAuthenticating(true);
         hasNavigated.current = true;
         
-        try {
-          // Handle invite token flow
-          if (inviteToken) {
-            navigate(`/accept-invite?token=${inviteToken}`);
-            return;
-          }
+        // Defer async work to avoid deadlock
+        setTimeout(async () => {
+          if (!isMounted) return;
           
-          // Check workspace ownership/membership
-          const { data: ownedWorkspaces } = await supabase
-            .from("workspaces")
-            .select("id")
-            .eq("owner_id", session.user.id)
-            .limit(1);
+          try {
+            if (inviteToken) {
+              navigate(`/accept-invite?token=${inviteToken}`);
+              return;
+            }
             
-          const { data: memberWorkspaces } = await supabase
-            .from("workspace_members")
-            .select("workspace_id")
-            .eq("user_id", session.user.id)
-            .limit(1);
-          
-          const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
-          
-          // Show success toast
-          toast({
-            title: "Signed in successfully",
-            description: hasWorkspaces ? "Taking you to your dashboard..." : "Setting up your workspace...",
-          });
-          
-          // Navigate based on workspace status
-          if (hasWorkspaces) {
-            navigate("/dashboard");
-          } else {
-            navigate("/onboarding");
+            const { data: ownedWorkspaces } = await supabase
+              .from("workspaces")
+              .select("id")
+              .eq("owner_id", session.user.id)
+              .limit(1);
+              
+            const { data: memberWorkspaces } = await supabase
+              .from("workspace_members")
+              .select("workspace_id")
+              .eq("user_id", session.user.id)
+              .limit(1);
+            
+            const hasWorkspaces = (ownedWorkspaces?.length || 0) + (memberWorkspaces?.length || 0) > 0;
+            
+            toast({
+              title: "Signed in successfully",
+              description: hasWorkspaces ? "Taking you to your dashboard..." : "Setting up your workspace...",
+            });
+            
+            navigate(hasWorkspaces ? "/dashboard" : "/onboarding");
+            
+          } catch (err) {
+            console.error('[Auth] Access check error:', err);
+            if (isMounted) {
+              hasNavigated.current = false;
+              toast({
+                title: "Something went wrong",
+                description: "Please try signing in again.",
+                variant: "destructive",
+              });
+              setIsAuthenticating(false);
+            }
           }
-          
-        } catch (err) {
-          console.error("Access check error:", err);
-          hasNavigated.current = false;
-          toast({
-            title: "Something went wrong",
-            description: "Please try signing in again.",
-            variant: "destructive",
-          });
-          setIsAuthenticating(false);
-        }
+        }, 0);
       }
     });
 
     return () => {
+      isMounted = false;
       clearTimeout(sessionCheckTimeout);
       clearTimeout(authTimeout);
       subscription.unsubscribe();
     };
-  }, [navigate, inviteToken]);
+  }, [navigate, inviteToken, searchParams, toast]);
 
   const loadInvitationContext = async (token: string) => {
     try {
