@@ -55,17 +55,17 @@ export const appNavigation: NavItem[] = [
 // TOOLS - Link creation and management tools
 export const toolsNavigation: NavItem[] = [
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
-  { name: "Targeting", href: "/dashboard/targeting", icon: Target },
+  { name: "Geo Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
-  { name: "OneLink Validator", href: "/dashboard/onelink-validator", icon: Brain },
-  { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
+  { name: "Link Validator", href: "/dashboard/onelink-validator", icon: Brain },
+  { name: "A/B Testing", href: "/dashboard/experiments", icon: Beaker },
 ];
 
 // INTELLIGENCE - Analytics and attribution features
 export const intelligenceNavigation: NavItem[] = [
-  { name: "Clean-Track Attribution", href: "/dashboard/attribution", icon: Network },
-  { name: "Cache Monitoring", href: "/dashboard/cache-monitoring", icon: Zap },
-  { name: "Analytics Performance", href: "/dashboard/analytics-performance", icon: TrendingUp },
+  { name: "Revenue Intelligence", href: "/dashboard/attribution", icon: Network },
+  { name: "Performance", href: "/dashboard/cache-monitoring", icon: Zap },
+  { name: "Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
 ];
 
