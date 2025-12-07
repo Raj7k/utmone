@@ -103,10 +103,10 @@ export default function BillingSettings() {
       // Simulated processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Update workspace plan
+      // Update workspace plan (cast to any to handle enum transition)
       const { error } = await supabase
         .from('workspaces')
-        .update({ plan_tier: newPlanTier })
+        .update({ plan_tier: newPlanTier as any })
         .eq('id', currentWorkspace.id);
       
       if (error) throw error;
