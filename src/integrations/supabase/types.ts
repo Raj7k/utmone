@@ -5077,6 +5077,7 @@ export type Database = {
           id: string
           last_used_at: string | null
           public_key: string
+          registered_domain: string | null
           user_id: string
         }
         Insert: {
@@ -5087,6 +5088,7 @@ export type Database = {
           id?: string
           last_used_at?: string | null
           public_key: string
+          registered_domain?: string | null
           user_id: string
         }
         Update: {
@@ -5097,6 +5099,7 @@ export type Database = {
           id?: string
           last_used_at?: string | null
           public_key?: string
+          registered_domain?: string | null
           user_id?: string
         }
         Relationships: []
