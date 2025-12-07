@@ -15,6 +15,7 @@ import { ClickTrendPredictor } from "@/components/links/ClickTrendPredictor";
 import { LinkPeriodComparison } from "@/components/links/LinkPeriodComparison";
 import { LinkTimingInsights } from "@/components/links/LinkTimingInsights";
 import { ConversionProbability } from "@/components/links/ConversionProbability";
+import { LinkAIInsights } from "@/components/links/LinkAIInsights";
 
 interface LinkDetailAnalyticsProps {
   linkId: string;
@@ -152,6 +153,11 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
+          {/* AI Insights for this link */}
+          {linkData && (
+            <LinkAIInsights linkId={linkId} workspaceId={linkData.workspace_id} />
+          )}
+
           {/* Clean Track Intelligence */}
           <div className="space-y-2 mb-6">
             <h3 className="text-lg font-display font-semibold lowercase">clean track intelligence</h3>
