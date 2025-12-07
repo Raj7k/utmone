@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Copy, CheckCircle2, Code, Zap, Users, DollarSign, Globe, Target, TrendingUp, BarChart3, Layers, ShieldCheck, AlertTriangle } from "lucide-react";
+import { Copy, CheckCircle2, Code, Zap, Users, DollarSign, Globe, Target, TrendingUp, BarChart3, Layers, ShieldCheck, AlertTriangle, FlaskConical } from "lucide-react";
+import { FormTrackingWizard } from "@/components/tracking/FormTrackingWizard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -500,6 +501,18 @@ window.utmone('track', 'purchase', { revenue: order.total });`;
             </div>
           </TabsContent>
         </Tabs>
+      </Card>
+
+      {/* Form Conversion Tracking */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <FlaskConical className="h-5 w-5 text-primary" />
+          <h3 className="text-title-3 font-semibold heading">form conversion tracking</h3>
+        </div>
+        <p className="text-sm text-secondary-label mb-4">
+          track form submissions, multi-step forms, and test your conversion tracking setup
+        </p>
+        <FormTrackingWizard pixelId={pixelId} />
       </Card>
 
       {/* Verification */}
