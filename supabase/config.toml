@@ -225,6 +225,15 @@ verify_jwt = true
 [functions.analyze-url]
 verify_jwt = false
 
+[functions.pixel-js]
+verify_jwt = false
+
+[functions.track-pixel]
+verify_jwt = false
+
+[functions.identify-visitor]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
