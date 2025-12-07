@@ -30,6 +30,7 @@ export const LIFETIME_DEAL_CONFIG: LifetimeDealConfig = {
  */
 export function generatePricingFAQs(): PricingFAQ[] {
   const free = PLAN_CONFIG.free;
+  const starter = PLAN_CONFIG.starter;
   const growth = PLAN_CONFIG.growth;
   const business = PLAN_CONFIG.business;
   
@@ -40,7 +41,7 @@ export function generatePricingFAQs(): PricingFAQ[] {
     },
     {
       question: 'how many team members can i add?',
-      answer: `free plan supports ${free.features.teamMembers} member, growth supports ${growth.features.teamMembers} members, business supports ${business.features.teamMembers} members, and enterprise has unlimited.`,
+      answer: `free plan supports ${free.features.teamMembers} member, starter supports ${starter.features.teamMembers} members, growth supports ${growth.features.teamMembers} members, business supports ${business.features.teamMembers} members. enterprise has unlimited—contact us for details.`,
     },
     {
       question: 'can i cancel anytime?',
@@ -52,11 +53,11 @@ export function generatePricingFAQs(): PricingFAQ[] {
     },
     {
       question: 'what analytics retention do i get?',
-      answer: `free plan keeps analytics for ${free.features.analyticsRetentionDays} days, growth for ${Math.round((growth.features.analyticsRetentionDays as number) / 365)} year, business for ${Math.round((business.features.analyticsRetentionDays as number) / 365)} years, and enterprise has unlimited retention.`,
+      answer: `free plan keeps analytics for ${free.features.analyticsRetentionDays} days, starter for ${Math.round((starter.features.analyticsRetentionDays as number) / 365)} year, growth for ${Math.round((growth.features.analyticsRetentionDays as number) / 365)} year, business for ${Math.round((business.features.analyticsRetentionDays as number) / 365)} years. enterprise has unlimited retention—contact us.`,
     },
     {
       question: 'do you offer custom domains?',
-      answer: `yes! free plan doesn't include custom domains, growth includes ${growth.features.customDomains} domains, business includes ${business.features.customDomains} domains, and enterprise has unlimited.`,
+      answer: `yes! free plan doesn't include custom domains, starter includes ${starter.features.customDomains} domain, growth includes ${growth.features.customDomains} domains, business includes ${business.features.customDomains} domains. enterprise has unlimited—contact us.`,
     },
   ];
 
