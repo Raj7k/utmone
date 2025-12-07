@@ -8,10 +8,61 @@ const AuthCallback = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isChecking, setIsChecking] = useState(true);
+  const [statusMessage, setStatusMessage] = useState("verifying session...");
+
+  // Ensure profile exists before proceeding
+  const ensureProfileExists = async (userId: string, email: string | undefined): Promise<boolean> => {
+    setStatusMessage("preparing workspace...");
+    
+    try {
+      // Check if profile exists
+      const { data: existingProfile, error: checkError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", userId)
+        .maybeSingle();
+
+      if (checkError && checkError.code !== "PGRST116") {
+        console.error("Error checking profile:", checkError);
+        return false;
+      }
+
+      // Profile exists
+      if (existingProfile) {
+        return true;
+      }
+
+      // Create profile if missing (race condition fix)
+      console.log("[AuthCallback] Profile missing, creating...");
+      const { error: insertError } = await supabase
+        .from("profiles")
+        .insert({
+          id: userId,
+          email: email,
+        });
+
+      if (insertError) {
+        // If duplicate key error, profile was created by trigger - that's fine
+        if (insertError.code === "23505") {
+          console.log("[AuthCallback] Profile already created by trigger");
+          return true;
+        }
+        console.error("Error creating profile:", insertError);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("[AuthCallback] Profile check failed:", error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
+        setStatusMessage("verifying session...");
+        
         // Get the current session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
@@ -27,6 +78,12 @@ const AuthCallback = () => {
 
         const userEmail = session.user.email;
 
+        // Race Condition Guard: Ensure profile exists before proceeding
+        const profileReady = await ensureProfileExists(session.user.id, userEmail);
+        if (!profileReady) {
+          console.warn("[AuthCallback] Profile creation failed, proceeding anyway");
+        }
+
         // Priority 1: Check localStorage for pending invite token
         const pendingInviteToken = localStorage.getItem("pending_invite_token");
         if (pendingInviteToken) {
@@ -34,6 +91,8 @@ const AuthCallback = () => {
           navigate(`/accept-invite?token=${pendingInviteToken}`);
           return;
         }
+
+        setStatusMessage("checking workspace...");
 
         // Priority 2: Check workspace_invitations table for email match
         const { data: invitations } = await supabase
@@ -89,18 +148,15 @@ const AuthCallback = () => {
           return;
         }
 
-        // Access denied - sign out and redirect to waitlist locked page
-        await supabase.auth.signOut();
-        
+        // No workspace and no early access - send to onboarding anyway (open signup)
         toast({
-          title: "Access Denied",
-          description: "You're still on the waitlist. We'll notify you when access is granted.",
-          variant: "destructive",
+          title: "Welcome to utm.one!",
+          description: "Let's set up your workspace...",
         });
-        
-        navigate("/waitlist-locked");
+        navigate("/onboarding");
 
       } catch (error) {
+        console.error("[AuthCallback] Error:", error);
         toast({
           title: "Something went wrong",
           description: "Please try signing in again.",
@@ -122,7 +178,7 @@ const AuthCallback = () => {
         });
         navigate("/auth");
       }
-    }, 10000);
+    }, 15000); // Extended timeout for profile creation
 
     handleCallback();
 
