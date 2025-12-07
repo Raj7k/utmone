@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Copy, CheckCircle2, Code, Zap, Users } from "lucide-react";
+import { Copy, CheckCircle2, Code, Zap, Users, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
+import { PixelDebugger } from "@/components/tracking/PixelDebugger";
+import { EmailToDeveloperModal } from "@/components/tracking/EmailToDeveloperModal";
 
 export const Tracking = () => {
   const { toast } = useToast();
@@ -27,8 +29,24 @@ export const Tracking = () => {
   });
 </script>`;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(snippetCode);
+  const revenueCode = `<!-- Track Purchase/Conversion with Revenue -->
+<script>
+  // On your Thank You / Confirmation page:
+  window.utm.track('purchase', { 
+    value: 99.99,           // Order amount
+    currency: 'USD',        // Currency code
+    order_id: 'ORD-12345'   // Your order ID
+  });
+  
+  // Or track leads:
+  window.utm.track('lead', { 
+    value: 500,             // Lead value estimate
+    form_name: 'demo_request'
+  });
+</script>`;
+
+  const copyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code);
     setCopied(true);
     toast({
       title: "copied",
@@ -60,6 +78,9 @@ export const Tracking = () => {
           </div>
         </div>
       </Card>
+
+      {/* Real-Time Debugger */}
+      <PixelDebugger />
 
       {/* How It Works */}
       <Card className="p-6">
@@ -103,6 +124,19 @@ export const Tracking = () => {
               </p>
             </div>
           </div>
+
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500/10">
+              <DollarSign className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-label mb-1">revenue attribution</p>
+              <p className="text-xs text-secondary-label">
+                Call window.utm.track('purchase', &#123; value: 99.99 &#125;) on your thank you page to track revenue. 
+                This enables ROI reporting across all your campaigns.
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
 
@@ -113,24 +147,27 @@ export const Tracking = () => {
             <Code className="h-5 w-5 text-primary" />
             <h3 className="text-title-3 font-semibold heading">installation snippet</h3>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={copyToClipboard}
-            className="gap-2"
-          >
-            {copied ? (
-              <>
-                <CheckCircle2 className="h-4 w-4" />
-                copied
-              </>
-            ) : (
-              <>
-                <Copy className="h-4 w-4" />
-                copy code
-              </>
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <EmailToDeveloperModal />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(snippetCode)}
+              className="gap-2"
+            >
+              {copied ? (
+                <>
+                  <CheckCircle2 className="h-4 w-4" />
+                  copied
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4" />
+                  copy code
+                </>
+              )}
+            </Button>
+          </div>
         </div>
 
         <div className="relative">
@@ -149,6 +186,42 @@ export const Tracking = () => {
             <li>Use window.utm.identify('email') after user login to link visitor ID to email</li>
             <li>Refresh your page - you should see tracking events in your browser console</li>
           </ol>
+        </div>
+      </Card>
+
+      {/* Revenue Tracking (NEW) */}
+      <Card className="p-6 border-green-200 dark:border-green-800">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <DollarSign className="h-5 w-5 text-green-600" />
+            <h3 className="text-title-3 font-semibold heading">revenue tracking</h3>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => copyToClipboard(revenueCode)}
+            className="gap-2"
+          >
+            <Copy className="h-4 w-4" />
+            copy code
+          </Button>
+        </div>
+
+        <p className="text-sm text-secondary-label mb-4">
+          Add this code to your confirmation/thank you page to track revenue and conversions:
+        </p>
+
+        <div className="relative">
+          <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono">
+            <code>{revenueCode}</code>
+          </pre>
+        </div>
+
+        <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+          <p className="text-xs text-green-800 dark:text-green-200">
+            <strong>Pro tip:</strong> Replace <code className="bg-green-100 dark:bg-green-800/40 px-1 rounded">99.99</code> with 
+            your dynamic order total variable (e.g., <code className="bg-green-100 dark:bg-green-800/40 px-1 rounded">orderData.total</code>)
+          </p>
         </div>
       </Card>
 
@@ -190,10 +263,17 @@ window.utm.identify('user@example.com', {
           <div className="bg-muted/50 p-3 rounded-lg">
             <p className="text-xs font-medium text-label mb-1">Custom Event Tracking</p>
             <pre className="text-xs font-mono text-secondary-label">
-              {`// Track custom events
-window.utm.track('button_clicked', {
-  button_id: 'cta-hero',
-  location: 'homepage'
+              {`// Track custom events with revenue
+window.utm.track('purchase', {
+  value: 149.99,
+  currency: 'USD',
+  product: 'Enterprise Plan'
+});
+
+// Track leads
+window.utm.track('lead', {
+  value: 1000,
+  source: 'demo_form'
 });`}
             </pre>
           </div>
@@ -214,10 +294,10 @@ console.log('Current visitor:', visitorId);`}
         <h3 className="text-title-3 font-semibold heading mb-4">verify installation</h3>
         <div className="space-y-2 text-sm text-secondary-label">
           <p><strong>Step 1:</strong> Open your website with the tracking pixel installed</p>
-          <p><strong>Step 2:</strong> Open browser DevTools (F12) → Network tab</p>
-          <p><strong>Step 3:</strong> Look for requests to <code className="bg-muted px-1 py-0.5 rounded text-xs">tracker.js</code></p>
-          <p><strong>Step 4:</strong> Navigate to another page - you should see tracking requests</p>
-          <p><strong>Step 5:</strong> Check Application → Cookies → Look for <code className="bg-muted px-1 py-0.5 rounded text-xs">utm_vid</code> cookie</p>
+          <p><strong>Step 2:</strong> Open browser DevTools (F12) → Console tab</p>
+          <p><strong>Step 3:</strong> Look for <code className="bg-muted px-1 py-0.5 rounded text-xs">[utm.one] Pixel v2.0 initialized</code></p>
+          <p><strong>Step 4:</strong> Test revenue tracking: <code className="bg-muted px-1 py-0.5 rounded text-xs">window.utm.track('test', &#123; value: 100 &#125;)</code></p>
+          <p><strong>Step 5:</strong> Watch the debugger above - it should turn green!</p>
         </div>
       </Card>
     </div>
