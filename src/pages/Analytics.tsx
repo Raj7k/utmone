@@ -39,6 +39,9 @@ import { Activity } from "lucide-react";
 import { FeatureHint } from "@/components/FeatureHint";
 import { InfluenceGraph } from "@/components/analytics/InfluenceGraph";
 import { PipelineFunnel } from "@/components/analytics/PipelineFunnel";
+import { TopicAttributionView } from "@/components/attribution/TopicAttributionView";
+import { LiftAnalysis } from "@/components/attribution/LiftAnalysis";
+import { VelocityAnalytics } from "@/components/attribution/VelocityAnalytics";
 
 const Analytics = () => {
   const navigate = useNavigate();
@@ -334,7 +337,14 @@ const Analytics = () => {
                     {
                       id: "attribution",
                       label: "Attribution",
-                      content: <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />,
+                      content: (
+                        <div className="space-y-6">
+                          <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />
+                          <TopicAttributionView />
+                          <LiftAnalysis />
+                          <VelocityAnalytics />
+                        </div>
+                      ),
                     },
                     {
                       id: "timing",
@@ -404,8 +414,27 @@ const Analytics = () => {
                     <UTMCampaignRollups workspaceId={currentWorkspace.id} />
                   </TabsContent>
 
-                  <TabsContent value="attribution">
-                    <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />
+                  <TabsContent value="attribution" className="space-y-6">
+                    <Tabs defaultValue="channels" className="w-full">
+                      <TabsList className="mb-4">
+                        <TabsTrigger value="channels">Channels</TabsTrigger>
+                        <TabsTrigger value="topics">Topics</TabsTrigger>
+                        <TabsTrigger value="lift">Lift</TabsTrigger>
+                        <TabsTrigger value="velocity">Velocity</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="channels">
+                        <InfluenceGraph workspaceId={currentWorkspace.id} days={30} />
+                      </TabsContent>
+                      <TabsContent value="topics">
+                        <TopicAttributionView />
+                      </TabsContent>
+                      <TabsContent value="lift">
+                        <LiftAnalysis />
+                      </TabsContent>
+                      <TabsContent value="velocity">
+                        <VelocityAnalytics />
+                      </TabsContent>
+                    </Tabs>
                   </TabsContent>
 
                   <TabsContent value="timing" className="space-y-6">
