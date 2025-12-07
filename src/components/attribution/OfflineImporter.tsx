@@ -146,7 +146,7 @@ export const OfflineImporter: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+      <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-foreground">
             <Upload className="h-5 w-5" />
@@ -158,7 +158,7 @@ export const OfflineImporter: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Upload Zone */}
-          <div className="border-2 border-dashed border-border dark:border-white/20 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
+          <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
             <input
               type="file"
               accept=".csv"
@@ -185,7 +185,7 @@ export const OfflineImporter: React.FC = () => {
                 <select
                   value={mapping.email}
                   onChange={(e) => setMapping(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full mt-1 p-2 rounded-md bg-muted dark:bg-zinc-800 border border-border dark:border-white/10 text-foreground"
+                  className="w-full mt-1 p-2 rounded-md bg-muted border border-border text-foreground"
                 >
                   <option value="">select column</option>
                   {headers.map(h => <option key={h} value={h}>{h}</option>)}
@@ -196,7 +196,7 @@ export const OfflineImporter: React.FC = () => {
                 <select
                   value={mapping.revenue}
                   onChange={(e) => setMapping(prev => ({ ...prev, revenue: e.target.value }))}
-                  className="w-full mt-1 p-2 rounded-md bg-muted dark:bg-zinc-800 border border-border dark:border-white/10 text-foreground"
+                  className="w-full mt-1 p-2 rounded-md bg-muted border border-border text-foreground"
                 >
                   <option value="">select column</option>
                   {headers.map(h => <option key={h} value={h}>{h}</option>)}
@@ -207,7 +207,7 @@ export const OfflineImporter: React.FC = () => {
                 <select
                   value={mapping.date}
                   onChange={(e) => setMapping(prev => ({ ...prev, date: e.target.value }))}
-                  className="w-full mt-1 p-2 rounded-md bg-muted dark:bg-zinc-800 border border-border dark:border-white/10 text-foreground"
+                  className="w-full mt-1 p-2 rounded-md bg-muted border border-border text-foreground"
                 >
                   <option value="">select column</option>
                   {headers.map(h => <option key={h} value={h}>{h}</option>)}
@@ -218,7 +218,7 @@ export const OfflineImporter: React.FC = () => {
 
           {/* Result Display */}
           {result && (
-            <div className="bg-muted/50 dark:bg-zinc-800/50 rounded-lg p-4 space-y-3">
+            <div className="bg-muted/50 rounded-lg p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-foreground font-medium">match rate</span>
                 <Badge variant={result.matchRate >= 70 ? 'default' : result.matchRate >= 40 ? 'secondary' : 'destructive'}>
@@ -257,7 +257,7 @@ export const OfflineImporter: React.FC = () => {
       </Card>
 
       {/* Import History */}
-      <Card className="bg-card dark:bg-zinc-900/40 border-border dark:border-white/10">
+      <Card className="bg-card border-border">
         <CardHeader>
           <CardTitle className="text-foreground">import history</CardTitle>
         </CardHeader>
@@ -271,7 +271,7 @@ export const OfflineImporter: React.FC = () => {
               {batches?.map((batch) => (
                 <div 
                   key={batch.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-muted/30 dark:bg-zinc-800/30"
+                  className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
                 >
                   <div className="flex items-center gap-3">
                     <FileSpreadsheet className="h-5 w-5 text-muted-foreground" />

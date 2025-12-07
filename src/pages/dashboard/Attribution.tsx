@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AttributionModelSelector } from "@/components/analytics/AttributionModelSelector";
 import { AttributionTable } from "@/components/analytics/AttributionTable";
 import { JourneySankey } from "@/components/analytics/JourneySankey";
@@ -20,7 +21,7 @@ import { useJourneyGraph, useDiscoverStructure } from "@/hooks/useJourneyGraph";
 import { useWorkspace } from "@/hooks/useWorkspace";
 import { useRealtimeIdentityGraph } from "@/hooks/useRealtimeIdentityGraph";
 import { subDays } from "date-fns";
-import { Sparkles, Radio, Network, TrendingUp, AlertCircle } from "lucide-react";
+import { Sparkles, Radio, Network, TrendingUp, AlertCircle, ChevronDown, Upload, Clock, Tag, BarChart3, GitBranch, Route, Star } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -28,6 +29,13 @@ const Attribution = () => {
   const { currentWorkspace } = useWorkspace();
   const [model, setModel] = useState<AttributionModel>("linear");
   const [dateRangeDays, setDateRangeDays] = useState<number>(30);
+  
+  // Collapsible states for Advanced tab
+  const [identityOpen, setIdentityOpen] = useState(true);
+  const [topicOpen, setTopicOpen] = useState(false);
+  const [liftOpen, setLiftOpen] = useState(false);
+  const [velocityOpen, setVelocityOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   
   const dateRange = {
     from: subDays(new Date(), dateRangeDays),
@@ -124,84 +132,158 @@ const Attribution = () => {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              total conversions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-foreground">{totalConversions}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              total revenue
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-foreground">${totalRevenue.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              active sources
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-foreground">{uniqueSources}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
-              <Network className="h-3 w-3" />
-              cross-device
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-foreground">{identityCount}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
-              <TrendingUp className="h-3 w-3" />
-              demand creators
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-500">{demandCreators}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
-              <AlertCircle className="h-3 w-3" />
-              needs review
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-500">{churnDrivers}</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Tabs defaultValue="attribution" className="space-y-4">
+      <Tabs defaultValue="overview" className="space-y-4">
         <TabsList className="flex-wrap">
-          <TabsTrigger value="attribution">models</TabsTrigger>
-          <TabsTrigger value="flow">journey flow</TabsTrigger>
-          <TabsTrigger value="graph">journey graph</TabsTrigger>
-          <TabsTrigger value="valuation">page valuation</TabsTrigger>
-          <TabsTrigger value="golden-path">golden path</TabsTrigger>
+          <TabsTrigger value="overview">overview</TabsTrigger>
+          <TabsTrigger value="models">models</TabsTrigger>
+          <TabsTrigger value="journey">journey</TabsTrigger>
           <TabsTrigger value="advanced">advanced</TabsTrigger>
-          <TabsTrigger value="import">import</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="attribution" className="space-y-4">
+        {/* OVERVIEW TAB */}
+        <TabsContent value="overview" className="space-y-6">
+          {/* Stats Grid */}
+          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  total conversions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">{totalConversions}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  total revenue
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">${totalRevenue.toFixed(2)}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  active sources
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">{uniqueSources}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+                  <Network className="h-3 w-3" />
+                  cross-device
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">{identityCount}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3" />
+                  demand creators
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-500">{demandCreators}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-card border-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  needs review
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-red-500">{churnDrivers}</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Access Cards */}
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">attribution models</p>
+                    <p className="text-xs text-muted-foreground">linear, time-decay, position-based</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                    <GitBranch className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">journey flow</p>
+                    <p className="text-xs text-muted-foreground">visualize customer paths</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-green-500/10 group-hover:bg-green-500/20 transition-colors">
+                    <Network className="h-5 w-5 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">cross-device identity</p>
+                    <p className="text-xs text-muted-foreground">{identityCount} connections found</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-amber-500/10 group-hover:bg-amber-500/20 transition-colors">
+                    <Upload className="h-5 w-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">offline import</p>
+                    <p className="text-xs text-muted-foreground">reconcile CRM conversions</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Attribution Table Preview */}
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="text-foreground">attribution by source</CardTitle>
+              <CardDescription className="text-muted-foreground">
+                top performing channels based on {model} model
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AttributionTable data={attributionData || []} isLoading={isLoadingAttribution} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* MODELS TAB */}
+        <TabsContent value="models" className="space-y-4">
           <AttributionTable data={attributionData || []} isLoading={isLoadingAttribution} />
           
           <Card className="bg-card border-border">
@@ -234,176 +316,207 @@ const Attribution = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="flow" className="space-y-4">
-          <JourneySankey data={flowData || []} isLoading={isLoadingFlow} />
-        </TabsContent>
+        {/* JOURNEY TAB */}
+        <TabsContent value="journey" className="space-y-6">
+          {/* Journey Flow */}
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="text-foreground flex items-center gap-2">
+                <GitBranch className="h-5 w-5" />
+                journey flow
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                visualize how users move through touchpoints
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <JourneySankey data={flowData || []} isLoading={isLoadingFlow} />
+            </CardContent>
+          </Card>
 
-        <TabsContent value="graph" className="space-y-4">
-          <div className="flex justify-between items-center mb-4">
-            <p className="text-sm text-muted-foreground">
-              automatic structure learning discovers nodes and edges from journey events
-            </p>
-            <Button
-              onClick={() =>
-                currentWorkspace?.id &&
-                discoverStructure({
-                  workspaceId: currentWorkspace.id,
-                  lookbackDays: dateRangeDays,
-                })
-              }
-              disabled={isDiscovering || !currentWorkspace?.id}
-              variant="outline"
-              size="sm"
-            >
-              <Sparkles className="h-4 w-4 mr-2" />
-              {isDiscovering ? "discovering..." : "discover structure"}
-            </Button>
-          </div>
-          <JourneyGraphViewer
-            nodes={graphData?.nodes || []}
-            edges={graphData?.edges || []}
-            isLoading={isLoadingGraph}
-            workspaceId={currentWorkspace?.id}
-          />
-        </TabsContent>
+          {/* Journey Graph */}
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle className="text-foreground flex items-center gap-2">
+                    <Route className="h-5 w-5" />
+                    journey graph
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    automatic structure learning discovers nodes and edges from journey events
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={() =>
+                    currentWorkspace?.id &&
+                    discoverStructure({
+                      workspaceId: currentWorkspace.id,
+                      lookbackDays: dateRangeDays,
+                    })
+                  }
+                  disabled={isDiscovering || !currentWorkspace?.id}
+                  variant="outline"
+                  size="sm"
+                >
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  {isDiscovering ? "discovering..." : "discover structure"}
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <JourneyGraphViewer
+                nodes={graphData?.nodes || []}
+                edges={graphData?.edges || []}
+                isLoading={isLoadingGraph}
+                workspaceId={currentWorkspace?.id}
+              />
+            </CardContent>
+          </Card>
 
-        <TabsContent value="valuation" className="space-y-4">
+          {/* Page Valuation & Golden Path */}
           <div className="grid gap-4 md:grid-cols-2">
             <StateValueHeatmap workspaceId={currentWorkspace?.id} />
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">about mdp state valuation</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  how we calculate page value
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <p className="text-foreground">
-                  We use <strong>Markov Decision Process (MDP)</strong> with Value Iteration to calculate the expected future value of each page state.
-                </p>
-                <div>
-                  <h4 className="font-medium mb-1 text-foreground">The Algorithm</h4>
-                  <p className="text-muted-foreground">
-                    V(s) = R(s) + γ × Σ P(s'|s) × V(s')
-                  </p>
-                  <ul className="text-xs text-muted-foreground space-y-1 mt-2">
-                    <li>• R(s) = immediate reward (conversion = $100)</li>
-                    <li>• γ = discount factor (0.95, future value decay)</li>
-                    <li>• P(s'|s) = transition probability to next state</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-1 text-foreground">What It Means</h4>
-                  <p className="text-muted-foreground">
-                    A page worth $45 means users on that page have a 45% probability-weighted path to conversion. A 404 page showing $0 means the probability of reaching conversion from there drops to near zero.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="golden-path" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2">
             <GoldenPathChart workspaceId={currentWorkspace?.id} />
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">about pareto optimization</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  the efficient frontier explained
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <p className="text-foreground">
-                  We use <strong>Pareto Optimization</strong> to find paths that balance two conflicting objectives: speed (minimize steps) and value (maximize revenue).
-                </p>
-                <div>
-                  <h4 className="font-medium mb-1 text-foreground">What Is Pareto Optimal?</h4>
-                  <p className="text-muted-foreground">
-                    A path is Pareto optimal (⭐ Golden) if no other path is both faster AND more valuable. These paths represent the "efficient frontier" of your funnel.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium mb-1 text-foreground">The Insight</h4>
-                  <p className="text-muted-foreground">
-                    The fastest path might have low LTV. A longer path through high-value content (webinar, demo) can deliver 3x higher conversion value. Golden paths show you the optimal balance.
-                  </p>
-                </div>
-                <div className="p-3 rounded-lg bg-primary/10">
-                  <p className="text-xs font-medium text-foreground">💡 Pro Tip</p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Send paid traffic to Golden Path entry points for maximum ROI, not just the shortest path to signup.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="advanced" className="space-y-6">
-          <div className="grid gap-6">
-            {/* Identity Graph */}
+        {/* ADVANCED TAB - Collapsible Sections */}
+        <TabsContent value="advanced" className="space-y-4">
+          {/* Identity Graph */}
+          <Collapsible open={identityOpen} onOpenChange={setIdentityOpen}>
             <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground flex items-center gap-2">
-                  <Network className="h-5 w-5" />
-                  identity graph
-                </CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  cross-device visitor connections
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <IdentityGraphView />
-              </CardContent>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Network className="h-5 w-5 text-green-500" />
+                      <div>
+                        <CardTitle className="text-foreground">identity graph</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          {identityCount} cross-device connections
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${identityOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <IdentityGraphView />
+                </CardContent>
+              </CollapsibleContent>
             </Card>
+          </Collapsible>
 
-            {/* Topic Attribution */}
+          {/* Topic Attribution */}
+          <Collapsible open={topicOpen} onOpenChange={setTopicOpen}>
             <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">topic attribution</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  revenue by content category
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <TopicAttributionView />
-              </CardContent>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Tag className="h-5 w-5 text-primary" />
+                      <div>
+                        <CardTitle className="text-foreground">topic attribution</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          {topicCount} content topics tracked
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${topicOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <TopicAttributionView />
+                </CardContent>
+              </CollapsibleContent>
             </Card>
+          </Collapsible>
 
-            {/* Lift Analysis */}
+          {/* Lift Analysis */}
+          <Collapsible open={liftOpen} onOpenChange={setLiftOpen}>
             <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-green-500" />
-                  lift analysis
-                </CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  incremental causal impact by channel
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <LiftAnalysis />
-              </CardContent>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <TrendingUp className="h-5 w-5 text-green-500" />
+                      <div>
+                        <CardTitle className="text-foreground">lift analysis</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          {demandCreators} demand creators, {churnDrivers} need review
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${liftOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <LiftAnalysis />
+                </CardContent>
+              </CollapsibleContent>
             </Card>
+          </Collapsible>
 
-            {/* Velocity Analytics */}
+          {/* Velocity Analytics */}
+          <Collapsible open={velocityOpen} onOpenChange={setVelocityOpen}>
             <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">velocity analytics</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  time-to-convert by channel
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <VelocityAnalytics />
-              </CardContent>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-5 w-5 text-amber-500" />
+                      <div>
+                        <CardTitle className="text-foreground">velocity analytics</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          time-to-convert by channel
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${velocityOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <VelocityAnalytics />
+                </CardContent>
+              </CollapsibleContent>
             </Card>
-          </div>
-        </TabsContent>
+          </Collapsible>
 
-        <TabsContent value="import" className="space-y-4">
-          <OfflineImporter />
+          {/* Offline Import */}
+          <Collapsible open={importOpen} onOpenChange={setImportOpen}>
+            <Card className="bg-card border-border">
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Upload className="h-5 w-5 text-primary" />
+                      <div>
+                        <CardTitle className="text-foreground">offline import</CardTitle>
+                        <CardDescription className="text-muted-foreground">
+                          upload CRM data to reconcile offline conversions
+                        </CardDescription>
+                      </div>
+                    </div>
+                    <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform ${importOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <OfflineImporter />
+                </CardContent>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
         </TabsContent>
       </Tabs>
     </div>
