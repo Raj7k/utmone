@@ -28,13 +28,14 @@ import { TimelineAuditViewer } from "@/components/security/TimelineAuditViewer";
 import { SecurityAlertsWidget } from "@/components/security/SecurityAlertsWidget";
 import { NotificationSettingsCard } from "@/components/settings/NotificationSettingsCard";
 import { ChromeExtensionSettings } from "@/components/settings/ChromeExtensionSettings";
+import { ProfileSettings } from "@/components/settings/ProfileSettings";
 
 export default function Settings() {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentWorkspace } = useWorkspace();
   const [user, setUser] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState("domains");
+  const [activeTab, setActiveTab] = useState("profile");
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -114,6 +115,8 @@ export default function Settings() {
 
             {/* Tab Content */}
             <div className="space-y-6">
+              {activeTab === "profile" && <ProfileSettings />}
+
               {activeTab === "domains" && currentWorkspace && (
                 <Domains workspaceId={currentWorkspace.id} />
               )}

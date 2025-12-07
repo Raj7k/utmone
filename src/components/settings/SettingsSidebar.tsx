@@ -14,7 +14,8 @@ import {
   Activity,
   TrendingUp,
   Bell,
-  Chrome
+  Chrome,
+  User
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -29,6 +30,7 @@ const settingsGroups = [
   {
     name: "General",
     items: [
+      { id: "profile", label: "Profile", icon: User },
       { id: "domains", label: "Domains", icon: Globe },
       { id: "branding", label: "Branding", icon: Palette },
       { id: "team", label: "Team", icon: Users },
