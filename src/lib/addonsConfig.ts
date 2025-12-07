@@ -19,7 +19,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 10,
     unit: 'links',
     unitAmount: 500,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'limits',
   },
   {
@@ -29,7 +29,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 15,
     unit: 'domains',
     unitAmount: 1,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'limits',
   },
   {
@@ -39,7 +39,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 10,
     unit: 'seats',
     unitAmount: 5,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'limits',
   },
   {
@@ -49,7 +49,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 20,
     unit: 'clicks',
     unitAmount: 100000,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'limits',
   },
   {
@@ -59,7 +59,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 49,
     unit: 'month',
     unitAmount: 1,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'support',
   },
   {
@@ -69,7 +69,7 @@ export const ADDONS_CONFIG: Addon[] = [
     price: 99,
     unit: 'month',
     unitAmount: 1,
-    applicableTiers: ['growth', 'business'],
+    applicableTiers: ['starter', 'growth', 'business'],
     category: 'features',
   },
 ];
