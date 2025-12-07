@@ -13,7 +13,8 @@ import { useSidebar } from "./SidebarProvider";
 import { useEffect, useRef, useState } from "react";
 import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { allNavigationWithCategories } from "@/config/navigation";
+import { allNavigationWithCategories, settingsGroups, appNavigation, toolsNavigation, intelligenceNavigation, growthNavigation } from "@/config/navigation";
+import { Badge } from "@/components/ui/badge";
 
 export const SidebarSearch = () => {
   const navigate = useNavigate();
@@ -31,14 +32,13 @@ export const SidebarSearch = () => {
     closeSearch();
   };
 
-  // Group navigation by category
-  const groupedNavigation = allNavigationWithCategories.reduce((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
-    }
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, typeof allNavigationWithCategories>);
+  // Navigation sections
+  const navigationSections = [
+    { label: "App", items: appNavigation },
+    { label: "Tools", items: toolsNavigation },
+    { label: "Intelligence", items: intelligenceNavigation },
+    { label: "Growth", items: growthNavigation },
+  ];
 
   return (
     <aside className="w-[280px] h-screen bg-card border-r border-separator flex flex-col z-40">
@@ -65,31 +65,68 @@ export const SidebarSearch = () => {
           />
           <p className="text-xs text-tertiary-label px-3 pb-2">Press ESC to close</p>
         </div>
-        <CommandList className="max-h-none">
+        <CommandList className="max-h-none overflow-y-auto">
           <CommandEmpty>No results found.</CommandEmpty>
-          {Object.entries(groupedNavigation).map(([category, items]) => (
-            <CommandGroup key={category} heading={category.toUpperCase()}>
-              {items.map((item) => {
+          
+          {/* Main Navigation Sections */}
+          {navigationSections.map((section) => (
+            <CommandGroup key={section.label} heading={section.label.toUpperCase()}>
+              {section.items.map((item) => {
                 const Icon = item.icon;
                 return (
                   <CommandItem
                     key={item.href}
-                    value={`${item.name} ${category}`}
+                    value={`${item.name} ${section.label}`}
                     onSelect={() => handleSelect(item.href)}
                     className="flex items-center gap-3 px-3 py-2.5 cursor-pointer"
                   >
                     <Icon className="h-4 w-4 text-secondary-label" />
                     <span>{formatText(item.name)}</span>
                     {item.isNew && (
-                      <span className="ml-auto text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded">
+                      <Badge variant="outline" className="ml-auto bg-primary/10 text-primary border-primary/20 px-1.5 py-0">
                         New
-                      </span>
+                      </Badge>
+                    )}
+                    {item.badge === true && (
+                      <span className="ml-auto flex h-2 w-2 rounded-full bg-primary" />
                     )}
                   </CommandItem>
                 );
               })}
             </CommandGroup>
           ))}
+
+          {/* Settings Groups */}
+          {settingsGroups.map((group) => (
+            <CommandGroup key={group.name} heading={`SETTINGS / ${group.name.toUpperCase()}`}>
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <CommandItem
+                    key={item.href}
+                    value={`${item.name} Settings ${group.name}`}
+                    onSelect={() => handleSelect(item.href)}
+                    className="flex items-center gap-3 px-3 py-2.5 cursor-pointer"
+                  >
+                    <Icon className="h-4 w-4 text-secondary-label" />
+                    <span>{formatText(item.name)}</span>
+                    {item.isNew && (
+                      <Badge variant="outline" className="ml-auto bg-primary/10 text-primary border-primary/20 px-1.5 py-0">
+                        New
+                      </Badge>
+                    )}
+                    {typeof item.badge === 'string' && (
+                      <Badge variant="outline" className="ml-auto bg-system-orange/10 text-system-orange border-system-orange/20 px-1.5 py-0">
+                        {item.badge}
+                      </Badge>
+                    )}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          ))}
+
+          {/* Team Section */}
           <CommandGroup heading="TEAM">
             <CommandItem 
               onSelect={() => {
