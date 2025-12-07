@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
     // v13 API: credential data is now under .credential property
     const { credential } = verification.registrationInfo;
 
-    // Store the authenticator
+    // Store the authenticator with the domain it was registered on
     const { error: insertError } = await supabase
       .from('user_authenticators')
       .insert({
@@ -94,6 +94,7 @@ Deno.serve(async (req) => {
         public_key: btoa(String.fromCharCode(...new Uint8Array(credential.publicKey))),
         counter: credential.counter,
         device_name: deviceName || 'Security Key',
+        registered_domain: rpID, // Store the domain for mismatch detection
       });
 
     if (insertError) {
