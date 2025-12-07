@@ -20,6 +20,10 @@ import { Destination } from "@/hooks/useSmartRotator";
 import type { Json } from "@/integrations/supabase/types";
 import { useSlugGenerator } from "@/hooks/useSlugGenerator";
 import { SmartSlugSuggestions } from "./SmartSlugSuggestions";
+import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
+import { AISlugSuggestions } from "@/components/ai/AISlugSuggestions";
+import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
+import { motion, AnimatePresence } from "framer-motion";
 
 const shortenerSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -56,6 +60,11 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const { generateSuggestions } = useSlugGenerator();
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [slugSuggestions, setSlugSuggestions] = useState<any[]>([]);
+  
+  // AI Analysis
+  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  const [showAISuggestions, setShowAISuggestions] = useState(false);
+  const [usedAISlug, setUsedAISlug] = useState(false);
 
   // Fetch verified domains for this workspace + system-level defaults
   const { data: verifiedDomains } = useQuery({
@@ -102,6 +111,26 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     return () => subscription.unsubscribe();
   }, [form, generateSuggestions]);
 
+  // Handle URL paste for AI analysis
+  const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pastedUrl = e.clipboardData.getData('text');
+    
+    try {
+      new URL(pastedUrl);
+      analyzeUrl(pastedUrl);
+      setShowAISuggestions(true);
+    } catch {
+      // Invalid URL
+    }
+  };
+
+  // Show AI suggestions when they arrive
+  useEffect(() => {
+    if (aiSuggestions?.vanity_slugs?.length > 0) {
+      setShowAISuggestions(true);
+    }
+  }, [aiSuggestions]);
+
   // Check slug availability
   useEffect(() => {
     const checkSlug = async () => {
@@ -125,6 +154,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const generateRandomSlug = () => {
     const randomSlug = Math.random().toString(36).substring(2, 10);
     form.setValue("slug", randomSlug);
+    setUsedAISlug(false);
   };
 
   const createLinkMutation = useMutation({
@@ -199,25 +229,52 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     createLinkMutation.mutate(data);
   };
 
+  const isCustomSlug = values.slug && values.slug.length >= 3 && !/^[a-z0-9]{8}$/.test(values.slug);
+
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-2">
-          <Link2 className="h-5 w-5 text-green-600" />
-          <CardTitle>URL Shortener</CardTitle>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Link2 className="h-5 w-5 text-green-600" />
+            <CardTitle>URL Shortener</CardTitle>
+          </div>
+          <LinkQualityScore
+            customSlug={isCustomSlug}
+            hasAISuggestions={usedAISlug}
+          />
         </div>
-        <CardDescription>Create short, memorable links with custom slugs</CardDescription>
+        <CardDescription>Create short, memorable links with AI-powered slug suggestions</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div>
+          <div className="relative">
             <Label htmlFor="url">Destination URL *</Label>
-            <Input
-              id="url"
-              placeholder="https://example.com/long/url/path"
-              {...form.register("url")}
-              className="mt-1.5"
-            />
+            <div className="relative mt-1.5">
+              <Input
+                id="url"
+                placeholder="https://example.com/long/url — paste for AI slugs ✨"
+                {...form.register("url")}
+                onPaste={handleUrlPaste}
+              />
+              <AnimatePresence>
+                {isAnalyzing && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Sparkles className="h-4 w-4 text-primary" />
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             {form.formState.errors.url && (
               <p className="text-xs text-system-red mt-1">
                 {form.formState.errors.url.message}
@@ -292,6 +349,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                     setSlugSuggestions(suggestions);
                   }
                   setShowSuggestions(!showSuggestions);
+                  setShowAISuggestions(false);
                 }}
                 title="✨ AI slug suggestions"
                 className="hover:opacity-80"
@@ -311,8 +369,25 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
               </p>
             )}
             
-            {/* Smart Slug Suggestions */}
-            {showSuggestions && slugSuggestions.length > 0 && (
+            {/* AI Slug Suggestions */}
+            <AnimatePresence>
+              {showAISuggestions && aiSuggestions?.vanity_slugs && aiSuggestions.vanity_slugs.length > 0 && (
+                <AISlugSuggestions
+                  slugs={aiSuggestions.vanity_slugs}
+                  onSelect={(slug) => {
+                    form.setValue("slug", slug);
+                    setUsedAISlug(true);
+                    setShowAISuggestions(false);
+                  }}
+                  currentSlug={values.slug}
+                  isLoading={isAnalyzing}
+                  onRefresh={() => values.url && analyzeUrl(values.url)}
+                />
+              )}
+            </AnimatePresence>
+            
+            {/* Smart Slug Suggestions (rule-based) */}
+            {showSuggestions && slugSuggestions.length > 0 && !showAISuggestions && (
               <div className="mt-3">
                 <SmartSlugSuggestions
                   suggestions={slugSuggestions}

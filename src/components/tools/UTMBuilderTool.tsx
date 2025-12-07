@@ -10,6 +10,11 @@ import { Sparkles } from "lucide-react";
 import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { SmartUTMCombobox } from "@/components/shared/SmartUTMCombobox";
 import { useWorkspace } from "@/hooks/useWorkspace";
+import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
+import { AIAnalyzingOverlay } from "@/components/ai/AIAnalyzingOverlay";
+import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
+import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
+import { motion, AnimatePresence } from "framer-motion";
 
 const utmSchema = z.object({
   url: z.string().url("enter a valid url"),
@@ -51,6 +56,10 @@ interface UTMBuilderToolProps {
 export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
   const [generatedURL, setGeneratedURL] = useState<string>("");
   const { currentWorkspace } = useWorkspace();
+  const { isAnalyzing, suggestions, analyzeUrl, isAIPowered } = useAIAnalyzeUrl();
+  
+  // Track which fields were AI-filled
+  const [aiFilledFields, setAiFilledFields] = useState<Set<string>>(new Set());
 
   const form = useForm<UTMFormData>({
     resolver: zodResolver(utmSchema),
@@ -64,10 +73,52 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
     },
   });
 
+  const values = form.watch();
+
   const applyTemplate = (template: typeof quickTemplates[0]) => {
     form.setValue("utm_source", template.values.utm_source);
     form.setValue("utm_medium", template.values.utm_medium);
+    setAiFilledFields(new Set()); // Clear AI badges when using template
   };
+
+  const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pastedUrl = e.clipboardData.getData('text');
+    
+    // Validate URL before analyzing
+    try {
+      new URL(pastedUrl);
+      analyzeUrl(pastedUrl);
+    } catch {
+      // Invalid URL, skip analysis
+    }
+  };
+
+  // Apply AI suggestions when they arrive
+  const applySuggestions = () => {
+    if (!suggestions) return;
+    
+    const newAiFields = new Set<string>();
+    
+    if (suggestions.utm_campaign && !values.utm_campaign) {
+      form.setValue("utm_campaign", suggestions.utm_campaign);
+      newAiFields.add("utm_campaign");
+    }
+    if (suggestions.utm_content && !values.utm_content) {
+      form.setValue("utm_content", suggestions.utm_content);
+      newAiFields.add("utm_content");
+    }
+    if (suggestions.utm_term && !values.utm_term) {
+      form.setValue("utm_term", suggestions.utm_term);
+      newAiFields.add("utm_term");
+    }
+    
+    setAiFilledFields(newAiFields);
+  };
+
+  // Auto-apply suggestions when they arrive
+  if (suggestions && !isAnalyzing && aiFilledFields.size === 0) {
+    applySuggestions();
+  }
 
   const generateURL = (data: UTMFormData) => {
     const url = new URL(data.url);
@@ -83,12 +134,22 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
-          <CardTitle>UTM Builder</CardTitle>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            <CardTitle>UTM Builder</CardTitle>
+          </div>
+          <LinkQualityScore
+            utmSource={values.utm_source}
+            utmMedium={values.utm_medium}
+            utmCampaign={values.utm_campaign}
+            utmTerm={values.utm_term}
+            utmContent={values.utm_content}
+            hasAISuggestions={aiFilledFields.size > 0}
+          />
         </div>
         <CardDescription>
-          Build UTM parameters with quick templates and suggestions
+          Paste a URL and AI will auto-fill your UTM parameters
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -111,19 +172,48 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
             </div>
           </div>
 
-          {/* URL Input */}
-          <div>
+          {/* URL Input with AI Analysis */}
+          <div className="relative">
             <Label htmlFor="url">Destination URL *</Label>
-            <Input
-              id="url"
-              placeholder="https://example.com/page"
-              {...form.register("url")}
-              className="mt-1.5"
-            />
+            <div className="relative mt-1.5">
+              <Input
+                id="url"
+                placeholder="https://example.com/page — paste to auto-analyze ✨"
+                {...form.register("url")}
+                onPaste={handleUrlPaste}
+              />
+              <AnimatePresence>
+                {isAnalyzing && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Sparkles className="h-4 w-4 text-primary" />
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             {form.formState.errors.url && (
               <p className="text-xs text-system-red mt-1">
                 {form.formState.errors.url.message}
               </p>
+            )}
+            {isAIPowered && suggestions && (
+              <motion.p 
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-primary mt-1 flex items-center gap-1"
+              >
+                <Sparkles className="h-3 w-3" />
+                {suggestions.context}
+              </motion.p>
             )}
           </div>
 
@@ -137,7 +227,14 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
                     workspaceId={currentWorkspace.id}
                     fieldType="utm_source"
                     value={form.watch("utm_source")}
-                    onChange={(value) => form.setValue("utm_source", value)}
+                    onChange={(value) => {
+                      form.setValue("utm_source", value);
+                      setAiFilledFields(prev => {
+                        const next = new Set(prev);
+                        next.delete("utm_source");
+                        return next;
+                      });
+                    }}
                     placeholder="select or type source"
                     staticSuggestions={sourceSuggestions}
                   />
@@ -159,7 +256,14 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
                     workspaceId={currentWorkspace.id}
                     fieldType="utm_medium"
                     value={form.watch("utm_medium")}
-                    onChange={(value) => form.setValue("utm_medium", value)}
+                    onChange={(value) => {
+                      form.setValue("utm_medium", value);
+                      setAiFilledFields(prev => {
+                        const next = new Set(prev);
+                        next.delete("utm_medium");
+                        return next;
+                      });
+                    }}
                     placeholder="select or type medium"
                     staticSuggestions={mediumSuggestions}
                   />
@@ -173,34 +277,67 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
               </div>
             </div>
 
-            <div>
+            <div className="relative">
               <Label htmlFor="utm_campaign">Campaign *</Label>
-              <Input
-                id="utm_campaign"
-                placeholder="summer-sale-2024"
-                {...form.register("utm_campaign")}
-                className="mt-1.5"
-              />
+              <div className="relative">
+                <Input
+                  id="utm_campaign"
+                  placeholder="summer-sale-2024"
+                  {...form.register("utm_campaign")}
+                  className="mt-1.5 pr-10"
+                  onChange={(e) => {
+                    form.setValue("utm_campaign", e.target.value);
+                    setAiFilledFields(prev => {
+                      const next = new Set(prev);
+                      next.delete("utm_campaign");
+                      return next;
+                    });
+                  }}
+                />
+                <AIFilledBadge show={aiFilledFields.has("utm_campaign")} />
+              </div>
             </div>
 
-            <div>
+            <div className="relative">
               <Label htmlFor="utm_term">Term (optional)</Label>
-              <Input
-                id="utm_term"
-                placeholder="running+shoes"
-                {...form.register("utm_term")}
-                className="mt-1.5"
-              />
+              <div className="relative">
+                <Input
+                  id="utm_term"
+                  placeholder="running+shoes"
+                  {...form.register("utm_term")}
+                  className="mt-1.5 pr-10"
+                  onChange={(e) => {
+                    form.setValue("utm_term", e.target.value);
+                    setAiFilledFields(prev => {
+                      const next = new Set(prev);
+                      next.delete("utm_term");
+                      return next;
+                    });
+                  }}
+                />
+                <AIFilledBadge show={aiFilledFields.has("utm_term")} />
+              </div>
             </div>
 
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 relative">
               <Label htmlFor="utm_content">Content (optional)</Label>
-              <Input
-                id="utm_content"
-                placeholder="banner-ad-top"
-                {...form.register("utm_content")}
-                className="mt-1.5"
-              />
+              <div className="relative">
+                <Input
+                  id="utm_content"
+                  placeholder="banner-ad-top"
+                  {...form.register("utm_content")}
+                  className="mt-1.5 pr-10"
+                  onChange={(e) => {
+                    form.setValue("utm_content", e.target.value);
+                    setAiFilledFields(prev => {
+                      const next = new Set(prev);
+                      next.delete("utm_content");
+                      return next;
+                    });
+                  }}
+                />
+                <AIFilledBadge show={aiFilledFields.has("utm_content")} />
+              </div>
             </div>
           </div>
 
