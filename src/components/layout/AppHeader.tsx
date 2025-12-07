@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu, Plus } from "lucide-react";
+import { LogOut, Menu, Plus, Chrome } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatText } from "@/utils/textFormatter";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -127,7 +128,7 @@ export const AppHeader = () => {
           </div>
 
           {/* Right Side */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <Button 
               onClick={() => setCreateModalOpen(true)} 
               size="sm" 
@@ -136,6 +137,25 @@ export const AppHeader = () => {
               <Plus className="h-4 w-4" />
               <span className="hidden md:inline">Create New</span>
             </Button>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => navigate("/settings?tab=extension")}
+                    className="hidden md:flex"
+                  >
+                    <Chrome className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>get chrome extension</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={handleSignOut}>
               <LogOut className="h-4 w-4" />
