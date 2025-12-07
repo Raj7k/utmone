@@ -6,10 +6,8 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { HeroVariantManager } from "@/components/landing/HeroVariantManager";
 import { HeroInlineCTA } from "@/components/landing/HeroInlineCTA";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
-import { ParallaxSection } from "@/components/landing/ParallaxSection";
 import { LinkLayersSection } from "@/components/landing/LinkLayersSection";
 import { UseCaseType } from "@/components/landing/SideNavHero";
-import { SectionDivider } from "@/components/landing/SectionDivider";
 import { 
   useTrackPageView, 
   useTrackCTAClick, 
@@ -24,13 +22,9 @@ import { MainLayout } from "@/components/layout/MainLayout";
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
 const DynamicSecondFold = lazy(() => import("@/components/landing/DynamicSecondFold").then(m => ({ default: m.DynamicSecondFold })));
 const EnterpriseGradeSection = lazy(() => import("@/components/landing/EnterpriseGradeSection").then(m => ({ default: m.EnterpriseGradeSection })));
-const GTMToolsShowcase = lazy(() => import("@/components/landing/GTMToolsShowcase").then(m => ({ default: m.GTMToolsShowcase })));
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
-const StrategicToolsShowcase = lazy(() => import("@/components/landing/StrategicToolsShowcase").then(m => ({ default: m.StrategicToolsShowcase })));
-const AccessibilityShowcase = lazy(() => import("@/components/landing/AccessibilityShowcase").then(m => ({ default: m.AccessibilityShowcase })));
-const PermanenceShowcase = lazy(() => import("@/components/landing/PermanenceShowcase").then(m => ({ default: m.PermanenceShowcase })));
-const PowerToolsShowcase = lazy(() => import("@/components/landing/PowerToolsShowcase").then(m => ({ default: m.PowerToolsShowcase })));
-const GrowthLoopSection = lazy(() => import("@/components/landing/GrowthLoopSection").then(m => ({ default: m.GrowthLoopSection })));
+const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
+const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const FooterFAQ = lazy(() => import("@/components/landing/FooterFAQ").then(m => ({ default: m.FooterFAQ })));
 
 // Simple loading placeholder
@@ -145,59 +139,22 @@ const Index = () => {
         <EnterpriseGradeSection />
       </Suspense>
 
-      <SectionDivider variant="gradient" />
-
-      {/* GTM Tools Showcase - Interactive with Parallax */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <ParallaxSection speed={0.2}>
-          <GTMToolsShowcase />
-        </ParallaxSection>
-      </Suspense>
-
-      <SectionDivider variant="dots" />
-
-      {/* AI Intelligence Hero - Prominent Section */}
+      {/* AI Intelligence Hero */}
       <Suspense fallback={<SectionSkeleton />}>
         <AIIntelligenceHero />
       </Suspense>
 
-      <SectionDivider variant="gradient" />
-
-      {/* Strategic Decision Tools */}
+      {/* Unified Tools Showcase - All tools in one tabbed section */}
       <Suspense fallback={<SectionSkeleton />}>
-        <StrategicToolsShowcase />
+        <UnifiedToolsShowcase />
       </Suspense>
 
-      <SectionDivider variant="dots" />
-
-      {/* Accessibility Showcase with Visual Demo */}
+      {/* Trust & Permanence - Combined Section */}
       <Suspense fallback={<SectionSkeleton />}>
-        <ParallaxSection speed={0.3}>
-          <AccessibilityShowcase />
-        </ParallaxSection>
+        <TrustSection />
       </Suspense>
 
-      <SectionDivider variant="gradient" />
-
-      {/* Permanence Showcase with Timeline */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <ParallaxSection speed={0.2}>
-          <PermanenceShowcase />
-        </ParallaxSection>
-      </Suspense>
-
-      <SectionDivider variant="dots" />
-
-      {/* Power Tools Showcase with Mockups */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <ParallaxSection speed={0.3}>
-          <PowerToolsShowcase />
-        </ParallaxSection>
-      </Suspense>
-
-      <SectionDivider variant="dots" />
-
-      {/* Fold: Developer Experience */}
+      {/* Developer Experience */}
       <AnimatedSection className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-12 space-y-3">
@@ -283,12 +240,7 @@ const Index = () => {
         </div>
       </AnimatedSection>
 
-      {/* Growth Loop Section */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <GrowthLoopSection />
-      </Suspense>
-
-      {/* FAQ Section - Scroll-based reveal */}
+      {/* FAQ Section */}
       <Suspense fallback={<SectionSkeleton />}>
         <FooterFAQ />
       </Suspense>
