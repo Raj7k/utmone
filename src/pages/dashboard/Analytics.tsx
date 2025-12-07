@@ -440,6 +440,6 @@ export default function Analytics() {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageContentWrapper>
   );
 }
