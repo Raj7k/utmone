@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -56,18 +56,24 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
 
   const values = form.watch();
 
-  // Handle URL paste for AI analysis
-  const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const pastedUrl = e.clipboardData.getData('text');
+  // Trigger AI analysis when URL changes (typing or pasting)
+  useEffect(() => {
+    const destinationUrl = values.destination_url;
     
-    try {
-      new URL(pastedUrl);
-      setCurrentUrl(pastedUrl);
-      analyzeUrl(pastedUrl);
-    } catch {
-      // Invalid URL
+    if (destinationUrl && destinationUrl !== currentUrl) {
+      try {
+        new URL(destinationUrl);
+        setCurrentUrl(destinationUrl);
+        analyzeUrl(destinationUrl);
+      } catch {
+        // Invalid URL, don't analyze
+      }
+    } else if (!destinationUrl && currentUrl) {
+      // URL was cleared
+      setCurrentUrl("");
+      setAiFilledFields(new Set());
     }
-  };
+  }, [values.destination_url, currentUrl, analyzeUrl]);
 
   const handleRegenerate = () => {
     if (currentUrl) {
@@ -159,9 +165,8 @@ export const Step1UTMBuilder = ({ workspaceId, onComplete }: Step1UTMBuilderProp
           <div className="relative mt-1.5">
             <Input
               id="destination_url"
-              placeholder="https://example.com/landing-page — paste to auto-analyze ✨"
+              placeholder="https://example.com/landing-page — type or paste url ✨"
               {...form.register("destination_url")}
-              onPaste={handleUrlPaste}
             />
             <AnimatePresence>
               {isAnalyzing && (
