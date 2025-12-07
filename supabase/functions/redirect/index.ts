@@ -789,7 +789,7 @@ Deno.serve(async (req) => {
       
       const clickData = {
         link_id: linkRecord.id,
-        visitor_id: visitorId,
+        // visitor_id excluded - column expects UUID but we have string format
         ip_address: ipAddress,
         user_agent: userAgent,
         referrer: referrer,
@@ -803,18 +803,18 @@ Deno.serve(async (req) => {
         country: country,
         city: city,
         click_hour: clickHour,
-        metadata: { 
-          triggered_rule: triggeredRule,
-          destination_index: selectedDestinationIndex >= 0 ? selectedDestinationIndex : null,
-          experiment_id: experimentId,
-          experiment_variant: experimentVariant,
-        },
+        workspace_id: linkRecord.workspace_id,
+        targeting_rule_name: triggeredRule !== 'default' ? triggeredRule : null,
       };
 
       try {
         // Direct insert to database
-        await supabase.from('link_clicks').insert(clickData);
-        console.log('Click logged directly');
+        const { error: insertError } = await supabase.from('link_clicks').insert(clickData);
+        if (insertError) {
+          console.error('Click insert error:', insertError.message, insertError.details);
+        } else {
+          console.log('Click logged successfully');
+        }
         
         // Update destination click count if smart rotation was used
         if (selectedDestinationIndex >= 0 && linkRecord.destinations) {
