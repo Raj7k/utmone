@@ -23,11 +23,11 @@ import {
   TrendingUp,
   GitBranch,
   Route,
-  DollarSign
+  DollarSign,
+  ChevronDown
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,8 +36,16 @@ import { useSidebar } from "./SidebarProvider";
 import { SidebarUserFooter } from "./SidebarUserFooter";
 import { Button } from "@/components/ui/button";
 import { CreateWorkspaceDialog } from "@/components/workspace/CreateWorkspaceDialog";
+import { LucideIcon } from "lucide-react";
 
-const appNavigation = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+  badge?: boolean;
+}
+
+const appNavigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
@@ -45,7 +53,7 @@ const appNavigation = [
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
-const toolsNavigation = [
+const toolsNavigation: NavItem[] = [
   { name: "QR Codes", href: "/dashboard/qr-codes", icon: QrCode },
   { name: "Targeting", href: "/dashboard/targeting", icon: Target },
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
@@ -54,7 +62,7 @@ const toolsNavigation = [
   { name: "Smart Testing", href: "/dashboard/experiments", icon: Beaker },
 ];
 
-const intelligenceNavigation = [
+const intelligenceNavigation: NavItem[] = [
   { name: "Instant Links", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Fast Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Revenue Attribution", href: "/dashboard/attribution", icon: GitBranch },
@@ -62,25 +70,86 @@ const intelligenceNavigation = [
   { name: "Experiments", href: "/dashboard/experiments", icon: Beaker },
 ];
 
-// Growth navigation hidden for now
-// const growthNavigation = [
-//   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
-// ];
-
-const settingsNavigation = [
+const settingsNavigation: NavItem[] = [
   { name: "Workspace", href: "/settings/workspace", icon: Briefcase },
   { name: "Billing", href: "/settings/billing", icon: CreditCard },
   { name: "Account", href: "/settings/profile", icon: User },
 ];
+
+interface NavGroupProps {
+  name: string;
+  items: NavItem[];
+  isOpen: boolean;
+  onToggle: () => void;
+  isActive: (href: string) => boolean;
+  pendingCount?: number;
+}
+
+const NavGroup = ({ name, items, isOpen, onToggle, isActive, pendingCount }: NavGroupProps) => {
+  const hasActiveItem = items.some(item => isActive(item.href));
+  const shouldBeOpen = isOpen || hasActiveItem;
+
+  return (
+    <Collapsible open={shouldBeOpen} onOpenChange={onToggle}>
+      <div className="space-y-1">
+        <CollapsibleTrigger className="w-full px-3 py-2 flex items-center justify-between rounded-lg hover:bg-muted/50 transition-colors">
+          <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
+            {name}
+          </p>
+          <ChevronDown className={cn(
+            "h-3.5 w-3.5 text-tertiary-label transition-transform duration-200",
+            shouldBeOpen && "rotate-180"
+          )} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-0.5">
+          {items.map((item) => {
+            const active = isActive(item.href);
+            const Icon = item.icon;
+            const showBadge = item.badge && pendingCount && pendingCount > 0;
+
+            return (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
+                  active
+                    ? "bg-muted text-foreground font-medium"
+                    : "text-label hover:bg-fill-tertiary"
+                )}
+              >
+                <Icon className="h-5 w-5 flex-shrink-0" />
+                <span className="flex-1">{formatText(item.name)}</span>
+                {showBadge && (
+                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs font-medium">
+                    {pendingCount > 9 ? '9+' : pendingCount}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
+  );
+};
 
 export const ExpandedSidebar = () => {
   const location = useLocation();
   const { currentWorkspace, workspaces } = useWorkspaceContext();
   const { toggleSidebar, openSearch } = useSidebar();
   
-  const [toolsOpen, setToolsOpen] = useState(true);
-  const [intelligenceOpen, setIntelligenceOpen] = useState(true);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    Workspace: true,
+    Tools: true,
+    Intelligence: true,
+    Settings: true,
+  });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  const toggleGroup = (groupName: string) => {
+    setOpenGroups(prev => ({ ...prev, [groupName]: !prev[groupName] }));
+  };
 
   const { data: pendingCount } = useQuery({
     queryKey: ['pending-approvals-count', currentWorkspace?.id],
@@ -101,9 +170,6 @@ export const ExpandedSidebar = () => {
     if (href === "/dashboard") return location.pathname === href;
     return location.pathname.startsWith(href);
   };
-
-  const hasActiveToolsRoute = toolsNavigation.some(item => isActive(item.href));
-  const hasActiveIntelligenceRoute = intelligenceNavigation.some(item => isActive(item.href));
 
   return (
     <aside className="w-64 h-screen bg-card border-r border-separator flex flex-col z-40">
@@ -135,135 +201,39 @@ export const ExpandedSidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto">
-        {/* WORKSPACE Category */}
-        <div className="space-y-1">
-          <div className="px-3 mb-2">
-            <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-              Workspace
-            </p>
-          </div>
-          {appNavigation.map((item) => {
-            const active = isActive(item.href);
-            const Icon = item.icon;
-            const showBadge = item.badge && pendingCount && pendingCount > 0;
+      <nav className="flex-1 px-3 py-4 space-y-4 overflow-y-auto">
+        <NavGroup
+          name="Workspace"
+          items={appNavigation}
+          isOpen={openGroups.Workspace}
+          onToggle={() => toggleGroup('Workspace')}
+          isActive={isActive}
+          pendingCount={pendingCount}
+        />
 
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                  active
-                    ? "bg-muted text-foreground font-medium"
-                    : "text-label hover:bg-fill-tertiary"
-                )}
-              >
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                <span className="flex-1">{formatText(item.name)}</span>
-                {showBadge && (
-                  <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs font-medium">
-                    {pendingCount > 9 ? '9+' : pendingCount}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
+        <NavGroup
+          name="Tools"
+          items={toolsNavigation}
+          isOpen={openGroups.Tools}
+          onToggle={() => toggleGroup('Tools')}
+          isActive={isActive}
+        />
 
-        {/* TOOLS Category */}
-        <Collapsible open={toolsOpen || hasActiveToolsRoute} onOpenChange={setToolsOpen}>
-          <div className="space-y-1">
-            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
-              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-                Tools
-              </p>
-              <ChevronDown className={cn(
-                "h-3 w-3 text-tertiary-label transition-transform",
-                (toolsOpen || hasActiveToolsRoute) && "rotate-180"
-              )} />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-1">
-              {toolsNavigation.map((item) => {
-                const active = isActive(item.href);
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                      active ? "bg-muted text-foreground font-medium" : "text-label hover:bg-fill-tertiary"
-                    )}
-                  >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span>{formatText(item.name)}</span>
-                  </Link>
-                );
-              })}
-            </CollapsibleContent>
-          </div>
-        </Collapsible>
+        <NavGroup
+          name="Intelligence"
+          items={intelligenceNavigation}
+          isOpen={openGroups.Intelligence}
+          onToggle={() => toggleGroup('Intelligence')}
+          isActive={isActive}
+        />
 
-        {/* INTELLIGENCE Category */}
-        <Collapsible open={intelligenceOpen || hasActiveIntelligenceRoute} onOpenChange={setIntelligenceOpen}>
-          <div className="space-y-1">
-            <CollapsibleTrigger className="w-full px-3 mb-2 flex items-center justify-between group">
-              <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-                Intelligence
-              </p>
-              <ChevronDown className={cn(
-                "h-3 w-3 text-tertiary-label transition-transform",
-                (intelligenceOpen || hasActiveIntelligenceRoute) && "rotate-180"
-              )} />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-1">
-              {intelligenceNavigation.map((item) => {
-                const active = isActive(item.href);
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                      active ? "bg-muted text-foreground font-medium" : "text-label hover:bg-fill-tertiary"
-                    )}
-                  >
-                    <Icon className="h-5 w-5 flex-shrink-0" />
-                    <span>{formatText(item.name)}</span>
-                  </Link>
-                );
-              })}
-            </CollapsibleContent>
-          </div>
-        </Collapsible>
-
-        {/* SETTINGS */}
-        <div className="space-y-1">
-          <div className="px-3 mb-2">
-            <p className="text-xs font-medium text-tertiary-label uppercase tracking-wider">
-              Settings
-            </p>
-          </div>
-          {settingsNavigation.map((item) => {
-            const active = isActive(item.href);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-apple transition-apple",
-                  active ? "bg-muted text-foreground font-medium" : "text-label hover:bg-fill-tertiary"
-                )}
-              >
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                <span>{formatText(item.name)}</span>
-              </Link>
-            );
-          })}
-        </div>
+        <NavGroup
+          name="Settings"
+          items={settingsNavigation}
+          isOpen={openGroups.Settings}
+          onToggle={() => toggleGroup('Settings')}
+          isActive={isActive}
+        />
       </nav>
 
       {/* Team Section */}
