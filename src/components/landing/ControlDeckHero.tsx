@@ -100,7 +100,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
-          className="relative h-[700px] rounded-[32px] overflow-hidden"
+          className="relative h-[600px] rounded-[32px] overflow-hidden"
           style={{
             background: 'rgba(24, 24, 27, 0.2)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -257,15 +257,15 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5, ease: appleEase }}
-                  className="absolute inset-0 p-10 flex flex-col"
+                  className="absolute inset-0 p-8 flex flex-col"
                 >
                   {/* Dynamic Visual Based on Selection */}
-                  <div className="flex-1 flex items-center justify-center mb-6">
+                  <div className="flex-1 flex items-center justify-center mb-4 max-h-[240px]">
                     <DeckVisual type={activeItem.id} />
                   </div>
 
                   {/* Content */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {/* Headline with Brushed Metal Gradient */}
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">
                       {activeItem.headline}
@@ -277,7 +277,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                     </p>
 
                     {/* CTAs */}
-                    <div className="flex items-center gap-4 pt-4">
+                    <div className="flex items-center gap-4 pt-2">
                       <Link to="/early-access">
                         <Button 
                           size="lg"
