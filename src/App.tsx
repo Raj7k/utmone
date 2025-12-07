@@ -421,7 +421,7 @@ const App = () => (
               <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
               <Route path="/links/:linkId" element={<LinkIdRedirect />} />
               <Route path="/dashboard/links/:linkId" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><LinkDetail /></DashboardLayout></Suspense></ProtectedRoute>} />
-              <Route path="/analytics" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Analytics /></Suspense></ProtectedRoute>} />
+              <Route path="/analytics" element={<Navigate to="/dashboard/analytics" replace />} />
               
               {/* 2FA Verification Route */}
               <Route path="/auth/verify-2fa" element={<Suspense fallback={<DashboardSkeleton />}><TotpVerification /></Suspense>} />

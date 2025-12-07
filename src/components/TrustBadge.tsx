@@ -15,27 +15,27 @@ const variantConfig = {
   'ssl-secure': {
     icon: Lock,
     label: 'SSL Secured',
-    style: { background: 'rgba(34,197,94,0.1)', color: 'rgba(34,197,94,0.9)', borderColor: 'rgba(34,197,94,0.2)' },
+    className: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
   },
   'scanned-safe': {
     icon: ShieldCheck,
     label: 'Scanned & Safe',
-    style: { background: 'rgba(34,197,94,0.1)', color: 'rgba(34,197,94,0.9)', borderColor: 'rgba(34,197,94,0.2)' },
+    className: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
   },
   'threats-detected': {
     icon: ShieldAlert,
     label: 'Threats Detected',
-    style: { background: 'rgba(239,68,68,0.1)', color: 'rgba(239,68,68,0.9)', borderColor: 'rgba(239,68,68,0.2)' },
+    className: 'bg-destructive/10 text-destructive border-destructive/20',
   },
   'not-scanned': {
     icon: AlertTriangle,
     label: 'Not Scanned',
-    style: { background: 'rgba(234,179,8,0.1)', color: 'rgba(234,179,8,0.9)', borderColor: 'rgba(234,179,8,0.2)' },
+    className: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20',
   },
   'utm-verified': {
     icon: BadgeCheck,
     label: 'utm.one verified',
-    style: { background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)', borderColor: 'rgba(255,255,255,0.2)' },
+    className: 'bg-muted text-foreground border-border',
   },
 };
 
@@ -65,9 +65,9 @@ export const TrustBadge = ({ variant, size = 'md', className }: TrustBadgeProps)
       className={cn(
         'inline-flex items-center gap-1.5 font-medium',
         sizeStyles.badge,
+        config.className,
         className
       )}
-      style={config.style}
       aria-label={config.label}
     >
       <Icon className={sizeStyles.icon} aria-hidden="true" />

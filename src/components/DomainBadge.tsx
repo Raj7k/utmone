@@ -18,7 +18,7 @@ export const DomainBadge = ({
 }: DomainBadgeProps) => {
   if (isPrimary && isVerified) {
     return (
-      <Badge variant={variant} style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' }}>
+      <Badge variant={variant} className="bg-muted text-foreground border-border">
         {showIcon && <CheckCircle2 className="w-3 h-3 mr-1" />}
         Primary
       </Badge>
@@ -44,7 +44,7 @@ export const DomainBadge = ({
   }
 
   return (
-    <Badge variant="outline" className="border-yellow-600 text-yellow-600">
+    <Badge variant="outline" className="border-yellow-600 text-yellow-600 dark:text-yellow-400">
       {showIcon && <Clock className="w-3 h-3 mr-1" />}
       Pending
     </Badge>

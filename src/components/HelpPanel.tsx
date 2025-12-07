@@ -84,13 +84,9 @@ export const HelpPanel = () => {
           "flex items-center justify-center",
           "transition-all duration-200",
           "hover:scale-110",
+          "bg-primary text-primary-foreground",
           isOpen && "scale-0"
         )}
-        style={{ 
-          background: 'rgba(255,255,255,0.9)', 
-          color: 'rgba(24,24,27,0.9)',
-          boxShadow: '0 0 20px -5px rgba(255,255,255,0.5)'
-        }}
         aria-label="Open help panel"
       >
         <HelpCircle className="w-6 h-6" />
@@ -101,28 +97,21 @@ export const HelpPanel = () => {
         className={cn(
           "fixed top-0 right-0 h-full w-96 shadow-2xl z-50",
           "transform transition-transform duration-300 ease-out",
+          "bg-card backdrop-blur-xl border-l border-border",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
-        style={{ 
-          background: 'rgba(24,24,27,0.95)', 
-          backdropFilter: 'blur(40px)',
-          borderLeft: '1px solid rgba(255,255,255,0.1)'
-        }}
       >
         {/* Header */}
-        <div 
-          className="flex items-center justify-between p-6"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
-        >
-          <h2 className="text-xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h2 className="text-xl font-display font-bold text-foreground">
             Help & Support
           </h2>
           <button
             onClick={() => setIsOpen(false)}
-            className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-white/10"
+            className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:bg-muted"
             aria-label="Close help panel"
           >
-            <X className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.5)' }} />
+            <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
 
@@ -130,7 +119,7 @@ export const HelpPanel = () => {
         <div className="p-6 space-y-8 overflow-y-auto h-[calc(100%-80px)]">
           {/* Context-aware help */}
           <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <h3 className="text-sm font-semibold mb-3 text-foreground">
               {contextHelp.title}
             </h3>
             <div className="space-y-2">
@@ -139,8 +128,7 @@ export const HelpPanel = () => {
                   key={index}
                   to={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm hover:bg-white/10"
-                  style={{ color: 'rgba(255,255,255,0.5)' }}
+                  className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   <Book className="w-4 h-4 flex-shrink-0" />
                   {item.label}
@@ -151,15 +139,14 @@ export const HelpPanel = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <h3 className="text-sm font-semibold mb-3 text-foreground">
               Quick Links
             </h3>
             <div className="space-y-2">
               <Link
                 to="/docs"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm hover:bg-white/10"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
+                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <Book className="w-4 h-4 flex-shrink-0" />
                 Documentation
@@ -167,8 +154,7 @@ export const HelpPanel = () => {
               <Link
                 to="/faq"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm hover:bg-white/10"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
+                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <MessageSquare className="w-4 h-4 flex-shrink-0" />
                 FAQ
@@ -176,8 +162,7 @@ export const HelpPanel = () => {
               <Link
                 to="/changelog"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm hover:bg-white/10"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
+                className="flex items-center gap-2 p-3 rounded-lg transition-colors text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <ExternalLink className="w-4 h-4 flex-shrink-0" />
                 What's New
@@ -186,41 +171,25 @@ export const HelpPanel = () => {
           </div>
 
           {/* Contact Support */}
-          <div 
-            className="rounded-xl p-6"
-            style={{ 
-              background: 'rgba(255,255,255,0.05)', 
-              border: '1px solid rgba(255,255,255,0.1)' 
-            }}
-          >
-            <h3 className="text-sm font-semibold mb-2" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <div className="rounded-xl p-6 bg-muted/50 border border-border">
+            <h3 className="text-sm font-semibold mb-2 text-foreground">
               Need More Help?
             </h3>
-            <p className="text-sm mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-sm mb-4 text-muted-foreground">
               Our support team is here to help you succeed.
             </p>
             <Link
               to="/support"
               onClick={() => setIsOpen(false)}
-              className="inline-flex items-center justify-center w-full px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-              style={{ 
-                background: 'rgba(255,255,255,0.9)', 
-                color: 'rgba(24,24,27,0.9)' 
-              }}
+              className="inline-flex items-center justify-center w-full px-4 py-2 rounded-lg font-medium transition-colors text-sm bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Contact Support
             </Link>
           </div>
 
           {/* Keyboard Shortcut Hint */}
-          <div 
-            className="text-xs text-center pt-4"
-            style={{ 
-              color: 'rgba(255,255,255,0.5)', 
-              borderTop: '1px solid rgba(255,255,255,0.1)' 
-            }}
-          >
-            Press <kbd className="px-2 py-1 rounded font-mono" style={{ background: 'rgba(255,255,255,0.1)' }}>?</kbd> to open help
+          <div className="text-xs text-center pt-4 text-muted-foreground border-t border-border">
+            Press <kbd className="px-2 py-1 rounded font-mono bg-muted">?</kbd> to open help
           </div>
         </div>
       </div>
@@ -228,8 +197,7 @@ export const HelpPanel = () => {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 backdrop-blur-sm z-40"
-          style={{ background: 'rgba(5,5,5,0.8)' }}
+          className="fixed inset-0 backdrop-blur-sm z-40 bg-background/80"
           onClick={() => setIsOpen(false)}
         />
       )}

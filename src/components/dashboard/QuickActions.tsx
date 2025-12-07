@@ -106,7 +106,7 @@ export const QuickActions = ({ workspaceId, hasLinks, hasQrCodes }: QuickActions
         className={`hover:shadow-lg transition-apple cursor-pointer relative ${
           recommendedAction === "view-analytics" ? "ring-2 ring-system-green" : ""
         }`}
-        onClick={() => navigate("/analytics")}
+        onClick={() => navigate("/dashboard/analytics")}
       >
         {recommendedAction === "view-analytics" && (
           <div className="absolute -top-2 -right-2">
