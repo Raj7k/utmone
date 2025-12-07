@@ -72,7 +72,7 @@ export function RecentActivity() {
         {activities.map((activity, index) => (
           <Link
             key={index}
-            to={`/links/${activity.linkId}`}
+            to={`/dashboard/links/${activity.linkId}`}
             className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
           >
             <div className="h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">

@@ -6,12 +6,12 @@ interface LinkInsightBadgeProps {
 }
 
 const insightStyles: Record<InsightType, string> = {
-  hot: "bg-red-500/20 text-red-300 border-red-500/30",
-  rising: "bg-green-500/20 text-green-300 border-green-500/30",
-  declining: "bg-orange-500/20 text-orange-300 border-orange-500/30",
-  "at-risk": "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-  dormant: "bg-white/10 text-white/60 border-white/20",
-  testing: "bg-primary/20 text-primary/80 border-primary/30",
+  hot: "bg-destructive/20 text-destructive border-destructive/30",
+  rising: "bg-green-500/20 text-green-600 dark:text-green-300 border-green-500/30",
+  declining: "bg-orange-500/20 text-orange-600 dark:text-orange-300 border-orange-500/30",
+  "at-risk": "bg-yellow-500/20 text-yellow-600 dark:text-yellow-300 border-yellow-500/30",
+  dormant: "bg-muted text-muted-foreground border-border",
+  testing: "bg-primary/20 text-primary border-primary/30",
 };
 
 export const LinkInsightBadge = ({ linkId }: LinkInsightBadgeProps) => {

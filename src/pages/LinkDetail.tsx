@@ -26,29 +26,23 @@ const LinkDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-grouped-background p-6">
-        <div className="max-w-6xl mx-auto space-y-6">
-          <Skeleton className="h-8 w-64" />
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-[600px] w-full" />
-        </div>
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-[600px] w-full" />
       </div>
     );
   }
 
   if (error || !link) {
     return (
-      <div className="min-h-screen bg-grouped-background p-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-display font-bold mb-4">Link Not Found</h2>
-            <p className="text-secondary-label mb-6">The link you're looking for doesn't exist or you don't have access to it.</p>
-            <Button onClick={() => navigate("/links")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Links
-            </Button>
-          </div>
-        </div>
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-display font-bold mb-4">Link Not Found</h2>
+        <p className="text-secondary-label mb-6">The link you're looking for doesn't exist or you don't have access to it.</p>
+        <Button onClick={() => navigate("/dashboard/links")}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Links
+        </Button>
       </div>
     );
   }
@@ -67,55 +61,55 @@ const LinkDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-grouped-background">
-      <div className="border-b border-separator bg-system-background/80 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto p-6">
-          <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to="/links">Links</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{link.title}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="space-y-4">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/dashboard/links">Links</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{link.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-large-title font-display font-bold text-label">{link.title}</h1>
-                <Badge variant="outline" className={getStatusColor(link.status)}>
-                  {link.status}
-                </Badge>
-              </div>
-              {link.description && (
-                <p className="text-body-apple text-secondary-label">{link.description}</p>
-              )}
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-large-title font-display font-bold text-foreground">{link.title}</h1>
+              <Badge variant="outline" className={getStatusColor(link.status)}>
+                {link.status}
+              </Badge>
             </div>
+            {link.description && (
+              <p className="text-body-apple text-muted-foreground">{link.description}</p>
+            )}
+          </div>
 
-            <div className="flex gap-2">
-              <Button variant="system-tertiary" onClick={() => navigate("/links")}>
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
-              <Button variant="system-secondary" onClick={() => setDuplicateDialogOpen(true)}>
-                <Copy className="h-4 w-4 mr-2" />
-                Duplicate
-              </Button>
-              <Button variant="system-secondary" onClick={() => setDeleteDialogOpen(true)}>
-                <Archive className="h-4 w-4 mr-2" />
-                Archive
-              </Button>
-            </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => navigate("/dashboard/links")}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <Button variant="outline" onClick={() => setDuplicateDialogOpen(true)}>
+              <Copy className="h-4 w-4 mr-2" />
+              Duplicate
+            </Button>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(true)}>
+              <Archive className="h-4 w-4 mr-2" />
+              Archive
+            </Button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto p-6">
+      {/* Tabs */}
+      <div>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid w-full grid-cols-6 mb-6 bg-fill-tertiary">
             <TabsTrigger value="overview" className="data-[state=active]:bg-fill data-[state=active]:text-system-blue">Overview</TabsTrigger>

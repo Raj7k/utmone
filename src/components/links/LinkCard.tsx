@@ -30,16 +30,16 @@ export const LinkCard = ({ link }: LinkCardProps) => {
 
   const handleQR = (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate(`/links/${link.id}?tab=qr`);
+    navigate(`/dashboard/links/${link.id}?tab=qr`);
   };
 
   const handleAnalytics = (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate(`/links/${link.id}?tab=analytics`);
+    navigate(`/dashboard/links/${link.id}?tab=analytics`);
   };
 
   const handleCardClick = () => {
-    navigate(`/links/${link.id}`);
+    navigate(`/dashboard/links/${link.id}`);
   };
 
   return (
