@@ -551,10 +551,10 @@ export function getPricingMetaDescription(): string {
 export function getCompetitorComparison() {
   return {
     utmOne: {
-      name: `utm.one ${PLAN_CONFIG.growth.name}`,
-      price: PLAN_CONFIG.growth.price as number,
-      links: PLAN_CONFIG.growth.features.monthlyLinks as number,
-      users: PLAN_CONFIG.growth.features.teamMembers as number,
+      name: `utm.one ${PLAN_CONFIG.starter.name}`,
+      price: PLAN_CONFIG.starter.price as number,
+      links: PLAN_CONFIG.starter.features.monthlyLinks as number,
+      users: PLAN_CONFIG.starter.features.teamMembers as number,
       highlight: true,
     },
     bitly: {
