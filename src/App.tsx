@@ -448,6 +448,7 @@ const App = () => (
               <Route path="/settings/profile" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
               <Route path="/settings/domains" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
               <Route path="/settings/billing" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
+              <Route path="/settings/tracking" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Settings /></Suspense></ProtectedRoute>} />
               <Route path="/settings/backups" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/backup" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><Backup /></Suspense></ProtectedRoute>} />
               <Route path="/settings/developer" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DeveloperSettings /></Suspense></ProtectedRoute>} />
