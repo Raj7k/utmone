@@ -13,7 +13,8 @@ import {
   ChevronDown,
   Activity,
   TrendingUp,
-  Bell
+  Bell,
+  Chrome
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -51,6 +52,7 @@ const settingsGroups = [
     items: [
       { id: "developers", label: "API Keys", icon: Code2 },
       { id: "integrations", label: "Integrations", icon: Webhook },
+      { id: "extension", label: "Chrome Extension", icon: Chrome, badge: "new" },
     ],
   },
   {

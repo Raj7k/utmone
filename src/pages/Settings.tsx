@@ -27,6 +27,7 @@ import { RoleRecommender } from "@/components/security/RoleRecommender";
 import { TimelineAuditViewer } from "@/components/security/TimelineAuditViewer";
 import { SecurityAlertsWidget } from "@/components/security/SecurityAlertsWidget";
 import { NotificationSettingsCard } from "@/components/settings/NotificationSettingsCard";
+import { ChromeExtensionSettings } from "@/components/settings/ChromeExtensionSettings";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -176,6 +177,8 @@ export default function Settings() {
               {activeTab === "tracking" && <Tracking />}
               
               {activeTab === "pipeline" && <PipelineIntegration />}
+              
+              {activeTab === "extension" && <ChromeExtensionSettings />}
             </div>
           </div>
         </div>

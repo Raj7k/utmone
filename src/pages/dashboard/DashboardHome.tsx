@@ -5,6 +5,7 @@ import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLi
 import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
 import { QuickActionsTile } from "@/components/dashboard/bento/QuickActionsTile";
 import { PulseWatchdogTile } from "@/components/dashboard/bento/PulseWatchdogTile";
+import { ChromeExtensionPromoTile } from "@/components/dashboard/bento/ChromeExtensionPromoTile";
 import { LinkHealthWidget } from "@/components/analytics/LinkHealthWidget";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
 import { WorkspaceHygieneCard } from "@/components/dashboard/WorkspaceHygieneCard";
@@ -27,6 +28,11 @@ const DashboardHome = () => {
         {/* Workspace Hygiene Notifications */}
         <ErrorBoundary section="workspace-hygiene">
           <WorkspaceHygieneCard />
+        </ErrorBoundary>
+
+        {/* Chrome Extension Promo - Dismissible */}
+        <ErrorBoundary section="chrome-extension-promo">
+          <ChromeExtensionPromoTile />
         </ErrorBoundary>
 
         {/* Responsive Bento Grid with proper mobile ordering */}
