@@ -84,17 +84,17 @@ const DashboardHome = () => {
           {/* Row 3: Demo tiles OR real tiles based on demo mode */}
           {showDemoTiles ? (
             <>
-              {/* Demo Attribution Tile - Tier-aware */}
+              {/* Demo Attribution Tile - Tier-aware with key for forced re-render */}
               <div className="md:col-span-6 lg:col-span-6 order-4">
                 <ErrorBoundary section="demo-attribution">
-                  <DemoAttributionTile planTier={demoActivePlan} />
+                  <DemoAttributionTile key={`attr-${demoActivePlan}`} planTier={demoActivePlan} />
                 </ErrorBoundary>
               </div>
 
-              {/* Demo Analytics Tile - Tier-aware */}
+              {/* Demo Analytics Tile - Tier-aware with key for forced re-render */}
               <div className="md:col-span-6 lg:col-span-6 order-5">
                 <ErrorBoundary section="demo-analytics">
-                  <DemoAnalyticsTile planTier={demoActivePlan} />
+                  <DemoAnalyticsTile key={`analytics-${demoActivePlan}`} planTier={demoActivePlan} />
                 </ErrorBoundary>
               </div>
             </>
