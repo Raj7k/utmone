@@ -16,8 +16,10 @@ import {
   LIFETIME_DEAL_CONFIG, 
   TRUST_INDICATORS,
   getLifetimeDealDescription,
-  getLLMPricingData
+  getLLMPricingData,
+  getMaxAnnualDiscountDisplay
 } from "@/lib/pricingPageConfig";
+import { PromoBanner } from "@/components/pricing/PromoBanner";
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -48,6 +50,11 @@ const Pricing = () => {
         type="pricing" 
         data={llmData} 
       />
+
+      {/* Promo Banner - shows when active promotions exist */}
+      <section className="max-w-[980px] mx-auto px-8">
+        <PromoBanner />
+      </section>
 
       {/* Hero Section */}
       <section className="py-24 md:py-32">
