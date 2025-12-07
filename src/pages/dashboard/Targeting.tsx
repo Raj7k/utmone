@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Search, Link2, Plus, ArrowRight } from "lucide-react";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 export default function Targeting() {
   const { linkId } = useParams<{ linkId?: string }>();
@@ -82,13 +82,11 @@ export default function Targeting() {
   );
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="geo-targeting"
-        description="create conditional redirects based on country, device, browser, and more"
-        breadcrumbs={[{ label: "geo-targeting" }]}
-      />
-
+    <PageContentWrapper
+      title="geo-targeting"
+      description="create conditional redirects based on country, device, browser, and more"
+      breadcrumbs={[{ label: "geo-targeting" }]}
+    >
       {linkId ? (
         <EnhancedTargetingRulesManager linkId={linkId} />
       ) : (
@@ -145,7 +143,7 @@ export default function Targeting() {
                   <button
                     key={link.id}
                     onClick={() => navigate(`/dashboard/targeting/${link.id}`)}
-                    className="w-full text-left p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
+                    className="w-full text-left p-4 border border-border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
@@ -172,6 +170,6 @@ export default function Targeting() {
           </CardContent>
         </Card>
       )}
-    </div>
+    </PageContentWrapper>
   );
 }

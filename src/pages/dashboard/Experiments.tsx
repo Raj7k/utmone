@@ -8,7 +8,7 @@ import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
 import { ExperimentConfidenceMeter } from "@/components/experiments/ExperimentConfidenceMeter";
 import { Badge } from "@/components/ui/badge";
 import { useExperiment } from "@/hooks/useExperiment";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 import { CreateExperimentDialog } from "@/components/experiments/CreateExperimentDialog";
 
 export default function Experiments() {
@@ -50,22 +50,17 @@ export default function Experiments() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <PageHeader 
-        title="smart testing"
-        description="find out which version of your link performs better"
-        breadcrumbs={[
-          { label: "smart testing" }
-        ]}
-        action={
-          <Button variant="marketing" onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            new test
-          </Button>
-        }
-      />
-
+    <PageContentWrapper
+      title="smart testing"
+      description="find out which version of your link performs better"
+      breadcrumbs={[{ label: "smart testing" }]}
+      action={
+        <Button variant="default" onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          new test
+        </Button>
+      }
+    >
       {/* Experiments Grid */}
       {experiments && experiments.length > 0 ? (
         <div className="grid gap-6">
@@ -87,7 +82,7 @@ export default function Experiments() {
                 compare two versions of a link to see which one gets more clicks or conversions
               </p>
             </div>
-            <Button className="mt-4" variant="marketing" onClick={() => setIsCreateDialogOpen(true)}>
+            <Button className="mt-4" onClick={() => setIsCreateDialogOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
               start testing
             </Button>
@@ -103,7 +98,7 @@ export default function Experiments() {
           onOpenChange={setIsCreateDialogOpen}
         />
       )}
-    </div>
+    </PageContentWrapper>
   );
 }
 
@@ -117,7 +112,7 @@ function ExperimentCard({ experiment }: ExperimentCardProps) {
   );
 
   return (
-    <Card className="p-6 border-border/50 bg-card">
+    <Card className="p-6 border-border bg-card">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-start justify-between">
@@ -181,7 +176,7 @@ function ExperimentCard({ experiment }: ExperimentCardProps) {
         />
 
         {/* Experiment Stats */}
-        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border/50">
+        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border">
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">started</p>
             <p className="text-sm font-medium text-foreground">

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
@@ -7,6 +6,7 @@ import { SalesActivityFeed } from "@/components/sales/SalesActivityFeed";
 import { Button } from "@/components/ui/button";
 import { Plus, Briefcase, Zap } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
+import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 const Sales = () => {
   const { currentWorkspace } = useWorkspace();
@@ -33,28 +33,17 @@ const Sales = () => {
   });
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <Briefcase className="h-6 w-6 text-primary" />
-            </div>
-            <h1 className="text-2xl font-display font-bold text-foreground">
-              sales companion
-            </h1>
-          </div>
-          <p className="text-muted-foreground">
-            track prospect engagement and get instant alerts when they view your links
-          </p>
-        </div>
+    <PageContentWrapper
+      title="sales companion"
+      description="track prospect engagement and get instant alerts when they view your links"
+      breadcrumbs={[{ label: "sales" }]}
+      action={
         <Button onClick={() => setCreateModalOpen(true)} className="gap-2">
           <Plus className="h-4 w-4" />
           new sales link
         </Button>
-      </div>
-
+      }
+    >
       {/* Stats Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-card border border-border rounded-xl p-4">
@@ -117,7 +106,7 @@ const Sales = () => {
           <SalesActivityFeed />
         </div>
       </div>
-    </div>
+    </PageContentWrapper>
   );
 };
 
