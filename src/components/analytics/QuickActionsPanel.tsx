@@ -1,32 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { 
-  Download, 
   Share2, 
   Calendar, 
-  FileText, 
-  RefreshCw,
-  Settings
+  RefreshCw
 } from "lucide-react";
-import { toast } from "sonner";
+import { ExportButton } from "./ExportButton";
 
 interface QuickActionsPanelProps {
+  workspaceId?: string;
   onRefresh?: () => void;
   isRefreshing?: boolean;
+  onShare?: () => void;
+  onSchedule?: () => void;
 }
 
-export const QuickActionsPanel = ({ onRefresh, isRefreshing }: QuickActionsPanelProps) => {
-  const handleExport = () => {
-    toast.success("Export started. You'll receive an email when ready.");
-  };
-
-  const handleShare = () => {
-    toast.info("Share feature coming soon.");
-  };
-
-  const handleSchedule = () => {
-    toast.info("Report scheduling coming soon.");
-  };
-
+export const QuickActionsPanel = ({ 
+  workspaceId,
+  onRefresh, 
+  isRefreshing,
+  onShare,
+  onSchedule
+}: QuickActionsPanelProps) => {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <Button 
@@ -40,20 +34,14 @@ export const QuickActionsPanel = ({ onRefresh, isRefreshing }: QuickActionsPanel
         Refresh
       </Button>
       
-      <Button 
-        variant="outline" 
-        size="sm" 
-        onClick={handleExport}
-        className="gap-2"
-      >
-        <Download className="h-4 w-4" />
-        Export
-      </Button>
+      {workspaceId && (
+        <ExportButton workspaceId={workspaceId} />
+      )}
       
       <Button 
         variant="outline" 
         size="sm" 
-        onClick={handleShare}
+        onClick={onShare}
         className="gap-2"
       >
         <Share2 className="h-4 w-4" />
@@ -63,7 +51,7 @@ export const QuickActionsPanel = ({ onRefresh, isRefreshing }: QuickActionsPanel
       <Button 
         variant="outline" 
         size="sm" 
-        onClick={handleSchedule}
+        onClick={onSchedule}
         className="gap-2"
       >
         <Calendar className="h-4 w-4" />
