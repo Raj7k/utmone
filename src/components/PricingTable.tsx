@@ -3,8 +3,12 @@ import { Button } from "@/components/ui/button";
 import { PLAN_CONFIG, FEATURE_CATEGORIES, PlanTier } from "@/lib/planConfig";
 import { ADDONS_CONFIG, formatAddonPrice } from "@/lib/addonsConfig";
 import { useState } from "react";
-
-type BillingPeriod = 'monthly' | 'annual';
+import { 
+  getAnnualDiscountedPrice, 
+  getAnnualSavings as getAnnualSavingsFromConfig,
+  getMaxAnnualDiscount,
+  BillingCycle
+} from "@/lib/discountConfig";
 
 interface PricingTableProps {
   onSelect: (tier: string) => void;
@@ -19,7 +23,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
   ];
 
   const [selectedTab, setSelectedTab] = useState<PlanTier>('growth');
-  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>('monthly');
+  const [billingPeriod, setBillingPeriod] = useState<BillingCycle>('monthly');
 
   const getPrice = (plan: typeof plans[0]) => {
     if (plan.price === 'custom') return 'custom';
@@ -28,25 +32,18 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
     if (billingPeriod === 'monthly' || basePrice === 0) {
       return basePrice;
     }
-    // Annual discounts
-    if (plan.tier === 'growth') {
-      return Math.round(basePrice * 0.85); // 15% off → $42
-    }
-    if (plan.tier === 'business') {
-      return Math.round(basePrice * 0.80); // 20% off → $119
-    }
-    return basePrice;
+    
+    // Use dynamic discount config
+    return getAnnualDiscountedPrice(plan.tier, basePrice);
   };
 
-  const getAnnualSavings = (tier: string) => {
-    if (tier === 'growth') {
-      return (49 * 12) - (42 * 12); // $84/year
-    }
-    if (tier === 'business') {
-      return (149 * 12) - (119 * 12); // $360/year
-    }
-    return 0;
+  const getAnnualSavings = (tier: PlanTier) => {
+    const plan = PLAN_CONFIG[tier];
+    if (plan.price === 'custom' || plan.price === 0) return 0;
+    return getAnnualSavingsFromConfig(tier, plan.price);
   };
+
+  const maxDiscount = getMaxAnnualDiscount();
 
   const formatValue = (value: boolean | string | number) => {
     if (typeof value === 'boolean') {
@@ -100,7 +97,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
         >
           <Check className={`w-4 h-4 transition-colors ${billingPeriod === 'annual' ? 'text-foreground' : 'text-muted-foreground'}`} />
           <span className={`text-xs font-medium transition-colors ${billingPeriod === 'annual' ? 'text-foreground' : 'text-muted-foreground'}`}>
-            save up to 20% with annual billing
+            save up to {maxDiscount}% with annual billing
           </span>
         </div>
       </div>
@@ -138,7 +135,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   <div className="text-sm text-muted-foreground">
                     {plan.price === 'custom' ? 'contact us' : `/${billingPeriod === 'annual' ? 'mo, billed annually' : 'month'}`}
                   </div>
-                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && getAnnualSavings(plan.tier) > 0 && (
                     <div className="text-xs font-medium text-primary">
                       save ${getAnnualSavings(plan.tier)}/year
                     </div>
@@ -255,7 +252,7 @@ export const PricingTable = ({ onSelect }: PricingTableProps) => {
                   <div className="text-sm text-muted-foreground">
                     {plan.price === 'custom' ? 'contact us for pricing' : `/${billingPeriod === 'annual' ? 'mo, billed annually' : 'month'}`}
                   </div>
-                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && (
+                  {billingPeriod === 'annual' && plan.tier !== 'free' && plan.tier !== 'enterprise' && getAnnualSavings(plan.tier) > 0 && (
                     <div className="text-xs font-medium text-primary">
                       save ${getAnnualSavings(plan.tier)}/year
                     </div>

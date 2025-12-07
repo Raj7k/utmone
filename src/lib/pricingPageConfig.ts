@@ -1,4 +1,5 @@
 import { PLAN_CONFIG, PlanTier } from './planConfig';
+import { generateDiscountFAQs, getMaxAnnualDiscount } from './discountConfig';
 
 export interface PricingFAQ {
   question: string;
@@ -25,14 +26,14 @@ export const LIFETIME_DEAL_CONFIG: LifetimeDealConfig = {
 };
 
 /**
- * Generate dynamic FAQs based on plan config
+ * Generate dynamic FAQs based on plan config and discount config
  */
 export function generatePricingFAQs(): PricingFAQ[] {
   const free = PLAN_CONFIG.free;
   const growth = PLAN_CONFIG.growth;
   const business = PLAN_CONFIG.business;
   
-  return [
+  const baseFAQs: PricingFAQ[] = [
     {
       question: 'what happens if i exceed my plan limits?',
       answer: `we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.`,
@@ -58,6 +59,19 @@ export function generatePricingFAQs(): PricingFAQ[] {
       answer: `yes! free plan doesn't include custom domains, growth includes ${growth.features.customDomains} domains, business includes ${business.features.customDomains} domains, and enterprise has unlimited.`,
     },
   ];
+
+  // Add discount-related FAQs
+  const discountFAQs = generateDiscountFAQs();
+  
+  return [...baseFAQs, ...discountFAQs];
+}
+
+/**
+ * Get the maximum annual discount for display
+ */
+export function getMaxAnnualDiscountDisplay(): string {
+  const maxDiscount = getMaxAnnualDiscount();
+  return `${maxDiscount}%`;
 }
 
 /**
