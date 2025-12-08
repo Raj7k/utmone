@@ -26,14 +26,14 @@ export const PersonaCalloutCards = ({ callouts }: PersonaCalloutCardsProps) => {
             className="obsidian-glass rounded-xl p-6 transition-colors"
           >
             <div className="flex items-start gap-4">
-              <div className="p-2 rounded-lg shrink-0 bg-primary/10 text-primary">
+              <div className="p-2 rounded-lg shrink-0 bg-white/5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                 <Icon className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold uppercase tracking-wide mb-2 text-foreground/80">
+                <h4 className="text-sm font-semibold uppercase tracking-wide mb-2 text-white/80">
                   {callout.title}
                 </h4>
-                <p className="text-muted-foreground font-sans">
+                <p className="text-white/60 font-sans">
                   {callout.benefit}
                 </p>
               </div>
