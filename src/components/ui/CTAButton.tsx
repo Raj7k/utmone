@@ -35,10 +35,10 @@ export const CTAButton = ({
     >
       <Link to={href} onClick={onClick} className="inline-block group relative">
         {pulse && (
-          <div className="absolute inset-0 rounded-full bg-blazeOrange/30 blur-xl animate-pulse" />
+          <div className="absolute inset-0 rounded-full bg-primary/30 blur-xl animate-pulse" />
         )}
         <Button
-          variant={variant === "primary" ? "marketing-glow" : "outline"}
+          variant={variant === "primary" ? "halo" : "outline"}
           size="lg"
           className={`relative text-base px-8 py-6 rounded-full font-medium lowercase ${className}`}
         >
@@ -54,7 +54,7 @@ export const CTAButton = ({
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-sm text-secondary-label"
+          className="text-sm text-muted-foreground"
         >
           {formatText(trustBadge)}
         </motion.p>
