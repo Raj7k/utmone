@@ -21,15 +21,15 @@ export const CapabilityCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay }}
-      className="group p-8 rounded-2xl bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl border border-border dark:border-white/10 hover:border-border/80 dark:hover:border-white/20 hover:bg-muted/60 dark:hover:bg-zinc-900/60 transition-all duration-300"
+      className="group p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300"
     >
-      <div className="mb-4 inline-flex p-3 rounded-xl bg-primary/10 dark:bg-white/10 text-primary dark:text-white group-hover:bg-primary/20 dark:group-hover:bg-white/20 transition-colors">
+      <div className="mb-4 inline-flex p-3 rounded-xl bg-white/10 text-white group-hover:bg-white/20 transition-colors">
         <Icon className="w-6 h-6" />
       </div>
-      <h3 className="font-display text-xl font-semibold mb-3 text-foreground lowercase">
+      <h3 className="font-display text-xl font-semibold mb-3 text-white lowercase">
         {formatText(title)}
       </h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">
+      <p className="text-sm text-white/60 leading-relaxed">
         {description}
       </p>
     </motion.div>

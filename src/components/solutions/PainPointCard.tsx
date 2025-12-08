@@ -19,7 +19,7 @@ export const PainPointCard = ({ icon: Icon, text, delay = 0 }: PainPointCardProp
       <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center bg-destructive/15">
         <Icon className="w-6 h-6 text-destructive/80" strokeWidth={2} />
       </div>
-      <p className="text-base lowercase text-muted-foreground">{text}</p>
+      <p className="text-base lowercase text-white/60">{text}</p>
     </motion.div>
   );
 };

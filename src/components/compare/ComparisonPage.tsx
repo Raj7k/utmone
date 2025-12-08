@@ -69,7 +69,7 @@ export const ComparisonPage = ({
       <section className="py-24 md:py-32">
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
-            <div className="inline-block px-4 py-1.5 text-xs font-semibold rounded-full uppercase tracking-wide bg-primary/20 text-primary">
+            <div className="inline-block px-4 py-1.5 text-xs font-semibold rounded-full uppercase tracking-wide bg-white/20 text-white">
               {category}
             </div>
             <div className="hero-glow">
@@ -114,7 +114,7 @@ export const ComparisonPage = ({
         <div className="max-w-text-content mx-auto px-8">
           <AnimatedSection className="text-center space-y-3">
             <p className="text-lg text-white brand-lowercase">{summary.line1}</p>
-            <p className="text-lg font-semibold brand-lowercase text-primary">{summary.line2}</p>
+            <p className="text-lg font-semibold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">{summary.line2}</p>
           </AnimatedSection>
         </div>
       </section>
@@ -130,7 +130,7 @@ export const ComparisonPage = ({
                   <p className="text-sm font-semibold text-white brand-lowercase">capability</p>
                 </div>
                 <div className="p-6 text-center">
-                  <p className="text-sm font-semibold brand-lowercase text-primary">utm.one</p>
+                  <p className="text-sm font-semibold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">utm.one</p>
                 </div>
                 <div className="p-6 text-center">
                   <p className="text-sm font-semibold text-white/60 brand-lowercase">{competitor}</p>
@@ -201,8 +201,8 @@ export const ComparisonPage = ({
               </div>
 
               {/* utm.one */}
-              <div className="space-y-6 p-8 backdrop-blur-xl rounded-2xl border bg-primary/10 border-primary/30">
-                <h3 className="text-2xl font-display font-bold brand-lowercase text-primary">
+              <div className="space-y-6 p-8 backdrop-blur-xl rounded-2xl border bg-white/10 border-white/30">
+                <h3 className="text-2xl font-display font-bold brand-lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                   {whoUtmOneIsFor.title}
                 </h3>
                 <ul className="space-y-3">
@@ -212,7 +212,7 @@ export const ComparisonPage = ({
                     </li>
                   ))}
                 </ul>
-                <p className="text-sm font-semibold brand-lowercase pt-4 border-t text-primary border-primary/30">
+                <p className="text-sm font-semibold brand-lowercase pt-4 border-t text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] border-white/30">
                   teams that want clean, trustworthy links.
                 </p>
               </div>

@@ -16,12 +16,12 @@ export const AccessibilityFeatureCard = ({ title, icon: Icon, delay = 0 }: Acces
       transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
       className="relative group"
     >
-      <div className="p-6 rounded-xl bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl border border-border dark:border-white/10 hover:border-border/80 dark:hover:border-white/20 transition-all duration-300">
+      <div className="p-6 rounded-xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">
-            <Icon className="w-6 h-6 text-primary" strokeWidth={2} />
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/10">
+            <Icon className="w-6 h-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" strokeWidth={2} />
           </div>
-          <p className="text-base font-medium text-foreground lowercase">
+          <p className="text-base font-medium text-white lowercase">
             {title}
           </p>
         </div>
