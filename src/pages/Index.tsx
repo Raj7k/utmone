@@ -22,6 +22,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
 const TrustBadgeStrip = lazy(() => import("@/components/landing/TrustBadgeStrip").then(m => ({ default: m.TrustBadgeStrip })));
 const InstantDemoWidget = lazy(() => import("@/components/landing/InstantDemoWidget").then(m => ({ default: m.InstantDemoWidget })));
+const AuthorityToolsStrip = lazy(() => import("@/components/landing/AuthorityToolsStrip").then(m => ({ default: m.AuthorityToolsStrip })));
 const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
 const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
 const DynamicInsightSection = lazy(() => import("@/components/landing/DynamicInsightSection").then(m => ({ default: m.DynamicInsightSection })));
@@ -140,6 +141,11 @@ const Index = () => {
       {/* Instant Demo Widget - Try before signup */}
       <Suspense fallback={<SectionSkeleton />}>
         <InstantDemoWidget />
+      </Suspense>
+
+      {/* Authority Tools Strip - Tool usage proof */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AuthorityToolsStrip />
       </Suspense>
 
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
