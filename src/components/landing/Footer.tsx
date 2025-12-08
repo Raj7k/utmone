@@ -1,21 +1,118 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { Link2, QrCode, Settings, TrendingUp, CheckCircle2, Sparkles, Clock, BookOpen, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { ChronicleRevealText } from "./ChronicleRevealText";
+import { ArrowRight } from "lucide-react";
 
-const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+interface FooterLink {
+  label: string;
+  href: string;
+  featured?: boolean;
+  comingSoon?: boolean;
+}
+
+interface FooterColumn {
+  title: string;
+  links: FooterLink[];
+}
+
+const footerColumns: FooterColumn[] = [
+  {
+    title: "product",
+    links: [
+      { label: "Short Links", href: "/features/short-links", featured: true },
+      { label: "UTM Builder", href: "/features/utm-builder", featured: true },
+      { label: "QR Generator", href: "/features/qr-generator", featured: true },
+      { label: "How It Works", href: "/how-it-works" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "Analytics", href: "/features/analytics" },
+      { label: "Enterprise Control", href: "/features/enterprise-control" },
+      { label: "Permanence", href: "/permanence" },
+      { label: "Integrations", href: "/integrations" },
+    ],
+  },
+  {
+    title: "solutions",
+    links: [
+      { label: "For Marketers", href: "/solutions/marketers" },
+      { label: "For Sales", href: "/solutions/sales" },
+      { label: "For Marketing Ops", href: "/solutions/marketing-ops" },
+      { label: "For Developers", href: "/solutions/developers" },
+      { label: "For Partners", href: "/solutions/partner-managers" },
+      { label: "For RevOps", href: "/solutions/revops" },
+      { label: "For Startups", href: "/solutions/startups" },
+      { label: "For Agencies", href: "/solutions/agencies" },
+    ],
+  },
+  {
+    title: "resources",
+    links: [
+      { label: "Guides", href: "/resources/guides" },
+      { label: "Playbooks", href: "/resources/playbooks" },
+      { label: "LLM Ranking Playbook", href: "/resources/playbooks/llm-ranking", featured: true },
+      { label: "Templates", href: "/resources/templates" },
+      { label: "Frameworks", href: "/resources/frameworks" },
+      { label: "Glossary", href: "/resources/glossary" },
+      { label: "2026 Salary Report", href: "/resources/salary-report", comingSoon: true },
+      { label: "Tools", href: "/tools" },
+      { label: "Docs", href: "/docs" },
+      { label: "Changelog", href: "/changelog" },
+    ],
+  },
+  {
+    title: "compare",
+    links: [
+      { label: "vs Bitly", href: "/compare/bitly" },
+      { label: "vs Rebrandly", href: "/compare/rebrandly" },
+      { label: "vs Short.io", href: "/compare/short-io" },
+      { label: "vs Bl.ink", href: "/compare/blink" },
+      { label: "vs Rewardful", href: "/compare/rewardful" },
+      { label: "vs Partnerstack", href: "/compare/partnerstack" },
+      { label: "vs Firstpromoter", href: "/compare/firstpromoter" },
+      { label: "vs Tolt", href: "/compare/tolt" },
+    ],
+  },
+  {
+    title: "company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Partners", href: "/partners" },
+      { label: "Contact", href: "/contact" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Data & Security", href: "/security" },
+      { label: "Cookie Policy", href: "/cookies" },
+      { label: "Acceptable Use", href: "/acceptable-use" },
+      { label: "Subprocessors", href: "/subprocessors" },
+      { label: "DPA", href: "/dpa" },
+      { label: "Support Policy", href: "/support-policy" },
+      { label: "Permanence", href: "/permanence" },
+    ],
+  },
+];
+
+const FooterLinkItem = ({ link }: { link: FooterLink }) => {
+  return (
+    <Link
+      to={link.href}
+      className={`group flex items-center gap-1.5 text-sm transition-all duration-200 hover:translate-x-1 ${
+        link.featured 
+          ? "text-white/90 hover:text-white" 
+          : "text-white/50 hover:text-white/80"
+      }`}
+    >
+      <span>{link.label}</span>
+      {link.featured && (
+        <ArrowRight className="w-3 h-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+      )}
+      {link.comingSoon && (
+        <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-white/10 text-white/50 lowercase">
+          soon
+        </span>
+      )}
+    </Link>
+  );
+};
 
 export const Footer = () => {
-  const roleLinks = [
-    { label: "marketing", href: "/solutions/marketers" },
-    { label: "sales", href: "/solutions/sales" },
-    { label: "ops", href: "/solutions/marketing-ops" },
-    { label: "dev", href: "/solutions/developers" },
-    { label: "revops", href: "/solutions/revops" },
-    { label: "reporting", href: "/solutions/reporting-team" },
-  ];
-
   return (
     <footer className="relative overflow-hidden bg-[hsl(var(--obsidian-bg))]">
       {/* Noise Texture Overlay */}
@@ -30,312 +127,54 @@ export const Footer = () => {
       {/* Platinum Accent Line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       
-      {/* Bento Grid Layout */}
-      <div className="max-w-[1400px] mx-auto px-8 py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-8 py-16 md:py-20 relative z-10">
+        {/* Main Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-12">
           
-          {/* Brand Tile */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: appleEase }}
-            className="md:col-span-4 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass rounded-[32px]"
-          >
-            <div className="space-y-6">
-              <UtmOneLogo size="lg" />
-              <p className="text-sm leading-relaxed font-medium lowercase obsidian-platinum-text">
-                clarity creates confidence.
-              </p>
-              <p className="text-xs leading-relaxed text-white-40">
-                utm.one gives every link a meaning machines can understand and humans can trust.
-              </p>
-            </div>
-          </motion.div>
+          {/* Brand Column */}
+          <div className="col-span-2 md:col-span-3 lg:col-span-1 space-y-6">
+            <UtmOneLogo size="md" />
+            <p className="text-sm leading-relaxed text-white/50 max-w-[200px]">
+              utm.one gives every link a meaning machines can understand and humans can trust.
+            </p>
+          </div>
 
-          {/* Quick Links Tile */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1, ease: appleEase }}
-            className="md:col-span-4 p-8 transition-all duration-500 hover:scale-[1.02] group obsidian-glass rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                product
+          {/* Link Columns */}
+          {footerColumns.map((column) => (
+            <div key={column.title} className="space-y-4">
+              <h3 className="text-sm font-semibold lowercase tracking-wide text-white/90">
+                {column.title}
               </h3>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-                <Link to="/features/short-links" className="text-sm hover:translate-x-1 transition-all flex items-center gap-2 group/link text-white-50 hover:text-white-80">
-                  <Link2 className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
-                  Short Links
-                </Link>
-                <Link to="/features/utm-builder" className="text-sm hover:translate-x-1 transition-all flex items-center gap-2 group/link text-white-50 hover:text-white-80">
-                  <Settings className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
-                  UTM Builder
-                </Link>
-                <Link to="/features/qr-generator" className="text-sm hover:translate-x-1 transition-all flex items-center gap-2 group/link text-white-50 hover:text-white-80">
-                  <QrCode className="w-3.5 h-3.5 opacity-50 group-hover/link:opacity-100 transition-opacity" />
-                  QR Generator
-                </Link>
-                <Link to="/pricing" className="text-sm hover:translate-x-1 transition-all text-white-50 hover:text-white-80">
-                  Pricing
-                </Link>
-                <Link to="/how-it-works" className="text-sm hover:translate-x-1 transition-all text-white-50 hover:text-white-80">
-                  How It Works
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Free Tools */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: appleEase }}
-            className="md:col-span-4 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                free tools
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: "URL Shortener", href: "/tools/shorten" },
-                  { label: "UTM Builder", href: "/tools/utm-builder" },
-                  { label: "QR Generator", href: "/tools/qr" },
-                  { label: "Link Health", href: "/tools/link-health-checker" },
-                  { label: "Decision Matrix", href: "/tools/decision-frameworks?tab=decision-matrix" },
-                  { label: "ROI Forecaster", href: "/tools/decision-frameworks?tab=roi-forecaster" },
-                ].map((tool) => (
-                  <Link
-                    key={tool.href}
-                    to={tool.href}
-                    className="p-3 rounded-xl transition-all duration-300 text-xs group hover:scale-105 bg-white-03 border border-white-05 text-white-50 hover:text-white-80"
-                  >
-                    <span className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity text-white-70" />
-                      {tool.label}
-                    </span>
-                  </Link>
+              <div className="space-y-2.5">
+                {column.links.map((link) => (
+                  <FooterLinkItem key={link.href} link={link} />
                 ))}
               </div>
             </div>
-          </motion.div>
-
-          {/* AI Intelligence */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3, ease: appleEase }}
-            className="md:col-span-4 p-8 relative overflow-hidden transition-all duration-500 hover:scale-[1.02] obsidian-glass rounded-[32px]"
-          >
-            {/* Subtle white glow */}
-            <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl pointer-events-none bg-white-05" />
-            <div className="relative space-y-4">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-white-80" />
-                <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                  AI intelligence
-                </h3>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { label: "Predictive Analytics", href: "/features/predictive-analytics" },
-                  { label: "Attribution Graph", href: "/features/attribution-graph" },
-                  { label: "Smart Routing", href: "/features/smart-routing" },
-                  { label: "Link Immunity", href: "/features/link-immunity" },
-                ].map((item) => (
-                  <Link 
-                    key={item.href}
-                    to={item.href} 
-                    className="group/ai block text-sm hover:translate-x-1 transition-all flex items-center gap-2 text-white-50 hover:text-white-80"
-                  >
-                    <ArrowRight className="w-3 h-3 opacity-0 group-hover/ai:opacity-100 transition-opacity" />
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* What's New */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4, ease: appleEase }}
-            className="md:col-span-4 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-white-80" />
-                <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                  what&apos;s new
-                </h3>
-                <span className="ml-auto px-2 py-0.5 rounded-full text-xs lowercase bg-white-10 border border-white-15 text-white-70">
-                  new
-                </span>
-              </div>
-              <div className="space-y-3">
-                <Link 
-                  to="/changelog" 
-                  className="block p-3 rounded-xl transition-colors bg-white-03"
-                >
-                  <div className="text-sm font-medium mb-1 text-white-90">
-                    Geo-targeting with Smart Routing
-                  </div>
-                  <div className="text-xs text-white-40">
-                    Send visitors to different URLs based on location
-                  </div>
-                </Link>
-                <Link 
-                  to="/changelog" 
-                  className="block text-sm transition-all flex items-center gap-2 hover:translate-x-1 text-white-50 hover:text-white-80"
-                >
-                  View all updates
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Resources */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5, ease: appleEase }}
-            className="md:col-span-4 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-white-80" />
-                <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                  resources
-                </h3>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { label: "Guides", href: "/docs" },
-                  { label: "Playbooks", href: "/resources/playbooks" },
-                  { label: "Templates", href: "/resources/templates" },
-                  { label: "Frameworks", href: "/resources/frameworks" },
-                  { label: "Glossary", href: "/resources/glossary" },
-                ].map((item) => (
-                  <Link 
-                    key={item.href}
-                    to={item.href} 
-                    className="block text-sm hover:translate-x-1 transition-all text-white-50 hover:text-white-80"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Compare */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6, ease: appleEase }}
-            className="md:col-span-6 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass-30 rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                compare utm.one
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { label: "vs Bitly", href: "/compare/bitly" },
-                  { label: "vs Rebrandly", href: "/compare/rebrandly" },
-                  { label: "vs Short.io", href: "/compare/short-io" },
-                ].map((item) => (
-                  <Link 
-                    key={item.href}
-                    to={item.href} 
-                    className="group/comp p-3 rounded-xl transition-all duration-300 text-sm hover:scale-105 bg-white-03 border border-white-05 text-white-50 hover:text-white-80"
-                  >
-                    <span className="flex items-center gap-2">
-                      {item.label}
-                      <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
-                    </span>
-                  </Link>
-                ))}
-                <Link 
-                  to="/compare" 
-                  className="group/comp p-3 rounded-xl transition-all duration-300 text-sm flex items-center justify-center gap-2 hover:scale-105 bg-white-08 border border-white-15 text-white-80"
-                >
-                  See all comparisons
-                  <ArrowRight className="w-3 h-3 opacity-0 group-hover/comp:opacity-100 transition-opacity" />
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Legal */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.7, ease: appleEase }}
-            className="md:col-span-6 p-8 transition-all duration-500 hover:scale-[1.02] obsidian-glass-30 rounded-[32px]"
-          >
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold lowercase tracking-wide text-white-90">
-                trust & legal
-              </h3>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {[
-                  { label: "Privacy Policy", href: "/privacy" },
-                  { label: "Terms of Service", href: "/terms" },
-                  { label: "Security", href: "/security" },
-                  { label: "Cookie Policy", href: "/cookies" },
-                  { label: "Acceptable Use", href: "/acceptable-use" },
-                  { label: "DPA", href: "/dpa" },
-                ].map((item) => (
-                  <Link 
-                    key={item.href}
-                    to={item.href} 
-                    className="text-sm hover:translate-x-1 transition-all text-white-50 hover:text-white-80"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          ))}
         </div>
 
         {/* Bottom Bar */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.8, ease: appleEase }}
-          className="mt-16 pt-8 border-t border-white-08 flex flex-col md:flex-row items-center justify-between gap-6"
-        >
-          <div className="text-xs text-white-40">
-            © {new Date().getFullYear()} utm.one — clarity creates confidence.
-          </div>
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/40">
+            © {new Date().getFullYear()} utm.one
+          </p>
           
-          {/* Role Links */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {roleLinks.map((link) => (
-              <Link 
-                key={link.href}
-                to={link.href} 
-                className="text-xs transition-all hover:translate-y-[-2px] text-white-50 hover:text-white-80"
-              >
-                {link.label}
-              </Link>
-            ))}
+          {/* Role Quick Links */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-white/40">
+            <Link to="/solutions/marketers" className="hover:text-white/70 transition-colors">marketing</Link>
+            <span className="text-white/20">·</span>
+            <Link to="/solutions/sales" className="hover:text-white/70 transition-colors">sales</Link>
+            <span className="text-white/20">·</span>
+            <Link to="/solutions/marketing-ops" className="hover:text-white/70 transition-colors">ops</Link>
+            <span className="text-white/20">·</span>
+            <Link to="/solutions/developers" className="hover:text-white/70 transition-colors">dev</Link>
+            <span className="text-white/20">·</span>
+            <Link to="/solutions/revops" className="hover:text-white/70 transition-colors">revops</Link>
+            <span className="text-white/20">·</span>
+            <Link to="/solutions/reporting-team" className="hover:text-white/70 transition-colors">reporting</Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );
