@@ -59,7 +59,6 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
         description: `${flagKey} has been added successfully`,
       });
       onOpenChange(false);
-      // Reset form
       setFlagKey("");
       setDescription("");
       setCategory("performance");
@@ -94,7 +93,7 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <Flag className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Flag className="h-5 w-5 text-foreground" />
             <DialogTitle>create feature flag</DialogTitle>
           </div>
           <DialogDescription>

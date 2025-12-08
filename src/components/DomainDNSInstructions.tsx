@@ -172,32 +172,32 @@ export const DomainDNSInstructions = ({
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start gap-2">
-            <CheckCircle2 className="w-5 h-5 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+            <CheckCircle2 className="w-5 h-5 mt-0.5 text-success" />
             <div className="text-sm">
               <strong>Step 1:</strong> Log in to your domain registrar (GoDaddy, Cloudflare,
               Namecheap, etc.)
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <CheckCircle2 className="w-5 h-5 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+            <CheckCircle2 className="w-5 h-5 mt-0.5 text-success" />
             <div className="text-sm">
               <strong>Step 2:</strong> Find the DNS or Domain Settings section
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <CheckCircle2 className="w-5 h-5 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+            <CheckCircle2 className="w-5 h-5 mt-0.5 text-success" />
             <div className="text-sm">
               <strong>Step 3:</strong> Add each DNS record shown above
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <CheckCircle2 className="w-5 h-5 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+            <CheckCircle2 className="w-5 h-5 mt-0.5 text-success" />
             <div className="text-sm">
               <strong>Step 4:</strong> Wait for DNS propagation (up to 72 hours)
             </div>
           </div>
           <div className="flex items-start gap-2">
-            <CheckCircle2 className="w-5 h-5 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+            <CheckCircle2 className="w-5 h-5 mt-0.5 text-success" />
             <div className="text-sm">
               <strong>Step 5:</strong> Come back and click "Verify Domain"
             </div>

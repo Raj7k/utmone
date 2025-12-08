@@ -36,8 +36,7 @@ export const EnginesStackingSection = () => {
   return (
     <section 
       ref={sectionRef} 
-      className="relative py-12 md:py-16"
-      style={{ background: 'rgba(255,255,255,0.02)' }}
+      className="relative py-12 md:py-16 bg-muted/5"
     >
       <div className="max-w-7xl mx-auto px-8">
         {/* Header */}
@@ -47,8 +46,7 @@ export const EnginesStackingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 lowercase"
-            style={{ color: 'rgba(255,255,255,0.9)' }}
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 lowercase text-foreground"
           >
             the three engines
           </motion.h2>
@@ -57,8 +55,7 @@ export const EnginesStackingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl max-w-2xl mx-auto"
-            style={{ color: 'rgba(255,255,255,0.5)' }}
+            className="text-xl max-w-2xl mx-auto text-muted-foreground"
           >
             visitor memory • intelligent attribution • page value scoring
           </motion.p>
@@ -102,11 +99,8 @@ export const EnginesStackingSection = () => {
                   opacity, 
                   zIndex: 10 + index, 
                   willChange: 'transform, opacity',
-                  background: 'rgba(24,24,27,0.6)',
-                  backdropFilter: 'blur(40px)',
-                  border: '1px solid rgba(255,255,255,0.1)'
                 }}
-                className="sticky top-20 rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px]"
+                className="sticky top-20 rounded-3xl p-12 md:p-20 shadow-2xl min-h-[550px] md:min-h-[650px] bg-card backdrop-blur-xl border border-border"
               >
                 <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-16 md:gap-20 h-full`}>
                   {/* Left: Content */}
@@ -118,7 +112,7 @@ export const EnginesStackingSection = () => {
                       </span>
                     </div>
                     
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase text-white/90">
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase text-foreground">
                       {engine.headline}
                     </h3>
 
@@ -126,7 +120,7 @@ export const EnginesStackingSection = () => {
                       {engine.subheadline}
                     </p>
                     
-                    <p className="text-lg leading-relaxed max-w-xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                    <p className="text-lg leading-relaxed max-w-xl text-muted-foreground">
                       {engine.description}
                     </p>
                   </div>
@@ -149,10 +143,7 @@ export const EnginesStackingSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mt-16"
         >
-          <p 
-            className="text-2xl font-display font-semibold lowercase"
-            style={{ color: 'rgba(255,255,255,0.9)' }}
-          >
+          <p className="text-2xl font-display font-semibold lowercase text-foreground">
             every journey tells the full story.
           </p>
         </motion.div>

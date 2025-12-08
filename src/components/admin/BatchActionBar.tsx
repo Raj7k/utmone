@@ -12,16 +12,9 @@ export function BatchActionBar({ selectedCount, onClearSelection, onSendInvites 
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4">
-      <div 
-        className="rounded-lg shadow-lg px-6 py-4 flex items-center gap-4"
-        style={{ 
-          background: 'rgba(255,255,255,0.9)', 
-          color: 'rgba(24,24,27,0.9)',
-          boxShadow: '0 0 30px -5px rgba(255,255,255,0.3)'
-        }}
-      >
+      <div className="rounded-lg shadow-lg px-6 py-4 flex items-center gap-4 bg-primary text-primary-foreground">
         <span className="font-semibold">{selectedCount} user{selectedCount !== 1 ? 's' : ''} selected</span>
-        <div className="h-6 w-px" style={{ background: 'rgba(24,24,27,0.2)' }} />
+        <div className="h-6 w-px bg-primary-foreground/20" />
         <Button 
           size="sm" 
           variant="secondary"

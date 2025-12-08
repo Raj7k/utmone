@@ -21,7 +21,6 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return { requiresMFA: false, hasKeys: false };
 
-      // Check if user has registered authenticators
       const { data: authenticators } = await supabase
         .from('user_authenticators')
         .select('id')
@@ -34,7 +33,6 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
         return { requiresMFA: false, hasKeys: false };
       }
 
-      // Check if MFA is still valid (12 hours)
       const { data: profile } = await supabase
         .from('profiles')
         .select('mfa_verified_at')
@@ -52,7 +50,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
       return { requiresMFA, hasKeys };
     },
     enabled: !!isAdmin && !isAdminLoading,
-    refetchInterval: 5 * 60 * 1000, // Recheck every 5 minutes
+    refetchInterval: 5 * 60 * 1000,
   });
 
   useEffect(() => {
@@ -62,9 +60,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
 
     setIsChecking(false);
 
-    // If admin has keys and needs MFA, redirect to verification
     if (isAdmin && mfaStatus.hasKeys && mfaStatus.requiresMFA) {
-      // Don't redirect if already on MFA verify page
       if (location.pathname !== '/admin/mfa-verify') {
         navigate('/admin/mfa-verify', { replace: true });
       }
@@ -73,10 +69,10 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
 
   if (isChecking || isAdminLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'rgba(5,5,5,1)' }}>
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-3">
-          <Shield className="h-12 w-12 mx-auto animate-pulse" style={{ color: 'rgba(255,255,255,0.8)' }} />
-          <p style={{ color: 'rgba(255,255,255,0.5)' }}>verifying security clearance...</p>
+          <Shield className="h-12 w-12 mx-auto animate-pulse text-foreground" />
+          <p className="text-muted-foreground">verifying security clearance...</p>
         </div>
       </div>
     );
