@@ -74,7 +74,7 @@ export const SecurityTerminal = () => {
   return (
     <div className="relative w-[380px] h-[200px]">
       {/* Terminal window */}
-      <div className="w-full h-full rounded-xl overflow-hidden bg-black/60 border border-white/10 shadow-[inset_0_0_30px_rgba(0,0,0,0.5)]">
+      <div className="w-full h-full rounded-xl overflow-hidden bg-black/60 border border-white/10 shadow-[inset_0_0_30px_hsl(0_0%_0%_/_0.5)]">
         {/* Header */}
         <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border-b border-white/5">
           <div className="w-2 h-2 rounded-full bg-red-500/60" />
@@ -113,7 +113,7 @@ export const SecurityTerminal = () => {
         <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px)',
+            background: 'repeating-linear-gradient(0deg, transparent 0px, transparent 2px, hsl(0 0% 100% / 0.01) 2px, hsl(0 0% 100% / 0.01) 4px)',
           }}
         />
       </div>

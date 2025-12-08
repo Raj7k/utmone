@@ -75,7 +75,7 @@ export const TimelineAuditViewer = () => {
   };
 
   const getEventStyle = (eventType: string) => {
-    if (eventType.includes('security')) return { background: 'rgba(244,63,94,0.1)', color: 'rgba(244,63,94,0.9)' };
+    if (eventType.includes('security')) return { background: 'hsl(351 83% 61% / 0.1)', color: 'hsl(351 83% 61% / 0.9)' };
     return {};
   };
 

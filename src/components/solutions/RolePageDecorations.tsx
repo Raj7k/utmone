@@ -89,7 +89,7 @@ export const HeroGlow = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-3xl bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.1),_transparent)]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-3xl bg-[radial-gradient(ellipse_at_center,_hsl(0_0%_100%_/_0.1),_transparent)]"
       />
     </div>
   );

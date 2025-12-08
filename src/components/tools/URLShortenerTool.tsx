@@ -360,8 +360,7 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
                   setShowAISuggestions(false);
                 }}
                 title="✨ AI slug suggestions"
-                className="hover:opacity-80"
-                style={{ background: 'rgba(139,92,246,0.9)' }}
+                className="hover:opacity-80 bg-purple-500/90"
               >
                 <Sparkles className="h-4 w-4" />
               </Button>

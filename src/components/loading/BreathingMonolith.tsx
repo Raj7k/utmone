@@ -44,14 +44,14 @@ export const BreathingMonolith = ({ onComplete, duration = 3000 }: BreathingMono
 
       {/* The Breathing Pulse */}
       <motion.div
-        className="w-24 h-1 rounded-full bg-white shadow-[0_0_4px_rgba(255,255,255,0.2)]"
+        className="w-24 h-1 rounded-full bg-white shadow-[0_0_4px_hsl(0_0%_100%_/_0.2)]"
         animate={{
           opacity: [0.2, 1, 0.2],
           scaleX: [1, 1.1, 1],
           boxShadow: [
-            "0 0 4px rgba(255,255,255,0.2)",
-            "0 0 12px rgba(255,255,255,0.6)",
-            "0 0 4px rgba(255,255,255,0.2)"
+            "0 0 4px hsl(0 0% 100% / 0.2)",
+            "0 0 12px hsl(0 0% 100% / 0.6)",
+            "0 0 4px hsl(0 0% 100% / 0.2)"
           ]
         }}
         transition={{

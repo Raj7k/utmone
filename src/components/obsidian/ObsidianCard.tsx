@@ -33,7 +33,7 @@ const ObsidianCard = React.forwardRef<HTMLDivElement, ObsidianCardProps>(
         "bg-muted/40 dark:bg-zinc-900/40",
         "backdrop-blur-xl",
         "border border-border dark:border-white/[0.08]",
-        "shadow-lg dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]",
+        "shadow-lg dark:shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.1)]",
       ].join(" "),
       solid: [
         "bg-card dark:bg-obsidian-surface",
@@ -48,12 +48,12 @@ const ObsidianCard = React.forwardRef<HTMLDivElement, ObsidianCardProps>(
     const hoverStyles = hover ? [
       "transition-all duration-300 ease-out",
       "hover:scale-[1.02]",
-      "hover:shadow-xl dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.15)]",
+      "hover:shadow-xl dark:hover:shadow-[0_25px_50px_-12px_hsl(0_0%_0%_/_0.5),inset_0_1px_0_0_hsl(0_0%_100%_/_0.15)]",
       "hover:border-border/80 dark:hover:border-white/[0.15]",
     ].join(" ") : "";
 
     const glowStyles = glow ? [
-      "shadow-[0_0_30px_-10px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)]",
+      "shadow-[0_0_30px_-10px_hsl(var(--primary)/0.2)] dark:shadow-[0_0_30px_-10px_hsl(0_0%_100%_/_0.2)]",
     ].join(" ") : "";
 
     return (

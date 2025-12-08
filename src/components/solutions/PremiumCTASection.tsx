@@ -30,7 +30,7 @@ export const PremiumCTASection = ({
         <div className="absolute bottom-32 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
         
         {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
+        <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(hsl(0_0%_100%_/_0.1)_1px,transparent_1px),linear-gradient(90deg,hsl(0_0%_100%_/_0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
 
       <div className="relative max-w-[1100px] mx-auto px-8 z-10">

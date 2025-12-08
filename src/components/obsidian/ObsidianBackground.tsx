@@ -32,7 +32,7 @@ const ObsidianBackground = React.forwardRef<HTMLDivElement, ObsidianBackgroundPr
     };
 
     const borderStyles = border ? "border border-white/10" : "";
-    const glowStyles = glow ? "shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)]" : "";
+    const glowStyles = glow ? "shadow-[0_0_30px_-10px_hsl(0_0%_100%_/_0.2)]" : "";
 
     return (
       <div

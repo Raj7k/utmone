@@ -40,7 +40,7 @@ export const ToolSelector = ({ onSelectTool }: ToolSelectorProps) => {
         return (
           <Card
             key={tool.id}
-            className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] min-w-0 overflow-hidden"
+            className="cursor-pointer transition-all hover:shadow-[0_8px_32px_hsl(0_0%_0%_/_0.08)] hover:scale-[1.02] min-w-0 overflow-hidden"
             onClick={() => onSelectTool(tool.id)}
           >
             <CardHeader className="p-6">
