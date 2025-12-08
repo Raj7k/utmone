@@ -35,7 +35,7 @@ const About = () => {
           <AnimatedHeadline>
             <div className="text-center space-y-6">
               <div className="hero-glow">
-                <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance">
+                <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance">
                   about utm.one
                 </h1>
               </div>

@@ -20,7 +20,7 @@ export const SectionNumberParallax = ({ number, className = '' }: SectionNumberP
     <div ref={ref} className={`absolute left-0 top-0 pointer-events-none ${className}`}>
       <motion.div
         style={{ y, opacity }}
-        className="text-[200px] md:text-[300px] font-display font-extrabold text-foreground/5 leading-none"
+        className="text-[200px] md:text-[300px] font-display font-bold text-foreground/5 leading-none"
       >
         {number}
       </motion.div>

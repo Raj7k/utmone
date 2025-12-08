@@ -66,7 +66,7 @@ export const StackingFAQCard = ({ card, index, totalCards, scrollProgress }: Sta
         className={`absolute inset-0 ${card.bgColor} rounded-3xl shadow-2xl border border-border overflow-hidden`}
       >
         <div className="h-full flex flex-col items-center justify-center p-12 text-center space-y-8">
-          <h2 className="text-5xl md:text-6xl font-display font-extrabold text-label lowercase">
+          <h2 className="text-5xl md:text-6xl font-display font-bold text-label lowercase">
             ready to get started?
           </h2>
           <p className="text-xl text-secondary-label max-w-2xl">

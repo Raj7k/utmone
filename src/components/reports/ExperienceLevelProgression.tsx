@@ -114,7 +114,7 @@ export const ExperienceLevelProgression = () => {
                   <Badge variant="secondary" className="mt-1">{exp.level}</Badge>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-display font-extrabold text-blazeOrange">
+                  <div className="text-2xl font-display font-bold text-blazeOrange">
                     {formatCurrency(exp.salary)}
                   </div>
                 </div>

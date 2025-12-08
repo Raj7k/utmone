@@ -324,7 +324,7 @@ export const EnhancedSalaryCalculator = () => {
           <div className="space-y-6 pt-6 border-t border-border">
             <div className="text-center space-y-3">
               <div className="text-sm text-secondary-label">Estimated Base Salary</div>
-              <div className="text-5xl font-display font-extrabold text-blazeOrange">
+              <div className="text-5xl font-display font-bold text-blazeOrange">
                 {formatCurrency(result.baseSalary)}
               </div>
               <div className="text-sm text-secondary-label">

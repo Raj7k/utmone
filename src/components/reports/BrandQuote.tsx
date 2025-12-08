@@ -39,7 +39,7 @@ export const BrandQuote = ({
       <div className="hero-glow">
         <motion.h2
           style={{ y, scale }}
-          className={`text-foreground text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-extrabold uppercase tracking-tight leading-none ${getPositionClass()}`}
+          className={`text-foreground text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold uppercase tracking-tight leading-none ${getPositionClass()}`}
         >
           {text}
         </motion.h2>

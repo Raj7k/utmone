@@ -21,7 +21,7 @@ const LifetimeDeal = () => {
               🔥 limited to first 500 customers
             </div>
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-balance">
+              <h1 className="hero-gradient text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-balance">
                 pay once.<br />use forever.
               </h1>
             </div>

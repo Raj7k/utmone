@@ -29,7 +29,7 @@ export const FrameworkPrinciple = ({
       )}
     >
       {/* Number Watermark */}
-      <div className="absolute top-8 right-8 text-7xl font-extrabold pointer-events-none select-none text-primary/5">
+      <div className="absolute top-8 right-8 text-7xl font-bold pointer-events-none select-none text-primary/5">
         {number.toString().padStart(2, '0')}
       </div>
       

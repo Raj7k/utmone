@@ -49,7 +49,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="space-y-8 text-center"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient lowercase">
               How utm.one works
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed max-w-[800px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>

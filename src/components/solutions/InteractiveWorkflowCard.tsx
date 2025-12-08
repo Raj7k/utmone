@@ -65,7 +65,7 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
         />
         
         {/* Step Number Watermark */}
-        <div className="absolute top-2 right-2 md:top-4 md:right-4 text-[60px] sm:text-[80px] md:text-[120px] font-display font-extrabold text-white/5 leading-none pointer-events-none select-none">
+        <div className="absolute top-2 right-2 md:top-4 md:right-4 text-[60px] sm:text-[80px] md:text-[120px] font-display font-bold text-white/5 leading-none pointer-events-none select-none">
           {stepNumber}
         </div>
 

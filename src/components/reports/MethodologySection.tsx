@@ -97,7 +97,7 @@ export const MethodologySection = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Card className="p-6 border-2 hover:shadow-xl transition-apple hover:scale-101 relative overflow-hidden group" style={{ borderColor: colorStyles[item.color].border }}>
-                  <div className="absolute top-4 right-4 text-6xl font-display font-extrabold opacity-5 group-hover:opacity-10 transition-opacity">
+                  <div className="absolute top-4 right-4 text-6xl font-display font-bold opacity-5 group-hover:opacity-10 transition-opacity">
                     {item.step}
                   </div>
                   <div className="w-12 h-12 mb-4 rounded-xl flex items-center justify-center" style={{ background: colorStyles[item.color].bg }}>
