@@ -9,6 +9,7 @@ import { Shield, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { PasswordInput } from "@/components/auth/PasswordInput";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
 /**
  * Dedicated Super Admin Login Page
@@ -228,96 +229,95 @@ const AdminAuth = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: '#050505' }}>
-      {/* Dark background with subtle grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] opacity-20" />
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md space-y-8 relative z-10"
-      >
-        {/* Security warning banner */}
+    <ObsidianMarketingLayout showFloatingNav={false}>
+      <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="bg-amber-950/30 border border-amber-900/50 rounded-2xl p-4 flex items-start gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md space-y-8 relative z-10"
         >
-          <AlertTriangle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
-          <div className="flex-1 space-y-1">
-            <p className="text-sm font-medium text-amber-200">
-              Secure Admin Access
-            </p>
-            <p className="text-xs text-amber-300/70">
-              All login attempts are monitored and logged. Unauthorized access is prohibited.
-            </p>
-          </div>
-        </motion.div>
-
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-zinc-900/60 border border-white/10 mb-2">
-            <Shield className="h-8 w-8 text-white" />
-          </div>
-          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">Mission Control</h1>
-          <p className="text-white/60 text-lg">Administrative portal access</p>
-        </div>
-
-        <Card className="border-white/10 bg-zinc-900/50 backdrop-blur shadow-2xl rounded-2xl">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-display font-bold text-white">Admin Sign In</CardTitle>
-            <CardDescription className="text-white/60">Email and password required</CardDescription>
-          </CardHeader>
-          <CardContent className="p-8 pt-6 space-y-6">
-            <form onSubmit={handleAdminSignIn} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="admin-email" className="text-sm font-medium text-white/80">
-                  Email
-                </label>
-                <Input
-                  id="admin-email"
-                  type="email"
-                  placeholder="admin@utm.one"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="h-14 rounded-xl border-white/10 bg-white/5 text-white placeholder:text-white/40 text-base focus-visible:border-white/30"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="admin-password" className="text-sm font-medium text-white/80">
-                  Password
-                </label>
-                <PasswordInput
-                  id="admin-password"
-                  placeholder="Enter admin password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="border-white/10 bg-white/5 text-white placeholder:text-white/40"
-                />
-              </div>
-              <Button 
-                type="submit" 
-                className="w-full h-14 rounded-xl text-base font-semibold bg-white text-black hover:bg-white/90" 
-                disabled={isLoading}
-              >
-                {isLoading ? "Authenticating…" : "Enter Mission Control"}
-              </Button>
-            </form>
-
-            <div className="text-center text-xs text-white/40 pt-4 border-t border-white/10">
-              Admin accounts are granted, not created
+          {/* Security warning banner */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-start gap-3"
+          >
+            <AlertTriangle className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+            <div className="flex-1 space-y-1">
+              <p className="text-sm font-medium text-amber-200">
+                Secure Admin Access
+              </p>
+              <p className="text-xs text-amber-300/70">
+                All login attempts are monitored and logged. Unauthorized access is prohibited.
+              </p>
             </div>
-          </CardContent>
-        </Card>
+          </motion.div>
 
-        <p className="text-center text-xs text-white/30">
-          All administrative actions are logged and audited
-        </p>
-      </motion.div>
-    </div>
+          <div className="text-center space-y-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-muted border border-border mb-2">
+              <Shield className="h-8 w-8 text-foreground" />
+            </div>
+            <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">Mission Control</h1>
+            <p className="text-muted-foreground text-lg">Administrative portal access</p>
+          </div>
+
+          <Card className="border-border bg-card shadow-2xl rounded-2xl">
+            <CardHeader className="space-y-1 pb-4">
+              <CardTitle className="text-2xl font-display font-bold text-foreground">Admin Sign In</CardTitle>
+              <CardDescription className="text-muted-foreground">Email and password required</CardDescription>
+            </CardHeader>
+            <CardContent className="p-8 pt-6 space-y-6">
+              <form onSubmit={handleAdminSignIn} className="space-y-6">
+                <div className="space-y-2">
+                  <label htmlFor="admin-email" className="text-sm font-medium text-foreground">
+                    Email
+                  </label>
+                  <Input
+                    id="admin-email"
+                    type="email"
+                    placeholder="admin@utm.one"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-14 rounded-xl border-border bg-muted/30 text-foreground placeholder:text-muted-foreground text-base"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="admin-password" className="text-sm font-medium text-foreground">
+                    Password
+                  </label>
+                  <PasswordInput
+                    id="admin-password"
+                    placeholder="Enter admin password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="border-border bg-muted/30 text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full h-14 rounded-xl text-base font-semibold" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Authenticating…" : "Enter Mission Control"}
+                </Button>
+              </form>
+
+              <div className="text-center text-xs text-muted-foreground pt-4 border-t border-border">
+                Admin accounts are granted, not created
+              </div>
+            </CardContent>
+          </Card>
+
+          <p className="text-center text-xs text-muted-foreground">
+            All administrative actions are logged and audited
+          </p>
+        </motion.div>
+      </div>
+    </ObsidianMarketingLayout>
   );
 };
 

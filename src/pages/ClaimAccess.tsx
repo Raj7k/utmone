@@ -3,13 +3,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link as LinkIcon, Lock, CheckCircle2 } from "lucide-react";
+import { Lock, CheckCircle2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
 const claimAccessSchema = z.object({
   email: z.string().email("please enter a valid email"),
@@ -150,98 +150,104 @@ const ClaimAccess = () => {
 
   if (isValidating) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
-        <div className="animate-pulse text-white/60">validating invite...</div>
-      </div>
+      <ObsidianMarketingLayout showFloatingNav={false}>
+        <div className="min-h-[80vh] flex items-center justify-center">
+          <div className="animate-pulse text-muted-foreground">validating invite...</div>
+        </div>
+      </ObsidianMarketingLayout>
     );
   }
 
   if (claimed) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#050505' }}>
-        <div className="w-full max-w-md rounded-2xl p-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.1)' }}>
-              <CheckCircle2 className="h-6 w-6" style={{ color: 'rgba(34,197,94,0.8)' }} />
+      <ObsidianMarketingLayout showFloatingNav={false}>
+        <div className="min-h-[80vh] flex items-center justify-center">
+          <div className="w-full max-w-md rounded-2xl p-8 bg-card border border-border">
+            <div className="text-center">
+              <div className="mx-auto mb-4 h-12 w-12 rounded-full flex items-center justify-center bg-green-500/10">
+                <CheckCircle2 className="h-6 w-6 text-green-500" />
+              </div>
+              <h2 className="text-xl font-display font-bold text-foreground">welcome to utm.one</h2>
+              <p className="text-muted-foreground mt-2">redirecting to onboarding...</p>
             </div>
-            <h2 className="text-xl font-display font-bold text-white">welcome to utm.one</h2>
-            <p className="text-white/60 mt-2">redirecting to onboarding...</p>
           </div>
         </div>
-      </div>
+      </ObsidianMarketingLayout>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
-      <div className="w-full max-w-md rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10">
-        <div className="text-center p-6 pb-4">
-          <div className="mx-auto mb-4 flex items-center gap-2 justify-center">
-            <img 
-              src="/src/assets/utm-one-logo.svg" 
-              alt="utm.one" 
-              className="h-8 w-auto"
-            />
+    <ObsidianMarketingLayout showFloatingNav={false}>
+      <div className="min-h-[80vh] flex items-center justify-center p-4">
+        <div className="w-full max-w-md rounded-2xl bg-card border border-border">
+          <div className="text-center p-6 pb-4">
+            <div className="mx-auto mb-4 flex items-center gap-2 justify-center">
+              <img 
+                src="/src/assets/utm-one-logo.svg" 
+                alt="utm.one" 
+                className="h-8 w-auto"
+              />
+            </div>
+            <h2 className="text-xl font-display font-bold text-foreground">claim your early access</h2>
+            <p className="text-muted-foreground mt-2">create your password to get started</p>
           </div>
-          <h2 className="text-xl font-display font-bold text-white">claim your early access</h2>
-          <p className="text-white/60 mt-2">create your password to get started</p>
-        </div>
-        <div className="p-6 pt-0">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-white/80">email</Label>
-              <Input
-                id="email"
-                type="email"
-                disabled
-                className="bg-white/5 border-white/10 text-white"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.email.message}</p>
-              )}
-            </div>
+          <div className="p-6 pt-0">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-foreground">email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  disabled
+                  className="bg-muted/30 border-border text-foreground"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-white/80">password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="at least 8 characters"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
-                {...register("password")}
-              />
-              {errors.password && (
-                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.password.message}</p>
-              )}
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-foreground">password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="at least 8 characters"
+                  className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  {...register("password")}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-white/80">confirm password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="re-enter your password"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
-                {...register("confirmPassword")}
-              />
-              {errors.confirmPassword && (
-                <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>{errors.confirmPassword.message}</p>
-              )}
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-foreground">confirm password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="re-enter your password"
+                  className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  {...register("confirmPassword")}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+                )}
+              </div>
 
-            <Button
-              type="submit"
-              className="w-full bg-white text-black hover:bg-white/90"
-              disabled={isLoading}
-            >
-              <Lock className="h-4 w-4 mr-2" />
-              {isLoading ? "creating account..." : "claim access"}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
+              >
+                <Lock className="h-4 w-4 mr-2" />
+                {isLoading ? "creating account..." : "claim access"}
+              </Button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </ObsidianMarketingLayout>
   );
 };
 
