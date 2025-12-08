@@ -56,7 +56,7 @@ export function EarlyAccessFAQ() {
                 <AccordionTrigger className="text-left text-lg font-semibold text-white hover:text-white/80">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-base" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <AccordionContent className="text-base text-muted-foreground">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

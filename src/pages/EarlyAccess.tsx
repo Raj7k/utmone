@@ -87,7 +87,7 @@ export default function EarlyAccess() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: '#050505' }}>
+    <div className="min-h-screen bg-obsidian-bg">
       <SEO
         title="Early Access — utm.one"
         description="tracking is messy. utm.one launches soon. get early access. skip the waitlist with 3 referrals."
@@ -118,22 +118,22 @@ export default function EarlyAccess() {
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <p className="text-lg text-foreground/70">
                       join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
                     </p>
                   </div>
                 )}
 
-                <h1 className="font-display font-extrabold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
+                <h1 className="font-display font-bold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
                   let's get you signed up
                 </h1>
-                <p className="text-xl mb-12" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <p className="text-xl mb-12 text-muted-foreground">
                   just a few quick details and you're in.
                 </p>
 
                 <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
                 
-                <p className="text-sm text-center mt-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                <p className="text-sm text-center mt-4 text-muted-foreground/80">
                   we'll send you your position instantly.
                 </p>
               </motion.div>
@@ -158,7 +158,7 @@ export default function EarlyAccess() {
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                    <p className="text-lg text-foreground/70">
                       join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
                     </p>
                   </div>
@@ -166,13 +166,13 @@ export default function EarlyAccess() {
               )}
 
               <AnimatedHeadline>
-                <h1 className="font-display font-extrabold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
+                <h1 className="font-display font-bold text-6xl md:text-7xl lg:text-8xl mb-6 tracking-tighter hero-gradient leading-[1.05]">
                   tracking is messy. we're fixing it.
                 </h1>
               </AnimatedHeadline>
               
               <AnimatedHeadline delay={100}>
-                <p className="text-2xl md:text-3xl mb-12 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <p className="text-2xl md:text-3xl mb-12 leading-relaxed text-muted-foreground">
                   utm.one launches soon. get early access. skip the waitlist with 3 referrals.
                 </p>
               </AnimatedHeadline>
@@ -223,8 +223,7 @@ export default function EarlyAccess() {
               >
                 <button 
                   onClick={scrollToForm}
-                  className="inline-flex items-center gap-2 text-sm font-medium lowercase transition-colors"
-                  style={{ color: 'rgba(255,255,255,0.7)' }}
+                  className="inline-flex items-center gap-2 text-sm font-medium lowercase transition-colors text-foreground/70 hover:text-foreground"
                 >
                   see how it works
                   <ArrowRight className="h-4 w-4" />
@@ -257,7 +256,7 @@ export default function EarlyAccess() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
               your golden ticket to skip the entire line
             </h2>
-            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xl max-w-2xl mx-auto text-muted-foreground">
               every user gets a golden ticket with their name on it. it stays locked until you refer 3 people. after that, it transforms into an animated "ACCESS GRANTED" badge in green.
             </p>
           </motion.div>
@@ -284,7 +283,7 @@ export default function EarlyAccess() {
               "auto-approval email",
             ].map((feature, index) => (
               <div key={index} className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
-                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature}</p>
+                <p className="text-sm text-muted-foreground">{feature}</p>
               </div>
             ))}
           </motion.div>
@@ -306,13 +305,13 @@ export default function EarlyAccess() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
               why build a viral waitlist at all?
             </h2>
-            <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xl leading-relaxed text-muted-foreground">
               utm.one is built for teams who care about clean, trustworthy tracking. we don't want noise in our data — and we don't want noise in our launch.
             </p>
-            <p className="text-xl leading-relaxed mt-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xl leading-relaxed mt-6 text-muted-foreground">
               a viral waitlist rewards the people who help us shape the product early.
             </p>
-            <p className="text-xl leading-relaxed mt-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-xl leading-relaxed mt-6 text-muted-foreground">
               it also keeps the early access community small, focused, and full of power users who value clean-track best practices.
             </p>
           </motion.div>
@@ -349,8 +348,8 @@ export default function EarlyAccess() {
               "you can see your movement live",
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-3 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
-                <Shield className="w-5 h-5 shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
-                <p style={{ color: 'rgba(255,255,255,0.5)' }}>{item}</p>
+                <Shield className="w-5 h-5 shrink-0 text-foreground/70" />
+                <p className="text-muted-foreground">{item}</p>
               </div>
             ))}
           </motion.div>
@@ -366,7 +365,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
               one share can move you 500 places.
             </h2>
           </motion.div>
@@ -375,9 +374,9 @@ export default function EarlyAccess() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-card border-2 border-primary/30 rounded-2xl p-8"
+            className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8"
           >
-            <p className="text-xl text-secondary-label mb-6">your dashboard includes:</p>
+            <p className="text-xl text-muted-foreground mb-6">your dashboard includes:</p>
             <ul className="space-y-3 mb-8">
               {[
                 "your unique link",
@@ -390,13 +389,13 @@ export default function EarlyAccess() {
               ].map((item, index) => (
                 <li key={index} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary" />
-                  <p className="text-secondary-label">{item}</p>
+                  <p className="text-muted-foreground">{item}</p>
                 </li>
               ))}
             </ul>
 
-            <div className="bg-muted/20 rounded-xl p-6 border border-border">
-              <p className="text-sm text-tertiary-label mb-2">sample text for social share:</p>
+            <div className="bg-white/[0.02] rounded-xl p-6 border border-white/10">
+              <p className="text-sm text-muted-foreground/70 mb-2">sample text for social share:</p>
               <p className="text-base text-foreground italic">
                 "i just joined the private beta for utm.one — the new clean-track powered link shortener. use my link to skip the line."
               </p>
@@ -406,7 +405,7 @@ export default function EarlyAccess() {
       </section>
 
       {/* SECTION 9 - WHY PEOPLE ARE JOINING */}
-      <section className="bg-muted/20 py-24 md:py-32 px-6">
+      <section className="bg-white/[0.02] py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -414,7 +413,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
               why people are joining the waitlist
             </h2>
           </motion.div>
@@ -432,9 +431,9 @@ export default function EarlyAccess() {
               "short links + QR + partner tracking in one place",
               "perfect for marketers, founders, creators, and agencies",
             ].map((reason, index) => (
-              <li key={index} className="flex items-start gap-3 rounded-xl p-4" style={{ background: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <Sparkles className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                <p className="text-secondary-label">{reason}</p>
+              <li key={index} className="flex items-start gap-3 rounded-xl p-4 bg-zinc-900/40 border border-white/10">
+                <Sparkles className="w-5 h-5 shrink-0 mt-0.5 text-foreground/80" />
+                <p className="text-muted-foreground">{reason}</p>
               </li>
             ))}
           </motion.ul>
@@ -449,14 +448,14 @@ export default function EarlyAccess() {
               <div className="max-w-2xl mx-auto">
                 {referrerName && (
                   <AnimatedHeadline>
-                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-8 text-center">
+                    <div className="bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-6 mb-8 text-center">
                       <div className="flex items-center justify-center gap-2 mb-2">
-                        <Trophy className="h-5 w-5 text-green-600" />
-                        <p className="font-semibold text-green-900">
+                        <Trophy className="h-5 w-5 text-emerald-400" />
+                        <p className="font-semibold text-emerald-300">
                           you've been invited by {referrerName}
                         </p>
                       </div>
-                      <p className="text-sm text-green-700">
+                      <p className="text-sm text-emerald-400/80">
                         join now to get <strong>1 month of Pro free</strong> when we launch
                       </p>
                     </div>
@@ -464,14 +463,14 @@ export default function EarlyAccess() {
                 )}
 
                 <AnimatedHeadline>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center text-white">
                     enter the waitlist
                   </h2>
                 </AnimatedHeadline>
 
                 <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
                 
-                <p className="text-sm text-center text-tertiary-label mt-4">
+                <p className="text-sm text-center text-muted-foreground/70 mt-4">
                   we'll send you your position instantly.
                 </p>
               </div>
