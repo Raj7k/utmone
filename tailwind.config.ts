@@ -1,10 +1,44 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
+    // OBSIDIAN MONOLITH PROTOCOL: Remap all blue shades to zinc (greyscale)
+    // This prevents any accidental blue usage across the entire codebase
+    colors: {
+      ...colors,
+      // Remap saturated colors to greyscale - forces monochrome aesthetic
+      blue: colors.zinc,
+      indigo: colors.zinc,
+      sky: colors.zinc,
+      cyan: colors.zinc,
+      // Keep these for system use
+      transparent: 'transparent',
+      current: 'currentColor',
+      black: colors.black,
+      white: colors.white,
+      zinc: colors.zinc,
+      gray: colors.gray,
+      slate: colors.slate,
+      neutral: colors.neutral,
+      stone: colors.stone,
+      red: colors.red,
+      orange: colors.orange,
+      amber: colors.amber,
+      yellow: colors.yellow,
+      lime: colors.lime,
+      green: colors.green,
+      emerald: colors.emerald,
+      teal: colors.zinc, // Also remap teal
+      violet: colors.zinc,
+      purple: colors.zinc,
+      fuchsia: colors.zinc,
+      pink: colors.zinc,
+      rose: colors.zinc,
+    },
   	container: {
   		center: true,
   		padding: '2rem',
