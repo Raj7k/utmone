@@ -92,7 +92,7 @@ export function BulkUploadHistory({ workspaceId }: BulkUploadHistoryProps) {
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <History className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                  <History className="w-4 h-4 text-white-80" />
                   <span className="font-medium">
                     {format(new Date(batch.timestamp!), "PPP 'at' p")}
                   </span>

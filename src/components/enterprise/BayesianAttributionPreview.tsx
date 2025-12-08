@@ -68,7 +68,7 @@ export const BayesianAttributionPreview = () => {
             <div className="text-3xl font-bold text-label mb-1">$650K</div>
             <div className="text-sm text-secondary-label">Total Attributed Revenue</div>
           </div>
-          <div className="p-6 rounded-xl border" style={{ background: 'linear-gradient(to bottom right, rgba(255,107,0,0.1), rgba(255,107,0,0.05))', borderColor: 'rgba(255,107,0,0.2)' }}>
+          <div className="p-6 rounded-xl border bg-gradient-to-br from-blazeOrange/10 to-blazeOrange/5 border-blazeOrange/20">
             <TrendingUp className="w-6 h-6 text-blazeOrange mb-2" />
             <div className="text-3xl font-bold text-label mb-1">5.2x</div>
             <div className="text-sm text-secondary-label">Average ROI</div>

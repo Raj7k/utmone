@@ -67,11 +67,11 @@ export function ErrorRecovery({ failedResults, onRetry, onDismiss }: ErrorRecove
   };
 
   return (
-    <Card style={{ borderColor: 'rgba(239,68,68,0.5)' }}>
+    <Card className="border-destructive/50">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5" style={{ color: 'rgba(239,68,68,0.8)' }} />
+            <AlertTriangle className="w-5 h-5 text-destructive/80" />
             <CardTitle className="font-display text-title-2">
               {failedResults.length} link{failedResults.length !== 1 ? 's' : ''} failed
             </CardTitle>
@@ -123,7 +123,7 @@ export function ErrorRecovery({ failedResults, onRetry, onDismiss }: ErrorRecove
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{result.url}</p>
-                  <p className="text-xs mt-1" style={{ color: 'rgba(239,68,68,0.8)' }}>{result.error}</p>
+                  <p className="text-xs mt-1 text-destructive/80">{result.error}</p>
                 </div>
                 <Badge variant={selectedUrls.has(result.url) ? "default" : "outline"} className="text-xs">
                   {selectedUrls.has(result.url) ? 'selected' : 'select'}

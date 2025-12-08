@@ -44,7 +44,7 @@ export const BulkUTMEditor = ({
         )}
         UTM parameters
         {hasUTMValues && !isExpanded && (
-          <span className="ml-2 text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>
+          <span className="ml-2 text-xs text-white-80">
             ({[utm_source, utm_medium, utm_campaign, utm_term, utm_content].filter(Boolean).length} set)
           </span>
         )}

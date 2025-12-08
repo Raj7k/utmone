@@ -30,7 +30,7 @@ export const NextBestActionPanel = ({
       </CardHeader>
       <CardContent className="space-y-3">
         {nextBestAction && (
-          <div className="p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.1)' }}>
+          <div className="p-3 rounded-lg bg-white/10">
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">recommended next step</span>
@@ -58,7 +58,7 @@ export const NextBestActionPanel = ({
                       <span className="text-muted-foreground">
                         {(edge.probability * 100).toFixed(0)}%
                       </span>
-                      <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                      <span className="font-medium text-white-90">
                         ${edge.value.toFixed(2)}
                       </span>
                     </div>

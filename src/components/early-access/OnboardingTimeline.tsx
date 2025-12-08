@@ -11,7 +11,7 @@ const steps = [
 
 export const OnboardingTimeline = () => {
   return (
-    <section className="py-32 md:py-40 px-6 relative overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+    <section className="py-32 md:py-40 px-6 relative overflow-hidden bg-white/[0.02]">
       <GridOverlay />
       <div className="max-w-[900px] mx-auto relative z-10">
         <AnimatedHeadline>
@@ -34,7 +34,7 @@ export const OnboardingTimeline = () => {
                 
                 {/* Step text */}
                 <div className="flex-1 pt-2">
-                  <p className="text-xl md:text-2xl font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                  <p className="text-xl md:text-2xl font-medium text-white-90">
                     {step}
                   </p>
                 </div>
@@ -45,7 +45,7 @@ export const OnboardingTimeline = () => {
         
         <AnimatedHeadline delay={600}>
           <div className="mt-16 text-center space-y-2">
-            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>no rush. no complexity. no overwhelming dashboards.</p>
+            <p className="text-lg text-white/60">no rush. no complexity. no overwhelming dashboards.</p>
           </div>
         </AnimatedHeadline>
       </div>

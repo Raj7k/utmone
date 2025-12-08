@@ -122,7 +122,7 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Shield className="h-5 w-5 text-white-80" />
             <DialogTitle>enable two-factor authentication</DialogTitle>
           </div>
           <DialogDescription>

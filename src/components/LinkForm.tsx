@@ -476,7 +476,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           <AccordionItem value="basic-info" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
-                <Link2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                <Link2 className="h-5 w-5 text-white-80" />
                 <span className="font-serif text-lg font-semibold">Basic Information</span>
                 <Badge variant="destructive" className="text-xs">Required</Badge>
               </div>
@@ -886,7 +886,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
             <AccordionItem value="targeting" className="border rounded-lg px-4">
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-3">
-                  <Target className="h-5 w-5" style={{ color: 'rgba(99,102,241,0.9)' }} />
+                  <Target className="h-5 w-5 text-indigo-500/90" />
                   <span className="font-serif text-lg font-semibold">Geo & Device Targeting</span>
                   <Badge variant="secondary" className="text-xs">Optional</Badge>
                 </div>
@@ -904,7 +904,7 @@ export const LinkForm = ({ workspaceId, onSuccess }: LinkFormProps) => {
           <AccordionItem value="preferences" className="border rounded-lg px-4">
             <AccordionTrigger className="hover:no-underline">
               <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5" style={{ color: 'rgba(168,85,247,1)' }} />
+                <Sparkles className="h-5 w-5 text-purple-500" />
                 <span className="font-serif text-lg font-semibold">Smart Defaults</span>
                 <Badge variant="secondary" className="text-xs">Preferences</Badge>
               </div>

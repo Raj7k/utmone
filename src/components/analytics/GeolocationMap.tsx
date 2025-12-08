@@ -68,7 +68,7 @@ export const GeolocationMap = ({ workspaceId }: GeolocationMapProps) => {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Globe className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Globe className="h-5 w-5 text-white-80" />
             <CardTitle>Top Countries</CardTitle>
           </div>
           <CardDescription>Click distribution by country</CardDescription>

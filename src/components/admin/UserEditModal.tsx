@@ -274,7 +274,7 @@ export const UserEditModal = ({ user, open, onOpenChange }: UserEditModalProps) 
           <div className="space-y-3 p-4 border border-border rounded-lg bg-muted/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                <Shield className="h-4 w-4 text-white-80" />
                 <Label htmlFor="admin-toggle" className="cursor-pointer">admin role</Label>
                 {isAdmin && (
                   <Badge variant="default" className="ml-2">
