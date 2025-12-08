@@ -40,7 +40,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen bg-grouped-background flex w-full overflow-hidden">
+      <div className="dashboard-root min-h-screen bg-grouped-background flex w-full overflow-hidden">
         {/* Desktop Sidebar */}
         <div className="hidden lg:block flex-shrink-0">
           <DashboardSidebarV2 />

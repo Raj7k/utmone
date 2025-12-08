@@ -38,7 +38,7 @@ export const FeatureLayout = ({
       <BreadcrumbSchema items={breadcrumbs} />
       
       {/* Obsidian & Platinum Design System */}
-      <div className="dark min-h-screen flex flex-col relative overflow-hidden bg-obsidian-bg">
+      <div className="dark marketing-root min-h-screen flex flex-col relative overflow-hidden bg-[#050505]">
         {/* Noise Texture Overlay */}
         <div className="obsidian-noise" />
 
