@@ -3,57 +3,34 @@ import { useState, useEffect } from "react";
 
 const processingSteps = [
   "Initializing Core...",
-  "Loading Assets...",
+  "Verifying Identity...",
   "Optimizing Route...",
-  "Preparing Dashboard...",
   "Ready."
 ];
 
-interface LoadingScreenProps {
+interface BreathingMonolithProps {
   onComplete?: () => void;
   duration?: number;
-  showProgress?: boolean;
 }
 
-export const LoadingScreen = ({ 
-  onComplete, 
-  duration = 4000,
-  showProgress = true 
-}: LoadingScreenProps) => {
+export const BreathingMonolith = ({ onComplete, duration = 3000 }: BreathingMonolithProps) => {
   const [stepIndex, setStepIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const stepInterval = setInterval(() => {
+    const interval = setInterval(() => {
       setStepIndex((prev) => {
         const next = prev + 1;
         if (next >= processingSteps.length) {
-          clearInterval(stepInterval);
-          setTimeout(() => onComplete?.(), 300);
+          clearInterval(interval);
+          setTimeout(() => onComplete?.(), 400);
           return prev;
         }
         return next;
       });
-    }, duration / processingSteps.length);
+    }, 800);
 
-    return () => clearInterval(stepInterval);
-  }, [onComplete, duration]);
-
-  useEffect(() => {
-    if (!showProgress) return;
-    
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, duration / 50);
-
-    return () => clearInterval(progressInterval);
-  }, [duration, showProgress]);
+    return () => clearInterval(interval);
+  }, [onComplete]);
 
   return (
     <div className="fixed inset-0 z-50 bg-[#050505] flex flex-col items-center justify-center">
@@ -99,20 +76,6 @@ export const LoadingScreen = ({
           </motion.p>
         </AnimatePresence>
       </div>
-
-      {/* Progress indicator */}
-      {showProgress && (
-        <div className="mt-6 w-32">
-          <div className="h-px bg-zinc-800 rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-zinc-600"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.1 }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
