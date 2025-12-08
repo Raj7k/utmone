@@ -54,12 +54,9 @@ export const ResourcesNavigation = () => {
     <header className={`sticky top-0 z-50 py-4 px-4 md:px-8 transition-all duration-300`}>
       <nav 
         className={`max-w-[1280px] mx-auto backdrop-blur-xl rounded-full px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300 ${
-          isScrolled ? 'scale-95 shadow-lg' : 'scale-100'
+          isScrolled ? 'scale-95 shadow-lg bg-white/95 border border-black/[0.08]' : 'scale-100 bg-white/80 border border-black/[0.08]'
         }`}
         style={{
-          background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.8)',
-          backdropFilter: 'blur(40px)',
-          border: '1px solid rgba(0, 0, 0, 0.08)',
           boxShadow: isScrolled 
             ? '0 4px 24px -4px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 1)' 
             : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.5)'
@@ -67,11 +64,8 @@ export const ResourcesNavigation = () => {
       >
         {/* Scroll Progress Bar */}
         <motion.div
-          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full"
-          style={{ 
-            width: progressWidth,
-            background: 'linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.4), rgba(0,0,0,0.2))'
-          }}
+          className="absolute bottom-0 left-0 h-[2px] origin-left rounded-full bg-gradient-to-r from-black/20 via-black/40 to-black/20"
+          style={{ width: progressWidth }}
         />
 
         {/* Logo */}
@@ -89,15 +83,7 @@ export const ResourcesNavigation = () => {
                   Resources
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div 
-                    className="w-[500px] p-4"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.98)',
-                      backdropFilter: 'blur(40px)',
-                      border: '1px solid rgba(0,0,0,0.1)',
-                      boxShadow: '0 10px 40px -10px rgba(0,0,0,0.15)'
-                    }}
-                  >
+                  <div className="w-[500px] p-4 bg-white/[0.98] backdrop-blur-[40px] border border-black/10 shadow-lg">
                     <div className="grid grid-cols-2 gap-2">
                       {resourceLinks.map((link) => {
                         const IconComponent = link.icon;
