@@ -413,8 +413,28 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground antialiased overflow-x-hidden;
+    @apply bg-background text-foreground font-sans antialiased overflow-x-hidden;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    /* Jony Ive Noise Texture - Always present */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  
+  /* BRAND TYPOGRAPHY ENFORCEMENT */
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight;
+  }
+  
+  /* Platinum Gradient Headlines - Only on dark pages */
+  .dark h1 {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #A1A1AA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Data and IDs use monospace */
+  code, [data-type="id"], [data-type="code"] {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
   /* Obsidian System - Physical Noise Texture (Optional for dark pages) */
