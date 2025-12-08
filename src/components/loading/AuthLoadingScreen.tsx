@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
-const defaultMessages = [
-  "simplicity is loading…",
-  "clarity is loading…",
-  "your link governance starts here…",
-  "welcome to utm.one…",
+const processingSteps = [
+  "Initializing Core...",
+  "Verifying Identity...",
+  "Securing Session...",
+  "Ready."
 ];
 
 interface AuthLoadingScreenProps {
@@ -13,135 +13,70 @@ interface AuthLoadingScreenProps {
 }
 
 export const AuthLoadingScreen = ({ message }: AuthLoadingScreenProps) => {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  // Use custom message or cycle through defaults
-  const authMessages = message ? [message] : defaultMessages;
-  const currentMessage = authMessages[currentMessageIndex];
+  const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {
-    if (!currentMessage) return;
+    // If custom message provided, don't cycle through steps
+    if (message) return;
 
-    let charIndex = 0;
-    setDisplayedText("");
-    setIsTyping(true);
+    const interval = setInterval(() => {
+      setStepIndex((prev) => {
+        const next = prev + 1;
+        if (next >= processingSteps.length) {
+          return 0; // Loop back
+        }
+        return next;
+      });
+    }, 800);
 
-    // Typing phase
-    const typingInterval = setInterval(() => {
-      if (charIndex < currentMessage.length) {
-        setDisplayedText(currentMessage.slice(0, charIndex + 1));
-        charIndex++;
-      } else {
-        clearInterval(typingInterval);
-        setIsTyping(false);
+    return () => clearInterval(interval);
+  }, [message]);
 
-        // Hold phase (1.5s) then move to next message
-        setTimeout(() => {
-          if (currentMessageIndex < authMessages.length - 1) {
-            setCurrentMessageIndex(prev => prev + 1);
-          } else {
-            // Loop back to first message
-            setCurrentMessageIndex(0);
-          }
-        }, 1500);
-      }
-    }, 60); // 60ms per character
-
-    return () => clearInterval(typingInterval);
-  }, [currentMessage, currentMessageIndex]);
+  const displayText = message || processingSteps[stepIndex];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
-      <div className="flex flex-col items-center gap-12">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3"
-        >
-          <img 
-            src="/favicon.svg" 
-            alt="utm.one" 
-            className="h-16 w-16"
-          />
-          <span className="font-display text-4xl font-semibold text-foreground">
-            utm.one
-          </span>
-        </motion.div>
+    <div className="fixed inset-0 z-50 bg-[#050505] flex flex-col items-center justify-center">
+      {/* Noise texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
 
-        {/* Typewriter Text */}
-        <div className="h-32 flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentMessageIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="font-display text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter"
-            >
-              {displayedText.split('').map((char, i) => {
-                // Create gradient color sweep effect
-                const hue = 217 + (i * 3); // Electric Blue base (217) with slight shift
-                const saturation = 91 - (i % 20); // Subtle saturation variation
-                const lightness = 50 + (i % 10); // Subtle lightness variation
-                
-                return (
-                  <motion.span
-                    key={`${currentMessageIndex}-${i}`}
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ 
-                      delay: i * 0.06,
-                      duration: 0.3,
-                      ease: "easeOut"
-                    }}
-                    style={{
-                      color: `hsl(${hue} ${saturation}% ${lightness}%)`,
-                      display: 'inline-block',
-                    }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </motion.span>
-                );
-              })}
-              
-              {/* Blinking cursor while typing */}
-              {isTyping && (
-                <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ 
-                    duration: 0.8, 
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                  className="inline-block ml-1 text-primary"
-                >
-                  |
-                </motion.span>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      {/* The Breathing Pulse */}
+      <motion.div
+        className="w-24 h-1 rounded-full bg-white"
+        animate={{
+          opacity: [0.2, 1, 0.2],
+          scaleX: [1, 1.1, 1],
+          filter: [
+            "drop-shadow(0 0 4px rgba(255,255,255,0.2))",
+            "drop-shadow(0 0 12px rgba(255,255,255,0.6))",
+            "drop-shadow(0 0 4px rgba(255,255,255,0.2))"
+          ]
+        }}
+        transition={{
+          duration: 3,
+          ease: "easeInOut",
+          repeat: Infinity,
+        }}
+      />
 
-        {/* Subtle progress indicator */}
-        <div className="flex gap-2">
-          {authMessages.map((_, i) => (
-            <motion.div
-              key={i}
-              className="h-1 w-8 rounded-full bg-muted"
-              animate={{
-                backgroundColor: i === currentMessageIndex 
-                  ? "hsl(var(--primary))" 
-                  : "hsl(var(--muted))"
-              }}
-              transition={{ duration: 0.3 }}
-            />
-          ))}
-        </div>
+      {/* Typewriter Micro-Copy */}
+      <div className="mt-8 h-5">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={displayText}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="text-zinc-500 text-xs font-mono tracking-wide"
+          >
+            {displayText}
+          </motion.p>
+        </AnimatePresence>
       </div>
     </div>
   );
