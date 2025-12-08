@@ -83,7 +83,7 @@ export default function AttributionGraph() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
             finally know where revenue comes from.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">

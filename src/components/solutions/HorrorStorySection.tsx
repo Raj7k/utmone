@@ -16,23 +16,17 @@ export const HorrorStorySection = ({
   visual 
 }: HorrorStorySectionProps) => {
   return (
-    <div 
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 50%, rgba(24,24,27,0.4) 100%)',
-        border: '2px solid rgba(239,68,68,0.3)'
-      }}
-    >
+    <div className="obsidian-glass rounded-2xl overflow-hidden border-2 border-destructive/30 bg-destructive/5">
       <div className="p-8 md:p-12">
         <div className="flex items-start gap-4 mb-6">
-          <div className="p-3 rounded-xl shrink-0" style={{ background: 'rgba(239,68,68,0.2)', color: 'rgba(239,68,68,0.9)' }}>
+          <div className="p-3 rounded-xl shrink-0 bg-destructive/20 text-destructive">
             <AlertCircle className="w-8 h-8" />
           </div>
           <div>
             <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
               {title}
             </h3>
-            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg leading-relaxed max-w-2xl text-muted-foreground">
               {description}
             </p>
           </div>
@@ -49,10 +43,10 @@ export const HorrorStorySection = ({
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'rgba(239,68,68,0.9)' }}>
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-destructive">
                   {stat.value}
                 </div>
-                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                <div className="text-sm text-muted-foreground">
                   {stat.label}
                 </div>
               </motion.div>

@@ -20,18 +20,18 @@ export const FAQAccordion = ({ items, className }: FAQAccordionProps) => {
       {items.map((item, index) => (
         <div
           key={index}
-          className="border border-white/10 rounded-xl overflow-hidden bg-zinc-900/40 backdrop-blur-xl"
+          className="border border-border rounded-xl overflow-hidden obsidian-glass"
         >
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full flex items-center justify-between p-6 text-left hover:bg-white/5 transition-colors"
+            className="w-full flex items-center justify-between p-6 text-left hover:bg-muted/10 transition-colors"
           >
-            <span className="text-lg font-semibold text-white pr-4">
+            <span className="text-lg font-semibold text-foreground pr-4 font-sans">
               {item.question}
             </span>
             <ChevronDown
               className={cn(
-                "w-5 h-5 text-white/40 flex-shrink-0 transition-transform duration-300",
+                "w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-300",
                 openIndex === index && "rotate-180"
               )}
             />
@@ -43,7 +43,7 @@ export const FAQAccordion = ({ items, className }: FAQAccordionProps) => {
               openIndex === index ? "max-h-[2000px]" : "max-h-0"
             )}
           >
-            <div className="p-6 pt-0 text-white/60">
+            <div className="p-6 pt-0 text-muted-foreground font-sans">
               {item.answer}
             </div>
           </div>
