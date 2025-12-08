@@ -44,15 +44,15 @@ const TOOL_TABS = [
   { id: "quiz", label: "data quality", icon: ClipboardCheck },
 ];
 
-// Core Tools - Bento Grid
+// Core Tools - Bento Grid with clickable links
 const CoreToolsContent = () => {
   const tools = [
-    { id: "short-links", icon: LinkIcon, label: "short links", description: "Branded, memorable URLs" },
-    { id: "utm-builder", icon: Tags, label: "UTM builder", description: "Consistent campaign tagging" },
-    { id: "qr-codes", icon: QrCode, label: "QR codes", description: "Trackable, branded QR codes" },
-    { id: "analytics", icon: BarChart3, label: "analytics", description: "Real-time click tracking" },
-    { id: "clean-track", icon: ShieldCheck, label: "clean-track", description: "Data validation layer" },
-    { id: "governance", icon: Users, label: "governance", description: "Team permissions & approval" },
+    { id: "short-links", icon: LinkIcon, label: "short links", description: "Branded, memorable URLs", href: "/features/short-links" },
+    { id: "utm-builder", icon: Tags, label: "UTM builder", description: "Consistent campaign tagging", href: "/features/utm-builder" },
+    { id: "qr-codes", icon: QrCode, label: "QR codes", description: "Trackable, branded QR codes", href: "/features/qr-generator" },
+    { id: "analytics", icon: BarChart3, label: "analytics", description: "Real-time click tracking", href: "/features/analytics" },
+    { id: "clean-track", icon: ShieldCheck, label: "clean-track", description: "Data validation layer", href: "/features/clean-track" },
+    { id: "governance", icon: Users, label: "governance", description: "Team permissions & approval", href: "/features/enterprise-control" },
   ];
 
   return (
@@ -60,23 +60,41 @@ const CoreToolsContent = () => {
       {tools.map((tool, i) => {
         const Icon = tool.icon;
         return (
-          <motion.div
-            key={tool.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className="group p-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02] obsidian-glass"
-          >
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-foreground/[0.08]">
-              <Icon className="w-5 h-5 text-foreground/80" />
-            </div>
-            <h3 className="text-sm font-display font-semibold lowercase mb-1 text-foreground/90">
-              {tool.label}
-            </h3>
-            <p className="text-xs text-muted-foreground font-sans">
-              {tool.description}
-            </p>
-          </motion.div>
+          <Link key={tool.id} to={tool.href}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ 
+                scale: 1.03, 
+                y: -4,
+                boxShadow: "0 0 24px rgba(255,255,255,0.08)"
+              }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative p-4 rounded-xl cursor-pointer transition-all obsidian-glass border border-transparent hover:border-white/15"
+            >
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-foreground/[0.08] group-hover:bg-foreground/[0.15] transition-colors">
+                <Icon className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
+              </div>
+              <h3 className="text-sm font-display font-semibold lowercase mb-1 text-foreground/90 group-hover:text-foreground transition-colors">
+                {tool.label}
+              </h3>
+              <p className="text-xs text-muted-foreground font-sans mb-3">
+                {tool.description}
+              </p>
+              
+              {/* Learn more with arrow - reveals on hover */}
+              <div className="flex items-center gap-1 text-xs text-white/40 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                <span>learn more</span>
+                <ArrowRight className="w-3 h-3 -translate-x-1 group-hover:translate-x-0 transition-transform duration-300" />
+              </div>
+              
+              {/* Arrow indicator in corner */}
+              <div className="absolute top-3 right-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                <ArrowRight className="w-4 h-4 text-white/50" />
+              </div>
+            </motion.div>
+          </Link>
         );
       })}
     </div>
@@ -92,25 +110,29 @@ const PowerToolsContent = () => {
       id: "testing", 
       icon: FlaskConical, 
       label: "A/B testing", 
-      description: "Split test your destinations with statistical confidence"
+      description: "Split test your destinations with statistical confidence",
+      href: "/dashboard/experiments"
     },
     { 
       id: "guard", 
       icon: ShieldCheck, 
       label: "link guard", 
-      description: "Real-time security scanning and malware detection"
+      description: "Real-time security scanning and malware detection",
+      href: "/features/link-immunity"
     },
     { 
       id: "geo", 
       icon: Globe, 
       label: "geo targeting", 
-      description: "Route visitors to localized destinations by country"
+      description: "Route visitors to localized destinations by country",
+      href: "/features/smart-routing"
     },
     { 
       id: "bulk", 
       icon: Layers, 
       label: "bulk create", 
-      description: "Import hundreds of links from CSV in seconds"
+      description: "Import hundreds of links from CSV in seconds",
+      href: "/dashboard/bulk-create"
     },
   ];
 
@@ -306,37 +328,53 @@ const PowerToolsContent = () => {
 
   return (
     <div className="grid md:grid-cols-5 gap-4 min-h-[400px]">
-      {/* Left: Tool Selector */}
+      {/* Left: Tool Selector with Learn More Links */}
       <div className="md:col-span-2 space-y-2">
         {tools.map((tool) => {
           const Icon = tool.icon;
           const isActive = activeTool === tool.id;
           return (
-            <motion.button
+            <motion.div
               key={tool.id}
-              onClick={() => setActiveTool(tool.id)}
-              className={`w-full flex items-start gap-3 p-4 rounded-xl text-left transition-all ${
+              className={`group relative w-full flex items-start gap-3 p-4 rounded-xl text-left transition-all cursor-pointer ${
                 isActive 
                   ? 'bg-white/[0.08] border border-white/15' 
-                  : 'bg-white/[0.02] border border-white/5'
+                  : 'bg-white/[0.02] border border-white/5 hover:border-white/10'
               }`}
-              whileHover={{ scale: 1.01 }}
+              onClick={() => setActiveTool(tool.id)}
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0 0 20px rgba(255,255,255,0.06)"
+              }}
               whileTap={{ scale: 0.99 }}
             >
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
-                isActive ? 'bg-white/15' : 'bg-white/5'
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                isActive ? 'bg-white/15' : 'bg-white/5 group-hover:bg-white/10'
               }`}>
-                <Icon className={`w-5 h-5 ${isActive ? 'text-white-95' : 'text-white-50'}`} />
+                <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white-95' : 'text-white-50 group-hover:text-white-70'}`} />
               </div>
-              <div className="min-w-0">
-                <h3 className={`text-sm font-semibold lowercase ${isActive ? 'text-white-95' : 'text-white-70'}`}>
+              <div className="min-w-0 flex-1">
+                <h3 className={`text-sm font-semibold lowercase transition-colors ${isActive ? 'text-white-95' : 'text-white-70 group-hover:text-white-90'}`}>
                   {tool.label}
                 </h3>
                 <p className="text-xs mt-0.5 line-clamp-2 text-white-40">
                   {tool.description}
                 </p>
+                {/* Learn more link - reveals on hover */}
+                <Link 
+                  to={tool.href}
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-1 text-xs text-white/40 mt-2 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:text-white/70"
+                >
+                  <span>learn more</span>
+                  <ArrowRight className="w-3 h-3 -translate-x-1 group-hover:translate-x-0 transition-transform duration-300" />
+                </Link>
               </div>
-            </motion.button>
+              {/* Arrow indicator in corner */}
+              <div className="absolute top-3 right-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                <ArrowRight className="w-4 h-4 text-white/40" />
+              </div>
+            </motion.div>
           );
         })}
       </div>
