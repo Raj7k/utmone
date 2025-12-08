@@ -14,13 +14,13 @@ import { AnimatedSection } from "./AnimatedSection";
 
 export const PermanenceShowcase = () => {
   return (
-    <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
+    <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
             your links outlive your tools
           </h1>
-          <p className="text-base sm:text-lg px-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-base sm:text-lg px-2 text-white-50">
             Platform shutdowns shouldn't break the web
           </p>
         </div>
@@ -32,17 +32,16 @@ export const PermanenceShowcase = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-xl p-5"
-            style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="rounded-xl p-5 bg-zinc-900/40 backdrop-blur-xl border border-white-08"
           >
-            <h4 className="font-semibold lowercase mb-4 flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              <Clock className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.7)' }} />
+            <h4 className="font-semibold lowercase mb-4 flex items-center gap-2 text-sm text-white-90">
+              <Clock className="w-4 h-4 text-white-70" />
               link survival timeline
             </h4>
             
             {/* Timeline */}
             <div className="relative">
-              <div className="absolute top-4 bottom-4 left-4 w-0.5" style={{ background: 'rgba(255,255,255,0.08)' }} />
+              <div className="absolute top-4 bottom-4 left-4 w-0.5 bg-white/[0.08]" />
               
               <div className="space-y-3">
                 {[
@@ -65,28 +64,26 @@ export const PermanenceShowcase = () => {
                       transition={{ duration: 0.3, delay: i * 0.08 }}
                     >
                       <div 
-                        className="w-8 h-8 rounded-full flex items-center justify-center relative z-10"
-                        style={isActive 
-                          ? { background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' }
-                          : { background: 'rgba(239,68,68,0.1)', color: 'rgba(239,68,68,0.8)', border: '1px solid rgba(239,68,68,0.2)' }
-                        }
+                        className={`w-8 h-8 rounded-full flex items-center justify-center relative z-10 ${
+                          isActive 
+                            ? 'bg-white-15 text-white-90' 
+                            : 'bg-red-500/10 text-red-500/80 border border-red-500/20'
+                        }`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
                       <div className="flex-1 pt-0.5">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{item.year}</span>
+                          <span className="font-mono text-xs text-white-50">{item.year}</span>
                           <span 
-                            className="font-medium text-sm"
-                            style={isActive ? { color: 'rgba(255,255,255,0.9)' } : { color: 'rgba(239,68,68,0.8)' }}
+                            className={`font-medium text-sm ${isActive ? 'text-white-90' : 'text-red-500/80'}`}
                           >
                             {item.event}
                           </span>
                         </div>
                         {item.desc && (
                           <div 
-                            className="text-xs mt-0.5"
-                            style={isActive ? { color: 'rgba(255,255,255,0.7)' } : { color: 'rgba(255,255,255,0.5)' }}
+                            className={`text-xs mt-0.5 ${isActive ? 'text-white-70' : 'text-white-50'}`}
                           >
                             {item.desc}
                           </div>
@@ -128,33 +125,30 @@ export const PermanenceShowcase = () => {
               return (
                 <motion.div
                   key={feature.title}
-                  className="rounded-xl p-4 transition-all hover:scale-[1.02]"
-                  style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  className="rounded-xl p-4 transition-all hover:scale-[1.02] bg-zinc-900/40 backdrop-blur-xl border border-white-08"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                 >
                   <div 
-                    className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
-                    style={{ background: 'rgba(255,255,255,0.1)' }}
+                    className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10"
                   >
-                    <Icon className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                    <Icon className="w-5 h-5 text-white-80" />
                   </div>
-                  <h3 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h3>
-                  <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.description}</p>
+                  <h3 className="text-sm font-semibold mb-2 lowercase text-white-90">{feature.title}</h3>
+                  <p className="text-xs text-white-50">{feature.description}</p>
                 </motion.div>
               );
             })}
             
-            <p className="text-lg font-semibold lowercase text-center lg:text-left pt-2" style={{ color: 'rgba(255,255,255,0.8)' }}>
+            <p className="text-lg font-semibold lowercase text-center lg:text-left pt-2 text-white-80">
               Reliability is a feature, not a nice-to-have.
             </p>
             
             <Link 
               to="/features/link-immunity"
-              className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80"
-              style={{ color: 'rgba(255,255,255,0.7)' }}
+              className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80 text-white-70"
             >
               learn about link immunity
               <ArrowRight className="h-4 w-4" />

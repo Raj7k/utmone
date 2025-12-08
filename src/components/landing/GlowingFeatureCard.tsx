@@ -14,9 +14,9 @@ export const GlowingFeatureCard = ({
   glowColor
 }: GlowingFeatureCardProps) => {
   const glowClasses = {
-    teal: "shadow-[0_0_60px_rgba(7,102,83,0.3)] group-hover:shadow-[0_0_80px_rgba(7,102,83,0.5)]",
-    "yellow-green": "shadow-[0_0_60px_rgba(227,239,38,0.3)] group-hover:shadow-[0_0_80px_rgba(227,239,38,0.5)]",
-    mint: "shadow-[0_0_60px_rgba(226,251,206,0.3)] group-hover:shadow-[0_0_80px_rgba(226,251,206,0.5)]"
+    teal: "shadow-[0_0_60px_hsl(163_87%_17%/0.3)] group-hover:shadow-[0_0_80px_hsl(163_87%_17%/0.5)]",
+    "yellow-green": "shadow-[0_0_60px_hsl(66_86%_54%/0.3)] group-hover:shadow-[0_0_80px_hsl(66_86%_54%/0.5)]",
+    mint: "shadow-[0_0_60px_hsl(96_76%_90%/0.3)] group-hover:shadow-[0_0_80px_hsl(96_76%_90%/0.5)]"
   };
 
   return (
