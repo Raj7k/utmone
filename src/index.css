@@ -439,6 +439,35 @@ All colors MUST be HSL.
   background-color: hsl(var(--fill-tertiary));
 }
 
+/* ============================================
+   GLASSMORPHISM & OVERLAY UTILITIES
+   Theme-aware glass and overlay backgrounds
+   ============================================ */
+.bg-glass {
+  background-color: hsl(var(--card));
+}
+
+.bg-glass-dark {
+  background-color: hsl(var(--card) / 0.8);
+}
+
+.bg-overlay {
+  background-color: hsl(0 0% 0% / 0.8);
+}
+
+.bg-subtle {
+  background-color: hsl(var(--muted) / 0.05);
+}
+
+/* Text color utilities for inline style replacement */
+.text-success {
+  color: hsl(var(--success));
+}
+
+.text-warning {
+  color: hsl(var(--warning));
+}
+
 @layer base {
   * {
     @apply border-border;

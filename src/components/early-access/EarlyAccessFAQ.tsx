@@ -39,7 +39,7 @@ export function EarlyAccessFAQ() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-foreground">
             frequently asked questions
           </h2>
         </motion.div>
@@ -52,8 +52,8 @@ export function EarlyAccessFAQ() {
         >
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-white/10">
-                <AccordionTrigger className="text-left text-lg font-semibold text-white hover:text-white/80">
+              <AccordionItem key={index} value={`item-${index}`} className="border-border">
+                <AccordionTrigger className="text-left text-lg font-semibold text-foreground hover:text-foreground/80">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground">
