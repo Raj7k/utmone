@@ -43,7 +43,7 @@ export const LinkLayersSection = () => {
   });
 
   return (
-    <section ref={sectionRef} className="relative py-12 md:py-16" style={{ background: 'rgba(255,255,255,0.02)' }}>
+    <section ref={sectionRef} className="relative py-12 md:py-16 bg-white/[0.02]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <div className="text-center mb-8">
@@ -76,13 +76,12 @@ export const LinkLayersSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="rounded-2xl p-6 shadow-sm"
-              style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="rounded-2xl p-6 shadow-sm bg-zinc-900/40 backdrop-blur-xl border border-white-08"
             >
               <div className="flex flex-col gap-4">
                 {/* Number Badge */}
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full self-start" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                  <span className="text-sm font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full self-start bg-white/5 border border-white-10">
+                  <span className="text-sm font-display font-bold text-white-90">
                     {layer.number}/5
                   </span>
                 </div>
@@ -142,17 +141,14 @@ export const LinkLayersSection = () => {
                   opacity, 
                   zIndex: 10 + index, 
                   willChange: 'transform, opacity',
-                  background: 'rgba(24,24,27,0.6)', 
-                  backdropFilter: 'blur(40px)', 
-                  border: '2px solid rgba(255,255,255,0.1)' 
                 }}
-                className="sticky top-20 rounded-3xl p-8 lg:p-12 xl:p-20 shadow-2xl min-h-[550px] lg:min-h-[650px]"
+                className="sticky top-20 rounded-3xl p-8 lg:p-12 xl:p-20 shadow-2xl min-h-[550px] lg:min-h-[650px] bg-zinc-900/60 backdrop-blur-xl border-2 border-white-10"
               >
                 <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12 xl:gap-20 h-full`}>
                   {/* Content */}
                   <div className="flex-1 space-y-4 lg:space-y-6">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                      <span className="text-lg lg:text-xl font-display font-bold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white-10">
+                      <span className="text-lg lg:text-xl font-display font-bold text-white-90">
                         {layer.number}/5
                       </span>
                     </div>

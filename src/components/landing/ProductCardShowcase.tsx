@@ -50,10 +50,10 @@ export const ProductCardShowcase = ({
   return (
     <div ref={ref} className="space-y-4">
       <div
-        className={`relative rounded-xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl hover:scale-[1.02] group ${animationClass}`}
-        style={{ perspective: "1000px", border: '1px solid rgba(255,255,255,0.1)' }}
+        className={`relative rounded-xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl hover:scale-[1.02] group border border-white-10 ${animationClass}`}
+        style={{ perspective: "1000px" }}
       >
-        <div className={`w-full ${aspectRatioClass}`} style={{ background: 'rgba(255,255,255,0.05)' }}>
+        <div className={`w-full ${aspectRatioClass} bg-white/5`}>
           <img
             src={imageUrl}
             alt={title}
@@ -61,9 +61,9 @@ export const ProductCardShowcase = ({
             loading="lazy"
           />
         </div>
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(5,5,5,0.8), transparent)' }} />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-t from-obsidian/80 to-transparent" />
       </div>
-      <p className="text-sm text-center lowercase tracking-wide" style={{ color: 'rgba(255,255,255,0.5)' }}>
+      <p className="text-sm text-center lowercase tracking-wide text-white-50">
         {caption}
       </p>
     </div>

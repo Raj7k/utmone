@@ -8,7 +8,7 @@ export const ForecastingPreview = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10"
+      className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white-10"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
@@ -18,7 +18,7 @@ export const ForecastingPreview = () => {
           </h3>
           <p className="text-sm text-white/50">7-day prediction with confidence band</p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15">
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white-15">
           <TrendingUp className="w-4 h-4 text-white-80" />
           <span className="text-sm font-semibold text-white-80">85% confidence</span>
         </div>
@@ -38,8 +38,7 @@ export const ForecastingPreview = () => {
           {/* Confidence Band */}
           <path
             d="M 0 120 Q 100 110 150 100 T 300 90 L 400 85 L 400 160 Q 300 170 150 180 Q 100 185 0 190 Z"
-            fill="rgba(255,255,255,0.1)"
-            className="animate-pulse"
+            className="fill-white/10 animate-pulse"
             style={{ animationDuration: '3s' }}
           />
           
@@ -47,7 +46,7 @@ export const ForecastingPreview = () => {
           <path
             d="M 0 150 Q 100 140 150 120 T 300 110 L 400 100"
             fill="none"
-            stroke="rgba(255,255,255,0.8)"
+            className="stroke-white-80"
             strokeWidth="3"
             strokeLinecap="round"
           />
@@ -57,7 +56,7 @@ export const ForecastingPreview = () => {
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full shadow-lg bg-white/90"
+          className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full shadow-lg bg-white-90"
         />
       </div>
 

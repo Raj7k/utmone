@@ -5,19 +5,13 @@ export const RetroGradientMesh = () => {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Base gradient layer - Obsidian dark */}
       <div 
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.02), #050505, #050505)'
-        }}
+        className="absolute inset-0 bg-gradient-to-br from-white/[0.02] via-obsidian to-obsidian"
       />
       
       {/* Animated gradient orbs */}
       {/* Top-left: Primary blue orb */}
       <motion.div
-        className="absolute -top-[20%] -left-[15%] w-[800px] h-[800px] rounded-full blur-[120px]"
-        style={{
-          background: "radial-gradient(circle, hsl(243 70% 24% / 0.4) 0%, transparent 70%)"
-        }}
+        className="absolute -top-[20%] -left-[15%] w-[800px] h-[800px] rounded-full blur-[120px] bg-[radial-gradient(circle,hsl(243_70%_24%/0.4)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.15, 1],
           x: [0, 50, 0],
@@ -32,10 +26,7 @@ export const RetroGradientMesh = () => {
       
       {/* Bottom-right: Deep blue orb */}
       <motion.div
-        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[100px]"
-        style={{
-          background: "radial-gradient(circle, hsl(217 91% 50% / 0.25) 0%, transparent 70%)"
-        }}
+        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(217_91%_50%/0.25)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.2, 1],
           x: [0, -40, 0],
@@ -50,10 +41,7 @@ export const RetroGradientMesh = () => {
       
       {/* Center-right: Platinum accent */}
       <motion.div
-        className="absolute top-[30%] right-[10%] w-[500px] h-[500px] rounded-full blur-[80px]"
-        style={{
-          background: "radial-gradient(circle, hsl(0 0% 90% / 0.08) 0%, transparent 70%)"
-        }}
+        className="absolute top-[30%] right-[10%] w-[500px] h-[500px] rounded-full blur-[80px] bg-[radial-gradient(circle,hsl(0_0%_90%/0.08)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.1, 1],
           rotate: [0, 180, 360],
@@ -67,10 +55,7 @@ export const RetroGradientMesh = () => {
       
       {/* Top-right: Subtle platinum blend */}
       <motion.div
-        className="absolute -top-[5%] right-[20%] w-[600px] h-[600px] rounded-full blur-[100px]"
-        style={{
-          background: "radial-gradient(circle, hsl(240 10% 70% / 0.1) 0%, transparent 70%)"
-        }}
+        className="absolute -top-[5%] right-[20%] w-[600px] h-[600px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(240_10%_70%/0.1)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.12, 1],
           x: [0, -30, 0],
@@ -161,10 +146,7 @@ export const RetroGradientMesh = () => {
       
       {/* Subtle vignette for depth - dark Obsidian fade */}
       <div 
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 0%, rgba(5, 5, 5, 0.3) 100%)"
-        }}
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--obsidian-bg)/0.3)_100%)]"
       />
     </div>
   );
