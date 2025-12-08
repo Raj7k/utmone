@@ -93,7 +93,7 @@ export function ValidationReport({ validations, stats }: ValidationReportProps) 
                     <AlertTriangle className="w-4 h-4 text-warning flex-shrink-0" />
                   )}
                   {validation.existsInDatabase && (
-                    <Info className="w-4 h-4 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                    <Info className="w-4 h-4 flex-shrink-0 text-white-80" />
                   )}
                   <p className="text-sm font-medium truncate flex-1">{validation.url}</p>
                 </div>
