@@ -100,21 +100,13 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
-          className="relative h-[600px] rounded-[32px] overflow-hidden"
-          style={{
-            background: 'rgba(24, 24, 27, 0.2)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
-          }}
+          className="relative h-[600px] rounded-[32px] overflow-hidden bg-zinc-900/20 border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%/0.5),0_0_0_1px_hsl(0_0%_100%/0.05)_inset]"
         >
           <div className="flex h-full">
             {/* Navigation Rail (Left Sidebar) - The Controls */}
             <div className="relative w-[300px] flex-shrink-0 p-5 flex flex-col">
               {/* Section Label */}
-              <p 
-                className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'rgba(255, 255, 255, 0.3)' }}
-              >
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4 text-white/30">
                 Control Deck
               </p>
 
@@ -134,12 +126,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {isActive && (
                         <motion.div
                           layoutId="activeGlow"
-                          className="absolute inset-0 rounded-xl"
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            boxShadow: '0 0 20px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                          }}
+                          className="absolute inset-0 rounded-xl bg-white/5 shadow-[0_0_20px_hsl(0_0%_100%/0.15),inset_0_1px_0_hsl(0_0%_100%/0.1)] border border-white/10"
                           transition={{ 
                             type: "spring", 
                             stiffness: 400, 
@@ -151,42 +138,22 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       <div className="relative z-10 flex items-start gap-3">
                         {/* Icon Container */}
                         <div 
-                          className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5"
-                          style={{
-                            background: isActive 
-                              ? 'rgba(255, 255, 255, 0.1)' 
-                              : 'rgba(255, 255, 255, 0.03)',
-                          }}
+                          className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 mt-0.5 ${isActive ? 'bg-white/10' : 'bg-white/[0.03]'}`}
                         >
                           <Icon 
-                            className="w-4 h-4 transition-colors duration-300"
-                            style={{
-                              color: isActive 
-                                ? 'rgba(255, 255, 255, 0.9)' 
-                                : 'rgba(113, 113, 122, 1)',
-                            }}
+                            className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-white/90' : 'text-zinc-500'}`}
                           />
                         </div>
 
                         {/* Labels */}
                         <div className="flex-1 min-w-0">
                           <span
-                            className="block font-medium text-sm tracking-wide transition-colors duration-300 lowercase"
-                            style={{
-                              color: isActive 
-                                ? 'rgba(255, 255, 255, 0.95)' 
-                                : 'rgba(113, 113, 122, 1)',
-                            }}
+                            className={`block font-medium text-sm tracking-wide transition-colors duration-300 lowercase ${isActive ? 'text-white/95' : 'text-zinc-500'}`}
                           >
                             {item.label}
                           </span>
                           <span
-                            className="block text-xs mt-0.5 transition-colors duration-300 lowercase"
-                            style={{
-                              color: isActive 
-                                ? 'rgba(255, 255, 255, 0.5)' 
-                                : 'rgba(113, 113, 122, 0.6)',
-                            }}
+                            className={`block text-xs mt-0.5 transition-colors duration-300 lowercase ${isActive ? 'text-white/50' : 'text-zinc-500/60'}`}
                           >
                             {item.sublabel}
                           </span>
@@ -194,11 +161,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                         {/* Arrow on hover/active */}
                         <ArrowRight 
-                          className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0"
-                          style={{ 
-                            color: 'rgba(255, 255, 255, 0.4)',
-                            opacity: isActive ? 1 : undefined 
-                          }}
+                          className={`w-4 h-4 mt-1 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0 ${isActive ? 'opacity-100' : ''}`}
                         />
                       </div>
                     </button>
@@ -207,27 +170,18 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
               </nav>
 
               {/* Bottom Badge */}
-              <div 
-                className="mt-4 p-3 rounded-lg"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
-                }}
-              >
-                <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <div className="mt-4 p-3 rounded-lg bg-white/[0.02] border border-white/5">
+                <p className="text-[10px] uppercase tracking-wider mb-1 text-white/40">
                   Clean-Track Intelligence
                 </p>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-xs text-white/60">
                   developed by utm.one with folks from MIT & Harvard
                 </p>
               </div>
 
               {/* The Groove - Vertical Divider */}
               <div 
-                className="absolute right-0 top-5 bottom-5 w-px"
-                style={{
-                  background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%)',
-                }}
+                className="absolute right-0 top-5 bottom-5 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"
               />
             </div>
 
@@ -237,14 +191,11 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
               <AnimatePresence>
                 {isTransitioning && (
                   <motion.div
-                    className="absolute inset-0 z-20 pointer-events-none"
+                    className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent"
                     initial={{ opacity: 0, x: '-100%' }}
                     animate={{ opacity: 1, x: '100%' }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, ease: appleEase }}
-                    style={{
-                      background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)',
-                    }}
                   />
                 )}
               </AnimatePresence>
@@ -281,7 +232,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       <Link to="/early-access">
                         <Button 
                           size="lg"
-                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_rgba(255,255,255,0.3),0_4px_15px_rgba(0,0,0,0.2)]"
+                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
                         >
                           get early access
                         </Button>
@@ -328,44 +279,44 @@ const AttributionVisual = () => (
   <div className="relative w-[380px] h-[220px]">
     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 380 220">
       {/* Source nodes */}
-      <motion.rect x="10" y="20" width="60" height="30" rx="6" fill="rgba(255,255,255,0.1)"
+      <motion.rect x="10" y="20" width="60" height="30" rx="6" className="fill-white/10"
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} />
-      <motion.rect x="10" y="70" width="60" height="45" rx="6" fill="rgba(255,255,255,0.15)"
+      <motion.rect x="10" y="70" width="60" height="45" rx="6" className="fill-white/15"
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} />
-      <motion.rect x="10" y="135" width="60" height="25" rx="6" fill="rgba(255,255,255,0.08)"
+      <motion.rect x="10" y="135" width="60" height="25" rx="6" className="fill-white/[0.08]"
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} />
-      <motion.rect x="10" y="180" width="60" height="20" rx="6" fill="rgba(255,255,255,0.06)"
+      <motion.rect x="10" y="180" width="60" height="20" rx="6" className="fill-white/[0.06]"
         initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} />
 
       {/* Flow paths */}
-      <motion.path d="M 70 35 Q 150 35, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="12" strokeLinecap="round"
+      <motion.path d="M 70 35 Q 150 35, 190 110 T 310 110" fill="none" className="stroke-white/20" strokeWidth="12" strokeLinecap="round"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.5, ease: appleEase }} />
-      <motion.path d="M 70 92 Q 150 92, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="20" strokeLinecap="round"
+      <motion.path d="M 70 92 Q 150 92, 190 110 T 310 110" fill="none" className="stroke-white/30" strokeWidth="20" strokeLinecap="round"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.6, ease: appleEase }} />
-      <motion.path d="M 70 147 Q 150 147, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="10" strokeLinecap="round"
+      <motion.path d="M 70 147 Q 150 147, 190 110 T 310 110" fill="none" className="stroke-white/[0.12]" strokeWidth="10" strokeLinecap="round"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.7, ease: appleEase }} />
-      <motion.path d="M 70 190 Q 150 190, 190 110 T 310 110" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" strokeLinecap="round"
+      <motion.path d="M 70 190 Q 150 190, 190 110 T 310 110" fill="none" className="stroke-white/[0.08]" strokeWidth="6" strokeLinecap="round"
         initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: 0.8, ease: appleEase }} />
 
       {/* Revenue node */}
-      <motion.rect x="310" y="85" width="60" height="50" rx="8" fill="rgba(255,255,255,0.9)"
+      <motion.rect x="310" y="85" width="60" height="50" rx="8" className="fill-white/90"
         initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 2, type: "spring", stiffness: 300 }} />
     </svg>
     
     {/* Labels */}
-    <motion.div className="absolute left-0 top-[18px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+    <motion.div className="absolute left-0 top-[18px] text-[10px] uppercase tracking-wider text-white/50"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
       paid ads
     </motion.div>
-    <motion.div className="absolute left-0 top-[75px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+    <motion.div className="absolute left-0 top-[75px] text-[10px] uppercase tracking-wider text-white/50"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
       organic
     </motion.div>
-    <motion.div className="absolute left-0 top-[133px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+    <motion.div className="absolute left-0 top-[133px] text-[10px] uppercase tracking-wider text-white/50"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
       email
     </motion.div>
-    <motion.div className="absolute left-0 top-[178px] text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.5)' }}
+    <motion.div className="absolute left-0 top-[178px] text-[10px] uppercase tracking-wider text-white/50"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
       referral
     </motion.div>
@@ -391,8 +342,7 @@ const JourneyVisual = () => {
     <div className="relative w-[380px] h-[180px]">
       {/* Timeline line */}
       <motion.div 
-        className="absolute top-[60px] left-[30px] right-[30px] h-[2px]"
-        style={{ background: 'rgba(255,255,255,0.1)' }}
+        className="absolute top-[60px] left-[30px] right-[30px] h-[2px] bg-white/10"
         initial={{ scaleX: 0, originX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 1, ease: appleEase }}
@@ -400,8 +350,8 @@ const JourneyVisual = () => {
 
       {/* Animated progress line */}
       <motion.div 
-        className="absolute top-[60px] left-[30px] h-[2px]"
-        style={{ background: 'rgba(255,255,255,0.6)', width: 'calc(100% - 60px)' }}
+        className="absolute top-[60px] left-[30px] h-[2px] bg-white/60"
+        style={{ width: 'calc(100% - 60px)' }}
         initial={{ scaleX: 0, originX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 2, delay: 0.5, ease: appleEase }}
@@ -419,23 +369,16 @@ const JourneyVisual = () => {
         >
           {/* Dot */}
           <motion.div 
-            className="w-10 h-10 rounded-full flex items-center justify-center"
-            style={{ 
-              background: i === touchpoints.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.1)',
-              border: '2px solid rgba(255,255,255,0.3)'
-            }}
+            className={`w-10 h-10 rounded-full flex items-center justify-center border-2 border-white/30 ${i === touchpoints.length - 1 ? 'bg-white/90' : 'bg-white/10'}`}
             animate={i < touchpoints.length - 1 ? { 
-              boxShadow: ['0 0 0 0 rgba(255,255,255,0)', '0 0 0 8px rgba(255,255,255,0.1)', '0 0 0 0 rgba(255,255,255,0)']
+              boxShadow: ['0 0 0 0 transparent', '0 0 0 8px hsl(0 0% 100% / 0.1)', '0 0 0 0 transparent']
             } : {}}
             transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
           >
             {i === touchpoints.length - 1 && <CheckCircle2 className="w-5 h-5 text-zinc-900" />}
           </motion.div>
           {/* Label */}
-          <span 
-            className="mt-3 text-xs uppercase tracking-wider"
-            style={{ color: i === touchpoints.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)' }}
-          >
+          <span className={`mt-3 text-xs uppercase tracking-wider ${i === touchpoints.length - 1 ? 'text-white/90' : 'text-white/50'}`}>
             {tp.label}
           </span>
         </motion.div>
@@ -443,15 +386,13 @@ const JourneyVisual = () => {
 
       {/* Device icons floating */}
       <motion.div 
-        className="absolute top-2 left-[20%] text-[10px] uppercase px-2 py-1 rounded"
-        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}
+        className="absolute top-2 left-[20%] text-[10px] uppercase px-2 py-1 rounded bg-white/5 text-white/40"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
       >
         📱 mobile
       </motion.div>
       <motion.div 
-        className="absolute top-2 left-[55%] text-[10px] uppercase px-2 py-1 rounded"
-        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}
+        className="absolute top-2 left-[55%] text-[10px] uppercase px-2 py-1 rounded bg-white/5 text-white/40"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
       >
         💻 desktop
@@ -472,25 +413,19 @@ const LinksVisual = () => {
     <div className="relative w-[340px]">
       {/* Glass Card */}
       <motion.div 
-        className="rounded-2xl p-5 space-y-4"
-        style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)'
-        }}
+        className="rounded-2xl p-5 space-y-4 bg-white/[0.03] border border-white/10 shadow-[inset_0_1px_0_hsl(0_0%_100%/0.05)]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ ease: appleEase }}
       >
         {/* URL Input */}
         <motion.div 
-          className="rounded-lg px-3 py-2 flex items-center gap-2"
-          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+          className="rounded-lg px-3 py-2 flex items-center gap-2 bg-white/5 border border-white/[0.08]"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
         >
-          <LinkIcon className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.4)' }} />
-          <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>utm.one/nike-q4</span>
-          <CheckCircle2 className="w-4 h-4 ml-auto" style={{ color: 'rgba(34,197,94,0.8)' }} />
+          <LinkIcon className="w-4 h-4 text-white/40" />
+          <span className="text-sm text-white/60">utm.one/nike-q4</span>
+          <CheckCircle2 className="w-4 h-4 ml-auto text-green-500/80" />
         </motion.div>
 
         {/* UTM Fields */}
@@ -502,17 +437,17 @@ const LinksVisual = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: field.delay, ease: appleEase }}
           >
-            <span className="text-[10px] uppercase tracking-wider w-24" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            <span className="text-[10px] uppercase tracking-wider w-24 text-white/40">
               {field.label}
             </span>
-            <div className="flex-1 rounded px-2 py-1.5 flex items-center justify-between" style={{ background: 'rgba(255,255,255,0.05)' }}>
-              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>{field.value}</span>
+            <div className="flex-1 rounded px-2 py-1.5 flex items-center justify-between bg-white/5">
+              <span className="text-xs text-white/80">{field.value}</span>
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: field.delay + 0.3, type: "spring" }}
               >
-                <CheckCircle2 className="w-3 h-3" style={{ color: 'rgba(34,197,94,0.8)' }} />
+                <CheckCircle2 className="w-3 h-3 text-green-500/80" />
               </motion.div>
             </div>
           </motion.div>
@@ -523,14 +458,14 @@ const LinksVisual = () => {
           className="flex items-center gap-3 pt-2"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
         >
-          <div className="w-12 h-12 rounded-lg grid grid-cols-4 grid-rows-4 gap-0.5 p-1" style={{ background: 'rgba(255,255,255,0.1)' }}>
+          <div className="w-12 h-12 rounded-lg grid grid-cols-4 grid-rows-4 gap-0.5 p-1 bg-white/10">
             {Array.from({ length: 16 }).map((_, i) => (
-              <div key={i} className="rounded-sm" style={{ background: Math.random() > 0.4 ? 'rgba(255,255,255,0.7)' : 'transparent' }} />
+              <div key={i} className={`rounded-sm ${Math.random() > 0.4 ? 'bg-white/70' : 'bg-transparent'}`} />
             ))}
           </div>
           <div>
-            <p className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>QR generated</p>
-            <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>print-ready • 300dpi</p>
+            <p className="text-xs font-medium text-white/80">QR generated</p>
+            <p className="text-[10px] text-white/40">print-ready • 300dpi</p>
           </div>
         </motion.div>
       </motion.div>
@@ -562,7 +497,7 @@ const IntelligenceVisual = () => {
             y1={nodes[from].y}
             x2={nodes[to].x}
             y2={nodes[to].y}
-            stroke="rgba(255,255,255,0.15)"
+            className="stroke-white/15"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
@@ -575,7 +510,7 @@ const IntelligenceVisual = () => {
           <motion.circle
             key={`pulse-${i}`}
             r="3"
-            fill="rgba(255,255,255,0.6)"
+            className="fill-white/60"
             initial={{ opacity: 0 }}
             animate={{
               cx: [nodes[from].x, nodes[to].x],
@@ -598,8 +533,7 @@ const IntelligenceVisual = () => {
             cx={node.x}
             cy={node.y}
             r={i === nodes.length - 1 ? 20 : 12}
-            fill={i === nodes.length - 1 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.1)'}
-            stroke="rgba(255,255,255,0.3)"
+            className={`stroke-white/30 ${i === nodes.length - 1 ? 'fill-white/90' : 'fill-white/10'}`}
             strokeWidth="1"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -616,20 +550,18 @@ const IntelligenceVisual = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, type: "spring" }}
       >
-        <Brain className="w-6 h-6" style={{ color: '#09090B' }} />
+        <Brain className="w-6 h-6 text-zinc-900" />
       </motion.div>
 
       {/* Labels */}
       <motion.div 
-        className="absolute top-[40px] left-0 text-[9px] uppercase tracking-wider"
-        style={{ color: 'rgba(255,255,255,0.4)' }}
+        className="absolute top-[40px] left-0 text-[9px] uppercase tracking-wider text-white/40"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
       >
         inputs
       </motion.div>
       <motion.div 
-        className="absolute top-[90px] right-[20px] text-[9px] uppercase tracking-wider"
-        style={{ color: 'rgba(255,255,255,0.6)' }}
+        className="absolute top-[90px] right-[20px] text-[9px] uppercase tracking-wider text-white/60"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
       >
         insight
@@ -639,10 +571,8 @@ const IntelligenceVisual = () => {
       {['predictive', 'attribution', 'routing', 'immunity'].map((feature, i) => (
         <motion.div
           key={feature}
-          className="absolute text-[8px] uppercase tracking-wider px-2 py-1 rounded"
+          className="absolute text-[8px] uppercase tracking-wider px-2 py-1 rounded bg-white/5 text-white/50"
           style={{ 
-            background: 'rgba(255,255,255,0.05)', 
-            color: 'rgba(255,255,255,0.5)',
             left: i % 2 === 0 ? '10px' : 'auto',
             right: i % 2 === 1 ? '10px' : 'auto',
             top: i < 2 ? '5px' : 'auto',
@@ -672,20 +602,16 @@ const GovernanceVisual = () => {
     <div className="relative w-[380px]">
       {/* Terminal Window */}
       <motion.div 
-        className="rounded-xl overflow-hidden"
-        style={{ 
-          background: 'rgba(0,0,0,0.4)', 
-          border: '1px solid rgba(255,255,255,0.1)'
-        }}
+        className="rounded-xl overflow-hidden bg-black/40 border border-white/10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         {/* Title Bar */}
-        <div className="flex items-center gap-2 px-4 py-2" style={{ background: 'rgba(255,255,255,0.03)' }}>
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,99,71,0.6)' }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,206,84,0.6)' }} />
-          <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(46,204,113,0.6)' }} />
-          <span className="ml-2 text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03]">
+          <div className="w-3 h-3 rounded-full bg-red-400/60" />
+          <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
+          <div className="w-3 h-3 rounded-full bg-green-400/60" />
+          <span className="ml-2 text-[10px] uppercase tracking-wider text-white/40">
             audit log
           </span>
         </div>
@@ -700,17 +626,13 @@ const GovernanceVisual = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: log.delay, ease: appleEase }}
             >
-              <span style={{ color: 'rgba(255,255,255,0.3)' }}>[{`${9 + i}:${15 + i * 7}am`}]</span>
-              <User className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.4)' }} />
-              <span style={{ color: 'rgba(255,255,255,0.6)' }}>{log.user}</span>
-              <span style={{ color: 'rgba(255,255,255,0.4)' }}>{log.action}</span>
-              <span style={{ color: 'rgba(255,255,255,0.8)' }}>{log.target}</span>
+              <span className="text-white/30">[{`${9 + i}:${15 + i * 7}am`}]</span>
+              <User className="w-3 h-3 text-white/40" />
+              <span className="text-white/60">{log.user}</span>
+              <span className="text-white/40">{log.action}</span>
+              <span className="text-white/80">{log.target}</span>
               <motion.span 
-                className="ml-auto px-2 py-0.5 rounded text-[10px] uppercase"
-                style={{ 
-                  background: log.status === 'approved' ? 'rgba(34,197,94,0.2)' : 'rgba(234,179,8,0.2)',
-                  color: log.status === 'approved' ? 'rgba(34,197,94,0.9)' : 'rgba(234,179,8,0.9)'
-                }}
+                className={`ml-auto px-2 py-0.5 rounded text-[10px] uppercase ${log.status === 'approved' ? 'bg-green-500/20 text-green-500/90' : 'bg-yellow-500/20 text-yellow-500/90'}`}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: log.delay + 0.3, type: "spring" }}
@@ -726,8 +648,8 @@ const GovernanceVisual = () => {
             animate={{ opacity: [1, 0] }}
             transition={{ duration: 0.8, repeat: Infinity }}
           >
-            <span style={{ color: 'rgba(255,255,255,0.4)' }}>$</span>
-            <div className="w-2 h-4" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="text-white/40">$</span>
+            <div className="w-2 h-4 bg-white/60" />
           </motion.div>
         </div>
       </motion.div>

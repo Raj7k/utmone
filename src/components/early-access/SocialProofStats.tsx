@@ -58,8 +58,8 @@ export const SocialProofStats = () => {
   const getColorStyles = (color: string) => {
     const colors: Record<string, { bg: string; text: string }> = {
       primary: { bg: 'hsl(var(--primary) / 0.1)', text: 'hsl(var(--primary))' },
-      blazeOrange: { bg: 'rgba(249,115,22,0.1)', text: 'rgba(249,115,22,1)' },
-      deepSea: { bg: 'rgba(20,184,166,0.1)', text: 'rgba(20,184,166,1)' },
+      blazeOrange: { bg: 'hsl(25 95% 53% / 0.1)', text: 'hsl(25 95% 53%)' },
+      deepSea: { bg: 'hsl(168 76% 42% / 0.1)', text: 'hsl(168 76% 42%)' },
     };
     return colors[color] || colors.primary;
   };

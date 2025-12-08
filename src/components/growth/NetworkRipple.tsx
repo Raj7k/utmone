@@ -53,10 +53,7 @@ export const NetworkRipple = ({ isActive, onComplete, centerElement }: NetworkRi
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative z-10 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"
-              style={{
-                boxShadow: "0 0 20px rgba(255,255,255,0.3)"
-              }}
+              className="relative z-10 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shadow-[0_0_20px_hsl(0_0%_100%/0.3)]"
             >
               {centerElement || (
                 <div className="w-6 h-6 rounded-full bg-white/80" />
@@ -88,11 +85,10 @@ export const NetworkRipple = ({ isActive, onComplete, centerElement }: NetworkRi
             {showNodes && nodePositions.map((pos, index) => (
               <motion.div
                 key={index}
-                className="absolute w-2 h-2 rounded-full bg-white"
+                className="absolute w-2 h-2 rounded-full bg-white shadow-[0_0_8px_hsl(0_0%_100%/0.5)]"
                 style={{
                   left: 24 + pos.x - 4,
                   top: 24 + pos.y - 4,
-                  boxShadow: "0 0 8px rgba(255,255,255,0.5)"
                 }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}

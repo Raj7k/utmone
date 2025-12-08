@@ -57,7 +57,7 @@ export const DemoModeBanner = () => {
           className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 p-4"
         >
           {/* Background decoration */}
-          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,rgba(255,255,255,0.5))]" />
+          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,hsl(0_0%_100%/0.5))]" />
           
           <div className="relative flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">

@@ -47,10 +47,7 @@ export const FeatureLayout = ({
 
         {/* Center Axis */}
         <div 
-          className="fixed top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none z-[2] hidden lg:block"
-          style={{
-            background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.03) 20%, rgba(255,255,255,0.03) 80%, transparent)'
-          }}
+          className="fixed top-0 bottom-0 left-1/2 -translate-x-1/2 w-px pointer-events-none z-[2] hidden lg:block bg-gradient-to-b from-transparent via-white/[0.03] to-transparent"
         />
 
         <Navigation />
