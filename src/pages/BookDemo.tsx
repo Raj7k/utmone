@@ -125,22 +125,15 @@ export default function BookDemo() {
         </div>
       </div>
 
-      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16" style={{ background: '#050505' }}>
+      <div className="h-screen grid grid-cols-1 lg:grid-cols-2 overflow-hidden pt-16 bg-obsidian">
         {/* Left Panel - Brand Experience */}
         <div className="relative p-8 lg:p-12 flex flex-col justify-between h-full overflow-hidden">
           {/* Noise Texture */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              opacity: 0.03,
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-              backgroundRepeat: 'repeat'
-            }}
-          />
+          <div className="absolute inset-0 pointer-events-none obsidian-noise" />
           
           {/* Animated Background Elements */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl animate-pulse" style={{ background: 'rgba(255,255,255,0.05)', animationDuration: '4s' }} />
+            <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl animate-pulse bg-white/5" style={{ animationDuration: '4s' }} />
             <div className="absolute bottom-32 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
           </div>
 

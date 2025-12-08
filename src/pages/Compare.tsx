@@ -128,7 +128,7 @@ const Compare = () => {
                     <ArrowRight className="w-6 h-6 text-white/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-status-success/80" />
                     <p className="text-white/60 lowercase">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>
@@ -183,7 +183,7 @@ const Compare = () => {
                     <ArrowRight className="w-6 h-6 text-white/60 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                   </div>
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-status-success/80" />
                     <p className="text-white/60 lowercase">
                       <span className="text-white font-medium">utm.one adds:</span> {tool.differentiator}
                     </p>

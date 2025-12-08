@@ -73,25 +73,25 @@ export const DataMaturityQuiz = () => {
       return {
         title: "data infrastructure pro",
         subtitle: "your team is ready for ml/ai models",
-        color: "electric-blue"
+        colorClass: "text-primary"
       };
     } else if (percentage >= 50) {
       return {
         title: "solid foundation",
         subtitle: "close to real-time insights",
-        color: "electric-blue"
+        colorClass: "text-primary"
       };
     } else if (percentage >= 25) {
       return {
         title: "getting started",
         subtitle: "ready to modernize your stack",
-        color: "text-yellow-600"
+        colorClass: "text-status-warning"
       };
     } else {
       return {
         title: "early stage",
         subtitle: "major gains waiting with data pipeline",
-        color: "text-destructive"
+        colorClass: "text-status-error/90"
       };
     }
   };
@@ -109,16 +109,16 @@ export const DataMaturityQuiz = () => {
   };
 
   if (showResult) {
-    const { title, subtitle, color } = getScoreMessage();
+    const { title, subtitle, colorClass } = getScoreMessage();
     
     return (
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-3xl mx-auto px-6">
           <Card className="p-12 text-center space-y-8">
-            <Award className="w-20 h-20 mx-auto" style={{ color: color === 'electric-blue' ? 'hsl(var(--primary))' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }} />
+            <Award className={`w-20 h-20 mx-auto ${colorClass}`} />
             
             <div>
-              <h3 className="text-4xl font-display font-bold brand-lowercase mb-2" style={{ color: color === 'electric-blue' ? 'hsl(var(--primary))' : color === 'text-yellow-600' ? 'rgb(202,138,4)' : 'rgba(239,68,68,0.9)' }}>
+              <h3 className={`text-4xl font-display font-bold brand-lowercase mb-2 ${colorClass}`}>
                 {title}
               </h3>
               <p className="text-xl text-muted-foreground">{subtitle}</p>

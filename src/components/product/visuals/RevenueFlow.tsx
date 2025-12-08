@@ -75,7 +75,7 @@ export const RevenueFlow = () => {
             key={i}
             d={d}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.08)"
+            className="stroke-white/[0.08]"
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -90,7 +90,7 @@ export const RevenueFlow = () => {
             cx="80"
             cy={source.y}
             r="3"
-            fill="white"
+            className="fill-white"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: i * 0.1, type: "spring" }}
@@ -103,7 +103,7 @@ export const RevenueFlow = () => {
           cy="110"
           r="20"
           fill="none"
-          stroke="white"
+          className="stroke-white"
           strokeWidth="1"
           initial={{ scale: 0 }}
           animate={{ 
@@ -135,7 +135,7 @@ export const RevenueFlow = () => {
                 cx={pos.x}
                 cy={pos.y}
                 r="2"
-                fill="white"
+                className="fill-white"
                 style={{ filter: 'drop-shadow(0 0 4px white)' }}
               />
             </g>
@@ -155,8 +155,8 @@ export const RevenueFlow = () => {
       {sources.map((source, i) => (
         <motion.div
           key={i}
-          className="absolute left-0 text-[10px] font-mono uppercase tracking-wider"
-          style={{ top: source.y - 6, color: 'rgba(255,255,255,0.5)' }}
+          className="absolute left-0 text-[10px] font-mono uppercase tracking-wider text-white/50"
+          style={{ top: source.y - 6 }}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.1 + 0.3 }}
@@ -172,17 +172,10 @@ export const RevenueFlow = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.8 }}
       >
-        <div 
-          className="text-2xl font-bold font-mono"
-          style={{
-            background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
+        <div className="text-2xl font-bold font-mono hero-gradient">
           $1.2M
         </div>
-        <div className="text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="text-[10px] uppercase tracking-wider text-white/40">
           revenue
         </div>
       </motion.div>
