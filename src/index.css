@@ -408,6 +408,21 @@ All colors MUST be HSL.
 }
 
 /* ============================================
+   OBSIDIAN MONOLITH PROTOCOL
+   Force Marketing Pages to Pure Obsidian
+   ============================================ */
+.marketing-root {
+  background-color: #050505 !important;
+  color: #FFFFFF !important;
+}
+
+.marketing-root * {
+  /* Ensure no accidental light mode leaks */
+  --background: 0 0% 2%;
+  --foreground: 0 0% 100%;
+}
+
+/* ============================================
    SEMANTIC LABEL UTILITY CLASSES
    Maps CSS variables to Tailwind-like utilities
    ============================================ */
