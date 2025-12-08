@@ -1,0 +1,230 @@
+import { motion, AnimatePresence } from "framer-motion";
+import { UseCaseType } from "./SideNavHero";
+import { AlertTriangle, TrendingDown, Shuffle, Clock, FileWarning } from "lucide-react";
+
+interface DynamicProblemSectionProps {
+  selectedUseCase: UseCaseType;
+}
+
+const PROBLEM_CONTENT: Record<UseCaseType, {
+  icon: typeof AlertTriangle;
+  eyebrow: string;
+  headline: string;
+  description: string;
+  stat: { value: string; label: string };
+  visual: React.ReactNode;
+}> = {
+  attribution: {
+    icon: TrendingDown,
+    eyebrow: "the attribution problem",
+    headline: "last-click attribution steals credit.",
+    description: "that linkedin post that started everything? google ads gets 100% of the credit. your budget follows lies.",
+    stat: { value: "60%", label: "of marketing budget typically misallocated" },
+    visual: (
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-sm text-white/50">LinkedIn Post</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10">
+            <div className="h-full w-0 rounded-full bg-destructive/50" />
+          </div>
+          <span className="text-sm text-destructive">0%</span>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+          <span className="text-sm text-white/50">Podcast Mention</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10">
+            <div className="h-full w-0 rounded-full bg-destructive/50" />
+          </div>
+          <span className="text-sm text-destructive">0%</span>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/10 border border-primary/20">
+          <span className="text-sm text-white/80">Google Ads (last click)</span>
+          <div className="flex-1 h-2 rounded-full bg-white/10">
+            <div className="h-full w-full rounded-full bg-primary" />
+          </div>
+          <span className="text-sm text-primary font-bold">100%</span>
+        </div>
+      </div>
+    ),
+  },
+  journey: {
+    icon: Shuffle,
+    eyebrow: "the visibility problem",
+    headline: "you only see the last click.",
+    description: "your customer visited 12 times across 3 devices before buying. you have no idea what actually convinced them.",
+    stat: { value: "12", label: "avg touchpoints before B2B conversion" },
+    visual: (
+      <div className="relative">
+        <div className="flex items-center justify-between gap-2">
+          {["📱", "💻", "📱", "💻", "📱"].map((device, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: i === 4 ? 1 : 0.2, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl ${
+                i === 4 ? 'bg-primary/20 border border-primary/40' : 'bg-white/5 border border-white/10'
+              }`}
+            >
+              {device}
+            </motion.div>
+          ))}
+        </div>
+        <div className="mt-4 text-center">
+          <span className="text-xs text-white/40">only this one is tracked →</span>
+        </div>
+      </div>
+    ),
+  },
+  links: {
+    icon: FileWarning,
+    eyebrow: "the data chaos problem",
+    headline: "8 people. 47 UTM variations. 3 broken dashboards.",
+    description: "utm_source=LinkedIn vs source=linkedin vs Linkedin. your data doesn't match because your links don't match.",
+    stat: { value: "47", label: "avg UTM variations per campaign" },
+    visual: (
+      <div className="space-y-2 font-mono text-xs">
+        <div className="p-2 rounded bg-destructive/10 border border-destructive/20 text-destructive/80">
+          utm_source=<span className="text-white">LinkedIn</span>
+        </div>
+        <div className="p-2 rounded bg-destructive/10 border border-destructive/20 text-destructive/80">
+          utm_source=<span className="text-white">linkedin</span>
+        </div>
+        <div className="p-2 rounded bg-destructive/10 border border-destructive/20 text-destructive/80">
+          source=<span className="text-white">li</span>
+        </div>
+        <div className="p-2 rounded bg-destructive/10 border border-destructive/20 text-destructive/80">
+          utm-source=<span className="text-white">LINKEDIN</span>
+        </div>
+        <div className="text-center text-white/40 mt-2">= 4 separate rows in your dashboard</div>
+      </div>
+    ),
+  },
+  intelligence: {
+    icon: Clock,
+    eyebrow: "the reaction problem",
+    headline: "you found out 3 days later.",
+    description: "the campaign broke on monday. you discovered it thursday. $50k wasted while you weren't looking.",
+    stat: { value: "72", label: "hours avg delay to detect campaign issues" },
+    visual: (
+      <div className="relative">
+        <div className="flex items-center gap-4">
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center justify-between text-xs text-white/50">
+              <span>campaign traffic</span>
+              <span className="text-destructive">-94%</span>
+            </div>
+            <div className="h-24 flex items-end gap-1">
+              {[80, 75, 82, 78, 5, 3, 4, 2].map((h, i) => (
+                <motion.div
+                  key={i}
+                  className={`flex-1 rounded-t ${i >= 4 ? 'bg-destructive/50' : 'bg-white/20'}`}
+                  initial={{ height: 0 }}
+                  animate={{ height: `${h}%` }}
+                  transition={{ delay: i * 0.1 }}
+                />
+              ))}
+            </div>
+            <div className="flex justify-between text-[10px] text-white/30">
+              <span>Mon</span>
+              <span>Thu</span>
+            </div>
+          </div>
+          <div className="text-center px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
+            <div className="text-2xl font-bold text-destructive">$50k</div>
+            <div className="text-xs text-destructive/70">wasted</div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  governance: {
+    icon: AlertTriangle,
+    eyebrow: "the governance problem",
+    headline: "one typo. six months of corrupted data.",
+    description: "someone spelled 'campaign' as 'campain'. nobody noticed. your quarterly report is now fiction.",
+    stat: { value: "6", label: "months of data lost to a single typo" },
+    visual: (
+      <div className="space-y-3">
+        <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+          <div className="text-xs text-white/40 mb-1">Original Link</div>
+          <code className="text-xs text-white/70">utm_campaign=<span className="text-primary">q4_launch_2024</span></code>
+        </div>
+        <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+          <div className="text-xs text-destructive/60 mb-1">Typo (undetected)</div>
+          <code className="text-xs text-destructive">utm_campain=<span className="text-white">q4_lauch_2024</span></code>
+        </div>
+        <div className="text-center text-xs text-white/40 mt-2">
+          ↓ shows as "direct traffic" in analytics
+        </div>
+      </div>
+    ),
+  },
+};
+
+export const DynamicProblemSection = ({ selectedUseCase }: DynamicProblemSectionProps) => {
+  const content = PROBLEM_CONTENT[selectedUseCase];
+  const Icon = content.icon;
+
+  return (
+    <section className="py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedUseCase}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
+          >
+            {/* Left: Content */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-destructive/10 border border-destructive/20">
+                <Icon className="w-4 h-4 text-destructive" />
+                <span className="text-xs font-medium uppercase tracking-wider text-destructive">
+                  {content.eyebrow}
+                </span>
+              </div>
+
+              <h2 
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
+                style={{
+                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                {content.headline}
+              </h2>
+
+              <p className="text-lg text-white/60 leading-relaxed">
+                {content.description}
+              </p>
+
+              {/* Stat */}
+              <div className="inline-flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10">
+                <div className="text-4xl font-display font-bold text-destructive">
+                  {content.stat.value}
+                </div>
+                <div className="text-sm text-white/50 max-w-[200px]">
+                  {content.stat.label}
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Visual */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="p-6 rounded-2xl bg-white/[0.02] border border-white/10"
+            >
+              {content.visual}
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};

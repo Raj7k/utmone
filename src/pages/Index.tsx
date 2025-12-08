@@ -20,12 +20,13 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
-const DynamicSecondFold = lazy(() => import("@/components/landing/DynamicSecondFold").then(m => ({ default: m.DynamicSecondFold })));
-const EnterpriseGradeSection = lazy(() => import("@/components/landing/EnterpriseGradeSection").then(m => ({ default: m.EnterpriseGradeSection })));
-const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
+const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
+const DynamicInsightSection = lazy(() => import("@/components/landing/DynamicInsightSection").then(m => ({ default: m.DynamicInsightSection })));
+const DynamicProofSection = lazy(() => import("@/components/landing/DynamicProofSection").then(m => ({ default: m.DynamicProofSection })));
+const DynamicFAQ = lazy(() => import("@/components/landing/DynamicFAQ").then(m => ({ default: m.DynamicFAQ })));
+const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m => ({ default: m.DynamicCTA })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
-const FooterFAQ = lazy(() => import("@/components/landing/FooterFAQ").then(m => ({ default: m.FooterFAQ })));
 
 // Simple loading placeholder
 const SectionSkeleton = () => (
@@ -127,36 +128,33 @@ const Index = () => {
         </>
       )}
 
-      {/* Dynamic Second Fold - Changes based on Control Deck selection */}
+      {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
+
+      {/* Fold 2: The Problem - Show the pain with visceral clarity */}
       <Suspense fallback={<SectionSkeleton />}>
-        <DynamicSecondFold selectedUseCase={selectedUseCase} />
+        <DynamicProblemSection selectedUseCase={selectedUseCase} />
       </Suspense>
 
-      {/* Enterprise Grade Section */}
+      {/* Fold 3: The Insight - Share the philosophical breakthrough */}
       <Suspense fallback={<SectionSkeleton />}>
-        <EnterpriseGradeSection />
+        <DynamicInsightSection selectedUseCase={selectedUseCase} />
       </Suspense>
 
-      {/* AI Intelligence Hero */}
+      {/* Fold 4: The Proof - Capability proof, not fake testimonials */}
       <Suspense fallback={<SectionSkeleton />}>
-        <AIIntelligenceHero />
+        <DynamicProofSection selectedUseCase={selectedUseCase} />
       </Suspense>
 
-      {/* Unified Tools Showcase - All tools in one tabbed section */}
+      {/* Static: Unified Tools Showcase */}
       <Suspense fallback={<SectionSkeleton />}>
         <UnifiedToolsShowcase />
-      </Suspense>
-
-      {/* Trust & Permanence - Combined Section */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <TrustSection />
       </Suspense>
 
       {/* Developer Experience */}
       <AnimatedSection className="py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-8 md:mb-12 space-y-3">
-            <h1 
+            <h2 
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
               style={{
                 background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
@@ -166,7 +164,7 @@ const Index = () => {
               }}
             >
               {formatText("built for developers too")}
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg px-2 text-white/50">
               REST + GraphQL APIs with 600 req/min free tier
             </p>
@@ -180,7 +178,7 @@ const Index = () => {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
                 <Code className="w-5 h-5 text-white/80" />
               </div>
-              <h2 className="text-sm font-semibold mb-2 lowercase text-white/90">Full API Access</h2>
+              <h3 className="text-sm font-semibold mb-2 lowercase text-white/90">Full API Access</h3>
               <p className="text-xs mb-3 text-white/50">
                 Create, update, and track links programmatically. Webhooks for real-time events.
               </p>
@@ -200,7 +198,7 @@ const Index = () => {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
                 <Database className="w-5 h-5 text-white/80" />
               </div>
-              <h2 className="text-sm font-semibold mb-2 lowercase text-white/90">Data Warehouse Sync</h2>
+              <h3 className="text-sm font-semibold mb-2 lowercase text-white/90">Data Warehouse Sync</h3>
               <p className="text-xs mb-3 text-white/50">
                 Push click data to Snowflake, BigQuery, or your data lake automatically.
               </p>
@@ -216,9 +214,19 @@ const Index = () => {
         </div>
       </AnimatedSection>
 
-      {/* FAQ Section */}
+      {/* Trust & Permanence */}
       <Suspense fallback={<SectionSkeleton />}>
-        <FooterFAQ />
+        <TrustSection />
+      </Suspense>
+
+      {/* Dynamic FAQ - Questions change based on use case */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <DynamicFAQ selectedUseCase={selectedUseCase} />
+      </Suspense>
+
+      {/* Dynamic CTA - Personalized call-to-action */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <DynamicCTA selectedUseCase={selectedUseCase} />
       </Suspense>
     </MainLayout>
   );
