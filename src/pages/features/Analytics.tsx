@@ -5,6 +5,7 @@ import { CTAButton } from "@/components/ui/CTAButton";
 import { AttributionComparisonChart } from "@/components/features/AttributionComparisonChart";
 import { ForecastingPreview } from "@/components/features/ForecastingPreview";
 import { JourneyFlowPreview } from "@/components/features/JourneyFlowPreview";
+import { WrongAttributionMockup } from "@/components/features/WrongAttributionMockup";
 import { AICommandCenterPreview } from "@/components/features/AICommandCenterPreview";
 import { motion } from "framer-motion";
 import { 
@@ -22,7 +23,8 @@ import {
   Bell,
   Check,
   Minus,
-  Zap
+  Zap,
+  AlertTriangle
 } from "lucide-react";
 
 const FeatureItem = ({ icon: Icon, title, description }: { icon: any; title: string; description: string }) => (
@@ -95,22 +97,22 @@ const Analytics = () => {
         { name: "Revenue Intelligence", url: "https://utm.one/features/analytics" },
       ]}
     >
-      {/* Hero Section */}
-      <FeatureSection maxWidth="medium">
-        <div className="text-center py-12 md:py-20">
+      {/* Hero Section - Reduced padding */}
+      <section className="relative pt-8 pb-12">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-6">
               <Zap className="w-4 h-4" />
               revenue intelligence platform
             </span>
             <h1 className="text-5xl md:text-7xl font-display font-bold text-label mb-6 lowercase">
               from clicks to revenue.
             </h1>
-            <p className="text-xl md:text-2xl text-secondary-label mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-secondary-label mb-8 max-w-2xl mx-auto leading-relaxed">
               utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—across devices, channels, and time.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -123,34 +125,69 @@ const Analytics = () => {
             </div>
           </motion.div>
         </div>
-      </FeatureSection>
+      </section>
 
-      {/* Problem Statement */}
-      <FeatureSection background="muted">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-6">
-            the attribution black hole
-          </h2>
-          <p className="text-lg text-secondary-label leading-relaxed mb-10">
-            Your LinkedIn campaign drove 10,000 clicks. Your paid search drove 5,000. The CFO asks: "Which one actually made us money?" 
-            You open GA4. It shows last-click attribution. But the customer saw LinkedIn first, got an email, attended a webinar, 
-            then searched your brand on Google. Who gets credit? GA4 says Google. The truth? It was a team effort. 
-            Without multi-touch attribution, you're flying blind.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-xl bg-card border border-border">
-              <div className="text-4xl font-display font-bold text-label mb-2">72%</div>
-              <div className="text-sm text-secondary-label">of marketers can't prove ROI</div>
-            </div>
-            <div className="p-6 rounded-xl bg-card border border-border">
-              <div className="text-4xl font-display font-bold text-label mb-2">$2.1M</div>
-              <div className="text-sm text-secondary-label">avg. wasted on wrong channels</div>
-            </div>
-            <div className="p-6 rounded-xl bg-card border border-border">
-              <div className="text-4xl font-display font-bold text-label mb-2">3.2</div>
-              <div className="text-sm text-secondary-label">avg touchpoints before conversion</div>
+      {/* Problem Statement - 2-Column Visual Layout */}
+      <FeatureSection background="muted" maxWidth="wide">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: Copy + Stats */}
+          <div className="space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 border border-destructive/20 text-destructive text-xs uppercase tracking-wider mb-4">
+                <AlertTriangle className="w-3 h-3" />
+                the problem
+              </span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-4">
+                the attribution black hole.
+              </h2>
+              <p className="text-lg text-secondary-label leading-relaxed">
+                Your LinkedIn campaign drove 10,000 clicks. Paid search drove 5,000. The CFO asks: "Which one made us money?" 
+                GA4 shows last-click. But the customer saw LinkedIn first, got an email, attended a webinar, 
+                then searched your brand. <strong className="text-label">Who gets credit?</strong>
+              </p>
+            </motion.div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-3 gap-4">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="p-4 rounded-xl bg-card border border-border text-center"
+              >
+                <div className="text-3xl font-display font-bold text-label mb-1">72%</div>
+                <div className="text-xs text-muted-foreground">can't prove ROI</div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="p-4 rounded-xl bg-card border border-border text-center"
+              >
+                <div className="text-3xl font-display font-bold text-label mb-1">$2.1M</div>
+                <div className="text-xs text-muted-foreground">wasted yearly</div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="p-4 rounded-xl bg-card border border-border text-center"
+              >
+                <div className="text-3xl font-display font-bold text-label mb-1">3.2</div>
+                <div className="text-xs text-muted-foreground">avg touchpoints</div>
+              </motion.div>
             </div>
           </div>
+
+          {/* Right: Visual Horror Mockup */}
+          <WrongAttributionMockup />
         </div>
       </FeatureSection>
 
