@@ -10,16 +10,12 @@ import {
   Sparkles,
   ArrowRight,
   DollarSign,
-  Check,
-  Clock,
-  CreditCard,
   CheckCircle2,
   User,
   Brain
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
-import { FoundingMemberCounter } from "./FoundingMemberCounter";
 import { FiberOpticGraph } from "./FiberOpticGraph";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
@@ -218,8 +214,8 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                     <DeckVisual type={activeItem.id} />
                   </div>
 
-                  {/* Content */}
-                  <div className="space-y-4">
+                  {/* Content - Apple-style spacious */}
+                  <div className="space-y-6">
                     {/* Headline with Brushed Metal Gradient */}
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
                       {activeItem.headline}
@@ -230,8 +226,8 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {activeItem.subheadline}
                     </p>
 
-                    {/* CTA + Risk Reversal Row */}
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+                    {/* CTA Button - Clean, single action */}
+                    <div className="pt-2">
                       <Link to="/early-access">
                         <Button 
                           size="lg"
@@ -242,34 +238,15 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                         </Button>
                       </Link>
                       
-                      {/* Inline risk reversal - subtle */}
-                      <div className="flex items-center gap-3 text-[11px] text-white/40">
-                        <span className="flex items-center gap-1">
-                          <Check className="w-3 h-3" /> free
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <CreditCard className="w-3 h-3" /> no card
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> 2 min setup
-                        </span>
+                      {/* Founding spots - Apple-style minimal whisper */}
+                      <div className="flex items-center gap-2 mt-4 text-sm text-white/40">
+                        <motion.span 
+                          className="w-1.5 h-1.5 rounded-full bg-orange-500"
+                          animate={{ opacity: [1, 0.4, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                        <span>47 founding spots left</span>
                       </div>
-                    </div>
-
-                    {/* Founding Member Counter - PROMINENT */}
-                    <div className="pt-2 max-w-sm">
-                      <FoundingMemberCounter remaining={47} total={100} />
-                    </div>
-
-                    {/* Learn More Link */}
-                    <div className="pt-1">
-                      <Link 
-                        to={activeItem.route}
-                        className="inline-flex items-center gap-2 text-sm font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"
-                      >
-                        learn more
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
                     </div>
                   </div>
                 </motion.div>
