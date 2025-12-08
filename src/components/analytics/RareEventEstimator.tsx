@@ -36,7 +36,7 @@ export function RareEventEstimator({ linkId, workspaceId, title = "conversion pr
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Activity className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Activity className="h-5 w-5 text-foreground" />
             <h3 className="font-semibold text-sm lowercase">{title}</h3>
           </div>
           {probEstimate.reliable ? (
@@ -65,17 +65,16 @@ export function RareEventEstimator({ linkId, workspaceId, title = "conversion pr
           <div className="relative h-8 bg-muted rounded-lg overflow-hidden">
             {/* Lower bound */}
             <div 
-              className="absolute h-full"
+              className="absolute h-full bg-muted-foreground/20"
               style={{ 
-                background: 'rgba(255,255,255,0.15)',
                 left: `${lowerCI * 100}%`,
                 width: `${(upperCI - lowerCI) * 100}%`
               }}
             />
             {/* Point estimate */}
             <div 
-              className="absolute h-full w-1"
-              style={{ background: 'rgba(255,255,255,0.8)', left: `${percentage}%` }}
+              className="absolute h-full w-1 bg-foreground"
+              style={{ left: `${percentage}%` }}
             />
           </div>
           <div className="flex justify-between text-xs text-muted-foreground">
