@@ -503,10 +503,10 @@ export const Navigation = () => {
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="w-[750px] p-4 flex gap-4 obsidian-glass-80 backdrop-blur-xl border border-white-10">
-                    {/* Coming Soon Featured - Left */}
+                    {/* Featured Resources - Left */}
                     <div className="w-[240px] flex flex-col gap-2">
                       <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-1 text-white-50">
-                        Coming Soon
+                        Featured
                       </div>
                       
                       <Link 
@@ -574,7 +574,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Guides</div>
-                              <div className="text-[10px] text-white-50">6 guides</div>
+                              <div className="text-[10px] text-white-50">step-by-step learning</div>
                             </div>
                           </div>
                         </Link>
@@ -589,7 +589,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Playbooks</div>
-                              <div className="text-[10px] text-white-50">7 playbooks</div>
+                              <div className="text-[10px] text-white-50">ready-to-use strategies</div>
                             </div>
                           </div>
                         </Link>
@@ -604,7 +604,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Templates</div>
-                              <div className="text-[10px] text-white-50">4 templates</div>
+                              <div className="text-[10px] text-white-50">plug & play documents</div>
                             </div>
                           </div>
                         </Link>
@@ -619,7 +619,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Checklists</div>
-                              <div className="text-[10px] text-white-50">3 checklists</div>
+                              <div className="text-[10px] text-white-50">never miss a step</div>
                             </div>
                           </div>
                         </Link>
@@ -634,7 +634,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Frameworks</div>
-                              <div className="text-[10px] text-white-50">4 frameworks</div>
+                              <div className="text-[10px] text-white-50">structured thinking models</div>
                             </div>
                           </div>
                         </Link>
@@ -649,7 +649,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Examples</div>
-                              <div className="text-[10px] text-white-50">3 examples</div>
+                              <div className="text-[10px] text-white-50">real-world implementations</div>
                             </div>
                           </div>
                         </Link>
@@ -664,7 +664,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Glossary</div>
-                              <div className="text-[10px] text-white-50">70+ terms</div>
+                              <div className="text-[10px] text-white-50">marketing definitions</div>
                             </div>
                           </div>
                         </Link>
@@ -679,7 +679,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Tools</div>
-                              <div className="text-[10px] text-white-50">8 free tools</div>
+                              <div className="text-[10px] text-white-50">interactive utilities</div>
                             </div>
                           </div>
                         </Link>
@@ -694,7 +694,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Reports</div>
-                              <div className="text-[10px] text-white-50">1 report</div>
+                              <div className="text-[10px] text-white-50">data-driven insights</div>
                             </div>
                           </div>
                         </Link>
@@ -709,7 +709,7 @@ export const Navigation = () => {
                             </div>
                             <div>
                               <div className="text-sm font-medium leading-none text-white-90">Academy</div>
-                              <div className="text-[10px] text-white-50">learn utm.one</div>
+                              <div className="text-[10px] text-white-50">structured learning paths</div>
                             </div>
                           </div>
                         </Link>
