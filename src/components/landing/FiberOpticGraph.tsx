@@ -164,7 +164,7 @@ export const FiberOpticGraph = () => {
             id={`fiber-path-${index}`}
             d={path}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.06)"
+            className="stroke-white/[0.06]"
             strokeWidth="1"
           />
         ))}
@@ -177,7 +177,7 @@ export const FiberOpticGraph = () => {
               cx={leftX}
               cy={source.y}
               r="3"
-              fill="rgba(255,255,255,0.7)"
+              className="fill-white/70"
             />
             {/* Outer ring */}
             <circle
@@ -185,7 +185,7 @@ export const FiberOpticGraph = () => {
               cy={source.y}
               r="6"
               fill="none"
-              stroke="rgba(255,255,255,0.15)"
+              className="stroke-white/15"
               strokeWidth="1"
             />
             {/* Label */}
@@ -194,12 +194,7 @@ export const FiberOpticGraph = () => {
               y={source.y + 1}
               textAnchor="end"
               dominantBaseline="middle"
-              style={{
-                fontSize: '8px',
-                fill: 'rgba(255,255,255,0.35)',
-                fontFamily: 'ui-monospace, monospace',
-                letterSpacing: '0.08em'
-              }}
+              className="text-[8px] fill-white/35 font-mono tracking-wider"
             >
               {source.label}
             </text>
@@ -214,7 +209,7 @@ export const FiberOpticGraph = () => {
             cy={rightY}
             r="18"
             fill="none"
-            stroke={revenueGlow ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.25)"}
+            className={revenueGlow ? "stroke-white/95" : "stroke-white/25"}
             strokeWidth="1.5"
             filter={revenueGlow ? "url(#revenue-glow)" : undefined}
             animate={{ scale: revenueGlow ? 1.15 : 1 }}
@@ -226,7 +221,7 @@ export const FiberOpticGraph = () => {
             cy={rightY}
             r="10"
             fill="none"
-            stroke="rgba(255,255,255,0.12)"
+            className="stroke-white/[0.12]"
             strokeWidth="1"
           />
           {/* Center dot */}
@@ -234,7 +229,7 @@ export const FiberOpticGraph = () => {
             cx={rightX}
             cy={rightY}
             r="3"
-            fill="rgba(255,255,255,0.8)"
+            className="fill-white/80"
           />
         </g>
 
@@ -243,12 +238,7 @@ export const FiberOpticGraph = () => {
           x={rightX}
           y={rightY + 35}
           textAnchor="middle"
-          style={{
-            fontSize: '8px',
-            fill: 'rgba(255,255,255,0.4)',
-            fontFamily: 'ui-monospace, monospace',
-            letterSpacing: '0.1em'
-          }}
+          className="text-[8px] fill-white/40 font-mono tracking-widest"
         >
           REVENUE
         </text>
@@ -258,11 +248,8 @@ export const FiberOpticGraph = () => {
           x={rightX}
           y={rightY + 50}
           textAnchor="middle"
-          style={{
-            fontSize: '14px',
-            fontWeight: 600,
-            fill: 'url(#platinum-text)'
-          }}
+          className="text-[14px] font-semibold"
+          fill="url(#platinum-text)"
         >
           $1.2M
         </text>
@@ -282,7 +269,7 @@ export const FiberOpticGraph = () => {
                 y1={prevPoint.y}
                 x2={point.x}
                 y2={point.y}
-                stroke="rgba(255,255,255,0.25)"
+                className="stroke-white/25"
                 strokeWidth="1"
                 strokeLinecap="round"
               />
@@ -300,10 +287,7 @@ export const FiberOpticGraph = () => {
       </svg>
 
       {/* Bottom label */}
-      <div 
-        className="text-center mt-3 font-mono text-[9px] uppercase tracking-widest"
-        style={{ color: 'rgba(255,255,255,0.25)' }}
-      >
+      <div className="text-center mt-3 font-mono text-[9px] uppercase tracking-widest text-white-25">
         clean-track attribution • live
       </div>
     </div>

@@ -29,27 +29,27 @@ const faqs: FAQItem[] = [
         <p>utm.one helps teams with:</p>
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Paid campaigns — consistent UTMs across Google, Meta, LinkedIn</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Lifecycle email — track every nurture, onboarding, and re-engagement flow</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Webinars & events — QR codes and registration links that show real ROI</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Partner programs — clean attribution for affiliates and channel partners</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Sales outreach — track which content actually converts prospects</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
             <span>Content distribution — know which channels and formats drive engagement</span>
           </li>
         </ul>
@@ -63,20 +63,20 @@ const faqs: FAQItem[] = [
         <p>Clean-Track is our intelligence framework — built on mathematical models developed by MIT and Harvard scientists. It has four layers:</p>
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Syntax layer</strong> — standardized UTM structure across all links</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Syntax layer</strong> — standardized UTM structure across all links</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Naming rules layer</strong> — consistent campaign naming so data doesn't fragment</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Naming rules layer</strong> — consistent campaign naming so data doesn't fragment</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Governance layer</strong> — templates, approvals, and team rules</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Governance layer</strong> — templates, approvals, and team rules</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Reporting layer</strong> — clean data that actually rolls up correctly</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Reporting layer</strong> — clean data that actually rolls up correctly</span>
           </li>
         </ul>
         <p className="mt-3">With Clean-Track, your links don't just work — they make sense.</p>
@@ -90,20 +90,20 @@ const faqs: FAQItem[] = [
         <p>Clean-Track Intelligence uses mathematical models developed by MIT and Harvard scientists to:</p>
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Predict performance</strong> — know which campaigns will work before you launch</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Predict performance</strong> — know which campaigns will work before you launch</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Detect anomalies</strong> — catch traffic drops and bot attacks automatically</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Detect anomalies</strong> — catch traffic drops and bot attacks automatically</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Attribute revenue</strong> — see which touchpoints actually drive conversions</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Attribute revenue</strong> — see which touchpoints actually drive conversions</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Answer questions</strong> — ask anything about your data in plain English</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Answer questions</strong> — ask anything about your data in plain English</span>
           </li>
         </ul>
         <p className="mt-3">No data science degree required. Just ask, and get answers.</p>
@@ -117,27 +117,27 @@ const faqs: FAQItem[] = [
         <p>utm.one is built for GTM teams who are tired of broken tracking:</p>
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Marketers</strong> — launch campaigns without worrying about UTM chaos</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Marketers</strong> — launch campaigns without worrying about UTM chaos</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Sales teams</strong> — track which content moves deals forward</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Sales teams</strong> — track which content moves deals forward</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Marketing Ops</strong> — enforce clean data without slowing down teams</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Marketing Ops</strong> — enforce clean data without slowing down teams</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Developers</strong> — self-host, API access, full control</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Developers</strong> — self-host, API access, full control</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Partner managers</strong> — clear attribution for every affiliate and partner</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Partner managers</strong> — clear attribution for every affiliate and partner</span>
           </li>
         </ul>
-        <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-sm lowercase" style={{ color: 'rgba(255,255,255,0.7)' }}>
+        <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-sm lowercase text-white-70">
           learn more about your role →
         </a>
       </>
@@ -150,24 +150,24 @@ const faqs: FAQItem[] = [
         <p>We have four tiers:</p>
         <ul className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Free</strong> — 100 links, basic analytics, community support</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Free</strong> — 100 links, basic analytics, community support</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Pro ($20/mo)</strong> — 1,000 links, 1 custom domain, advanced analytics</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Pro ($20/mo)</strong> — 1,000 links, 1 custom domain, advanced analytics</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Business ($99/mo)</strong> — 10,000 links, 5 custom domains, priority support</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Business ($99/mo)</strong> — 10,000 links, 5 custom domains, priority support</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'rgba(255,255,255,0.6)' }} />
-            <span><strong style={{ color: 'rgba(255,255,255,0.9)' }}>Enterprise ($300/mo)</strong> — unlimited links, unlimited domains, dedicated SLA</span>
+            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-white/60" />
+            <span><strong className="text-white-90">Enterprise ($300/mo)</strong> — unlimited links, unlimited domains, dedicated SLA</span>
           </li>
         </ul>
         <p className="mt-3">All plans include UTM builder, QR generator, and Clean-Track governance.</p>
-        <a href="/pricing" className="inline-flex items-center mt-4 text-sm lowercase" style={{ color: 'rgba(255,255,255,0.7)' }}>
+        <a href="/pricing" className="inline-flex items-center mt-4 text-sm lowercase text-white-70">
           see full pricing →
         </a>
       </>
@@ -180,19 +180,19 @@ const faqs: FAQItem[] = [
         <p>Sign up in under 30 seconds:</p>
         <ol className="mt-3 space-y-2 ml-4">
           <li className="flex items-start gap-2">
-            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.8)' }}>1.</span>
+            <span className="font-semibold text-white-80">1.</span>
             <span>Create your free account</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.8)' }}>2.</span>
+            <span className="font-semibold text-white-80">2.</span>
             <span>Create your first link with clean UTMs</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.8)' }}>3.</span>
+            <span className="font-semibold text-white-80">3.</span>
             <span>Generate a branded QR code</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.8)' }}>4.</span>
+            <span className="font-semibold text-white-80">4.</span>
             <span>Watch your clean data roll in</span>
           </li>
         </ol>
@@ -218,8 +218,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
     <div ref={ref} className="flex gap-6">
       <div className="flex flex-col items-center flex-shrink-0">
         <motion.div 
-          className="w-3 h-3 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.6)' }}
+          className="w-3 h-3 rounded-full bg-white/60"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
@@ -227,10 +226,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
         />
         {!isLast && (
           <motion.div 
-            className="w-0.5 flex-1 mt-2"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)'
-            }}
+            className="w-0.5 flex-1 mt-2 bg-gradient-to-b from-white/40 to-white/10"
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             viewport={{ once: true }}
@@ -242,13 +238,10 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
         className="pb-8 flex-1"
         style={{ opacity, y }}
       >
-        <h2 
-          className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase"
-          style={{ color: 'rgba(255,255,255,0.9)' }}
-        >
+        <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase text-white-90">
           {formatText(faq.question)}
         </h2>
-        <div className="space-y-3 leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <div className="space-y-3 leading-relaxed text-white-50">
           {faq.answer}
         </div>
       </motion.div>
@@ -258,17 +251,9 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
 
 export const FooterFAQ = () => {
   return (
-    <section 
-      className="relative py-24 md:py-32 px-4 sm:px-6 md:px-8 overflow-hidden"
-      style={{ background: '#050505' }}
-    >
+    <section className="relative py-24 md:py-32 px-4 sm:px-6 md:px-8 overflow-hidden bg-obsidian">
       {/* Subtle background gradient */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(180deg, rgba(24,24,27,0.3) 0%, transparent 50%, rgba(24,24,27,0.2) 100%)'
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-zinc-900/30 via-transparent to-zinc-900/20" />
       
       <div className="max-w-[980px] mx-auto relative z-10">
         <motion.div
@@ -278,18 +263,10 @@ export const FooterFAQ = () => {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
-            style={{
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase obsidian-platinum-text">
             {formatText("ok, here's what we do. plain talk.")}
           </h1>
-          <p className="text-lg mt-4 max-w-2xl" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-lg mt-4 max-w-2xl text-white-50">
             Scroll down to learn more. Text becomes clearer as you read.
           </p>
         </motion.div>
