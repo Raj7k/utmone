@@ -89,7 +89,7 @@ export const InteractiveWorkflowCard = ({ icon: Icon, label, stepNumber, delay =
         </div>
 
         {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(hsl(0_0%_100%_/_0.03)_1px,transparent_1px),linear-gradient(90deg,hsl(0_0%_100%_/_0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
       </div>
 
       {/* Subtle shadow for depth */}

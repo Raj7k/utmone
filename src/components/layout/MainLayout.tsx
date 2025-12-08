@@ -23,7 +23,7 @@ export const MainLayout = ({ children, showAnnouncement = true }: MainLayoutProp
 
       {/* Cool White/Blue Spotlight at Top */}
       <div 
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2] bg-[radial-gradient(ellipse_at_center_top,_rgba(255,255,255,0.06)_0%,_rgba(200,220,255,0.03)_30%,_transparent_70%)]"
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] pointer-events-none z-[2] bg-[radial-gradient(ellipse_at_center_top,_hsl(0_0%_100%_/_0.06)_0%,_hsl(220_50%_90%_/_0.03)_30%,_transparent_70%)]"
       />
 
       {/* Vertical Center Axis Line */}

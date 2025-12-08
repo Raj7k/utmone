@@ -21,10 +21,10 @@ export const WalkAwayCalculator = () => {
 
   const getRiskZone = (salary: number) => {
     if (!result) return null;
-    if (salary < result) return { zone: "Red Zone", colorStyle: { color: 'rgba(24,36,51,1)', bg: 'rgba(24,36,51,0.1)' } };
+    if (salary < result) return { zone: "Red Zone", colorStyle: { color: 'hsl(217 33% 17% / 1)', bg: 'hsl(217 33% 17% / 0.1)' } };
     if (salary < result * 1.2)
-      return { zone: "Yellow Zone", colorStyle: { color: 'rgba(249,115,22,1)', bg: 'rgba(249,115,22,0.1)' } };
-    return { zone: "Green Zone", colorStyle: { color: 'rgba(20,184,166,1)', bg: 'rgba(20,184,166,0.1)' } };
+      return { zone: "Yellow Zone", colorStyle: { color: 'hsl(24 95% 53% / 1)', bg: 'hsl(24 95% 53% / 0.1)' } };
+    return { zone: "Green Zone", colorStyle: { color: 'hsl(168 80% 40% / 1)', bg: 'hsl(168 80% 40% / 0.1)' } };
   };
 
   return (

@@ -77,7 +77,7 @@ export const StageSelector = () => {
           className={cn(
             "bg-card rounded-2xl border-2 transition-all cursor-pointer",
             selectedStage === stage.id
-              ? "border-primary shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)]"
+              ? "border-primary shadow-[0_10px_25px_-5px_hsl(0_0%_0%_/_0.3)]"
               : "border-border/50 hover:border-border"
           )}
           onClick={() => setSelectedStage(selectedStage === stage.id ? null : stage.id)}

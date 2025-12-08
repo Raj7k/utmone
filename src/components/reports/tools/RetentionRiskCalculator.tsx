@@ -40,9 +40,9 @@ export const RetentionRiskCalculator = () => {
     const replacementCost = salary * 1.5; // 150% of salary
     
     const getStyleForScore = (score: number) => {
-      if (score > 70) return { color: 'rgba(220,38,38,1)', bg: 'rgba(220,38,38,0.1)' };
-      if (score > 40) return { color: 'rgba(202,138,4,1)', bg: 'rgba(202,138,4,0.1)' };
-      return { color: 'rgba(22,163,74,1)', bg: 'rgba(22,163,74,0.1)' };
+      if (score > 70) return { color: 'hsl(0 72% 51% / 1)', bg: 'hsl(0 72% 51% / 0.1)' };
+      if (score > 40) return { color: 'hsl(45 93% 40% / 1)', bg: 'hsl(45 93% 40% / 0.1)' };
+      return { color: 'hsl(142 71% 45% / 1)', bg: 'hsl(142 71% 45% / 0.1)' };
     };
     const styles = getStyleForScore(finalScore);
     

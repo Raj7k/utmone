@@ -53,7 +53,7 @@ export const URLShortenerPicker = ({ onSelectMode }: URLShortenerPickerProps) =>
           return (
             <Card
               key={mode.id}
-              className="cursor-pointer transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:scale-[1.02] hover:border-white/20"
+              className="cursor-pointer transition-all hover:shadow-[0_8px_32px_hsl(0_0%_0%_/_0.08)] hover:scale-[1.02] hover:border-white/20"
               onClick={() => handleModeSelect(mode.id)}
             >
               <CardHeader className="p-6 text-center">

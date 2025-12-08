@@ -108,7 +108,7 @@ export const RevenueFlow = () => {
           initial={{ scale: 0 }}
           animate={{ 
             scale: 1,
-            filter: pulseRevenue ? 'drop-shadow(0 0 12px white)' : 'drop-shadow(0 0 4px rgba(255,255,255,0.3))'
+            filter: pulseRevenue ? 'drop-shadow(0 0 12px white)' : 'drop-shadow(0 0 4px hsl(0 0% 100% / 0.3))'
           }}
           transition={{ delay: 0.5, type: "spring" }}
         />
@@ -145,8 +145,8 @@ export const RevenueFlow = () => {
         {/* Gradient definition for photon tail */}
         <defs>
           <linearGradient id="photonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.8)" />
+            <stop offset="0%" stopColor="hsl(0 0% 100% / 0)" />
+            <stop offset="100%" stopColor="hsl(0 0% 100% / 0.8)" />
           </linearGradient>
         </defs>
       </svg>

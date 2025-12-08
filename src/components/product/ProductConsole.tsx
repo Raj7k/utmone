@@ -47,7 +47,7 @@ const GlobalRoutingDisplay = () => {
       {/* Simple animated globe representation */}
       <div className="relative">
         <motion.div
-          className="w-64 h-64 md:w-80 md:h-80 rounded-full relative bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.15)_0%,_rgba(255,255,255,0.02)_50%,_transparent_70%)] border border-white/10 shadow-[0_0_80px_rgba(255,255,255,0.05)]"
+          className="w-64 h-64 md:w-80 md:h-80 rounded-full relative bg-[radial-gradient(circle_at_30%_30%,_hsl(0_0%_100%_/_0.15)_0%,_hsl(0_0%_100%_/_0.02)_50%,_transparent_70%)] border border-white/10 shadow-[0_0_80px_hsl(0_0%_100%_/_0.05)]"
           animate={{ rotateY: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
@@ -68,7 +68,7 @@ const GlobalRoutingDisplay = () => {
           ].map((pos, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 rounded-full bg-white/80 shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+              className="absolute w-2 h-2 rounded-full bg-white/80 shadow-[0_0_10px_hsl(0_0%_100%_/_0.5)]"
               style={{ top: pos.top, left: pos.left }}
               animate={{ 
                 scale: [1, 1.5, 1],
@@ -296,13 +296,13 @@ export const ProductConsole = () => {
         <div className="flex flex-col gap-6">
           {/* The Monitor */}
           <motion.div
-            className="relative w-full overflow-hidden aspect-video bg-black rounded-[32px] border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.05)]"
+            className="relative w-full overflow-hidden aspect-video bg-black rounded-[32px] border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%_/_0.5),inset_0_1px_0_0_hsl(0_0%_100%_/_0.05)]"
           >
             {/* Scanline overlay */}
             <div 
               className="absolute inset-0 pointer-events-none z-10 opacity-[0.015]"
               style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px)'
+                backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(0 0% 100% / 0.1) 2px, hsl(0 0% 100% / 0.1) 4px)'
               }}
             />
             
@@ -339,7 +339,7 @@ export const ProductConsole = () => {
           {/* The Control Bar - floating island */}
           <div className="flex justify-center">
             <motion.div
-              className="inline-flex items-center gap-2 p-2 rounded-full bg-zinc-900/60 backdrop-blur-[40px] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_10px_40px_-10px_rgba(0,0,0,0.5)]"
+              className="inline-flex items-center gap-2 p-2 rounded-full bg-zinc-900/60 backdrop-blur-[40px] border border-white/[0.08] shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.1),0_10px_40px_-10px_hsl(0_0%_0%_/_0.5)]"
             >
               {MODES.map((mode) => {
                 const Icon = mode.icon;
@@ -357,7 +357,7 @@ export const ProductConsole = () => {
                     {isActive && (
                       <motion.div
                         layoutId="console-active-pill"
-                        className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+                        className="absolute inset-0 rounded-full bg-white shadow-[0_0_20px_hsl(0_0%_100%_/_0.5)]"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}

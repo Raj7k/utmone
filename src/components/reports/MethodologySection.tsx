@@ -4,8 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 const colorStyles: Record<string, { bg: string; border: string; text: string }> = {
-  blazeOrange: { bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)', text: 'rgba(249,115,22,1)' },
-  deepSea: { bg: 'rgba(20,184,166,0.1)', border: 'rgba(20,184,166,0.2)', text: 'rgba(20,184,166,1)' },
+  blazeOrange: { bg: 'hsl(24 95% 53% / 0.1)', border: 'hsl(24 95% 53% / 0.2)', text: 'hsl(24 95% 53% / 1)' },
+  deepSea: { bg: 'hsl(168 80% 40% / 0.1)', border: 'hsl(168 80% 40% / 0.2)', text: 'hsl(168 80% 40% / 1)' },
 };
 
 export const MethodologySection = () => {

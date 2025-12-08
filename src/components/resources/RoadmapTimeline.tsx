@@ -46,7 +46,7 @@ export const RoadmapTimeline = () => {
       title: "Month 2: Optimization",
       subtitle: "Response time < 1 hour, MQL-to-SQL up 15-20%",
       icon: TrendingUp,
-      color: "from-[rgba(147,51,234,0.1)] to-[rgba(147,51,234,0.05)]",
+      color: "from-purple-500/10 to-purple-500/5",
       milestones: [
         { id: "m2-1", title: "Hit <1 hour response time", description: "Enable Slack alerts and mobile notifications", completed: false },
         { id: "m2-2", title: "Improve MQL-to-SQL rate by 15%", description: "Refine scoring weights based on feedback", completed: false },
@@ -59,7 +59,7 @@ export const RoadmapTimeline = () => {
       title: "Month 3: Scale",
       subtitle: "Lead volume +20-30%, win rate improving, process is BAU",
       icon: CheckCircle2,
-      color: "from-[rgba(22,163,74,0.1)] to-[rgba(22,163,74,0.05)]",
+      color: "from-green-500/10 to-green-500/5",
       milestones: [
         { id: "m3-1", title: "Increase lead volume by 25%", description: "Scale campaigns with proven MQL quality", completed: false },
         { id: "m3-2", title: "Improve win rate by 10%+", description: "Better qualified leads = higher close rates", completed: false },

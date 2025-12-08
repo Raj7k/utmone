@@ -58,8 +58,8 @@ export const ResourcesNavigation = () => {
         }`}
         style={{
           boxShadow: isScrolled 
-            ? '0 4px 24px -4px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 1)' 
-            : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.5)'
+            ? '0 4px 24px -4px hsl(0 0% 0% / 0.1), inset 0 1px 0 0 hsl(0 0% 100% / 1)' 
+            : 'inset 0 1px 0 0 hsl(0 0% 100% / 0.5)'
         }}
       >
         {/* Scroll Progress Bar */}
