@@ -46,7 +46,7 @@ export function BatchApproveModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Zap className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Zap className="h-5 w-5 text-foreground" />
             bulk approve users
           </DialogTitle>
           <DialogDescription>
@@ -55,10 +55,9 @@ export function BatchApproveModal({
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Pending Count Display */}
           <div className="bg-muted/30 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Users className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <Users className="h-5 w-5 text-foreground" />
               <div>
                 <p className="text-sm font-medium">pending in queue</p>
                 <p className="text-2xl font-bold">{pendingCount.toLocaleString()}</p>
@@ -66,7 +65,6 @@ export function BatchApproveModal({
             </div>
           </div>
 
-          {/* Count Input */}
           <div className="space-y-3">
             <Label htmlFor="count">how many users?</Label>
             <div className="flex gap-2">
@@ -82,7 +80,6 @@ export function BatchApproveModal({
               />
             </div>
             
-            {/* Quick Select Buttons */}
             <div className="flex gap-2">
               {quickCounts.map((num) => (
                 <Button
@@ -99,7 +96,6 @@ export function BatchApproveModal({
             </div>
           </div>
 
-          {/* Access Level Selection */}
           <div className="space-y-3">
             <Label htmlFor="access-level">access level</Label>
             <Select value={accessLevel} onValueChange={setAccessLevel}>
@@ -118,7 +114,6 @@ export function BatchApproveModal({
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex gap-3 pt-4">
             <Button
               variant="outline"

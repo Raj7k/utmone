@@ -53,7 +53,6 @@ export const SecurityKeyManager = () => {
   const registerMutation = useMutation({
     mutationFn: async (name: string) => {
       try {
-        // Step 1: Get registration options from server
         const { data: options, error: optionsError } = await supabase.functions.invoke(
           'generate-webauthn-registration',
           { body: {} }
@@ -61,15 +60,12 @@ export const SecurityKeyManager = () => {
 
         if (optionsError) throw optionsError;
 
-        // Check for domain mismatch
         if (options?.rp?.id !== window.location.hostname) {
           throw new Error(`Domain mismatch: RP ID "${options?.rp?.id}" !== hostname "${window.location.hostname}"`);
         }
 
-        // Step 2: Prompt user to use their security key
         const credential = await startRegistration({ optionsJSON: options });
 
-        // Step 3: Verify the registration with server
         const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
           'verify-webauthn-registration',
           {
@@ -85,7 +81,6 @@ export const SecurityKeyManager = () => {
 
         return verifyData;
       } catch (error: any) {
-        // Provide specific error messages based on WebAuthn error types
         if (error.name === 'NotAllowedError') {
           throw new Error('Registration cancelled or timed out. Please try again.');
         } else if (error.name === 'SecurityError') {
@@ -136,11 +131,9 @@ export const SecurityKeyManager = () => {
         description: "the hardware key has been deleted",
       });
       
-      // If we were re-registering, start the registration flow
       if (reregisterKeyName) {
         setDeviceName(reregisterKeyName);
         setIsRegistering(true);
-        // Small delay to ensure UI updates
         setTimeout(() => {
           registerMutation.mutate(reregisterKeyName);
         }, 100);
@@ -175,15 +168,15 @@ export const SecurityKeyManager = () => {
   };
 
   const isDomainMatch = (registeredDomain: string | null) => {
-    if (!registeredDomain) return true; // Legacy keys without domain info
+    if (!registeredDomain) return true;
     return registeredDomain === currentDomain;
   };
 
   return (
-    <Card variant="glass">
+    <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Shield className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <Shield className="h-5 w-5 text-foreground" />
           <div>
             <CardTitle>hardware security keys</CardTitle>
             <CardDescription className="mt-1">
@@ -206,22 +199,16 @@ export const SecurityKeyManager = () => {
         )}
 
         {/* Registration Form */}
-        <div 
-          className="space-y-4 p-4 rounded-lg"
-          style={{ 
-            background: 'rgba(255,255,255,0.05)', 
-            border: '1px solid rgba(255,255,255,0.1)' 
-          }}
-        >
+        <div className="space-y-4 p-4 rounded-lg bg-muted/10 border border-border">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>register new key</h3>
-              <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                keys will be bound to: <code className="px-1 py-0.5 rounded bg-white/10 text-xs">{currentDomain}</code>
+              <h3 className="font-medium text-foreground">register new key</h3>
+              <p className="text-sm mt-1 text-muted-foreground">
+                keys will be bound to: <code className="px-1 py-0.5 rounded bg-muted text-xs">{currentDomain}</code>
               </p>
             </div>
             <Button
-              variant="glass"
+              variant="outline"
               size="sm"
               onClick={() => setIsRegistering(!isRegistering)}
             >
@@ -231,7 +218,7 @@ export const SecurityKeyManager = () => {
           </div>
 
           {isRegistering && (
-            <div className="space-y-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="space-y-3 pt-4 border-t border-border">
               <div className="space-y-2">
                 <Label htmlFor="device-name">device name</Label>
                 <Input
@@ -246,7 +233,6 @@ export const SecurityKeyManager = () => {
                 onClick={handleRegister}
                 disabled={registerMutation.isPending || !deviceName.trim()}
                 className="w-full"
-                variant="halo"
               >
                 {registerMutation.isPending ? "touch your key..." : "register security key"}
               </Button>
@@ -256,9 +242,9 @@ export const SecurityKeyManager = () => {
 
         {/* Registered Keys List */}
         <div className="space-y-3">
-          <h3 className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>registered keys</h3>
+          <h3 className="font-medium text-foreground">registered keys</h3>
           {isLoading ? (
-            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>loading keys...</p>
+            <p className="text-sm text-muted-foreground">loading keys...</p>
           ) : authenticators && authenticators.length > 0 ? (
             <div className="space-y-2">
               {authenticators.map((auth) => {
@@ -267,11 +253,11 @@ export const SecurityKeyManager = () => {
                 return (
                   <div
                     key={auth.id}
-                    className="flex items-center justify-between p-3 rounded-lg"
-                    style={{ 
-                      background: domainMatch ? 'rgba(24,24,27,0.6)' : 'rgba(245,158,11,0.1)',
-                      border: `1px solid ${domainMatch ? 'rgba(255,255,255,0.1)' : 'rgba(245,158,11,0.3)'}`,
-                    }}
+                    className={`flex items-center justify-between p-3 rounded-lg ${
+                      domainMatch 
+                        ? "bg-card border border-border" 
+                        : "bg-amber-500/10 border border-amber-500/30"
+                    }`}
                   >
                     <div className="flex items-center gap-3">
                       {domainMatch ? (
@@ -281,14 +267,14 @@ export const SecurityKeyManager = () => {
                       )}
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                          <span className="font-medium text-foreground">
                             {auth.device_name}
                           </span>
                           {auth.registered_domain && (
                             <Badge 
                               variant={domainMatch ? "outline" : "destructive"}
                               className={domainMatch 
-                                ? "text-xs bg-transparent border-white/20 text-white/60" 
+                                ? "text-xs" 
                                 : "text-xs bg-amber-500/20 border-amber-500/40 text-amber-200"
                               }
                             >
@@ -296,12 +282,12 @@ export const SecurityKeyManager = () => {
                             </Badge>
                           )}
                           {!auth.registered_domain && (
-                            <Badge variant="outline" className="text-xs bg-transparent border-white/20 text-white/40">
+                            <Badge variant="outline" className="text-xs">
                               legacy
                             </Badge>
                           )}
                         </div>
-                        <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                        <div className="text-xs text-muted-foreground">
                           registered {format(new Date(auth.created_at), "MMM d, yyyy")}
                           {auth.last_used_at && (
                             <> • last used {format(new Date(auth.last_used_at), "MMM d, yyyy")}</>
@@ -327,7 +313,7 @@ export const SecurityKeyManager = () => {
                         </Button>
                       )}
                       <Button
-                        variant="glass-ghost"
+                        variant="ghost"
                         size="sm"
                         onClick={() => setDeleteKeyId(auth.id)}
                       >
@@ -339,7 +325,7 @@ export const SecurityKeyManager = () => {
               })}
             </div>
           ) : (
-            <div className="text-center py-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <div className="text-center py-8 text-muted-foreground">
               <Shield className="h-12 w-12 mx-auto mb-3 opacity-20" />
               <p>no security keys registered</p>
               <p className="text-sm mt-1">add your first hardware key for admin access</p>
@@ -348,15 +334,9 @@ export const SecurityKeyManager = () => {
         </div>
 
         {/* Info Box */}
-        <div 
-          className="p-4 rounded-lg"
-          style={{ 
-            background: 'rgba(255,255,255,0.05)', 
-            border: '1px solid rgba(255,255,255,0.15)' 
-          }}
-        >
-          <h4 className="font-medium text-sm mb-2" style={{ color: 'rgba(255,255,255,0.9)' }}>why hardware keys?</h4>
-          <ul className="text-xs space-y-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <div className="p-4 rounded-lg bg-muted/10 border border-border">
+          <h4 className="font-medium text-sm mb-2 text-foreground">why hardware keys?</h4>
+          <ul className="text-xs space-y-1 text-muted-foreground">
             <li>• <strong>phishing-proof</strong>: can't be stolen remotely</li>
             <li>• <strong>portable</strong>: works from any location</li>
             <li>• <strong>fast</strong>: just tap your key—no codes to type</li>
