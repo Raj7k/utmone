@@ -4,13 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { FileText, Download, TrendingUp, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { getResourcesByCategory } from "@/lib/resourceRegistry";
-import { MainLayout } from "@/components/layout/MainLayout";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Reports = () => {
   const reports = getResourcesByCategory('reports');
 
   return (
-    <MainLayout showAnnouncement={false}>
+    <ResourcesLayout>
       {/* Breadcrumb */}
       <div className="border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-8 py-4">
@@ -36,7 +36,7 @@ const Reports = () => {
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-display font-extrabold hero-gradient">
+            <h1 className="text-5xl md:text-6xl font-display font-bold text-zinc-900">
               Reports
             </h1>
             <p className="text-xl text-white/60 max-w-[640px] mx-auto">
@@ -134,7 +134,7 @@ const Reports = () => {
           </Link>
         </div>
       </section>
-    </MainLayout>
+    </ResourcesLayout>
   );
 };
 

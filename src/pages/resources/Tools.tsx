@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/seo/SEO";
-import { MainLayout } from "@/components/layout/MainLayout";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Tools = () => {
   const tools = [
@@ -74,7 +74,7 @@ const Tools = () => {
   ];
 
   return (
-    <MainLayout showAnnouncement={false}>
+    <ResourcesLayout>
       <SEO 
         title="Interactive Tools - Salary & Career Calculators"
         description="Interactive calculators for salary negotiation, career planning, market value assessment, and team budgeting. Backed by real GTM salary data."
@@ -87,7 +87,7 @@ const Tools = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <div className="text-center space-y-6">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-balance">
+              <h1 className="text-zinc-900 text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-balance">
                 Tools
               </h1>
             </div>
@@ -161,7 +161,7 @@ const Tools = () => {
           </div>
         </div>
       </section>
-    </MainLayout>
+    </ResourcesLayout>
   );
 };
 

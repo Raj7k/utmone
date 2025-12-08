@@ -1,5 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Sparkles, Target, Search, FileCode, Shield, TrendingUp, Users, Zap, Award, CheckCircle2, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -85,11 +84,9 @@ const LLMRanking = () => {
         }))}
       />
 
-      <div className="min-h-screen bg-background">
-        <Navigation />
-
+      <ResourcesLayout>
         {/* Hero Section */}
-        <section className="py-20 bg-background border-b border-separator">
+        <section className="py-20 border-b border-zinc-200">
           <div className="max-w-[980px] mx-auto px-8">
             <Link
               to="/resources/playbooks"
@@ -105,7 +102,7 @@ const LLMRanking = () => {
                 <span className="text-sm text-muted-foreground">45 min read</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900">
                 LLM Ranking Playbook — The Complete Implementation Guide
               </h1>
               
@@ -1821,9 +1818,7 @@ utm_content = {citation-position} (optional)`}
             </div>
           </section>
         </div>
-
-        <Footer />
-      </div>
+      </ResourcesLayout>
     </>
   );
 };

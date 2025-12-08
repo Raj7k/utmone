@@ -136,7 +136,7 @@ const CleanTrackModel = () => {
               mental model framework
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase">
               clean-track model
             </h1>
             
@@ -212,7 +212,7 @@ const CleanTrackModel = () => {
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-5xl font-extrabold text-primary/10">
+                      <span className="text-5xl font-bold text-primary/10">
                         {layer.number}
                       </span>
                       <h3 className="text-2xl font-display font-semibold text-foreground">

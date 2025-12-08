@@ -420,8 +420,12 @@ All colors MUST be HSL.
   }
   
   /* BRAND TYPOGRAPHY ENFORCEMENT */
-  h1, h2, h3, h4 {
+  h1 {
     @apply font-serif tracking-tight;
+  }
+  
+  h2, h3, h4 {
+    @apply font-sans font-semibold tracking-tight;
   }
   
   /* Platinum Gradient Headlines - Only on dark pages */

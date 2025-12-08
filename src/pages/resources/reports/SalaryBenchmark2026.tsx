@@ -212,7 +212,7 @@ const SalaryBenchmark2026Content = () => {
             <Badge variant="default" className="animate-pulse bg-blazeOrange">FEATURED REPORT • 2026 EDITION</Badge>
             
             <div className="hero-glow">
-              <h1 className="hero-gradient text-4xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight">
+              <h1 className="text-zinc-900 text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
                 The World's First Open-Source GTM Salary Report
               </h1>
             </div>
@@ -293,7 +293,7 @@ const SalaryBenchmark2026Content = () => {
                   style={{ borderColor: finding.colorStyle.borderColor }}
                 >
                   <CardHeader>
-                    <div className="text-4xl font-display font-extrabold mb-2" style={{ color: finding.colorStyle.color }}>
+                    <div className="text-4xl font-display font-bold mb-2" style={{ color: finding.colorStyle.color }}>
                       {finding.value}
                     </div>
                     <CardTitle className="text-base font-medium">

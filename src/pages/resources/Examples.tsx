@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
-import { MainLayout } from "@/components/layout/MainLayout";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Examples = () => {
   const examples = [
@@ -26,7 +26,7 @@ const Examples = () => {
   ];
 
   return (
-    <MainLayout showAnnouncement={false}>
+    <ResourcesLayout>
       <SEO 
         title="Examples - UTM & Dashboard Examples"
         description="Real-world UTM examples, naming conventions, and dashboard visualizations from successful marketing teams. Free example library."
@@ -44,7 +44,7 @@ const Examples = () => {
             Back to Resources
           </Link>
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900">
               Examples
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
@@ -79,7 +79,7 @@ const Examples = () => {
           </div>
         </div>
       </section>
-    </MainLayout>
+    </ResourcesLayout>
   );
 };
 

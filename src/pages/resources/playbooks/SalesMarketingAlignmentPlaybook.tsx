@@ -1,5 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download, FileText, Table, CheckSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +29,7 @@ const SalesMarketingAlignmentPlaybook = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Helmet>
         <title>Sales & Marketing Alignment Playbook — 90-Day Implementation | utm.one</title>
         <meta name="description" content="Complete 90-day playbook to align sales and marketing teams. Includes interactive lead scoring calculator, metrics dashboard, weekly sync timer, SLA agreement, and role-specific checklists. Plain English, zero confusion." />
@@ -138,10 +137,10 @@ const SalesMarketingAlignmentPlaybook = () => {
           })}
         </script>
       </Helmet>
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="py-20 bg-background border-b border-border/50">
+      
+      <ResourcesLayout>
+        {/* Hero Section */}
+        <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[1200px] mx-auto px-8">
           {/* Breadcrumbs */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
@@ -160,7 +159,7 @@ const SalesMarketingAlignmentPlaybook = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-6">
             sales & marketing alignment playbook
           </h1>
           
@@ -252,7 +251,7 @@ const SalesMarketingAlignmentPlaybook = () => {
                     transition={{ delay: i * 0.1 }}
                     className="relative p-6 md:p-8 rounded-2xl bg-card border border-border/50 hover:border-white/20 hover:shadow-lg transition-all duration-300"
                   >
-                    <div className="absolute top-6 right-6 text-7xl font-extrabold text-foreground/5 pointer-events-none">
+                    <div className="absolute top-6 right-6 text-7xl font-bold text-foreground/5 pointer-events-none">
                       {idea.number}
                     </div>
                     <div className="relative z-10">
@@ -639,8 +638,8 @@ const SalesMarketingAlignmentPlaybook = () => {
         </div>
       </section>
 
-      <Footer />
-    </div>
+      </ResourcesLayout>
+    </>
   );
 };
 
