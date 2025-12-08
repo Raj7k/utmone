@@ -104,7 +104,7 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
           <DialogTitle className="text-2xl font-display font-bold">
             share your referral link
           </DialogTitle>
-          <p className="text-secondary-label">
+          <p className="text-muted-foreground">
             invite friends and jump the queue — you both get 1 month Pro free when we launch
           </p>
         </DialogHeader>
@@ -112,13 +112,13 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
         <div className="space-y-6">
           {/* Copy Link Bar */}
           <div className="bg-muted/20 rounded-lg p-4 border border-border">
-            <p className="text-xs text-tertiary-label mb-2">your referral link</p>
+            <p className="text-xs text-muted-foreground mb-2">your referral link</p>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={referralLink}
                 readOnly
-                className="flex-1 bg-zinc-900/60 px-3 py-2 rounded border border-white/10 text-sm text-white"
+                className="flex-1 bg-muted/30 px-3 py-2 rounded border border-border text-sm text-foreground"
               />
               <Button
                 onClick={copyToClipboard}
@@ -152,8 +152,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                   variant="outline"
                   className="gap-2 justify-start h-auto py-3"
                 >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                    <Share2 className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-muted/30">
+                    <Share2 className="h-4 w-4 text-foreground" />
                   </div>
                   <span className="text-sm">share</span>
                 </Button>
@@ -165,7 +165,7 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 variant="outline"
                 className="gap-2 justify-start h-auto py-3"
               >
-                <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 rounded-full bg-muted/30 flex items-center justify-center shrink-0">
                   <TwitterIcon className="h-4 w-4" />
                 </div>
                 <span className="text-sm">twitter/x</span>
@@ -225,8 +225,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 variant="outline"
                 className="gap-2 justify-start h-auto py-3"
               >
-                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                  <Mail className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-muted/30">
+                  <Mail className="h-4 w-4 text-foreground" />
                 </div>
                 <span className="text-sm">email</span>
               </Button>
@@ -237,8 +237,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
                 variant="outline"
                 className="gap-2 justify-start h-auto py-3"
               >
-                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                  <MessageSquare className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-muted/30">
+                  <MessageSquare className="h-4 w-4 text-foreground" />
                 </div>
                 <span className="text-sm">sms</span>
               </Button>
@@ -246,8 +246,8 @@ export function ShareReferralModal({ referralCode, userName }: ShareReferralModa
           </div>
 
           {/* Pro Tip */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-            <p className="text-xs text-amber-900">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+            <p className="text-xs text-amber-200">
               <span className="font-semibold">💡 pro tip:</span> personalized messages get more clicks. explain why you're excited about utm.one when sharing!
             </p>
           </div>
