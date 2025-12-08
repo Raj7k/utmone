@@ -486,11 +486,23 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
   const VisualComponent = VISUAL_COMPONENTS[selectedUseCase];
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <motion.section 
+      className="py-24 md:py-32 relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Subtle ambient glow */}
-      <div className="absolute inset-0 pointer-events-none">
+      <motion.div 
+        className="absolute inset-0 pointer-events-none"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.3 }}
+      >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/[0.02] rounded-full blur-3xl" />
-      </div>
+      </motion.div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
@@ -505,9 +517,10 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
             {/* Left: Text Content */}
             <div className="space-y-6">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
               >
                 <p className="text-xs font-medium uppercase tracking-widest text-white/30 mb-4">
                   the insight
@@ -527,9 +540,10 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
 
               <motion.p 
                 className="text-base md:text-lg text-white/40 leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
               >
                 {content.explanation}
               </motion.p>
@@ -538,8 +552,9 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
               <motion.p
                 className="text-sm text-white/25 font-mono"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
               >
                 {content.principles.map((principle, i) => (
                   <span key={principle}>
@@ -552,9 +567,10 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
 
             {/* Right: Visual */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.15 }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
             >
               <VisualContainer caption={content.caption}>
                 <VisualComponent />
@@ -563,6 +579,6 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
           </motion.div>
         </AnimatePresence>
       </div>
-    </section>
+    </motion.section>
   );
 };
