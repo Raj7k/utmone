@@ -30,10 +30,8 @@ interface TrafficForecastChartProps {
 }
 
 export function TrafficForecastChart({ historical, forecast, needsMoreData }: TrafficForecastChartProps) {
-  // Combine historical and forecast data
   const allData = [...historical, ...forecast];
   
-  // Accessibility data
   const accessibilityData = useChartAccessibility(
     allData,
     "Traffic Forecast - Historical and Predicted Clicks",
@@ -41,13 +39,11 @@ export function TrafficForecastChart({ historical, forecast, needsMoreData }: Tr
     ["clicks", "lower", "upper"]
   );
   
-  // Format date for display (e.g., "Jan 15")
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  // Custom tooltip
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload?.[0]) return null;
     
@@ -198,15 +194,15 @@ export function TrafficForecastChart({ historical, forecast, needsMoreData }: Tr
 
         <div className="mt-4 text-xs text-muted-foreground space-y-1">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-0.5" style={{ background: 'rgba(255,255,255,0.6)' }} />
+            <div className="w-8 h-0.5 bg-white-60" />
             <span>historical data (past 7 days)</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-0.5" style={{ background: 'rgba(255,255,255,0.6)', backgroundImage: 'repeating-linear-gradient(to right, currentColor 0, currentColor 5px, transparent 5px, transparent 10px)' }} />
+            <div className="w-8 h-0.5 bg-white-60 border-dashed" />
             <span>predicted trajectory (next 7 days)</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-4" style={{ background: 'rgba(255,255,255,0.1)' }} />
+            <div className="w-8 h-4 bg-white-10" />
             <span>95% confidence interval (uncertainty grows over time)</span>
           </div>
         </div>

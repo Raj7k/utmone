@@ -41,19 +41,13 @@ export const LinkConstructor = () => {
   return (
     <div className="relative w-[380px] h-[160px] flex items-center justify-center">
       {/* Container */}
-      <div 
-        className="relative w-full p-6 rounded-xl overflow-hidden"
-        style={{
-          background: 'rgba(0, 0, 0, 0.4)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-        }}
-      >
+      <div className="relative w-full p-6 rounded-xl overflow-hidden bg-black-40 border border-white-10">
         {/* Terminal header */}
         <div className="flex items-center gap-2 mb-4">
           <div className="w-2 h-2 rounded-full bg-red-500/60" />
           <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
           <div className="w-2 h-2 rounded-full bg-green-500/60" />
-          <span className="text-[10px] uppercase tracking-wider ml-2" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <span className="text-[10px] uppercase tracking-wider ml-2 text-white-30">
             link constructor
           </span>
         </div>
@@ -67,8 +61,7 @@ export const LinkConstructor = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="font-mono text-sm"
-                style={{ color: 'rgba(255, 100, 100, 0.8)' }}
+                className="font-mono text-sm text-status-error/80"
               >
                 <TypewriterText text={dirtyUrl} />
               </motion.div>
@@ -77,18 +70,13 @@ export const LinkConstructor = () => {
             {phase === "scanning" && (
               <motion.div
                 key="scanning"
-                className="relative font-mono text-sm w-full"
-                style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+                className="relative font-mono text-sm w-full text-white-60"
               >
                 {dirtyUrl}
                 {/* Scan line */}
                 <motion.div
-                  className="absolute top-0 h-full w-1"
-                  style={{
-                    left: `${scanPosition}%`,
-                    background: 'linear-gradient(to bottom, transparent, white, transparent)',
-                    boxShadow: '0 0 20px white',
-                  }}
+                  className="absolute top-0 h-full w-1 bg-gradient-to-b from-transparent via-white to-transparent glow-white"
+                  style={{ left: `${scanPosition}%` }}
                 />
               </motion.div>
             )}
@@ -98,11 +86,7 @@ export const LinkConstructor = () => {
                 key="clean"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="font-mono text-lg font-medium"
-                style={{ 
-                  color: 'rgba(100, 255, 150, 0.9)',
-                  textShadow: '0 0 10px rgba(100, 255, 150, 0.5)'
-                }}
+                className="font-mono text-lg font-medium text-status-success text-glow-success"
               >
                 {cleanUrl}
               </motion.div>
@@ -121,7 +105,7 @@ export const LinkConstructor = () => {
               boxShadow: phase === "clean" ? '0 0 8px rgb(34, 197, 94)' : 'none'
             }}
           />
-          <span className="text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          <span className="text-[10px] uppercase tracking-wider text-white-40">
             {phase === "dirty" && "analyzing..."}
             {phase === "scanning" && "cleaning..."}
             {phase === "clean" && "optimized"}
