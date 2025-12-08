@@ -24,7 +24,7 @@ export function SmartContactRanking({ contacts, onInvite }: SmartContactRankingP
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+        <Sparkles className="h-4 w-4 text-white/90" />
         <h3 className="text-sm font-medium">suggested for {currentWorkspace.name}</h3>
       </div>
 

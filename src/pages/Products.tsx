@@ -144,24 +144,15 @@ export default function Products() {
                     >
                       {/* Icon with Platinum styling */}
                       <div 
-                        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
-                        style={{ 
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.15)'
-                        }}
+                        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 bg-gradient-to-br from-white/15 to-white/5 border border-white/10 shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.15)]"
                       >
-                        <div style={{ color: 'rgba(255,255,255,0.9)' }}>{product.icon}</div>
+                        <div className="text-white/90">{product.icon}</div>
                       </div>
 
                       {/* Content */}
                       <div className="space-y-3">
                         <p 
-                          className="text-sm font-medium uppercase"
-                          style={{ 
-                            color: 'rgba(255,255,255,0.4)',
-                            letterSpacing: '0.15em'
-                          }}
+                          className="text-sm font-medium uppercase text-white/40 tracking-[0.15em]"
                         >
                           {product.subtitle}
                         </p>
@@ -177,26 +168,17 @@ export default function Products() {
                         >
                           {product.title}
                         </h2>
-                        <p 
-                          className="text-lg leading-relaxed"
-                          style={{ color: 'rgba(255,255,255,0.5)' }}
-                        >
+                        <p className="text-lg leading-relaxed text-white/50">
                           {product.description}
                         </p>
                       </div>
 
                       {/* Learn more link */}
                       <div className="mt-8 flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
-                        <span 
-                          className="text-sm font-medium transition-colors duration-300"
-                          style={{ color: 'rgba(255,255,255,0.7)' }}
-                        >
+                        <span className="text-sm font-medium transition-colors duration-300 text-white/70">
                           learn more
                         </span>
-                        <ArrowRight 
-                          className="w-4 h-4 transition-all duration-300 group-hover:translate-x-1" 
-                          style={{ color: 'rgba(255,255,255,0.7)' }}
-                        />
+                        <ArrowRight className="w-4 h-4 transition-all duration-300 group-hover:translate-x-1 text-white/70" />
                       </div>
 
                       {/* Hover glow effect - Cool White */}
@@ -342,10 +324,7 @@ export default function Products() {
               >
                 ready to take control?
               </h2>
-              <p 
-                className="text-xl font-light mb-10 relative z-10"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
-              >
+              <p className="text-xl font-light mb-10 relative z-10 text-white/50">
                 Join teams who measure what matters.
               </p>
               <Link 

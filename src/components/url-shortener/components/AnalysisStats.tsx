@@ -29,7 +29,7 @@ export const AnalysisStats = ({ analysis }: AnalysisStatsProps) => {
 
       <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/10">
         <div className="flex items-center gap-2 mb-1">
-          <BarChart3 className="h-4 w-4" style={{ color: 'rgba(168,85,247,1)' }} />
+          <BarChart3 className="h-4 w-4 text-purple-500" />
           <span className="text-xs text-muted-foreground">versions</span>
         </div>
         <div className="text-xl font-bold text-foreground">
