@@ -433,8 +433,8 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
     <div className="space-y-6">
       {/* Resume Progress Banner */}
       {showResumeBanner && savedProgress && (
-        <Alert style={{ borderColor: 'rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.05)' }}>
-          <Clock className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+        <Alert className="border-border bg-muted/30">
+          <Clock className="h-4 w-4 text-foreground" />
           <AlertDescription className="flex items-center justify-between gap-4">
             <div>
               <p className="font-medium">unfinished upload found</p>

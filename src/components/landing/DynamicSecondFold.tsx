@@ -32,13 +32,9 @@ interface DynamicSecondFoldProps {
 // Glass Card Component for consistent styling
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div 
-    className={`rounded-2xl overflow-hidden ${className}`}
+    className={`rounded-2xl overflow-hidden bg-card backdrop-blur-xl border border-border shadow-2xl ${className}`}
     style={{
-      background: 'rgba(24,24,27,0.4)',
-      backdropFilter: 'blur(40px)',
-      border: '1px solid rgba(255,255,255,0.08)',
-      borderTop: '1px solid rgba(255,255,255,0.15)',
-      boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.1), 0 25px 50px -12px rgba(0,0,0,0.5)'
+      borderTop: '1px solid hsl(var(--border) / 0.3)',
     }}
   >
     {children}
@@ -46,20 +42,14 @@ const GlassCard = ({ children, className = "" }: { children: React.ReactNode; cl
 );
 
 const BrowserHeader = ({ url }: { url: string }) => (
-  <div 
-    className="flex items-center gap-2 px-4 py-3"
-    style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-  >
+  <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
     <div className="flex gap-1.5">
-      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,100,100,0.5)' }} />
-      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,200,100,0.5)' }} />
-      <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(100,200,100,0.5)' }} />
+      <div className="w-3 h-3 rounded-full bg-destructive/50" />
+      <div className="w-3 h-3 rounded-full bg-warning/50" />
+      <div className="w-3 h-3 rounded-full bg-success/50" />
     </div>
     <div className="flex-1 mx-4">
-      <div 
-        className="rounded-md px-3 py-1.5 text-xs font-mono"
-        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
-      >
+      <div className="rounded-md px-3 py-1.5 text-xs font-mono bg-muted/50 text-muted-foreground">
         {url}
       </div>
     </div>
@@ -83,8 +73,8 @@ const AttributionContent = () => (
         {/* Dashboard Content */}
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>clean-track attribution</h4>
-            <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>last 30 days</span>
+            <h4 className="font-semibold lowercase text-foreground">clean-track attribution</h4>
+            <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
           
           {/* Attribution Bars */}
@@ -97,16 +87,16 @@ const AttributionContent = () => (
             ].map((item, i) => (
               <div key={item.channel} className="space-y-1.5">
                 <div className="flex justify-between text-sm">
-                  <span style={{ color: 'rgba(255,255,255,0.5)' }}>{item.channel}</span>
-                  <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{item.credit}%</span>
+                  <span className="text-muted-foreground">{item.channel}</span>
+                  <span className="font-semibold text-foreground">{item.credit}%</span>
                 </div>
-                <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                                <motion.div 
-                                  className="h-full rounded-full bg-primary"
-                                  style={{ opacity: item.opacity }}
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${item.credit}%` }}
-                                  transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
+                <div className="h-2.5 rounded-full overflow-hidden bg-muted/30">
+                  <motion.div 
+                    className="h-full rounded-full bg-primary"
+                    style={{ opacity: item.opacity }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${item.credit}%` }}
+                    transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
                   />
                 </div>
               </div>
@@ -117,7 +107,7 @@ const AttributionContent = () => (
           <div className="mt-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
             <div className="flex items-center gap-2 text-sm">
               <CheckCircle2 className="w-4 h-4 text-primary" />
-              <span style={{ color: 'rgba(255,255,255,0.5)' }}>vs Last-Click: Google Ads would get <span className="font-semibold text-destructive">100%</span></span>
+              <span className="text-muted-foreground">vs Last-Click: Google Ads would get <span className="font-semibold text-destructive">100%</span></span>
             </div>
           </div>
         </div>
@@ -128,8 +118,7 @@ const AttributionContent = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4"
-        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4 bg-card backdrop-blur-xl border border-border"
       >
         <div className="text-2xl font-bold text-primary">3.2x</div>
         <div className="text-xs text-muted-foreground">better ROAS</div>
@@ -139,11 +128,11 @@ const AttributionContent = () => (
     {/* Right: Content */}
     <div className="space-y-6">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider" style={{ color: 'rgba(239,68,68,0.8)' }}>the problem</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-destructive/80">the problem</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           last-click attribution lies to you
         </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <p className="text-lg leading-relaxed text-muted-foreground">
           Google Ads gets 100% credit because it was the last touch. 
           But what about the blog post, the podcast mention, the LinkedIn post that started it all?
         </p>
@@ -159,8 +148,7 @@ const AttributionContent = () => (
           return (
             <motion.div
               key={item.label}
-              className="p-4 rounded-xl"
-              style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="p-4 rounded-xl bg-card backdrop-blur-xl border border-border"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
@@ -194,7 +182,7 @@ const JourneyContent = () => (
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
           see every touchpoint, across every device
         </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <p className="text-lg leading-relaxed text-muted-foreground">
           From anonymous first visit to enterprise contract — track the complete path your customers take, 
           across devices, channels, and campaigns.
         </p>
@@ -209,16 +197,15 @@ const JourneyContent = () => (
         ].map((feature, i) => (
           <motion.div
             key={feature.title}
-            className="flex items-start gap-3 p-3 rounded-lg"
-            style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="flex items-start gap-3 p-3 rounded-lg bg-card backdrop-blur-xl border border-border"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
           >
             <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
             <div>
-              <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
-              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.desc}</p>
+              <h4 className="font-semibold lowercase text-sm text-foreground">{feature.title}</h4>
+              <p className="text-xs text-muted-foreground">{feature.desc}</p>
             </div>
           </motion.div>
         ))}
@@ -241,24 +228,15 @@ const JourneyContent = () => (
       className="relative lg:order-1"
     >
       {/* Journey Timeline Mockup */}
-      <div 
-        className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
-      >
-        <div 
-          className="flex items-center gap-2 px-4 py-3"
-          style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-        >
+      <div className="rounded-2xl shadow-2xl overflow-hidden bg-card backdrop-blur-xl border border-border" style={{ boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}>
+        <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,100,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,200,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(100,200,100,0.5)' }} />
+            <div className="w-3 h-3 rounded-full bg-destructive/50" />
+            <div className="w-3 h-3 rounded-full bg-warning/50" />
+            <div className="w-3 h-3 rounded-full bg-success/50" />
           </div>
           <div className="flex-1 mx-4">
-            <div 
-              className="rounded-md px-3 py-1.5 text-xs font-mono"
-              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
-            >
+            <div className="rounded-md px-3 py-1.5 text-xs font-mono bg-muted/50 text-muted-foreground">
               utm.one/dashboard/journeys
             </div>
           </div>
@@ -266,7 +244,7 @@ const JourneyContent = () => (
         
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h4 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>customer journey</h4>
+            <h4 className="font-semibold lowercase text-foreground">customer journey</h4>
             <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
               Nike enterprise deal
             </span>
@@ -274,10 +252,7 @@ const JourneyContent = () => (
           
           {/* Journey Steps */}
           <div className="relative">
-            <div 
-              className="absolute top-6 left-6 bottom-6 w-0.5"
-              style={{ background: 'rgba(255,255,255,0.1)' }}
-            />
+            <div className="absolute top-6 left-6 bottom-6 w-0.5 bg-border" />
             
             <div className="space-y-4">
               {[
@@ -297,25 +272,20 @@ const JourneyContent = () => (
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
                   >
                     <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center relative z-10"
-                      style={step.highlight ? {
-                        background: 'hsl(var(--primary))',
-                        color: 'white',
-                        boxShadow: '0 0 20px hsl(var(--primary) / 0.4)'
-                      } : {
-                        background: 'rgba(24,24,27,0.6)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'rgba(255,255,255,0.5)'
-                      }}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center relative z-10 ${
+                        step.highlight 
+                          ? 'bg-primary text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.4)]' 
+                          : 'bg-muted border border-border text-muted-foreground'
+                      }`}
                     >
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{step.label}</span>
-                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.device}</span>
+                        <span className="font-semibold text-sm text-foreground">{step.label}</span>
+                        <span className="text-xs text-muted-foreground">{step.device}</span>
                       </div>
-                      <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{step.day} · {step.time}</div>
+                      <div className="text-xs text-muted-foreground">{step.day} · {step.time}</div>
                     </div>
                   </motion.div>
                 );
@@ -330,8 +300,7 @@ const JourneyContent = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
-        className="absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4"
-        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+        className="absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4 bg-card backdrop-blur-xl border border-border"
       >
         <div className="text-2xl font-bold text-primary">18</div>
         <div className="text-xs text-muted-foreground">days to close</div>
@@ -351,39 +320,27 @@ const LinksContent = () => (
       className="relative"
     >
       {/* Link Builder Mockup */}
-      <div 
-        className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
-      >
-        <div 
-          className="flex items-center gap-2 px-4 py-3"
-          style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-        >
+      <div className="rounded-2xl shadow-2xl overflow-hidden bg-card backdrop-blur-xl border border-border" style={{ boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}>
+        <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,100,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,200,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(100,200,100,0.5)' }} />
+            <div className="w-3 h-3 rounded-full bg-destructive/50" />
+            <div className="w-3 h-3 rounded-full bg-warning/50" />
+            <div className="w-3 h-3 rounded-full bg-success/50" />
           </div>
           <div className="flex-1 mx-4">
-            <div 
-              className="rounded-md px-3 py-1.5 text-xs font-mono"
-              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
-            >
+            <div className="rounded-md px-3 py-1.5 text-xs font-mono bg-muted/50 text-muted-foreground">
               utm.one/dashboard/create
             </div>
           </div>
         </div>
         
         <div className="p-6 space-y-4">
-          <h4 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>create smart link</h4>
+          <h4 className="font-semibold lowercase text-foreground">create smart link</h4>
           
           {/* URL Input */}
           <div className="space-y-2">
-            <label className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>destination url</label>
-            <div 
-              className="rounded-lg px-3 py-2 text-sm font-mono"
-              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.08)' }}
-            >
+            <label className="text-xs text-muted-foreground">destination url</label>
+            <div className="rounded-lg px-3 py-2 text-sm font-mono bg-muted/50 text-foreground/70 border border-border">
               https://tesla.com/product/demo
             </div>
           </div>
@@ -401,21 +358,17 @@ const LinksContent = () => (
               return (
                 <motion.div
                   key={layer.label}
-                  className="flex items-center gap-3 p-2 rounded-lg"
-                  style={{ background: 'rgba(255,255,255,0.05)' }}
+                  className="flex items-center gap-3 p-2 rounded-lg bg-muted/30"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
                 >
-                  <div 
-                    className="w-8 h-8 rounded-md flex items-center justify-center bg-primary text-white"
-                    style={{ opacity: layer.opacity }}
-                  >
-                    <Icon className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary/10">
+                    <Icon className="w-4 h-4 text-primary" style={{ opacity: layer.opacity }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs lowercase" style={{ color: 'rgba(255,255,255,0.5)' }}>{layer.label}</div>
-                    <div className="text-xs font-mono truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>{layer.value}</div>
+                    <p className="text-xs font-medium lowercase text-muted-foreground">{layer.label}</p>
+                    <p className="text-xs truncate text-foreground/70 font-mono">{layer.value}</p>
                   </div>
                 </motion.div>
               );
@@ -424,408 +377,342 @@ const LinksContent = () => (
         </div>
       </div>
       
-      {/* Floating QR Preview */}
+      {/* Floating Badge */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
-        className="absolute -bottom-6 -right-6 rounded-xl shadow-lg p-3"
-        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4 bg-card backdrop-blur-xl border border-border"
       >
-        <div 
-          className="w-16 h-16 rounded-lg flex items-center justify-center"
-          style={{ background: 'rgba(255,255,255,0.9)' }}
-        >
-          <QrCode className="w-12 h-12 text-zinc-900" />
-        </div>
+        <div className="text-2xl font-bold text-primary">&lt;5s</div>
+        <div className="text-xs text-muted-foreground">to create</div>
       </motion.div>
     </motion.div>
     
     {/* Right: Content */}
     <div className="space-y-6">
       <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider text-primary">one link. five layers.</p>
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">unified link layer</p>
         <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
-          every link tells the same story
+          one link. five layers. infinite intelligence.
         </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          Short links, UTM builder, QR codes, and clean-track governance in one place. 
-          Every team member creates links the same way. Every dashboard makes sense.
-        </p>
-      </div>
-      
-      {/* Benefits */}
-      <div className="space-y-3">
-        {[
-          "No more broken UTMs or inconsistent naming",
-          "Every team member creates links the same way",
-          "QR codes that track like digital links",
-          "Links that work in LLMs and AI search"
-        ].map((benefit, i) => (
-          <motion.div
-            key={benefit}
-            className="flex items-start gap-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
-          >
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
-            <span className="text-muted-foreground">{benefit}</span>
-          </motion.div>
-        ))}
-      </div>
-      
-      <Link 
-        to="/how-it-works"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
-      >
-        see how it works
-        <ArrowRight className="h-4 w-4" />
-      </Link>
-    </div>
-  </div>
-);
-
-// Intelligence Content with AI Chat Mockup
-const IntelligenceContent = () => (
-  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-    {/* Left: AI Chat Mockup */}
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="relative"
-    >
-      <div 
-        className="rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 0 40px hsl(var(--primary) / 0.1)' }}
-      >
-        {/* Chat Header */}
-        <div 
-          className="flex items-center gap-2 px-4 py-3"
-          style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-        >
-          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-primary to-orange-500">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <div className="font-semibold text-sm lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>clean-track AI</div>
-            <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>MIT & Harvard algorithms</div>
-          </div>
-        </div>
-        
-        {/* Chat Messages */}
-        <div className="p-4 space-y-4">
-          {/* User Message */}
-          <div className="flex justify-end">
-            <div className="rounded-2xl rounded-tr-sm px-4 py-2 max-w-[80%] bg-primary text-white">
-              <p className="text-sm">Which Nike campaign performed best this quarter?</p>
-            </div>
-          </div>
-          
-          {/* AI Response */}
-          <motion.div
-            className="flex gap-3"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-primary/10">
-              <Brain className="w-4 h-4 text-primary" />
-            </div>
-            <div 
-              className="rounded-2xl rounded-tl-sm px-4 py-3 space-y-3"
-              style={{ background: 'rgba(255,255,255,0.05)' }}
-            >
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                <strong>Nike Q4 Launch</strong> drove the most conversions:
-              </p>
-              <div className="space-y-2">
-                {[
-                  { label: "Clicks", value: "24,847", change: "+32%" },
-                  { label: "Conversion Rate", value: "4.8%", change: "+18%" },
-                  { label: "Revenue Attributed", value: "$128,200", change: "+45%" },
-                ].map((stat) => (
-                  <div key={stat.label} className="flex justify-between text-xs">
-                    <span style={{ color: 'rgba(255,255,255,0.5)' }}>{stat.label}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{stat.value}</span>
-                      <span style={{ color: 'rgba(34,197,94,0.8)' }}>{stat.change}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-xs pt-2 border-t border-border text-primary">
-                <TrendingUp className="w-3 h-3" />
-                Clean-Track confidence: 94%
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* AI Alert */}
-          <motion.div
-            className="flex gap-3"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-          >
-            <div 
-              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-              style={{ background: 'rgba(245,158,11,0.1)' }}
-            >
-              <AlertCircle className="w-4 h-4" style={{ color: 'rgba(245,158,11,0.8)' }} />
-            </div>
-            <div 
-              className="rounded-2xl rounded-tl-sm px-4 py-3"
-              style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)' }}
-            >
-              <div className="flex items-center gap-2 mb-1" style={{ color: 'rgba(245,158,11,0.8)' }}>
-                <span className="text-xs font-medium">Anomaly detected</span>
-              </div>
-              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                Traffic from <strong>Tesla email campaign</strong> dropped 45% yesterday. Investigating...
-              </p>
-            </div>
-          </motion.div>
-        </div>
-        
-        {/* Chat Input */}
-        <div className="p-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-          <div 
-            className="flex items-center gap-3 rounded-xl px-4 py-3"
-            style={{ background: 'rgba(255,255,255,0.05)' }}
-          >
-            <MessageSquare className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.5)' }} />
-            <span className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>Ask anything about your data...</span>
-            <div className="ml-auto">
-              <Zap className="w-4 h-4 text-primary" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-    
-    {/* Right: Content */}
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider text-primary">clean-track intelligence</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
-          AI that makes your data talk
-        </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          Built on mathematical models from MIT and Harvard scientists. 
-          Ask questions in plain English, get insights instantly. No data science degree required.
+        <p className="text-lg leading-relaxed text-muted-foreground">
+          Every utm.one link isn't just short — it's a data pipeline. Short URL, UTM parameters, 
+          branded QR, validation rules, and rich metadata — all in one.
         </p>
       </div>
       
       {/* Features */}
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          "Auto-generated slugs",
+          "Team UTM templates",
+          "Branded QR codes",
+          "LLM-ready metadata"
+        ].map((feature, i) => (
+          <motion.div
+            key={feature}
+            className="flex items-center gap-2 p-3 rounded-lg bg-card border border-border"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
+          >
+            <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+            <span className="text-sm text-foreground">{feature}</span>
+          </motion.div>
+        ))}
+      </div>
+      
+        <Link 
+          to="/features/short-links"
+          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+        >
+          see the link builder
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+    </div>
+  </div>
+);
+
+// Intelligence Content with AI Features
+const IntelligenceContent = () => (
+  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    {/* Left: Content */}
+    <div className="space-y-6 lg:order-2">
+      <div className="space-y-3">
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">clean-track intelligence</p>
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+          AI that actually understands marketing
+        </h2>
+        <p className="text-lg leading-relaxed text-muted-foreground">
+          Not just dashboards — predictive models that tell you what to do next. 
+          Budget allocation, channel optimization, and anomaly detection, powered by Clean-Track algorithms.
+        </p>
+      </div>
+      
+      {/* AI Features */}
       <div className="space-y-3">
         {[
-          { icon: Brain, title: "predictive insights", desc: "Know which campaigns will work before launch" },
-          { icon: AlertCircle, title: "anomaly detection", desc: "Catch traffic drops and bot attacks automatically" },
-          { icon: TrendingUp, title: "revenue attribution", desc: "See which touchpoints actually drive conversions" },
+          { icon: Brain, title: "Predictive forecasting", desc: "What will traffic look like next week?" },
+          { icon: Sparkles, title: "Smart recommendations", desc: "Which channels deserve more budget?" },
+          { icon: AlertCircle, title: "Anomaly detection", desc: "Get alerted when metrics spike or drop" }
         ].map((feature, i) => {
           const Icon = feature.icon;
           return (
             <motion.div
               key={feature.title}
-              className="flex items-start gap-3 p-3 rounded-lg"
-              style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="flex items-start gap-3 p-3 rounded-lg bg-card backdrop-blur-xl border border-border"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
             >
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-primary/10">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-primary/10">
                 <Icon className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.desc}</p>
+                <h4 className="font-semibold lowercase text-sm text-foreground">{feature.title}</h4>
+                <p className="text-xs text-muted-foreground">{feature.desc}</p>
               </div>
             </motion.div>
           );
         })}
       </div>
       
-      <Link 
-        to="/features/predictive-analytics"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
-      >
-        explore clean-track AI
-        <ArrowRight className="h-4 w-4" />
-      </Link>
-    </div>
-  </div>
-);
-
-// Governance Content with Product Mockup
-const GovernanceContent = () => (
-  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-    {/* Left: Content */}
-    <div className="space-y-6 lg:order-2">
-      <div className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wider text-primary">enterprise control</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
-          your team's links, under control
-        </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          Role-based access, approval workflows, naming conventions, and audit trails. 
-          Scale link management without chaos.
-        </p>
-      </div>
-      
-      {/* Features */}
-      <div className="space-y-3">
-        {[
-          { title: "role-based access", desc: "Admins, editors, viewers — everyone has the right permissions" },
-          { title: "approval workflows", desc: "Review links before they go live" },
-          { title: "audit trails", desc: "See who created what, when, and why" }
-        ].map((feature, i) => (
-          <motion.div
-            key={feature.title}
-            className="flex items-start gap-3 p-3 rounded-lg"
-            style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-          >
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
-            <div>
-              <h4 className="font-semibold lowercase text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{feature.title}</h4>
-              <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{feature.desc}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      
-      <Link 
-        to="/solutions/enterprise"
-        className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
-      >
-        explore enterprise features
-        <ArrowRight className="h-4 w-4" />
-      </Link>
+        <Link 
+          to="/features/predictive-analytics"
+          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+        >
+          explore clean-track intelligence
+          <ArrowRight className="h-4 w-4" />
+        </Link>
     </div>
     
-    {/* Right: Product Mockup */}
+    {/* Right: AI Dashboard Mockup */}
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
       className="relative lg:order-1"
     >
-      <div 
-        className="rounded-2xl shadow-2xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/[0.08] shadow-[0_0_40px_hsl(var(--primary)/0.1)]"
-      >
-        <div 
-          className="flex items-center gap-2 px-4 py-3"
-          style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}
-        >
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,100,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(255,200,100,0.5)' }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(100,200,100,0.5)' }} />
-          </div>
-          <div className="flex-1 mx-4">
-            <div 
-              className="rounded-md px-3 py-1.5 text-xs font-mono"
-              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
-            >
-              utm.one/dashboard/team
-            </div>
-          </div>
-        </div>
+      <GlassCard>
+        <BrowserHeader url="utm.one/dashboard/intelligence" />
         
         <div className="p-6 space-y-4">
-          <h4 className="font-semibold lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>team management</h4>
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold lowercase text-foreground">clean-track insights</h4>
+            <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success">live</span>
+          </div>
           
-          {/* Team Members */}
-          <div className="space-y-2">
+          {/* AI Insights */}
+          <div className="space-y-3">
             {[
-              { name: "Elon Musk", email: "elon@tesla.com", role: "Admin", avatar: "EM" },
-              { name: "Tim Cook", email: "tim@apple.com", role: "Editor", avatar: "TC" },
-              { name: "Jeff Bezos", email: "jeff@amazon.com", role: "Viewer", avatar: "JB" },
-            ].map((member, i) => (
+              { type: "recommendation", message: "Increase LinkedIn budget by 15% based on 3-week trend", priority: "high" },
+              { type: "prediction", message: "Traffic expected to spike 40% next Tuesday (product launch)", priority: "medium" },
+              { type: "anomaly", message: "Google Ads CTR dropped 25% yesterday — investigating", priority: "high" }
+            ].map((insight, i) => (
               <motion.div
-                key={member.name}
-                className="flex items-center gap-3 p-3 rounded-lg"
-                style={{ background: 'rgba(255,255,255,0.03)' }}
+                key={insight.message}
+                className={`p-3 rounded-lg border ${
+                  insight.priority === 'high' 
+                    ? 'border-primary/30 bg-primary/5' 
+                    : 'border-border bg-muted/30'
+                }`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+                transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
               >
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold bg-primary/20 text-primary">
-                  {member.avatar}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>{member.name}</div>
-                  <div className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.5)' }}>{member.email}</div>
-                </div>
-                <div 
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    member.role === "Admin" ? 'bg-primary/10 text-primary' :
-                    member.role === "Editor" ? 'bg-amber-500/10 text-amber-500/80' :
-                    'bg-white/5 text-white/50'
-                  }`}
-                >
-                  {member.role}
+                <div className="flex items-start gap-2">
+                  {insight.type === 'recommendation' && <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />}
+                  {insight.type === 'prediction' && <Brain className="w-4 h-4 text-primary shrink-0 mt-0.5" />}
+                  {insight.type === 'anomaly' && <AlertCircle className="w-4 h-4 text-warning shrink-0 mt-0.5" />}
+                  <p className="text-sm text-foreground/80">{insight.message}</p>
                 </div>
               </motion.div>
             ))}
           </div>
-          
-          {/* Pending Approvals */}
-          <div 
-            className="p-3 rounded-lg"
-            style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)' }}
-          >
-            <div className="flex items-center gap-2 text-sm font-medium" style={{ color: 'rgba(245,158,11,0.8)' }}>
-              <Shield className="w-4 h-4" />
-              3 links pending approval
-            </div>
-          </div>
         </div>
-      </div>
+      </GlassCard>
       
-      {/* Floating Badge */}
+      {/* Floating Chat */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.7 }}
-        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4"
-        style={{ background: 'rgba(24,24,27,0.6)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        className="absolute -bottom-4 -right-4 rounded-xl shadow-lg p-4 bg-card backdrop-blur-xl border border-border"
       >
-        <div className="text-2xl font-bold text-primary">100%</div>
-        <div className="text-xs text-white/50">policy compliance</div>
+        <div className="flex items-center gap-2">
+          <MessageSquare className="w-5 h-5 text-primary" />
+          <span className="text-sm font-medium text-foreground">Ask AI</span>
+        </div>
       </motion.div>
     </motion.div>
   </div>
 );
 
-const CONTENT_MAP: Record<UseCaseType, React.ReactNode> = {
-  attribution: <AttributionContent />,
-  journey: <JourneyContent />,
-  links: <LinksContent />,
-  intelligence: <IntelligenceContent />,
-  governance: <GovernanceContent />,
-};
+// Governance Content with Enterprise Features
+const GovernanceContent = () => (
+  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    {/* Left: Product Mockup */}
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="relative"
+    >
+      <GlassCard>
+        <BrowserHeader url="utm.one/dashboard/governance" />
+        
+        <div className="p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="font-semibold lowercase text-foreground">workspace governance</h4>
+            <span className="text-xs px-2 py-1 rounded-full bg-success/10 text-success">compliant</span>
+          </div>
+          
+          {/* Governance Stats */}
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: "team members", value: "24" },
+              { label: "active links", value: "1.2K" },
+              { label: "UTM compliance", value: "98%" }
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="p-3 rounded-lg bg-muted/30 text-center"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+              >
+                <div className="text-xl font-bold text-primary">{stat.value}</div>
+                <div className="text-xs text-muted-foreground">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Audit Log Preview */}
+          <div className="space-y-2">
+            <p className="text-xs text-muted-foreground uppercase tracking-wider">recent activity</p>
+            {[
+              { user: "Sarah", action: "created link", time: "2m ago" },
+              { user: "Mike", action: "approved bulk upload", time: "15m ago" },
+              { user: "Lisa", action: "updated UTM template", time: "1h ago" }
+            ].map((log, i) => (
+              <motion.div
+                key={log.action + i}
+                className="flex items-center justify-between p-2 rounded-lg bg-muted/20"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-medium text-primary">
+                    {log.user[0]}
+                  </div>
+                  <span className="text-sm text-foreground/80">{log.user} {log.action}</span>
+                </div>
+                <span className="text-xs text-muted-foreground">{log.time}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </GlassCard>
+      
+      {/* Floating Badge */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        className="absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4 bg-card backdrop-blur-xl border border-border"
+      >
+        <div className="flex items-center gap-2">
+          <Shield className="w-5 h-5 text-primary" />
+          <span className="text-sm font-medium text-foreground">SOC 2</span>
+        </div>
+      </motion.div>
+    </motion.div>
+    
+    {/* Right: Content */}
+    <div className="space-y-6">
+      <div className="space-y-3">
+        <p className="text-sm font-medium uppercase tracking-wider text-primary">enterprise control</p>
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+          governance that doesn't slow you down
+        </h2>
+        <p className="text-lg leading-relaxed text-muted-foreground">
+          Role-based access, approval workflows, naming conventions, and complete audit trails — 
+          without the bureaucracy. Structure meets speed.
+        </p>
+      </div>
+      
+      {/* Enterprise Features */}
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { icon: Shield, label: "SSO & SCIM" },
+          { icon: Layers, label: "Role-based access" },
+          { icon: CheckCircle2, label: "Approval workflows" },
+          { icon: Zap, label: "API & webhooks" }
+        ].map((feature, i) => {
+          const Icon = feature.icon;
+          return (
+            <motion.div
+              key={feature.label}
+              className="flex items-center gap-2 p-3 rounded-lg bg-card border border-border"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
+            >
+              <Icon className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-sm text-foreground">{feature.label}</span>
+            </motion.div>
+          );
+        })}
+      </div>
+      
+        <Link 
+          to="/enterprise"
+          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+        >
+          explore enterprise features
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+    </div>
+  </div>
+);
 
 export const DynamicSecondFold = ({ selectedUseCase }: DynamicSecondFoldProps) => {
+  const renderContent = () => {
+    switch (selectedUseCase) {
+      case "attribution":
+        return <AttributionContent />;
+      case "journey":
+        return <JourneyContent />;
+      case "links":
+        return <LinksContent />;
+      case "intelligence":
+        return <IntelligenceContent />;
+      case "governance":
+        return <GovernanceContent />;
+      default:
+        return <AttributionContent />;
+    }
+  };
+
   return (
-    <ParallaxSection speed={0.3} className="py-16 md:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedUseCase}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-          >
-            {CONTENT_MAP[selectedUseCase]}
-          </motion.div>
-        </AnimatePresence>
-      </div>
+    <ParallaxSection speed={0.05}>
+      <section className="py-16 md:py-24 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedUseCase}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+            >
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
     </ParallaxSection>
   );
 };

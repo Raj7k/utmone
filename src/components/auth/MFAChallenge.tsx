@@ -63,8 +63,8 @@ export function MFAChallenge({ factorId, onSuccess, onCancel }: MFAChallengeProp
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-border/50 shadow-xl rounded-2xl">
         <CardHeader className="text-center space-y-4 pb-6">
-          <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
-            <Shield className="h-8 w-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center bg-muted">
+            <Shield className="h-8 w-8 text-foreground" />
           </div>
           <div className="space-y-2">
             <CardTitle className="text-2xl font-display font-bold">Two-factor authentication</CardTitle>

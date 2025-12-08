@@ -161,8 +161,8 @@ export function BatchLinkOperations({ workspaceId }: BatchLinkOperationsProps) {
         </CardHeader>
         <CardContent>
           {selectedLinks.size > 0 && (
-            <div className="flex items-center gap-2 mb-4 p-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <CheckSquare className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <div className="flex items-center gap-2 mb-4 p-3 rounded-lg bg-muted/30 border border-border">
+              <CheckSquare className="w-4 h-4 text-foreground" />
               <span className="text-sm font-medium">{selectedLinks.size} links selected</span>
               <div className="flex items-center gap-2 ml-auto">
                 <Button

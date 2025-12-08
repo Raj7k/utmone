@@ -82,21 +82,11 @@ export const ProductControlDeck = () => {
     <section className="relative min-h-[90vh] flex items-center justify-center py-16 md:py-24 overflow-hidden">
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
-        <div 
-          className="relative h-[620px] rounded-[32px] overflow-hidden"
-          style={{
-            background: 'rgba(24, 24, 27, 0.2)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
-          }}
-        >
+        <div className="relative h-[620px] rounded-[32px] overflow-hidden bg-card/20 border border-border shadow-2xl">
           <div className="flex h-full">
             {/* Navigation Rail - 5 Tabs */}
             <div className="relative w-[280px] flex-shrink-0 p-5 flex flex-col">
-              <p 
-                className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'rgba(255, 255, 255, 0.3)' }}
-              >
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] mb-4 text-muted-foreground/50">
                 Control Deck
               </p>
 
@@ -115,46 +105,36 @@ export const ProductControlDeck = () => {
                       {isActive && (
                         <motion.div
                           layoutId="activePill"
-                          className="absolute inset-0 rounded-xl"
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            boxShadow: '0 0 15px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                          }}
+                          className="absolute inset-0 rounded-xl bg-muted/30 border border-border shadow-[0_0_15px_hsl(var(--primary)/0.1)]"
                           transition={{ type: "spring", stiffness: 400, damping: 30 }}
                         />
                       )}
 
                       <div className="relative z-10 flex items-center gap-3">
                         <div 
-                          className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0"
-                          style={{
-                            background: isActive ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.03)',
-                          }}
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shrink-0 ${
+                            isActive ? 'bg-muted' : 'bg-muted/30'
+                          }`}
                         >
                           <Icon 
-                            className="w-4 h-4 transition-colors duration-300"
-                            style={{
-                              color: isActive ? 'rgba(255, 255, 255, 0.9)' : 'rgba(113, 113, 122, 1)',
-                            }}
+                            className={`w-4 h-4 transition-colors duration-300 ${
+                              isActive ? 'text-foreground' : 'text-muted-foreground'
+                            }`}
                           />
                         </div>
 
                         <span
-                          className="block font-medium text-sm tracking-wide transition-colors duration-300 lowercase"
-                          style={{
-                            color: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(113, 113, 122, 1)',
-                          }}
+                          className={`block font-medium text-sm tracking-wide transition-colors duration-300 lowercase ${
+                            isActive ? 'text-foreground' : 'text-muted-foreground'
+                          }`}
                         >
                           {tab.label}
                         </span>
 
                         <ArrowRight 
-                          className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0"
-                          style={{ 
-                            color: 'rgba(255, 255, 255, 0.4)',
-                            opacity: isActive ? 1 : undefined 
-                          }}
+                          className={`w-4 h-4 ml-auto shrink-0 text-muted-foreground/50 transition-opacity duration-200 ${
+                            isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                          }`}
                         />
                       </div>
                     </button>
@@ -163,28 +143,17 @@ export const ProductControlDeck = () => {
               </nav>
 
               {/* Bottom Badge */}
-              <div 
-                className="mt-4 p-3 rounded-lg"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
-                }}
-              >
-                <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <div className="mt-4 p-3 rounded-lg bg-muted/20 border border-border/50">
+                <p className="text-[10px] uppercase tracking-wider mb-1 text-muted-foreground/60">
                   Clean-Track Intelligence
                 </p>
-                <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-xs text-muted-foreground">
                   MIT & Harvard algorithms
                 </p>
               </div>
 
               {/* Vertical Divider */}
-              <div 
-                className="absolute right-0 top-5 bottom-5 w-px"
-                style={{
-                  background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.1) 20%, rgba(255,255,255,0.1) 80%, transparent 100%)',
-                }}
-              />
+              <div className="absolute right-0 top-5 bottom-5 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
             </div>
 
             {/* Display Port (Right Content) */}
@@ -193,14 +162,11 @@ export const ProductControlDeck = () => {
               <AnimatePresence>
                 {isTransitioning && (
                   <motion.div
-                    className="absolute inset-0 z-20 pointer-events-none"
+                    className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-muted/10 to-transparent"
                     initial={{ opacity: 0, x: '-100%' }}
                     animate={{ opacity: 1, x: '100%' }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, ease: appleEase }}
-                    style={{
-                      background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)',
-                    }}
                   />
                 )}
               </AnimatePresence>
@@ -223,20 +189,12 @@ export const ProductControlDeck = () => {
                   {/* Content */}
                   <div className="space-y-4">
                     {/* Headline - Brushed Metal Gradient */}
-                    <h1 
-                      className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase"
-                      style={{
-                        background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase hero-gradient">
                       {activeTab.headline}
                     </h1>
 
                     {/* Subheadline - Muted Silver */}
-                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-zinc-400">
+                    <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground">
                       {activeTab.subheadline}
                     </p>
 
@@ -245,20 +203,15 @@ export const ProductControlDeck = () => {
                       <Link to="/early-access">
                         <Button 
                           size="lg"
+                          variant="marketing"
                           className="rounded-full px-8 lowercase font-medium"
-                          style={{
-                            background: '#FFFFFF',
-                            color: '#09090B',
-                            boxShadow: '0 0 30px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.2)',
-                          }}
                         >
                           get early access
                         </Button>
                       </Link>
                       <Link 
                         to={activeTab.route}
-                        className="inline-flex items-center gap-2 text-sm font-medium transition-colors lowercase"
-                        style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+                        className="inline-flex items-center gap-2 text-sm font-medium transition-colors lowercase text-muted-foreground hover:text-foreground"
                       >
                         learn more
                         <ArrowRight className="w-4 h-4" />

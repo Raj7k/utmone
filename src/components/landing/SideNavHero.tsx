@@ -176,13 +176,13 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
               {/* Collapse Toggle - Desktop Only */}
               <div className="hidden lg:flex items-center justify-between mb-4">
                 {!isCollapsed && (
-                  <p className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
                     what do you need?
                   </p>
                 )}
                 <button
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="p-2 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-colors text-muted-foreground"
                   style={{ color: 'rgba(255,255,255,0.5)' }}
                   aria-label={isCollapsed ? "Expand navigation" : "Collapse navigation"}
                 >
@@ -293,7 +293,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
 
               {/* Mobile: Vertical Accordion */}
               <div className="lg:hidden space-y-2">
-                <p className="text-xs font-medium uppercase tracking-wider mb-4" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                <p className="text-xs font-medium uppercase tracking-wider mb-4 text-muted-foreground/60">
                   what do you need?
                 </p>
                 {USE_CASES.map((useCase) => {
@@ -431,7 +431,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       >
                         {content.headline}
                       </h1>
-                      <p className="text-base md:text-lg max-w-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                      <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground">
                         {content.subheadline}
                       </p>
                     </div>
