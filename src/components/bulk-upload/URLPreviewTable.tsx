@@ -75,10 +75,10 @@ export const URLPreviewTable = ({
   };
 
   return (
-    <div className="border rounded-xl overflow-hidden" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+    <div className="border rounded-xl overflow-hidden border-white/10">
       <div className="max-h-96 overflow-y-auto">
         <Table>
-          <TableHeader className="sticky top-0 z-10" style={{ backgroundColor: 'rgba(24,24,27,0.95)' }}>
+          <TableHeader className="sticky top-0 z-10 bg-zinc-900/95">
             <TableRow>
               <TableHead className="font-display font-semibold">preview</TableHead>
               <TableHead className="font-display font-semibold">custom slug</TableHead>
@@ -117,8 +117,8 @@ export const URLPreviewTable = ({
                               }}
                             />
                           ) : (
-                            <div className="h-8 w-8 rounded flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
-                              <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                            <div className="h-8 w-8 rounded flex items-center justify-center flex-shrink-0 bg-white/10">
+                              <span className="text-xs text-white/50">
                                 {validation.domain?.charAt(0).toUpperCase()}
                               </span>
                             </div>
@@ -127,7 +127,7 @@ export const URLPreviewTable = ({
                             <p className="text-sm font-medium truncate">
                               {preview?.page_title || validation.domain || 'Unknown'}
                             </p>
-                            <p className="text-xs truncate" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                            <p className="text-xs truncate text-white/60">
                               {validation.domain}
                             </p>
                           </div>
@@ -182,10 +182,10 @@ export const URLPreviewTable = ({
                         message={validation.error || undefined}
                       />
                       {validation.existsInDatabase && (
-                        <div className="flex items-center gap-1 text-xs" style={{ color: 'rgba(251,191,36,0.8)' }}>
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded" style={{ backgroundColor: 'rgba(251,191,36,0.1)' }}>
+                        <div className="flex items-center gap-1 text-xs text-amber-400/80">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-amber-400/10">
                             <span className="font-medium">exists:</span>
-                            <code style={{ color: 'rgba(251,191,36,0.9)' }}>{validation.existingSlug}</code>
+                            <code className="text-amber-400/90">{validation.existingSlug}</code>
                           </span>
                         </div>
                       )}

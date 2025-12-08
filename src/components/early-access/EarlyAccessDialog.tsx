@@ -59,11 +59,11 @@ export const EarlyAccessDialog = ({
               your request has been received. we'll be in touch when a spot opens.
             </p>
             {referralCode && (
-              <div className="mt-6 p-4 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+              <div className="mt-6 p-4 rounded-lg bg-white/5">
                 <p className="text-sm text-muted-foreground mb-2 brand-lowercase">
                   share your referral link
                 </p>
-                <code className="text-sm px-3 py-2 rounded border block break-all" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.9)' }}>
+                <code className="text-sm px-3 py-2 rounded border block break-all bg-white/5 border-white/10 text-white-90">
                   {window.location.origin}/early-access?ref={referralCode}
                 </code>
               </div>

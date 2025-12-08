@@ -52,12 +52,12 @@ export const ProcessingProgress = ({
               ) : status === "active" ? (
                 <Loader2 className="h-4 w-4 text-white animate-spin" />
               ) : (
-                <div className="h-2 w-2 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.3)' }} />
+                <div className="h-2 w-2 rounded-full bg-white/30" />
               )}
             </div>
             <div className="flex-1">
-              <p className="font-display font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>{stageItem.label}</p>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>{stageItem.detail}</p>
+              <p className="font-display font-semibold text-white-90">{stageItem.label}</p>
+              <p className="text-sm text-white/60">{stageItem.detail}</p>
             </div>
           </div>
         );

@@ -567,7 +567,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
                 <a 
                   href="/bulk-upload-template.csv" 
                   download 
-                  className="hover:underline ml-1" style={{ color: 'rgba(255,255,255,0.9)' }}
+                  className="hover:underline ml-1 text-white-90"
                 >
                   download CSV template
                 </a>
@@ -687,7 +687,7 @@ export const BulkUploadPro = ({ workspaceId }: BulkUploadProProps) => {
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div className="flex items-center gap-3">
-                <Layers className="h-8 w-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                <Layers className="h-8 w-8 text-white-80" />
                 <div>
                   <p className="text-2xl font-display font-bold">{stats.total}</p>
                   <p className="text-sm text-secondary-label">total processed</p>

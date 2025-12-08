@@ -272,8 +272,8 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                   ))}
                 </div>
                 {selectedChannels.length > 0 && (
-                  <div className="mt-4 p-3 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
-                    <p className="text-sm" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  <div className="mt-4 p-3 rounded-lg bg-white/5">
+                    <p className="text-sm text-white/60">
                       {selectedChannels.length} link{selectedChannels.length > 1 ? "s" : ""} will be generated
                     </p>
                   </div>
@@ -282,7 +282,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             </div>
           )}
 
-          <div className="flex justify-between pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+          <div className="flex justify-between pt-4 border-t border-white/10">
             {step > 1 ? (
               <Button type="button" variant="outline" onClick={() => setStep(step - 1)}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
