@@ -28,7 +28,7 @@ const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m =
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
-
+const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 // Simple loading placeholder
 const SectionSkeleton = () => (
   <div className="w-full py-16 flex items-center justify-center">
@@ -149,6 +149,11 @@ const Index = () => {
       {/* Common: AI Intelligence Layers - Shown for all use cases */}
       <Suspense fallback={<SectionSkeleton />}>
         <AIIntelligenceHero />
+      </Suspense>
+
+      {/* Analytics Feature Carousel - 12 features with Instagram-style swipe */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AnalyticsFeatureCarousel />
       </Suspense>
 
       {/* Static: Unified Tools Showcase */}
