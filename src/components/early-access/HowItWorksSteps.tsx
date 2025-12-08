@@ -54,10 +54,10 @@ export function HowItWorksSteps() {
 
               <div className="rounded-2xl p-8 h-full hover:shadow-lg transition-shadow bg-card backdrop-blur-xl border border-border">
                 <div className="relative mb-6">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 bg-primary/10">
-                    <step.icon className="w-8 h-8 text-primary/80" />
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 bg-white/10">
+                    <step.icon className="w-8 h-8 text-white/80 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                   </div>
-                  <div className="absolute -top-2 -left-2 w-8 h-8 rounded-full text-primary-foreground flex items-center justify-center font-bold text-sm bg-primary/80">
+                  <div className="absolute -top-2 -left-2 w-8 h-8 rounded-full text-primary-foreground flex items-center justify-center font-bold text-sm bg-white/80">
                     {step.number}
                   </div>
                 </div>

@@ -79,9 +79,9 @@ export const SmartInsightCard = ({
       case 'anomaly':
         return 'border-system-red/30 bg-system-red/5';
       case 'optimization':
-        return 'border-primary/30 bg-primary/5';
+        return 'border-white/20 bg-white/5';
       case 'trend':
-        return 'border-secondary/30 bg-secondary/5';
+        return 'border-white/15 bg-white/5';
       default:
         return 'border-border bg-card';
     }
@@ -96,9 +96,9 @@ export const SmartInsightCard = ({
       case 'anomaly':
         return 'text-system-red bg-system-red/10';
       case 'optimization':
-        return 'text-primary bg-primary/10';
+        return 'text-white bg-white/10';
       case 'trend':
-        return 'text-secondary bg-secondary/10';
+        return 'text-white/80 bg-white/10';
       default:
         return 'text-muted-foreground bg-muted';
     }
@@ -108,7 +108,7 @@ export const SmartInsightCard = ({
     const styles = {
       critical: 'bg-system-red/10 text-system-red border-system-red/20',
       high: 'bg-system-orange/10 text-system-orange border-system-orange/20',
-      medium: 'bg-primary/10 text-primary border-primary/20',
+      medium: 'bg-white/10 text-white border-white/20',
       low: 'bg-muted text-muted-foreground border-border',
     };
 

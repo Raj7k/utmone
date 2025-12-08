@@ -75,8 +75,8 @@ export function RecentActivity() {
             to={`/dashboard/links/${activity.linkId}`}
             className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
           >
-            <div className="h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10">
-              <Link2 className="h-5 w-5 text-primary" />
+            <div className="h-10 w-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5">
+              <Link2 className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm truncate">{activity.title}</p>

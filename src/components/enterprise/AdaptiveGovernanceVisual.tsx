@@ -16,8 +16,8 @@ export const AdaptiveGovernanceVisual = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <Shield className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl bg-white/5">
+            <Shield className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -39,13 +39,13 @@ export const AdaptiveGovernanceVisual = () => {
               transition={{ delay: index * 0.1 }}
               className={`flex items-center justify-between p-4 rounded-xl border-2 ${
                 capability.granted 
-                  ? 'bg-primary/5 border-primary/20' 
+                  ? 'bg-white/5 border-white/20' 
                   : 'bg-white/[0.02] border-white/10'
               }`}
             >
               <span className="font-medium text-label">{capability.name}</span>
               {capability.granted ? (
-                <Check className="w-5 h-5 text-primary" />
+                <Check className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
               ) : (
                 <X className="w-5 h-5 text-secondary-label" />
               )}
@@ -53,8 +53,8 @@ export const AdaptiveGovernanceVisual = () => {
           ))}
         </div>
 
-        <div className="mt-8 p-6 rounded-xl border bg-primary/5 border-primary/20">
-          <div className="flex items-center gap-2 text-sm text-primary">
+        <div className="mt-8 p-6 rounded-xl border bg-white/5 border-white/20">
+          <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
             <Shield className="w-4 h-4" />
             <span className="font-semibold">
               Privilege Surface Area: Minimized (3/6 capabilities)

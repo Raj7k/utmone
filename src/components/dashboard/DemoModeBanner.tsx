@@ -19,12 +19,12 @@ export const DemoModeBanner = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="flex items-center justify-between rounded-lg bg-primary/5 border border-primary/10 px-4 py-2"
+          className="flex items-center justify-between rounded-lg bg-white/5 border border-white/10 px-4 py-2"
         >
           <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-primary" />
+            <Sparkles className="h-4 w-4 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             <span className="text-sm text-muted-foreground">viewing demo data</span>
-            <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/20">
+            <Badge variant="outline" className="text-xs bg-white/10 text-white border-white/20">
               {activePlan}
             </Badge>
           </div>
@@ -54,22 +54,22 @@ export const DemoModeBanner = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 p-4"
+          className="relative overflow-hidden rounded-xl bg-gradient-to-r from-white/10 via-white/5 to-transparent border border-white/20 p-4"
         >
           {/* Background decoration */}
           <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(0deg,transparent,hsl(0_0%_100%/0.5))]" />
           
           <div className="relative flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                <Sparkles className="h-5 w-5 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+                <Sparkles className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <p className="font-medium text-foreground">
                     viewing demo data
                   </p>
-                  <Badge variant="outline" className="text-xs bg-primary/10 text-primary border-primary/20">
+                  <Badge variant="outline" className="text-xs bg-white/10 text-white border-white/20">
                     {activePlan} tier
                   </Badge>
                 </div>

@@ -23,7 +23,7 @@ export const ChromeExtensionPromoTile = () => {
   if (isDismissed) return null;
 
   return (
-    <Card className="relative overflow-hidden border-primary/20 bg-gradient-to-r from-primary/5 via-background to-primary/10">
+    <Card className="relative overflow-hidden border-white/20 bg-gradient-to-r from-white/5 via-background to-white/10">
       <button
         onClick={handleDismiss}
         className="absolute top-3 right-3 p-1 rounded-full hover:bg-muted/50 transition-colors text-muted-foreground hover:text-foreground"
@@ -34,14 +34,14 @@ export const ChromeExtensionPromoTile = () => {
       
       <CardContent className="p-5">
         <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-primary/10 flex-shrink-0">
-            <Chrome className="h-6 w-6 text-primary" />
+          <div className="p-3 rounded-xl bg-white/10 flex-shrink-0">
+            <Chrome className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-medium text-foreground">create links faster</h3>
-              <div className="flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+              <div className="flex items-center gap-1 text-xs text-white bg-white/10 px-2 py-0.5 rounded-full">
                 <Zap className="h-3 w-3" />
                 new
               </div>

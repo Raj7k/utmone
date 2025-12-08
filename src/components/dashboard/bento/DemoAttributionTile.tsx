@@ -20,7 +20,7 @@ export const DemoAttributionTile = ({ planTier = 'free' }: DemoAttributionTilePr
           <CardTitle className="text-base font-medium">
             attribution overview
           </CardTitle>
-          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+          <Badge variant="outline" className="bg-white/10 text-white border-white/20">
             demo · {planTier}
           </Badge>
         </div>

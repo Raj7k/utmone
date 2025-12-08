@@ -15,8 +15,8 @@ export const BayesianAttributionPreview = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <TrendingUp className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl bg-white/5">
+            <TrendingUp className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -44,7 +44,7 @@ export const BayesianAttributionPreview = () => {
                   <span className="text-sm text-secondary-label">
                     Influence Score: {channel.influence}
                   </span>
-                  <span className="text-sm font-semibold text-primary">
+                  <span className="text-sm font-semibold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                     ${(channel.revenue / 1000).toFixed(0)}K
                   </span>
                 </div>
@@ -63,8 +63,8 @@ export const BayesianAttributionPreview = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-6 rounded-xl border bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <DollarSign className="w-6 h-6 mb-2 text-primary" />
+          <div className="p-6 rounded-xl border bg-gradient-to-br from-white/10 to-white/5 border-white/20">
+            <DollarSign className="w-6 h-6 mb-2 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             <div className="text-3xl font-bold text-label mb-1">$650K</div>
             <div className="text-sm text-secondary-label">Total Attributed Revenue</div>
           </div>

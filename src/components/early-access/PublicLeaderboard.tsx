@@ -102,7 +102,7 @@ export const PublicLeaderboard = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,hsl(var(--primary)/0.05)_2px,transparent_2px)] bg-[length:48px_48px]" />
         <div className="container mx-auto px-6 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-primary/10 text-primary">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-white/10 text-white">
               <Trophy className="w-4 h-4" />
               referral leaderboard
             </div>
@@ -125,7 +125,7 @@ export const PublicLeaderboard = () => {
       
       <div className="container mx-auto px-6 relative">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-primary/10 text-primary">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-white/10 text-white">
             <Trophy className="w-4 h-4" />
             referral leaderboard
           </div>
@@ -252,7 +252,7 @@ export const PublicLeaderboard = () => {
           <p className="text-lg mb-4 text-muted-foreground">
             share your referral link to climb the leaderboard
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium bg-primary/10 text-primary">
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium bg-white/10 text-white">
             <Trophy className="w-4 h-4" />
             top 10 referrers get exclusive early access perks
           </div>

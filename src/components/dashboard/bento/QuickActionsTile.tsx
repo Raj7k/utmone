@@ -49,7 +49,7 @@ export const QuickActionsTile = () => {
   return (
     <div className="bg-card rounded-2xl border border-border shadow-sm p-6 h-full">
       <div className="flex items-center gap-2 mb-6">
-        <Zap className="h-5 w-5 text-primary" />
+        <Zap className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
         <h3 className="text-title-3 font-display">quick actions</h3>
       </div>
 
@@ -62,13 +62,13 @@ export const QuickActionsTile = () => {
 
               {/* Icon with gradient background */}
               <div className="flex justify-center mb-4">
-                <div className="p-4 rounded-2xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-6 w-6 text-primary" />
+                <div className="p-4 rounded-2xl bg-white/5 group-hover:bg-white/10 transition-colors">
+                  <Icon className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                 </div>
               </div>
               
               {/* Title */}
-              <h4 className="font-semibold text-sm text-foreground mb-1 group-hover:text-primary transition-colors">
+              <h4 className="font-semibold text-sm text-foreground mb-1 group-hover:text-white transition-colors">
                 {action.name}
               </h4>
               

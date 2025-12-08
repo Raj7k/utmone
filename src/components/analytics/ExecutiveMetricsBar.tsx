@@ -45,7 +45,7 @@ const MetricCard = ({ title, value, change, trend, icon, suffix }: MetricCardPro
   return (
     <Card className="p-6 rounded-2xl border-border bg-card hover:shadow-lg transition-shadow">
       <div className="flex items-start justify-between mb-4">
-        <div className="p-2 rounded-xl bg-primary/10">
+        <div className="p-2 rounded-xl bg-white/5">
           {icon}
         </div>
         <MiniSparkline data={trend} positive={isPositive} />
@@ -127,14 +127,14 @@ export const ExecutiveMetricsBar = ({
         value={totalClicks}
         change={clicksChange}
         trend={clicksTrend}
-        icon={<MousePointerClick className="h-5 w-5 text-primary" />}
+        icon={<MousePointerClick className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />}
       />
       <MetricCard
         title="unique visitors"
         value={uniqueVisitors}
         change={visitorsChange}
         trend={visitorsTrend}
-        icon={<Users className="h-5 w-5 text-primary" />}
+        icon={<Users className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />}
       />
       <MetricCard
         title="conversion rate"
@@ -142,14 +142,14 @@ export const ExecutiveMetricsBar = ({
         change={conversionChange}
         trend={[]}
         suffix="%"
-        icon={<BarChart3 className="h-5 w-5 text-primary" />}
+        icon={<BarChart3 className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />}
       />
       <MetricCard
         title="revenue"
         value={`$${revenue.toLocaleString()}`}
         change={revenueChange}
         trend={[]}
-        icon={<DollarSign className="h-5 w-5 text-primary" />}
+        icon={<DollarSign className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />}
       />
     </div>
   );
