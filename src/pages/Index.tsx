@@ -143,11 +143,6 @@ const Index = () => {
         <InstantDemoWidget />
       </Suspense>
 
-      {/* Authority Tools Strip - Tool usage proof */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <AuthorityToolsStrip />
-      </Suspense>
-
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
 
       {/* Fold 2: The Problem - Show the pain with visceral clarity */}
@@ -252,6 +247,11 @@ const Index = () => {
       {/* Transparency Strip - Public roadmap/status */}
       <Suspense fallback={<SectionSkeleton />}>
         <TransparencyStrip />
+      </Suspense>
+
+      {/* Authority Tools Strip - Tool usage proof */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AuthorityToolsStrip />
       </Suspense>
 
       {/* Dynamic FAQ - Questions change based on use case */}
