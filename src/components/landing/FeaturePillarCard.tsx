@@ -28,29 +28,29 @@ export const FeaturePillarCard = ({
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay }}
       className={cn(
-        // Theme-aware glass card
-        "group relative bg-muted/40 dark:bg-zinc-900/40 backdrop-blur-xl",
-        "border border-border dark:border-white/10 rounded-2xl p-8",
-        "hover:border-border/80 dark:hover:border-white/20 transition-all duration-300",
+        // Obsidian glass card
+        "group relative bg-zinc-900/40 backdrop-blur-xl",
+        "border border-white/10 rounded-2xl p-8",
+        "hover:border-white/20 transition-all duration-300",
         href && "cursor-pointer",
         className
       )}
     >
       <div className="flex flex-col items-start space-y-4">
-        <div className="p-3 rounded-xl transition-colors bg-primary/10 dark:bg-white/10 text-primary dark:text-foreground">
+        <div className="p-3 rounded-xl transition-colors bg-white/10 text-white">
           <Icon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-display font-semibold lowercase transition-colors relative text-foreground">
+        <h3 className="text-xl font-display font-semibold lowercase transition-colors relative text-white">
           {formatText(title)}
           {href && (
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 bg-foreground" />
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 bg-white" />
           )}
         </h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">
+        <p className="text-sm leading-relaxed text-white/60">
           {description}
         </p>
         {href && (
-          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity text-foreground">
+          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity text-white">
             <span className="text-sm font-medium lowercase">learn more</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>

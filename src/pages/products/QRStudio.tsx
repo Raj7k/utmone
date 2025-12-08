@@ -52,7 +52,7 @@ export default function QRStudio() {
                 <div className="text-6xl">❌</div>
               </div>
               <p className="text-sm font-semibold text-destructive">QR Code Not Recognized</p>
-              <p className="text-xs text-muted-foreground mt-1">Low contrast • Poor lighting • 15% scan failure rate</p>
+              <p className="text-xs text-white/60 mt-1">Low contrast • Poor lighting • 15% scan failure rate</p>
             </div>
           }
         />
@@ -65,8 +65,8 @@ export default function QRStudio() {
               afterTitle="clean-track qr"
               beforeContent={
                 <div className="space-y-4 text-center">
-                  <div className="w-40 h-40 mx-auto bg-card rounded-lg border-2 border-border p-2">
-                    <div className="w-full h-full bg-foreground/90" style={{ 
+                  <div className="w-40 h-40 mx-auto bg-zinc-900/40 rounded-lg border-2 border-white/20 p-2">
+                    <div className="w-full h-full bg-white/90" style={{ 
                       backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 8px, currentColor 8px, currentColor 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, currentColor 8px, currentColor 10px)',
                       backgroundSize: '10px 10px'
                     }} />
@@ -93,32 +93,32 @@ export default function QRStudio() {
               }
               afterContent={
                 <div className="space-y-4 text-center">
-                  <div className="w-40 h-40 mx-auto bg-card rounded-lg border-2 border-primary p-2">
-                    <div className="w-full h-full bg-primary/20" style={{ 
-                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 8px, hsl(var(--primary)) 8px, hsl(var(--primary)) 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, hsl(var(--primary)) 8px, hsl(var(--primary)) 10px)',
+                  <div className="w-40 h-40 mx-auto bg-zinc-900/40 rounded-lg border-2 border-white/30 p-2">
+                    <div className="w-full h-full bg-white/20" style={{ 
+                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 8px, white 8px, white 10px), repeating-linear-gradient(90deg, transparent, transparent 8px, white 8px, white 10px)',
                       backgroundSize: '10px 10px'
                     }}>
                       <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-12 h-12 bg-card rounded-lg border-2 border-primary flex items-center justify-center">
-                          <span className="text-xl font-bold text-primary">✓</span>
+                        <div className="w-12 h-12 bg-zinc-900/60 rounded-lg border-2 border-white/30 flex items-center justify-center">
+                          <span className="text-xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">✓</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Brand colors validated</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>98% scan rate guarantee</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Logo centered perfectly</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Live geo analytics</span>
                     </div>

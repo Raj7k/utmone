@@ -96,7 +96,7 @@ export const BlurRevealFAQ = () => {
                 layout
                 className={`
                   relative cursor-pointer rounded-xl transition-all overflow-hidden
-                  ${isExpanded ? "shadow-lg sm:col-span-2 lg:col-span-1 bg-primary text-white" : "hover:scale-[1.02] bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08]"}
+                  ${isExpanded ? "shadow-lg sm:col-span-2 lg:col-span-1 bg-white text-black" : "hover:scale-[1.02] bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08]"}
                 `}
                 onClick={() => toggleCard(index)}
                 initial={{ opacity: 0, y: 20 }}
@@ -108,12 +108,12 @@ export const BlurRevealFAQ = () => {
                   {/* Question */}
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3 
-                      className={`font-semibold lowercase text-sm ${isExpanded ? 'text-white' : 'text-white/90'}`}
+                      className={`font-semibold lowercase text-sm ${isExpanded ? 'text-black' : 'text-white/90'}`}
                     >
                       {faq.question}
                     </h3>
                     {isExpanded && (
-                      <X className="w-4 h-4 shrink-0 text-white" />
+                      <X className="w-4 h-4 shrink-0 text-black" />
                     )}
                   </div>
                   
@@ -125,7 +125,7 @@ export const BlurRevealFAQ = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="text-sm leading-relaxed text-white/90"
+                        className="text-sm leading-relaxed text-black/80"
                       >
                         {faq.answer}
                       </motion.p>
@@ -144,7 +144,7 @@ export const BlurRevealFAQ = () => {
                         </p>
                         {!isRevealed && (
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-xs font-medium text-primary">tap to reveal</span>
+                            <span className="text-xs font-medium text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">tap to reveal</span>
                           </div>
                         )}
                       </motion.div>

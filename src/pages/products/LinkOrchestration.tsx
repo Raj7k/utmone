@@ -50,19 +50,19 @@ export default function LinkOrchestration() {
               <div className="text-6xl">🚫</div>
               <div className="space-y-1">
                 <p className="text-2xl font-bold text-destructive">404 Not Found</p>
-                <p className="text-sm text-muted-foreground">50,000 clicks → 50,000 errors</p>
+                <p className="text-sm text-white/60">50,000 clicks → 50,000 errors</p>
               </div>
-              <div className="bg-card rounded-lg p-4 border border-border space-y-2 text-left text-sm">
+              <div className="bg-zinc-900/40 rounded-lg p-4 border border-white/10 space-y-2 text-left text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">emails sent</span>
-                  <span className="font-semibold">50,000</span>
+                  <span className="text-white/60">emails sent</span>
+                  <span className="font-semibold text-white">50,000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">broken clicks</span>
+                  <span className="text-white/60">broken clicks</span>
                   <span className="font-semibold text-destructive">50,000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">wasted ad spend</span>
+                  <span className="text-white/60">wasted ad spend</span>
                   <span className="font-semibold text-destructive">$50,000</span>
                 </div>
               </div>
@@ -103,23 +103,23 @@ export default function LinkOrchestration() {
               }
               afterContent={
                 <div className="space-y-4">
-                  <div className="text-center text-2xl font-bold text-primary mb-4">
+                  <div className="text-center text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] mb-4">
                     zero downtime
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Auto-route to backup url</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Every click still works</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Instant recovery</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Campaign saved</span>
                     </div>
@@ -138,7 +138,7 @@ export default function LinkOrchestration() {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase mb-4">
                 what you get with link orchestration
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-white/60 max-w-2xl mx-auto">
                 powered by clean-track smart routing
               </p>
             </div>
