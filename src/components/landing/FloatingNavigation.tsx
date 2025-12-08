@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { 
-  ChevronUp, Link2, Network, QrCode, Database, Layers,
-  Tags, BarChart3, TrendingUp, GitBranch, Route, Shield,
+  ChevronUp, Link2, Network, QrCode, Database,
+  Tags, BarChart3, Route, Shield,
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code,
-  DollarSign, Handshake, FileBarChart,
-  BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck,
-  Sparkles, Bot, Target
+  DollarSign, Handshake,
+  BookOpen, ClipboardList, FileText
 } from "lucide-react";
 import {
   Popover,
@@ -27,7 +25,7 @@ export const FloatingNavigation = () => {
     };
     
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial position
+    handleScroll();
     
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,13 +38,7 @@ export const FloatingNavigation = () => {
           animate={{ y: 0, x: "-50%", opacity: 1 }}
           exit={{ y: 100, x: "-50%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-4 md:bottom-8 left-1/2 z-50 rounded-full px-3 md:px-6 py-2 md:py-3 max-w-[calc(100vw-2rem)] md:max-w-none overflow-x-auto scrollbar-hide"
-          style={{
-            background: 'rgba(24, 24, 27, 0.9)',
-            backdropFilter: 'blur(40px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            boxShadow: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-          }}
+          className="fixed bottom-4 md:bottom-8 left-1/2 z-50 rounded-full px-3 md:px-6 py-2 md:py-3 max-w-[calc(100vw-2rem)] md:max-w-none overflow-x-auto scrollbar-hide obsidian-glass-80 backdrop-blur-xl border border-white-10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]"
         >
           <div className="flex items-center gap-1 md:gap-4 whitespace-nowrap">
             {/* Logo */}
@@ -61,8 +53,7 @@ export const FloatingNavigation = () => {
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="h-8 px-3 text-xs font-medium transition-apple hover:bg-white/10"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    className="h-8 px-3 text-xs font-medium transition-apple hover:bg-white/10 text-white-70 hover:text-white-90"
                   >
                     product <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
@@ -71,12 +62,7 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[500px] p-3 z-[60]"
-                  style={{
-                    background: 'rgba(24, 24, 27, 0.95)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
+                  className="w-[500px] p-3 z-[60] obsidian-glass-80 backdrop-blur-xl border border-white-10"
                 >
                   <div className="grid grid-cols-2 gap-3">
                     <Link
@@ -84,14 +70,12 @@ export const FloatingNavigation = () => {
                       className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          <Link2 className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Link2 className="w-3.5 h-3.5 text-white-80" />
                         </div>
-                        <div className="text-xs font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>Link Orchestration</div>
+                        <div className="text-xs font-medium leading-none text-white-90">Link Orchestration</div>
                       </div>
-                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        control & reliability
-                      </p>
+                      <p className="text-[10px] leading-snug text-white-50">control & reliability</p>
                     </Link>
 
                     <Link
@@ -99,14 +83,12 @@ export const FloatingNavigation = () => {
                       className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          <Network className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Network className="w-3.5 h-3.5 text-white-80" />
                         </div>
-                        <div className="text-xs font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>Journey Intelligence</div>
+                        <div className="text-xs font-medium leading-none text-white-90">Journey Intelligence</div>
                       </div>
-                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        truth & revenue
-                      </p>
+                      <p className="text-[10px] leading-snug text-white-50">truth & revenue</p>
                     </Link>
 
                     <Link
@@ -114,14 +96,12 @@ export const FloatingNavigation = () => {
                       className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          <QrCode className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <QrCode className="w-3.5 h-3.5 text-white-80" />
                         </div>
-                        <div className="text-xs font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>QR Studio</div>
+                        <div className="text-xs font-medium leading-none text-white-90">QR Studio</div>
                       </div>
-                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        physical reliability
-                      </p>
+                      <p className="text-[10px] leading-snug text-white-50">physical reliability</p>
                     </Link>
 
                     <Link
@@ -129,14 +109,12 @@ export const FloatingNavigation = () => {
                       className="group block select-none space-y-1.5 rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                          <Database className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                        <div className="w-7 h-7 rounded-md flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Database className="w-3.5 h-3.5 text-white-80" />
                         </div>
-                        <div className="text-xs font-medium leading-none" style={{ color: 'rgba(255,255,255,0.9)' }}>Data Pipeline</div>
+                        <div className="text-xs font-medium leading-none text-white-90">Data Pipeline</div>
                       </div>
-                      <p className="text-[10px] leading-snug" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        freedom & scale
-                      </p>
+                      <p className="text-[10px] leading-snug text-white-50">freedom & scale</p>
                     </Link>
                   </div>
                 </PopoverContent>
@@ -147,8 +125,7 @@ export const FloatingNavigation = () => {
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple text-white-70 hover:text-white-90"
                   >
                     features <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
@@ -157,53 +134,44 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[500px] p-3 z-[60]"
-                  style={{
-                    background: 'rgba(24, 24, 27, 0.95)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
+                  className="w-[500px] p-3 z-[60] obsidian-glass-80 backdrop-blur-xl border border-white-10"
                 >
                   <div className="flex gap-3">
-                    {/* Featured Features (Bento 3-card) */}
+                    {/* Featured Features */}
                     <div className="w-[180px] flex flex-col gap-1.5">
                       <Link 
                         to="/features/analytics" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm border-primary/20 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent"
+                        className="group rounded-xl p-2 flex items-center gap-2 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] shadow-sm bg-white-05"
                       >
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-primary/20 text-primary">
-                          <BarChart3 className="w-3 h-3" />
+                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-white-10">
+                          <BarChart3 className="w-3 h-3 text-white-80" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>clean-track™</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-white-90">clean-track™</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/features/link-immunity" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/25 bg-gradient-to-br from-emerald-500/15 via-emerald-500/5 to-transparent shadow-sm"
+                        className="group rounded-xl p-2 flex items-center gap-2 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] shadow-sm bg-white-05"
                       >
-                        <div className="w-6 h-6 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-500">
-                          <Shield className="w-3 h-3" />
+                        <div className="w-6 h-6 rounded-xl flex items-center justify-center shrink-0 bg-white-10">
+                          <Shield className="w-3 h-3 text-white-80" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>link immunity</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-white-90">link immunity</h3>
                         </div>
                       </Link>
 
                       <Link 
                         to="/features/smart-routing" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
-                        style={{ 
-                          borderColor: 'rgba(139,92,246,0.2)', 
-                          background: 'linear-gradient(to bottom right, rgba(139,92,246,0.15), rgba(139,92,246,0.05), transparent)'
-                        }}
+                        className="group rounded-xl p-2 flex items-center gap-2 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] shadow-sm bg-white-05"
                       >
-                        <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(139,92,246,0.2)', color: 'rgba(139,92,246,1)' }}>
-                          <Route className="w-3 h-3" />
+                        <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <Route className="w-3 h-3 text-white-80" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>smart routing</h3>
+                          <h3 className="text-[10px] font-semibold leading-tight text-white-90">smart routing</h3>
                         </div>
                       </Link>
                     </div>
@@ -216,10 +184,10 @@ export const FloatingNavigation = () => {
                           className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <Link2 className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                              <Link2 className="w-3 h-3 text-white-80" />
                             </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Short Links</span>
+                            <span className="text-xs font-medium text-white-90">Short Links</span>
                           </div>
                         </Link>
 
@@ -228,10 +196,10 @@ export const FloatingNavigation = () => {
                           className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <Tags className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                              <Tags className="w-3 h-3 text-white-80" />
                             </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>UTM Builder</span>
+                            <span className="text-xs font-medium text-white-90">UTM Builder</span>
                           </div>
                         </Link>
 
@@ -240,10 +208,10 @@ export const FloatingNavigation = () => {
                           className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <QrCode className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                              <QrCode className="w-3 h-3 text-white-80" />
                             </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>QR Gen</span>
+                            <span className="text-xs font-medium text-white-90">QR Gen</span>
                           </div>
                         </Link>
 
@@ -252,34 +220,10 @@ export const FloatingNavigation = () => {
                           className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <BarChart3 className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                              <BarChart3 className="w-3 h-3 text-white-80" />
                             </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Analytics</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          to="/features/predictive-analytics"
-                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <TrendingUp className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                            </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Predictive</span>
-                          </div>
-                        </Link>
-
-                        <Link
-                          to="/features/smart-routing"
-                          className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                              <Route className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                            </div>
-                            <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Smart Routing</span>
+                            <span className="text-xs font-medium text-white-90">Analytics</span>
                           </div>
                         </Link>
                       </div>
@@ -293,8 +237,7 @@ export const FloatingNavigation = () => {
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple text-white-70 hover:text-white-90"
                   >
                     solutions <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
@@ -303,135 +246,56 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[500px] p-3 z-[60]"
-                  style={{
-                    background: 'rgba(24, 24, 27, 0.95)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
+                  className="w-[400px] p-3 z-[60] obsidian-glass-80 backdrop-blur-xl border border-white-10"
                 >
-                  <div className="flex gap-3">
-                    {/* Use Case Cards - Left */}
-                    <div className="w-[180px] flex flex-col gap-1.5">
-                      <Link 
-                        to="/solutions/marketers" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
-                        style={{ 
-                          borderColor: 'rgba(249,115,22,0.2)', 
-                          background: 'linear-gradient(to bottom right, rgba(249,115,22,0.15), rgba(249,115,22,0.05), transparent)'
-                        }}
-                      >
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(249,115,22,0.2)', color: 'rgba(249,115,22,1)' }}>
-                          <Target className="w-3 h-3" />
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      to="/solutions/marketers"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Megaphone className="w-3 h-3 text-white-80" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>campaign tracking</h3>
-                        </div>
-                      </Link>
+                        <span className="text-xs font-medium text-white-90">Marketing</span>
+                      </div>
+                    </Link>
 
-                      <Link 
-                        to="/solutions/partner-managers" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 shadow-sm"
-                        style={{ 
-                          borderColor: 'rgba(20,184,166,0.2)', 
-                          background: 'linear-gradient(to bottom right, rgba(20,184,166,0.15), rgba(20,184,166,0.05), transparent)'
-                        }}
-                      >
-                        <div className="w-6 h-6 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(20,184,166,0.2)', color: 'rgba(20,184,166,1)' }}>
-                          <Handshake className="w-3 h-3" />
+                    <Link
+                      to="/solutions/sales"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Briefcase className="w-3 h-3 text-white-80" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>partner attribution</h3>
-                        </div>
-                      </Link>
+                        <span className="text-xs font-medium text-white-90">Sales</span>
+                      </div>
+                    </Link>
 
-                      <Link 
-                        to="/solutions/marketing-ops" 
-                        className="group rounded-xl p-2 flex items-center gap-2 border-2 border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl hover:shadow-white/10 bg-gradient-to-br from-white/10 via-white/5 to-transparent shadow-sm"
-                      >
-                        <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white/60">
-                          <Settings className="w-3 h-3" />
+                    <Link
+                      to="/solutions/developers"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Code className="w-3 h-3 text-white-80" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[10px] font-semibold leading-tight" style={{ color: 'rgba(255,255,255,0.9)' }}>data governance</h3>
-                        </div>
-                      </Link>
-                    </div>
+                        <span className="text-xs font-medium text-white-90">Developers</span>
+                      </div>
+                    </Link>
 
-                    {/* Grid */}
-                    <div className="flex-1 grid grid-cols-2 gap-2">
-                      <Link
-                        to="/solutions/enterprise"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Building2 className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Enterprise</span>
+                    <Link
+                      to="/solutions/enterprise"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <Building2 className="w-3 h-3 text-white-80" />
                         </div>
-                      </Link>
-
-                      <Link
-                        to="/solutions/marketers"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Megaphone className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Marketing</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/solutions/agencies"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Users className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Agencies</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/solutions/sales"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Briefcase className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Sales</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/solutions/developers"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Code className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Developers</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/solutions/revops"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <DollarSign className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>RevOps</span>
-                        </div>
-                      </Link>
-                    </div>
+                        <span className="text-xs font-medium text-white-90">Enterprise</span>
+                      </div>
+                    </Link>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -441,8 +305,7 @@ export const FloatingNavigation = () => {
                 <PopoverTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple text-white-70 hover:text-white-90"
                   >
                     resources <ChevronUp className="ml-1 h-3 w-3" />
                   </Button>
@@ -451,162 +314,65 @@ export const FloatingNavigation = () => {
                   side="top" 
                   align="center" 
                   sideOffset={12}
-                  className="w-[500px] p-3 z-[60]"
-                  style={{
-                    background: 'rgba(24, 24, 27, 0.95)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}
+                  className="w-[300px] p-3 z-[60] obsidian-glass-80 backdrop-blur-xl border border-white-10"
                 >
-                  <div className="flex gap-3">
-                    {/* Featured Resources */}
-                    <div className="w-[180px] flex flex-col gap-1.5">
-                      {/* LLM Ranking - HOT */}
-                      <Link 
-                        to="/resources/playbooks/llm-ranking" 
-                        className="group rounded-lg p-2.5 flex flex-col gap-1.5 border transition-all hover:scale-[1.02]"
-                        style={{ 
-                          background: 'linear-gradient(to bottom right, rgba(249,115,22,0.1), rgba(249,115,22,0.05), transparent)',
-                          borderColor: 'rgba(249,115,22,0.2)'
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <Bot className="w-3.5 h-3.5" style={{ color: 'rgba(249,115,22,1)' }} />
-                          <Badge className="text-white text-[9px] px-1.5 py-0" style={{ background: 'rgba(249,115,22,1)' }}>HOT</Badge>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      to="/docs"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <BookOpen className="w-3 h-3 text-white-80" />
                         </div>
-                        <div>
-                          <h3 className="text-[10px] font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.9)' }}>llm ranking</h3>
-                          <p className="text-[9px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                            rank #1 in ChatGPT
-                          </p>
-                        </div>
-                      </Link>
+                        <span className="text-xs font-medium text-white-90">Documentation</span>
+                      </div>
+                    </Link>
 
-                      {/* B2B Attribution Framework - NEW */}
-                      <Link 
-                        to="/resources/frameworks/b2b-attribution" 
-                        className="group rounded-lg bg-gradient-to-br from-white/10 via-white/5 to-transparent p-2.5 flex flex-col gap-1.5 border border-white/20 hover:border-white/40 transition-all hover:scale-[1.02]"
-                      >
-                        <div className="flex items-center justify-between">
-                          <GitBranch className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          <Badge className="text-[9px] px-1.5 py-0" style={{ background: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>NEW</Badge>
+                    <Link
+                      to="/resources/playbooks"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <ClipboardList className="w-3 h-3 text-white-80" />
                         </div>
-                        <div>
-                          <h3 className="text-[10px] font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.9)' }}>b2b attribution</h3>
-                          <p className="text-[9px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                            from $0 to $100m+
-                          </p>
-                        </div>
-                      </Link>
+                        <span className="text-xs font-medium text-white-90">Playbooks</span>
+                      </div>
+                    </Link>
 
-                      {/* GTM Salary - COMING SOON */}
-                      <Link 
-                        to="/resources/reports/salary-benchmark-2026" 
-                        className="group rounded-lg p-2.5 flex flex-col gap-1.5 border transition-all hover:scale-[1.02] bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-primary/20"
-                      >
-                        <div className="flex items-center justify-between">
-                          <DollarSign className="w-3.5 h-3.5 text-primary" />
-                          <Badge className="text-white text-[9px] px-1.5 py-0 bg-primary">SOON</Badge>
+                    <Link
+                      to="/resources/templates"
+                      className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors bg-white-05">
+                          <FileText className="w-3 h-3 text-white-80" />
                         </div>
-                        <div>
-                          <h3 className="text-[10px] font-semibold mb-0.5" style={{ color: 'rgba(255,255,255,0.9)' }}>gtm salary</h3>
-                          <p className="text-[9px] leading-tight" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                            2026 benchmarks
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-
-                    {/* Grid */}
-                    <div className="flex-1 grid grid-cols-2 gap-2">
-                      <Link
-                        to="/resources/guides"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <BookOpen className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Guides</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/resources/playbooks"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <ClipboardList className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Playbooks</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/resources/templates"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <FileText className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Templates</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/resources/glossary"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <BookMarked className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Glossary</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/tools/shorten"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <Link2 className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>Shortener</span>
-                        </div>
-                      </Link>
-
-                      <Link
-                        to="/tools/qr"
-                        className="group block select-none rounded-md p-2 leading-none transition-colors hover:bg-white/10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded flex items-center justify-center group-hover:bg-white/10 transition-colors" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                            <QrCode className="w-3 h-3" style={{ color: 'rgba(255,255,255,0.8)' }} />
-                          </div>
-                          <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>QR Gen</span>
-                        </div>
-                      </Link>
-                    </div>
+                        <span className="text-xs font-medium text-white-90">Templates</span>
+                      </div>
+                    </Link>
                   </div>
                 </PopoverContent>
               </Popover>
-            </div>
 
-            {/* CTA */}
-            <div className="flex items-center gap-2">
-              <Link to="/early-access">
+              {/* Pricing Link */}
+              <Link to="/pricing">
                 <Button 
-                  size="sm"
-                  className="h-8 px-4 text-xs rounded-full bg-gradient-to-r from-blazeOrange to-blazeOrange/90 hover:from-blazeOrange/90 hover:to-blazeOrange/80 text-white shadow-md transition-apple"
+                  variant="ghost" 
+                  className="h-8 px-3 text-xs font-medium hover:bg-white/10 transition-apple text-white-70 hover:text-white-90"
                 >
-                  get early access
+                  pricing
                 </Button>
               </Link>
             </div>
+
+            {/* CTA */}
+            <Link to="/early-access" className="shrink-0">
+              <Button variant="marketing" size="sm" className="rounded-full text-xs">
+                get started
+              </Button>
+            </Link>
           </div>
         </motion.nav>
       )}

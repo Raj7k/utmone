@@ -16,12 +16,12 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-foreground underline-offset-4 hover:underline",
         gradient: "bg-gradient-nature-3 text-white hover:bg-gradient-nature-2 transition-all duration-300 h-12",
-        "glow-pink": "bg-[#FF6B9D] text-white hover:bg-[#FF5A8C] shadow-[0_0_20px_rgba(255,107,157,0.4)] hover:shadow-[0_0_30px_rgba(255,107,157,0.6)] transition-all duration-300 h-12",
-        // Apple HIG System Variants
-        system: "bg-system-blue text-white hover:opacity-80 active:opacity-60 h-[44px]",
-        "system-secondary": "bg-fill-secondary text-label border border-separator hover:bg-fill-primary h-[44px]",
-        "system-tertiary": "bg-transparent text-system-blue hover:bg-fill-tertiary h-[44px]",
-        "system-destructive": "bg-system-red text-white hover:opacity-80 active:opacity-60 h-[44px]",
+        "glow-pink": "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-[0_0_20px_hsl(var(--destructive)/0.4)] hover:shadow-[0_0_30px_hsl(var(--destructive)/0.6)] transition-all duration-300 h-12",
+        // Apple HIG System Variants - using semantic colors instead of system-blue
+        system: "bg-primary text-primary-foreground hover:opacity-80 active:opacity-60 h-[44px]",
+        "system-secondary": "bg-fill-secondary text-foreground border border-border hover:bg-fill-primary h-[44px]",
+        "system-tertiary": "bg-transparent text-primary hover:bg-fill-tertiary h-[44px]",
+        "system-destructive": "bg-destructive text-destructive-foreground hover:opacity-80 active:opacity-60 h-[44px]",
         marketing: "bg-primary text-primary-foreground hover:opacity-90 shadow-sm hover:shadow-md h-[44px]",
         "marketing-glow": "bg-primary text-primary-foreground font-semibold shadow-[0_0_20px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.6)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 h-[52px]",
         // Halo Button - theme-aware with glow
