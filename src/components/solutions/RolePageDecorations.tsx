@@ -4,8 +4,7 @@ export const HeroFloatingShapes = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
-        className="absolute top-20 right-20 w-64 h-64 rounded-full blur-3xl"
-        style={{ background: 'rgba(255,106,0,0.05)' }}
+        className="absolute top-20 right-20 w-64 h-64 rounded-full blur-3xl bg-blazeOrange/5"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.05, 0.08, 0.05],
@@ -17,8 +16,7 @@ export const HeroFloatingShapes = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-20 left-20 w-96 h-96 rounded-full blur-3xl"
-        style={{ background: 'rgba(0,107,82,0.05)' }}
+        className="absolute bottom-20 left-20 w-96 h-96 rounded-full blur-3xl bg-deepSea/5"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.05, 0.1, 0.05],
@@ -31,8 +29,7 @@ export const HeroFloatingShapes = () => {
         }}
       />
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl"
-        style={{ background: 'rgba(255,255,255,0.05)' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl bg-white/5"
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.03, 0.06, 0.03],
@@ -59,9 +56,9 @@ export const DiagonalAccent = ({ position = "top-left" }: { position?: "top-left
   return (
     <div className={`absolute ${positions[position]} w-32 h-32 opacity-10 pointer-events-none`}>
       <svg viewBox="0 0 100 100" className="w-full h-full">
-        <line x1="0" y1="0" x2="100" y2="100" stroke="rgba(255,255,255,0.5)" strokeWidth="0.5" />
-        <line x1="20" y1="0" x2="100" y2="80" stroke="rgba(0,107,82,0.5)" strokeWidth="0.5" />
-        <line x1="0" y1="20" x2="80" y2="100" stroke="rgba(255,106,0,0.5)" strokeWidth="0.5" />
+        <line x1="0" y1="0" x2="100" y2="100" stroke="white" strokeOpacity="0.5" strokeWidth="0.5" />
+        <line x1="20" y1="0" x2="100" y2="80" stroke="hsl(184 89% 18%)" strokeOpacity="0.5" strokeWidth="0.5" />
+        <line x1="0" y1="20" x2="80" y2="100" stroke="hsl(20 100% 51%)" strokeOpacity="0.5" strokeWidth="0.5" />
       </svg>
     </div>
   );
@@ -79,7 +76,7 @@ export const DotPattern = () => {
       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="dot-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.5)" />
+            <circle cx="2" cy="2" r="1" fill="white" fillOpacity="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#dot-pattern)" />
@@ -92,8 +89,7 @@ export const HeroGlow = () => {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-3xl" 
-        style={{ background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.1), transparent)' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-3xl bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.1),_transparent)]"
       />
     </div>
   );

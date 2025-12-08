@@ -16,7 +16,7 @@ export const WorkflowTimeline = ({ steps, description }: WorkflowTimelineProps) 
     <div className="max-w-5xl mx-auto">
       <div className="relative flex items-center justify-between gap-4">
         {/* Connecting line */}
-        <div className="absolute top-1/2 left-0 right-0 h-1 rounded-full -translate-y-1/2" style={{ background: 'rgba(255,255,255,0.1)' }} />
+        <div className="absolute top-1/2 left-0 right-0 h-1 rounded-full -translate-y-1/2 bg-white/10" />
         
         {steps.map((step, index) => (
           <motion.div

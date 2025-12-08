@@ -15,7 +15,7 @@ const Blog = () => {
       
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="max-w-2xl mx-auto px-6 text-center space-y-6">
-          <div className="inline-flex p-4 rounded-2xl" style={{ background: 'rgba(255,255,255,0.1)' }}>
+          <div className="inline-flex p-4 rounded-2xl bg-white/10">
             <BookOpen className="h-12 w-12 text-white/80" />
           </div>
           
@@ -23,7 +23,7 @@ const Blog = () => {
             blog coming soon
           </h1>
           
-          <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <p className="text-lg max-w-xl mx-auto text-white/60">
             we're working on bringing you insights, tutorials, and best practices for link management and campaign tracking.
           </p>
           
