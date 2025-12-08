@@ -1,7 +1,12 @@
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { FeatureSection } from "@/components/features/FeatureSection";
+import { CTAButton } from "@/components/ui/CTAButton";
+
+import { AttributionComparisonChart } from "@/components/features/AttributionComparisonChart";
+import { ForecastingPreview } from "@/components/features/ForecastingPreview";
+import { JourneyFlowPreview } from "@/components/features/JourneyFlowPreview";
+import { AICommandCenterPreview } from "@/components/features/AICommandCenterPreview";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { 
   GitBranch, 
   Smartphone, 
@@ -15,33 +20,25 @@ import {
   MessageSquare,
   Lightbulb,
   Bell,
-  ArrowRight,
-  Zap,
   Check,
-  Minus
+  Minus,
+  Zap
 } from "lucide-react";
-import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
-import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
-import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
-import { AttributionComparisonChart } from "@/components/features/AttributionComparisonChart";
-import { ForecastingPreview } from "@/components/features/ForecastingPreview";
-import { JourneyFlowPreview } from "@/components/features/JourneyFlowPreview";
-import { AICommandCenterPreview } from "@/components/features/AICommandCenterPreview";
 
 const FeatureItem = ({ icon: Icon, title, description }: { icon: any; title: string; description: string }) => (
   <motion.div
     initial={{ opacity: 0, x: -20 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
-    className="p-5 rounded-xl bg-zinc-900/40 backdrop-blur-sm border border-white/10 hover:bg-zinc-900/60 transition-colors"
+    className="p-5 rounded-xl bg-card border border-border hover:bg-muted/50 transition-colors"
   >
     <div className="flex items-start gap-4">
-      <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-        <Icon className="w-5 h-5 text-white/80" />
+      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+        <Icon className="w-5 h-5 text-primary" />
       </div>
       <div>
-        <h4 className="font-display font-semibold text-white lowercase mb-1">{title}</h4>
-        <p className="text-sm text-white/60 leading-relaxed">{description}</p>
+        <h3 className="font-display font-semibold text-label lowercase mb-1">{title}</h3>
+        <p className="text-sm text-secondary-label leading-relaxed">{description}</p>
       </div>
     </div>
   </motion.div>
@@ -87,268 +84,267 @@ const Analytics = () => {
   ];
 
   return (
-    <>
-      <Helmet>
-        <title>Revenue Intelligence | utm.one</title>
-        <meta
-          name="description"
-          content="Stop counting clicks. Start measuring revenue. Multi-touch attribution, customer journey visualization, predictive forecasting, and AI-powered insights."
-        />
-      </Helmet>
-
+    <FeatureLayout
+      title="Revenue Intelligence | utm.one"
+      description="Stop counting clicks. Start measuring revenue. Multi-touch attribution, customer journey visualization, predictive forecasting, and AI-powered insights."
+      canonical="https://utm.one/features/analytics"
+      keywords={["revenue intelligence", "multi-touch attribution", "marketing analytics", "customer journey", "predictive analytics"]}
+      breadcrumbs={[
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/#features" },
+        { name: "Revenue Intelligence", url: "https://utm.one/features/analytics" },
+      ]}
+    >
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-        <RetroGradientMesh />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center py-24">
+      <FeatureSection maxWidth="medium">
+        <div className="text-center py-12 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white/80 text-sm mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm mb-8">
               <Zap className="w-4 h-4" />
               revenue intelligence platform
             </span>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 lowercase">
+            <h1 className="text-5xl md:text-7xl font-display font-bold text-label mb-6 lowercase">
               from clicks to revenue.
             </h1>
-            <p className="text-xl md:text-2xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-secondary-label mb-10 max-w-2xl mx-auto leading-relaxed">
               utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—across devices, channels, and time.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-white/90">
-                <Link to="/early-access">start free</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
-                <Link to="/book-demo">book a demo</Link>
-              </Button>
+              <CTAButton href="/early-access" variant="primary">
+                start free
+              </CTAButton>
+              <CTAButton href="/book-demo" variant="secondary">
+                book a demo
+              </CTAButton>
             </div>
           </motion.div>
         </div>
-      </section>
+      </FeatureSection>
 
-      {/* Horror Story Section */}
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-6xl mx-auto px-8">
-          <HorrorStorySection
-            title="the attribution black hole"
-            description="Your LinkedIn campaign drove 10,000 clicks. Your paid search drove 5,000. The CFO asks: 'Which one actually made us money?' You open GA4. It shows last-click attribution. But the customer saw LinkedIn first, got an email, attended a webinar, then searched your brand on Google. Who gets credit? GA4 says Google. The truth? It was a team effort. Without multi-touch attribution, you're flying blind."
-            stats={[
-              { value: "72%", label: "of marketers can't prove ROI" },
-              { value: "$2.1M", label: "avg. wasted on wrong channels" },
-              { value: "3.2", label: "avg touchpoints before conversion" },
-            ]}
-          />
+      {/* Problem Statement */}
+      <FeatureSection background="muted">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-6">
+            the attribution black hole
+          </h2>
+          <p className="text-lg text-secondary-label leading-relaxed mb-10">
+            Your LinkedIn campaign drove 10,000 clicks. Your paid search drove 5,000. The CFO asks: "Which one actually made us money?" 
+            You open GA4. It shows last-click attribution. But the customer saw LinkedIn first, got an email, attended a webinar, 
+            then searched your brand on Google. Who gets credit? GA4 says Google. The truth? It was a team effort. 
+            Without multi-touch attribution, you're flying blind.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-xl bg-card border border-border">
+              <div className="text-4xl font-display font-bold text-label mb-2">72%</div>
+              <div className="text-sm text-secondary-label">of marketers can't prove ROI</div>
+            </div>
+            <div className="p-6 rounded-xl bg-card border border-border">
+              <div className="text-4xl font-display font-bold text-label mb-2">$2.1M</div>
+              <div className="text-sm text-secondary-label">avg. wasted on wrong channels</div>
+            </div>
+            <div className="p-6 rounded-xl bg-card border border-border">
+              <div className="text-4xl font-display font-bold text-label mb-2">3.2</div>
+              <div className="text-sm text-secondary-label">avg touchpoints before conversion</div>
+            </div>
+          </div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* Section 1: Attribution (Mockup Left) */}
-      <section className="py-24 bg-zinc-950/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Mockup */}
+      <FeatureSection maxWidth="wide">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <AttributionComparisonChart />
+          </motion.div>
+          
+          <div className="space-y-4">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              className="mb-8"
             >
-              <AttributionComparisonChart />
+              <span className="text-sm text-secondary-label uppercase tracking-wider">attribution</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+                see what actually works.
+              </h2>
             </motion.div>
             
-            {/* Features */}
-            <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <span className="text-sm text-white/50 uppercase tracking-wider">attribution</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
-                  see what actually works.
-                </h2>
-              </motion.div>
-              
-              <FeatureItem
-                icon={GitBranch}
-                title="multi-touch attribution"
-                description="7 attribution models (linear, time-decay, position-based) show each touchpoint's true contribution to revenue."
-              />
-              <FeatureItem
-                icon={Smartphone}
-                title="cross-device identity graph"
-                description="Stitch mobile → desktop → app sessions. See the complete journey, not device fragments."
-              />
-              <FeatureItem
-                icon={FileText}
-                title="topic attribution"
-                description="Which content themes drive conversions? Fingerprint your content and track what resonates."
-              />
-            </div>
+            <FeatureItem
+              icon={GitBranch}
+              title="multi-touch attribution"
+              description="7 attribution models (linear, time-decay, position-based) show each touchpoint's true contribution to revenue."
+            />
+            <FeatureItem
+              icon={Smartphone}
+              title="cross-device identity graph"
+              description="Stitch mobile → desktop → app sessions. See the complete journey, not device fragments."
+            />
+            <FeatureItem
+              icon={FileText}
+              title="topic attribution"
+              description="Which content themes drive conversions? Fingerprint your content and track what resonates."
+            />
           </div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* Section 2: Journey (Mockup Right) */}
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Features */}
-            <div className="space-y-4 order-2 lg:order-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <span className="text-sm text-white/50 uppercase tracking-wider">journey</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
-                  visualize the path to purchase.
-                </h2>
-              </motion.div>
-              
-              <FeatureItem
-                icon={Route}
-                title="customer journey flow"
-                description="Sankey diagrams show how prospects flow through touchpoints to conversion. See drop-offs and golden paths."
-              />
-              <FeatureItem
-                icon={Target}
-                title="conversion funnels"
-                description="Build custom funnels. Track stage-by-stage conversion rates. Find where you're losing people."
-              />
-              <FeatureItem
-                icon={Sparkles}
-                title="golden path analysis"
-                description="Discover the optimal touchpoint sequence that converts best. Replicate what works."
-              />
-            </div>
-            
-            {/* Mockup */}
+      <FeatureSection background="muted" maxWidth="wide">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-4 order-2 lg:order-1">
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 lg:order-2"
+              className="mb-8"
             >
-              <JourneyFlowPreview />
+              <span className="text-sm text-secondary-label uppercase tracking-wider">journey</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+                visualize the path to purchase.
+              </h2>
             </motion.div>
+            
+            <FeatureItem
+              icon={Route}
+              title="customer journey flow"
+              description="Sankey diagrams show how prospects flow through touchpoints to conversion. See drop-offs and golden paths."
+            />
+            <FeatureItem
+              icon={Target}
+              title="conversion funnels"
+              description="Build custom funnels. Track stage-by-stage conversion rates. Find where you're losing people."
+            />
+            <FeatureItem
+              icon={Sparkles}
+              title="golden path analysis"
+              description="Discover the optimal touchpoint sequence that converts best. Replicate what works."
+            />
           </div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="order-1 lg:order-2"
+          >
+            <JourneyFlowPreview />
+          </motion.div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* Section 3: Predictions (Mockup Left) */}
-      <section className="py-24 bg-zinc-950/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Mockup */}
+      <FeatureSection maxWidth="wide">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <ForecastingPreview />
+          </motion.div>
+          
+          <div className="space-y-4">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              className="mb-8"
             >
-              <ForecastingPreview />
+              <span className="text-sm text-secondary-label uppercase tracking-wider">predictions</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+                know what's coming.
+              </h2>
             </motion.div>
             
-            {/* Features */}
-            <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <span className="text-sm text-white/50 uppercase tracking-wider">predictions</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
-                  know what's coming.
-                </h2>
-              </motion.div>
-              
-              <FeatureItem
-                icon={TrendingUp}
-                title="traffic forecasting"
-                description="7-day predictions with 85-92% accuracy. Plan campaigns with confidence intervals, not guesswork."
-              />
-              <FeatureItem
-                icon={Clock}
-                title="best time analysis"
-                description="Heatmaps show when your audience is most active. Schedule posts and campaigns for peak engagement."
-              />
-              <FeatureItem
-                icon={BarChart3}
-                title="lift analysis"
-                description="Identify demand creators vs. churn drivers. Know which channels lift conversions and which cannibalize."
-              />
-            </div>
+            <FeatureItem
+              icon={TrendingUp}
+              title="traffic forecasting"
+              description="7-day predictions with 85-92% accuracy. Plan campaigns with confidence intervals, not guesswork."
+            />
+            <FeatureItem
+              icon={Clock}
+              title="best time analysis"
+              description="Heatmaps show when your audience is most active. Schedule posts and campaigns for peak engagement."
+            />
+            <FeatureItem
+              icon={BarChart3}
+              title="lift analysis"
+              description="Identify demand creators vs. churn drivers. Know which channels lift conversions and which cannibalize."
+            />
           </div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* Section 4: AI Intelligence (Mockup Right) */}
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Features */}
-            <div className="space-y-4 order-2 lg:order-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="mb-8"
-              >
-                <span className="text-sm text-white/50 uppercase tracking-wider">ai intelligence</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
-                  ask, don't dig.
-                </h2>
-              </motion.div>
-              
-              <FeatureItem
-                icon={MessageSquare}
-                title="ai command center"
-                description="Ask questions in plain English. 'Which campaign had the best ROI?' Get instant, data-backed answers."
-              />
-              <FeatureItem
-                icon={Lightbulb}
-                title="smart insights"
-                description="Auto-generated recommendations. Surface hidden opportunities. Spot trends before your competitors."
-              />
-              <FeatureItem
-                icon={Bell}
-                title="anomaly detection"
-                description="Pulse Watchdog monitors your data 24/7. Get alerts when traffic spikes, drops, or behaves unusually."
-              />
-            </div>
-            
-            {/* Mockup */}
+      <FeatureSection background="muted" maxWidth="wide">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-4 order-2 lg:order-1">
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="order-1 lg:order-2"
+              className="mb-8"
             >
-              <AICommandCenterPreview />
+              <span className="text-sm text-secondary-label uppercase tracking-wider">ai intelligence</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+                ask, don't dig.
+              </h2>
             </motion.div>
+            
+            <FeatureItem
+              icon={MessageSquare}
+              title="ai command center"
+              description="Ask questions in plain English. 'Which campaign had the best ROI?' Get instant, data-backed answers."
+            />
+            <FeatureItem
+              icon={Lightbulb}
+              title="smart insights"
+              description="Auto-generated recommendations. Surface hidden opportunities. Spot trends before your competitors."
+            />
+            <FeatureItem
+              icon={Bell}
+              title="anomaly detection"
+              description="Pulse Watchdog monitors your data 24/7. Get alerts when traffic spikes, drops, or behaves unusually."
+            />
           </div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="order-1 lg:order-2"
+          >
+            <AICommandCenterPreview />
+          </motion.div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* Comparison Table */}
-      <section className="py-24 bg-zinc-950/50">
-        <div className="max-w-4xl mx-auto px-6">
+      <FeatureSection>
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-4">
               revenue intelligence comparison.
             </h2>
-            <p className="text-lg text-white/60">
+            <p className="text-lg text-secondary-label">
               See how utm.one stacks up against basic analytics tools.
             </p>
           </motion.div>
@@ -357,39 +353,39 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-white/10 overflow-hidden bg-zinc-900/40 backdrop-blur-sm"
+            className="rounded-2xl border border-border overflow-hidden bg-card"
           >
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left p-4 text-white/60 font-medium">Feature</th>
-                  <th className="text-center p-4 text-white/60 font-medium">GA4</th>
-                  <th className="text-center p-4 text-white/60 font-medium">Bitly</th>
-                  <th className="text-center p-4 text-white font-semibold">utm.one</th>
+                <tr className="border-b border-border">
+                  <th className="text-left p-4 text-secondary-label font-medium">Feature</th>
+                  <th className="text-center p-4 text-secondary-label font-medium">GA4</th>
+                  <th className="text-center p-4 text-secondary-label font-medium">Bitly</th>
+                  <th className="text-center p-4 text-label font-semibold">utm.one</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonData.map((row, i) => (
-                  <tr key={i} className="border-b border-white/5 last:border-0">
-                    <td className="p-4 text-white/80">{row.feature}</td>
+                  <tr key={i} className="border-b border-border/50 last:border-0">
+                    <td className="p-4 text-label">{row.feature}</td>
                     <td className="text-center p-4">
                       {row.ga4 === true ? (
-                        <Check className="w-4 h-4 text-white/80 mx-auto" />
+                        <Check className="w-4 h-4 text-primary mx-auto" />
                       ) : row.ga4 === "limited" ? (
-                        <span className="text-white/40 text-xs">limited</span>
+                        <span className="text-muted-foreground text-xs">limited</span>
                       ) : (
-                        <Minus className="w-4 h-4 text-white/20 mx-auto" />
+                        <Minus className="w-4 h-4 text-muted-foreground/30 mx-auto" />
                       )}
                     </td>
                     <td className="text-center p-4">
                       {row.bitly === true ? (
-                        <Check className="w-4 h-4 text-white/80 mx-auto" />
+                        <Check className="w-4 h-4 text-primary mx-auto" />
                       ) : (
-                        <Minus className="w-4 h-4 text-white/20 mx-auto" />
+                        <Minus className="w-4 h-4 text-muted-foreground/30 mx-auto" />
                       )}
                     </td>
                     <td className="text-center p-4">
-                      <Check className="w-4 h-4 text-white mx-auto" />
+                      <Check className="w-4 h-4 text-primary mx-auto" />
                     </td>
                   </tr>
                 ))}
@@ -397,46 +393,47 @@ const Analytics = () => {
             </table>
           </motion.div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* FAQ */}
-      <section className="py-24 bg-zinc-950">
-        <div className="max-w-4xl mx-auto px-6">
-          <RoleSpecificFAQ
-            role="Revenue Intelligence"
-            faqs={faqs}
-          />
+      <FeatureSection background="muted">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-8 text-center">
+            revenue intelligence faq
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="p-6 rounded-xl bg-card border border-border"
+              >
+                <h3 className="font-display font-semibold text-label mb-2 lowercase">{faq.question}</h3>
+                <p className="text-secondary-label text-sm leading-relaxed">{faq.answer}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </section>
+      </FeatureSection>
 
       {/* CTA */}
-      <section className="py-24 bg-zinc-950/50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-6">
-              see your revenue story.
-            </h2>
-            <p className="text-lg text-white/60 mb-10 max-w-xl mx-auto">
-              Stop guessing which channels work. Get the complete picture of your marketing ROI.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-white/90">
-                <Link to="/early-access" className="flex items-center gap-2">
-                  start free <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
-                <Link to="/book-demo">book a demo</Link>
-              </Button>
-            </div>
-          </motion.div>
+      <FeatureSection>
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+            start measuring what matters
+          </h2>
+          <p className="text-lg text-secondary-label mb-8">
+            Stop guessing. Start knowing. See exactly which marketing efforts drive revenue.
+          </p>
+          <CTAButton href="/early-access" variant="primary" trustBadge="Free to start · No credit card">
+            Start Free →
+          </CTAButton>
         </div>
-      </section>
-    </>
+      </FeatureSection>
+    </FeatureLayout>
   );
 };
 
