@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { 
   TrendingUp, 
   Route, 
@@ -13,10 +14,14 @@ import {
   CheckCircle2,
   User,
   Zap,
-  Brain
+  Brain,
+  Check,
+  Clock,
+  CreditCard
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
+import { FoundingMemberCounter } from "./FoundingMemberCounter";
 import { FiberOpticGraph } from "./FiberOpticGraph";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
@@ -79,7 +84,9 @@ const appleEase = "easeOut";
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [email, setEmail] = useState("");
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -100,7 +107,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
       {/* The Slab Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6">
         <div 
-          className="relative h-[600px] rounded-[32px] overflow-hidden bg-zinc-900/20 border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%/0.5),0_0_0_1px_hsl(0_0%_100%/0.05)_inset]"
+          className="relative h-[680px] rounded-[32px] overflow-hidden bg-zinc-900/20 border border-white/10 shadow-[0_25px_50px_-12px_hsl(0_0%_0%/0.5),0_0_0_1px_hsl(0_0%_100%/0.05)_inset]"
         >
           <div className="flex h-full">
             {/* Navigation Rail (Left Sidebar) - The Controls */}
@@ -227,16 +234,55 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {activeItem.subheadline}
                     </p>
 
-                    {/* CTAs */}
-                    <div className="flex items-center gap-4 pt-2">
-                      <Link to="/early-access">
-                        <Button 
-                          size="lg"
-                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
-                        >
-                          get early access
-                        </Button>
-                      </Link>
+                    {/* Inline Email Capture */}
+                    <form 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (email) {
+                          navigate(`/early-access?email=${encodeURIComponent(email)}`);
+                        }
+                      }}
+                      className="flex flex-col sm:flex-row gap-3 pt-2 max-w-md"
+                    >
+                      <Input
+                        type="email"
+                        placeholder="enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="h-12 bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground rounded-full px-5"
+                      />
+                      <Button 
+                        type="submit"
+                        size="lg"
+                        className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                      >
+                        get early access
+                      </Button>
+                    </form>
+
+                    {/* Risk Reversal Badges */}
+                    <div className="flex flex-wrap items-center gap-4 pt-3">
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Check className="w-3.5 h-3.5 text-green-500" />
+                        <span>free forever for early adopters</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span>no credit card required</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Clock className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span>set up in under 2 minutes</span>
+                      </div>
+                    </div>
+
+                    {/* Founding Member Counter */}
+                    <div className="pt-4">
+                      <FoundingMemberCounter remaining={47} total={100} />
+                    </div>
+
+                    {/* Learn More Link */}
+                    <div className="pt-2">
                       <Link 
                         to={activeItem.route}
                         className="inline-flex items-center gap-2 text-sm font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"

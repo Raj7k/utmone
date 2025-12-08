@@ -20,6 +20,9 @@ import { MainLayout } from "@/components/layout/MainLayout";
 
 // Lazy load heavy landing components
 const ControlDeckHero = lazy(() => import("@/components/landing/ControlDeckHero").then(m => ({ default: m.ControlDeckHero })));
+const TrustBadgeStrip = lazy(() => import("@/components/landing/TrustBadgeStrip").then(m => ({ default: m.TrustBadgeStrip })));
+const InstantDemoWidget = lazy(() => import("@/components/landing/InstantDemoWidget").then(m => ({ default: m.InstantDemoWidget })));
+const TransparencyStrip = lazy(() => import("@/components/landing/TransparencyStrip").then(m => ({ default: m.TransparencyStrip })));
 const DynamicProblemSection = lazy(() => import("@/components/landing/DynamicProblemSection").then(m => ({ default: m.DynamicProblemSection })));
 const DynamicInsightSection = lazy(() => import("@/components/landing/DynamicInsightSection").then(m => ({ default: m.DynamicInsightSection })));
 const DynamicProofSection = lazy(() => import("@/components/landing/DynamicProofSection").then(m => ({ default: m.DynamicProofSection })));
@@ -129,6 +132,16 @@ const Index = () => {
         </>
       )}
 
+      {/* Trust Badge Strip - Security badges without customer proof */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <TrustBadgeStrip />
+      </Suspense>
+
+      {/* Instant Demo Widget - Try before signup */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <InstantDemoWidget />
+      </Suspense>
+
       {/* NARRATIVE FLOW - All sections change based on Control Deck selection */}
 
       {/* Fold 2: The Problem - Show the pain with visceral clarity */}
@@ -228,6 +241,11 @@ const Index = () => {
       {/* Trust & Permanence */}
       <Suspense fallback={<SectionSkeleton />}>
         <TrustSection />
+      </Suspense>
+
+      {/* Transparency Strip - Public roadmap/status */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <TransparencyStrip />
       </Suspense>
 
       {/* Dynamic FAQ - Questions change based on use case */}
