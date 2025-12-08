@@ -22,7 +22,7 @@ export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
           transition={{ duration: 0.5, delay: index * 0.1 }}
           className="obsidian-glass rounded-xl p-6 transition-all"
         >
-          <h3 className="text-lg font-display font-bold lowercase mb-3 text-foreground">
+          <h3 className="text-lg font-display font-bold lowercase mb-3 text-white">
             {useCase.title}
           </h3>
           <div className="space-y-3">
@@ -30,13 +30,13 @@ export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
               <div className="text-xs uppercase tracking-wide font-semibold mb-1 text-destructive">
                 Problem
               </div>
-              <p className="text-sm text-muted-foreground font-sans">{useCase.scenario}</p>
+              <p className="text-sm text-white/60 font-sans">{useCase.scenario}</p>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-wide font-semibold mb-1 text-foreground/70">
+              <div className="text-xs uppercase tracking-wide font-semibold mb-1 text-white/70">
                 Solution
               </div>
-              <p className="text-sm font-medium text-foreground font-sans">{useCase.solution}</p>
+              <p className="text-sm font-medium text-white font-sans">{useCase.solution}</p>
             </div>
           </div>
         </motion.div>

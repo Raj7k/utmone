@@ -41,10 +41,10 @@ export const LinkHealthDashboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-display font-bold text-foreground lowercase mb-1">
+          <h3 className="text-xl font-display font-bold text-white lowercase mb-1">
             link health monitor
           </h3>
-          <p className="text-sm text-muted-foreground font-sans">Real-time status of your top 100 links</p>
+          <p className="text-sm text-white/60 font-sans">Real-time status of your top 100 links</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/15 border border-green-500/25">
           <Activity className="w-4 h-4 animate-pulse text-green-500" />
@@ -75,15 +75,15 @@ export const LinkHealthDashboard = () => {
                     <XCircle className="w-5 h-5 text-destructive" />
                   )}
                   <div>
-                    <div className="text-sm font-semibold text-foreground font-sans">{link.name}</div>
-                    <div className="text-xs text-muted-foreground font-sans">{link.checks} health checks</div>
+                    <div className="text-sm font-semibold text-white font-sans">{link.name}</div>
+                    <div className="text-xs text-white/60 font-sans">{link.checks} health checks</div>
                   </div>
                 </div>
                 <div className="text-right">
                   <div className={`text-sm font-bold ${statusStyles.textClass}`}>
                     {link.uptime} uptime
                   </div>
-                  <div className="text-xs capitalize text-muted-foreground font-sans">{link.status}</div>
+                  <div className="text-xs capitalize text-white/60 font-sans">{link.status}</div>
                 </div>
               </div>
             </motion.div>
@@ -97,7 +97,7 @@ export const LinkHealthDashboard = () => {
           <CheckCircle2 className="w-5 h-5 text-green-500" />
           <span className="text-sm font-semibold text-green-500">Automatic Failover Active</span>
         </div>
-        <p className="text-xs text-muted-foreground font-sans">
+        <p className="text-xs text-white/60 font-sans">
           When a link goes down, traffic automatically routes to fallback URL. No manual intervention needed.
         </p>
       </div>

@@ -23,10 +23,10 @@ export const HorrorStorySection = ({
             <AlertCircle className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+            <h3 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               {title}
             </h3>
-            <p className="text-lg leading-relaxed max-w-2xl text-muted-foreground">
+            <p className="text-lg leading-relaxed max-w-2xl text-white/60">
               {description}
             </p>
           </div>
@@ -46,7 +46,7 @@ export const HorrorStorySection = ({
                 <div className="text-3xl md:text-4xl font-bold mb-2 text-destructive">
                   {stat.value}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-white/60">
                   {stat.label}
                 </div>
               </motion.div>
