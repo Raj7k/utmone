@@ -48,15 +48,15 @@ export default function DataPipeline() {
           visual={
             <div className="bg-destructive/10 rounded-lg p-6 space-y-3">
               <div className="flex items-center justify-between text-sm">
-                <span className="font-mono text-muted-foreground">last_export.csv</span>
+                <span className="font-mono text-white/60">last_export.csv</span>
                 <span className="text-destructive font-semibold">3 days old</span>
               </div>
-              <div className="bg-card rounded p-3 border border-border space-y-1 font-mono text-xs">
-                <div className="text-muted-foreground">visitor_id, click_timestamp</div>
+              <div className="bg-zinc-900/40 rounded p-3 border border-white/10 space-y-1 font-mono text-xs">
+                <div className="text-white/60">visitor_id, click_timestamp</div>
                 <div className="text-destructive line-through">utm_source, utm_medium</div>
-                <div className="text-muted-foreground">// missing 8 critical fields</div>
+                <div className="text-white/60">// missing 8 critical fields</div>
               </div>
-              <p className="text-xs text-center text-muted-foreground">
+              <p className="text-xs text-center text-white/60">
                 incomplete schema • manual exports • 72-hour lag
               </p>
             </div>
@@ -98,23 +98,23 @@ export default function DataPipeline() {
               afterContent={
                 <div className="space-y-4">
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Real-time streaming (&lt; 200ms)</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Instant availability</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Complete schema</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Guaranteed format</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Build your own models</span>
                     </div>

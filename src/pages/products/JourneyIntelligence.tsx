@@ -48,20 +48,20 @@ export default function JourneyIntelligence() {
           visual={
             <div className="bg-destructive/10 rounded-lg p-6">
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
-                  <span className="text-sm font-mono text-foreground">Direct / None</span>
+                <div className="flex items-center justify-between p-3 bg-zinc-900/40 rounded border border-white/10">
+                  <span className="text-sm font-mono text-white">Direct / None</span>
                   <span className="text-sm font-semibold text-destructive">60 leads (60%)</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
-                  <span className="text-sm font-mono text-foreground">Google / Organic</span>
-                  <span className="text-sm font-semibold text-foreground">25 leads (25%)</span>
+                <div className="flex items-center justify-between p-3 bg-zinc-900/40 rounded border border-white/10">
+                  <span className="text-sm font-mono text-white">Google / Organic</span>
+                  <span className="text-sm font-semibold text-white">25 leads (25%)</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-card rounded border border-border">
-                  <span className="text-sm font-mono text-foreground">LinkedIn / Paid</span>
-                  <span className="text-sm font-semibold text-foreground">15 leads (15%)</span>
+                <div className="flex items-center justify-between p-3 bg-zinc-900/40 rounded border border-white/10">
+                  <span className="text-sm font-mono text-white">LinkedIn / Paid</span>
+                  <span className="text-sm font-semibold text-white">15 leads (15%)</span>
                 </div>
               </div>
-              <p className="text-xs text-center text-muted-foreground mt-4">
+              <p className="text-xs text-center text-white/60 mt-4">
                 typical ga4 attribution report — 60% unattributed
               </p>
             </div>
@@ -101,23 +101,23 @@ export default function JourneyIntelligence() {
               }
               afterContent={
                 <div className="space-y-4">
-                  <div className="text-center text-2xl font-bold text-primary mb-4">
+                  <div className="text-center text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] mb-4">
                     100% journeys mapped
                   </div>
                   <div className="space-y-2 text-left">
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Every touchpoint visible</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Credit distributed fairly</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Visitor memory reconnects them</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-primary">
+                    <div className="flex items-center gap-2 text-sm text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       <span>✓</span>
                       <span>Prove every channel's ROI</span>
                     </div>

@@ -26,10 +26,10 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
         className="space-y-6"
       >
         <div className="space-y-3">
-          <h3 className="text-2xl md:text-3xl font-display font-bold lowercase text-white-90">
+          <h3 className="text-2xl md:text-3xl font-display font-bold lowercase text-white">
             {title}
           </h3>
-          <p className="text-lg text-white-50">
+          <p className="text-lg text-white/60">
             {description}
           </p>
         </div>
@@ -46,16 +46,16 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
             >
               <div className="flex flex-col items-center">
                 <div 
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-primary/15"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-white/10"
                 >
-                  <step.icon className="w-5 h-5 text-primary" />
+                  <step.icon className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                 </div>
                 {index < timeline.length - 1 && (
-                  <div className="w-0.5 h-8 mt-2 bg-primary/20" />
+                  <div className="w-0.5 h-8 mt-2 bg-white/20" />
                 )}
               </div>
               <div className="pt-2">
-                <div className="text-xs font-semibold uppercase tracking-wide mb-1 text-primary">
+                <div className="text-xs font-semibold uppercase tracking-wide mb-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                   {step.time}
                 </div>
                 <div className="text-sm text-white/80">
