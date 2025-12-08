@@ -330,6 +330,32 @@ export const Navigation = () => {
                           </div>
                           <p className="text-xs leading-snug text-white-50">revenue mapping</p>
                         </Link>
+
+                        <Link
+                          to="/features/smart-routing"
+                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <Route className="w-4 h-4 text-white-80" />
+                            </div>
+                            <div className="text-sm font-medium leading-none text-white-90">Smart Routing</div>
+                          </div>
+                          <p className="text-xs leading-snug text-white-50">geo-targeting magic</p>
+                        </Link>
+
+                        <Link
+                          to="/features/link-immunity"
+                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <Shield className="w-4 h-4 text-white-80" />
+                            </div>
+                            <div className="text-sm font-medium leading-none text-white-90">Link Immunity</div>
+                          </div>
+                          <p className="text-xs leading-snug text-white-50">zero broken links</p>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -476,132 +502,215 @@ export const Navigation = () => {
                   {formatText("resources")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="w-[650px] p-4 flex gap-4 obsidian-glass-80 backdrop-blur-xl border border-white-10">
-                    {/* Learn - Left */}
-                    <div className="w-[200px]">
-                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2 text-white-50">
-                        Learn
+                  <div className="w-[750px] p-4 flex gap-4 obsidian-glass-80 backdrop-blur-xl border border-white-10">
+                    {/* Coming Soon Featured - Left */}
+                    <div className="w-[240px] flex flex-col gap-2">
+                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-1 text-white-50">
+                        Coming Soon
                       </div>
-                      <div className="flex flex-col gap-1">
+                      
+                      <Link 
+                        to="/resources/playbooks/llm-ranking" 
+                        className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.02] bg-white-05"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <Bot className="w-4 h-4 text-white-80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <h3 className="text-xs font-semibold text-white-90">LLM Ranking</h3>
+                            <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-white/30 text-white-70">NEW</Badge>
+                          </div>
+                          <p className="text-[10px] leading-tight text-white-50">AI search optimization</p>
+                        </div>
+                      </Link>
+
+                      <Link 
+                        to="/resources/frameworks/b2b-attribution" 
+                        className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.02] bg-white-05"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <Network className="w-4 h-4 text-white-80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <h3 className="text-xs font-semibold text-white-90">B2B Attribution</h3>
+                            <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-white/30 text-white-70">NEW</Badge>
+                          </div>
+                          <p className="text-[10px] leading-tight text-white-50">revenue attribution framework</p>
+                        </div>
+                      </Link>
+
+                      <Link 
+                        to="/resources/reports/salary-benchmark-2026" 
+                        className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.02] bg-white-05"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <FileBarChart className="w-4 h-4 text-white-80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <h3 className="text-xs font-semibold text-white-90">Salary Benchmark</h3>
+                            <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-white/30 text-white-70">FEATURED</Badge>
+                          </div>
+                          <p className="text-[10px] leading-tight text-white-50">2026 global report</p>
+                        </div>
+                      </Link>
+                    </div>
+
+                    {/* All Resource Categories - Right */}
+                    <div className="flex-1">
+                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2 text-white-50">
+                        Browse Resources
+                      </div>
+                      <div className="grid grid-cols-2 gap-1">
                         <Link
-                          to="/docs"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          to="/resources/guides"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <BookOpen className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <BookOpen className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Documentation</div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Guides</div>
+                              <div className="text-[10px] text-white-50">6 guides</div>
+                            </div>
                           </div>
                         </Link>
 
                         <Link
                           to="/resources/playbooks"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <ClipboardList className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <ClipboardList className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Playbooks</div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Playbooks</div>
+                              <div className="text-[10px] text-white-50">7 playbooks</div>
+                            </div>
                           </div>
                         </Link>
 
                         <Link
                           to="/resources/templates"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <FileText className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <FileText className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Templates</div>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Explore - Right */}
-                    <div className="flex-1">
-                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2 text-white-50">
-                        Explore
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link
-                          to="/resources/integrations"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Puzzle className="w-4 h-4 text-white-80" />
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Templates</div>
+                              <div className="text-[10px] text-white-50">4 templates</div>
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Integrations</div>
                           </div>
                         </Link>
 
                         <Link
-                          to="/resources/case-studies"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          to="/resources/checklists"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <FolderOpen className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <SearchCheck className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Case Studies</div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Checklists</div>
+                              <div className="text-[10px] text-white-50">3 checklists</div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/resources/frameworks"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <Puzzle className="w-3.5 h-3.5 text-white-80" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Frameworks</div>
+                              <div className="text-[10px] text-white-50">4 frameworks</div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/resources/examples"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <FolderOpen className="w-3.5 h-3.5 text-white-80" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Examples</div>
+                              <div className="text-[10px] text-white-50">3 examples</div>
+                            </div>
                           </div>
                         </Link>
 
                         <Link
                           to="/resources/glossary"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <BookMarked className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <BookMarked className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Glossary</div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Glossary</div>
+                              <div className="text-[10px] text-white-50">70+ terms</div>
+                            </div>
                           </div>
                         </Link>
 
                         <Link
-                          to="/compare"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          to="/tools"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <SearchCheck className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <Wrench className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">Compare</div>
-                          </div>
-                        </Link>
-                      </div>
-
-                      {/* Free Tools Section */}
-                      <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider mb-2 mt-4 text-white-50">
-                        Free Tools
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link
-                          to="/tools/shorten"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Link2 className="w-4 h-4 text-white-80" />
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Tools</div>
+                              <div className="text-[10px] text-white-50">8 free tools</div>
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">URL Shortener</div>
                           </div>
                         </Link>
 
                         <Link
-                          to="/tools/utm-builder"
-                          className="group block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                          to="/resources/reports"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
                         >
                           <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Wrench className="w-4 h-4 text-white-80" />
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <FileBarChart className="w-3.5 h-3.5 text-white-80" />
                             </div>
-                            <div className="text-sm font-medium leading-none text-white-90">UTM Builder</div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Reports</div>
+                              <div className="text-[10px] text-white-50">1 report</div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/resources/academy"
+                          className="group block select-none rounded-md p-2.5 leading-none no-underline outline-none transition-colors hover:bg-white/10"
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 rounded-md flex items-center justify-center transition-colors bg-white-10">
+                              <Target className="w-3.5 h-3.5 text-white-80" />
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium leading-none text-white-90">Academy</div>
+                              <div className="text-[10px] text-white-50">learn utm.one</div>
+                            </div>
                           </div>
                         </Link>
                       </div>
@@ -627,11 +736,6 @@ export const Navigation = () => {
         <div className="flex items-center gap-3">
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/sign-in">
-              <Button variant="ghost" className="text-white-70 hover:text-white-90 hover:bg-white/10 font-medium">
-                sign in
-              </Button>
-            </Link>
             <Link to="/early-access">
               <Button variant="marketing" className="rounded-full">
                 get early access
