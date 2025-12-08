@@ -66,8 +66,8 @@ export const ProcessingProgress = ({
       {stage === "creating" && (
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span style={{ color: 'rgba(255,255,255,0.6)' }}>progress</span>
-            <span className="font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{progressPercent}%</span>
+            <span className="text-white-60">progress</span>
+            <span className="font-medium text-white-90">{progressPercent}%</span>
           </div>
           <Progress value={progressPercent} className="h-2" />
         </div>

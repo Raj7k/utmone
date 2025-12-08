@@ -42,7 +42,7 @@ export const ABTestResults = ({ metrics }: ABTestResultsProps) => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-display font-bold">A/B Test Results</h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-white-50">
             Total Sessions: {totalSessions} | Overall CTR: {overallCTR}%
           </p>
         </div>

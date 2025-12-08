@@ -232,7 +232,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             <div className="space-y-4">
               <div>
                 <Label htmlFor="destinationUrl">Destination URL</Label>
-                <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,0.6)' }}>Where should this campaign send traffic?</p>
+                <p className="text-xs mb-2 text-white-60">Where should this campaign send traffic?</p>
                 <Input
                   id="destinationUrl"
                   type="url"
@@ -250,7 +250,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
             <div className="space-y-4">
               <div>
                 <Label>Select Channels</Label>
-                <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-xs mb-3 text-white-60">
                   We'll automatically generate a unique short link for each channel with proper UTM tags
                 </p>
                 <div className="grid grid-cols-2 gap-3">
@@ -266,7 +266,7 @@ export const CreateCampaignModal = ({ open, onOpenChange }: CreateCampaignModalP
                       />
                       <div className="flex-1">
                         <p className="font-medium text-sm">{channel.name}</p>
-                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>utm_source={channel.utmSource}</p>
+                        <p className="text-xs text-white-60">utm_source={channel.utmSource}</p>
                       </div>
                     </div>
                   ))}

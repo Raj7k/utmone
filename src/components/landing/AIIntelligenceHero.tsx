@@ -44,7 +44,7 @@ export const AIIntelligenceHero = () => {
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(180deg, rgba(24,24,27,0.6) 0%, rgba(5,5,5,1) 100%)'
+          background: 'linear-gradient(180deg, hsl(240 6% 10% / 0.6) 0%, hsl(0 0% 2% / 1) 100%)'
         }}
       />
 
@@ -58,30 +58,19 @@ export const AIIntelligenceHero = () => {
           className="text-center mb-16"
         >
           <div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-            style={{
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(20px)'
-            }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-white/5 border border-white/10 backdrop-blur-xl"
           >
-            <Sparkles className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
-            <span className="text-sm font-medium lowercase" style={{ color: 'rgba(255,255,255,0.8)' }}>clean-track intelligence</span>
+            <Sparkles className="w-4 h-4 text-white-80" />
+            <span className="text-sm font-medium lowercase text-white-80">clean-track intelligence</span>
           </div>
           
           <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-6"
-            style={{
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-6 hero-gradient"
           >
             four AI layers built into every link
           </h1>
           
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-lg max-w-2xl mx-auto text-white-50">
             mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.
           </p>
         </motion.div>
@@ -100,39 +89,28 @@ export const AIIntelligenceHero = () => {
               >
                 <Link
                   to={feature.href}
-                  className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl transition-all duration-300"
-                  style={{
-                    background: 'rgba(24,24,27,0.4)',
-                    backdropFilter: 'blur(40px)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    borderTop: '1px solid rgba(255,255,255,0.12)',
-                    boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
-                  }}
+                  className="group block h-full p-4 md:p-6 rounded-xl md:rounded-2xl transition-all duration-300 obsidian-glass-80"
                 >
                   <div 
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center mb-3 md:mb-4 transition-colors"
-                    style={{ background: 'rgba(255,255,255,0.1)' }}
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center mb-3 md:mb-4 transition-colors bg-white/10"
                   >
-                    <Icon className="w-5 h-5 md:w-6 md:h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-white-80" />
                   </div>
                   
                   <h3 
-                    className="text-sm md:text-lg font-semibold mb-1 md:mb-2 lowercase transition-colors"
-                    style={{ color: 'rgba(255,255,255,0.9)' }}
+                    className="text-sm md:text-lg font-semibold mb-1 md:mb-2 lowercase transition-colors text-white-90"
                   >
                     {feature.title}
                   </h3>
                   
                   <p 
-                    className="text-xs md:text-sm mb-2 md:mb-4 line-clamp-2 md:line-clamp-none"
-                    style={{ color: 'rgba(255,255,255,0.5)' }}
+                    className="text-xs md:text-sm mb-2 md:mb-4 line-clamp-2 md:line-clamp-none text-white-50"
                   >
                     {feature.description}
                   </p>
                   
                   <span 
-                    className="hidden md:inline-flex items-center gap-1 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                    className="hidden md:inline-flex items-center gap-1 text-sm opacity-0 group-hover:opacity-100 transition-opacity text-white-70"
                   >
                     learn more
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -154,12 +132,7 @@ export const AIIntelligenceHero = () => {
           <Link to="/early-access">
             <Button 
               size="lg" 
-              className="lowercase rounded-full px-8"
-              style={{
-                background: '#FFFFFF',
-                color: '#09090B',
-                boxShadow: '0 0 30px rgba(255,255,255,0.3), 0 4px 15px rgba(0,0,0,0.2)',
-              }}
+              className="lowercase rounded-full px-8 bg-white text-zinc-900 shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)] hover:bg-zinc-100"
             >
               get early access
               <ArrowRight className="ml-2 h-4 w-4" />

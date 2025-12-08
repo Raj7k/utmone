@@ -76,8 +76,7 @@ export const ReferralTile = () => {
         <div className="p-4 border-b border-white/5">
           <div className="flex items-center gap-2">
             <div 
-              className="p-1.5 rounded-full bg-white/10 border border-white/20"
-              style={{ boxShadow: "0 0 8px rgba(255,255,255,0.15)" }}
+              className="p-1.5 rounded-full bg-white/10 border border-white/20 shadow-[0_0_8px_hsl(0_0%_100%/0.15)]"
             >
               <Gift className="h-4 w-4 text-white" />
             </div>
