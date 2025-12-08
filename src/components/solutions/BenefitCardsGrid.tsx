@@ -24,19 +24,13 @@ export const BenefitCardsGrid = ({ benefits }: BenefitCardsGridProps) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="group rounded-xl p-6 transition-all"
-            style={{
-              background: 'rgba(24,24,27,0.4)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
+            className="group rounded-xl p-6 transition-all bg-zinc-900/40 backdrop-blur-xl border border-white/10"
           >
             <div className="flex items-start gap-4">
               <div 
-                className="p-3 rounded-lg shrink-0 transition-colors"
-                style={{ background: 'rgba(255,255,255,0.1)' }}
+                className="p-3 rounded-lg shrink-0 transition-colors bg-white/10"
               >
-                <Icon className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                <Icon className="w-6 h-6 text-white/80" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white lowercase mb-2">

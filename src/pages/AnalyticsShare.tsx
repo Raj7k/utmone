@@ -75,7 +75,7 @@ export default function AnalyticsShare() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-2">Unable to Load Analytics</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)' }}>{error}</p>
+          <p className="text-white/60">{error}</p>
         </div>
       </div>
     );
@@ -86,7 +86,7 @@ export default function AnalyticsShare() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-2">Share Link Not Found</h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)' }}>This analytics share link doesn't exist</p>
+          <p className="text-white/60">This analytics share link doesn't exist</p>
         </div>
       </div>
     );

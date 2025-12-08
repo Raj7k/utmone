@@ -67,9 +67,8 @@ export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay
       {href ? (
         <Link 
           to={href} 
-          className="group relative p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl hover:bg-zinc-900/60 transition-all duration-300 hover:shadow-xl block cursor-pointer"
+          className="group relative p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl hover:bg-zinc-900/60 transition-all duration-300 hover:shadow-xl block cursor-pointer border border-white/10"
           style={{
-            border: '1px solid rgba(255,255,255,0.1)',
             borderLeft: `4px solid ${styles.border}`,
           }}
         >
@@ -77,9 +76,8 @@ export const FeatureMappedCard = ({ icon: Icon, title, description, color, delay
         </Link>
       ) : (
         <div 
-          className="group relative p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl hover:bg-zinc-900/60 transition-all duration-300 hover:shadow-xl"
+          className="group relative p-8 rounded-2xl bg-zinc-900/40 backdrop-blur-xl hover:bg-zinc-900/60 transition-all duration-300 hover:shadow-xl border border-white/10"
           style={{
-            border: '1px solid rgba(255,255,255,0.1)',
             borderLeft: `4px solid ${styles.border}`,
           }}
         >

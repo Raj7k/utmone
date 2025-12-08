@@ -126,7 +126,7 @@ const About = () => {
                       <div className="text-sm font-semibold text-white mb-2">Old Internet</div>
                       <div className="text-xs text-white/60">SEO • Social • Ads • UTMs</div>
                     </div>
-                    <div className="text-center text-2xl" style={{ color: 'rgba(255,255,255,0.6)' }}>+</div>
+                    <div className="text-center text-2xl text-white/60">+</div>
                     <div className="bg-white/5 rounded-lg p-6 border-l-4 border-white/20">
                       <div className="text-sm font-semibold text-white mb-2">LLM Layer</div>
                       <div className="text-xs text-white/60">AI Answers • Context • Recommendations</div>
@@ -162,19 +162,19 @@ const About = () => {
                 <ProgressiveReveal>
                   <ul className="space-y-3 text-lg text-white/60 leading-[1.75]">
                     <li className="flex items-start gap-3">
-                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
+                      <span className="font-bold mt-1 text-white/80">•</span>
                       <span>ultra-clean URLs</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
+                      <span className="font-bold mt-1 text-white/80">•</span>
                       <span>human-readable naming</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
+                      <span className="font-bold mt-1 text-white/80">•</span>
                       <span>ai-readable metadata</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <span className="font-bold mt-1" style={{ color: 'rgba(255,255,255,0.8)' }}>•</span>
+                      <span className="font-bold mt-1 text-white/80">•</span>
                       <span>built-in campaign governance</span>
                     </li>
                   </ul>

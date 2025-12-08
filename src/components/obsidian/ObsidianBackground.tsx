@@ -11,7 +11,7 @@ interface ObsidianBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * ObsidianBackground - Semantic background wrapper for the Obsidian Design System
  * 
- * Replaces inline style={{ background: 'rgba(...)' }} patterns
+ * Replaces inline style={{ background: '...' }} patterns
  */
 const ObsidianBackground = React.forwardRef<HTMLDivElement, ObsidianBackgroundProps>(
   ({ 
@@ -28,10 +28,10 @@ const ObsidianBackground = React.forwardRef<HTMLDivElement, ObsidianBackgroundPr
       "glass-60": "obsidian-glass-60 backdrop-blur-xl",
       "glass-80": "obsidian-glass-80 backdrop-blur-xl",
       solid: "bg-background",
-      dark: "bg-black-40",
+      dark: "bg-black/40",
     };
 
-    const borderStyles = border ? "border border-white-10" : "";
+    const borderStyles = border ? "border border-white/10" : "";
     const glowStyles = glow ? "shadow-[0_0_30px_-10px_rgba(255,255,255,0.2)]" : "";
 
     return (
