@@ -52,8 +52,8 @@ export const URLPreviewTable = ({
     if (scanResult?.isScanning) {
       return (
         <div className="flex items-center gap-1">
-          <Loader2 className="h-3 w-3 animate-spin" style={{ color: 'rgba(255,255,255,0.5)' }} />
-          <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>scanning…</span>
+          <Loader2 className="h-3 w-3 animate-spin text-white-50" />
+          <span className="text-xs text-white-50">scanning…</span>
         </div>
       );
     }
