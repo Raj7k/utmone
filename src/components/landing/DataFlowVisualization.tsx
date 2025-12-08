@@ -94,7 +94,7 @@ export const DataFlowVisualization = () => {
       </svg>
 
       {/* Labels */}
-      <div className="flex justify-between mt-8 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+      <div className="flex justify-between mt-8 text-sm text-white-50">
         <span className={`transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
           link created
         </span>
@@ -108,18 +108,17 @@ export const DataFlowVisualization = () => {
 
       {/* Progress bar */}
       <div className="mt-6 space-y-2">
-        <div className="flex justify-between text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <div className="flex justify-between text-xs text-white-50">
           <span>flow strength</span>
           <span className={`transition-opacity duration-500 delay-600 ${isVisible ? "opacity-100" : "opacity-0"}`}>
             94%
           </span>
         </div>
-        <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
+        <div className="h-2 rounded-full overflow-hidden bg-white/10">
           <div 
-            className="h-full rounded-full transition-all duration-1500 delay-800"
+            className="h-full rounded-full transition-all duration-1500 delay-800 bg-gradient-to-r from-white/30 to-white/60"
             style={{ 
-              width: isVisible ? "94%" : "0%",
-              background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6))'
+              width: isVisible ? "94%" : "0%"
             }}
           />
         </div>

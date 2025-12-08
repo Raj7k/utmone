@@ -26,13 +26,10 @@ export const DayInLifeScenario = ({ title, description, timeline, visualElement 
         className="space-y-6"
       >
         <div className="space-y-3">
-          <h3 
-            className="text-2xl md:text-3xl font-display font-bold lowercase"
-            style={{ color: 'rgba(255,255,255,0.9)' }}
-          >
+          <h3 className="text-2xl md:text-3xl font-display font-bold lowercase text-white-90">
             {title}
           </h3>
-          <p className="text-lg" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-lg text-white-50">
             {description}
           </p>
         </div>
