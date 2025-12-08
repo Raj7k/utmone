@@ -130,13 +130,13 @@ export default function JourneyIntelligence() {
         </section>
 
         {/* What You Get */}
-        <section className="py-24 md:py-32 bg-muted/20">
+        <section className="py-24 md:py-32 bg-white/5">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase mb-4">
                 what you get with journey intelligence
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-white/60 max-w-2xl mx-auto">
                 powered by clean-track journey mapping
               </p>
             </div>
@@ -182,13 +182,13 @@ export default function JourneyIntelligence() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Card className="p-6 h-full transition-colors hover:border-white/20">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
-                    <h3 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-2">
+                    <h3 className="text-lg font-display font-semibold text-white brand-lowercase mb-2">
                       {benefit.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-white/60 leading-relaxed">
                       {benefit.description}
                     </p>
                   </Card>
@@ -202,7 +202,7 @@ export default function JourneyIntelligence() {
         <section className="py-24 md:py-32">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase mb-4">
                 from anonymous to attributed
               </h2>
             </div>
@@ -216,13 +216,13 @@ export default function JourneyIntelligence() {
                 { step: "5", label: "attribute", desc: "full journey mapped" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                  <div className="w-16 h-16 rounded-full bg-white/5 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                     {item.step}
                   </div>
-                  <h4 className="text-lg font-display font-semibold text-foreground brand-lowercase mb-1">
+                  <h4 className="text-lg font-display font-semibold text-white brand-lowercase mb-1">
                     {item.label}
                   </h4>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  <p className="text-sm text-white/60">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -233,7 +233,7 @@ export default function JourneyIntelligence() {
         <ROICalculator />
 
         {/* Feature Cards */}
-        <section className="py-24 md:py-32 bg-muted/20">
+        <section className="py-24 md:py-32 bg-white/5">
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -255,11 +255,11 @@ export default function JourneyIntelligence() {
               ].map((feature, index) => (
                 <Card key={index} className="p-6 transition-colors group cursor-pointer hover:border-white/20">
                   <Link to={feature.link}>
-                    <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase mb-2 transition-colors group-hover:text-white">
+                    <h3 className="text-xl font-display font-semibold text-white brand-lowercase mb-2 transition-colors group-hover:text-white/80">
                       {feature.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
-                    <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                    <p className="text-sm text-white/60 mb-4">{feature.description}</p>
+                    <div className="flex items-center gap-2 text-sm font-semibold text-white">
                       <span>learn more</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -313,10 +313,10 @@ export default function JourneyIntelligence() {
                 }
               ].map((faq, index) => (
                 <div key={index} className="space-y-3">
-                  <h3 className="text-xl font-display font-semibold text-foreground brand-lowercase">
+                  <h3 className="text-xl font-display font-semibold text-white brand-lowercase">
                     {faq.q}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-white/60 leading-relaxed">
                     {faq.a}
                   </p>
                 </div>
@@ -326,12 +326,12 @@ export default function JourneyIntelligence() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 md:py-32 bg-primary/5">
+        <section className="py-24 md:py-32 bg-white/5">
           <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white brand-lowercase">
               ready to see the full customer journey?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
               stop losing 60% of attribution to direct/none
             </p>
             <Button asChild size="lg" variant="marketing">

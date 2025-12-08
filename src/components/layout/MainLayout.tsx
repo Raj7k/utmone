@@ -11,7 +11,7 @@ interface MainLayoutProps {
 
 export const MainLayout = ({ children, showAnnouncement = true }: MainLayoutProps) => {
   return (
-    <div className="dark min-h-screen flex flex-col relative bg-[#050505]">
+    <div className="dark marketing-root min-h-screen flex flex-col relative bg-[#050505]">
       {/* Fixed Noise Texture Overlay */}
       <div 
         className="fixed inset-0 pointer-events-none z-[1] opacity-[0.03]"

@@ -414,12 +414,24 @@ All colors MUST be HSL.
 .marketing-root {
   background-color: #050505 !important;
   color: #FFFFFF !important;
-}
-
-.marketing-root * {
-  /* Ensure no accidental light mode leaks */
   --background: 0 0% 2%;
   --foreground: 0 0% 100%;
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 100%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 70%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+  --border: 0 0% 100% / 0.1;
+}
+
+/* ============================================
+   DASHBOARD CONTEXT
+   Apple HIG compliant - supports light/dark
+   ============================================ */
+.dashboard-root {
+  /* Dashboard uses Apple semantic tokens */
+  /* Light mode by default, dark mode via .dark class */
 }
 
 /* ============================================
