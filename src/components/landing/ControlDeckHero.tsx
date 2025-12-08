@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { 
   TrendingUp, 
   Route, 
@@ -11,13 +10,12 @@ import {
   Sparkles,
   ArrowRight,
   DollarSign,
-  CheckCircle2,
-  User,
-  Zap,
-  Brain,
   Check,
   Clock,
-  CreditCard
+  CreditCard,
+  CheckCircle2,
+  User,
+  Brain
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
@@ -84,9 +82,7 @@ const appleEase = "easeOut";
 export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [email, setEmail] = useState("");
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
@@ -223,7 +219,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                   </div>
 
                   {/* Content */}
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {/* Headline with Brushed Metal Gradient */}
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
                       {activeItem.headline}
@@ -234,55 +230,39 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       {activeItem.subheadline}
                     </p>
 
-                    {/* Inline Email Capture */}
-                    <form 
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (email) {
-                          navigate(`/early-access?email=${encodeURIComponent(email)}`);
-                        }
-                      }}
-                      className="flex flex-col sm:flex-row gap-3 pt-2 max-w-md"
-                    >
-                      <Input
-                        type="email"
-                        placeholder="enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="h-12 bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground rounded-full px-5"
-                      />
-                      <Button 
-                        type="submit"
-                        size="lg"
-                        className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
-                      >
-                        get early access
-                      </Button>
-                    </form>
-
-                    {/* Risk Reversal Badges */}
-                    <div className="flex flex-wrap items-center gap-4 pt-3">
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <Check className="w-3.5 h-3.5 text-green-500" />
-                        <span>free forever for early adopters</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span>no credit card required</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span>set up in under 2 minutes</span>
+                    {/* CTA + Risk Reversal Row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+                      <Link to="/early-access">
+                        <Button 
+                          size="lg"
+                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                        >
+                          get early access
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                      
+                      {/* Inline risk reversal - subtle */}
+                      <div className="flex items-center gap-3 text-[11px] text-white/40">
+                        <span className="flex items-center gap-1">
+                          <Check className="w-3 h-3" /> free
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <CreditCard className="w-3 h-3" /> no card
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> 2 min setup
+                        </span>
                       </div>
                     </div>
 
-                    {/* Founding Member Counter */}
-                    <div className="pt-4">
+                    {/* Founding Member Counter - PROMINENT */}
+                    <div className="pt-2 max-w-sm">
                       <FoundingMemberCounter remaining={47} total={100} />
                     </div>
 
                     {/* Learn More Link */}
-                    <div className="pt-2">
+                    <div className="pt-1">
                       <Link 
                         to={activeItem.route}
                         className="inline-flex items-center gap-2 text-sm font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"

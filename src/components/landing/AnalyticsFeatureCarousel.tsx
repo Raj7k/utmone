@@ -13,7 +13,9 @@ import {
   Filter, 
   Sparkles, 
   Lightbulb, 
-  Upload 
+  Upload,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { AnalyticsFeatureCard } from "./AnalyticsFeatureCard";
 
@@ -279,14 +281,26 @@ export const AnalyticsFeatureCarousel = () => {
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setSelectedIndex(emblaApi.selectedScrollSnap());
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
   }, [emblaApi]);
 
   const scrollTo = useCallback((index: number) => {
     if (emblaApi) emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
   useEffect(() => {
@@ -295,6 +309,7 @@ export const AnalyticsFeatureCarousel = () => {
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
+    onSelect();
     
     return () => {
       emblaApi.off("select", onSelect);
@@ -339,6 +354,26 @@ export const AnalyticsFeatureCarousel = () => {
           <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
+          {/* Left Arrow - Hidden on mobile */}
+          <button
+            onClick={scrollPrev}
+            disabled={!canScrollPrev}
+            className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          {/* Right Arrow - Hidden on mobile */}
+          <button
+            onClick={scrollNext}
+            disabled={!canScrollNext}
+            className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
           <div 
             className="overflow-hidden cursor-grab active:cursor-grabbing" 
             ref={emblaRef}
@@ -370,9 +405,9 @@ export const AnalyticsFeatureCarousel = () => {
           </div>
         </div>
 
-        {/* Progress Dots */}
+        {/* Progress Dots - Smaller */}
         <motion.div 
-          className="flex justify-center gap-1.5 mt-8"
+          className="flex justify-center gap-1 mt-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -383,10 +418,10 @@ export const AnalyticsFeatureCarousel = () => {
               key={index}
               onClick={() => scrollTo(index)}
               className={`
-                w-2 h-2 rounded-full transition-all duration-300
+                h-1.5 rounded-full transition-all duration-300
                 ${index === selectedIndex 
-                  ? 'bg-white w-6' 
-                  : 'bg-white/20 hover:bg-white/40'
+                  ? 'bg-white w-4' 
+                  : 'bg-white/20 hover:bg-white/40 w-1.5'
                 }
               `}
               aria-label={`Go to slide ${index + 1}`}
