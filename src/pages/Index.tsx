@@ -25,6 +25,7 @@ const DynamicInsightSection = lazy(() => import("@/components/landing/DynamicIns
 const DynamicProofSection = lazy(() => import("@/components/landing/DynamicProofSection").then(m => ({ default: m.DynamicProofSection })));
 const DynamicFAQ = lazy(() => import("@/components/landing/DynamicFAQ").then(m => ({ default: m.DynamicFAQ })));
 const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m => ({ default: m.DynamicCTA })));
+const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 
@@ -143,6 +144,11 @@ const Index = () => {
       {/* Fold 4: The Proof - Capability proof, not fake testimonials */}
       <Suspense fallback={<SectionSkeleton />}>
         <DynamicProofSection selectedUseCase={selectedUseCase} />
+      </Suspense>
+
+      {/* Common: AI Intelligence Layers - Shown for all use cases */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AIIntelligenceHero />
       </Suspense>
 
       {/* Static: Unified Tools Showcase */}
