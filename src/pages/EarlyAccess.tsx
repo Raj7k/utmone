@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Navigation } from "@/components/landing/Navigation";
-import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
-import { Footer } from "@/components/landing/Footer";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 import { SEO } from "@/components/seo/SEO";
 import { AnimatedHeadline } from "@/components/landing/AnimatedHeadline";
 import { EarlyAccessStepForm } from "@/components/early-access/EarlyAccessStepForm";
@@ -87,15 +85,13 @@ export default function EarlyAccess() {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian-bg">
+    <ObsidianMarketingLayout>
       <SEO
         title="Early Access — utm.one"
         description="tracking is messy. utm.one launches soon. get early access. skip the waitlist with 3 referrals."
         canonical="https://utm.one/early-access"
         keywords={['early access', 'utm tracking', 'link management', 'QR codes', 'campaign analytics']}
       />
-      <Navigation />
-      <FloatingNavigation />
 
       {/* SECTION 1 - HERO (Personalized + Gamified) */}
       <section className="relative py-24 md:py-32 px-6 overflow-hidden">
@@ -111,15 +107,15 @@ export default function EarlyAccess() {
               >
                 {/* Referrer Landing Mode */}
                 {referrerName && (
-                  <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 mb-8">
+                  <div className="bg-card backdrop-blur-xl border border-border/50 rounded-2xl p-6 mb-8">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-6 w-6 text-white" />
-                      <p className="text-2xl font-display font-bold text-white">
+                      <Trophy className="h-6 w-6 text-foreground" />
+                      <p className="text-2xl font-display font-bold text-foreground">
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg text-foreground/70">
-                      join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
+                    <p className="text-lg text-muted-foreground">
+                      join now and get <span className="font-bold text-foreground">1 month free</span> when early access opens.
                     </p>
                   </div>
                 )}
@@ -151,15 +147,15 @@ export default function EarlyAccess() {
               {/* Referrer Landing Mode */}
               {referrerName && (
                 <AnimatedHeadline>
-                  <div className="bg-zinc-900/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 mb-8">
+                  <div className="bg-card backdrop-blur-xl border border-border/50 rounded-2xl p-6 mb-8">
                     <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-6 w-6 text-white" />
-                      <p className="text-2xl font-display font-bold text-white">
+                      <Trophy className="h-6 w-6 text-foreground" />
+                      <p className="text-2xl font-display font-bold text-foreground">
                         you've been invited by {referrerName}
                       </p>
                     </div>
-                    <p className="text-lg text-foreground/70">
-                      join now and get <span className="font-bold text-white">1 month free</span> when early access opens.
+                    <p className="text-lg text-muted-foreground">
+                      join now and get <span className="font-bold text-foreground">1 month free</span> when early access opens.
                     </p>
                   </div>
                 </AnimatedHeadline>
@@ -192,20 +188,20 @@ export default function EarlyAccess() {
                     setEmail(emailValue);
                     scrollToForm();
                   }}
-                  className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 shadow-sm rounded-2xl p-4 hover:border-white/20 transition-all duration-300"
+                  className="bg-card backdrop-blur-xl border border-border shadow-sm rounded-2xl p-4 hover:border-border/50 transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Input
                       type="email"
                       name="email"
                       placeholder="enter your email..."
-                      className="flex-1 h-12 bg-zinc-800/50 border-white/10 text-white placeholder:text-white/40 focus:bg-zinc-800/70 focus:border-white/30 transition-all"
+                      className="flex-1 h-12 bg-muted/20 border-border text-foreground placeholder:text-muted-foreground focus:bg-muted/30 focus:border-border/50 transition-all"
                       required
                     />
                     <Button
                       type="submit"
                       size="lg"
-                      className="h-12 px-8 bg-white text-zinc-900 hover:bg-white/90 font-semibold rounded-full lowercase whitespace-nowrap"
+                      className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-full lowercase whitespace-nowrap"
                     >
                       join early access
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -223,7 +219,7 @@ export default function EarlyAccess() {
               >
                 <button 
                   onClick={scrollToForm}
-                  className="inline-flex items-center gap-2 text-sm font-medium lowercase transition-colors text-foreground/70 hover:text-foreground"
+                  className="inline-flex items-center gap-2 text-sm font-medium lowercase transition-colors text-muted-foreground hover:text-foreground"
                 >
                   see how it works
                   <ArrowRight className="h-4 w-4" />
@@ -234,8 +230,8 @@ export default function EarlyAccess() {
         </div>
 
         {/* Decorative gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl opacity-30" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl opacity-30" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-muted/5 rounded-full blur-3xl opacity-30" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-muted/5 rounded-full blur-3xl opacity-30" />
       </section>
 
       {/* SECTION 2 - HOW IT WORKS */}
@@ -253,7 +249,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-foreground">
               your golden ticket to skip the entire line
             </h2>
             <p className="text-xl max-w-2xl mx-auto text-muted-foreground">
@@ -282,7 +278,7 @@ export default function EarlyAccess() {
               "unlock animation",
               "auto-approval email",
             ].map((feature, index) => (
-              <div key={index} className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+              <div key={index} className="bg-card backdrop-blur-xl border border-border rounded-xl p-4">
                 <p className="text-sm text-muted-foreground">{feature}</p>
               </div>
             ))}
@@ -302,7 +298,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-foreground">
               why build a viral waitlist at all?
             </h2>
             <p className="text-xl leading-relaxed text-muted-foreground">
@@ -327,7 +323,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-foreground">
               zero spam. zero tricks. pure transparency.
             </h2>
           </motion.div>
@@ -347,8 +343,8 @@ export default function EarlyAccess() {
               "duplicate emails = rejected",
               "you can see your movement live",
             ].map((item, index) => (
-              <div key={index} className="flex items-center gap-3 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
-                <Shield className="w-5 h-5 shrink-0 text-foreground/70" />
+              <div key={index} className="flex items-center gap-3 bg-card backdrop-blur-xl border border-border rounded-xl p-4">
+                <Shield className="w-5 h-5 shrink-0 text-muted-foreground" />
                 <p className="text-muted-foreground">{item}</p>
               </div>
             ))}
@@ -365,7 +361,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-foreground">
               one share can move you 500 places.
             </h2>
           </motion.div>
@@ -374,7 +370,7 @@ export default function EarlyAccess() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8"
+            className="bg-card backdrop-blur-xl border border-border rounded-2xl p-8"
           >
             <p className="text-xl text-muted-foreground mb-6">your dashboard includes:</p>
             <ul className="space-y-3 mb-8">
@@ -394,7 +390,7 @@ export default function EarlyAccess() {
               ))}
             </ul>
 
-            <div className="bg-white/[0.02] rounded-xl p-6 border border-white/10">
+            <div className="bg-muted/5 rounded-xl p-6 border border-border">
               <p className="text-sm text-muted-foreground/70 mb-2">sample text for social share:</p>
               <p className="text-base text-foreground italic">
                 "i just joined the private beta for utm.one — the new clean-track powered link shortener. use my link to skip the line."
@@ -405,7 +401,7 @@ export default function EarlyAccess() {
       </section>
 
       {/* SECTION 9 - WHY PEOPLE ARE JOINING */}
-      <section className="bg-white/[0.02] py-24 md:py-32 px-6">
+      <section className="bg-muted/5 py-24 md:py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -413,7 +409,7 @@ export default function EarlyAccess() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-foreground">
               why people are joining the waitlist
             </h2>
           </motion.div>
@@ -427,92 +423,53 @@ export default function EarlyAccess() {
             {[
               "clean, predictable tracking (no messy UTMs)",
               "no more duplicate campaign names",
-              "analytics that always match your spend",
-              "short links + QR + partner tracking in one place",
-              "perfect for marketers, founders, creators, and agencies",
-            ].map((reason, index) => (
-              <li key={index} className="flex items-start gap-3 rounded-xl p-4 bg-zinc-900/40 border border-white/10">
-                <Sparkles className="w-5 h-5 shrink-0 mt-0.5 text-foreground/80" />
-                <p className="text-muted-foreground">{reason}</p>
+              "auto-generated short links",
+              "branded QR codes",
+              "real-time analytics",
+              "team access controls",
+              "they're tired of spreadsheets",
+            ].map((item, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                <p className="text-muted-foreground">{item}</p>
               </li>
             ))}
           </motion.ul>
         </div>
       </section>
 
-      {/* SECTION 10 - ENTER WAITLIST FORM OR SUCCESS */}
-      {!showFormInHero && (
-        <section id="early-access-form" className="py-24 md:py-32 px-6">
-          <div className="max-w-4xl mx-auto">
-            {!isSubmitted ? (
-              <div className="max-w-2xl mx-auto">
-                {referrerName && (
-                  <AnimatedHeadline>
-                    <div className="bg-emerald-900/40 border border-emerald-500/30 rounded-2xl p-6 mb-8 text-center">
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <Trophy className="h-5 w-5 text-emerald-400" />
-                        <p className="font-semibold text-emerald-300">
-                          you've been invited by {referrerName}
-                        </p>
-                      </div>
-                      <p className="text-sm text-emerald-400/80">
-                        join now to get <strong>1 month of Pro free</strong> when we launch
-                      </p>
-                    </div>
-                  </AnimatedHeadline>
-                )}
-
-                <AnimatedHeadline>
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-12 text-center text-white">
-                    enter the waitlist
-                  </h2>
-                </AnimatedHeadline>
-
-                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
-                
-                <p className="text-sm text-center text-muted-foreground/70 mt-4">
-                  we'll send you your position instantly.
-                </p>
-              </div>
-            ) : (
-              <SuccessScreen
-                userName={userName}
-                referralCode={referralCode}
-                queuePosition={queuePosition}
-                email={email}
-              />
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* SECTION 12 - FAQ */}
+      {/* SECTION 10 - FAQ */}
       <EarlyAccessFAQ />
 
-      {/* SECTION 13 - FOOTER CTA */}
-      <section className="py-24 md:py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* SECTION 11 - FINAL CTA */}
+      <section id="early-access-form" className="py-24 md:py-32 px-6">
+        <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-12"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-8 text-white">
-              join early access now. unlock your golden ticket.
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 text-foreground">
+              ready to claim your spot?
             </h2>
-            <Button
-              size="lg"
-              onClick={scrollToForm}
-              className="rounded-full px-12 py-8 text-xl bg-white text-zinc-900 hover:bg-white/90 font-bold shadow-xl hover:shadow-2xl"
-            >
-              join the waitlist
-            </Button>
+            <p className="text-xl text-muted-foreground">
+              the sooner you join, the higher you start. simple as that.
+            </p>
           </motion.div>
+
+          {!isSubmitted ? (
+            <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={email || prefillEmail} />
+          ) : (
+            <SuccessScreen
+              userName={userName}
+              referralCode={referralCode}
+              queuePosition={queuePosition}
+              email={email}
+            />
+          )}
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </ObsidianMarketingLayout>
   );
 }

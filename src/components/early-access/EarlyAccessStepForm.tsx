@@ -144,7 +144,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
       <div className="absolute inset-0 opacity-40 blur-3xl pointer-events-none bg-[radial-gradient(circle,hsl(var(--primary)/0.2),transparent)]" />
       
       {/* Premium gradient card container */}
-      <div className="relative backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 transition-all duration-500" style={{ backgroundColor: 'rgba(24,24,27,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}>
+      <div className="relative backdrop-blur-xl rounded-3xl shadow-2xl p-6 md:p-8 transition-all duration-500 bg-card border border-border">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Animated Progress Bar */}
           <div className="space-y-3">
@@ -211,7 +211,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.name && (
-                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
+                          <p className="text-sm text-destructive">
                             {errors.name.message}
                           </p>
                         )}
@@ -232,7 +232,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="h-11 focus:scale-[1.02] transition-transform duration-200"
                         />
                         {errors.email && (
-                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
+                          <p className="text-sm text-destructive">
                             {errors.email.message}
                           </p>
                         )}
@@ -258,7 +258,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                       <h3 className="text-2xl font-display font-semibold">
                         quick context
                       </h3>
-                      <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                      <p className="text-sm mt-1 text-muted-foreground">
                         helps us personalize your experience
                       </p>
                     </div>
@@ -283,7 +283,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           </SelectContent>
                         </Select>
                         {errors.team_size && (
-                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
+                          <p className="text-sm text-destructive">
                             {errors.team_size.message}
                           </p>
                         )}
@@ -292,7 +292,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                       <div className="space-y-2">
                         <Label htmlFor="reason_for_joining">
                           what brings you to utm.one?{" "}
-                          <span style={{ color: 'rgba(255,255,255,0.5)' }}>(optional)</span>
+                          <span className="text-muted-foreground/50">(optional)</span>
                         </Label>
                         <Textarea
                           id="reason_for_joining"
@@ -301,7 +301,7 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
                           className="min-h-[80px]"
                         />
                         {errors.reason_for_joining && (
-                          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.8)' }}>
+                          <p className="text-sm text-destructive">
                             {errors.reason_for_joining.message}
                           </p>
                         )}

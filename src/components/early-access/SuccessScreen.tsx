@@ -90,9 +90,7 @@ export const SuccessScreen = ({
           </h1>
           
           {/* Queue Position Badge */}
-          <div 
-            className="inline-flex items-center gap-3 border-2 rounded-full px-8 py-4 bg-primary/10 border-primary/30"
-          >
+          <div className="inline-flex items-center gap-3 border-2 rounded-full px-8 py-4 bg-primary/10 border-primary/30">
             <Sparkles className="w-6 h-6 text-primary" />
             <div className="text-left">
               <p className="text-sm text-muted-foreground font-medium">queue position</p>
