@@ -111,7 +111,7 @@ const Features = () => {
                   >
                     <Link
                       to={feature.path}
-                      className="group block h-full p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+                      className="group block h-full p-6 rounded-2xl bg-zinc-900/40 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.1)]"
                     >
                       <div className="mb-4 inline-flex p-3 rounded-xl bg-white/10 text-white group-hover:bg-white/20 transition-colors">
                         <Icon className="w-6 h-6" />

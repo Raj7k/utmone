@@ -8,14 +8,14 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        default: "border border-border bg-card shadow-[0_4px_24px_rgba(0,0,0,0.04)]",
+        default: "border border-border bg-card shadow-[0_4px_24px_hsl(0_0%_0%_/_0.04)]",
         grouped: "bg-secondary-grouped-background border border-separator shadow-sm",
         // Glass variant - theme-aware
         glass: [
           "bg-muted/40 dark:bg-zinc-900/40",
           "backdrop-blur-xl",
           "border border-border dark:border-white/[0.08]",
-          "shadow-lg dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]",
+          "shadow-lg dark:shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.1),0_25px_50px_-12px_hsl(0_0%_0%_/_0.5)]",
           "rounded-[32px]",
         ].join(" "),
         // Elevated glass for modals/dialogs - theme-aware
@@ -23,7 +23,7 @@ const cardVariants = cva(
           "bg-muted/60 dark:bg-zinc-900/60",
           "backdrop-blur-2xl",
           "border border-border dark:border-white/[0.15]",
-          "shadow-xl dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_25px_50px_-12px_rgba(0,0,0,0.5)]",
+          "shadow-xl dark:shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.15),0_25px_50px_-12px_hsl(0_0%_0%_/_0.5)]",
           "rounded-[32px]",
         ].join(" "),
       }

@@ -81,13 +81,12 @@ export default function Products() {
         - Cool White Spotlight: Moonlight effect
         - Center Axis: Precision spine down the middle
       */}
-      <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: '#050505' }}>
+      <div className="min-h-screen flex flex-col relative overflow-hidden bg-[#050505]">
         
         {/* Noise Texture Overlay - Film Grain for "Physical" texture */}
         <div 
-          className="fixed inset-0 pointer-events-none z-50"
+          className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]"
           style={{
-            opacity: 0.03,
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
             backgroundRepeat: 'repeat'
           }}
@@ -95,18 +94,12 @@ export default function Products() {
 
         {/* Center Axis - "Spine of Precision" */}
         <div 
-          className="fixed top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none z-0"
-          style={{
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent 100%)'
-          }}
+          className="fixed top-0 left-1/2 -translate-x-1/2 w-px h-full pointer-events-none z-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
         />
 
         {/* Primary Spotlight - Cool White/Blue "Moonlight" */}
         <div 
-          className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 50% 40% at 50% 0%, rgba(255,255,255,0.1) 0%, rgba(200,220,255,0.04) 40%, transparent 70%)'
-          }}
+          className="fixed top-0 left-1/2 -translate-x-1/2 w-[200vw] h-[100vh] pointer-events-none bg-[radial-gradient(ellipse_50%_40%_at_50%_0%,_hsl(0_0%_100%_/_0.1)_0%,_hsl(220_50%_90%_/_0.04)_40%,_transparent_70%)]"
         />
 
         <Navigation />
@@ -131,16 +124,7 @@ export default function Products() {
                   <Link to={product.href} className="block group">
                     {/* Milled Glass Card with Chamfered Edge */}
                     <div 
-                      className="relative p-8 md:p-10 h-full transition-all duration-500 group-hover:scale-[1.02]"
-                      style={{
-                        background: 'rgba(24,24,27,0.4)',
-                        backdropFilter: 'blur(40px)',
-                        WebkitBackdropFilter: 'blur(40px)',
-                        borderRadius: '32px',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderTop: '1px solid rgba(255,255,255,0.15)',
-                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.7), inset 0 1px 0 0 rgba(255,255,255,0.1)'
-                      }}
+                      className="relative p-8 md:p-10 h-full transition-all duration-500 group-hover:scale-[1.02] bg-zinc-900/40 backdrop-blur-[40px] rounded-[32px] border border-white/[0.08] border-t-white/15 shadow-[0_25px_50px_-12px_hsl(0_0%_0%_/_0.7),inset_0_1px_0_0_hsl(0_0%_100%_/_0.1)]"
                     >
                       {/* Icon with Platinum styling */}
                       <div 
@@ -151,21 +135,10 @@ export default function Products() {
 
                       {/* Content */}
                       <div className="space-y-3">
-                        <p 
-                          className="text-sm font-medium uppercase text-white/40 tracking-[0.15em]"
-                        >
+                        <p className="text-sm font-medium uppercase text-white/40 tracking-[0.15em]">
                           {product.subtitle}
                         </p>
-                        <h2 
-                          className="text-2xl md:text-3xl font-display font-medium brand-lowercase"
-                          style={{ 
-                            background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            letterSpacing: '-0.03em'
-                          }}
-                        >
+                        <h2 className="text-2xl md:text-3xl font-display font-medium brand-lowercase hero-gradient tracking-[-0.03em]">
                           {product.title}
                         </h2>
                         <p className="text-lg leading-relaxed text-white/50">
@@ -183,10 +156,7 @@ export default function Products() {
 
                       {/* Hover glow effect - Cool White */}
                       <div 
-                        className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                        style={{
-                          background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)'
-                        }}
+                        className="absolute inset-0 rounded-[32px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(ellipse_at_center,_hsl(0_0%_100%_/_0.04)_0%,_transparent_70%)]"
                       />
                     </div>
                   </Link>
@@ -205,25 +175,10 @@ export default function Products() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: appleEase }}
             >
-              <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-8 brand-lowercase"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  letterSpacing: '-0.04em'
-                }}
-              >
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-8 brand-lowercase hero-gradient tracking-[-0.04em]">
                 one platform.<br />infinite clarity.
               </h2>
-              <p 
-                className="text-xl md:text-2xl font-light max-w-2xl mx-auto"
-                style={{ 
-                  color: 'rgba(255,255,255,0.5)',
-                  letterSpacing: '-0.02em'
-                }}
-              >
+              <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/50 tracking-[-0.02em]">
                 Every link tells a story. utm.one makes sure you hear every chapter—
                 from first click to final conversion.
               </p>
@@ -249,35 +204,12 @@ export default function Products() {
               ].map((item, index) => (
                 <div 
                   key={index}
-                  className="p-6 text-center"
-                  style={{
-                    background: 'rgba(24,24,27,0.3)',
-                    backdropFilter: 'blur(20px)',
-                    borderRadius: '24px',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    borderTop: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
-                  }}
+                  className="p-6 text-center bg-zinc-900/30 backdrop-blur-[20px] rounded-[24px] border border-white/5 border-t-white/10 shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.05)]"
                 >
-                  <div 
-                    className="text-4xl md:text-5xl font-display font-medium mb-2"
-                    style={{ 
-                      background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      letterSpacing: '-0.03em'
-                    }}
-                  >
+                  <div className="text-4xl md:text-5xl font-display font-medium mb-2 hero-gradient tracking-[-0.03em]">
                     {item.stat}
                   </div>
-                  <div 
-                    className="text-sm uppercase"
-                    style={{ 
-                      color: 'rgba(255,255,255,0.4)',
-                      letterSpacing: '0.15em'
-                    }}
-                  >
+                  <div className="text-sm uppercase text-white/40 tracking-[0.15em]">
                     {item.label}
                   </div>
                 </div>
@@ -294,34 +226,14 @@ export default function Products() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: appleEase }}
-              className="p-12 md:p-16 relative overflow-hidden"
-              style={{
-                background: 'rgba(24,24,27,0.5)',
-                backdropFilter: 'blur(40px)',
-                borderRadius: '48px',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderTop: '1px solid rgba(255,255,255,0.15)',
-                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.1), 0 30px 60px -20px rgba(0,0,0,0.6)'
-              }}
+              className="p-12 md:p-16 relative overflow-hidden bg-zinc-900/50 backdrop-blur-[40px] rounded-[48px] border border-white/[0.08] border-t-white/15 shadow-[inset_0_1px_0_0_hsl(0_0%_100%_/_0.1),0_30px_60px_-20px_hsl(0_0%_0%_/_0.6)]"
             >
               {/* Inner glow - Cool white */}
               <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'radial-gradient(ellipse at top center, rgba(255,255,255,0.04) 0%, transparent 60%)'
-                }}
+                className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_center,_hsl(0_0%_100%_/_0.04)_0%,_transparent_60%)]"
               />
               
-              <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 brand-lowercase relative z-10"
-                style={{
-                  background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  letterSpacing: '-0.04em'
-                }}
-              >
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 brand-lowercase relative z-10 hero-gradient tracking-[-0.04em]">
                 ready to take control?
               </h2>
               <p className="text-xl font-light mb-10 relative z-10 text-white/50">
@@ -329,12 +241,7 @@ export default function Products() {
               </p>
               <Link 
                 to="/early-access"
-                className="relative z-10 inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full font-medium transition-all duration-300 hover:scale-105"
-                style={{
-                  background: '#FFFFFF',
-                  color: '#000000',
-                  boxShadow: '0 0 50px -5px rgba(255,255,255,0.5), 0 0 100px -10px rgba(255,255,255,0.3)'
-                }}
+                className="relative z-10 inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full font-medium transition-all duration-300 hover:scale-105 bg-white text-black shadow-[0_0_50px_-5px_hsl(0_0%_100%_/_0.5),0_0_100px_-10px_hsl(0_0%_100%_/_0.3)]"
               >
                 <span className="font-semibold">get started free</span>
                 <ArrowRight className="w-5 h-5" />

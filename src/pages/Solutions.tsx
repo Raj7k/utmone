@@ -127,34 +127,15 @@ const Solutions = () => {
                 >
                   <Link
                     to={solution.href}
-                    className="group block p-8 rounded-2xl transition-all duration-300"
-                    style={{
-                      background: 'rgba(24,24,27,0.4)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
-                      e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0,0,0,0.5)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
+                    className="group block p-8 rounded-2xl transition-all duration-300 bg-zinc-900/40 backdrop-blur-[20px] border border-white/10 hover:border-white/20 hover:shadow-[0_25px_50px_-12px_hsl(0_0%_0%_/_0.5)]"
                   >
-                    <div 
-                      className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
-                      style={{ background: 'rgba(255,255,255,0.1)' }}
-                    >
-                      <solution.icon className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                    <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 bg-white/10">
+                      <solution.icon className="w-8 h-8 text-white/80" />
                     </div>
-                    <h3 
-                      className="text-2xl font-display font-bold lowercase mb-3 transition-colors"
-                      style={{ color: 'rgba(255,255,255,0.9)' }}
-                    >
+                    <h3 className="text-2xl font-display font-bold lowercase mb-3 transition-colors text-white/90">
                       {solution.title}
                     </h3>
-                    <p className="lowercase" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                    <p className="lowercase text-white/60">
                       {solution.description}
                     </p>
                   </Link>
@@ -174,10 +155,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white/90">
                 by role
               </h2>
-              <p className="text-lg lowercase max-w-2xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <p className="text-lg lowercase max-w-2xl text-white/60">
                 see how utm.one solves your specific challenges
               </p>
             </motion.div>
@@ -193,36 +174,17 @@ const Solutions = () => {
                 >
                   <Link
                     to={solution.href}
-                    className="group block p-6 rounded-xl transition-all duration-300"
-                    style={{
-                      background: 'rgba(24,24,27,0.4)',
-                      backdropFilter: 'blur(20px)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
-                      e.currentTarget.style.background = 'rgba(24,24,27,0.6)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                      e.currentTarget.style.background = 'rgba(24,24,27,0.4)';
-                    }}
+                    className="group block p-6 rounded-xl transition-all duration-300 bg-zinc-900/40 backdrop-blur-[20px] border border-white/10 hover:border-white/20 hover:bg-zinc-900/60"
                   >
                     <div className="flex items-start gap-4">
-                      <div 
-                        className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
-                        style={{ background: 'rgba(255,255,255,0.1)' }}
-                      >
-                        <solution.icon className="w-6 h-6" style={{ color: 'rgba(255,255,255,0.8)' }} />
+                      <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors bg-white/10">
+                        <solution.icon className="w-6 h-6 text-white/80" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 
-                          className="text-lg font-display font-bold lowercase mb-2 transition-colors"
-                          style={{ color: 'rgba(255,255,255,0.9)' }}
-                        >
+                        <h3 className="text-lg font-display font-bold lowercase mb-2 transition-colors text-white/90">
                           {solution.title}
                         </h3>
-                        <p className="text-sm lowercase" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                        <p className="text-sm lowercase text-white/60">
                           {solution.description}
                         </p>
                       </div>

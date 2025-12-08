@@ -84,7 +84,7 @@ const NavigationMenuViewport = React.forwardRef<
         // Theme-aware navigation viewport styling with strong visibility
         "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-2xl",
         "bg-popover text-popover-foreground border border-border/50 dark:border-border",
-        "shadow-[0_4px_24px_rgba(0,0,0,0.12)] dark:shadow-lg",
+        "shadow-[0_4px_24px_hsl(0_0%_0%_/_0.12)] dark:shadow-lg",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]",
         className,
       )}
