@@ -75,7 +75,7 @@ export const HeroGlobe = () => {
           cy="100"
           r="80"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.1)"
+          className="stroke-white/10"
           strokeWidth="1"
         />
 
@@ -91,7 +91,7 @@ export const HeroGlobe = () => {
               rx={r}
               ry={r * 0.3}
               fill="none"
-              stroke="rgba(255, 255, 255, 0.05)"
+              className="stroke-white/5"
               strokeWidth="0.5"
             />
           );
@@ -106,7 +106,7 @@ export const HeroGlobe = () => {
             rx={80 * Math.sin((lng + rotation) * Math.PI / 180)}
             ry="80"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.05)"
+            className="stroke-white/5"
             strokeWidth="0.5"
           />
         ))}
@@ -126,7 +126,7 @@ export const HeroGlobe = () => {
               <motion.path
                 d={`M ${start.x} ${start.y} Q ${midX} ${midY} ${end.x} ${end.y}`}
                 fill="none"
-                stroke="rgba(255, 255, 255, 0.4)"
+                className="stroke-white/40"
                 strokeWidth="1"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
@@ -139,7 +139,7 @@ export const HeroGlobe = () => {
                   cx={start.x}
                   cy={start.y}
                   r="2"
-                  fill="white"
+                  className="fill-white"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   style={{ filter: 'drop-shadow(0 0 4px white)' }}
@@ -150,7 +150,7 @@ export const HeroGlobe = () => {
                   cx={end.x}
                   cy={end.y}
                   r="2"
-                  fill="white"
+                  className="fill-white"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 1.5 }}
@@ -167,7 +167,7 @@ export const HeroGlobe = () => {
           cy="100"
           r="82"
           fill="none"
-          stroke="rgba(255, 255, 255, 0.05)"
+          className="stroke-white/5"
           strokeWidth="4"
           style={{ filter: 'blur(4px)' }}
         />
@@ -180,7 +180,7 @@ export const HeroGlobe = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <div className="text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="text-[10px] uppercase tracking-wider text-white/40">
           global tracking
         </div>
       </motion.div>

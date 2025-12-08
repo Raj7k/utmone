@@ -19,17 +19,10 @@ export default function Trust() {
           <Badge className="mb-6 bg-white/10 text-white border-white/20">
             Security Portal
           </Badge>
-          <h1 
-            className="text-5xl md:text-6xl font-display font-bold mb-6 brand-lowercase"
-            style={{ 
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}
-          >
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 brand-lowercase hero-gradient">
             enterprise-grade security, by default.
           </h1>
-          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-xl max-w-3xl mx-auto text-white/50">
             utm.one is built on zero-trust architecture with field-level encryption, comprehensive audit logs, and GDPR compliance.
           </p>
         </div>
@@ -41,25 +34,25 @@ export default function Trust() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Infrastructure Security */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <Shield className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <Shield className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 infrastructure security
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>AWS/GCP multi-region deployment with 99.9% uptime SLA</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>SOC 2 Type II compliance in progress</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>DDoS protection and rate limiting on all endpoints</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Automated daily backups with 30-day retention</p>
                 </div>
               </div>
@@ -67,25 +60,25 @@ export default function Trust() {
 
             {/* Data Encryption */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <Lock className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <Lock className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 data encryption
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>AES-256 encryption at rest for all sensitive data</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>TLS 1.3 encryption in transit</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Field-level encryption for API tokens and secrets</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Encryption keys stored in hardware security modules</p>
                 </div>
               </div>
@@ -93,25 +86,25 @@ export default function Trust() {
 
             {/* GDPR Compliance */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <Database className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <Database className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 gdpr compliance
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>EU data residency options available</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Right to deletion and data export</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Configurable data retention policies (7-365 days)</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Standard Data Processing Agreement available</p>
                 </div>
               </div>
@@ -119,25 +112,25 @@ export default function Trust() {
 
             {/* Fraud Guard */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <Eye className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <Eye className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 fraud guard
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Real-time bot detection and blocking</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>IP-based rate limiting (1000 requests/minute)</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Suspicious pattern detection with ML models</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Automated alerting for anomalous traffic</p>
                 </div>
               </div>
@@ -145,25 +138,25 @@ export default function Trust() {
 
             {/* Link Security */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <FileCheck className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <FileCheck className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 link security
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>SSL/TLS validation on all destination URLs</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>VirusTotal integration for malware scanning</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Google Safe Browsing blacklist checks</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Real-time threat badges on link previews</p>
                 </div>
               </div>
@@ -171,25 +164,25 @@ export default function Trust() {
 
             {/* Audit Logs */}
             <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
-              <AlertTriangle className="h-12 w-12 mb-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <AlertTriangle className="h-12 w-12 mb-4 text-white/80" />
               <h3 className="text-2xl font-display font-bold text-white mb-4 brand-lowercase">
                 audit logs
               </h3>
-              <div className="space-y-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <div className="space-y-3 text-white/50">
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Comprehensive logging of all admin actions</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>Before/after diffs for configuration changes</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>IP address and user agent tracking</p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: 'rgba(255,255,255,0.7)' }} />
+                  <Check className="h-5 w-5 mt-0.5 flex-shrink-0 text-white/70" />
                   <p>365-day log retention for compliance</p>
                 </div>
               </div>
@@ -201,17 +194,10 @@ export default function Trust() {
       {/* Documentation Links */}
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 
-            className="text-3xl font-display font-bold mb-6 brand-lowercase"
-            style={{ 
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}
-          >
+          <h2 className="text-3xl font-display font-bold mb-6 brand-lowercase hero-gradient">
             security documentation
           </h2>
-          <p className="text-lg mb-8" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <p className="text-lg mb-8 text-white/50">
             For detailed technical documentation, review our comprehensive security policies.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">

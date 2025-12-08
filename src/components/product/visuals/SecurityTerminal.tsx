@@ -63,37 +63,24 @@ export const SecurityTerminal = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getLogColor = (type: LogEntry["type"]) => {
+  const getLogColorClass = (type: LogEntry["type"]) => {
     switch (type) {
-      case "access": return "rgba(100, 255, 150, 0.8)";
-      case "audit": return "rgba(255, 200, 100, 0.8)";
-      case "security": return "rgba(100, 180, 255, 0.8)";
+      case "access": return "text-green-400/80";
+      case "audit": return "text-amber-400/80";
+      case "security": return "text-blue-400/80";
     }
   };
 
   return (
     <div className="relative w-[380px] h-[200px]">
       {/* Terminal window */}
-      <div 
-        className="w-full h-full rounded-xl overflow-hidden"
-        style={{
-          background: 'rgba(0, 0, 0, 0.6)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',
-        }}
-      >
+      <div className="w-full h-full rounded-xl overflow-hidden bg-black/60 border border-white/10 shadow-[inset_0_0_30px_rgba(0,0,0,0.5)]">
         {/* Header */}
-        <div 
-          className="flex items-center gap-2 px-4 py-2"
-          style={{ 
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
-          }}
-        >
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border-b border-white/5">
           <div className="w-2 h-2 rounded-full bg-red-500/60" />
           <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
           <div className="w-2 h-2 rounded-full bg-green-500/60" />
-          <span className="text-[10px] uppercase tracking-wider ml-2" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <span className="text-[10px] uppercase tracking-wider ml-2 text-white/30">
             audit log — live
           </span>
           <motion.div 
@@ -112,10 +99,10 @@ export const SecurityTerminal = () => {
               animate={{ opacity: 1 - index * 0.1, x: 0 }}
               className="font-mono text-[11px] flex gap-2 whitespace-nowrap overflow-hidden"
             >
-              <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>
+              <span className="text-white/30">
                 {log.timestamp}
               </span>
-              <span style={{ color: getLogColor(log.type) }}>
+              <span className={getLogColorClass(log.type)}>
                 {log.message}
               </span>
             </motion.div>
