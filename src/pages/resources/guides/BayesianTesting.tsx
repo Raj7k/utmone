@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 export default function BayesianTesting() {
   return (
@@ -15,7 +16,7 @@ export default function BayesianTesting() {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <ResourcesLayout>
         {/* Hero */}
         <section className="relative py-24 md:py-32">
           <div className="container max-w-text-content mx-auto px-4">
@@ -203,7 +204,7 @@ export default function BayesianTesting() {
             </div>
           </div>
         </section>
-      </div>
+      </ResourcesLayout>
     </>
   );
 }

@@ -1,5 +1,4 @@
-import { Navigation } from "@/components/landing/Navigation";
-import { Footer } from "@/components/landing/Footer";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download, BookOpen, Sparkles, CheckCircle2, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +16,7 @@ import { Helmet } from "react-helmet";
 
 const AIMarketingPlaybook = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Helmet>
         <title>AI Marketing Playbook: Content Creation in the AI Era | utm.one</title>
         <meta
@@ -140,7 +139,8 @@ const AIMarketingPlaybook = () => {
         </script>
       </Helmet>
 
-      <Navigation />
+      <ResourcesLayout>
+        <div className="min-h-screen bg-white text-zinc-900">
 
       {/* Hero Section */}
       <section className="py-20 bg-background border-b border-border/50">
@@ -164,7 +164,7 @@ const AIMarketingPlaybook = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient lowercase mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-6">
             ai marketing playbook: content creation in the ai era
           </h1>
           
@@ -196,7 +196,7 @@ const AIMarketingPlaybook = () => {
       {/* Problem Section */}
       <section className="py-20 bg-background">
         <div className="max-w-[900px] mx-auto px-8 text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-display font-extrabold">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-zinc-900">
             the content flood: everyone can create, few can stand out
           </h2>
           
@@ -446,7 +446,7 @@ const AIMarketingPlaybook = () => {
       {/* Final CTA */}
       <section className="py-32 bg-gradient-to-b from-muted/20 to-background text-center">
         <div className="max-w-[720px] mx-auto px-8 space-y-8">
-          <h2 className="text-4xl md:text-5xl font-display font-extrabold">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-zinc-900">
             Start Creating Better Content with AI
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -463,8 +463,9 @@ const AIMarketingPlaybook = () => {
         </div>
       </section>
 
-      <Footer />
-    </div>
+        </div>
+      </ResourcesLayout>
+    </>
   );
 };
 
