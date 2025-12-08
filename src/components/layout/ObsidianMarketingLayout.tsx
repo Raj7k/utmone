@@ -24,8 +24,7 @@ export const ObsidianMarketingLayout = ({
 }: ObsidianMarketingLayoutProps) => {
   return (
     <div 
-      className="dark min-h-screen flex flex-col relative overflow-hidden"
-      style={{ background: '#050505' }}
+      className="dark min-h-screen flex flex-col relative overflow-hidden bg-[hsl(var(--obsidian-bg))]"
     >
       {/* Noise Texture Overlay - Film Grain for "Physical" texture */}
       <div 
