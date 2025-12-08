@@ -70,7 +70,7 @@ const BayesianAttribution = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase">
               see the invisible influence.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
@@ -103,10 +103,10 @@ const BayesianAttribution = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6 lowercase">
               bayesian networks in action
             </h2>
-            <p className="text-xl text-secondary-label max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
               Not last-click. True causal influence.
             </p>
           </div>
@@ -125,10 +125,10 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <TrendingUp className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
                 find true ROI
               </h3>
-              <p className="text-secondary-label">
+              <p className="text-muted-foreground font-sans">
                 Stop crediting "Direct." Start crediting the LinkedIn campaign that drove the brand search 3 days later.
               </p>
             </Card>
@@ -137,10 +137,10 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <Target className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
                 assisted conversions
               </h3>
-              <p className="text-secondary-label">
+              <p className="text-muted-foreground font-sans">
                 Every touchpoint gets credit proportional to its causal influence. No more all-or-nothing attribution.
               </p>
             </Card>
@@ -149,10 +149,10 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <GitBranch className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
                 confidence intervals
               </h3>
-              <p className="text-secondary-label">
+              <p className="text-muted-foreground font-sans">
                 "LinkedIn: 42% ± 3%" with 95% confidence. Know exactly how reliable your attribution data is.
               </p>
             </Card>

@@ -73,15 +73,15 @@ const Analytics = () => {
       <FeatureSection background="muted">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
               analytics that feel effortless
             </h2>
-            <div className="space-y-4 text-body-apple text-secondary-label">
+            <div className="space-y-4 text-lg text-muted-foreground font-sans">
               <p>Zero noise</p>
               <p>Zero overwhelm</p>
               <p>Zero configuration</p>
             </div>
-            <p className="text-headline text-label font-medium">
+            <p className="text-lg text-foreground font-medium font-sans">
               Just the metrics that matter.
             </p>
           </div>
@@ -94,10 +94,10 @@ const Analytics = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
             clean track intelligence
           </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-sans">
             Predictions that actually help you plan
           </p>
         </div>
@@ -110,7 +110,7 @@ const Analytics = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">traffic forecasting</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   See predicted clicks for the next 7 days with confidence intervals based on historical patterns
                 </p>
               </div>
@@ -121,7 +121,7 @@ const Analytics = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">best time analysis</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   Know exactly when your audience is most active—no guesswork, just data
                 </p>
               </div>
@@ -132,7 +132,7 @@ const Analytics = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">performance trends</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   Spot patterns in click behavior before they become problems or opportunities
                 </p>
               </div>
@@ -140,28 +140,28 @@ const Analytics = () => {
           </div>
 
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">7-day forecast</h4>
+            <h4 className="text-lg font-semibold mb-4 lowercase text-foreground font-sans">7-day forecast</h4>
             <div className="bg-card rounded-lg p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-border">
-                <span className="text-sm text-secondary-label">Predicted Traffic</span>
-                <span className="text-2xl font-bold text-label">~1,200</span>
+                <span className="text-sm text-muted-foreground font-sans">Predicted Traffic</span>
+                <span className="text-2xl font-bold text-foreground">~1,200</span>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Confidence</span>
-                  <span className="text-label font-semibold">95%</span>
+                  <span className="text-muted-foreground font-sans">Confidence</span>
+                  <span className="text-foreground font-semibold">95%</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Range</span>
-                  <span className="text-label font-semibold">1,050 - 1,350 clicks</span>
+                  <span className="text-muted-foreground font-sans">Range</span>
+                  <span className="text-foreground font-semibold">1,050 - 1,350 clicks</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-secondary-label">Peak Day</span>
-                  <span className="text-label font-semibold">Friday 2PM</span>
+                  <span className="text-muted-foreground font-sans">Peak Day</span>
+                  <span className="text-foreground font-semibold">Friday 2PM</span>
                 </div>
               </div>
               <div className="pt-3 border-t border-border">
-                <p className="text-xs text-secondary-label italic">
+                <p className="text-xs text-muted-foreground italic font-sans">
                   Based on 30 days of historical data
                 </p>
               </div>
@@ -171,7 +171,7 @@ const Analytics = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           Designed Around Clarity
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -185,26 +185,26 @@ const Analytics = () => {
             />
           ))}
         </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
+        <p className="text-center text-lg text-muted-foreground mt-12 font-sans">
           Analytics made human.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           No Dashboards That Fight You
         </h2>
         <FeatureComparison
           title="utm.one vs Complex Analytics Tools"
           items={comparisonItems}
         />
-        <p className="text-center text-title-2 text-label font-medium mt-12">
+        <p className="text-center text-lg text-foreground font-medium mt-12 font-sans">
           Marketers shouldn't need manuals to read charts.
         </p>
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           Click → Understand → Act
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -224,7 +224,7 @@ const Analytics = () => {
             description="Make informed decisions fast"
           />
         </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
+        <p className="text-center text-lg text-muted-foreground mt-12 font-sans">
           Your data, simplified.
         </p>
       </FeatureSection>
@@ -233,7 +233,7 @@ const Analytics = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
               insights that write themselves
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -266,7 +266,7 @@ const Analytics = () => {
 
           {/* Right: Visual */}
           <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-            <div className="text-sm font-semibold text-label">Weekly Summary</div>
+            <div className="text-sm font-semibold text-foreground font-sans">Weekly Summary</div>
             <div className="space-y-3">
               <div className="p-4 rounded-lg bg-primary/5">
                 <div className="flex items-center justify-between mb-2">
@@ -298,10 +298,10 @@ const Analytics = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
             See Your Insights
           </h2>
-          <p className="text-body-apple text-secondary-label mb-8">
+          <p className="text-lg text-muted-foreground mb-8 font-sans">
             Start understanding your link performance today.
           </p>
           <Button

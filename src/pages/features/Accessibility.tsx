@@ -96,7 +96,7 @@ const Accessibility = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground lowercase">
             {formatText("Built For Everyone")}
           </h2>
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mt-12">
@@ -106,7 +106,7 @@ const Accessibility = () => {
               <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4 font-mono text-sm break-all text-destructive">
                 utm.one/3x7Kz9
               </div>
-              <div className="space-y-2 text-secondary-label text-sm">
+              <div className="space-y-2 text-muted-foreground text-sm font-sans">
                 <p>❌ Screen reader says "three x seven k z nine"</p>
                 <p>❌ No context for visually impaired users</p>
                 <p>❌ Hard to remember and type</p>
@@ -120,7 +120,7 @@ const Accessibility = () => {
               <div className="border rounded-lg p-4 font-mono text-sm bg-primary/5 border-primary/20 text-primary">
                 utm.one/summer-webinar-2025
               </div>
-              <div className="space-y-2 text-label text-sm">
+              <div className="space-y-2 text-foreground text-sm font-sans">
                 <p>✓ Screen reader announces "summer webinar 2025"</p>
                 <p>✓ Clear context for all users</p>
                 <p>✓ Easy to remember and share verbally</p>
@@ -128,7 +128,7 @@ const Accessibility = () => {
               </div>
             </div>
           </div>
-          <p className="mt-12 text-headline text-label font-medium">
+          <p className="mt-12 text-lg text-foreground font-medium font-sans">
             Every link should make sense to everyone.
           </p>
         </div>
@@ -136,10 +136,10 @@ const Accessibility = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
             wcag aaa compliance
           </h2>
-          <p className="text-xl text-secondary-label max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-sans">
             The highest standard for web accessibility
           </p>
         </div>
@@ -152,7 +152,7 @@ const Accessibility = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">7:1 color contrast</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   All text meets WCAG AAA contrast ratios for maximum readability
                 </p>
               </div>
@@ -163,7 +163,7 @@ const Accessibility = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">focus indicators</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   Clear, visible focus states for keyboard navigation throughout
                 </p>
               </div>
@@ -174,7 +174,7 @@ const Accessibility = () => {
               </div>
               <div>
                 <h3 className="text-xl font-display font-semibold mb-2 lowercase">reduced motion</h3>
-                <p className="text-secondary-label">
+                <p className="text-muted-foreground font-sans">
                   Respects prefers-reduced-motion for users with vestibular disorders
                 </p>
               </div>
@@ -182,27 +182,27 @@ const Accessibility = () => {
           </div>
 
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">compliance standards</h4>
+            <h4 className="text-lg font-semibold mb-4 lowercase text-foreground font-sans">compliance standards</h4>
             <div className="space-y-4">
               <div className="flex items-center gap-3 p-4 bg-card border border-border rounded-lg">
                 <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0" />
                 <div>
-                  <div className="font-semibold text-label">WCAG 2.1 AAA</div>
-                  <div className="text-sm text-secondary-label">Highest accessibility standard</div>
+                  <div className="font-semibold text-foreground font-sans">WCAG 2.1 AAA</div>
+                  <div className="text-sm text-muted-foreground font-sans">Highest accessibility standard</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-card border border-border rounded-lg">
                 <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0" />
                 <div>
-                  <div className="font-semibold text-label">Section 508</div>
-                  <div className="text-sm text-secondary-label">US federal accessibility</div>
+                  <div className="font-semibold text-foreground font-sans">Section 508</div>
+                  <div className="text-sm text-muted-foreground font-sans">US federal accessibility</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-card border border-border rounded-lg">
                 <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0" />
                 <div>
-                  <div className="font-semibold text-label">ADA Compliant</div>
-                  <div className="text-sm text-secondary-label">Americans with Disabilities Act</div>
+                  <div className="font-semibold text-foreground font-sans">ADA Compliant</div>
+                  <div className="text-sm text-muted-foreground font-sans">Americans with Disabilities Act</div>
                 </div>
               </div>
             </div>
@@ -211,57 +211,57 @@ const Accessibility = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
           {formatText("Semantic Slugs, Not Random Strings")}
         </h2>
         
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-2xl font-display font-semibold lowercase text-label">before</h3>
+              <h3 className="text-2xl font-display font-semibold lowercase text-foreground">before</h3>
               <div className="space-y-3">
                 <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
                   <div className="font-mono text-sm text-destructive mb-2">utm.one/3x7Kz9</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "three x seven k z nine"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "three x seven k z nine"</div>
                 </div>
                 <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
                   <div className="font-mono text-sm text-destructive mb-2">utm.one/A8hT2v</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "a eight h t two v"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "a eight h t two v"</div>
                 </div>
                 <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
                   <div className="font-mono text-sm text-destructive mb-2">utm.one/9Qw4Xp</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "nine q w four x p"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "nine q w four x p"</div>
                 </div>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-2xl font-display font-semibold lowercase text-label">after</h3>
+              <h3 className="text-2xl font-display font-semibold lowercase text-foreground">after</h3>
               <div className="space-y-3">
                 <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
                   <div className="font-mono text-sm mb-2 text-primary">utm.one/summer-webinar</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "summer webinar"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "summer webinar"</div>
                 </div>
                 <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
                   <div className="font-mono text-sm mb-2 text-primary">utm.one/product-launch</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "product launch"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "product launch"</div>
                 </div>
                 <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
                   <div className="font-mono text-sm mb-2 text-primary">utm.one/q4-newsletter</div>
-                  <div className="text-xs text-secondary-label">Screen reader: "q four newsletter"</div>
+                  <div className="text-xs text-muted-foreground font-sans">Screen reader: "q four newsletter"</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <p className="text-center text-title-2 text-label font-medium">
+          <p className="text-center text-lg text-foreground font-medium font-sans">
             Semantic slugs make links accessible to everyone, not just sighted users.
           </p>
         </div>
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
           {formatText("Universal Design Principles")}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -275,30 +275,30 @@ const Accessibility = () => {
             />
           ))}
         </div>
-        <p className="text-center text-title-2 text-secondary-label mt-12">
+        <p className="text-center text-lg text-muted-foreground mt-12 font-sans">
           Built for everyone from day one, not retrofitted.
         </p>
       </FeatureSection>
 
       <FeatureSection background="default">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
           More Accessible Than Any Shortener
         </h2>
         <FeatureComparison
           title="utm.one vs Competitors"
           items={comparisonItems}
         />
-        <p className="text-center text-title-2 text-label font-medium mt-12">
+        <p className="text-center text-lg text-foreground font-medium mt-12 font-sans">
           Accessibility unlocks government, education, and non-profit markets.
         </p>
       </FeatureSection>
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground lowercase">
             Experience Universal Design
           </h2>
-          <p className="text-body-apple text-secondary-label mb-8">
+          <p className="text-lg text-muted-foreground mb-8 font-sans">
             Start building links that work for everyone.
           </p>
           <CTAButton href="/early-access" variant="primary" trustBadge="WCAG AAA compliant · No barriers">

@@ -20,28 +20,23 @@ export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="rounded-xl p-6 transition-all"
-          style={{ 
-            background: 'rgba(24,24,27,0.4)', 
-            backdropFilter: 'blur(40px)',
-            border: '1px solid rgba(255,255,255,0.08)'
-          }}
+          className="obsidian-glass rounded-xl p-6 transition-all"
         >
-          <h3 className="text-lg font-display font-bold lowercase mb-3" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <h3 className="text-lg font-display font-bold lowercase mb-3 text-foreground">
             {useCase.title}
           </h3>
           <div className="space-y-3">
             <div>
-              <div className="text-xs uppercase tracking-wide font-semibold mb-1" style={{ color: 'rgba(239,68,68,0.8)' }}>
+              <div className="text-xs uppercase tracking-wide font-semibold mb-1 text-destructive">
                 Problem
               </div>
-              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{useCase.scenario}</p>
+              <p className="text-sm text-muted-foreground font-sans">{useCase.scenario}</p>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-wide font-semibold mb-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              <div className="text-xs uppercase tracking-wide font-semibold mb-1 text-foreground/70">
                 Solution
               </div>
-              <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.9)' }}>{useCase.solution}</p>
+              <p className="text-sm font-medium text-foreground font-sans">{useCase.solution}</p>
             </div>
           </div>
         </motion.div>
