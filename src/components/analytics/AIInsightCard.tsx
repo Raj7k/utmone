@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Sparkles, RefreshCw, Loader2 } from "lucide-react";
@@ -24,13 +23,12 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
       if (error) throw error;
       return data;
     },
-    staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60,
     refetchOnWindowFocus: false,
   });
 
   const refreshMutation = useMutation({
     mutationFn: async () => {
-      // Delete cached insights to force refresh
       await supabase
         .from('ai_insights')
         .delete()
@@ -62,21 +60,15 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
 
   if (isLoading) {
     return (
-      <Card 
-        variant="glass"
-        style={{ 
-          background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-          border: '1px solid rgba(255,255,255,0.15)'
-        }}
-      >
+      <Card variant="glass" className="bg-gradient-to-br from-white/5 to-white/[0.02] border-white-15">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 animate-pulse" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Sparkles className="h-5 w-5 animate-pulse text-white-80" />
             ai insights
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+          <div className="flex items-center gap-2 text-white-50">
             <Loader2 className="h-4 w-4 animate-spin" />
             <span className="text-sm">generating insights…</span>
           </div>
@@ -86,17 +78,11 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
   }
 
   return (
-    <Card 
-      variant="glass"
-      style={{ 
-        background: 'linear-gradient(to bottom right, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-        border: '1px solid rgba(255,255,255,0.15)'
-      }}
-    >
+    <Card variant="glass" className="bg-gradient-to-br from-white/5 to-white/[0.02] border-white-15">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Sparkles className="h-5 w-5 text-white-80" />
             ai insights
           </CardTitle>
           <Button
@@ -116,7 +102,7 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="prose prose-sm max-w-none">
-          <p className="text-sm whitespace-pre-wrap leading-relaxed" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p className="text-sm whitespace-pre-wrap leading-relaxed text-white-70">
             {insight?.summary || 'no insights available yet. create some links to get started.'}
           </p>
         </div>

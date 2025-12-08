@@ -18,7 +18,6 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
   const { data: cacheStats, isLoading } = useQuery({
     queryKey: ['cache-performance', workspaceId],
     queryFn: async () => {
-      // Get cache distribution
       const { data: links, error } = await supabase
         .from('links')
         .select('cache_priority, total_clicks, clicks_last_hour, cache_score')
@@ -54,7 +53,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
 
       return stats;
     },
-    refetchInterval: 60000, // Refresh every minute
+    refetchInterval: 60000,
   });
 
   if (isLoading) {
@@ -62,7 +61,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Zap className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Zap className="w-5 h-5 text-white-80" />
             cache performance
           </CardTitle>
         </CardHeader>
@@ -85,7 +84,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Zap className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+          <Zap className="w-5 h-5 text-white-80" />
           cache performance
         </CardTitle>
         <CardDescription>
@@ -132,7 +131,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Database className="w-4 h-4 text-white/40" />
+              <Database className="w-4 h-4 text-white-40" />
               <span className="text-sm font-medium">Cold (Database)</span>
               <Badge variant="outline" className="text-xs">
                 ~500ms
@@ -147,7 +146,7 @@ export const CachePerformanceWidget = ({ workspaceId }: { workspaceId: string })
         {/* Performance Insight */}
         <div className="pt-4 border-t border-border">
           <div className="flex items-start gap-3 p-4 bg-muted/30 rounded-xl">
-            <TrendingUp className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <TrendingUp className="w-5 h-5 flex-shrink-0 mt-0.5 text-white-80" />
             <div className="flex-1">
               <p className="text-sm font-medium text-foreground mb-1">
                 optimization active

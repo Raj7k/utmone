@@ -94,7 +94,8 @@ export const NeuralMesh = () => {
             y1={line.y1}
             x2={line.x2}
             y2={line.y2}
-            stroke={`rgba(255, 255, 255, ${line.opacity})`}
+            className="stroke-foreground"
+            strokeOpacity={line.opacity}
             strokeWidth="0.5"
           />
         ))}
@@ -113,7 +114,8 @@ export const NeuralMesh = () => {
               cx={x}
               cy={y}
               r={size}
-              fill={`rgba(255, 255, 255, ${opacity})`}
+              className="fill-foreground"
+              fillOpacity={opacity}
               style={{ filter: node.z > 20 ? 'drop-shadow(0 0 2px white)' : 'none' }}
             />
           );
@@ -130,8 +132,8 @@ export const NeuralMesh = () => {
 
         <defs>
           <radialGradient id="meshGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
-            <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
+            <stop offset="0%" stopColor="hsl(var(--foreground))" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="hsl(var(--foreground))" stopOpacity="0" />
           </radialGradient>
         </defs>
       </svg>
@@ -143,7 +145,7 @@ export const NeuralMesh = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <div className="text-[10px] uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <div className="text-[10px] uppercase tracking-wider text-white-40">
           neural processing
         </div>
       </motion.div>
