@@ -28,8 +28,8 @@ export const JustInTimeProvisioningVisual = () => {
     <div className="relative">
       <Card className="p-8 md:p-12 bg-card border-2 border-border">
         <div className="flex items-center gap-4 mb-8">
-          <div className="p-4 rounded-2xl bg-primary/10">
-            <Shield className="w-8 h-8 text-primary" />
+          <div className="p-4 rounded-2xl bg-white/5">
+            <Shield className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
             <h3 className="text-2xl font-display font-bold text-label lowercase">
@@ -68,9 +68,9 @@ export const JustInTimeProvisioningVisual = () => {
           ))}
         </div>
 
-        <div className="p-6 rounded-xl border bg-gradient-to-br from-orange-500/10 to-primary/10 border-primary/20">
+        <div className="p-6 rounded-xl border bg-gradient-to-br from-white/10 to-white/5 border-white/20">
           <div className="flex items-start gap-4">
-            <Shield className="w-6 h-6 flex-shrink-0 mt-1 text-primary" />
+            <Shield className="w-6 h-6 flex-shrink-0 mt-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             <div>
               <h4 className="font-semibold text-label mb-2 lowercase">prevents shadow it</h4>
               <p className="text-sm text-secondary-label">
@@ -84,15 +84,15 @@ export const JustInTimeProvisioningVisual = () => {
 
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">100%</div>
+            <div className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">100%</div>
             <div className="text-xs text-secondary-label">Capture Rate</div>
           </div>
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">0</div>
+            <div className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">0</div>
             <div className="text-xs text-secondary-label">Shadow Accounts</div>
           </div>
           <div className="text-center p-4 rounded-xl bg-muted/50">
-            <div className="text-2xl font-bold text-primary">&lt;30s</div>
+            <div className="text-2xl font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">&lt;30s</div>
             <div className="text-xs text-secondary-label">Provisioning Time</div>
           </div>
         </div>

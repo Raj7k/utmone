@@ -92,8 +92,8 @@ export const WorkspaceHygieneCard = () => {
     return (
       <Card className="p-6 border-border/50 bg-card">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5">
+            <CheckCircle2 className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-display font-semibold text-foreground">

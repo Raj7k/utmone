@@ -33,10 +33,10 @@ export const DemoAIInsightsTile = ({ planTier = 'free' }: DemoAIInsightsTileProp
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base font-medium flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-primary" />
+            <Sparkles className="h-4 w-4 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             ai insights
           </CardTitle>
-          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+          <Badge variant="outline" className="bg-white/10 text-white border-white/20">
             demo · {planTier}
           </Badge>
         </div>
@@ -60,7 +60,7 @@ export const DemoAIInsightsTile = ({ planTier = 'free' }: DemoAIInsightsTileProp
                 <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
                   insight.severity === "warning"
                     ? "text-yellow-600 dark:text-yellow-500"
-                    : "text-primary"
+                    : "text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
                 }`} />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm mb-1">{insight.title}</p>

@@ -41,12 +41,13 @@ const getChannelIcon = (channel: string) => {
 
 const getChannelColor = (channel: string) => {
   const lc = channel.toLowerCase();
-  if (lc.includes('linkedin')) return 'bg-[#0A66C2]/10 text-[#0A66C2] border-[#0A66C2]/20';
-  if (lc.includes('twitter') || lc.includes('x.com')) return 'bg-foreground/10 text-foreground border-foreground/20';
-  if (lc.includes('facebook')) return 'bg-[#1877F2]/10 text-[#1877F2] border-[#1877F2]/20';
-  if (lc.includes('instagram')) return 'bg-[#E4405F]/10 text-[#E4405F] border-[#E4405F]/20';
-  if (lc.includes('google')) return 'bg-[#4285F4]/10 text-[#4285F4] border-[#4285F4]/20';
-  if (lc.includes('direct')) return 'bg-primary/10 text-primary border-primary/20';
+  // Monochrome Obsidian style - all channels use white/silver palette
+  if (lc.includes('linkedin')) return 'bg-white/10 text-white border-white/20';
+  if (lc.includes('twitter') || lc.includes('x.com')) return 'bg-white/10 text-white border-white/20';
+  if (lc.includes('facebook')) return 'bg-white/10 text-white border-white/20';
+  if (lc.includes('instagram')) return 'bg-white/10 text-white border-white/20';
+  if (lc.includes('google')) return 'bg-white/10 text-white border-white/20';
+  if (lc.includes('direct')) return 'bg-white/5 text-white border-white/10';
   return 'bg-muted text-muted-foreground border-border';
 };
 

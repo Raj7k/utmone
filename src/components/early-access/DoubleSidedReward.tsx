@@ -50,11 +50,11 @@ export function DoubleSidedReward() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl p-8 bg-card backdrop-blur-xl border border-primary/30"
+            className="rounded-2xl p-8 bg-card backdrop-blur-xl border border-white/30"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10">
-                <Gift className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white/10">
+                <Gift className="w-6 h-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
               </div>
               <h3 className="text-2xl font-display font-bold text-foreground">what you get</h3>
             </div>
@@ -66,7 +66,7 @@ export function DoubleSidedReward() {
                 "the satisfaction of beating everyone else on the leaderboard 😄",
               ].map((item, index) => (
                 <li key={index} className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full mt-2 shrink-0 bg-primary" />
+                  <div className="w-2 h-2 rounded-full mt-2 shrink-0 bg-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                   <p className="text-muted-foreground">{item}</p>
                 </li>
               ))}

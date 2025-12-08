@@ -63,10 +63,10 @@ export const AICommandCenter = ({
 
   if (isLoading) {
     return (
-      <Card className="rounded-2xl border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-accent/5">
+      <Card className="rounded-2xl border-white/20 bg-gradient-to-br from-white/5 via-transparent to-white/5">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 lowercase">
-            <Brain className="h-5 w-5 text-primary animate-pulse" />
+            <Brain className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] animate-pulse" />
             generating insights…
           </CardTitle>
         </CardHeader>
@@ -81,11 +81,11 @@ export const AICommandCenter = ({
 
   if (error || visibleInsights.length === 0) {
     return (
-      <Card className="rounded-2xl border-border bg-gradient-to-br from-primary/5 to-accent/5">
+      <Card className="rounded-2xl border-border bg-gradient-to-br from-white/5 to-white/5">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 lowercase">
-              <Sparkles className="h-5 w-5 text-primary" />
+              <Sparkles className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
               ai command center
             </CardTitle>
             <Button
@@ -115,12 +115,12 @@ export const AICommandCenter = ({
   }
 
   return (
-    <Card className="rounded-2xl border-primary/20 bg-gradient-to-br from-primary/5 via-transparent to-accent/5">
+    <Card className="rounded-2xl border-white/20 bg-gradient-to-br from-white/5 via-transparent to-white/5">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2 lowercase">
-              <Brain className="h-5 w-5 text-primary" />
+              <Brain className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
               ai command center
             </CardTitle>
             <p className="text-sm text-muted-foreground mt-1">

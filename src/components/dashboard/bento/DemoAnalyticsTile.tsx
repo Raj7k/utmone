@@ -29,7 +29,7 @@ export const DemoAnalyticsTile = ({ planTier = 'free' }: DemoAnalyticsTileProps)
           <CardTitle className="text-base font-medium">
             analytics pulse
           </CardTitle>
-          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+          <Badge variant="outline" className="bg-white/10 text-white border-white/20">
             demo · {planTier}
           </Badge>
         </div>
