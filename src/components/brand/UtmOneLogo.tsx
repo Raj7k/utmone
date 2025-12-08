@@ -5,9 +5,10 @@ interface UtmOneLogoProps {
   size?: "sm" | "md" | "lg" | "xl";
   showIcon?: boolean;
   className?: string;
+  variant?: "light" | "dark"; // light = white text (for dark bg), dark = black text (for light bg)
 }
 
-export const UtmOneLogo = ({ size = "md", showIcon = true, className }: UtmOneLogoProps) => {
+export const UtmOneLogo = ({ size = "md", showIcon = true, className, variant = "light" }: UtmOneLogoProps) => {
   const sizeConfig = {
     sm: { icon: "h-6", text: "text-lg" },
     md: { icon: "h-8", text: "text-xl" },
@@ -15,13 +16,16 @@ export const UtmOneLogo = ({ size = "md", showIcon = true, className }: UtmOneLo
     xl: { icon: "h-12", text: "text-3xl" },
   };
 
+  const textColor = variant === "dark" ? "text-zinc-900" : "text-foreground";
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {showIcon && (
         <img src={utmOneIcon} alt="" className={sizeConfig[size].icon} />
       )}
       <span className={cn(
-        "font-display font-semibold tracking-tight text-foreground",
+        "font-display font-semibold tracking-tight",
+        textColor,
         sizeConfig[size].text
       )}>
         utm.one
