@@ -22,8 +22,8 @@ const buttonVariants = cva(
         "system-secondary": "bg-fill-secondary text-label border border-separator hover:bg-fill-primary h-[44px]",
         "system-tertiary": "bg-transparent text-system-blue hover:bg-fill-tertiary h-[44px]",
         "system-destructive": "bg-system-red text-white hover:opacity-80 active:opacity-60 h-[44px]",
-        marketing: "bg-blazeOrange text-white hover:opacity-90 shadow-sm hover:shadow-md h-[44px]",
-        "marketing-glow": "bg-gradient-to-r from-blazeOrange to-[#FF6B35] text-white font-semibold shadow-[0_0_20px_rgba(255,106,0,0.4)] hover:shadow-[0_0_30px_rgba(255,106,0,0.6)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 h-[52px]",
+        marketing: "bg-primary text-primary-foreground hover:opacity-90 shadow-sm hover:shadow-md h-[44px]",
+        "marketing-glow": "bg-primary text-primary-foreground font-semibold shadow-[0_0_20px_hsl(var(--primary)/0.4)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.6)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 h-[52px]",
         // Halo Button - theme-aware with glow
         halo: "bg-primary text-primary-foreground font-semibold shadow-[0_0_20px_-5px_hsl(var(--primary)/0.5)] hover:shadow-[0_0_30px_-5px_hsl(var(--primary)/0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 h-12 rounded-full",
         // Glass Button - theme-aware

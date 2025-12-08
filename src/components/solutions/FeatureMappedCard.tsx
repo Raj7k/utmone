@@ -14,22 +14,22 @@ interface FeatureMappedCardProps {
 
 const colorStyles = {
   blazeOrange: {
-    bg: 'rgba(255,106,0,0.15)',
-    text: 'rgba(255,106,0,0.9)',
-    border: '#FF6A00',
-    glow: 'rgba(255,106,0,0.2)',
+    bg: 'hsl(243 70% 24% / 0.15)',
+    text: 'hsl(243 70% 50% / 0.9)',
+    border: 'hsl(243 70% 24%)',
+    glow: 'hsl(243 70% 24% / 0.2)',
   },
   deepSea: {
-    bg: 'rgba(0,107,82,0.15)',
-    text: 'rgba(0,180,140,0.9)',
-    border: '#006B52',
-    glow: 'rgba(0,107,82,0.2)',
+    bg: 'hsl(217 91% 50% / 0.15)',
+    text: 'hsl(217 91% 60% / 0.9)',
+    border: 'hsl(217 91% 50%)',
+    glow: 'hsl(217 91% 50% / 0.2)',
   },
   primary: {
-    bg: 'rgba(255,255,255,0.1)',
-    text: 'rgba(255,255,255,0.8)',
-    border: 'rgba(255,255,255,0.3)',
-    glow: 'rgba(255,255,255,0.1)',
+    bg: 'hsl(243 70% 24% / 0.15)',
+    text: 'hsl(243 70% 50% / 0.9)',
+    border: 'hsl(243 70% 24%)',
+    glow: 'hsl(243 70% 24% / 0.2)',
   },
 };
 

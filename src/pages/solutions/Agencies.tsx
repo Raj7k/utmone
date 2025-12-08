@@ -52,7 +52,7 @@ const Agencies = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase mt-8">
               manage every client from<br />one command center
             </h1>
             <p className="text-lg md:text-xl max-w-[640px] mx-auto font-sans text-muted-foreground">
@@ -235,7 +235,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 4: Mapped Features */}
-      <section className="py-24 md:py-32 bg-gradient-to-b from-wildSand/50 to-background">
+      <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight lowercase text-foreground">
@@ -248,7 +248,7 @@ const Agencies = () => {
               icon={FolderKanban}
               title="Multi-Client Workspaces"
               description="Isolated data per client"
-              color="blazeOrange"
+              color="primary"
               delay={0}
               href="/features/workspaces"
             />
@@ -272,7 +272,7 @@ const Agencies = () => {
               icon={Shield}
               title="Team Permissions"
               description="Role-based access control"
-              color="blazeOrange"
+              color="primary"
               delay={0.3}
               href="/features/governance"
             />
@@ -324,7 +324,7 @@ const Agencies = () => {
       </section>
 
       {/* Fold 6: ROI Calculator */}
-      <section className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-blazeOrange/5 to-card">
+      <section className="py-24 md:py-32">
         <div className="container mx-auto px-6">
           <ROICalculator />
         </div>
