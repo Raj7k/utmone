@@ -151,12 +151,7 @@ export const QRHealthGauge = ({ health, onAutoFix, showDetails = true }: QRHealt
         <Button
           onClick={onAutoFix}
           variant="outline"
-          className="w-full"
-          style={{ 
-            background: 'rgba(139,92,246,0.1)', 
-            borderColor: 'rgba(139,92,246,0.3)', 
-            color: 'rgba(196,181,253,1)' 
-          }}
+          className="w-full bg-primary/10 border-primary/30 text-primary-foreground/80"
         >
           <Sparkles className="h-4 w-4 mr-2" />
           Auto-Fix Contrast

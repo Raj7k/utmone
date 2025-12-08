@@ -80,10 +80,7 @@ export const LinkSuccessCard = ({
       >
         {/* Success Icon & Title */}
         <div className="flex items-start gap-3 mb-4">
-          <div 
-            className="p-2 rounded-full bg-white/10 border border-white/20"
-            style={{ boxShadow: "0 0 12px rgba(255,255,255,0.2)" }}
-          >
+          <div className="p-2 rounded-full bg-white/10 border border-white/20 shadow-[0_0_12px_hsl(var(--foreground)/0.2)]">
             <CheckCircle2 className="h-5 w-5 text-white" />
           </div>
           <div className="flex-1">

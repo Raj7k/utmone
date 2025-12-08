@@ -91,8 +91,7 @@ const Index = () => {
                     </motion.h1>
                     
                     <motion.p 
-                      className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2"
-                      style={{ color: 'rgba(255,255,255,0.6)' }}
+                      className="text-base sm:text-lg md:text-xl max-w-[720px] mx-auto text-balance leading-relaxed px-2 text-white/60"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.6 }}
@@ -110,8 +109,7 @@ const Index = () => {
                       
                       <Link 
                         to="/how-it-works" 
-                        className="inline-flex items-center gap-2 text-sm transition-colors font-medium lowercase hover:opacity-80"
-                        style={{ color: 'rgba(255,255,255,0.8)' }}
+                        className="inline-flex items-center gap-2 text-sm transition-colors font-medium lowercase hover:opacity-80 text-white/80"
                         onClick={() => trackCTAClick('hero-secondary-cta')}
                       >
                         see how it works
@@ -175,62 +173,40 @@ const Index = () => {
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
             <motion.div 
-              className="rounded-xl p-6 transition-all"
-              style={{
-                background: 'rgba(24,24,27,0.4)',
-                backdropFilter: 'blur(40px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderTop: '1px solid rgba(255,255,255,0.12)',
-                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
-              }}
+              className="rounded-xl p-6 transition-all obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]"
               whileHover={{ y: -4, scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <div 
-                className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
-                style={{ background: 'rgba(255,255,255,0.1)' }}
-              >
-                <Code className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
+                <Code className="w-5 h-5 text-white/80" />
               </div>
-              <h2 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>Full API Access</h2>
-              <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <h2 className="text-sm font-semibold mb-2 lowercase text-white/90">Full API Access</h2>
+              <p className="text-xs mb-3 text-white/50">
                 Create, update, and track links programmatically. Webhooks for real-time events.
               </p>
               <Link 
                 to="/docs/api" 
-                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm"
-                style={{ color: 'rgba(255,255,255,0.7)' }}
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm text-white/70"
               >
                 view api docs
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </motion.div>
             <motion.div 
-              className="rounded-xl p-6 transition-all"
-              style={{
-                background: 'rgba(24,24,27,0.4)',
-                backdropFilter: 'blur(40px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderTop: '1px solid rgba(255,255,255,0.12)',
-                boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
-              }}
+              className="rounded-xl p-6 transition-all obsidian-glass-60 border border-white/[0.08] border-t-white/[0.12] shadow-[inset_0_1px_0_0_hsl(var(--white-05))]"
               whileHover={{ y: -4, scale: 1.01 }}
               transition={{ duration: 0.2 }}
             >
-              <div 
-                className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
-                style={{ background: 'rgba(255,255,255,0.1)' }}
-              >
-                <Database className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.8)' }} />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-white/10">
+                <Database className="w-5 h-5 text-white/80" />
               </div>
-              <h2 className="text-sm font-semibold mb-2 lowercase" style={{ color: 'rgba(255,255,255,0.9)' }}>Data Warehouse Sync</h2>
-              <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              <h2 className="text-sm font-semibold mb-2 lowercase text-white/90">Data Warehouse Sync</h2>
+              <p className="text-xs mb-3 text-white/50">
                 Push click data to Snowflake, BigQuery, or your data lake automatically.
               </p>
               <Link 
                 to="/docs/integrations" 
-                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm"
-                style={{ color: 'rgba(255,255,255,0.7)' }}
+                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm text-white/70"
               >
                 view integrations
                 <ArrowRight className="h-4 w-4" />

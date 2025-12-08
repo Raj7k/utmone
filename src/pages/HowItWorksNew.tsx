@@ -52,7 +52,7 @@ const HowItWorks = () => {
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient lowercase">
               How utm.one works
             </h1>
-            <p className="text-xl md:text-2xl leading-relaxed max-w-[800px] mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl md:text-2xl leading-relaxed max-w-[800px] mx-auto text-white/60">
               A simple system that helps you create links people trust, data you can rely on, and structure your entire GTM engine can follow.
             </p>
             <CTAButton href="/early-access" variant="primary" trustBadge="Setup in 2 minutes">
@@ -66,10 +66,7 @@ const HowItWorks = () => {
       <section className="relative py-24 md:py-32 bg-white/[0.02] overflow-hidden">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute inset-0" style={{ 
-            backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)',
-            backgroundSize: '32px 32px'
-          }} />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,_hsl(var(--foreground)/0.3)_1px,_transparent_0)] bg-[length:32px_32px]" />
         </div>
 
         <div className="container max-w-7xl mx-auto px-6 relative z-10">
@@ -87,7 +84,7 @@ const HowItWorks = () => {
                 <span className="text-white">Everything starts with </span>
                 <span className="hero-gradient">one clean link</span>
               </h2>
-              <div className="space-y-4 text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <div className="space-y-4 text-lg md:text-xl leading-relaxed text-white/60">
                 <p>
                   utm.one takes the moment you create a link —<br />
                   <span className="text-white font-medium">the first moment</span> —<br />
@@ -114,15 +111,15 @@ const HowItWorks = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-white/10 to-white/5 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300" />
                 <div className="relative bg-zinc-900/40 backdrop-blur-xl border border-white/20 rounded-lg p-6 shadow-lg">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.1)' }}>
-                      <CheckCircle className="w-5 h-5" style={{ color: 'rgba(34,197,94,0.8)' }} />
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-500/10">
+                      <CheckCircle className="w-5 h-5 text-emerald-500/80" />
                     </div>
-                    <span className="text-sm font-semibold uppercase tracking-wide" style={{ color: 'rgba(34,197,94,0.8)' }}>Clean Link</span>
+                    <span className="text-sm font-semibold uppercase tracking-wide text-emerald-500/80">Clean Link</span>
                   </div>
                   <div className="bg-white/5 rounded-md p-4 font-mono text-sm md:text-base">
                     <span className="text-white font-semibold">utm.one/webinar</span>
                   </div>
-                  <p className="mt-3 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <p className="mt-3 text-sm text-white/50">
                     Simple. Branded. Semantic. Safe to click.
                   </p>
                 </div>
@@ -132,7 +129,7 @@ const HowItWorks = () => {
               <div className="relative opacity-60">
                 <div className="bg-zinc-900/40 border border-white/10 rounded-lg p-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10">
                       <Sparkles className="w-5 h-5 text-white/50" />
                     </div>
                     <span className="text-sm font-semibold text-white/50 uppercase tracking-wide">Messy Link</span>
@@ -142,7 +139,7 @@ const HowItWorks = () => {
                       bit.ly/3xF7kLm?utm_source=email&utm_medium=newsletter&utm_campaign=Q4_2024...
                     </span>
                   </div>
-                  <p className="mt-3 text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <p className="mt-3 text-sm text-white/50">
                     Cryptic. Unbranded. Impossible to remember.
                   </p>
                 </div>
@@ -175,7 +172,7 @@ const HowItWorks = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-4 lowercase">
               The utm.one flow
             </h2>
-            <p className="text-lg" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-lg text-white/60">
               Six steps. One clean system.
             </p>
           </motion.div>
@@ -190,13 +187,13 @@ const HowItWorks = () => {
               className="flex flex-col md:flex-row items-center gap-12 md:gap-16"
             >
               <div className="flex-1 space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">01</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
                   You create a link
                 </h2>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-lg leading-relaxed text-white/60">
                   Simple, branded, semantic. Safe to click. Easy to trust.
                 </p>
                 <div className="flex items-center gap-2 text-sm text-white/80">
@@ -218,16 +215,16 @@ const HowItWorks = () => {
               className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-16"
             >
               <div className="flex-1 space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">02</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
                   Clean-track applies your rules
                 </h2>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-lg leading-relaxed text-white/60">
                   Syntax → naming → metadata → permissions → preview. The messy part becomes impossible to mess up.
                 </p>
-                <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(34,197,94,0.8)' }}>
+                <div className="flex items-center gap-2 text-sm text-emerald-500/80">
                   <CheckCircle className="w-5 h-5" />
                   <span>All validation passed</span>
                 </div>
@@ -246,13 +243,13 @@ const HowItWorks = () => {
               className="flex flex-col md:flex-row items-center gap-12 md:gap-16"
             >
               <div className="flex-1 space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">03</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
                   Security scanning happens automatically
                 </h2>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-lg leading-relaxed text-white/60">
                   ✓ SSL secured • ✓ Scanned & safe • ✓ No malware. Every link is verified before you share it.
                 </p>
               </div>
@@ -270,13 +267,13 @@ const HowItWorks = () => {
               className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-16"
             >
               <div className="flex-1 space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">04</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
                   Analytics start working immediately
                 </h2>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-lg leading-relaxed text-white/60">
                   Clear metrics, simple charts, clean attribution. Full funnel visibility from click to conversion.
                 </p>
               </div>
@@ -294,13 +291,13 @@ const HowItWorks = () => {
               className="flex flex-col md:flex-row items-center gap-12 md:gap-16"
             >
               <div className="flex-1 space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">05</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
                   Your team stays in sync
                 </h2>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-lg leading-relaxed text-white/60">
                   Every link follows the same standard across marketing, sales, ops, partners, and developers. Full traceability, complete governance.
                 </p>
               </div>
@@ -325,7 +322,7 @@ const HowItWorks = () => {
             <h2 className="text-4xl md:text-5xl font-display font-bold text-white lowercase">
               Ready to see it in action?
             </h2>
-            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl text-white/60">
               Join teams who trust utm.one for their link infrastructure.
             </p>
             <CTAButton href="/early-access" variant="primary">

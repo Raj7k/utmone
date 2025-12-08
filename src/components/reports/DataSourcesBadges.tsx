@@ -50,9 +50,9 @@ const dataSources = [
 export const DataSourcesBadges = () => {
   const getColorStyles = (color: string) => {
     const colors: Record<string, { bg: string; text: string }> = {
-      blazeOrange: { bg: 'rgba(249,115,22,0.1)', text: 'rgba(249,115,22,1)' },
-      deepSea: { bg: 'rgba(20,184,166,0.1)', text: 'rgba(20,184,166,1)' },
-      mirage: { bg: 'rgba(30,41,59,0.1)', text: 'rgba(30,41,59,1)' },
+      blazeOrange: { bg: 'hsl(24 95% 53% / 0.1)', text: 'hsl(24 95% 53%)' },
+      deepSea: { bg: 'hsl(168 76% 42% / 0.1)', text: 'hsl(168 76% 42%)' },
+      mirage: { bg: 'hsl(217 33% 17% / 0.1)', text: 'hsl(217 33% 17%)' },
     };
     return colors[color] || colors.blazeOrange;
   };
@@ -73,7 +73,7 @@ export const DataSourcesBadges = () => {
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold text-foreground">{source.name}</h4>
                     {source.verified && (
-                      <CheckCircle2 className="h-4 w-4" style={{ color: 'rgba(20,184,166,1)' }} />
+                      <CheckCircle2 className="h-4 w-4 text-teal-500" />
                     )}
                   </div>
                   <p className="text-sm text-secondary-label">{source.description}</p>
