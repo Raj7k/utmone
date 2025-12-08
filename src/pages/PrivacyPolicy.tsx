@@ -55,14 +55,14 @@ export default function PrivacyPolicy() {
               <li>export your data</li>
             </ul>
             <p className="text-white/60 leading-relaxed mt-4">
-              email <a href="mailto:privacy@utm.one" className="hover:opacity-80 font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>privacy@utm.one</a> for any requests.
+              email <a href="mailto:privacy@utm.one" className="hover:opacity-80 font-medium text-white/80">privacy@utm.one</a> for any requests.
             </p>
           </section>
 
           <section>
             <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">4. contact</h2>
             <p className="text-white/60 leading-relaxed">
-              for privacy questions: <a href="mailto:privacy@utm.one" className="hover:opacity-80 font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>privacy@utm.one</a>
+              for privacy questions: <a href="mailto:privacy@utm.one" className="hover:opacity-80 font-medium text-white/80">privacy@utm.one</a>
             </p>
           </section>
 

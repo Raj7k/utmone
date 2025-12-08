@@ -47,7 +47,7 @@ export function UsageForecastWidget({
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+              <TrendingUp className="h-4 w-4 text-white/90" />
               <h3 className="text-sm font-medium">capacity forecast</h3>
             </div>
             <p className="text-2xl font-bold mt-2">

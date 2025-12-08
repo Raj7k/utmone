@@ -43,7 +43,7 @@ export const URLPreviewCard = ({ shortUrl, originalUrl, onCopy }: URLPreviewCard
       <div>
         <p className="text-xs text-secondary-label mb-1">short link</p>
         <div className="flex items-center gap-2">
-          <code className="flex-1 text-sm font-mono truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>
+          <code className="flex-1 text-sm font-mono truncate text-white/90">
             {shortUrl}
           </code>
           <Button

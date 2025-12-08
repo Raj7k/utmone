@@ -124,7 +124,7 @@ const FAQ = () => {
       tags: ["beginner", "technical"],
       answer: (
         <div className="space-y-4">
-          <p className="font-medium" style={{ color: 'rgba(255,200,100,0.9)' }}>
+          <p className="font-medium text-amber-400/90">
             ⚠️ without the tracking pixel, you won't be able to track conversions.
           </p>
           <p>
@@ -341,7 +341,7 @@ const FAQ = () => {
           <p>
             from the link detail page or links table, click the "..." menu and select "delete."
           </p>
-          <p className="font-medium" style={{ color: 'rgba(255,200,100,0.9)' }}>
+          <p className="font-medium text-amber-400/90">
             ⚠️ deletion is permanent. the short url will stop working immediately.
           </p>
           <p>
@@ -1860,7 +1860,7 @@ Value: go.utm.one`}
             <li><strong>business ($99/month):</strong> 10k links, 5 custom domains, unlimited clicks, 3-year analytics, advanced features</li>
             <li><strong>enterprise ($300/month):</strong> unlimited everything, sso, sla, dedicated support</li>
           </ul>
-          <Link to="/pricing" className="hover:underline font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
+          <Link to="/pricing" className="hover:underline font-medium text-white/80">
             view detailed pricing →
           </Link>
         </div>
@@ -2026,7 +2026,7 @@ Value: go.utm.one`}
             <li>data export and deletion on request</li>
             <li>dpa available for enterprise customers</li>
           </ul>
-          <Link to="/legal/data-and-security" className="hover:underline font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>
+          <Link to="/legal/data-and-security" className="hover:underline font-medium text-white/80">
             view data & security policy →
           </Link>
         </div>
@@ -2377,7 +2377,7 @@ Value: go.utm.one`}
             <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-6">
               frequently asked questions
             </h1>
-            <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl leading-relaxed text-white/60">
               comprehensive answers to all your utm.one questions.
             </p>
           </div>
@@ -2396,7 +2396,7 @@ Value: go.utm.one`}
       <div className="max-w-4xl mx-auto px-8 py-16 space-y-16">
         {Object.keys(faqsByCategory).length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl text-white/60">
               no results found for "{searchQuery}"
             </p>
             <Button

@@ -38,7 +38,7 @@ export const VersionAnalytics = ({ versions }: VersionAnalyticsProps) => {
     <div className="space-y-6">
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="bg-gradient-to-br border-white/20" style={{ background: 'linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0.05))' }}>
+        <Card className="bg-gradient-to-br from-white/10 to-white/5 border-white/20">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-normal text-secondary-label flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />

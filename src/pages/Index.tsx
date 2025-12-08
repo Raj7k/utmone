@@ -167,7 +167,7 @@ const Index = () => {
             >
               {formatText("built for developers too")}
             </h1>
-            <p className="text-base sm:text-lg px-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="text-base sm:text-lg px-2 text-white/50">
               REST + GraphQL APIs with 600 req/min free tier
             </p>
           </div>

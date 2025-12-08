@@ -91,7 +91,7 @@ const Solutions = () => {
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold lowercase mb-6 hero-gradient">
                 find your solution
               </h1>
-              <p className="text-xl md:text-2xl lowercase max-w-3xl mx-auto" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <p className="text-xl md:text-2xl lowercase max-w-3xl mx-auto text-white/60">
                 utm.one adapts to your company size, team structure, and role—governance that scales, analytics that don't lie.
               </p>
             </motion.div>
@@ -99,7 +99,7 @@ const Solutions = () => {
         </section>
 
         {/* By Segment */}
-        <section className="py-24" style={{ background: 'rgba(255,255,255,0.02)' }}>
+        <section className="py-24 bg-white/[0.02]">
           <div className="max-w-7xl mx-auto px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -108,10 +108,10 @@ const Solutions = () => {
               transition={{ duration: 0.6 }}
               className="mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4 text-white/90">
                 by segment
               </h2>
-              <p className="text-lg lowercase max-w-2xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <p className="text-lg lowercase max-w-2xl text-white/60">
                 choose the solution built for your company type
               </p>
             </motion.div>

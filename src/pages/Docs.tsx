@@ -117,7 +117,7 @@ const Docs = () => {
                 <div className="space-y-6">
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-white/10 text-white/80">
                         1
                       </div>
                       <div>
@@ -131,7 +131,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-white/10 text-white/80">
                         2
                       </div>
                       <div>
@@ -145,7 +145,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-white/10 text-white/80">
                         3
                       </div>
                       <div>
@@ -159,7 +159,7 @@ const Docs = () => {
 
                   <div className="border border-white/10 rounded-2xl p-8 bg-white/5 backdrop-blur-xl">
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-semibold bg-white/10 text-white/80">
                         4
                       </div>
                       <div>
@@ -224,7 +224,7 @@ const Docs = () => {
                     { name: "utm_content", desc: "Differentiate similar content or links (e.g., cta-button, banner-ad)" },
                   ].map((param) => (
                     <div key={param.name} className="border border-white/10 rounded-xl p-6 bg-white/5 backdrop-blur-xl">
-                      <code className="font-mono text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>{param.name}</code>
+                      <code className="font-mono text-sm text-white/80">{param.name}</code>
                       <p className="text-white/60 mt-2">{param.desc}</p>
                     </div>
                   ))}

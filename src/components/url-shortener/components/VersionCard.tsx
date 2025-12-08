@@ -28,13 +28,13 @@ export const VersionCard = ({ link, isBestPerformer, onSelect }: VersionCardProp
           ? 'border-white/30 hover:border-white/40'
           : 'border-white/10 bg-white/5 hover:border-white/20'
       }`}
-      style={isBestPerformer ? { background: 'rgba(255,255,255,0.05)' } : undefined}
+      style={isBestPerformer ? { background: 'hsl(0 0% 100% / 0.05)' } : undefined}
       onClick={onSelect}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-2">
-            <code className="text-sm font-mono truncate" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <code className="text-sm font-mono truncate text-white/90">
               {link.short_url}
             </code>
             {isBestPerformer && (
