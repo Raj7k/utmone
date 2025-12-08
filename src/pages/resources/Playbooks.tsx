@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/seo/SEO";
 import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
-import { MainLayout } from "@/components/layout/MainLayout";
+import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Playbooks = () => {
   const playbooks = [
@@ -76,21 +76,21 @@ const Playbooks = () => {
           { name: 'Playbooks', url: 'https://utm.one/resources/playbooks' }
         ]}
       />
-      <MainLayout showAnnouncement={false}>
-        <section className="py-20 border-b border-white/10">
+      <ResourcesLayout>
+        <section className="py-20 border-b border-zinc-200">
           <div className="max-w-[980px] mx-auto px-8">
             <Link
               to="/resources"
-              className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-900 transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Resources
             </Link>
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold hero-gradient">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-zinc-900">
                 Playbooks
               </h1>
-              <p className="text-lg md:text-xl text-white/60 max-w-[720px]">
+              <p className="text-lg md:text-xl text-zinc-600 max-w-[720px]">
                 Tactical, step-by-step workflows for UTM governance, analytics, and campaign execution.
               </p>
             </div>
@@ -104,21 +104,21 @@ const Playbooks = () => {
                 <Link
                   key={playbook.slug}
                   to={`/resources/playbooks/${playbook.slug}`}
-                  className="block group bg-zinc-900/40 backdrop-blur-xl rounded-2xl p-8 border border-white/10 hover:border-white/20 hover:bg-zinc-900/60 transition-all duration-300 relative shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+                  className="block group bg-white rounded-2xl p-8 border border-zinc-200 hover:border-zinc-300 hover:shadow-lg transition-all duration-300 relative"
                 >
                   {playbook.badge && (
-                    <Badge className="absolute top-4 right-4 animate-pulse bg-primary text-primary-foreground">
+                    <Badge className="absolute top-4 right-4 animate-pulse bg-zinc-900 text-white">
                       {playbook.badge}
                     </Badge>
                   )}
                   <div className="space-y-3">
-                    <h2 className="text-2xl font-display font-semibold text-white group-hover:text-white/80 transition-colors">
+                    <h2 className="text-2xl font-display font-semibold text-zinc-900 group-hover:text-zinc-700 transition-colors">
                       {playbook.title}
                     </h2>
-                    <p className="text-base text-white/60 leading-relaxed">
+                    <p className="text-base text-zinc-600 leading-relaxed">
                       {playbook.description}
                     </p>
-                    <div className="text-xs text-white/40 font-medium">
+                    <div className="text-xs text-zinc-400 font-medium">
                       {playbook.readTime}
                     </div>
                   </div>
@@ -127,7 +127,7 @@ const Playbooks = () => {
             </div>
           </div>
         </section>
-      </MainLayout>
+      </ResourcesLayout>
     </>
   );
 };
