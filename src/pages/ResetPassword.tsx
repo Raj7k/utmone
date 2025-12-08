@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
+
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -73,50 +76,54 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="flex justify-center">
-          <h1 className="text-3xl font-display font-semibold">utm.one</h1>
+    <ObsidianMarketingLayout showFloatingNav={false}>
+      <div className="min-h-[80vh] flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md space-y-8">
+          <div className="flex justify-center">
+            <UtmOneLogo size="xl" className="justify-center" />
+          </div>
+
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle className="text-foreground">Reset password</CardTitle>
+              <CardDescription className="text-muted-foreground">Enter your new password below.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleResetPassword} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-foreground">New password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter new password (min 6 characters)"
+                    required
+                    className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-foreground">Confirm password</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                    className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Updating..." : "Reset password"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Reset password</CardTitle>
-            <CardDescription>Enter your new password below.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleResetPassword} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="password">New password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter new password (min 6 characters)"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm password</Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm new password"
-                  required
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Updating..." : "Reset password"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+    </ObsidianMarketingLayout>
   );
 }

@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
 export default function PasswordProtected() {
   const [password, setPassword] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   const linkId = searchParams.get('link');
@@ -49,41 +49,43 @@ export default function PasswordProtected() {
   };
 
   return (
-    <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
-      <Card className="w-full max-w-md bg-zinc-900/40 backdrop-blur-xl border-white/10">
-        <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mb-4">
-            <Lock className="w-6 h-6 text-white" />
-          </div>
-          <CardTitle className="text-white">🔒 password protected link</CardTitle>
-          <CardDescription className="text-white/60">
-            this link is password protected. please enter the password to continue.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {hint && (
-              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                <p className="text-sm text-white/60">
-                  <span className="font-medium text-white">Hint:</span> {hint}
-                </p>
-              </div>
-            )}
-            <Input
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoFocus
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
-            />
-            <Button type="submit" className="w-full" disabled={isVerifying}>
-              {isVerifying ? "verifying..." : "unlock link"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+    <ObsidianMarketingLayout showFloatingNav={false}>
+      <div className="min-h-[80vh] flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-card border-border">
+          <CardHeader className="text-center">
+            <div className="mx-auto w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+              <Lock className="w-6 h-6 text-foreground" />
+            </div>
+            <CardTitle className="text-foreground">🔒 password protected link</CardTitle>
+            <CardDescription className="text-muted-foreground">
+              this link is password protected. please enter the password to continue.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {hint && (
+                <div className="p-3 bg-muted/30 rounded-lg border border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-medium text-foreground">Hint:</span> {hint}
+                  </p>
+                </div>
+              )}
+              <Input
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoFocus
+                className="bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+              />
+              <Button type="submit" className="w-full" disabled={isVerifying}>
+                {isVerifying ? "verifying..." : "unlock link"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </ObsidianMarketingLayout>
   );
 }

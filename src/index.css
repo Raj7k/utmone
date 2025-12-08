@@ -407,6 +407,38 @@ All colors MUST be HSL.
   }
 }
 
+/* ============================================
+   SEMANTIC LABEL UTILITY CLASSES
+   Maps CSS variables to Tailwind-like utilities
+   ============================================ */
+.text-label {
+  color: hsl(var(--label));
+}
+
+.text-secondary-label {
+  color: hsl(var(--secondary-label));
+}
+
+.text-tertiary-label {
+  color: hsl(var(--tertiary-label));
+}
+
+.text-quaternary-label {
+  color: hsl(var(--quaternary-label));
+}
+
+.bg-fill-primary {
+  background-color: hsl(var(--fill-primary));
+}
+
+.bg-fill-secondary {
+  background-color: hsl(var(--fill-secondary));
+}
+
+.bg-fill-tertiary {
+  background-color: hsl(var(--fill-tertiary));
+}
+
 @layer base {
   * {
     @apply border-border;

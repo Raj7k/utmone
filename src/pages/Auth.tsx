@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Info } from "lucide-react";
@@ -13,6 +12,7 @@ import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { MFAChallenge } from "@/components/auth/MFAChallenge";
 import { PasswordInput } from "@/components/auth/PasswordInput";
+import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -380,121 +380,120 @@ const Auth = () => {
   }
 
   return (
-    <div className="dark min-h-screen flex items-center justify-center p-4 relative overflow-hidden" style={{ background: '#050505' }}>
-      {/* Subtle background gradient glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none" />
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md space-y-8 relative z-10"
-      >
-        {/* Back to home link */}
-        <Link 
-          to="/" 
-          className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
+    <ObsidianMarketingLayout showFloatingNav={false}>
+      <div className="min-h-[80vh] flex items-center justify-center p-4 relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md space-y-8 relative z-10"
         >
-          <ArrowLeft className="h-4 w-4" />
-          back to home
-        </Link>
-
-        <div className="text-center space-y-4">
-          <UtmOneLogo size="xl" className="justify-center mb-2" />
-          <h1 className="text-4xl font-display font-bold tracking-tight hero-gradient">welcome back</h1>
-          <p className="text-white/60 text-lg">sign in to your workspace</p>
-        </div>
-
-        {invitationContext && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-4 flex items-start gap-3"
+          {/* Back to home link */}
+          <Link 
+            to="/" 
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            <Info className="h-5 w-5 text-white flex-shrink-0 mt-0.5" />
-            <div className="flex-1 space-y-1">
-              <p className="text-sm font-medium text-white">
-                you've been invited to join utm.one
-              </p>
-              <p className="text-sm text-white/60">
-                {invitationContext.inviterName} has invited you to join their workspace
-                as a {invitationContext.role}. complete your signup below.
-              </p>
-            </div>
-          </motion.div>
-        )}
+            <ArrowLeft className="h-4 w-4" />
+            back to home
+          </Link>
 
-        <Card className="bg-zinc-900/40 backdrop-blur-xl border-white/10 shadow-xl rounded-2xl">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="text-2xl font-display font-bold text-white">sign in</CardTitle>
-            <CardDescription className="text-white/60">team member and workspace access</CardDescription>
-          </CardHeader>
-          <CardContent className="p-8 pt-6 space-y-6">
-            <SocialLoginButtons
-              isLoading={isLoading}
-              onGoogleClick={handleGoogleLogin}
-              onMicrosoftClick={handleMicrosoftLogin}
-            />
+          <div className="text-center space-y-4">
+            <UtmOneLogo size="xl" className="justify-center mb-2" />
+            <h1 className="text-4xl font-display font-bold tracking-tight text-foreground">welcome back</h1>
+            <p className="text-muted-foreground text-lg">sign in to your workspace</p>
+          </div>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-white/10" />
+          {invitationContext && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-muted/30 border border-border rounded-2xl p-4 flex items-start gap-3"
+            >
+              <Info className="h-5 w-5 text-foreground flex-shrink-0 mt-0.5" />
+              <div className="flex-1 space-y-1">
+                <p className="text-sm font-medium text-foreground">
+                  you've been invited to join utm.one
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {invitationContext.inviterName} has invited you to join their workspace
+                  as a {invitationContext.role}. complete your signup below.
+                </p>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-zinc-900/40 px-2 text-white/40">or</span>
-              </div>
-            </div>
+            </motion.div>
+          )}
 
-            <form onSubmit={handleSignIn} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="signin-email" className="text-sm font-medium text-white">
-                  email
-                </label>
-                <Input
-                  id="signin-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="h-14 rounded-xl border-2 text-base bg-white/5 border-white/10 text-white placeholder:text-white/40"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="signin-password" className="text-sm font-medium text-white">
-                  password
-                </label>
-                <PasswordInput
-                  id="signin-password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={isLoading}>
-                {isLoading ? "signing in…" : "sign in"}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                className="w-full h-14 rounded-xl text-base text-white/60 hover:text-white hover:bg-white/10"
-                onClick={handleForgotPassword}
-              >
-                forgot password?
-              </Button>
-            </form>
+          <Card className="bg-card border-border shadow-xl rounded-2xl">
+            <CardHeader className="space-y-1 pb-4">
+              <CardTitle className="text-2xl font-display font-bold text-foreground">sign in</CardTitle>
+              <CardDescription className="text-muted-foreground">team member and workspace access</CardDescription>
+            </CardHeader>
+            <CardContent className="p-8 pt-6 space-y-6">
+              <SocialLoginButtons
+                isLoading={isLoading}
+                onGoogleClick={handleGoogleLogin}
+                onMicrosoftClick={handleMicrosoftLogin}
+              />
 
-            <div className="text-center text-xs text-white/60">
-              new user?{" "}
-              <Link to="/signup" className="text-white hover:underline font-medium">
-                sign up
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">or</span>
+                </div>
+              </div>
+
+              <form onSubmit={handleSignIn} className="space-y-6">
+                <div className="space-y-2">
+                  <label htmlFor="signin-email" className="text-sm font-medium text-foreground">
+                    email
+                  </label>
+                  <Input
+                    id="signin-email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-14 rounded-xl border-2 text-base bg-muted/30 border-border text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="signin-password" className="text-sm font-medium text-foreground">
+                    password
+                  </label>
+                  <PasswordInput
+                    id="signin-password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full h-14 rounded-xl text-base font-semibold" disabled={isLoading}>
+                  {isLoading ? "signing in…" : "sign in"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full h-14 rounded-xl text-base text-muted-foreground hover:text-foreground"
+                  onClick={handleForgotPassword}
+                >
+                  forgot password?
+                </Button>
+              </form>
+
+              <div className="text-center text-xs text-muted-foreground">
+                new user?{" "}
+                <Link to="/signup" className="text-foreground hover:underline font-medium">
+                  sign up
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+    </ObsidianMarketingLayout>
   );
 };
 
