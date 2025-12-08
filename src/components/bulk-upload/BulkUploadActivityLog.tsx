@@ -26,18 +26,6 @@ const actionTypeLabels: Record<string, string> = {
   assigned: "Assigned upload",
 };
 
-const actionTypeStyles: Record<string, { background: string; color: string }> = {
-  created: { background: 'hsl(var(--primary) / 0.15)', color: 'hsl(var(--primary))' },
-  processed: { background: 'rgba(34,197,94,0.15)', color: 'rgba(34,197,94,0.9)' },
-  commented: { background: 'rgba(168,85,247,0.15)', color: 'rgba(168,85,247,0.9)' },
-  approval_requested: { background: 'rgba(234,179,8,0.15)', color: 'rgba(234,179,8,0.9)' },
-  approved: { background: 'rgba(34,197,94,0.15)', color: 'rgba(34,197,94,0.9)' },
-  rejected: { background: 'rgba(239,68,68,0.15)', color: 'rgba(239,68,68,0.9)' },
-  template_saved: { background: 'rgba(99,102,241,0.15)', color: 'rgba(99,102,241,0.9)' },
-  template_applied: { background: 'rgba(6,182,212,0.15)', color: 'rgba(6,182,212,0.9)' },
-  assigned: { background: 'rgba(249,115,22,0.15)', color: 'rgba(249,115,22,0.9)' },
-};
-
 export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadActivityLogProps) {
   const { activities, isLoading } = useBulkUploadActivity(bulkUploadId);
   const { getMemberName, getMemberAvatar } = useWorkspaceMembers(workspaceId);
@@ -64,6 +52,21 @@ export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadA
       supabase.removeChannel(channel);
     };
   }, [bulkUploadId]);
+
+  const getActionTypeClasses = (actionType: string) => {
+    const styles: Record<string, string> = {
+      created: 'bg-primary/15 text-primary',
+      processed: 'bg-success/15 text-success',
+      commented: 'bg-purple-500/15 text-purple-500',
+      approval_requested: 'bg-warning/15 text-warning',
+      approved: 'bg-success/15 text-success',
+      rejected: 'bg-destructive/15 text-destructive',
+      template_saved: 'bg-indigo-500/15 text-indigo-500',
+      template_applied: 'bg-cyan-500/15 text-cyan-500',
+      assigned: 'bg-orange-500/15 text-orange-500',
+    };
+    return styles[actionType] || 'bg-white/10 text-white-70';
+  };
 
   return (
     <Card>
@@ -119,7 +122,7 @@ export function BulkUploadActivityLog({ bulkUploadId, workspaceId }: BulkUploadA
                       </div>
                       <Badge
                         variant="outline"
-                        style={actionTypeStyles[activity.action_type] || { background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}
+                        className={getActionTypeClasses(activity.action_type)}
                       >
                         {actionTypeLabels[activity.action_type] || activity.action_type}
                       </Badge>

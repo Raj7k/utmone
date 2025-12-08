@@ -69,14 +69,14 @@ export function ScheduleSettings({ schedule, onChange }: ScheduleSettingsProps) 
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4" style={{ color: 'rgba(255,255,255,0.8)' }} />
+            <Clock className="w-4 h-4 text-white-80" />
             <Label>schedule links</Label>
           </div>
           <Switch checked={schedule.enabled} onCheckedChange={handleScheduleToggle} />
         </div>
 
         {schedule.enabled && (
-          <div className="space-y-4 pl-6 border-l-2" style={{ borderColor: 'rgba(255,255,255,0.2)' }}>
+          <div className="space-y-4 pl-6 border-l-2 border-white/20">
             <div>
               <Label htmlFor="activation-date" className="text-sm">activation date</Label>
               <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -108,7 +108,7 @@ export function ScheduleSettings({ schedule, onChange }: ScheduleSettingsProps) 
                 type="time"
                 value={schedule.activationTime}
                 onChange={handleTimeChange}
-                className="w-full mt-1 px-3 py-2 border rounded-md"
+                className="w-full mt-1 px-3 py-2 border rounded-md bg-background text-foreground"
               />
             </div>
 

@@ -136,7 +136,7 @@ export const JourneySankey = ({ data, isLoading }: JourneySankeyProps) => {
                     color: "hsl(var(--card-foreground))",
                     fontSize: 12,
                     borderRadius: "6px",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                    boxShadow: "0 2px 4px hsl(0 0% 0% / 0.1)",
                     padding: "8px 12px",
                   },
                 },

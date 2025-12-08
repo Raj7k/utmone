@@ -139,7 +139,7 @@ export const PerformanceTrendChart = ({ workspaceId }: PerformanceTrendChartProp
                   backgroundColor: 'hsl(var(--card))',
                   border: '1px solid hsl(var(--border))',
                   borderRadius: '12px',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                  boxShadow: '0 4px 12px hsl(0 0% 0% / 0.1)'
                 }}
                 labelStyle={{ color: 'hsl(var(--label))' }}
               />
