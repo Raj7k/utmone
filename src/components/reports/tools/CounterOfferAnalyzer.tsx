@@ -8,9 +8,9 @@ import { TrendingUp, Copy } from "lucide-react";
 import { toast } from "sonner";
 
 const scenarioColorStyles: Record<string, string> = {
-  deepSea: 'rgba(20,184,166,1)',
-  blazeOrange: 'rgba(249,115,22,1)',
-  mirage: 'rgba(30,41,59,1)',
+  deepSea: 'hsl(168 76% 42%)',
+  blazeOrange: 'hsl(24 95% 53%)',
+  mirage: 'hsl(217 33% 17%)',
 };
 
 export const CounterOfferAnalyzer = () => {
@@ -168,7 +168,7 @@ Best regards,
                 <div className="bg-gradient-to-br from-blazeOrange/5 to-deepSea/5 rounded-lg p-4">
                   <div className="flex justify-between items-center mb-2">
                     <p className="font-semibold text-foreground">Acceptance Probability</p>
-                    <p className="text-2xl font-bold" style={{ color: 'rgba(249,115,22,1)' }}>{scenario.probability}</p>
+                    <p className="text-2xl font-bold text-orange-500">{scenario.probability}</p>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     Based on typical counter-offer negotiations in your role and market

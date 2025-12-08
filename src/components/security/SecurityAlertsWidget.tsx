@@ -121,7 +121,7 @@ export const SecurityAlertsWidget = () => {
                       {event.event_type.replace('security.', '')}
                     </Badge>
                     {(event.metadata as any)?.severity && (
-                      <Badge className="text-xs" style={{ background: 'rgba(244,63,94,0.1)', color: 'rgba(244,63,94,0.9)' }}>
+                      <Badge className="text-xs bg-red-500/10 text-red-500/90">
                         {(event.metadata as any).severity}
                       </Badge>
                     )}

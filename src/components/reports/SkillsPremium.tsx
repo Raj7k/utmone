@@ -28,9 +28,9 @@ const skills: Skill[] = [
 ];
 
 const categoryStyles: Record<string, { border: string; text: string }> = {
-  technical: { border: 'rgba(20,184,166,0.5)', text: 'rgba(20,184,166,1)' },
-  strategic: { border: 'rgba(249,115,22,0.5)', text: 'rgba(249,115,22,1)' },
-  leadership: { border: 'rgba(30,41,59,0.5)', text: 'rgba(30,41,59,1)' }
+  technical: { border: 'hsl(168 76% 42% / 0.5)', text: 'hsl(168 76% 42%)' },
+  strategic: { border: 'hsl(24 95% 53% / 0.5)', text: 'hsl(24 95% 53%)' },
+  leadership: { border: 'hsl(217 33% 17% / 0.5)', text: 'hsl(217 33% 17%)' }
 };
 
 export const SkillsPremium = () => {
@@ -41,7 +41,7 @@ export const SkillsPremium = () => {
     <Card className="bg-wildSand/30">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="h-6 w-6" style={{ color: 'rgba(249,115,22,1)' }} />
+          <TrendingUp className="h-6 w-6 text-orange-500" />
           Skills That Command Premium Salaries
         </CardTitle>
         <p className="text-sm text-secondary-label">
@@ -67,7 +67,7 @@ export const SkillsPremium = () => {
                       {skill.category}
                     </Badge>
                     {skill.demandLevel === "high" && (
-                      <Badge className="text-xs" style={{ background: 'rgba(249,115,22,1)' }}>High Demand</Badge>
+                      <Badge className="text-xs bg-orange-500">High Demand</Badge>
                     )}
                   </div>
                   <span className="font-bold text-blazeOrange">

@@ -102,8 +102,7 @@ export const ChecklistLayout = ({
                       <Link
                         key={index}
                         to={resource.href}
-                        className="block text-sm text-label hover:bg-fill-tertiary transition-all px-2 py-1 rounded-lg"
-                        style={{ color: 'rgba(255,255,255,0.9)' }}
+                        className="block text-sm text-label hover:bg-fill-tertiary transition-all px-2 py-1 rounded-lg text-white/90"
                       >
                         → {resource.title}
                       </Link>

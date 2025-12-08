@@ -17,7 +17,7 @@ const LifetimeDeal = () => {
       <section className="py-section bg-background">
         <div className="max-w-[900px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-6">
-            <div className="inline-block px-4 py-1 text-small-text font-semibold rounded-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+            <div className="inline-block px-4 py-1 text-small-text font-semibold rounded-full bg-white/10 text-white/80">
               🔥 limited to first 500 customers
             </div>
             <div className="hero-glow">
@@ -137,7 +137,7 @@ const LifetimeDeal = () => {
               <div className="text-5xl font-bold text-foreground">
                 $299 once
               </div>
-              <p className="text-body-text" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <p className="text-body-text text-white/60">
                 join others who've already claimed their lifetime access
               </p>
               <Button size="lg" onClick={() => navigate('/early-access')}>
