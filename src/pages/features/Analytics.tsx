@@ -16,7 +16,9 @@ import {
   Lightbulb,
   Bell,
   ArrowRight,
-  Zap
+  Zap,
+  Check,
+  Minus
 } from "lucide-react";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
@@ -31,14 +33,14 @@ const FeatureItem = ({ icon: Icon, title, description }: { icon: any; title: str
     initial={{ opacity: 0, x: -20 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
-    className="p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+    className="p-5 rounded-xl bg-zinc-900/40 backdrop-blur-sm border border-white/10 hover:bg-zinc-900/60 transition-colors"
   >
     <div className="flex items-start gap-4">
       <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
         <Icon className="w-5 h-5 text-white/80" />
       </div>
       <div>
-        <h4 className="font-display font-semibold text-foreground lowercase mb-1">{title}</h4>
+        <h4 className="font-display font-semibold text-white lowercase mb-1">{title}</h4>
         <p className="text-sm text-white/60 leading-relaxed">{description}</p>
       </div>
     </div>
@@ -114,7 +116,7 @@ const Analytics = () => {
               utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—across devices, channels, and time.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-black hover:bg-white/90">
+              <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-white/90">
                 <Link to="/early-access">start free</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
@@ -126,7 +128,7 @@ const Analytics = () => {
       </section>
 
       {/* Horror Story Section */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-8">
           <HorrorStorySection
             title="the attribution black hole"
@@ -141,7 +143,7 @@ const Analytics = () => {
       </section>
 
       {/* Section 1: Attribution (Mockup Left) */}
-      <section className="py-24 bg-muted/10">
+      <section className="py-24 bg-zinc-950/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Mockup */}
@@ -162,8 +164,8 @@ const Analytics = () => {
                 viewport={{ once: true }}
                 className="mb-8"
               >
-                <span className="text-sm text-muted-foreground uppercase tracking-wider">attribution</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mt-2">
+                <span className="text-sm text-white/50 uppercase tracking-wider">attribution</span>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
                   see what actually works.
                 </h2>
               </motion.div>
@@ -189,7 +191,7 @@ const Analytics = () => {
       </section>
 
       {/* Section 2: Journey (Mockup Right) */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Features */}
@@ -200,8 +202,8 @@ const Analytics = () => {
                 viewport={{ once: true }}
                 className="mb-8"
               >
-                <span className="text-sm text-muted-foreground uppercase tracking-wider">journey</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mt-2">
+                <span className="text-sm text-white/50 uppercase tracking-wider">journey</span>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
                   visualize the path to purchase.
                 </h2>
               </motion.div>
@@ -238,7 +240,7 @@ const Analytics = () => {
       </section>
 
       {/* Section 3: Predictions (Mockup Left) */}
-      <section className="py-24 bg-muted/10">
+      <section className="py-24 bg-zinc-950/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Mockup */}
@@ -259,8 +261,8 @@ const Analytics = () => {
                 viewport={{ once: true }}
                 className="mb-8"
               >
-                <span className="text-sm text-muted-foreground uppercase tracking-wider">predictions</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mt-2">
+                <span className="text-sm text-white/50 uppercase tracking-wider">predictions</span>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
                   know what's coming.
                 </h2>
               </motion.div>
@@ -286,7 +288,7 @@ const Analytics = () => {
       </section>
 
       {/* Section 4: AI Intelligence (Mockup Right) */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Features */}
@@ -297,8 +299,8 @@ const Analytics = () => {
                 viewport={{ once: true }}
                 className="mb-8"
               >
-                <span className="text-sm text-muted-foreground uppercase tracking-wider">ai intelligence</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mt-2">
+                <span className="text-sm text-white/50 uppercase tracking-wider">ai intelligence</span>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mt-2">
                   ask, don't dig.
                 </h2>
               </motion.div>
@@ -335,7 +337,7 @@ const Analytics = () => {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-24 bg-muted/10">
+      <section className="py-24 bg-zinc-950/50">
         <div className="max-w-4xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -343,10 +345,10 @@ const Analytics = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-4">
               revenue intelligence comparison.
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-white/60">
               See how utm.one stacks up against basic analytics tools.
             </p>
           </motion.div>
@@ -355,39 +357,39 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-border overflow-hidden bg-card"
+            className="rounded-2xl border border-white/10 overflow-hidden bg-zinc-900/40 backdrop-blur-sm"
           >
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left p-4 text-muted-foreground font-medium">Feature</th>
-                  <th className="text-center p-4 text-muted-foreground font-medium">GA4</th>
-                  <th className="text-center p-4 text-muted-foreground font-medium">Bitly</th>
-                  <th className="text-center p-4 text-foreground font-semibold">utm.one</th>
+                <tr className="border-b border-white/10">
+                  <th className="text-left p-4 text-white/60 font-medium">Feature</th>
+                  <th className="text-center p-4 text-white/60 font-medium">GA4</th>
+                  <th className="text-center p-4 text-white/60 font-medium">Bitly</th>
+                  <th className="text-center p-4 text-white font-semibold">utm.one</th>
                 </tr>
               </thead>
               <tbody>
                 {comparisonData.map((row, i) => (
-                  <tr key={i} className="border-b border-border/50 last:border-0">
-                    <td className="p-4 text-foreground">{row.feature}</td>
+                  <tr key={i} className="border-b border-white/5 last:border-0">
+                    <td className="p-4 text-white/80">{row.feature}</td>
                     <td className="text-center p-4">
                       {row.ga4 === true ? (
-                        <span className="text-emerald-500">✓</span>
+                        <Check className="w-4 h-4 text-white/80 mx-auto" />
                       ) : row.ga4 === "limited" ? (
-                        <span className="text-yellow-500 text-xs">limited</span>
+                        <span className="text-white/40 text-xs">limited</span>
                       ) : (
-                        <span className="text-muted-foreground/50">—</span>
+                        <Minus className="w-4 h-4 text-white/20 mx-auto" />
                       )}
                     </td>
                     <td className="text-center p-4">
                       {row.bitly === true ? (
-                        <span className="text-emerald-500">✓</span>
+                        <Check className="w-4 h-4 text-white/80 mx-auto" />
                       ) : (
-                        <span className="text-muted-foreground/50">—</span>
+                        <Minus className="w-4 h-4 text-white/20 mx-auto" />
                       )}
                     </td>
                     <td className="text-center p-4">
-                      <span className="text-emerald-500">✓</span>
+                      <Check className="w-4 h-4 text-white mx-auto" />
                     </td>
                   </tr>
                 ))}
@@ -398,7 +400,7 @@ const Analytics = () => {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-zinc-950">
         <div className="max-w-4xl mx-auto px-6">
           <RoleSpecificFAQ
             role="Revenue Intelligence"
@@ -408,26 +410,26 @@ const Analytics = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-muted/10">
+      <section className="py-24 bg-zinc-950/50">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase mb-6">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase mb-6">
               see your revenue story.
             </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+            <p className="text-lg text-white/60 mb-10 max-w-xl mx-auto">
               Stop guessing which channels work. Get the complete picture of your marketing ROI.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-white/90">
                 <Link to="/early-access" className="flex items-center gap-2">
                   start free <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
                 <Link to="/book-demo">book a demo</Link>
               </Button>
             </div>
