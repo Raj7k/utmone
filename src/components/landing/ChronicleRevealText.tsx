@@ -107,7 +107,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="font-display font-extrabold"
+          className="font-display font-bold"
           filter="url(#shadow3d)"
           style={{
             fontSize: "500px",
@@ -126,7 +126,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="font-display font-extrabold"
+          className="font-display font-bold"
           filter="url(#outerGlow)"
           style={{
             fontSize: "500px",
@@ -145,7 +145,7 @@ export const ChronicleRevealText = ({ text, className = "" }: ChronicleRevealTex
           y="55%"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="font-display font-extrabold"
+          className="font-display font-bold"
           clipPath="url(#revealClip)"
           filter="url(#glowShadow)"
           style={{

@@ -34,7 +34,7 @@ const AnimatedNumber = ({ value }: { value: string }) => {
   }, [springValue, displayValue]);
 
   return (
-    <div ref={ref} className="text-4xl md:text-5xl font-display font-extrabold text-white">
+    <div ref={ref} className="text-4xl md:text-5xl font-display font-bold text-white">
       <motion.span>
         {isInView ? value : "0"}
       </motion.span>

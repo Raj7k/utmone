@@ -106,7 +106,7 @@ export const SocialProofStats = () => {
                 >
                   <Icon className="w-8 h-8" style={{ color: colorStyles.text }} />
                 </div>
-                <div className="font-display font-extrabold text-5xl md:text-6xl tracking-tighter mb-2 bg-gradient-to-br from-foreground to-foreground/50 bg-clip-text text-transparent">
+                <div className="font-display font-bold text-5xl md:text-6xl tracking-tighter mb-2 bg-gradient-to-br from-foreground to-foreground/50 bg-clip-text text-transparent">
                   {stat.value}
                 </div>
                 <div className="text-muted-foreground font-medium">

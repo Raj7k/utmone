@@ -37,7 +37,7 @@ export const ToolHero = ({
         >
           {/* Hero Glow */}
           <div className="hero-glow">
-            <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.05]">
+            <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.05]">
               {title}
             </h1>
           </div>

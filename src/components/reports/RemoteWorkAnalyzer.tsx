@@ -97,7 +97,7 @@ export const RemoteWorkAnalyzer = () => {
                 </div>
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
                   <div>
-                    <div className="text-2xl font-display font-extrabold text-deepSea">
+                    <div className="text-2xl font-display font-bold text-deepSea">
                       {formatCurrency(item.avgSalary)}
                     </div>
                     <div className="text-xs text-muted-foreground">Median Salary</div>

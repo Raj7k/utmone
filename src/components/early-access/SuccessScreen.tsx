@@ -85,7 +85,7 @@ export const SuccessScreen = ({
           transition={{ delay: 0.3 }}
           className="space-y-4"
         >
-          <h1 className="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl hero-gradient">
+          <h1 className="font-display font-bold text-5xl md:text-6xl lg:text-7xl hero-gradient">
             you're on the list!
           </h1>
           

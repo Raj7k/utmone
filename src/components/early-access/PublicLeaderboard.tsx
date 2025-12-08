@@ -82,8 +82,6 @@ export const PublicLeaderboard = () => {
     },
   });
 
-  // anonymizeName function removed - handled by edge function
-
   const getMedalEmoji = (index: number) => {
     if (index === 0) return "🥇";
     if (index === 1) return "🥈";
@@ -100,18 +98,18 @@ export const PublicLeaderboard = () => {
   // Always show leaderboard section, even if empty
   if (!leaderboardData || allLeaders.length === 0) {
     return (
-      <section id="leaderboard" className="relative py-32 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
-        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,107,0,0.05) 2px, transparent 2px)', backgroundSize: '48px 48px' }} />
+      <section id="leaderboard" className="relative py-32 overflow-hidden bg-muted/5">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,hsl(var(--primary)/0.05)_2px,transparent_2px)] bg-[length:48px_48px]" />
         <div className="container mx-auto px-6 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: 'rgba(255,107,0,0.1)', color: 'rgba(255,107,0,0.9)' }}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-primary/10 text-primary">
               <Trophy className="w-4 h-4" />
               referral leaderboard
             </div>
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter mb-6">
+            <h2 className="text-5xl md:text-6xl font-display font-bold tracking-tighter mb-6 text-foreground">
               top referrers
             </h2>
-            <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-xl text-muted-foreground">
               be the first to climb the leaderboard
             </p>
           </div>
@@ -121,13 +119,13 @@ export const PublicLeaderboard = () => {
   }
 
   return (
-    <section id="leaderboard" className="relative py-32 overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.02)' }}>
+    <section id="leaderboard" className="relative py-32 overflow-hidden bg-muted/5">
       {/* Background decoration */}
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,107,0,0.05) 2px, transparent 2px)', backgroundSize: '48px 48px' }} />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,hsl(var(--primary)/0.05)_2px,transparent_2px)] bg-[length:48px_48px]" />
       
       <div className="container mx-auto px-6 relative">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: 'rgba(255,107,0,0.1)', color: 'rgba(255,107,0,0.9)' }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6 bg-primary/10 text-primary">
             <Trophy className="w-4 h-4" />
             referral leaderboard
           </div>
@@ -144,17 +142,17 @@ export const PublicLeaderboard = () => {
                   </span>
                 </p>
               </div>
-              <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter mb-6">
+              <h2 className="text-5xl md:text-6xl font-display font-bold tracking-tighter mb-6 text-foreground">
                 top referrers from {leaderboardData.country}
               </h2>
             </>
           ) : (
-            <h2 className="text-5xl md:text-6xl font-display font-extrabold tracking-tighter mb-6">
+            <h2 className="text-5xl md:text-6xl font-display font-bold tracking-tighter mb-6 text-foreground">
               top referrers worldwide
             </h2>
           )}
           
-          <p className="text-xl" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <p className="text-xl text-muted-foreground">
             these early adopters are helping build the community. join them.
           </p>
         </div>
@@ -171,12 +169,11 @@ export const PublicLeaderboard = () => {
               {leaderboardData.local.map((referrer, index) => (
                 <div
                   key={`local-${index}`}
-                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300"
-                  style={{ backgroundColor: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 bg-card border border-border"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="text-3xl font-display font-extrabold text-primary">
+                      <div className="text-3xl font-display font-bold text-primary">
                         {getMedalEmoji(index)}
                       </div>
                       <div>
@@ -219,12 +216,11 @@ export const PublicLeaderboard = () => {
               return (
                 <div
                   key={`global-${index}`}
-                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300"
-                  style={{ backgroundColor: 'rgba(24,24,27,0.4)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="group backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 bg-card border border-border"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="text-3xl font-display font-extrabold" style={{ color: 'rgba(255,107,0,0.9)' }}>
+                      <div className="text-3xl font-display font-bold text-primary">
                         {getMedalEmoji(globalIndex)}
                       </div>
                       <div>
@@ -234,12 +230,12 @@ export const PublicLeaderboard = () => {
                           </h3>
                           <span className="text-xl">{referrer.flag}</span>
                         </div>
-                        <p className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                        <p className="text-sm text-muted-foreground">
                           {referrer.score} referral {referrer.score === 1 ? "point" : "points"}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2" style={{ color: 'rgba(0,128,128,0.8)' }}>
+                    <div className="flex items-center gap-2 text-primary/80">
                       <TrendingUp className="w-5 h-5" />
                       <span className="font-display font-bold text-2xl">
                         {referrer.score}
@@ -253,10 +249,10 @@ export const PublicLeaderboard = () => {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-lg mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <p className="text-lg mb-4 text-muted-foreground">
             share your referral link to climb the leaderboard
           </p>
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium" style={{ backgroundColor: 'rgba(0,128,128,0.1)', color: 'rgba(0,128,128,0.9)' }}>
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium bg-primary/10 text-primary">
             <Trophy className="w-4 h-4" />
             top 10 referrers get exclusive early access perks
           </div>

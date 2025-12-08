@@ -73,7 +73,7 @@ export const ComparisonPage = ({
               {category}
             </div>
             <div className="hero-glow">
-              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance brand-lowercase">
+              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance brand-lowercase">
                 {headline}
               </h1>
             </div>

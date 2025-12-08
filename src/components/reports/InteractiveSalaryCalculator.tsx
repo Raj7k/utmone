@@ -161,7 +161,7 @@ export const InteractiveSalaryCalculator = () => {
           <div className="space-y-4 pt-6 border-t border-border">
             <div className="text-center space-y-2">
               <div className="text-sm text-secondary-label">Estimated Salary</div>
-              <div className="text-5xl font-display font-extrabold text-blazeOrange">
+              <div className="text-5xl font-display font-bold text-blazeOrange">
                 {formatCurrency(result.estimatedSalary)}
               </div>
               <div className="text-sm text-secondary-label">

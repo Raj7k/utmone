@@ -61,7 +61,7 @@ const Pricing = () => {
         <div className="max-w-[980px] mx-auto px-8">
           <AnimatedSection className="text-center space-y-8">
             <div className="hero-glow">
-              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance">
+              <h1 className="hero-gradient text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance">
                 simple pricing.<br />generous limits.
               </h1>
             </div>

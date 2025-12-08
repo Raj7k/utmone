@@ -61,7 +61,7 @@ export const CostOfLivingAdjuster = () => {
                   <DollarSign className="h-4 w-4" />
                   <span>Nominal Salary</span>
                 </div>
-                <div className="text-3xl font-display font-extrabold text-foreground">
+                <div className="text-3xl font-display font-bold text-foreground">
                   {formatCurrency(selectedCityData.salary)}
                 </div>
               </CardContent>
@@ -73,7 +73,7 @@ export const CostOfLivingAdjuster = () => {
                   <Home className="h-4 w-4" />
                   <span>CoL Index</span>
                 </div>
-                <div className="text-3xl font-display font-extrabold text-foreground">
+                <div className="text-3xl font-display font-bold text-foreground">
                   {selectedCityData.colIndex}
                 </div>
                 <div className="text-xs text-secondary-label mt-1">100 = National Avg</div>
@@ -86,7 +86,7 @@ export const CostOfLivingAdjuster = () => {
                   <TrendingUp className="h-4 w-4" />
                   <span>Real Value</span>
                 </div>
-                <div className="text-3xl font-display font-extrabold text-green-600">
+                <div className="text-3xl font-display font-bold text-green-600">
                   {formatCurrency(selectedCityData.realValue)}
                 </div>
                 <div className="text-xs text-secondary-label mt-1">Purchasing Power</div>
@@ -119,7 +119,7 @@ export const CostOfLivingAdjuster = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-display font-extrabold text-green-600">
+                    <div className="text-2xl font-display font-bold text-green-600">
                       {formatCurrency(city.realValue)}
                     </div>
                     <div className="text-xs text-secondary-label">Real Value</div>

@@ -139,7 +139,7 @@ export const InteractiveHero = ({ onUseCaseChange }: InteractiveHeroProps) => {
           <AnimatePresence mode="wait">
             <motion.h1 
               key={selectedUseCase}
-              className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]"
+              className="hero-gradient text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-balance leading-[1.1] md:leading-[1.05]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}

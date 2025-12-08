@@ -52,7 +52,7 @@ export const IndustryComparison = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-3xl font-display font-extrabold text-deepSea">
+                    <div className="text-3xl font-display font-bold text-deepSea">
                       {formatCurrency(adjustedSalary)}
                     </div>
                     <div className={`text-sm font-medium ${difference >= 0 ? 'text-green-600' : 'text-red-600'}`}>

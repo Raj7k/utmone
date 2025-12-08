@@ -14,7 +14,7 @@ const NotFound = () => {
     <div className="dark flex min-h-screen items-center justify-center px-4" style={{ background: '#050505' }}>
       <div className="text-center max-w-2xl mx-auto relative">
         {/* Large 404 watermark */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[240px] font-display font-extrabold text-white/5 pointer-events-none select-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[240px] font-display font-bold text-white/5 pointer-events-none select-none">
           404
         </div>
         
