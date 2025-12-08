@@ -76,13 +76,13 @@ export const BlurRevealFAQ = () => {
   };
 
   return (
-    <section className="py-16 md:py-24" style={{ background: 'transparent' }}>
+    <section className="py-16 md:py-24 bg-transparent">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-10 md:mb-14">
           <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
             {formatText("ok, here's what we do. plain talk.")}
           </h1>
-          <p className="mt-3" style={{ color: 'rgba(255,255,255,0.5)' }}>Click any card to reveal the answer</p>
+          <p className="mt-3 text-white/50">Click any card to reveal the answer</p>
         </div>
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -154,10 +154,7 @@ export const BlurRevealFAQ = () => {
                   {/* Category Tag */}
                   {faq.category && !isExpanded && (
                     <div className="mt-3">
-                      <span 
-                        className="text-[10px] px-2 py-0.5 rounded-full"
-                        style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.5)' }}
-                      >
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/50">
                         {faq.category}
                       </span>
                     </div>

@@ -44,16 +44,16 @@ export const BentoFeatureCard = ({
             "h-full rounded-2xl md:rounded-3xl p-5 sm:p-6 md:p-8",
             "hover:shadow-xl hover:scale-[1.02] transition-all duration-300",
             "flex flex-col justify-between min-h-[160px] md:min-h-[200px]",
+            "bg-zinc-900/40 backdrop-blur-xl border border-white/[0.08]",
             gradient
           )}
-          style={{ background: 'rgba(24,24,27,0.4)', backdropFilter: 'blur(40px)', border: '1px solid rgba(255,255,255,0.08)' }}
         >
           <div className="space-y-3 md:space-y-4">
-            <div className="inline-flex p-3 md:p-4 rounded-xl md:rounded-2xl transition-colors" style={{ background: 'rgba(255,255,255,0.1)' }}>
+            <div className="inline-flex p-3 md:p-4 rounded-xl md:rounded-2xl transition-colors bg-white/10">
               <Icon className="h-6 w-6 md:h-8 md:w-8 text-foreground" />
             </div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold lowercase transition-colors" style={{ color: 'rgba(255,255,255,0.9)' }}>
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold lowercase transition-colors text-white/90">
               {title}
             </h3>
             

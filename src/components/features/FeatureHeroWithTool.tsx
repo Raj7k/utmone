@@ -18,7 +18,7 @@ export const FeatureHeroWithTool = ({
   return (
     <section className="relative pt-2 pb-12 md:pt-4 md:pb-16 overflow-hidden">
       {/* Subtle dot grid pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_hsl(0_0%_100%/0.03)_1px,_transparent_1px)] bg-[length:32px_32px] pointer-events-none" />
       
       {/* Gradient glow behind headline */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-blazeOrange/10 via-transparent to-transparent blur-3xl pointer-events-none" />
