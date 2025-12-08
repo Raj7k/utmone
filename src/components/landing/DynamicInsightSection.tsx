@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
-import { Lightbulb, Zap, Fingerprint, Code2, Bell, CheckCircle, XCircle, ArrowRight } from "lucide-react";
 
 interface DynamicInsightSectionProps {
   selectedUseCase: UseCaseType;
@@ -10,370 +9,467 @@ const INSIGHT_CONTENT: Record<UseCaseType, {
   insight: string;
   explanation: string;
   principles: string[];
+  caption: string;
 }> = {
   attribution: {
     insight: "attribution isn't about the last touch. it's about measuring influence.",
     explanation: "every touchpoint that contributed to a sale deserves credit proportional to its influence. not just the last one that happened to be there when the customer clicked 'buy'.",
-    principles: [
-      "Bayesian probability calculates true influence",
-      "Credit distributed across 30+ day windows",
-      "Lift analysis isolates channel impact",
-    ],
+    principles: ["Bayesian probability", "30-day windows", "Lift analysis"],
+    caption: "influence flows to revenue",
   },
   journey: {
     insight: "every visitor leaves breadcrumbs. the question is whether you're collecting them.",
     explanation: "identity isn't binary — known or unknown. it's probabilistic. we stitch anonymous visits to known customers using behavioral fingerprints, not just cookies.",
-    principles: [
-      "Probabilistic identity matching",
-      "Cross-device session linking",
-      "18-month visitor memory",
-    ],
+    principles: ["Probabilistic matching", "Cross-device linking", "18-month memory"],
+    caption: "many sessions → one identity",
   },
   links: {
     insight: "a link isn't just a redirect. it's a data contract between you and your future self.",
     explanation: "when you create a link carelessly, you're writing corrupted data to a database you'll query in 6 months. every link should be validated before it exists.",
-    principles: [
-      "Validation before creation",
-      "Enforced naming conventions",
-      "Template-driven consistency",
-    ],
+    principles: ["Validation first", "Naming conventions", "Template-driven"],
+    caption: "clean input → clean output",
   },
   intelligence: {
     insight: "the best analytics don't wait for you to log in. they come to you.",
     explanation: "by the time you notice a problem, it's already cost you money. proactive alerts catch anomalies in real-time using statistical analysis — not arbitrary thresholds.",
-    principles: [
-      "Z-score anomaly detection",
-      "Probabilistic forecasting",
-      "Real-time alert dispatch",
-    ],
+    principles: ["Z-score detection", "Probabilistic forecasts", "Real-time alerts"],
+    caption: "insights that find you",
   },
   governance: {
     insight: "clean data isn't about rules. it's about making the right thing the easy thing.",
     explanation: "if creating a bad link is easier than creating a good one, people will create bad links. governance should be invisible — defaults that guide without blocking.",
-    principles: [
-      "Templates as guardrails",
-      "Approval workflows for exceptions",
-      "Audit trails for accountability",
-    ],
+    principles: ["Templates as guardrails", "Approval workflows", "Audit trails"],
+    caption: "chaos → order",
   },
 };
 
-// Attribution: Influence Flow Visualization
+// Unified Visual Container - consistent 16:9 aspect ratio
+const VisualContainer = ({ children, caption }: { children: React.ReactNode; caption: string }) => (
+  <div className="relative">
+    <div className="aspect-video bg-zinc-900/60 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden">
+      {children}
+    </div>
+    <motion.p
+      className="text-center text-xs text-white/40 font-mono mt-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.8 }}
+    >
+      {caption}
+    </motion.p>
+  </div>
+);
+
+// Attribution: Clean Horizontal Flow
 const AttributionVisual = () => (
-  <div className="relative h-64 w-full">
-    {/* Flow lines */}
-    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200">
-      <defs>
-        <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
-          <stop offset="50%" stopColor="rgba(255,255,255,0.4)" />
-          <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
-        </linearGradient>
-      </defs>
-      {/* Source nodes */}
-      {[
-        { x: 50, y: 40, label: "LinkedIn", delay: 0 },
-        { x: 50, y: 80, label: "Google", delay: 0.1 },
-        { x: 50, y: 120, label: "Email", delay: 0.2 },
-        { x: 50, y: 160, label: "Direct", delay: 0.3 },
-      ].map((node, i) => (
-        <g key={i}>
-          <motion.circle
-            cx={node.x}
-            cy={node.y}
-            r="6"
-            fill="white"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: node.delay, duration: 0.3 }}
-          />
-          <motion.text
-            x={node.x + 15}
-            y={node.y + 4}
-            fill="rgba(255,255,255,0.6)"
-            fontSize="10"
-            fontFamily="monospace"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: node.delay + 0.2 }}
-          >
-            {node.label}
-          </motion.text>
-          {/* Flow line to center */}
-          <motion.path
-            d={`M ${node.x + 10} ${node.y} Q 200 ${node.y} 320 100`}
-            stroke="url(#flowGradient)"
-            strokeWidth="1"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ delay: node.delay + 0.3, duration: 1 }}
-          />
-          {/* Animated particle */}
-          <motion.circle
-            r="3"
-            fill="white"
-            filter="drop-shadow(0 0 6px white)"
-            initial={{ offsetDistance: "0%" }}
-            animate={{ offsetDistance: "100%" }}
-            transition={{ delay: node.delay + 0.5, duration: 2, repeat: Infinity, repeatDelay: 1 }}
-            style={{ offsetPath: `path("M ${node.x + 10} ${node.y} Q 200 ${node.y} 320 100")` }}
-          />
-        </g>
-      ))}
-      {/* Revenue node */}
-      <motion.circle
-        cx="350"
-        cy="100"
-        r="20"
-        fill="none"
-        stroke="white"
-        strokeWidth="1"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.5, type: "spring" }}
-      />
-      <motion.text
-        x="350"
-        y="105"
-        fill="white"
-        fontSize="12"
-        fontFamily="monospace"
-        textAnchor="middle"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-      >
-        $$$
-      </motion.text>
-    </svg>
-    <motion.div
-      className="absolute bottom-0 left-0 right-0 text-center"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+  <svg className="w-full h-full" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="flowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.3)" />
+        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+      </linearGradient>
+    </defs>
+    
+    {/* Source nodes */}
+    {[
+      { y: 80, label: "linkedin", value: "32%" },
+      { y: 140, label: "google", value: "28%" },
+      { y: 200, label: "email", value: "24%" },
+      { y: 260, label: "direct", value: "16%" },
+    ].map((node, i) => (
+      <g key={i}>
+        {/* Node circle */}
+        <motion.circle
+          cx={80}
+          cy={node.y}
+          r={6}
+          fill="white"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: i * 0.1, duration: 0.3 }}
+        />
+        {/* Label */}
+        <motion.text
+          x={95}
+          y={node.y + 4}
+          fill="rgba(255,255,255,0.5)"
+          fontSize="11"
+          fontFamily="ui-monospace, monospace"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: i * 0.1 + 0.2 }}
+        >
+          {node.label}
+        </motion.text>
+        {/* Value */}
+        <motion.text
+          x={170}
+          y={node.y + 4}
+          fill="rgba(255,255,255,0.3)"
+          fontSize="10"
+          fontFamily="ui-monospace, monospace"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: i * 0.1 + 0.3 }}
+        >
+          {node.value}
+        </motion.text>
+        {/* Flow curve */}
+        <motion.path
+          d={`M 200 ${node.y} C 350 ${node.y}, 400 180, 500 180`}
+          stroke="url(#flowLine)"
+          strokeWidth="1"
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ delay: i * 0.15 + 0.3, duration: 0.8 }}
+        />
+        {/* Animated particle */}
+        <motion.circle
+          r={2}
+          fill="white"
+          filter="drop-shadow(0 0 4px white)"
+          initial={{ offsetDistance: "0%" }}
+          animate={{ offsetDistance: "100%" }}
+          transition={{ 
+            delay: i * 0.2 + 0.8, 
+            duration: 1.5, 
+            repeat: Infinity, 
+            repeatDelay: 2 
+          }}
+          style={{ 
+            offsetPath: `path("M 200 ${node.y} C 350 ${node.y}, 400 180, 500 180")` 
+          }}
+        />
+      </g>
+    ))}
+    
+    {/* Revenue node */}
+    <motion.circle
+      cx={540}
+      cy={180}
+      r={24}
+      fill="none"
+      stroke="white"
+      strokeWidth="1"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
+    />
+    <motion.text
+      x={540}
+      y={176}
+      fill="white"
+      fontSize="14"
+      fontFamily="ui-monospace, monospace"
+      textAnchor="middle"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.9 }}
+    >
+      $1.2M
+    </motion.text>
+    <motion.text
+      x={540}
+      y={192}
+      fill="rgba(255,255,255,0.4)"
+      fontSize="9"
+      fontFamily="ui-monospace, monospace"
+      textAnchor="middle"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 1 }}
     >
-      <span className="text-xs text-white/40 font-mono">influence flows to revenue</span>
-    </motion.div>
-  </div>
+      revenue
+    </motion.text>
+  </svg>
 );
 
-// Journey: Timeline & Identity Stitching
+// Journey: Horizontal Timeline with Identity Stitching
 const JourneyVisual = () => (
-  <div className="relative h-64 w-full flex items-center justify-center">
-    {/* Devices */}
-    <div className="flex items-center gap-8">
-      {[
-        { icon: "📱", label: "Mobile", sessions: 3 },
-        { icon: "💻", label: "Desktop", sessions: 5 },
-        { icon: "📧", label: "Email", sessions: 2 },
-      ].map((device, i) => (
-        <motion.div
-          key={i}
-          className="flex flex-col items-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.2 }}
+  <svg className="w-full h-full" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid meet">
+    {/* Timeline base line */}
+    <motion.line
+      x1={80}
+      y1={180}
+      x2={480}
+      y2={180}
+      stroke="rgba(255,255,255,0.1)"
+      strokeWidth="1"
+      strokeDasharray="4 4"
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ duration: 0.6 }}
+    />
+    
+    {/* Device nodes */}
+    {[
+      { x: 120, icon: "M120 165 L120 195 M110 165 L130 165 M115 195 L125 195", label: "mobile", sessions: "3" },
+      { x: 280, icon: "M265 165 L295 165 L295 195 L265 195 Z M275 195 L285 195 L285 200", label: "desktop", sessions: "5" },
+      { x: 440, icon: "M425 165 L455 180 L425 195 Z", label: "email", sessions: "2" },
+    ].map((node, i) => (
+      <g key={i}>
+        {/* Device icon container */}
+        <motion.rect
+          x={node.x - 24}
+          y={156}
+          width={48}
+          height={48}
+          rx={8}
+          fill="rgba(255,255,255,0.05)"
+          stroke="rgba(255,255,255,0.1)"
+          strokeWidth="1"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: i * 0.2 + 0.3 }}
+        />
+        {/* Simple device icon */}
+        <motion.path
+          d={node.icon}
+          stroke="white"
+          strokeWidth="1.5"
+          fill="none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: i * 0.2 + 0.5 }}
+        />
+        {/* Label */}
+        <motion.text
+          x={node.x}
+          y={225}
+          fill="rgba(255,255,255,0.4)"
+          fontSize="10"
+          fontFamily="ui-monospace, monospace"
+          textAnchor="middle"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: i * 0.2 + 0.6 }}
         >
-          <div className="w-16 h-16 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
-            {device.icon}
-          </div>
-          <span className="text-xs text-white/40 mt-2 font-mono">{device.label}</span>
-          <span className="text-xs text-white/60">{device.sessions} visits</span>
-        </motion.div>
-      ))}
-    </div>
+          {node.label}
+        </motion.text>
+        <motion.text
+          x={node.x}
+          y={240}
+          fill="rgba(255,255,255,0.25)"
+          fontSize="9"
+          fontFamily="ui-monospace, monospace"
+          textAnchor="middle"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: i * 0.2 + 0.7 }}
+        >
+          {node.sessions} visits
+        </motion.text>
+      </g>
+    ))}
     
-    {/* Stitching lines */}
-    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 200">
-      <motion.path
-        d="M 80 100 L 200 100 L 320 100"
-        stroke="rgba(255,255,255,0.2)"
-        strokeWidth="2"
-        strokeDasharray="4 4"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ delay: 0.6, duration: 1 }}
-      />
-    </svg>
+    {/* Stitching arrow */}
+    <motion.path
+      d="M 490 180 L 540 180"
+      stroke="rgba(255,255,255,0.3)"
+      strokeWidth="1"
+      fill="none"
+      markerEnd="url(#arrowhead)"
+      initial={{ pathLength: 0 }}
+      animate={{ pathLength: 1 }}
+      transition={{ delay: 1, duration: 0.4 }}
+    />
+    <defs>
+      <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M 0 0 L 6 3 L 0 6 Z" fill="rgba(255,255,255,0.3)" />
+      </marker>
+    </defs>
     
-    {/* Unified profile */}
-    <motion.div
-      className="absolute right-8 top-1/2 -translate-y-1/2"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 1, type: "spring" }}
+    {/* Unified identity */}
+    <motion.circle
+      cx={570}
+      cy={180}
+      r={24}
+      fill="rgba(255,255,255,0.05)"
+      stroke="white"
+      strokeWidth="1"
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: 1.2, type: "spring" }}
+    />
+    <motion.text
+      x={570}
+      y={184}
+      fill="white"
+      fontSize="16"
+      textAnchor="middle"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 0.8 }}
+      transition={{ delay: 1.4 }}
     >
-      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-white/20 to-white/5 border border-white/20 flex items-center justify-center">
-        <Fingerprint className="w-8 h-8 text-white" />
-      </div>
-      <div className="text-center mt-2">
-        <span className="text-xs text-white/60 font-mono">1 identity</span>
-      </div>
-    </motion.div>
-  </div>
+      ●
+    </motion.text>
+    <motion.text
+      x={570}
+      y={225}
+      fill="rgba(255,255,255,0.4)"
+      fontSize="10"
+      fontFamily="ui-monospace, monospace"
+      textAnchor="middle"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.5 }}
+    >
+      1 identity
+    </motion.text>
+  </svg>
 );
 
-// Links: Code Block Aesthetic
+// Links: Clean Code Block
 const LinksVisual = () => {
-  const codeLines = [
-    { text: "// utm.one link contract", color: "text-white/40" },
-    { text: "const link = {", color: "text-white" },
-    { text: "  short: 'utm.one/abc123',", color: "text-white/80" },
-    { text: "  utm_source: 'linkedin',", color: "text-white/80" },
-    { text: "  utm_medium: 'social',", color: "text-white/80" },
-    { text: "  utm_campaign: 'q4-launch',", color: "text-white/80" },
-    { text: "  validated: true ✓", color: "text-emerald-400" },
-    { text: "}", color: "text-white" },
+  const lines = [
+    { text: "// link data contract", dim: true },
+    { text: "{", dim: false },
+    { text: '  "short": "utm.one/abc",', dim: false },
+    { text: '  "source": "linkedin",', dim: false },
+    { text: '  "medium": "social",', dim: false },
+    { text: '  "campaign": "q4-2024",', dim: false },
+    { text: '  "valid": true', dim: false, highlight: true },
+    { text: "}", dim: false },
   ];
 
   return (
-    <div className="relative">
+    <div className="w-full h-full flex items-center justify-center p-8">
       <motion.div
-        className="bg-zinc-900/80 border border-white/10 rounded-lg p-4 font-mono text-sm overflow-hidden"
+        className="w-full max-w-md bg-black/40 border border-white/10 rounded-xl overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
       >
-        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
-          <div className="w-3 h-3 rounded-full bg-red-500/60" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-          <div className="w-3 h-3 rounded-full bg-green-500/60" />
-          <span className="text-white/40 text-xs ml-2">link-contract.js</span>
+        {/* Terminal header */}
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5">
+          <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+          <span className="text-[10px] text-white/30 font-mono ml-2">contract.json</span>
         </div>
-        {codeLines.map((line, i) => (
-          <motion.div
-            key={i}
-            className={line.color}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.1 }}
-          >
-            {line.text}
-          </motion.div>
-        ))}
-      </motion.div>
-      <motion.div
-        className="absolute -bottom-2 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        <span className="text-xs text-white/40 font-mono">clean input → clean output</span>
+        {/* Code content */}
+        <div className="p-4 font-mono text-sm leading-relaxed">
+          {lines.map((line, i) => (
+            <motion.div
+              key={i}
+              className={`${line.dim ? 'text-white/30' : line.highlight ? 'text-white' : 'text-white/60'}`}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.08 + 0.3 }}
+            >
+              {line.text}
+              {line.highlight && (
+                <motion.span
+                  className="ml-2 text-white/40"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                >
+                  ✓
+                </motion.span>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </motion.div>
     </div>
   );
 };
 
-// Intelligence: Alert/Notification Style
+// Intelligence: Stacked Alert Cards
 const IntelligenceVisual = () => {
   const alerts = [
-    { type: "spike", message: "Traffic spike detected: +340%", time: "2m ago", icon: Zap },
-    { type: "alert", message: "LinkedIn campaign underperforming", time: "1h ago", icon: Bell },
-    { type: "insight", message: "Best posting time: Tue 9am", time: "3h ago", icon: Lightbulb },
+    { label: "spike", message: "+340% traffic detected", time: "2m" },
+    { label: "drop", message: "linkedin underperforming", time: "1h" },
+    { label: "insight", message: "best time: tue 9am", time: "3h" },
   ];
 
   return (
-    <div className="space-y-3">
-      {alerts.map((alert, i) => (
-        <motion.div
-          key={i}
-          className="bg-white/5 border border-white/10 rounded-lg p-3 flex items-center gap-3"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.2 }}
-        >
+    <div className="w-full h-full flex items-center justify-center p-8">
+      <div className="w-full max-w-sm space-y-3">
+        {alerts.map((alert, i) => (
           <motion.div
-            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ delay: i * 0.2 + 0.5, duration: 0.5 }}
+            key={i}
+            className="flex items-center gap-4 p-4 bg-white/[0.03] border border-white/10 rounded-xl"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.15 + 0.2 }}
           >
-            <alert.icon className="w-5 h-5 text-white" />
+            {/* Pulse indicator */}
+            <motion.div
+              className="w-2 h-2 rounded-full bg-white"
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.3 }}
+            />
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm text-white/80 truncate">{alert.message}</p>
+              <p className="text-[10px] text-white/30 font-mono mt-0.5">{alert.label} · {alert.time} ago</p>
+            </div>
+            {/* Arrow */}
+            <svg className="w-4 h-4 text-white/20" viewBox="0 0 16 16" fill="none">
+              <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
           </motion.div>
-          <div className="flex-1">
-            <p className="text-sm text-white/90">{alert.message}</p>
-            <p className="text-xs text-white/40 font-mono">{alert.time}</p>
-          </div>
-          <motion.div
-            className="w-2 h-2 rounded-full bg-white"
-            animate={{ opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </motion.div>
-      ))}
-      <motion.div
-        className="text-center pt-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        <span className="text-xs text-white/40 font-mono">insights that find you</span>
-      </motion.div>
+        ))}
+      </div>
     </div>
   );
 };
 
-// Governance: Before/After Comparison
+// Governance: Before/After Split
 const GovernanceVisual = () => (
-  <div className="grid grid-cols-2 gap-4">
-    {/* Before */}
-    <motion.div
-      className="relative"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-    >
-      <div className="text-xs text-white/40 mb-2 font-mono">before</div>
-      <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 space-y-2">
-        {[
-          "utm_source=LinkedIn",
-          "utm_source=linkedin",
-          "utm_source=li",
-          "utm_source=LINKEDIN",
-        ].map((item, i) => (
-          <motion.div
-            key={i}
-            className="flex items-center gap-2 text-xs font-mono text-red-400/80"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.1 }}
-          >
-            <XCircle className="w-3 h-3" />
-            {item}
-          </motion.div>
-        ))}
-      </div>
-      <div className="text-xs text-white/40 mt-2 text-center">4 variations = chaos</div>
-    </motion.div>
-    
-    {/* After */}
-    <motion.div
-      className="relative"
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.3 }}
-    >
-      <div className="text-xs text-white/40 mb-2 font-mono">after</div>
-      <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 space-y-2">
-        {[
-          "utm_source=linkedin",
-          "utm_source=linkedin",
-          "utm_source=linkedin",
-          "utm_source=linkedin",
-        ].map((item, i) => (
-          <motion.div
-            key={i}
-            className="flex items-center gap-2 text-xs font-mono text-emerald-400/80"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 + i * 0.1 }}
-          >
-            <CheckCircle className="w-3 h-3" />
-            {item}
-          </motion.div>
-        ))}
-      </div>
-      <div className="text-xs text-white/40 mt-2 text-center">1 template = order</div>
-    </motion.div>
+  <div className="w-full h-full flex items-center justify-center p-8">
+    <div className="w-full max-w-lg grid grid-cols-2 gap-6">
+      {/* Before */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <p className="text-[10px] text-white/30 font-mono mb-3 uppercase tracking-wider">before</p>
+        <div className="space-y-2 p-4 rounded-xl border border-white/10 bg-white/[0.02]">
+          {["LinkedIn", "linkedin", "li", "LINKEDIN"].map((item, i) => (
+            <motion.div
+              key={i}
+              className="flex items-center gap-2 text-xs font-mono text-white/40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: i * 0.1 + 0.3 }}
+            >
+              <span className="text-white/20">×</span>
+              <span>utm_source={item}</span>
+            </motion.div>
+          ))}
+        </div>
+        <p className="text-[10px] text-white/20 font-mono mt-2 text-center">4 variations</p>
+      </motion.div>
+      
+      {/* After */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <p className="text-[10px] text-white/30 font-mono mb-3 uppercase tracking-wider">after</p>
+        <div className="space-y-2 p-4 rounded-xl border border-white/10 bg-white/[0.02]">
+          {[1, 2, 3, 4].map((_, i) => (
+            <motion.div
+              key={i}
+              className="flex items-center gap-2 text-xs font-mono text-white/60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: i * 0.1 + 0.5 }}
+            >
+              <span className="text-white/40">✓</span>
+              <span>utm_source=linkedin</span>
+            </motion.div>
+          ))}
+        </div>
+        <p className="text-[10px] text-white/20 font-mono mt-2 text-center">1 template</p>
+      </motion.div>
+    </div>
   </div>
 );
 
@@ -390,32 +486,34 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
   const VisualComponent = VISUAL_COMPONENTS[selectedUseCase];
 
   return (
-    <section className="py-20 md:py-32 relative overflow-hidden">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
+    <section className="py-24 md:py-32 relative overflow-hidden">
+      {/* Subtle ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/[0.02] rounded-full blur-3xl" />
+      </div>
       
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedUseCase}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+            transition={{ duration: 0.4 }}
+            className="grid lg:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center"
           >
-            {/* Left: Quote & Explanation */}
-            <div className="space-y-8">
+            {/* Left: Text Content */}
+            <div className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <p className="text-xs font-medium uppercase tracking-widest text-white/40 mb-4">
+                <p className="text-xs font-medium uppercase tracking-widest text-white/30 mb-4">
                   the insight
                 </p>
                 <h2 
-                  className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase leading-tight"
+                  className="text-3xl md:text-4xl lg:text-[2.75rem] font-display font-bold lowercase leading-[1.15] tracking-tight"
                   style={{
                     background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                     WebkitBackgroundClip: 'text',
@@ -428,7 +526,7 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
               </motion.div>
 
               <motion.p 
-                className="text-lg text-white/50 leading-relaxed"
+                className="text-base md:text-lg text-white/40 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -436,35 +534,31 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
                 {content.explanation}
               </motion.p>
 
-              {/* Principles as floating badges */}
-              <motion.div 
-                className="flex flex-wrap gap-3"
+              {/* Inline bullet-separated principles */}
+              <motion.p
+                className="text-sm text-white/25 font-mono"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
                 {content.principles.map((principle, i) => (
-                  <motion.div
-                    key={principle}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/70 backdrop-blur-sm"
-                  >
+                  <span key={principle}>
+                    {i > 0 && <span className="mx-2">·</span>}
                     {principle}
-                  </motion.div>
+                  </span>
                 ))}
-              </motion.div>
+              </motion.p>
             </div>
 
             {/* Right: Visual */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 lg:p-8"
+              transition={{ delay: 0.15 }}
             >
-              <VisualComponent />
+              <VisualContainer caption={content.caption}>
+                <VisualComponent />
+              </VisualContainer>
             </motion.div>
           </motion.div>
         </AnimatePresence>
