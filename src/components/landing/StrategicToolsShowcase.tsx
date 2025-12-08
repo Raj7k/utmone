@@ -61,24 +61,15 @@ const DecisionMatrixBuilder = () => {
   };
 
   return (
-    <div 
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'rgba(24, 24, 27, 0.6)',
-        backdropFilter: 'blur(40px)',
-        WebkitBackdropFilter: 'blur(40px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-      }}
-    >
+    <div className="rounded-2xl overflow-hidden obsidian-glass">
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <Scale className="w-5 h-5 text-blazeOrange" />
-          <h3 className="text-lg font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+          <h3 className="text-lg font-semibold lowercase text-white-90">
             weighted decision matrix
           </h3>
         </div>
-        <p className="text-sm mb-4" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+        <p className="text-sm mb-4 text-white-50">
           Make data-driven decisions with weighted scoring (1-5 scale)
         </p>
         
@@ -86,19 +77,19 @@ const DecisionMatrixBuilder = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <th className="text-left p-2 font-medium" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>Criteria (Weight)</th>
+                <tr className="border-b border-white/8">
+                  <th className="text-left p-2 font-medium text-white-50">Criteria (Weight)</th>
                   {options.map(opt => (
-                    <th key={opt} className="text-center p-2 font-medium" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{opt}</th>
+                    <th key={opt} className="text-center p-2 font-medium text-white-90">{opt}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {criteria.map((c) => (
-                  <tr key={c.name} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <tr key={c.name} className="border-b border-white/5">
                     <td className="p-2">
-                      <span style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{c.name}</span>
-                      <span className="ml-1" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>(×{c.weight})</span>
+                      <span className="text-white-90">{c.name}</span>
+                      <span className="ml-1 text-white-40">(×{c.weight})</span>
                     </td>
                     {options.map(opt => (
                       <td key={opt} className="p-2 text-center">
@@ -115,13 +106,12 @@ const DecisionMatrixBuilder = () => {
                     ))}
                   </tr>
                 ))}
-                <tr style={{ background: 'rgba(255, 255, 255, 0.03)' }}>
-                  <td className="p-2 font-semibold" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Total</td>
+                <tr className="bg-white/3">
+                  <td className="p-2 font-semibold text-white-90">Total</td>
                   {options.map(opt => (
                     <td key={opt} className="p-2 text-center">
                       <span 
-                        className="font-bold"
-                        style={{ color: getWinner() === opt ? '#FF6B35' : 'rgba(255, 255, 255, 0.9)' }}
+                        className={`font-bold ${getWinner() === opt ? 'text-blazeOrange' : 'text-white-90'}`}
                       >
                         {calculateTotal(opt)}
                       </span>
@@ -134,15 +124,11 @@ const DecisionMatrixBuilder = () => {
 
           {getWinner() && calculateTotal(getWinner()) > 0 && (
             <motion.div 
-              className="p-3 rounded-lg flex items-center justify-between"
-              style={{
-                background: 'rgba(255, 107, 53, 0.1)',
-                border: '1px solid rgba(255, 107, 53, 0.2)'
-              }}
+              className="p-3 rounded-lg flex items-center justify-between bg-blazeOrange/10 border border-blazeOrange/20"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <div className="flex items-center gap-2 font-semibold text-sm" style={{ color: '#FF6B35' }}>
+              <div className="flex items-center gap-2 font-semibold text-sm text-blazeOrange">
                 <CheckCircle2 className="w-4 h-4" />
                 Recommended: {getWinner()}
               </div>
@@ -180,31 +166,22 @@ const ROIForecaster = () => {
   };
 
   return (
-    <div 
-      className="rounded-2xl overflow-hidden"
-      style={{
-        background: 'rgba(24, 24, 27, 0.6)',
-        backdropFilter: 'blur(40px)',
-        WebkitBackdropFilter: 'blur(40px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
-      }}
-    >
+    <div className="rounded-2xl overflow-hidden obsidian-glass">
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
           <TrendingUp className="w-5 h-5 text-green-500" />
-          <h3 className="text-lg font-semibold lowercase" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+          <h3 className="text-lg font-semibold lowercase text-white-90">
             clean-track ROI forecaster
           </h3>
         </div>
-        <p className="text-sm mb-4" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+        <p className="text-sm mb-4 text-white-50">
           Project campaign ROI using Clean-Track predictive models
         </p>
         
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>investment ($)</label>
+              <label className="text-xs font-medium text-white-70">investment ($)</label>
               <Input 
                 type="number"
                 value={investment}
@@ -213,7 +190,7 @@ const ROIForecaster = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>expected clicks</label>
+              <label className="text-xs font-medium text-white-70">expected clicks</label>
               <Input 
                 type="number"
                 value={expectedClicks}
@@ -222,7 +199,7 @@ const ROIForecaster = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>conversion rate (%)</label>
+              <label className="text-xs font-medium text-white-70">conversion rate (%)</label>
               <Input 
                 type="number"
                 step="0.1"
@@ -232,7 +209,7 @@ const ROIForecaster = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>avg order value ($)</label>
+              <label className="text-xs font-medium text-white-70">avg order value ($)</label>
               <Input 
                 type="number"
                 value={avgOrderValue}
@@ -244,18 +221,17 @@ const ROIForecaster = () => {
 
           <div className="grid grid-cols-3 gap-2">
             {[
-              { label: "Conversions", value: conversions.toLocaleString(), color: "rgba(255, 255, 255, 0.9)" },
-              { label: "Revenue", value: `$${revenue.toLocaleString()}`, color: "#FF6B35" },
-              { label: "ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "#22c55e" : "#ef4444" },
+              { label: "Conversions", value: conversions.toLocaleString(), color: "text-white-90" },
+              { label: "Revenue", value: `$${revenue.toLocaleString()}`, color: "text-blazeOrange" },
+              { label: "ROI", value: `${roi.toFixed(1)}%`, color: roi > 0 ? "text-green-500" : "text-red-500" },
             ].map((stat) => (
               <motion.div 
                 key={stat.label} 
-                className="p-3 rounded-lg text-center"
-                style={{ background: 'rgba(255, 255, 255, 0.03)' }}
+                className="p-3 rounded-lg text-center bg-white/3"
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-lg font-bold" style={{ color: stat.color }}>{stat.value}</div>
-                <div className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>{stat.label}</div>
+                <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
+                <div className="text-xs text-white-50">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -278,7 +254,7 @@ export const StrategicToolsShowcase = () => {
   const [activeTab, setActiveTab] = useState("first-principles");
 
   return (
-    <section className="py-16 md:py-24" style={{ background: '#050505' }}>
+    <section className="py-16 md:py-24 bg-obsidian">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Header */}
         <motion.div
@@ -288,21 +264,14 @@ export const StrategicToolsShowcase = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 space-y-4"
         >
-          <div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
-            style={{
-              background: 'rgba(255, 107, 53, 0.1)',
-              border: '1px solid rgba(255, 107, 53, 0.2)',
-              color: '#FF6B35'
-            }}
-          >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm bg-blazeOrange/10 border border-blazeOrange/20 text-blazeOrange">
             <Sparkles className="w-4 h-4" />
             <span className="lowercase">free strategic tools</span>
           </div>
           <h1 className="obsidian-platinum-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase">
             make better decisions
           </h1>
-          <p className="text-base md:text-lg max-w-2xl mx-auto" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+          <p className="text-base md:text-lg max-w-2xl mx-auto text-white-50">
             built from mathematical models developed by MIT and Harvard scientists — now free to use.
           </p>
         </motion.div>
@@ -317,8 +286,7 @@ export const StrategicToolsShowcase = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Mobile: Full-width vertical tabs */}
             <TabsList 
-              className="flex md:grid md:grid-cols-3 w-full max-w-lg mx-auto gap-1 md:gap-0 mb-6 md:mb-8 h-auto md:h-10 flex-col md:flex-row p-1 rounded-xl"
-              style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+              className="flex md:grid md:grid-cols-3 w-full max-w-lg mx-auto gap-1 md:gap-0 mb-6 md:mb-8 h-auto md:h-10 flex-col md:flex-row p-1 rounded-xl bg-white/5"
             >
               <TabsTrigger 
                 value="first-principles" 

@@ -84,7 +84,7 @@ export const Navigation = () => {
       <nav 
         className={cn(
           "max-w-[1280px] mx-auto backdrop-blur-xl rounded-full px-6 md:px-8 py-3 md:py-4 flex items-center justify-between relative transition-all duration-300",
-          "obsidian-glass-80 border border-white-08 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]",
+          "obsidian-glass-80 border border-white-08 shadow-[inset_0_1px_0_0_hsl(var(--white-10)),0_25px_50px_-12px_hsl(0_0%_0%/0.5)]",
           isScrolled ? 'scale-95' : 'scale-100'
         )}
       >

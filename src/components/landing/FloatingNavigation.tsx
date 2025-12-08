@@ -38,7 +38,7 @@ export const FloatingNavigation = () => {
           animate={{ y: 0, x: "-50%", opacity: 1 }}
           exit={{ y: 100, x: "-50%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-4 md:bottom-8 left-1/2 z-50 rounded-full px-3 md:px-6 py-2 md:py-3 max-w-[calc(100vw-2rem)] md:max-w-none overflow-x-auto scrollbar-hide obsidian-glass-80 backdrop-blur-xl border border-white-10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_50px_-12px_rgba(0,0,0,0.5)]"
+          className="fixed bottom-4 md:bottom-8 left-1/2 z-50 rounded-full px-3 md:px-6 py-2 md:py-3 max-w-[calc(100vw-2rem)] md:max-w-none overflow-x-auto scrollbar-hide obsidian-glass-80 backdrop-blur-xl border border-white-10 shadow-[inset_0_1px_0_0_hsl(var(--white-10)),0_25px_50px_-12px_hsl(0_0%_0%/0.5)]"
         >
           <div className="flex items-center gap-1 md:gap-4 whitespace-nowrap">
             {/* Logo */}

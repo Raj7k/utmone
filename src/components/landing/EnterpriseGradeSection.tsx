@@ -181,7 +181,7 @@ export const EnterpriseGradeSection = () => {
         >
           <Link 
             to="/solutions/enterprise"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all lowercase text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all lowercase text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_hsl(var(--white-10))]"
           >
             explore enterprise features
             <ArrowRight className="w-4 h-4" />

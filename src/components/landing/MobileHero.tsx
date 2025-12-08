@@ -94,18 +94,10 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
             transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <h1 
-              className="text-3xl font-display font-bold lowercase leading-tight"
-              style={{
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
+            <h1 className="text-3xl font-display font-bold lowercase leading-tight hero-gradient">
               {content.headline}
             </h1>
-            <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+            <p className="text-base leading-relaxed text-white-60">
               {content.subheadline}
             </p>
           </motion.div>
@@ -115,12 +107,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
         <Link to="/early-access" className="block">
           <Button 
             size="lg" 
-            className="w-full h-14 text-base lowercase rounded-full font-semibold"
-            style={{
-              background: 'linear-gradient(135deg, #FFFFFF, #E4E4E7)',
-              color: '#050505',
-              boxShadow: '0 0 40px rgba(255,255,255,0.15)'
-            }}
+            className="w-full h-14 text-base lowercase rounded-full font-semibold bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-glow-sm"
           >
             get early access
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -129,8 +116,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
 
         <Link 
           to="/how-it-works" 
-          className="flex items-center justify-center gap-2 text-sm font-medium lowercase"
-          style={{ color: 'rgba(255,255,255,0.7)' }}
+          className="flex items-center justify-center gap-2 text-sm font-medium lowercase text-white-70"
         >
           see how it works
           <ArrowRight className="h-4 w-4" />
@@ -139,7 +125,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
 
       {/* Use Case Selector - 2x2 Grid */}
       <div className="space-y-4">
-        <p className="text-xs font-medium uppercase tracking-wider" style={{ color: 'rgba(255,255,255,0.4)' }}>
+        <p className="text-xs font-medium uppercase tracking-wider text-white-40">
           explore by need
         </p>
         
@@ -153,34 +139,25 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
                 key={useCase.id}
                 onClick={() => handleUseCaseChange(useCase.id)}
                 whileTap={{ scale: 0.95 }}
-                className="relative p-4 rounded-xl transition-all duration-200 min-h-[90px]"
-                style={isActive ? {
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.3)'
-                } : {
-                  background: 'rgba(24,24,27,0.4)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
+                className={`relative p-4 rounded-xl transition-all duration-200 min-h-[90px] ${
+                  isActive 
+                    ? 'bg-gradient-to-br from-white/12 to-white/4 border border-white/20 shadow-glass'
+                    : 'bg-zinc-900/40 border border-white/8'
+                }`}
               >
                 <div className="flex flex-col items-center gap-2 text-center">
                   <div 
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ background: isActive ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)' }}
+                    className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      isActive ? 'bg-white/15' : 'bg-white/8'
+                    }`}
                   >
-                    <Icon className="w-5 h-5" style={{ color: isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)' }} />
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-60'}`} />
                   </div>
                   <div>
-                    <span 
-                      className="block text-sm font-semibold lowercase"
-                      style={{ color: isActive ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)' }}
-                    >
+                    <span className={`block text-sm font-semibold lowercase ${isActive ? 'text-white-95' : 'text-white-70'}`}>
                       {useCase.label}
                     </span>
-                    <span 
-                      className="block text-[10px] mt-0.5 lowercase"
-                      style={{ color: isActive ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.4)' }}
-                    >
+                    <span className={`block text-[10px] mt-0.5 lowercase ${isActive ? 'text-white-50' : 'text-white-40'}`}>
                       {useCase.sublabel}
                     </span>
                   </div>
@@ -194,37 +171,28 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
         <motion.button
           onClick={() => handleUseCaseChange("governance")}
           whileTap={{ scale: 0.98 }}
-          className="w-full p-4 rounded-xl transition-all duration-200 flex items-center gap-3"
-          style={activeUseCase === "governance" ? {
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
-            border: '1px solid rgba(255,255,255,0.2)',
-            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.3)'
-          } : {
-            background: 'rgba(24,24,27,0.4)',
-            border: '1px solid rgba(255,255,255,0.08)',
-          }}
+          className={`w-full p-4 rounded-xl transition-all duration-200 flex items-center gap-3 ${
+            activeUseCase === "governance"
+              ? 'bg-gradient-to-br from-white/12 to-white/4 border border-white/20 shadow-glass'
+              : 'bg-zinc-900/40 border border-white/8'
+          }`}
         >
           <div 
-            className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: activeUseCase === "governance" ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.08)' }}
+            className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+              activeUseCase === "governance" ? 'bg-white/15' : 'bg-white/8'
+            }`}
           >
-            <Shield className="w-5 h-5" style={{ color: activeUseCase === "governance" ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.6)' }} />
+            <Shield className={`w-5 h-5 ${activeUseCase === "governance" ? 'text-white-90' : 'text-white-60'}`} />
           </div>
           <div className="flex-1 text-left">
-            <span 
-              className="text-sm font-semibold lowercase"
-              style={{ color: activeUseCase === "governance" ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.7)' }}
-            >
+            <span className={`text-sm font-semibold lowercase ${activeUseCase === "governance" ? 'text-white-95' : 'text-white-70'}`}>
               enterprise control
             </span>
-            <p 
-              className="text-xs lowercase"
-              style={{ color: activeUseCase === "governance" ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.4)' }}
-            >
+            <p className={`text-xs lowercase ${activeUseCase === "governance" ? 'text-white-60' : 'text-white-40'}`}>
               roles, rules & approvals
             </p>
           </div>
-          <ChevronRight className="w-5 h-5" style={{ color: activeUseCase === "governance" ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.4)' }} />
+          <ChevronRight className={`w-5 h-5 ${activeUseCase === "governance" ? 'text-white-70' : 'text-white-40'}`} />
         </motion.button>
       </div>
     </section>
