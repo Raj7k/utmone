@@ -83,7 +83,7 @@ export default function LinkImmunity() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-extrabold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
             never show a 404 again.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -94,7 +94,7 @@ export default function LinkImmunity() {
       </section>
 
       {/* Problem */}
-      <section className="py-24 bg-background">
+      <section className="py-24">
         <div className="max-w-6xl mx-auto px-8">
           <HorrorStorySection
             title="404 errors destroy trust"
@@ -109,14 +109,14 @@ export default function LinkImmunity() {
       </section>
 
       {/* Health Dashboard Preview */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-24 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <LinkHealthDashboard />
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-24 bg-background">
+      <section className="py-24">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how link immunity works</h2>
@@ -124,7 +124,7 @@ export default function LinkImmunity() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="bg-card border border-border rounded-xl p-8">
+            <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Activity className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">health probes</h3>
@@ -132,12 +132,12 @@ export default function LinkImmunity() {
               <p className="text-muted-foreground mb-4">
                 We continuously check your links' destination URLs for availability, response time, and errors.
               </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
+              <div className="bg-white/[0.03] rounded-lg p-4 text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">Check frequency:</span> Top 100 links every hour, high-traffic links every 15 minutes
               </div>
             </div>
 
-            <div className="bg-card border border-border rounded-xl p-8">
+            <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Zap className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">instant detection</h3>
@@ -151,7 +151,7 @@ export default function LinkImmunity() {
               </div>
             </div>
 
-            <div className="bg-card border border-border rounded-xl p-8">
+            <div className="obsidian-glass rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Bell className="w-8 h-8 text-primary" />
                 <h3 className="text-2xl font-display font-semibold lowercase">smart alerts</h3>
@@ -159,26 +159,26 @@ export default function LinkImmunity() {
               <p className="text-muted-foreground mb-4">
                 Get notified via Slack, email, or SMS when links fail. Choose thresholds: immediate, 3 failures, or sustained outage.
               </p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm text-muted-foreground">
+              <div className="bg-white/[0.03] rounded-lg p-4 text-sm text-muted-foreground">
                 Alerts include failure type, affected links, and recommended actions
               </div>
             </div>
           </div>
 
           {/* Cascade Failover Visual */}
-          <div className="bg-card border border-border rounded-xl p-8 max-w-3xl mx-auto">
+          <div className="obsidian-glass rounded-xl p-8 max-w-3xl mx-auto">
             <h3 className="text-lg font-semibold lowercase mb-6 text-foreground">cascade failover flow</h3>
             <div className="space-y-4">
               {[
-                { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy", statusColor: "text-green-600" },
+                { num: "1", label: "Primary Destination", url: "example.com/campaign", status: "✓ Healthy", statusColor: "text-green-500" },
                 { num: "2", label: "Fallback 1", url: "example.com/backup", status: "Standby", statusColor: "text-muted-foreground" },
                 { num: "3", label: "Fallback 2", url: "example.com/final", status: "Standby", statusColor: "text-muted-foreground" }
               ].map((item, i) => (
                 <div key={i} className={`flex items-center gap-4 ${i > 0 ? 'opacity-50' : ''}`}>
-                  <div className={`${i === 0 ? 'text-white bg-primary' : 'bg-muted text-secondary-label'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`}>{item.num}</div>
+                  <div className={`${i === 0 ? 'text-white bg-primary' : 'bg-white/10 text-muted-foreground'} rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm`}>{item.num}</div>
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-label mb-1">{item.label}</p>
-                    <p className="text-xs font-mono text-secondary-label">{item.url}</p>
+                    <p className="text-sm font-semibold text-foreground mb-1">{item.label}</p>
+                    <p className="text-xs font-mono text-muted-foreground">{item.url}</p>
                   </div>
                   <div className={`text-xs font-semibold ${item.statusColor}`}>{item.status}</div>
                 </div>
@@ -194,7 +194,7 @@ export default function LinkImmunity() {
       </section>
 
       {/* Use Cases */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-24 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real use cases</h2>
@@ -205,20 +205,20 @@ export default function LinkImmunity() {
       </section>
 
       {/* Enterprise Features */}
-      <section className="py-24 bg-background">
+      <section className="py-24">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">enterprise-grade monitoring</h2>
             <p className="text-xl text-muted-foreground">99.99% uptime guarantee</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card border-2 border-border rounded-xl p-8">
+            <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <Clock className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">global health checks</h3>
               </div>
               <p className="text-muted-foreground mb-4">Health probes run from 15+ global locations to detect regional outages.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
+              <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
                 <p className="font-semibold text-foreground mb-2">Check locations:</p>
                 <ul className="space-y-1 text-muted-foreground">
                   <li>• North America (US East, US West, Canada)</li>
@@ -228,13 +228,13 @@ export default function LinkImmunity() {
               </div>
             </div>
 
-            <div className="bg-card border-2 border-border rounded-xl p-8">
+            <div className="obsidian-glass border-2 border-white/10 rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <ShieldCheck className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-display font-bold lowercase">SLA monitoring</h3>
               </div>
               <p className="text-muted-foreground mb-4">Track uptime SLAs per link with historical reports and incident logs.</p>
-              <div className="bg-muted/30 rounded-lg p-4 text-sm">
+              <div className="bg-white/[0.03] rounded-lg p-4 text-sm">
                 <p className="font-semibold text-foreground mb-2">Enterprise dashboard:</p>
                 <ul className="space-y-1 text-muted-foreground">
                   <li>• 30-day uptime percentage</li>
@@ -248,7 +248,7 @@ export default function LinkImmunity() {
       </section>
 
       {/* Personas */}
-      <section className="py-24 bg-muted/20">
+      <section className="py-24 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
@@ -262,7 +262,7 @@ export default function LinkImmunity() {
       </section>
 
       {/* FAQs */}
-      <section className="py-24 bg-background">
+      <section className="py-24">
         <div className="max-w-4xl mx-auto px-8">
           <RoleSpecificFAQ role="teams" faqs={faqs} />
         </div>
