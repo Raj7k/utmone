@@ -1,320 +1,419 @@
 import { FeatureLayout } from "@/components/features/FeatureLayout";
-import { FeatureHero } from "@/components/features/FeatureHero";
-import { FeatureSection } from "@/components/features/FeatureSection";
-import { CapabilityCard } from "@/components/features/CapabilityCard";
-import { FeatureComparison } from "@/components/features/FeatureComparison";
-import { WorkflowStep } from "@/components/landing/WorkflowStep";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { GlossaryTooltip } from "@/components/llm/GlossaryTooltip";
-import { ProductMockup } from "@/components/product/ProductMockup";
-import { BarChart3, Zap, PieChart, TrendingUp, Globe, Sparkles } from "lucide-react";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { HorrorStorySection } from "@/components/solutions/HorrorStorySection";
+import { PersonaCalloutCards } from "@/components/solutions/PersonaCalloutCards";
+import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
+import { ForecastingPreview } from "@/components/features/ForecastingPreview";
+import { UseCasesGrid } from "@/components/features/UseCasesGrid";
+import { CTAButton } from "@/components/ui/CTAButton";
+import { motion } from "framer-motion";
+import { 
+  BarChart3, 
+  TrendingUp, 
+  Users, 
+  Briefcase, 
+  GitBranch, 
+  Sparkles, 
+  Network, 
+  Globe, 
+  Zap, 
+  Brain, 
+  Target, 
+  LineChart, 
+  Timer, 
+  Clock, 
+  Eye, 
+  DollarSign, 
+  Activity,
+  Workflow,
+  CheckCircle,
+  X
+} from "lucide-react";
 
 const Analytics = () => {
-  const capabilities = [
+  const useCases = [
     {
-      icon: Zap,
-      title: "Top 3 Metrics At A Glance",
-      description: "See what matters most without scrolling or filtering.",
+      title: "which channel actually drives revenue?",
+      scenario: "Your LinkedIn campaign drove 10,000 clicks. Your paid search drove 5,000 clicks. CFO asks: 'Which one actually made us money?' You open GA4. It says... nothing useful.",
+      solution: "utm.one's multi-touch attribution shows LinkedIn influenced 40% of your deals but search closed 60%. You allocate budget accordingly. CFO gets a real answer."
     },
     {
-      icon: PieChart,
-      title: "Campaign, Channel, Partner Views",
-      description: "Organized analytics for every dimension that matters.",
+      title: "did that webinar influence the deal?",
+      scenario: "Your enterprise deal just closed. Sales takes credit. Marketing says the webinar mattered. Leadership asks for proof. You have none.",
+      solution: "Customer journey visualization shows the prospect clicked your webinar link, then 3 follow-up emails, then the demo request. Marketing proves the influence chain."
     },
     {
-      icon: BarChart3,
-      title: "QR Performance",
-      description: "Track offline-to-online attribution seamlessly.",
+      title: "why did conversions drop on Thursday?",
+      scenario: "Your conversion rate dropped 30% on Thursday. Panic. You dig through GA4 for 2 hours. You find nothing. You file a support ticket. It takes 3 days.",
+      solution: "AI Command Center surfaces the anomaly: 'Broken redirect on utm_source=newsletter link since Thursday 9am'. You fix it in 5 minutes."
     },
     {
-      icon: TrendingUp,
-      title: "Link-Level Timeline",
-      description: "Understand performance trends over time.",
-    },
-    {
-      icon: Globe,
-      title: "Device & Geography",
-      description: "Know where your clicks come from and what they use.",
-    },
-    {
-      icon: Sparkles,
-      title: "AI Summaries",
-      description: "Natural language insights without manual analysis.",
-    },
+      title: "what's the optimal touchpoint sequence?",
+      scenario: "Some prospects convert after 3 touches. Others need 15. You have no idea what the optimal sequence looks like. You guess and hope.",
+      solution: "Golden Path Analysis shows: LinkedIn post → Email → Webinar → Demo → Close has 3x higher conversion than any other sequence. You optimize accordingly."
+    }
   ];
 
-  const comparisonItems = [
-    { feature: "Minimal layout", competitors: false, utmOne: true },
-    { feature: "Progressive disclosure", competitors: false, utmOne: true },
-    { feature: "Fast-loading graphs", competitors: true, utmOne: true },
-    { feature: "Clean hierarchy", competitors: false, utmOne: true },
-    { feature: "Instant data export", competitors: true, utmOne: true },
+  const faqs = [
+    {
+      question: "How is this different from GA4 attribution?",
+      answer: "GA4 uses last-click attribution by default and struggles with cross-domain tracking. utm.one offers multi-touch attribution (linear, time-decay, position-based), cross-device identity stitching, and revenue mapping—all on link-level data you control. Think of it as 'GA4 + attribution intelligence + revenue visibility'."
+    },
+    {
+      question: "Can I import offline conversions?",
+      answer: "Yes. Upload CRM exports (Salesforce, HubSpot) or use our API to push offline events. utm.one stitches offline conversions back to the original link clicks, giving you true ROI visibility across online and offline touchpoints."
+    },
+    {
+      question: "Does it work cross-device?",
+      answer: "Yes. Our Probabilistic Identity Graph detects when the same person clicks from mobile, then converts from desktop. You'll see the full journey, not fragmented sessions."
+    },
+    {
+      question: "What attribution models are supported?",
+      answer: "Linear (equal credit), Time-Decay (recent touchpoints weighted higher), Position-Based (first/last get more credit), and First/Last Touch. You can compare models side-by-side to see how each affects your channel ROI calculations."
+    },
+    {
+      question: "How accurate are traffic predictions?",
+      answer: "85-90% confidence within the predicted range. We show confidence intervals (e.g., ±150 clicks) so you know the uncertainty. After 30 days of data, predictions stabilize at high accuracy."
+    },
+    {
+      question: "Can I see which links drive revenue, not just clicks?",
+      answer: "Absolutely. Connect your conversion events (form fills, purchases, sign-ups) and utm.one maps revenue back to the links that influenced it. You'll see 'this link drove $50K in influenced pipeline' instead of just '1,000 clicks'."
+    },
+    {
+      question: "What if I don't have much data yet?",
+      answer: "Start with basic click analytics and forecasting. As you accumulate data, advanced features (attribution, identity graph, AI insights) unlock automatically. The system adapts to your data volume."
+    },
+    {
+      question: "Does this replace my existing analytics tools?",
+      answer: "No—it complements them. Keep GA4 for site-wide analytics. Use utm.one for campaign-level attribution, link performance, and revenue intelligence. They work together, not either/or."
+    }
+  ];
+
+  const comparisonData = [
+    { feature: "Multi-touch attribution", ga4: false, bitly: false, utmOne: true },
+    { feature: "Cross-device identity graph", ga4: false, bitly: false, utmOne: true },
+    { feature: "Revenue mapping to links", ga4: false, bitly: false, utmOne: true },
+    { feature: "Traffic forecasting", ga4: false, bitly: false, utmOne: true },
+    { feature: "Click heatmaps (hour/day)", ga4: true, bitly: false, utmOne: true },
+    { feature: "AI-generated insights", ga4: false, bitly: false, utmOne: true },
+    { feature: "Customer journey visualization", ga4: true, bitly: false, utmOne: true },
+    { feature: "Anomaly detection alerts", ga4: false, bitly: false, utmOne: true },
   ];
 
   return (
     <FeatureLayout
-      title="Clean Data, Clear Insights - Analytics Dashboard - utm.one"
-      description="utm.one shows you only what matters — no clutter, no confusion, no analytics fatigue."
+      title="Revenue Intelligence - See Which Links Drive Money | utm.one"
+      description="utm.one doesn't just count clicks. It shows which touchpoints actually drive revenue—across devices, channels, and time. Multi-touch attribution, AI insights, and predictive analytics."
       canonical="https://utm.one/features/analytics"
-      keywords={["link analytics", "campaign analytics", "utm analytics", "marketing dashboard", "click tracking"]}
+      keywords={["revenue attribution", "multi-touch attribution", "marketing analytics", "link analytics", "campaign ROI", "customer journey analytics"]}
       breadcrumbs={[
         { name: "Home", url: "https://utm.one" },
         { name: "Features", url: "https://utm.one/#features" },
         { name: "Analytics", url: "https://utm.one/features/analytics" },
       ]}
     >
-      <FeatureHero
-        headlineLine1="clean data,"
-        headlineLine2="clear insight."
-        subheadline="utm.one shows you only what matters — no clutter, no confusion, no analytics fatigue."
-      />
+      {/* Hero */}
+      <section className="relative py-32 overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
+            from clicks to revenue.
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            utm.one doesn't just count clicks. it shows which touchpoints actually drive revenue—across devices, channels, and time.
+          </p>
+          <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
+        </div>
+      </section>
 
-      <FeatureSection background="muted">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
-              analytics that feel effortless
+      {/* Horror Story Section */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <HorrorStorySection
+            title="attribution is broken"
+            description="Your LinkedIn campaign drove 10,000 clicks. Your paid search drove 5,000 clicks. CFO asks: 'Which one actually made us money?' You open GA4. It credits last-click only. It can't see cross-device journeys. It doesn't know about offline conversions. You make a presentation with incomplete data. Budget decisions become politics, not science. Millions in marketing spend—allocated on guesswork."
+            stats={[
+              { label: "Marketers can't prove ROI", value: "72%" },
+              { label: "Lost to attribution gaps", value: "$150B/yr" },
+              { label: "Campaigns with wrong credit", value: "60%" }
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* Revenue Intelligence Feature Grid */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">
+              revenue intelligence, not link counting
             </h2>
-            <div className="space-y-4 text-lg text-muted-foreground font-sans">
-              <p>Zero noise</p>
-              <p>Zero overwhelm</p>
-              <p>Zero configuration</p>
-            </div>
-            <p className="text-lg text-foreground font-medium font-sans">
-              Just the metrics that matter.
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              every feature exists to answer one question: "which marketing touched this revenue?"
             </p>
+          </div>
+
+          {/* Attribution Row */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Network className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-display font-bold lowercase">attribution</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <FeatureCard 
+                icon={GitBranch} 
+                title="Multi-Touch Attribution" 
+                description="Linear, time-decay, position-based models. Compare side-by-side to see true channel value."
+              />
+              <FeatureCard 
+                icon={Globe} 
+                title="Cross-Device Identity Graph" 
+                description="Stitch mobile clicks to desktop conversions. See the full journey, not fragments."
+              />
+              <FeatureCard 
+                icon={Target} 
+                title="Topic Attribution" 
+                description="Which content themes drive revenue? AI-powered content fingerprinting shows patterns."
+              />
+            </div>
+          </div>
+
+          {/* Journey Row */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Workflow className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-display font-bold lowercase">journey</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <FeatureCard 
+                icon={Activity} 
+                title="Customer Journey Visualization" 
+                description="Sankey diagrams showing how prospects flow through touchpoints to conversion."
+              />
+              <FeatureCard 
+                icon={BarChart3} 
+                title="Conversion Funnels" 
+                description="Stage-by-stage drop-off analysis. See where you're losing people."
+              />
+              <FeatureCard 
+                icon={Zap} 
+                title="Golden Path Analysis" 
+                description="Which touchpoint sequence has the highest conversion rate? Find and replicate it."
+              />
+            </div>
+          </div>
+
+          {/* Predictions Row */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <TrendingUp className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-display font-bold lowercase">predictions</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <FeatureCard 
+                icon={LineChart} 
+                title="Traffic Forecasting" 
+                description="7-day predictions with confidence intervals. Plan capacity and campaigns around real data."
+              />
+              <FeatureCard 
+                icon={Clock} 
+                title="Best Time Analysis" 
+                description="Click heatmaps by hour and day. Know exactly when your audience is active."
+              />
+              <FeatureCard 
+                icon={Timer} 
+                title="Lift Analysis" 
+                description="Identify demand creators vs churn drivers. Focus on what actually moves the needle."
+              />
+            </div>
+          </div>
+
+          {/* AI Row */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Brain className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-xl font-display font-bold lowercase">ai intelligence</h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              <FeatureCard 
+                icon={Sparkles} 
+                title="AI Command Center" 
+                description="Natural language questions → instant answers. 'Which campaign has the best ROI this quarter?'"
+              />
+              <FeatureCard 
+                icon={Eye} 
+                title="Smart Insights" 
+                description="Auto-generated recommendations. The system spots opportunities before you do."
+              />
+              <FeatureCard 
+                icon={Activity} 
+                title="Anomaly Detection" 
+                description="Pulse Watchdog alerts you when traffic spikes or drops. Never miss a viral moment or broken link."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Forecasting Preview */}
+      <section className="py-24 bg-background">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">see the future</h2>
+            <p className="text-xl text-muted-foreground">7-day traffic forecasting with confidence intervals</p>
+          </div>
+          <ForecastingPreview />
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real problems we solve</h2>
+            <p className="text-xl text-muted-foreground">not theoretical—these happen every week</p>
+          </div>
+          <UseCasesGrid useCases={useCases} />
+        </div>
+      </section>
+
+      {/* Comparison Table */}
+      <section className="py-24 bg-background">
+        <div className="max-w-5xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">revenue intelligence vs. basic analytics</h2>
+            <p className="text-xl text-muted-foreground">utm.one goes beyond counting clicks</p>
           </div>
           
-          <div>
-            <ProductMockup type="dashboard" delay={0.2} />
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left py-4 px-4 font-display font-semibold text-foreground">Feature</th>
+                  <th className="text-center py-4 px-4 font-display font-semibold text-muted-foreground">GA4</th>
+                  <th className="text-center py-4 px-4 font-display font-semibold text-muted-foreground">Bitly</th>
+                  <th className="text-center py-4 px-4 font-display font-semibold text-primary">utm.one</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonData.map((row, index) => (
+                  <tr key={index} className="border-b border-border/50">
+                    <td className="py-4 px-4 text-sm text-foreground">{row.feature}</td>
+                    <td className="py-4 px-4 text-center">
+                      {row.ga4 ? (
+                        <CheckCircle className="w-5 h-5 text-muted-foreground mx-auto" />
+                      ) : (
+                        <X className="w-5 h-5 text-muted-foreground/50 mx-auto" />
+                      )}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {row.bitly ? (
+                        <CheckCircle className="w-5 h-5 text-muted-foreground mx-auto" />
+                      ) : (
+                        <X className="w-5 h-5 text-muted-foreground/50 mx-auto" />
+                      )}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      {row.utmOne ? (
+                        <CheckCircle className="w-5 h-5 text-primary mx-auto" />
+                      ) : (
+                        <X className="w-5 h-5 text-muted-foreground/50 mx-auto" />
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </FeatureSection>
+      </section>
 
-      <FeatureSection background="default" maxWidth="wide">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
-            clean track intelligence
+      {/* Personas */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">built for your role</h2>
+          </div>
+          <PersonaCalloutCards callouts={[
+            { 
+              icon: Users, 
+              title: "for marketers", 
+              benefit: "Prove your campaigns drive revenue, not just clicks. Show the CFO real ROI data." 
+            },
+            { 
+              icon: DollarSign, 
+              title: "for sales", 
+              benefit: "See which marketing touches influenced your deals. Know which content resonates with prospects." 
+            },
+            { 
+              icon: Briefcase, 
+              title: "for ops & revops", 
+              benefit: "Clean attribution data flowing into your CRM. No more manual spreadsheet reconciliation." 
+            },
+            { 
+              icon: GitBranch, 
+              title: "for cmos", 
+              benefit: "Board-ready revenue attribution reports. Justify budget allocation with data, not intuition." 
+            }
+          ]} />
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="py-24 bg-background">
+        <div className="max-w-4xl mx-auto px-8">
+          <RoleSpecificFAQ role="revenue teams" faqs={faqs} />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 bg-muted/20">
+        <div className="relative max-w-[980px] mx-auto px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-6">
+            see your revenue story
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-sans">
-            Predictions that actually help you plan
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            stop guessing which marketing works. start knowing.
           </p>
+          <CTAButton href="/book-demo" variant="primary" pulse>book a demo</CTAButton>
         </div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <TrendingUp className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">traffic forecasting</h3>
-                <p className="text-muted-foreground font-sans">
-                  See predicted clicks for the next 7 days with confidence intervals based on historical patterns
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <BarChart3 className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">best time analysis</h3>
-                <p className="text-muted-foreground font-sans">
-                  Know exactly when your audience is most active—no guesswork, just data
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-xl shrink-0 bg-primary/10 text-primary">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">performance trends</h3>
-                <p className="text-muted-foreground font-sans">
-                  Spot patterns in click behavior before they become problems or opportunities
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-foreground font-sans">7-day forecast</h4>
-            <div className="bg-card rounded-lg p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-border">
-                <span className="text-sm text-muted-foreground font-sans">Predicted Traffic</span>
-                <span className="text-2xl font-bold text-foreground">~1,200</span>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground font-sans">Confidence</span>
-                  <span className="text-foreground font-semibold">95%</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground font-sans">Range</span>
-                  <span className="text-foreground font-semibold">1,050 - 1,350 clicks</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground font-sans">Peak Day</span>
-                  <span className="text-foreground font-semibold">Friday 2PM</span>
-                </div>
-              </div>
-              <div className="pt-3 border-t border-border">
-                <p className="text-xs text-muted-foreground italic font-sans">
-                  Based on 30 days of historical data
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </FeatureSection>
-
-      <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
-          Designed Around Clarity
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {capabilities.map((capability, index) => (
-            <CapabilityCard
-              key={index}
-              icon={capability.icon}
-              title={capability.title}
-              description={capability.description}
-              delay={index * 0.1}
-            />
-          ))}
-        </div>
-        <p className="text-center text-lg text-muted-foreground mt-12 font-sans">
-          Analytics made human.
-        </p>
-      </FeatureSection>
-
-      <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
-          No Dashboards That Fight You
-        </h2>
-        <FeatureComparison
-          title="utm.one vs Complex Analytics Tools"
-          items={comparisonItems}
-        />
-        <p className="text-center text-lg text-foreground font-medium mt-12 font-sans">
-          Marketers shouldn't need manuals to read charts.
-        </p>
-      </FeatureSection>
-
-      <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
-          Click → Understand → Act
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <WorkflowStep
-            icon={BarChart3}
-            title="Click"
-            description="User engages with your link"
-          />
-          <WorkflowStep
-            icon={Sparkles}
-            title="Understand"
-            description="See clear, actionable insights"
-          />
-          <WorkflowStep
-            icon={TrendingUp}
-            title="Act"
-            description="Make informed decisions fast"
-          />
-        </div>
-        <p className="text-center text-lg text-muted-foreground mt-12 font-sans">
-          Your data, simplified.
-        </p>
-      </FeatureSection>
-
-      <FeatureSection>
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left: Content */}
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground lowercase">
-              insights that write themselves
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              AI-powered summaries turn raw click data into plain-English insights your team can act on immediately.
-            </p>
-            <div className="space-y-3">
-              <div className="p-4 rounded-lg border bg-primary/10 border-primary/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-semibold uppercase text-primary">AI Insight</span>
-                </div>
-                <p className="text-sm text-foreground font-medium">
-                  Traffic up 23% from LinkedIn this week
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Based on 1,847 clicks across 12 links
-                </p>
-              </div>
-              <div className="p-4 bg-muted rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-xs font-semibold text-muted-foreground uppercase">Trend</span>
-                </div>
-                <p className="text-sm text-foreground">
-                  Mobile traffic peaks at 2-4 PM
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Visual */}
-          <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-            <div className="text-sm font-semibold text-foreground font-sans">Weekly Summary</div>
-            <div className="space-y-3">
-              <div className="p-4 rounded-lg bg-primary/5">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-foreground">Total Clicks</span>
-                  <span className="text-2xl font-bold text-primary">2,847</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-green-600">
-                  <TrendingUp className="w-3 h-3" />
-                  <span>+18% vs last week</span>
-                </div>
-              </div>
-              
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <div className="text-xs text-muted-foreground mb-2">Top Source</div>
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-foreground">linkedin</span>
-                  <span className="text-sm text-primary">847 clicks</span>
-                </div>
-              </div>
-              
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <div className="text-xs text-muted-foreground mb-2">Best Performing Link</div>
-                <div className="font-mono text-xs text-primary">utm.one/q4-webinar</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </FeatureSection>
-
-      <FeatureSection background="muted">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
-            See Your Insights
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 font-sans">
-            Start understanding your link performance today.
-          </p>
-          <Button
-            variant="marketing"
-            asChild
-            size="lg"
-            className="text-base px-8 py-6 rounded-full hover:scale-105 transition-transform"
-          >
-            <Link to="/book-demo">Book a Demo</Link>
-          </Button>
-        </div>
-      </FeatureSection>
+      </section>
     </FeatureLayout>
+  );
+};
+
+// Feature Card Component
+const FeatureCard = ({ 
+  icon: Icon, 
+  title, 
+  description 
+}: { 
+  icon: React.ComponentType<{ className?: string }>; 
+  title: string; 
+  description: string;
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-colors"
+    >
+      <div className="flex items-center gap-3 mb-3">
+        <Icon className="w-5 h-5 text-primary" />
+        <h4 className="font-display font-semibold text-foreground lowercase">{title}</h4>
+      </div>
+      <p className="text-sm text-muted-foreground">{description}</p>
+    </motion.div>
   );
 };
 
