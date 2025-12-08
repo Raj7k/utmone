@@ -7,8 +7,9 @@ export const ProgressIndicator = () => {
     const updateProgress = () => {
       const scrolled = window.scrollY;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrolled / total) * 100;
-      setScrollProgress(Math.min(progress, 100));
+      // Prevent NaN when total is 0 (no scrollable content)
+      const progress = total > 0 ? (scrolled / total) * 100 : 0;
+      setScrollProgress(Math.min(Math.max(progress, 0), 100)); // Clamp between 0-100
     };
 
     window.addEventListener("scroll", updateProgress);
@@ -18,10 +19,10 @@ export const ProgressIndicator = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-2 bg-wildSand/50 z-40">
+    <div className="fixed bottom-0 left-0 right-0 h-1 bg-zinc-900/50 z-40 backdrop-blur-sm">
       <div
-        className="h-full bg-gradient-to-r from-blazeOrange to-deepSea transition-all duration-300"
-        style={{ width: `${scrollProgress}%` }}
+        className="h-full bg-gradient-to-r from-white/80 to-white/40 transition-all duration-300"
+        style={{ width: `${Number.isNaN(scrollProgress) ? 0 : scrollProgress}%` }}
       />
     </div>
   );
