@@ -12,7 +12,8 @@ import {
   Instagram, 
   Mail, 
   Search,
-  ArrowUpRight
+  ArrowUpRight,
+  Link2
 } from "lucide-react";
 
 interface ChannelPerformanceGridProps {
@@ -30,13 +31,14 @@ interface ChannelData {
 
 const getChannelIcon = (channel: string) => {
   const lc = channel.toLowerCase();
-  if (lc.includes('linkedin')) return <Linkedin className="h-4 w-4" />;
-  if (lc.includes('twitter') || lc.includes('x.com')) return <Twitter className="h-4 w-4" />;
-  if (lc.includes('facebook')) return <Facebook className="h-4 w-4" />;
-  if (lc.includes('instagram')) return <Instagram className="h-4 w-4" />;
-  if (lc.includes('google')) return <Search className="h-4 w-4" />;
-  if (lc.includes('email') || lc.includes('mail')) return <Mail className="h-4 w-4" />;
-  return <Globe className="h-4 w-4" />;
+  if (lc.includes('linkedin')) return <Linkedin className="h-4 w-4 text-foreground" />;
+  if (lc.includes('twitter') || lc.includes('x.com')) return <Twitter className="h-4 w-4 text-foreground" />;
+  if (lc.includes('facebook')) return <Facebook className="h-4 w-4 text-foreground" />;
+  if (lc.includes('instagram')) return <Instagram className="h-4 w-4 text-foreground" />;
+  if (lc.includes('google')) return <Search className="h-4 w-4 text-foreground" />;
+  if (lc.includes('email') || lc.includes('mail')) return <Mail className="h-4 w-4 text-foreground" />;
+  if (lc.includes('direct')) return <Link2 className="h-4 w-4 text-foreground" />;
+  return <Globe className="h-4 w-4 text-foreground" />;
 };
 
 const getChannelColor = (channel: string) => {
@@ -159,7 +161,7 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
               )}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="p-1.5 rounded-lg bg-card border border-border">
+                <div className="p-1.5 rounded-lg bg-muted border border-border">
                   {channel.icon}
                 </div>
                 <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
