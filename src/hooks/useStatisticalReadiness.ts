@@ -1,12 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { calculateRequiredSampleSize } from "@/lib/statisticalPower";
+
+// Practical tier-based thresholds for single-link analytics
+const RELIABILITY_TIERS = {
+  MINIMUM: 30,      // Minimum for any insights
+  EARLY: 100,       // Early insights with caveats
+  GOOD: 300,        // Good confidence for most metrics
+  RELIABLE: 500     // Highly reliable data
+};
+
+export type ReliabilityTier = 'gathering' | 'minimum' | 'early' | 'good' | 'reliable';
 
 interface ReadinessResult {
   isReady: boolean;
   progress: number;
   samplesNeeded: number;
   currentSamples: number;
+  tier: ReliabilityTier;
 }
 
 export const useStatisticalReadiness = (linkId: string) => {
@@ -19,31 +29,26 @@ export const useStatisticalReadiness = (linkId: string) => {
         .eq("id", linkId)
         .single();
 
-      const { data: conversions } = await supabase
-        .from("conversion_events")
-        .select("id")
-        .eq("link_id", linkId);
-
       const currentSamples = link?.total_clicks || 0;
-      const conversionCount = conversions?.length || 0;
-      const conversionRate = currentSamples > 0 ? conversionCount / currentSamples : 0.05;
 
-      // Calculate required sample size for 80% power, 5% significance, 20% effect
-      const requiredSamples = calculateRequiredSampleSize(
-        Math.max(conversionRate, 0.01),
-        0.2,
-        0.05,
-        0.8
-      );
+      // Calculate progress toward "reliable" threshold
+      const progress = Math.min((currentSamples / RELIABILITY_TIERS.RELIABLE) * 100, 100);
+      const isReady = currentSamples >= RELIABILITY_TIERS.RELIABLE;
+      const samplesNeeded = Math.max(0, RELIABILITY_TIERS.RELIABLE - currentSamples);
 
-      const progress = Math.min((currentSamples / requiredSamples) * 100, 100);
-      const isReady = currentSamples >= requiredSamples;
+      // Determine current tier for messaging
+      let tier: ReliabilityTier = 'gathering';
+      if (currentSamples >= RELIABILITY_TIERS.RELIABLE) tier = 'reliable';
+      else if (currentSamples >= RELIABILITY_TIERS.GOOD) tier = 'good';
+      else if (currentSamples >= RELIABILITY_TIERS.EARLY) tier = 'early';
+      else if (currentSamples >= RELIABILITY_TIERS.MINIMUM) tier = 'minimum';
 
       return {
         isReady,
         progress: Math.round(progress),
-        samplesNeeded: Math.max(0, requiredSamples - currentSamples),
+        samplesNeeded,
         currentSamples,
+        tier,
       };
     },
     enabled: !!linkId,
