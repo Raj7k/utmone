@@ -25,6 +25,10 @@ export interface FieldEvent {
   created_by: string | null;
   created_at: string;
   updated_at: string;
+  // New pipeline estimation fields
+  avg_deal_value: number | null;
+  conversion_rate: number | null;
+  use_inferred_values: boolean;
 }
 
 export interface CalculationMetadata {
@@ -226,5 +230,92 @@ export const useUpdateEventControlCity = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['field-event', variables.eventId] });
     },
+  });
+};
+
+export interface EventValueSettingsData {
+  avgDealValue: number;
+  conversionRate: number;
+  useInferred: boolean;
+}
+
+export const useUpdateEventValueSettings = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      eventId, 
+      avgDealValue, 
+      conversionRate, 
+      useInferred 
+    }: { eventId: string } & EventValueSettingsData) => {
+      const { error } = await supabase
+        .from('field_events')
+        .update({ 
+          avg_deal_value: avgDealValue,
+          conversion_rate: conversionRate,
+          use_inferred_values: useInferred,
+        })
+        .eq('id', eventId);
+
+      if (error) throw error;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['field-event', variables.eventId] });
+      queryClient.invalidateQueries({ queryKey: ['field-events'] });
+    },
+  });
+};
+
+export interface InferredEventMetrics {
+  avg_deal_value: number | null;
+  conversion_rate: number | null;
+  confidence: number;
+  sample_size: number;
+}
+
+export const useInferEventMetrics = (workspaceId: string) => {
+  return useQuery({
+    queryKey: ['inferred-event-metrics', workspaceId],
+    queryFn: async (): Promise<InferredEventMetrics> => {
+      // Try to infer from historical badge scans and conversions
+      const { data: badgeScans, error: scansError } = await supabase
+        .from('event_badge_scans')
+        .select('conversion_status, event_id')
+        .in('conversion_status', ['customer', 'sql', 'mql']);
+      
+      const { data: conversions, error: convError } = await supabase
+        .from('conversion_events')
+        .select('event_value')
+        .eq('workspace_id', workspaceId)
+        .not('event_value', 'is', null);
+      
+      if (scansError || convError) {
+        return { avg_deal_value: null, conversion_rate: null, confidence: 0, sample_size: 0 };
+      }
+
+      // Calculate conversion rate from badge scans
+      const totalScans = badgeScans?.length || 0;
+      const customers = badgeScans?.filter(s => s.conversion_status === 'customer').length || 0;
+      const conversionRate = totalScans > 0 ? customers / totalScans : null;
+      
+      // Calculate average deal value from conversions
+      const validConversions = conversions?.filter(c => c.event_value && c.event_value > 0) || [];
+      const avgDealValue = validConversions.length > 0
+        ? validConversions.reduce((sum, c) => sum + (c.event_value || 0), 0) / validConversions.length
+        : null;
+      
+      // Calculate confidence based on sample size
+      const sampleSize = totalScans + validConversions.length;
+      const confidence = Math.min(100, (sampleSize / 100) * 100);
+
+      return {
+        avg_deal_value: avgDealValue,
+        conversion_rate: conversionRate,
+        confidence,
+        sample_size: sampleSize,
+      };
+    },
+    enabled: !!workspaceId,
   });
 };

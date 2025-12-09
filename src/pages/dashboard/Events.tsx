@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus, Calendar, Waves, RefreshCw, AlertCircle } from "lucide-react";
-import { DashboardLayout } from "@/components/layout/DashboardLayout";
+
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
-import { useFieldEvents, useFieldEvent, useCalculateEventHalo, useDeleteFieldEvent, useEventBadgeScans, EventHaloResult } from "@/hooks/useFieldEvents";
+import { useFieldEvents, useFieldEvent, useCalculateEventHalo, useDeleteFieldEvent, useEventBadgeScans, useUpdateEventValueSettings, useInferEventMetrics, EventHaloResult } from "@/hooks/useFieldEvents";
 import { EventMissionCard } from "@/components/events/EventMissionCard";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { EventImpactFunnel } from "@/components/events/EventImpactFunnel";
 import { EventHaloSpikeChart } from "@/components/events/EventHaloSpikeChart";
 import { BadgeScanUploader } from "@/components/events/BadgeScanUploader";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
+import { EventValueSettings } from "@/components/events/EventValueSettings";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +28,8 @@ const Events = () => {
   const { data: badgeScans } = useEventBadgeScans(selectedEventId || '');
   const calculateHalo = useCalculateEventHalo();
   const deleteEvent = useDeleteFieldEvent();
+  const updateValueSettings = useUpdateEventValueSettings();
+  const { data: inferredMetrics } = useInferEventMetrics(currentWorkspace?.id || '');
   const queryClient = useQueryClient();
   
   // Get cached halo result with timeseries data
@@ -79,8 +82,7 @@ const Events = () => {
   const completedEvents = events?.filter(e => e.status === 'completed') || [];
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -214,10 +216,29 @@ const Events = () => {
                     <EventImpactFunnel
                       directScans={selectedEvent.direct_scans}
                       haloVisitors={selectedEvent.halo_visitors}
-                      attributedPipeline={selectedEvent.attributed_pipeline}
+                      avgDealValue={selectedEvent.avg_deal_value || inferredMetrics?.avg_deal_value || 10000}
+                      conversionRate={selectedEvent.conversion_rate || inferredMetrics?.conversion_rate || 0.15}
                     />
                   </div>
                 </Card>
+
+                {/* Pipeline Settings */}
+                <EventValueSettings
+                  eventId={selectedEvent.id}
+                  currentAvgDealValue={selectedEvent.avg_deal_value}
+                  currentConversionRate={selectedEvent.conversion_rate}
+                  useInferredValues={selectedEvent.use_inferred_values}
+                  inferredAvgDealValue={inferredMetrics?.avg_deal_value}
+                  inferredConversionRate={inferredMetrics?.conversion_rate}
+                  inferredConfidence={inferredMetrics?.confidence}
+                  onSave={async (values) => {
+                    await updateValueSettings.mutateAsync({
+                      eventId: selectedEvent.id,
+                      ...values,
+                    });
+                    refetch();
+                  }}
+                />
 
                 {/* Spike Chart - Baseline vs Event Traffic */}
                 {haloResult?.comparison_timeseries && haloResult.comparison_timeseries.length > 0 && (
@@ -299,15 +320,14 @@ const Events = () => {
             )}
           </div>
         </div>
-      </div>
 
-      <CreateEventDialog
-        open={createDialogOpen}
-        onOpenChange={setCreateDialogOpen}
-        workspaceId={currentWorkspace?.id || ''}
-        onEventCreated={refetch}
-      />
-    </DashboardLayout>
+        <CreateEventDialog
+          open={createDialogOpen}
+          onOpenChange={setCreateDialogOpen}
+          workspaceId={currentWorkspace?.id || ''}
+          onEventCreated={refetch}
+        />
+      </div>
   );
 };
 
