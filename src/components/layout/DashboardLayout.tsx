@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { SidebarProvider } from "./sidebar/SidebarProvider";
-import { IconRailSidebar } from "./sidebar/IconRailSidebar";
+import { DashboardSidebarV2 } from "./sidebar/DashboardSidebarV2";
 import { ContextualHeader } from "./ContextualHeader";
 import { CreateLinkModal } from "@/components/CreateLinkModal";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
@@ -41,9 +41,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <SidebarProvider>
       <div className="dashboard-root min-h-screen bg-background flex w-full overflow-hidden">
-        {/* Icon Rail Sidebar - Desktop only */}
+        {/* Sidebar - Desktop only */}
         <div className="hidden lg:block flex-shrink-0">
-          <IconRailSidebar />
+          <DashboardSidebarV2 />
         </div>
 
         {/* Main Content Area */}
