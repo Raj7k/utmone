@@ -41,13 +41,16 @@ const handler = async (req: Request): Promise<Response> => {
     // Process each user
     for (const user of users || []) {
       try {
+        // Generate unique invite token
+        const inviteToken = btoa(`${user.email}-${Date.now()}-${Math.random().toString(36).substring(2)}`);
+        
         // Create invite with unique token
         const { data: invite, error: inviteError } = await supabase
           .from("early_access_invites")
           .insert({
             email: user.email,
             access_level: access_level,
-            invite_token: "",
+            invite_token: inviteToken,
           })
           .select()
           .single();
