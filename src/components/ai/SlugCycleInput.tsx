@@ -58,10 +58,12 @@ export function SlugCycleInput({
     }
   };
 
-  const cycleLabel = suggestions.length === 0
-    ? "generate ai slugs"
+  const cycleLabel = isLoading
+    ? "generating..."
+    : suggestions.length === 0
+    ? "click for ai slugs ✨"
     : currentIndex >= suggestions.length - 1
-    ? "regenerate"
+    ? "regenerate ✨"
     : `${currentIndex + 2}/${suggestions.length}`;
 
   return (
