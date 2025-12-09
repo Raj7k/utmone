@@ -16,7 +16,7 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
   const { data: isAdmin, isLoading: isAdminLoading } = useIsAdmin();
 
   const { data: mfaStatus } = useQuery({
-    queryKey: ['admin-mfa-status'],
+    queryKey: ['admin-mfa-status', location.pathname],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return { requiresMFA: false, hasKeys: false };
@@ -33,24 +33,26 @@ export const AdminMFAGuard = ({ children }: AdminMFAGuardProps) => {
         return { requiresMFA: false, hasKeys: false };
       }
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('mfa_verified_at')
-        .eq('id', user.id)
-        .single();
-
-      if (!profile?.mfa_verified_at) {
+      // Check session-based MFA verification (stored in sessionStorage)
+      const sessionMFAVerified = sessionStorage.getItem('admin_mfa_verified');
+      const sessionUserId = sessionStorage.getItem('admin_mfa_user_id');
+      
+      // Require MFA if:
+      // 1. No session verification exists
+      // 2. Session verification is for a different user
+      // 3. Session verification expired (15 minutes for extra security)
+      if (!sessionMFAVerified || sessionUserId !== user.id) {
         return { requiresMFA: true, hasKeys: true };
       }
 
-      const verifiedAt = new Date(profile.mfa_verified_at);
-      const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
-      const requiresMFA = verifiedAt < twelveHoursAgo;
+      const verifiedAt = new Date(sessionMFAVerified);
+      const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
+      const requiresMFA = verifiedAt < fifteenMinutesAgo;
 
       return { requiresMFA, hasKeys };
     },
     enabled: !!isAdmin && !isAdminLoading,
-    refetchInterval: 5 * 60 * 1000,
+    refetchInterval: 60 * 1000, // Check every minute
   });
 
   useEffect(() => {
