@@ -75,6 +75,11 @@ const SDKs = lazy(() => import("./pages/Docs/SDKs"));
 const PixelInstallation = lazy(() => import("./pages/Docs/PixelInstallation"));
 const RevenueAttribution = lazy(() => import("./pages/Docs/RevenueAttribution"));
 const CRMIntegrations = lazy(() => import("./pages/Docs/CRMIntegrations"));
+const ChromeExtensionDocs = lazy(() => import("./pages/Docs/ChromeExtension"));
+const GeoTargetingDocs = lazy(() => import("./pages/Docs/GeoTargeting"));
+const IdentityGraphDocs = lazy(() => import("./pages/Docs/IdentityGraph"));
+const SmartInsightsDocs = lazy(() => import("./pages/Docs/SmartInsights"));
+const TroubleshootingDocs = lazy(() => import("./pages/Docs/Troubleshooting"));
 const PublicQRGenerator = lazy(() => import("./pages/tools/QRGenerator"));
 const PublicURLShortener = lazy(() => import("./pages/tools/URLShortener"));
 const PublicUTMBuilder = lazy(() => import("./pages/tools/UTMBuilder"));
@@ -130,6 +135,7 @@ const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility")
 
 // Product Pages
 const Products = lazy(() => import("./pages/Products"));
+const Product = lazy(() => import("./pages/Product"));
 const LinkOrchestration = lazy(() => import("./pages/products/LinkOrchestration"));
 const JourneyIntelligence = lazy(() => import("./pages/products/JourneyIntelligence"));
 const QRStudio = lazy(() => import("./pages/products/QRStudio"));
@@ -472,6 +478,11 @@ const App = () => (
               <Route path="/docs/pixel-installation" element={<Suspense fallback={<DashboardSkeleton />}><PixelInstallation /></Suspense>} />
               <Route path="/docs/revenue-attribution" element={<Suspense fallback={<DashboardSkeleton />}><RevenueAttribution /></Suspense>} />
               <Route path="/docs/crm-integrations" element={<Suspense fallback={<DashboardSkeleton />}><CRMIntegrations /></Suspense>} />
+              <Route path="/docs/chrome-extension" element={<Suspense fallback={<DashboardSkeleton />}><ChromeExtensionDocs /></Suspense>} />
+              <Route path="/docs/geo-targeting" element={<Suspense fallback={<DashboardSkeleton />}><GeoTargetingDocs /></Suspense>} />
+              <Route path="/docs/identity-graph" element={<Suspense fallback={<DashboardSkeleton />}><IdentityGraphDocs /></Suspense>} />
+              <Route path="/docs/smart-insights" element={<Suspense fallback={<DashboardSkeleton />}><SmartInsightsDocs /></Suspense>} />
+              <Route path="/docs/troubleshooting" element={<Suspense fallback={<DashboardSkeleton />}><TroubleshootingDocs /></Suspense>} />
               
               {/* Feature Pages */}
               <Route path="/features" element={<Suspense fallback={<DashboardSkeleton />}><Features /></Suspense>} />
@@ -479,7 +490,6 @@ const App = () => (
               <Route path="/features/short-links" element={<Suspense fallback={<DashboardSkeleton />}><ShortLinks /></Suspense>} />
               <Route path="/features/utm-builder" element={<Suspense fallback={<DashboardSkeleton />}><UTMBuilder /></Suspense>} />
               <Route path="/features/qr-generator" element={<Suspense fallback={<DashboardSkeleton />}><QRGenerator /></Suspense>} />
-              <Route path="/product" element={<Suspense fallback={<DashboardSkeleton />}><CustomerJourney /></Suspense>} />
               <Route path="/features/identity-resolution" element={<Suspense fallback={<DashboardSkeleton />}><IdentityResolution /></Suspense>} />
               <Route path="/features/bayesian-attribution" element={<Suspense fallback={<DashboardSkeleton />}><BayesianAttribution /></Suspense>} />
               <Route path="/features/journey-valuation" element={<Suspense fallback={<DashboardSkeleton />}><JourneyValuation /></Suspense>} />
@@ -499,6 +509,7 @@ const App = () => (
               <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
               
               {/* Product Pages */}
+              <Route path="/product" element={<Suspense fallback={<DashboardSkeleton />}><Product /></Suspense>} />
               <Route path="/products" element={<Suspense fallback={<DashboardSkeleton />}><Products /></Suspense>} />
               <Route path="/products/link-orchestration" element={<Suspense fallback={<DashboardSkeleton />}><LinkOrchestration /></Suspense>} />
               <Route path="/products/journey-intelligence" element={<Suspense fallback={<DashboardSkeleton />}><JourneyIntelligence /></Suspense>} />

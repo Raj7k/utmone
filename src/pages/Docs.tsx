@@ -13,7 +13,7 @@ const Docs = () => {
         { title: "Quick Start Guide", href: "#quick-start" },
         { title: "Create Your First Link", href: "#first-link" },
         { title: "Understanding UTM Parameters", href: "#utm-basics" },
-        { title: "Generate Your First QR Code", href: "#first-qr" },
+        { title: "Chrome Extension Setup", href: "/docs/chrome-extension" },
       ],
     },
     {
@@ -24,8 +24,18 @@ const Docs = () => {
         { title: "Short Links", href: "#short-links" },
         { title: "UTM Builder", href: "#utm-builder" },
         { title: "QR Code Generator", href: "#qr-generator" },
+        { title: "Geo-Targeting", href: "/docs/geo-targeting" },
         { title: "Analytics Dashboard", href: "#analytics" },
-        { title: "Enterprise Control", href: "#enterprise" },
+      ],
+    },
+    {
+      id: "intelligence",
+      title: "AI & Intelligence",
+      icon: BarChart3,
+      items: [
+        { title: "Smart Insights AI", href: "/docs/smart-insights" },
+        { title: "Identity Graph", href: "/docs/identity-graph" },
+        { title: "Revenue Attribution", href: "/docs/revenue-attribution" },
       ],
     },
     {
@@ -36,7 +46,7 @@ const Docs = () => {
         { title: "Authentication", href: "/docs/api" },
         { title: "Links API", href: "/docs/api" },
         { title: "Analytics API", href: "/docs/api" },
-        { title: "Rate Limits", href: "/docs/api" },
+        { title: "SDKs", href: "/docs/sdks" },
       ],
     },
     {
@@ -80,6 +90,16 @@ const Docs = () => {
         { title: "Data Privacy", href: "#privacy" },
         { title: "GDPR Compliance", href: "#gdpr" },
         { title: "Access Controls", href: "#access" },
+      ],
+    },
+    {
+      id: "troubleshooting",
+      title: "Troubleshooting",
+      icon: Shield,
+      items: [
+        { title: "Common Issues", href: "/docs/troubleshooting" },
+        { title: "Domain Verification", href: "/docs/troubleshooting#domains" },
+        { title: "Contact Support", href: "/support" },
       ],
     },
   ];
