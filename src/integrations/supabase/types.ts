@@ -2030,6 +2030,56 @@ export type Database = {
           },
         ]
       }
+      event_badge_scans: {
+        Row: {
+          company: string | null
+          conversion_status: string | null
+          created_at: string | null
+          email: string
+          event_id: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          scanned_at: string | null
+          title: string | null
+          visitor_id: string | null
+        }
+        Insert: {
+          company?: string | null
+          conversion_status?: string | null
+          created_at?: string | null
+          email: string
+          event_id: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          scanned_at?: string | null
+          title?: string | null
+          visitor_id?: string | null
+        }
+        Update: {
+          company?: string | null
+          conversion_status?: string | null
+          created_at?: string | null
+          email?: string
+          event_id?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          scanned_at?: string | null
+          title?: string | null
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_badge_scans_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "field_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       experiments: {
         Row: {
           created_at: string | null
@@ -2264,6 +2314,108 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      field_events: {
+        Row: {
+          attributed_pipeline: number | null
+          attributed_revenue: number | null
+          badge_imports: number | null
+          baseline_visitors: number | null
+          booth_link_id: string | null
+          created_at: string | null
+          created_by: string | null
+          direct_scans: number | null
+          end_date: string
+          halo_visitors: number | null
+          id: string
+          lift_percentage: number | null
+          location_city: string
+          location_country: string
+          name: string
+          start_date: string
+          status: string | null
+          updated_at: string | null
+          workspace_id: string
+        }
+        Insert: {
+          attributed_pipeline?: number | null
+          attributed_revenue?: number | null
+          badge_imports?: number | null
+          baseline_visitors?: number | null
+          booth_link_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          direct_scans?: number | null
+          end_date: string
+          halo_visitors?: number | null
+          id?: string
+          lift_percentage?: number | null
+          location_city: string
+          location_country?: string
+          name: string
+          start_date: string
+          status?: string | null
+          updated_at?: string | null
+          workspace_id: string
+        }
+        Update: {
+          attributed_pipeline?: number | null
+          attributed_revenue?: number | null
+          badge_imports?: number | null
+          baseline_visitors?: number | null
+          booth_link_id?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          direct_scans?: number | null
+          end_date?: string
+          halo_visitors?: number | null
+          id?: string
+          lift_percentage?: number | null
+          location_city?: string
+          location_country?: string
+          name?: string
+          start_date?: string
+          status?: string | null
+          updated_at?: string | null
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "field_events_booth_link_id_fkey"
+            columns: ["booth_link_id"]
+            isOneToOne: false
+            referencedRelation: "hot_links_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_events_booth_link_id_fkey"
+            columns: ["booth_link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_events_booth_link_id_fkey"
+            columns: ["booth_link_id"]
+            isOneToOne: false
+            referencedRelation: "mv_click_time_series"
+            referencedColumns: ["link_id"]
+          },
+          {
+            foreignKeyName: "field_events_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_events_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       flag_recommendations: {
         Row: {
