@@ -17,6 +17,18 @@
       })();
     </script>
     
+    <!-- Critical Resource Preloading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://whgnsmjdubnvbmarnjfx.supabase.co" crossorigin>
+    
+    <!-- Preload critical fonts with high priority -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- DNS Prefetch for third-party resources -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -24,6 +36,7 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-PCNWGGQQ');</script>
     <!-- End Google Tag Manager -->
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>utm.one - Clean Links Change Everything</title>
     <meta name="description" content="Create branded short links, generate QR codes, and track campaign performance with comprehensive UTM management for your organization." />
@@ -32,11 +45,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
-    
-    <!-- Google Fonts - Obsidian System -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <meta property="og:title" content="utm.one - Clean Links Change Everything" />
     <meta property="og:description" content="Create branded short links, generate QR codes, and track campaign performance with comprehensive UTM management." />
