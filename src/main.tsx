@@ -1,5 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { initWebVitals } from "./lib/webVitals";
+
+// Initialize Core Web Vitals tracking
+initWebVitals();
 
 createRoot(document.getElementById("root")!).render(<App />);

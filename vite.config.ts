@@ -19,10 +19,22 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
+          // Core React ecosystem
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // Data fetching and state
+          'vendor-query': ['@tanstack/react-query'],
+          // Backend client
+          'vendor-supabase': ['@supabase/supabase-js'],
+          // Visualization libraries
           'vendor-charts': ['recharts'],
           'vendor-motion': ['framer-motion'],
           'vendor-maps': ['react-simple-maps', 'd3-geo'],
+          'vendor-flow': ['@xyflow/react', 'reactflow'],
+          'vendor-nivo': ['@nivo/sankey'],
+          // Heavy utilities (lazy loaded)
+          'vendor-xlsx': ['xlsx'],
+          'vendor-qr': ['qrcode', 'react-qr-code', 'html5-qrcode'],
+          // UI primitives
           'vendor-radix': [
             '@radix-ui/react-dialog',
             '@radix-ui/react-dropdown-menu',
@@ -31,9 +43,14 @@ export default defineConfig(({ mode }) => ({
             '@radix-ui/react-tabs',
             '@radix-ui/react-tooltip',
             '@radix-ui/react-accordion',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-switch',
+            '@radix-ui/react-slider',
           ],
         },
       },
     },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
   },
 }));
