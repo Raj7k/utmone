@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   CheckCircle2, 
   Clock, 
@@ -10,12 +10,11 @@ import {
   Sparkles, 
   Phone, 
   Linkedin, 
-  ChevronDown, 
-  ChevronUp,
   RefreshCw,
   Building,
   User,
-  Mail
+  Mail,
+  ExternalLink
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -45,9 +44,10 @@ interface EventLeadsPanelProps {
   onRefresh?: () => void;
 }
 
+type FilterType = "all" | "enriched" | "pending" | "failed";
+
 export const EventLeadsPanel = ({ eventId, badgeScans, workspaceId, onRefresh }: EventLeadsPanelProps) => {
-  const [filter, setFilter] = useState<"all" | "enriched" | "pending" | "failed">("all");
-  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [filter, setFilter] = useState<FilterType>("all");
   const [enrichingIds, setEnrichingIds] = useState<Set<string>>(new Set());
   const [isEnrichingAll, setIsEnrichingAll] = useState(false);
 
@@ -65,16 +65,6 @@ export const EventLeadsPanel = ({ eventId, badgeScans, workspaceId, onRefresh }:
     if (filter === "failed") return !!scan.enrichment_error;
     return true;
   });
-
-  const toggleRow = (id: string) => {
-    const newSet = new Set(expandedRows);
-    if (newSet.has(id)) {
-      newSet.delete(id);
-    } else {
-      newSet.add(id);
-    }
-    setExpandedRows(newSet);
-  };
 
   const enrichSingleLead = async (scan: BadgeScan) => {
     if (!workspaceId) return;
@@ -159,30 +149,21 @@ export const EventLeadsPanel = ({ eventId, badgeScans, workspaceId, onRefresh }:
     onRefresh?.();
   };
 
-  const getStatusIcon = (scan: BadgeScan) => {
-    if (scan.enriched) {
-      return <CheckCircle2 className="h-4 w-4 text-emerald-500" />;
-    }
-    if (scan.enrichment_error) {
-      return <XCircle className="h-4 w-4 text-destructive" />;
-    }
-    return <Clock className="h-4 w-4 text-muted-foreground" />;
-  };
-
-  const getStatusText = (scan: BadgeScan) => {
-    if (scan.enriched) return "enriched";
-    if (scan.enrichment_error) return "failed";
-    return "pending";
-  };
+  const filters: { key: FilterType; label: string; count: number; icon?: React.ReactNode }[] = [
+    { key: "all", label: "all", count: badgeScans.length },
+    { key: "enriched", label: "enriched", count: enrichedCount, icon: <CheckCircle2 className="h-3 w-3" /> },
+    { key: "pending", label: "pending", count: pendingCount, icon: <Clock className="h-3 w-3" /> },
+    { key: "failed", label: "failed", count: failedCount, icon: <XCircle className="h-3 w-3" /> },
+  ];
 
   return (
-    <Card className="p-6">
-      {/* Header Stats */}
+    <Card className="p-4">
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="font-semibold text-foreground">leads ({badgeScans.length})</h3>
+          <h3 className="font-display font-semibold text-foreground">leads ({badgeScans.length})</h3>
           <p className="text-sm text-muted-foreground">
-            {enrichedCount} enriched • {pendingCount} pending • {successRate}% success rate
+            {enrichedCount} enriched • {pendingCount} pending • {successRate}% rate
           </p>
         </div>
         <Button 
@@ -196,198 +177,165 @@ export const EventLeadsPanel = ({ eventId, badgeScans, workspaceId, onRefresh }:
           ) : (
             <Sparkles className="h-4 w-4 mr-2" />
           )}
-          enrich all ({pendingCount})
+          enrich all
         </Button>
       </div>
 
-      {/* Filter Tabs */}
-      <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)} className="mb-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all">all</TabsTrigger>
-          <TabsTrigger value="enriched" className="gap-1">
-            <CheckCircle2 className="h-3 w-3" />
-            enriched
-          </TabsTrigger>
-          <TabsTrigger value="pending" className="gap-1">
-            <Clock className="h-3 w-3" />
-            pending
-          </TabsTrigger>
-          <TabsTrigger value="failed" className="gap-1">
-            <XCircle className="h-3 w-3" />
-            failed
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-
-      {/* Leads Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border text-left">
-              <th className="pb-2 text-muted-foreground font-medium">lead</th>
-              <th className="pb-2 text-muted-foreground font-medium">company</th>
-              <th className="pb-2 text-muted-foreground font-medium">status</th>
-              <th className="pb-2 text-muted-foreground font-medium">enriched data</th>
-              <th className="pb-2 text-muted-foreground font-medium text-right">actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredScans.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="py-8 text-center text-muted-foreground">
-                  no leads match this filter
-                </td>
-              </tr>
-            ) : (
-              filteredScans.map(scan => (
-                <>
-                  <tr 
-                    key={scan.id} 
-                    className="border-b border-border/50 hover:bg-muted/30 cursor-pointer"
-                    onClick={() => toggleRow(scan.id)}
-                  >
-                    <td className="py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                          <User className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-foreground">
-                            {[scan.first_name, scan.last_name].filter(Boolean).join(' ') || 'Unknown'}
-                          </div>
-                          <div className="text-xs text-muted-foreground flex items-center gap-1">
-                            <Mail className="h-3 w-3" />
-                            {scan.email}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <Building className="h-3 w-3" />
-                        {scan.company || '—'}
-                      </div>
-                      {scan.title && (
-                        <div className="text-xs text-muted-foreground">{scan.title}</div>
-                      )}
-                    </td>
-                    <td className="py-3">
-                      <div className="flex items-center gap-2">
-                        {getStatusIcon(scan)}
-                        <span className={cn(
-                          "text-xs",
-                          scan.enriched && "text-emerald-500",
-                          scan.enrichment_error && "text-destructive",
-                          !scan.enriched && !scan.enrichment_error && "text-muted-foreground"
-                        )}>
-                          {getStatusText(scan)}
-                        </span>
-                        {scan.enrichment_source && (
-                          <Badge variant="secondary" className="text-[10px] px-1">
-                            {scan.enrichment_source}
-                          </Badge>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3">
-                      <div className="flex items-center gap-3">
-                        {scan.phone && (
-                          <div className="flex items-center gap-1 text-xs text-foreground">
-                            <Phone className="h-3 w-3 text-emerald-500" />
-                            {scan.phone}
-                          </div>
-                        )}
-                        {scan.linkedin_url && (
-                          <a 
-                            href={scan.linkedin_url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center gap-1 text-xs text-primary hover:underline"
-                          >
-                            <Linkedin className="h-3 w-3" />
-                            linkedin
-                          </a>
-                        )}
-                        {!scan.phone && !scan.linkedin_url && (
-                          <span className="text-xs text-muted-foreground">—</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        {!scan.enriched && !enrichingIds.has(scan.id) && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              enrichSingleLead(scan);
-                            }}
-                          >
-                            <Sparkles className="h-4 w-4 mr-1" />
-                            enrich
-                          </Button>
-                        )}
-                        {enrichingIds.has(scan.id) && (
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <RefreshCw className="h-3 w-3 animate-spin" />
-                            enriching...
-                          </div>
-                        )}
-                        {expandedRows.has(scan.id) ? (
-                          <ChevronUp className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                  {/* Expanded Row */}
-                  {expandedRows.has(scan.id) && (
-                    <tr key={`${scan.id}-expanded`}>
-                      <td colSpan={5} className="bg-muted/30 px-4 py-3">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                          <div>
-                            <span className="text-muted-foreground">email:</span>
-                            <div className="text-foreground">{scan.email}</div>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">phone:</span>
-                            <div className="text-foreground">{scan.phone || '—'}</div>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">linkedin:</span>
-                            <div className="text-foreground">
-                              {scan.linkedin_url ? (
-                                <a href={scan.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                                  view profile
-                                </a>
-                              ) : '—'}
-                            </div>
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground">enriched at:</span>
-                            <div className="text-foreground">
-                              {scan.enriched_at ? new Date(scan.enriched_at).toLocaleString() : '—'}
-                            </div>
-                          </div>
-                          {scan.enrichment_error && (
-                            <div className="col-span-full">
-                              <span className="text-destructive">error:</span>
-                              <div className="text-destructive">{scan.enrichment_error}</div>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))
+      {/* Filter Pills */}
+      <div className="flex gap-1.5 mb-4 overflow-x-auto pb-1">
+        {filters.map(f => (
+          <button
+            key={f.key}
+            onClick={() => setFilter(f.key)}
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors",
+              filter === f.key 
+                ? "bg-primary text-primary-foreground" 
+                : "bg-muted text-muted-foreground hover:bg-muted/80"
             )}
-          </tbody>
-        </table>
+          >
+            {f.icon}
+            {f.label} ({f.count})
+          </button>
+        ))}
       </div>
+
+      {/* Leads Cards */}
+      <ScrollArea className="h-[400px]">
+        {filteredScans.length === 0 ? (
+          <div className="py-12 text-center text-muted-foreground">
+            <User className="h-8 w-8 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">no leads match this filter</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {filteredScans.map(scan => (
+              <LeadCard 
+                key={scan.id}
+                scan={scan}
+                isEnriching={enrichingIds.has(scan.id)}
+                onEnrich={() => enrichSingleLead(scan)}
+              />
+            ))}
+          </div>
+        )}
+      </ScrollArea>
     </Card>
+  );
+};
+
+interface LeadCardProps {
+  scan: BadgeScan;
+  isEnriching: boolean;
+  onEnrich: () => void;
+}
+
+const LeadCard = ({ scan, isEnriching, onEnrich }: LeadCardProps) => {
+  const name = [scan.first_name, scan.last_name].filter(Boolean).join(' ') || 'Unknown';
+  
+  const getStatusBadge = () => {
+    if (scan.enriched) {
+      return (
+        <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-600 border-0 text-[10px]">
+          <CheckCircle2 className="h-3 w-3 mr-1" />
+          enriched
+        </Badge>
+      );
+    }
+    if (scan.enrichment_error) {
+      return (
+        <Badge variant="secondary" className="bg-destructive/10 text-destructive border-0 text-[10px]">
+          <XCircle className="h-3 w-3 mr-1" />
+          failed
+        </Badge>
+      );
+    }
+    return (
+      <Badge variant="secondary" className="text-[10px]">
+        <Clock className="h-3 w-3 mr-1" />
+        pending
+      </Badge>
+    );
+  };
+
+  return (
+    <div className="p-3 rounded-lg bg-muted/30 border border-border/50 hover:border-border transition-colors">
+      <div className="flex items-start justify-between gap-3">
+        {/* Avatar & Info */}
+        <div className="flex items-start gap-3 min-w-0 flex-1">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+            <User className="h-5 w-5 text-muted-foreground" />
+          </div>
+          
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-medium text-foreground truncate">{name}</span>
+              {getStatusBadge()}
+            </div>
+            
+            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+              <Mail className="h-3 w-3 flex-shrink-0" />
+              <span className="truncate">{scan.email}</span>
+            </div>
+            
+            {(scan.company || scan.title) && (
+              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                <Building className="h-3 w-3 flex-shrink-0" />
+                <span className="truncate">
+                  {[scan.title, scan.company].filter(Boolean).join(' at ')}
+                </span>
+              </div>
+            )}
+            
+            {/* Enriched Data */}
+            {(scan.phone || scan.linkedin_url) && (
+              <div className="flex items-center gap-3 mt-2">
+                {scan.phone && (
+                  <a 
+                    href={`tel:${scan.phone}`}
+                    className="flex items-center gap-1 text-xs text-foreground hover:text-primary"
+                  >
+                    <Phone className="h-3 w-3 text-emerald-500" />
+                    {scan.phone}
+                  </a>
+                )}
+                {scan.linkedin_url && (
+                  <a 
+                    href={scan.linkedin_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs text-primary hover:underline"
+                  >
+                    <Linkedin className="h-3 w-3" />
+                    linkedin
+                    <ExternalLink className="h-2.5 w-2.5" />
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Action */}
+        {!scan.enriched && !scan.enrichment_error && (
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={onEnrich}
+            disabled={isEnriching}
+            className="flex-shrink-0"
+          >
+            {isEnriching ? (
+              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <>
+                <Sparkles className="h-3.5 w-3.5 mr-1" />
+                enrich
+              </>
+            )}
+          </Button>
+        )}
+      </div>
+    </div>
   );
 };

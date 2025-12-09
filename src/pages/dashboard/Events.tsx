@@ -12,7 +12,7 @@ import { EventHaloSpikeChart } from "@/components/events/EventHaloSpikeChart";
 import { BadgeScanUploader } from "@/components/events/BadgeScanUploader";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { EventValueSettings } from "@/components/events/EventValueSettings";
-import { UniversalScanner } from "@/components/events/scanner/UniversalScanner";
+import { ScannerModal } from "@/components/events/ScannerModal";
 import { EventLeadsPanel } from "@/components/events/EventLeadsPanel";
 import { BoothQRDialog } from "@/components/events/BoothQRDialog";
 import { toast } from "@/hooks/use-toast";
@@ -76,7 +76,7 @@ const Events = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">field events</h1>
+          <h1 className="font-display text-2xl font-semibold text-foreground">field events</h1>
           <p className="text-muted-foreground">track the invisible lift from conferences, trade shows, and meetups</p>
         </div>
         <Button onClick={() => setCreateDialogOpen(true)}>
@@ -89,7 +89,7 @@ const Events = () => {
         {/* Timeline (Left - 2 cols) */}
         <div className="lg:col-span-2">
           <Card className="p-4">
-            <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-4">
+            <h2 className="font-display text-lg font-semibold text-foreground mb-4">
               event timeline
             </h2>
             {isLoading ? (
@@ -122,7 +122,7 @@ const Events = () => {
               <Card className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-bold text-foreground">{selectedEvent.name}</h2>
+                    <h2 className="font-display text-xl font-semibold text-foreground">{selectedEvent.name}</h2>
                     <p className="text-muted-foreground">
                       {selectedEvent.location_city}, {selectedEvent.location_country} • 
                       {format(new Date(selectedEvent.start_date), " MMM d")} - 
@@ -130,6 +130,13 @@ const Events = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
+                    <Button 
+                      size="sm"
+                      onClick={() => setScannerEventId(selectedEvent.id)}
+                    >
+                      <Scan className="w-4 h-4 mr-2" />
+                      scan badge
+                    </Button>
                     <Button 
                       variant="outline" 
                       size="sm"
@@ -203,14 +210,7 @@ const Events = () => {
                 />
               )}
 
-              <UniversalScanner
-                eventId={selectedEvent.id}
-                eventName={selectedEvent.name}
-                onScanComplete={() => {
-                  refetch();
-                  handleRecalculate(selectedEvent.id);
-                }}
-              />
+              {/* Scanner is now a modal, triggered by button above */}
 
               <BadgeScanUploader
                 eventId={selectedEvent.id}
@@ -261,6 +261,19 @@ const Events = () => {
           eventId={qrDialogEvent.id}
           eventName={qrDialogEvent.name}
           city={qrDialogEvent.location_city}
+        />
+      )}
+
+      {scannerEventId && selectedEvent && (
+        <ScannerModal
+          open={!!scannerEventId}
+          onOpenChange={(open) => !open && setScannerEventId(null)}
+          eventId={scannerEventId}
+          eventName={selectedEvent.name}
+          onScanComplete={() => {
+            refetch();
+            handleRecalculate(scannerEventId);
+          }}
         />
       )}
     </div>
