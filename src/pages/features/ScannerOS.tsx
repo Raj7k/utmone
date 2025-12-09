@@ -20,8 +20,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MarketingHeader } from "@/components/marketing/MarketingHeader";
-import { MarketingFooter } from "@/components/marketing/MarketingFooter";
+import { AppHeader } from "@/components/layout/AppHeader";
+import { Footer } from "@/components/landing/Footer";
 import { cn } from "@/lib/utils";
 
 const ScannerOSPage = () => {
@@ -94,7 +94,7 @@ const ScannerOSPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <MarketingHeader />
+      <AppHeader />
       
       {/* Hero */}
       <section className="pt-24 pb-16 px-4">
