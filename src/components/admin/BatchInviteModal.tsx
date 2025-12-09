@@ -6,6 +6,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle2, Loader2, Mail } from "lucide-react";
 
+type InviteResult = {
+  success: number;
+  failed: number;
+  failedEmails?: string[];
+  errorMessage?: string;
+};
+
 type BatchInviteModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -16,7 +23,7 @@ type BatchInviteModalProps = {
     total_access_score: number;
     role: string | null;
   }>;
-  onConfirm: (accessLevel: number) => Promise<void>;
+  onConfirm: (accessLevel: number) => Promise<InviteResult>;
 };
 
 const getAccessLevelLabel = (level: number): string => {
@@ -32,16 +39,20 @@ const getAccessLevelLabel = (level: number): string => {
 export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm }: BatchInviteModalProps) {
   const [accessLevel, setAccessLevel] = useState<number>(2);
   const [sending, setSending] = useState(false);
-  const [result, setResult] = useState<{ success: number; failed: number } | null>(null);
+  const [result, setResult] = useState<InviteResult | null>(null);
 
   const handleSend = async () => {
     setSending(true);
     try {
-      await onConfirm(accessLevel);
-      setResult({ success: selectedUsers.length, failed: 0 });
-    } catch (error) {
+      const inviteResult = await onConfirm(accessLevel);
+      setResult(inviteResult);
+    } catch (error: any) {
       console.error(error);
-      setResult({ success: 0, failed: selectedUsers.length });
+      setResult({ 
+        success: 0, 
+        failed: selectedUsers.length,
+        errorMessage: error.message || 'Failed to send invitations'
+      });
     } finally {
       setSending(false);
     }
@@ -137,15 +148,28 @@ export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm 
             </div>
           </div>
         ) : (
-          // Results View
+        // Results View
           <div className="space-y-4 py-6">
-            {result.failed === 0 ? (
+            {result.failed === 0 && result.success > 0 ? (
               <div className="flex flex-col items-center text-center space-y-2">
                 <CheckCircle2 className="h-12 w-12 text-green-500" />
                 <h3 className="text-lg font-semibold">Invitations Sent Successfully</h3>
                 <p className="text-sm text-muted-foreground">
                   {result.success} invitation{result.success !== 1 ? 's' : ''} sent to selected users
                 </p>
+              </div>
+            ) : result.success === 0 ? (
+              <div className="flex flex-col items-center text-center space-y-2">
+                <AlertCircle className="h-12 w-12 text-destructive" />
+                <h3 className="text-lg font-semibold">Failed to Send Invitations</h3>
+                <p className="text-sm text-muted-foreground">
+                  {result.errorMessage || `All ${result.failed} invitation(s) failed`}
+                </p>
+                {result.failedEmails && result.failedEmails.length > 0 && (
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    Failed: {result.failedEmails.join(', ')}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col items-center text-center space-y-2">
@@ -154,6 +178,11 @@ export function BatchInviteModal({ open, onOpenChange, selectedUsers, onConfirm 
                 <p className="text-sm text-muted-foreground">
                   {result.success} succeeded, {result.failed} failed
                 </p>
+                {result.failedEmails && result.failedEmails.length > 0 && (
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    Failed: {result.failedEmails.join(', ')}
+                  </div>
+                )}
               </div>
             )}
             <Button onClick={handleClose} className="w-full">Close</Button>

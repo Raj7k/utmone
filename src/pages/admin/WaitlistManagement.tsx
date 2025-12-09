@@ -138,11 +138,21 @@ export default function WaitlistManagement() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
       queryClient.invalidateQueries({ queryKey: ["early-access-invites"] });
-      setSelectedUserIds([]);
-      toast({ 
-        title: "invitations sent", 
-        description: `${data.success_count} users invited successfully` 
-      });
+      if (data.success_count > 0) {
+        setSelectedUserIds([]);
+      }
+      if (data.success_count > 0 && data.failed_count === 0) {
+        toast({ 
+          title: "invitations sent", 
+          description: `${data.success_count} users invited successfully` 
+        });
+      } else if (data.success_count > 0 && data.failed_count > 0) {
+        toast({ 
+          title: "partially completed", 
+          description: `${data.success_count} sent, ${data.failed_count} failed`,
+          variant: "destructive"
+        });
+      }
     },
     onError: (error) => {
       toast({ 
@@ -162,10 +172,16 @@ export default function WaitlistManagement() {
   });
 
   const handleBatchInvite = async (accessLevel: number) => {
-    await batchInviteMutation.mutateAsync({ 
+    const result = await batchInviteMutation.mutateAsync({ 
       userIds: selectedUserIds, 
       accessLevel 
     });
+    return {
+      success: result.success_count || 0,
+      failed: result.failed_count || 0,
+      failedEmails: result.results?.failed?.map((f: any) => f.id) || [],
+      errorMessage: result.failed_count > 0 ? `${result.failed_count} invitation(s) failed to send` : undefined
+    };
   };
 
   const handleSelectUser = (userId: string, checked: boolean) => {
