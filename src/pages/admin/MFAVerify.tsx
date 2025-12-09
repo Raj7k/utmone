@@ -115,6 +115,13 @@ export default function MFAVerify() {
       if (verifyError) throw verifyError;
       if (verifyData?.error) throw new Error(verifyData.error);
 
+      // Store session-based MFA verification
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        sessionStorage.setItem('admin_mfa_verified', new Date().toISOString());
+        sessionStorage.setItem('admin_mfa_user_id', user.id);
+      }
+
       toast({
         title: "authentication successful",
         description: "accessing mission control...",

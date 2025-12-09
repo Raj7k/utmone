@@ -235,7 +235,31 @@ const Auth = () => {
         return;
       }
 
-      // Check if TOTP 2FA is required
+      // Check if user is admin with WebAuthn keys (security keys)
+      const { data: adminRole } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+
+      if (adminRole) {
+        // Admin user - check for WebAuthn security keys
+        const { data: authenticators } = await supabase
+          .from('user_authenticators')
+          .select('id')
+          .eq('user_id', data.user.id)
+          .limit(1);
+
+        if (authenticators && authenticators.length > 0) {
+          // Admin has security keys - MUST verify via WebAuthn
+          const returnTo = inviteToken ? `/accept-invite?token=${inviteToken}` : '/admin';
+          navigate(`/admin/mfa-verify?returnTo=${encodeURIComponent(returnTo)}`);
+          return;
+        }
+      }
+
+      // Check if TOTP 2FA is required (for non-admin users or admins without WebAuthn)
       const { data: mfaSettings } = await supabase
         .from('mfa_settings')
         .select('is_enabled')
