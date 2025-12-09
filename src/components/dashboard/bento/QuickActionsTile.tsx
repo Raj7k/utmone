@@ -1,7 +1,6 @@
 import { Zap, Link2, QrCode, BarChart3, Shield, Sparkles, Route } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
-import { MagneticCard } from "@/components/magnetic";
 
 export const QuickActionsTile = () => {
   const { setCreateModalOpen } = useModal();
@@ -49,26 +48,25 @@ export const QuickActionsTile = () => {
   return (
     <div className="bg-card rounded-2xl border border-border shadow-sm p-6 h-full">
       <div className="flex items-center gap-2 mb-6">
-        <Zap className="h-5 w-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+        <Zap className="h-5 w-5 text-foreground" />
         <h3 className="text-title-3 font-display">quick actions</h3>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {actions.map((action, index) => {
+        {actions.map((action) => {
           const Icon = action.icon;
           
           const CardContent = (
-            <div className="bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 h-full flex flex-col items-center text-center group">
-
-              {/* Icon with gradient background */}
+            <div className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200 h-full flex flex-col items-center text-center group">
+              {/* Icon with muted background */}
               <div className="flex justify-center mb-4">
-                <div className="p-4 rounded-2xl bg-white/5 group-hover:bg-white/10 transition-colors">
-                  <Icon className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                <div className="p-4 rounded-2xl bg-muted/50 group-hover:bg-muted transition-colors">
+                  <Icon className="h-6 w-6 text-foreground" />
                 </div>
               </div>
               
               {/* Title */}
-              <h4 className="font-semibold text-sm text-foreground mb-1 group-hover:text-white transition-colors">
+              <h4 className="font-semibold text-sm text-foreground mb-1">
                 {action.name}
               </h4>
               
@@ -81,20 +79,16 @@ export const QuickActionsTile = () => {
 
           if (action.href) {
             return (
-              <MagneticCard key={action.name} strength={0.15} enableTilt={true} enableGlow={true}>
-                <Link to={action.href} className="block h-full">
-                  {CardContent}
-                </Link>
-              </MagneticCard>
+              <Link key={action.name} to={action.href} className="block h-full">
+                {CardContent}
+              </Link>
             );
           }
 
           return (
-            <MagneticCard key={action.name} strength={0.15} enableTilt={true} enableGlow={true}>
-              <button onClick={action.onClick} className="w-full h-full">
-                {CardContent}
-              </button>
-            </MagneticCard>
+            <button key={action.name} onClick={action.onClick} className="w-full h-full">
+              {CardContent}
+            </button>
           );
         })}
       </div>
