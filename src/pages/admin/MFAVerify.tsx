@@ -3,15 +3,66 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Key } from "lucide-react";
-import { startAuthentication } from '@simplewebauthn/browser';
-import type { AuthenticationResponseJSON } from '@simplewebauthn/browser';
+import { Shield, Key, AlertTriangle, RefreshCw } from "lucide-react";
+import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function MFAVerify() {
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isReregistering, setIsReregistering] = useState(false);
+  const [domainMismatch, setDomainMismatch] = useState<{
+    currentDomain: string;
+    registeredDomains: string[];
+  } | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const currentDomain = window.location.hostname;
+
+  // Fetch user's security keys to check for domain mismatches
+  const { data: authenticators } = useQuery({
+    queryKey: ['user-authenticators-mfa'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('user_authenticators')
+        .select('id, device_name, registered_domain')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Check for domain mismatches when authenticators load
+  useEffect(() => {
+    if (authenticators && authenticators.length > 0) {
+      const mismatchedKeys = authenticators.filter(
+        auth => auth.registered_domain && auth.registered_domain !== currentDomain
+      );
+      
+      const legacyKeys = authenticators.filter(
+        auth => !auth.registered_domain
+      );
+      
+      // If ALL keys are mismatched (no matching or legacy keys), show warning
+      const hasMatchingKey = authenticators.some(
+        auth => !auth.registered_domain || auth.registered_domain === currentDomain
+      );
+      
+      if (!hasMatchingKey && mismatchedKeys.length > 0) {
+        const uniqueDomains = [...new Set(mismatchedKeys.map(k => k.registered_domain))];
+        setDomainMismatch({
+          currentDomain,
+          registeredDomains: uniqueDomains.filter(Boolean) as string[],
+        });
+      } else {
+        setDomainMismatch(null);
+      }
+    }
+  }, [authenticators, currentDomain]);
 
   useEffect(() => {
     // Check if user is admin
@@ -82,6 +133,13 @@ export default function MFAVerify() {
         description = "verification cancelled or timed out";
       } else if (error.name === 'InvalidStateError') {
         description = "this security key is not registered";
+      } else if (error.message?.includes('RP ID') || error.message?.includes('relying party')) {
+        // Domain mismatch error from WebAuthn
+        setDomainMismatch({
+          currentDomain,
+          registeredDomains: ['(unknown - check security settings)'],
+        });
+        description = "security key was registered on a different domain";
       }
 
       toast({
@@ -91,6 +149,68 @@ export default function MFAVerify() {
       });
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handleReregister = async () => {
+    setIsReregistering(true);
+
+    try {
+      // First, delete all existing keys
+      const { error: deleteError } = await supabase
+        .from('user_authenticators')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all for this user
+
+      if (deleteError) throw deleteError;
+
+      // Get registration options
+      const { data: options, error: optionsError } = await supabase.functions.invoke(
+        'generate-webauthn-registration',
+        { body: {} }
+      );
+
+      if (optionsError) throw optionsError;
+      if (options?.error) throw new Error(options.error);
+
+      // Register new key
+      const credential = await startRegistration({ optionsJSON: options });
+
+      // Verify registration
+      const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
+        'verify-webauthn-registration',
+        {
+          body: {
+            credential,
+            deviceName: `YubiKey (${currentDomain})`,
+          }
+        }
+      );
+
+      if (verifyError) throw verifyError;
+      if (verifyData?.error) throw new Error(verifyData.error);
+
+      toast({
+        title: "key registered",
+        description: `security key registered for ${currentDomain}`,
+      });
+
+      // Clear mismatch state and refresh
+      setDomainMismatch(null);
+      queryClient.invalidateQueries({ queryKey: ['user-authenticators-mfa'] });
+
+      // Try verifying again
+      setTimeout(() => handleVerify(), 500);
+
+    } catch (error: any) {
+      console.error('Re-registration error:', error);
+      toast({
+        title: "re-registration failed",
+        description: error.message || "could not register security key",
+        variant: "destructive",
+      });
+    } finally {
+      setIsReregistering(false);
     }
   };
 
@@ -109,16 +229,58 @@ export default function MFAVerify() {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Domain Mismatch Warning */}
+          {domainMismatch && (
+            <Alert className="bg-amber-500/10 border-amber-500/30">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <AlertDescription className="text-amber-200">
+                <strong>domain mismatch detected.</strong>
+                <p className="mt-2 text-sm">
+                  your security key was registered on{" "}
+                  <code className="px-1 py-0.5 rounded bg-amber-500/20 text-amber-100 text-xs">
+                    {domainMismatch.registeredDomains.join(', ')}
+                  </code>
+                  {" "}but you're accessing from{" "}
+                  <code className="px-1 py-0.5 rounded bg-amber-500/20 text-amber-100 text-xs">
+                    {domainMismatch.currentDomain}
+                  </code>
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleReregister}
+                  disabled={isReregistering}
+                  className="mt-3 bg-amber-500/10 border-amber-500/30 text-amber-200 hover:bg-amber-500/20"
+                >
+                  {isReregistering ? (
+                    <>
+                      <RefreshCw className="h-3 w-3 mr-2 animate-spin" />
+                      registering...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="h-3 w-3 mr-2" />
+                      re-register key on {domainMismatch.currentDomain}
+                    </>
+                  )}
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
+
           <div className="p-4 border rounded-lg text-center bg-primary/5 border-primary/20">
             <Key className="h-12 w-12 mx-auto mb-3 opacity-50 text-primary" />
             <p className="text-sm text-muted-foreground">
               tap your yubikey or use touchid to authenticate
             </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              domain: <code className="px-1 py-0.5 rounded bg-muted text-xs">{currentDomain}</code>
+            </p>
           </div>
 
           <Button
             onClick={handleVerify}
-            disabled={isVerifying}
+            disabled={isVerifying || isReregistering}
             className="w-full"
             size="lg"
           >
