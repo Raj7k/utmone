@@ -87,18 +87,31 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
   const values = form.watch();
 
-  // Auto-generate slug from title
+  // Auto-generate slug from title AND trigger AI analysis on URL change
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
       if (name === "title" && value.title) {
         const generatedSlug = generateSlugFromTitle(value.title);
         form.setValue("slug", generatedSlug);
       }
+      
+      // Trigger AI analysis when URL changes (typed or pasted)
+      if (name === "url" && value.url) {
+        try {
+          new URL(value.url);
+          if (value.url !== currentAnalyzedUrl) {
+            setCurrentAnalyzedUrl(value.url);
+            analyzeUrl(value.url);
+          }
+        } catch {
+          // Invalid URL, skip analysis
+        }
+      }
     });
     return () => subscription.unsubscribe();
-  }, [form]);
+  }, [form, analyzeUrl, currentAnalyzedUrl]);
 
-  // Handle URL paste for AI analysis
+  // Handle URL paste for immediate AI analysis (faster than watch debounce)
   const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
     const pastedUrl = e.clipboardData.getData('text');
     
@@ -111,9 +124,28 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     }
   };
 
+  // Wand button works with current URL in form (not just previously analyzed)
   const handleRegenerateSlugSuggestions = () => {
-    if (currentAnalyzedUrl) {
-      regenerateUrl(currentAnalyzedUrl);
+    const url = form.getValues("url");
+    if (url) {
+      try {
+        new URL(url);
+        setCurrentAnalyzedUrl(url);
+        regenerateUrl(url);
+      } catch {
+        // Invalid URL - show toast
+        toast({
+          title: "enter a valid url first",
+          description: "paste or type a url to generate ai slugs",
+          variant: "destructive",
+        });
+      }
+    } else {
+      toast({
+        title: "enter a url first",
+        description: "paste or type a url to generate ai slugs",
+        variant: "destructive",
+      });
     }
   };
 
