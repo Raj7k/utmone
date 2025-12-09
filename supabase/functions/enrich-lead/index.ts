@@ -67,6 +67,27 @@ serve(async (req) => {
       }
     }
 
+    // Check for ZoomInfo credentials
+    let zoomInfoClientId: string | null = null;
+    let zoomInfoClientSecret: string | null = null;
+    
+    zoomInfoClientId = Deno.env.get('ZOOMINFO_CLIENT_ID') || null;
+    zoomInfoClientSecret = Deno.env.get('ZOOMINFO_CLIENT_SECRET') || null;
+    
+    if (workspaceId) {
+      const { data: wsSettings } = await supabase
+        .from('workspaces')
+        .select('settings')
+        .eq('id', workspaceId)
+        .single();
+
+      if (wsSettings?.settings) {
+        const settings = wsSettings.settings as Record<string, unknown>;
+        zoomInfoClientId = (settings.zoominfo_client_id as string) || zoomInfoClientId;
+        zoomInfoClientSecret = (settings.zoominfo_client_secret as string) || zoomInfoClientSecret;
+      }
+    }
+
     let enrichmentResult: EnrichmentResponse | null = null;
 
     // Try Apollo.io first if configured
@@ -145,8 +166,69 @@ serve(async (req) => {
       }
     }
 
+    // Try ZoomInfo if others didn't work
+    if (!enrichmentResult?.email && zoomInfoClientId && zoomInfoClientSecret) {
+      try {
+        console.log('Attempting ZoomInfo enrichment...');
+        
+        // First, get access token
+        const tokenResponse = await fetch('https://api.zoominfo.com/authenticate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            clientId: zoomInfoClientId,
+            privateKey: zoomInfoClientSecret,
+          }),
+        });
+
+        if (tokenResponse.ok) {
+          const tokenData = await tokenResponse.json();
+          const accessToken = tokenData.jwt;
+
+          // Search for person
+          const searchResponse = await fetch('https://api.zoominfo.com/search/person', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              personCriteria: {
+                firstName: firstName,
+                lastName: lastName || '',
+                companyName: company,
+              },
+              outputFields: ['email', 'phone', 'linkedinUrl', 'jobTitle'],
+            }),
+          });
+
+          if (searchResponse.ok) {
+            const searchData = await searchResponse.json();
+            const person = searchData.data?.[0];
+            
+            if (person) {
+              enrichmentResult = {
+                email: person.email || undefined,
+                phone: person.phone || undefined,
+                linkedin: person.linkedinUrl || undefined,
+                title: person.jobTitle || undefined,
+                source: 'zoominfo',
+              };
+              console.log('ZoomInfo enrichment successful:', enrichmentResult);
+            }
+          }
+        } else {
+          console.log('ZoomInfo auth failed:', tokenResponse.status);
+        }
+      } catch (zoomError) {
+        console.error('ZoomInfo enrichment error:', zoomError);
+      }
+    }
+
     // If no enrichment providers configured, return helpful message
-    if (!apolloApiKey && !clayWebhookUrl) {
+    if (!apolloApiKey && !clayWebhookUrl && !(zoomInfoClientId && zoomInfoClientSecret)) {
       console.log('No enrichment providers configured');
       return new Response(
         JSON.stringify({ 

@@ -7,6 +7,7 @@ import { HubSpotCard } from "@/components/integrations/HubSpotCard";
 import { ZapierCard } from "@/components/integrations/ZapierCard";
 import { SlackCard } from "@/components/integrations/SlackCard";
 import { WebhookCard } from "@/components/integrations/WebhookCard";
+import { EnrichmentCard } from "@/components/integrations/EnrichmentCard";
 
 export const Integrations = () => {
   const { currentWorkspace } = useWorkspaceContext();
@@ -70,6 +71,15 @@ export const Integrations = () => {
           <ZapierCard workspaceId={currentWorkspace.id} />
           <SlackCard workspaceId={currentWorkspace.id} />
         </div>
+      </div>
+
+      {/* Lead Enrichment */}
+      <div>
+        <h3 className="text-lg font-semibold mb-4">lead enrichment</h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          automatically find missing contact info from badge scans
+        </p>
+        <EnrichmentCard workspaceId={currentWorkspace.id} />
       </div>
 
       {/* Developer Webhook */}
