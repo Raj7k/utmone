@@ -101,14 +101,17 @@ export const AppHeader = () => {
 
             {/* Logo */}
             <div 
-              className="cursor-pointer"
+              className="cursor-pointer hidden md:block"
               onClick={() => navigate("/dashboard")}
             >
               <UtmOneLogo size="md" />
             </div>
             
+            {/* Workspace Switcher - Always visible, prominent position */}
+            <WorkspaceSwitcher />
+            
             {/* Breadcrumbs */}
-            <div className="hidden md:flex items-center gap-2 text-caption-1 text-secondary-label">
+            <div className="hidden lg:flex items-center gap-2 text-caption-1 text-secondary-label">
               {breadcrumbs.map((crumb, index) => (
                 <div key={crumb.path} className="flex items-center gap-2">
                   {index > 0 && <ChevronRight className="h-3 w-3" />}
@@ -122,11 +125,6 @@ export const AppHeader = () => {
                   </button>
                 </div>
               ))}
-            </div>
-            
-            {/* Workspace Switcher */}
-            <div className="hidden md:block">
-              <WorkspaceSwitcher />
             </div>
           </div>
 
