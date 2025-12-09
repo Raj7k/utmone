@@ -149,7 +149,9 @@ Deno.serve(async (req) => {
         headers: { 
           ...corsHeaders, 
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-store', // Don't cache at CDN level
+          // Enable CDN edge caching: browser 60s, edge 5min, stale-while-revalidate 1hr
+          'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=3600',
+          'Vary': 'slug',
         },
         status: 200,
       }
