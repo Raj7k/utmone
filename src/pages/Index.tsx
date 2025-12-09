@@ -31,6 +31,7 @@ const DynamicFAQ = lazy(() => import("@/components/landing/DynamicFAQ").then(m =
 const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m => ({ default: m.DynamicCTA })));
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
+const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 // Simple loading placeholder
@@ -163,6 +164,11 @@ const Index = () => {
       {/* Common: AI Intelligence Layers - Shown for all use cases */}
       <Suspense fallback={<SectionSkeleton />}>
         <AIIntelligenceHero />
+      </Suspense>
+
+      {/* Event Halo Showcase - New Feature Highlight */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <EventHaloShowcase />
       </Suspense>
 
       {/* Analytics Feature Carousel - 12 features with Instagram-style swipe */}
