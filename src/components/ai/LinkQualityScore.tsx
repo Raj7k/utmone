@@ -10,6 +10,9 @@ interface LinkQualityScoreProps {
   utmContent?: string;
   customSlug?: boolean;
   hasAISuggestions?: boolean;
+  workspaceId?: string;
+  predictedInsights?: string[];
+  isLoadingPrediction?: boolean;
 }
 
 const standardMediums = ['cpc', 'email', 'social', 'organic', 'referral', 'banner', 'video', 'affiliate', 'newsletter'];
@@ -22,6 +25,8 @@ export function LinkQualityScore({
   utmContent = '',
   customSlug = false,
   hasAISuggestions = false,
+  predictedInsights = [],
+  isLoadingPrediction = false,
 }: LinkQualityScoreProps) {
   const { score, insights } = useMemo(() => {
     let calculatedScore = 30; // Base score
@@ -75,11 +80,14 @@ export function LinkQualityScore({
       calculatedScore += 5;
     }
 
+    // Merge with predicted insights (prioritize predicted insights)
+    const allInsights = [...predictedInsights, ...tips];
+    
     return { 
       score: Math.min(100, calculatedScore),
-      insights: tips.slice(0, 2) // Show top 2 tips
+      insights: allInsights.slice(0, 2) // Show top 2 insights
     };
-  }, [utmSource, utmMedium, utmCampaign, utmTerm, utmContent, customSlug, hasAISuggestions]);
+  }, [utmSource, utmMedium, utmCampaign, utmTerm, utmContent, customSlug, hasAISuggestions, predictedInsights]);
 
   const getScoreColor = () => {
     if (score >= 80) return 'hsl(var(--primary))';
@@ -102,6 +110,13 @@ export function LinkQualityScore({
         <TooltipTrigger asChild>
           <div className="relative flex items-center gap-2 cursor-help">
             <div className="relative w-12 h-12">
+              {isLoadingPrediction && (
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-primary/30"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+              )}
               <svg className="w-12 h-12 -rotate-90" viewBox="0 0 44 44">
                 {/* Background circle */}
                 <circle

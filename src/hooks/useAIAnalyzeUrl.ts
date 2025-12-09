@@ -5,6 +5,8 @@ export interface AISuggestions {
   utm_campaign: string;
   utm_content: string;
   utm_term: string;
+  utm_source?: string;
+  utm_medium?: string;
   vanity_slugs: string[];
   context: string;
 }

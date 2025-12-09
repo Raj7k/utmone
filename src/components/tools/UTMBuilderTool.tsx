@@ -13,6 +13,7 @@ import { useWorkspace } from "@/hooks/useWorkspace";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
 import { AIFilledBadge } from "@/components/ai/AIFilledBadge";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
+import { UTMFieldSkeleton } from "@/components/ai/UTMFieldSkeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -119,6 +120,15 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
     if (suggestions.utm_term && !values.utm_term) {
       form.setValue("utm_term", suggestions.utm_term);
       newAiFields.add("utm_term");
+    }
+    // Also apply source/medium if detected
+    if (suggestions.utm_source && !values.utm_source) {
+      form.setValue("utm_source", suggestions.utm_source);
+      newAiFields.add("utm_source");
+    }
+    if (suggestions.utm_medium && !values.utm_medium) {
+      form.setValue("utm_medium", suggestions.utm_medium);
+      newAiFields.add("utm_medium");
     }
     
     setAiFilledFields(newAiFields);
@@ -310,65 +320,71 @@ export const UTMBuilderTool = ({ onShortenURL }: UTMBuilderToolProps) => {
 
             <div className="relative">
               <Label htmlFor="utm_campaign">Campaign *</Label>
-              <div className="relative">
-                <Input
-                  id="utm_campaign"
-                  placeholder="summer-sale-2024"
-                  {...form.register("utm_campaign")}
-                  className="mt-1.5 pr-10"
-                  onChange={(e) => {
-                    form.setValue("utm_campaign", e.target.value);
-                    setAiFilledFields(prev => {
-                      const next = new Set(prev);
-                      next.delete("utm_campaign");
-                      return next;
-                    });
-                  }}
-                />
-                <AIFilledBadge show={aiFilledFields.has("utm_campaign")} />
-              </div>
+              <UTMFieldSkeleton isLoading={isAnalyzing && !values.utm_campaign}>
+                <div className="relative">
+                  <Input
+                    id="utm_campaign"
+                    placeholder="summer-sale-2024"
+                    {...form.register("utm_campaign")}
+                    className="mt-1.5 pr-10"
+                    onChange={(e) => {
+                      form.setValue("utm_campaign", e.target.value);
+                      setAiFilledFields(prev => {
+                        const next = new Set(prev);
+                        next.delete("utm_campaign");
+                        return next;
+                      });
+                    }}
+                  />
+                  <AIFilledBadge show={aiFilledFields.has("utm_campaign")} />
+                </div>
+              </UTMFieldSkeleton>
             </div>
 
             <div className="relative">
               <Label htmlFor="utm_term">Term (optional)</Label>
-              <div className="relative">
-                <Input
-                  id="utm_term"
-                  placeholder="running+shoes"
-                  {...form.register("utm_term")}
-                  className="mt-1.5 pr-10"
-                  onChange={(e) => {
-                    form.setValue("utm_term", e.target.value);
-                    setAiFilledFields(prev => {
-                      const next = new Set(prev);
-                      next.delete("utm_term");
-                      return next;
-                    });
-                  }}
-                />
-                <AIFilledBadge show={aiFilledFields.has("utm_term")} />
-              </div>
+              <UTMFieldSkeleton isLoading={isAnalyzing && !values.utm_term}>
+                <div className="relative">
+                  <Input
+                    id="utm_term"
+                    placeholder="running+shoes"
+                    {...form.register("utm_term")}
+                    className="mt-1.5 pr-10"
+                    onChange={(e) => {
+                      form.setValue("utm_term", e.target.value);
+                      setAiFilledFields(prev => {
+                        const next = new Set(prev);
+                        next.delete("utm_term");
+                        return next;
+                      });
+                    }}
+                  />
+                  <AIFilledBadge show={aiFilledFields.has("utm_term")} />
+                </div>
+              </UTMFieldSkeleton>
             </div>
 
             <div className="md:col-span-2 relative">
               <Label htmlFor="utm_content">Content (optional)</Label>
-              <div className="relative">
-                <Input
-                  id="utm_content"
-                  placeholder="banner-ad-top"
-                  {...form.register("utm_content")}
-                  className="mt-1.5 pr-10"
-                  onChange={(e) => {
-                    form.setValue("utm_content", e.target.value);
-                    setAiFilledFields(prev => {
-                      const next = new Set(prev);
-                      next.delete("utm_content");
-                      return next;
-                    });
-                  }}
-                />
-                <AIFilledBadge show={aiFilledFields.has("utm_content")} />
-              </div>
+              <UTMFieldSkeleton isLoading={isAnalyzing && !values.utm_content}>
+                <div className="relative">
+                  <Input
+                    id="utm_content"
+                    placeholder="banner-ad-top"
+                    {...form.register("utm_content")}
+                    className="mt-1.5 pr-10"
+                    onChange={(e) => {
+                      form.setValue("utm_content", e.target.value);
+                      setAiFilledFields(prev => {
+                        const next = new Set(prev);
+                        next.delete("utm_content");
+                        return next;
+                      });
+                    }}
+                  />
+                  <AIFilledBadge show={aiFilledFields.has("utm_content")} />
+                </div>
+              </UTMFieldSkeleton>
             </div>
           </div>
 

@@ -64,6 +64,11 @@ serve(async (req) => {
     const parsedUrl = new URL(url);
     const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
     const urlContext = pathParts.join(' ').replace(/-/g, ' ');
+    
+    // Enhanced source/medium detection from URL
+    const hostname = parsedUrl.hostname.toLowerCase();
+    const detectedSource = detectSourceFromUrl(hostname, parsedUrl.href);
+    const detectedMedium = detectMediumFromUrl(hostname, pathParts);
 
     // Step 2: Call LLM for semantic analysis
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
@@ -168,6 +173,8 @@ Respond in JSON format only:
             utm_campaign: sanitizeSlug(suggestions.utm_campaign || ''),
             utm_content: sanitizeSlug(suggestions.utm_content || ''),
             utm_term: sanitizeSlug(suggestions.utm_term || ''),
+            utm_source: detectedSource,
+            utm_medium: detectedMedium,
             vanity_slugs: (suggestions.vanity_slugs || []).map(sanitizeSlug).filter(Boolean),
             context: suggestions.context || '',
           },
@@ -205,10 +212,77 @@ function sanitizeSlug(text: string): string {
     .slice(0, 30);
 }
 
+// Source detection from URL/referrer patterns
+function detectSourceFromUrl(hostname: string, fullUrl: string): string {
+  const sourceMap: Record<string, string> = {
+    'twitter.com': 'twitter',
+    'x.com': 'twitter',
+    'facebook.com': 'facebook',
+    'fb.com': 'facebook',
+    'linkedin.com': 'linkedin',
+    'instagram.com': 'instagram',
+    'youtube.com': 'youtube',
+    'youtu.be': 'youtube',
+    'tiktok.com': 'tiktok',
+    'pinterest.com': 'pinterest',
+    'reddit.com': 'reddit',
+    'medium.com': 'medium',
+    'substack.com': 'substack',
+    'github.com': 'github',
+    'producthunt.com': 'producthunt',
+    'news.ycombinator.com': 'hackernews',
+  };
+  
+  for (const [domain, source] of Object.entries(sourceMap)) {
+    if (hostname.includes(domain)) {
+      return source;
+    }
+  }
+  
+  return '';
+}
+
+// Medium detection from URL patterns
+function detectMediumFromUrl(hostname: string, pathParts: string[]): string {
+  const pathStr = pathParts.join('/').toLowerCase();
+  
+  // Social platforms
+  const socialDomains = ['twitter.com', 'x.com', 'facebook.com', 'linkedin.com', 'instagram.com', 'tiktok.com', 'pinterest.com'];
+  if (socialDomains.some(d => hostname.includes(d))) {
+    return 'social';
+  }
+  
+  // Blog/content patterns
+  if (pathStr.includes('blog') || pathStr.includes('article') || pathStr.includes('post')) {
+    return 'content';
+  }
+  
+  // Email patterns
+  if (pathStr.includes('newsletter') || pathStr.includes('email') || pathStr.includes('subscribe')) {
+    return 'email';
+  }
+  
+  // Paid patterns
+  if (pathStr.includes('ad') || pathStr.includes('promo') || pathStr.includes('sponsored')) {
+    return 'cpc';
+  }
+  
+  // Video patterns
+  if (hostname.includes('youtube') || hostname.includes('vimeo') || pathStr.includes('video')) {
+    return 'video';
+  }
+  
+  return '';
+}
+
 function generateRuleBasedSuggestions(url: string, pageTitle: string, urlContext: string) {
   const parsedUrl = new URL(url);
   const hostname = parsedUrl.hostname.replace('www.', '');
   const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
+  
+  // Detect source and medium
+  const detectedSource = detectSourceFromUrl(hostname, url);
+  const detectedMedium = detectMediumFromUrl(hostname, pathParts);
   
   // Extract meaningful parts
   const lastPath = pathParts[pathParts.length - 1] || '';
@@ -239,6 +313,8 @@ function generateRuleBasedSuggestions(url: string, pageTitle: string, urlContext
       utm_campaign,
       utm_content,
       utm_term,
+      utm_source: detectedSource,
+      utm_medium: detectedMedium,
       vanity_slugs,
       context: `Page from ${hostname}`,
     },
