@@ -68,7 +68,7 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <ContextualHeader />
 
           {/* Page Content */}
-          <main className="flex-1 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto px-6 py-6 lg:px-8 lg:py-8">
             {children}
           </main>
         </div>

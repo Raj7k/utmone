@@ -36,7 +36,7 @@ export const PageContentWrapper = ({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className={cn("space-y-6", className)}
+        className={cn("space-y-6 max-w-7xl", className)}
       >
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-sm">
