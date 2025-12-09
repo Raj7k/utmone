@@ -388,38 +388,6 @@ export const Navigation = () => {
                           </div>
                           <p className="text-xs leading-snug text-white-50">zero broken links</p>
                         </Link>
-
-                        <Link
-                          to="/features/event-halo"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Radio className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium leading-none text-white-90">Event Halo</span>
-                              <Badge className="px-1.5 py-0.5 text-[10px] bg-primary/20 text-primary border-primary/30">NEW</Badge>
-                            </div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">track invisible 90%</p>
-                        </Link>
-
-                        <Link
-                          to="/features/one-tap"
-                          className="group block select-none space-y-1.5 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-white/10"
-                        >
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-white-10">
-                              <Scan className="w-4 h-4 text-white-80" />
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium leading-none text-white-90">One-Tap</span>
-                              <Badge className="px-1.5 py-0.5 text-[10px] bg-primary/20 text-primary border-primary/30">NEW</Badge>
-                            </div>
-                          </div>
-                          <p className="text-xs leading-snug text-white-50">universal badge scanner</p>
-                        </Link>
                       </div>
                     </div>
                   </div>
