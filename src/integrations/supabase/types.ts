@@ -2322,11 +2322,15 @@ export type Database = {
           badge_imports: number | null
           baseline_visitors: number | null
           booth_link_id: string | null
+          calculation_metadata: Json | null
+          control_city: string | null
           created_at: string | null
           created_by: string | null
           direct_scans: number | null
           end_date: string
           halo_visitors: number | null
+          halo_visitors_high: number | null
+          halo_visitors_low: number | null
           id: string
           lift_percentage: number | null
           location_city: string
@@ -2343,11 +2347,15 @@ export type Database = {
           badge_imports?: number | null
           baseline_visitors?: number | null
           booth_link_id?: string | null
+          calculation_metadata?: Json | null
+          control_city?: string | null
           created_at?: string | null
           created_by?: string | null
           direct_scans?: number | null
           end_date: string
           halo_visitors?: number | null
+          halo_visitors_high?: number | null
+          halo_visitors_low?: number | null
           id?: string
           lift_percentage?: number | null
           location_city: string
@@ -2364,11 +2372,15 @@ export type Database = {
           badge_imports?: number | null
           baseline_visitors?: number | null
           booth_link_id?: string | null
+          calculation_metadata?: Json | null
+          control_city?: string | null
           created_at?: string | null
           created_by?: string | null
           direct_scans?: number | null
           end_date?: string
           halo_visitors?: number | null
+          halo_visitors_high?: number | null
+          halo_visitors_low?: number | null
           id?: string
           lift_percentage?: number | null
           location_city?: string
@@ -6576,6 +6588,33 @@ export type Database = {
           lift_percentage: number
         }[]
       }
+      calculate_city_baseline_with_control: {
+        Args: {
+          p_baseline_days?: number
+          p_control_city: string
+          p_event_end: string
+          p_event_start: string
+          p_target_city: string
+          p_workspace_id: string
+        }
+        Returns: {
+          baseline_daily_average: number
+          baseline_total_visitors: number
+          bots_filtered: number
+          control_baseline_daily_average: number
+          control_event_visitors: number
+          control_lift_percentage: number
+          divergence_score: number
+          event_duration_days: number
+          event_visitors: number
+          halo_visitors: number
+          halo_visitors_high: number
+          halo_visitors_low: number
+          has_sufficient_data: boolean
+          internal_ips_filtered: number
+          lift_percentage: number
+        }[]
+      }
       calculate_cross_device_attribution: {
         Args: {
           p_end_date: string
@@ -6741,6 +6780,20 @@ export type Database = {
           treatment_total: number
         }[]
       }
+      get_city_comparison_timeseries: {
+        Args: {
+          p_control_city: string
+          p_end_date: string
+          p_start_date: string
+          p_target_city: string
+          p_workspace_id: string
+        }
+        Returns: {
+          control_visitors: number
+          target_visitors: number
+          visit_date: string
+        }[]
+      }
       get_city_visitor_timeseries: {
         Args: {
           p_end_date: string
@@ -6795,6 +6848,19 @@ export type Database = {
           os: string
           unique_clicks: number
           workspace_id: string
+        }[]
+      }
+      get_event_live_pulse: {
+        Args: {
+          p_baseline_hourly_avg: number
+          p_target_city: string
+          p_workspace_id: string
+        }
+        Returns: {
+          current_hour_visitors: number
+          expected_visitors: number
+          pulse_percentage: number
+          pulse_status: string
         }[]
       }
       get_feature_flag: { Args: { flag_name: string }; Returns: boolean }

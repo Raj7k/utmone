@@ -220,9 +220,12 @@ const Events = () => {
                 </Card>
 
                 {/* Spike Chart - Baseline vs Event Traffic */}
-                {haloResult?.timeseries && haloResult.timeseries.length > 0 && (
+                {haloResult?.comparison_timeseries && haloResult.comparison_timeseries.length > 0 && (
                   <EventHaloSpikeChart
-                    timeseries={haloResult.timeseries}
+                    timeseries={haloResult.comparison_timeseries.map(p => ({
+                      visit_date: p.visit_date,
+                      unique_visitors: p.target_visitors
+                    }))}
                     eventStart={haloResult.event_start}
                     eventEnd={haloResult.event_end}
                     baselineDailyAverage={haloResult.baseline_daily_average}
