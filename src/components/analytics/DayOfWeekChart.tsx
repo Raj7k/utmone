@@ -16,6 +16,38 @@ const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "F
 export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChartProps) => {
   const { heatmapData, bestDay, isLoading } = useClickHeatmap({ workspaceId, linkId, days });
 
+  // Aggregate clicks by day of week (prepare data before hooks)
+  const dayTotals = new Map<number, number>();
+  for (let day = 0; day < 7; day++) {
+    dayTotals.set(day, 0);
+  }
+  if (!isLoading) {
+    heatmapData.forEach(cell => {
+      dayTotals.set(cell.day, (dayTotals.get(cell.day) || 0) + cell.clicks);
+    });
+  }
+
+  // Calculate average
+  const totalClicks = Array.from(dayTotals.values()).reduce((sum, val) => sum + val, 0);
+  const average = totalClicks / 7;
+
+  // Prepare chart data (always prepare, even if empty)
+  const chartData = Array.from({ length: 7 }, (_, i) => ({
+    day: DAYS_OF_WEEK[i],
+    dayIndex: i,
+    clicks: dayTotals.get(i) || 0,
+    isBest: !isLoading && i === bestDay.day
+  }));
+
+  // Accessibility data - MUST be called before any early returns
+  const accessibilityData = useChartAccessibility(
+    chartData,
+    "Day of Week Click Distribution",
+    "day",
+    ["clicks"]
+  );
+
+  // NOW safe to return loading skeleton
   if (isLoading) {
     return (
       <Card variant="glass">
@@ -29,35 +61,6 @@ export const DayOfWeekChart = ({ workspaceId, linkId, days = 30 }: DayOfWeekChar
       </Card>
     );
   }
-
-  // Aggregate clicks by day of week
-  const dayTotals = new Map<number, number>();
-  for (let day = 0; day < 7; day++) {
-    dayTotals.set(day, 0);
-  }
-  heatmapData.forEach(cell => {
-    dayTotals.set(cell.day, (dayTotals.get(cell.day) || 0) + cell.clicks);
-  });
-
-  // Calculate average
-  const totalClicks = Array.from(dayTotals.values()).reduce((sum, val) => sum + val, 0);
-  const average = totalClicks / 7;
-
-  // Prepare chart data
-  const chartData = Array.from({ length: 7 }, (_, i) => ({
-    day: DAYS_OF_WEEK[i],
-    dayIndex: i,
-    clicks: dayTotals.get(i) || 0,
-    isBest: i === bestDay.day
-  }));
-
-  // Accessibility data
-  const accessibilityData = useChartAccessibility(
-    chartData,
-    "Day of Week Click Distribution",
-    "day",
-    ["clicks"]
-  );
 
   return (
     <Card variant="glass">
