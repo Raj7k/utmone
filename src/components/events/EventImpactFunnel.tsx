@@ -5,14 +5,21 @@ interface EventImpactFunnelProps {
   directScans: number;
   haloVisitors: number;
   attributedPipeline?: number;
+  avgDealValue?: number;
+  conversionRate?: number;
 }
 
 export const EventImpactFunnel = ({
   directScans,
   haloVisitors,
-  attributedPipeline = 0
+  attributedPipeline,
+  avgDealValue = 10000,
+  conversionRate = 0.15,
 }: EventImpactFunnelProps) => {
   const totalImpact = directScans + haloVisitors;
+  
+  // Calculate pipeline from provided values or use passed attributedPipeline
+  const calculatedPipeline = attributedPipeline ?? Math.round(totalImpact * conversionRate * avgDealValue);
   
   const stages = [
     {
@@ -66,7 +73,7 @@ export const EventImpactFunnel = ({
       </div>
       
       {/* Pipeline Estimate */}
-      {attributedPipeline > 0 && (
+      {calculatedPipeline > 0 && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -78,10 +85,10 @@ export const EventImpactFunnel = ({
             <span className="text-sm text-muted-foreground">estimated pipeline</span>
           </div>
           <p className="text-3xl font-bold text-foreground">
-            ${(attributedPipeline / 1000).toFixed(0)}k
+            ${(calculatedPipeline / 1000).toFixed(0)}k
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            based on 15% conversion rate × $10k avg deal
+            based on {(conversionRate * 100).toFixed(0)}% conversion × ${(avgDealValue / 1000).toFixed(0)}k avg deal
           </p>
         </motion.div>
       )}

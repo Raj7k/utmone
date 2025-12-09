@@ -160,7 +160,7 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg bg-card border-border z-[100]">
         <DialogHeader>
           <DialogTitle className="font-display text-xl">booth qr code</DialogTitle>
           <DialogDescription>

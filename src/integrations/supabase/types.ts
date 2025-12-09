@@ -2319,11 +2319,13 @@ export type Database = {
         Row: {
           attributed_pipeline: number | null
           attributed_revenue: number | null
+          avg_deal_value: number | null
           badge_imports: number | null
           baseline_visitors: number | null
           booth_link_id: string | null
           calculation_metadata: Json | null
           control_city: string | null
+          conversion_rate: number | null
           created_at: string | null
           created_by: string | null
           direct_scans: number | null
@@ -2339,16 +2341,19 @@ export type Database = {
           start_date: string
           status: string | null
           updated_at: string | null
+          use_inferred_values: boolean | null
           workspace_id: string
         }
         Insert: {
           attributed_pipeline?: number | null
           attributed_revenue?: number | null
+          avg_deal_value?: number | null
           badge_imports?: number | null
           baseline_visitors?: number | null
           booth_link_id?: string | null
           calculation_metadata?: Json | null
           control_city?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           created_by?: string | null
           direct_scans?: number | null
@@ -2364,16 +2369,19 @@ export type Database = {
           start_date: string
           status?: string | null
           updated_at?: string | null
+          use_inferred_values?: boolean | null
           workspace_id: string
         }
         Update: {
           attributed_pipeline?: number | null
           attributed_revenue?: number | null
+          avg_deal_value?: number | null
           badge_imports?: number | null
           baseline_visitors?: number | null
           booth_link_id?: string | null
           calculation_metadata?: Json | null
           control_city?: string | null
+          conversion_rate?: number | null
           created_at?: string | null
           created_by?: string | null
           direct_scans?: number | null
@@ -2389,6 +2397,7 @@ export type Database = {
           start_date?: string
           status?: string | null
           updated_at?: string | null
+          use_inferred_values?: boolean | null
           workspace_id?: string
         }
         Relationships: [
