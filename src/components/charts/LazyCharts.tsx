@@ -1,12 +1,12 @@
 import { lazy, Suspense, ComponentType, ReactNode } from "react";
 
-// Chart loading skeleton
+// Chart loading skeleton with fixed height to prevent CLS
 const ChartSkeleton = ({ height = 300 }: { height?: number }) => (
   <div 
     className="w-full flex items-center justify-center bg-muted/20 rounded-lg animate-pulse"
-    style={{ height }}
+    style={{ height, minHeight: height }}
   >
-    <div className="w-6 h-6 border-2 border-white/20 border-t-white/60 rounded-full animate-spin" />
+    <div className="w-6 h-6 border-2 border-muted-foreground/20 border-t-muted-foreground/60 rounded-full animate-spin" />
   </div>
 );
 
@@ -39,16 +39,18 @@ export const LazyComposedChart = lazy(() =>
   import("recharts").then((mod) => ({ default: mod.ComposedChart }))
 );
 
-// Wrapper component for lazy charts with built-in Suspense
+// Wrapper component for lazy charts with built-in Suspense and CLS prevention
 interface LazyChartContainerProps {
   children: ReactNode;
   height?: number;
 }
 
 export const LazyChartContainer = ({ children, height = 300 }: LazyChartContainerProps) => (
-  <Suspense fallback={<ChartSkeleton height={height} />}>
-    {children}
-  </Suspense>
+  <div style={{ minHeight: height }}>
+    <Suspense fallback={<ChartSkeleton height={height} />}>
+      {children}
+    </Suspense>
+  </div>
 );
 
 // Export common chart components (these are lightweight, no need to lazy load)
