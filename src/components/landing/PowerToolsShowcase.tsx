@@ -166,7 +166,7 @@ export const PowerToolsShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase px-2">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold lowercase px-2">
             power tools for scale
           </h1>
           <p className="text-base sm:text-lg text-white-50">
@@ -175,8 +175,25 @@ export const PowerToolsShowcase = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          {/* Mobile: Vertical Stacked Buttons */}
+          {/* Mobile: Image First, Tabs Below */}
           <div className="md:hidden space-y-4">
+            {/* Active Tool Preview - Mobile - FIRST */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTool}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="rounded-xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8"
+              >
+                <div className="p-4">
+                  {active.mockup}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Tab Buttons - BELOW */}
             <div className="space-y-2">
               {POWER_TOOLS.map((tool) => {
                 const Icon = tool.icon;
@@ -213,22 +230,6 @@ export const PowerToolsShowcase = () => {
                 );
               })}
             </div>
-            
-            {/* Active Tool Preview - Mobile */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTool}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-xl overflow-hidden bg-zinc-900/40 backdrop-blur-[40px] border border-white/8"
-              >
-                <div className="p-4">
-                  {active.mockup}
-                </div>
-              </motion.div>
-            </AnimatePresence>
           </div>
           
           {/* Desktop: Horizontal Tabs */}
