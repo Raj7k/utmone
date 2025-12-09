@@ -14,7 +14,7 @@ import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { InteractiveWorkflowCard } from "@/components/solutions/InteractiveWorkflowCard";
 import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
-import { Link as LinkIcon, QrCode, BarChart3, Shield, CheckCircle2, Layers, Settings, Rocket } from "lucide-react";
+import { Link as LinkIcon, QrCode, BarChart3, Shield, CheckCircle2, Layers, Settings, Rocket, Target } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
 const Marketers = () => {
@@ -359,6 +359,14 @@ const Marketers = () => {
               color="primary"
               delay={0.5}
               href="/features/governance"
+            />
+            <FeatureMappedCard
+              icon={Target}
+              title="event halo"
+              description="Track the invisible 90% from every event"
+              color="blazeOrange"
+              delay={0.6}
+              href="/features/event-halo"
             />
           </div>
         </div>
