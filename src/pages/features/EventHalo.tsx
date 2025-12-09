@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { MapPin, Waves, Users, TrendingUp, QrCode, Upload, BarChart3, ArrowRight, Target, Zap } from "lucide-react";
-import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
+import { Waves, QrCode, Upload, BarChart3, ArrowRight } from "lucide-react";
+import { FeatureLayout } from "@/components/features/FeatureLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 
 const EventHalo = () => {
   const features = [
@@ -38,29 +39,40 @@ const EventHalo = () => {
   ];
 
   return (
-    <ObsidianMarketingLayout>
+    <FeatureLayout
+      title="Event Halo - Track the Invisible 90% | utm.one"
+      description="Detect and attribute the invisible event traffic. Geo-temporal lift analysis proves ROI beyond badge scans."
+      canonical="https://utm.one/features/event-halo"
+      keywords={["event halo", "field marketing", "event attribution", "geo-temporal lift", "badge scan", "event ROI"]}
+      breadcrumbs={[
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/features" },
+        { name: "Event Halo", url: "https://utm.one/features/event-halo" }
+      ]}
+    >
       <main className="min-h-screen">
         {/* Hero */}
-        <section className="pt-32 pb-20 px-4">
-          <div className="max-w-6xl mx-auto">
+        <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+          <RetroGradientMesh />
+          <div className="max-w-6xl mx-auto relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm text-white/80">
                   <Waves className="w-4 h-4" />
                   field marketing intelligence
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-foreground leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase obsidian-platinum-text leading-tight">
                   the invisible 90% of your event traffic
                 </h1>
                 
-                <p className="text-xl text-muted-foreground">
+                <p className="text-xl text-obsidian-text-muted">
                   you scan 100 badges. but 1,000 other people saw your booth, didn't scan, and visited your site later. 
-                  <span className="text-foreground font-medium"> event halo captures them all.</span>
+                  <span className="text-white font-medium"> event halo captures them all.</span>
                 </p>
                 
                 <div className="flex flex-wrap gap-4 pt-4">
@@ -70,7 +82,7 @@ const EventHalo = () => {
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg">
+                  <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
                     <Link to="/book-demo">see it in action</Link>
                   </Button>
                 </div>
@@ -82,15 +94,15 @@ const EventHalo = () => {
                 transition={{ delay: 0.2 }}
                 className="flex justify-center"
               >
-                <div className="relative p-8 rounded-3xl bg-card/50 backdrop-blur border border-border">
+                <div className="relative p-8 rounded-3xl bg-white/5 backdrop-blur border border-white/10">
                   <SonarVisualization
                     haloVisitors={1847}
                     liftPercentage={450}
                     city="Las Vegas"
                     isActive={true}
                   />
-                  <div className="mt-8 pt-6 border-t border-border text-center">
-                    <p className="text-sm text-muted-foreground">CES 2025 • Jan 7-10</p>
+                  <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                    <p className="text-sm text-obsidian-text-muted">CES 2025 • Jan 7-10</p>
                   </div>
                 </div>
               </motion.div>
@@ -99,7 +111,7 @@ const EventHalo = () => {
         </section>
 
         {/* Problem Statement */}
-        <section className="py-20 px-4 bg-muted/30">
+        <section className="py-20 px-4 bg-white/[0.02]">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -107,7 +119,7 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
                 the field marketing blind spot
               </h2>
               
@@ -149,10 +161,10 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
                 the algorithm
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-obsidian-text-muted max-w-2xl mx-auto">
                 based on state estimation theory. we treat location and time as noisy sensors 
                 to probabilistically attribute event impact.
               </p>
@@ -183,7 +195,7 @@ const EventHalo = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="p-6 h-full">
+                  <Card className="p-6 h-full bg-card border-border">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold mb-4">
                       {item.step}
                     </div>
@@ -197,13 +209,13 @@ const EventHalo = () => {
         </section>
 
         {/* Features Grid */}
-        <section className="py-20 px-4 bg-muted/30">
+        <section className="py-20 px-4 bg-white/[0.02]">
           <div className="max-w-6xl mx-auto">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-serif font-bold text-foreground text-center mb-12"
+              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text text-center mb-12"
             >
               everything you need
             </motion.h2>
@@ -217,7 +229,7 @@ const EventHalo = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="p-6 h-full">
+                  <Card className="p-6 h-full bg-card border-border">
                     <feature.icon className="w-8 h-8 text-primary mb-4" />
                     <h3 className="font-semibold text-foreground mb-2">{feature.title}</h3>
                     <p className="text-muted-foreground">{feature.description}</p>
@@ -235,7 +247,7 @@ const EventHalo = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-serif font-bold text-foreground text-center mb-12"
+              className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text text-center mb-12"
             >
               works for every event type
             </motion.h2>
@@ -249,7 +261,7 @@ const EventHalo = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="p-4 text-center h-full">
+                  <Card className="p-4 text-center h-full bg-card border-border">
                     <h3 className="font-semibold text-foreground mb-1">{useCase.title}</h3>
                     <p className="text-xs text-muted-foreground mb-3">{useCase.example}</p>
                     <p className="text-lg font-bold text-primary">{useCase.impact}</p>
@@ -261,7 +273,7 @@ const EventHalo = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-20 px-4 bg-primary/5">
+        <section className="py-20 px-4 bg-white/[0.02]">
           <div className="max-w-3xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -269,10 +281,10 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
                 prove your event's real footprint
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-obsidian-text-muted">
                 stop under-reporting your impact. start measuring the invisible.
               </p>
               <div className="flex flex-wrap justify-center gap-4 pt-4">
@@ -290,7 +302,7 @@ const EventHalo = () => {
           </div>
         </section>
       </main>
-    </ObsidianMarketingLayout>
+    </FeatureLayout>
   );
 };
 

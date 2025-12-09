@@ -50,6 +50,7 @@ export const appNavigation: NavItem[] = [
   { name: "Links", href: "/dashboard/links", icon: Link2 },
   { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
+  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
 
@@ -73,7 +74,6 @@ export const intelligenceNavigation: NavItem[] = [
 // GROWTH - Campaign and marketing features
 export const growthNavigation: NavItem[] = [
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
-  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
 ];
 
 // SETTINGS - All settings sub-pages grouped by category
