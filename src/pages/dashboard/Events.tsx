@@ -14,6 +14,7 @@ import { EventHaloSpikeChart } from "@/components/events/EventHaloSpikeChart";
 import { BadgeScanUploader } from "@/components/events/BadgeScanUploader";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { EventValueSettings } from "@/components/events/EventValueSettings";
+import { UniversalScanner } from "@/components/events/scanner/UniversalScanner";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
@@ -253,7 +254,17 @@ const Events = () => {
                   />
                 )}
 
-                {/* Badge Uploader */}
+                {/* Universal Scanner */}
+                <UniversalScanner
+                  eventId={selectedEvent.id}
+                  eventName={selectedEvent.name}
+                  onScanComplete={() => {
+                    refetch();
+                    handleRecalculate(selectedEvent.id);
+                  }}
+                />
+
+                {/* CSV Badge Uploader */}
                 <BadgeScanUploader
                   eventId={selectedEvent.id}
                   onUploadComplete={() => {
