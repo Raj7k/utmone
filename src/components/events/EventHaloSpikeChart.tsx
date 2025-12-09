@@ -46,8 +46,8 @@ export const EventHaloSpikeChart = ({
 
   if (chartData.length === 0) {
     return (
-      <div className={`flex items-center justify-center h-[200px] obsidian-glass-60 rounded-xl border border-white/10 ${className}`}>
-        <p className="text-white/40 text-sm">No visitor data available yet</p>
+      <div className={`flex items-center justify-center h-[200px] rounded-xl border border-border bg-muted/30 ${className}`}>
+        <p className="text-muted-foreground text-sm">No visitor data available yet</p>
       </div>
     );
   }
@@ -56,17 +56,17 @@ export const EventHaloSpikeChart = ({
   const eventEndStr = eventEnd.split('T')[0];
 
   return (
-    <div className={`obsidian-glass-60 rounded-xl border border-white/10 p-4 ${className}`}>
+    <div className={className}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-white/80 lowercase">visitor spike analysis</h3>
+        <h3 className="font-display text-lg font-semibold text-foreground">visitor spike analysis</h3>
         <div className="flex items-center gap-4 text-xs">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-white/30" />
-            <span className="text-white/50">baseline</span>
+            <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+            <span className="text-muted-foreground">baseline</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-primary" />
-            <span className="text-white/50">halo effect</span>
+            <span className="text-muted-foreground">halo effect</span>
           </div>
         </div>
       </div>
@@ -75,8 +75,8 @@ export const EventHaloSpikeChart = ({
         <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="baselineGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="rgba(255,255,255,0.3)" stopOpacity={0.3}/>
-              <stop offset="95%" stopColor="rgba(255,255,255,0.1)" stopOpacity={0.1}/>
+              <stop offset="5%" stopColor="hsl(var(--muted-foreground))" stopOpacity={0.3}/>
+              <stop offset="95%" stopColor="hsl(var(--muted-foreground))" stopOpacity={0.1}/>
             </linearGradient>
             <linearGradient id="haloGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.6}/>
@@ -87,14 +87,14 @@ export const EventHaloSpikeChart = ({
           <XAxis 
             dataKey="date" 
             tickFormatter={(date) => format(parseISO(date), 'MMM d')}
-            stroke="rgba(255,255,255,0.3)"
-            tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }}
+            stroke="hsl(var(--border))"
+            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis 
-            stroke="rgba(255,255,255,0.3)"
-            tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }}
+            stroke="hsl(var(--border))"
+            tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
             axisLine={false}
             tickLine={false}
             width={30}
@@ -105,11 +105,11 @@ export const EventHaloSpikeChart = ({
               if (!active || !payload?.length) return null;
               const data = payload[0].payload;
               return (
-                <div className="obsidian-glass-80 border border-white/20 rounded-lg p-3 shadow-xl">
-                  <p className="text-xs text-white/60 mb-1">
+                <div className="bg-popover border border-border rounded-lg p-3 shadow-xl">
+                  <p className="text-xs text-muted-foreground mb-1">
                     {format(parseISO(label), 'MMM d, yyyy')}
                   </p>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {data.visitors} visitors
                   </p>
                   {data.isEventPeriod && data.haloVisitors > 0 && (
@@ -136,12 +136,12 @@ export const EventHaloSpikeChart = ({
           {/* Baseline reference line */}
           <ReferenceLine 
             y={Math.round(baselineDailyAverage)} 
-            stroke="rgba(255,255,255,0.4)" 
+            stroke="hsl(var(--muted-foreground))" 
             strokeDasharray="5 5"
             label={{ 
               value: 'baseline', 
               position: 'right', 
-              fill: 'rgba(255,255,255,0.4)',
+              fill: 'hsl(var(--muted-foreground))',
               fontSize: 10
             }}
           />
@@ -151,7 +151,7 @@ export const EventHaloSpikeChart = ({
             type="monotone"
             dataKey="baselineVisitors"
             stackId="1"
-            stroke="rgba(255,255,255,0.4)"
+            stroke="hsl(var(--muted-foreground))"
             fill="url(#baselineGradient)"
             strokeWidth={1}
           />
@@ -168,7 +168,7 @@ export const EventHaloSpikeChart = ({
         </AreaChart>
       </ResponsiveContainer>
       
-      <p className="text-xs text-white/40 mt-3 text-center">
+      <p className="text-xs text-muted-foreground mt-3 text-center">
         The highlighted area shows the event period. Traffic above the baseline = halo visitors.
       </p>
     </div>
