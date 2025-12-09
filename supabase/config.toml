@@ -21,6 +21,9 @@ verify_jwt = false
 [functions.verify-domain]
 verify_jwt = false
 
+[functions.test-domain]
+verify_jwt = false
+
 [functions.domain-health-check]
 verify_jwt = false
 
