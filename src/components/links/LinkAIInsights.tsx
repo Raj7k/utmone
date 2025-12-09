@@ -75,9 +75,17 @@ export const LinkAIInsights = ({ linkId, workspaceId }: LinkAIInsightsProps) => 
         {visibleInsights.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-6 text-center">
             <Sparkles className="h-8 w-8 text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground">
-              no insights yet. keep sharing to generate data-driven recommendations.
+            <p className="text-sm text-muted-foreground font-medium">
+              not enough data yet
             </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              insights unlock after more clicks on this link
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5 justify-center">
+              <span className="text-xs px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground">
+                10+ clicks needed
+              </span>
+            </div>
           </div>
         ) : (
           visibleInsights.slice(0, 4).map((insight) => (

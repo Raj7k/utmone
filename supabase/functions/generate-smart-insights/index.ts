@@ -316,6 +316,21 @@ serve(async (req) => {
       }
     }
 
+    // Add getting-started insight if no insights but some activity
+    if (insights.length === 0 && currentClickCount > 0) {
+      insights.push({
+        id: `getting-started-${Date.now()}`,
+        type: 'optimization',
+        category: 'traffic',
+        severity: 'low',
+        title: 'keep sharing your links',
+        description: `you have ${currentClickCount} click${currentClickCount !== 1 ? 's' : ''} so far. ai insights unlock with 10+ clicks in a week. keep promoting to see actionable recommendations.`,
+        impactScore: 10,
+        actionLabel: 'share your link',
+        actionUrl: `/dashboard/links`,
+      });
+    }
+
     // Sort insights by severity and impact
     const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
     insights.sort((a, b) => {

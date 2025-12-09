@@ -27,6 +27,11 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
   }
 
   const topTime = bestTimes[0];
+  
+  // Get user's timezone abbreviation (e.g., IST, EST, PST)
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const shortTimezone = new Date().toLocaleTimeString('en-us', { timeZoneName: 'short' }).split(' ').pop() || 'Local';
+  
   const formatHour = (hour: number) => {
     const period = hour >= 12 ? "PM" : "AM";
     const displayHour = hour % 12 || 12;
@@ -54,6 +59,9 @@ export const BestTimeCard = ({ workspaceId, linkId, days = 30 }: BestTimeCardPro
             </p>
             <p className="text-sm mt-1 text-muted-foreground">
               {topTime.clicks} clicks during this hour
+            </p>
+            <p className="text-xs text-muted-foreground/70 mt-2">
+              times shown in {shortTimezone} (your local timezone)
             </p>
           </div>
         ) : (

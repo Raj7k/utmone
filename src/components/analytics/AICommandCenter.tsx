@@ -100,14 +100,22 @@ export const AICommandCenter = ({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col items-center justify-center py-8 text-center">
+          <div className="flex flex-col items-center justify-center py-6 text-center">
             <Target className="h-10 w-10 text-muted-foreground mb-3" />
-            <p className="text-sm text-muted-foreground">
-              more insights will appear as you gather more data
+            <p className="text-sm text-muted-foreground font-medium">
+              not enough data yet
             </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              create links and drive traffic to see ai-powered recommendations
+            <p className="text-xs text-muted-foreground mt-1 max-w-xs">
+              insights appear after more link activity. keep sharing to unlock ai-powered recommendations.
             </p>
+            <div className="mt-4 flex flex-wrap gap-2 justify-center">
+              <span className="text-xs px-2 py-1 rounded-full bg-muted/50 text-muted-foreground">
+                10+ clicks for timing insights
+              </span>
+              <span className="text-xs px-2 py-1 rounded-full bg-muted/50 text-muted-foreground">
+                20+ clicks for geo insights
+              </span>
+            </div>
           </div>
         </CardContent>
       </Card>
