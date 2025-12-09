@@ -38,6 +38,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useWorkspaceDomains,
   useAddDomain,
@@ -53,7 +54,8 @@ import { DomainHealthDetails } from "@/components/settings/DomainHealthDetails";
 import { DomainSettings } from "@/components/settings/DomainSettings";
 import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
 import { DomainEditDialog } from "@/components/settings/DomainEditDialog";
-import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity } from "lucide-react";
+import { DomainTestPanel } from "@/components/settings/DomainTestPanel";
+import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -156,23 +158,38 @@ export default function Domains({ workspaceId }: DomainsProps) {
 
   return (
     <div className="space-y-6">
-      {/* Domain Health Overview */}
-      {domains && domains.length > 0 && (
-        <DomainHealthOverview 
-          domains={domains} 
-          workspaceId={workspaceId}
-        />
-      )}
+      {/* Tabs for Domains and Test Tool */}
+      <Tabs defaultValue="domains" className="w-full">
+        <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="domains">your domains</TabsTrigger>
+          <TabsTrigger value="test" className="flex items-center gap-2">
+            <Zap className="w-4 h-4" />
+            test domain
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Show health details if a domain is selected */}
-      {showHealthDetails && domains && (
-        <DomainHealthDetails
-          domainId={showHealthDetails}
-          domainName={domains.find(d => d.id === showHealthDetails)?.domain || ''}
-        />
-      )}
+        <TabsContent value="test" className="mt-6">
+          <DomainTestPanel />
+        </TabsContent>
 
-      <Card>
+        <TabsContent value="domains" className="mt-6 space-y-6">
+          {/* Domain Health Overview */}
+          {domains && domains.length > 0 && (
+            <DomainHealthOverview 
+              domains={domains} 
+              workspaceId={workspaceId}
+            />
+          )}
+
+          {/* Show health details if a domain is selected */}
+          {showHealthDetails && domains && (
+            <DomainHealthDetails
+              domainId={showHealthDetails}
+              domainName={domains.find(d => d.id === showHealthDetails)?.domain || ''}
+            />
+          )}
+
+          <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -484,6 +501,8 @@ export default function Domains({ workspaceId }: DomainsProps) {
           onOpenChange={setIsEditDialogOpen}
         />
       )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
