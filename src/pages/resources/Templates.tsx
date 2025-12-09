@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Download } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Templates = () => {
@@ -31,6 +32,12 @@ const Templates = () => {
     }
   ];
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Templates", url: "https://utm.one/resources/templates" }
+  ];
+
   return (
     <ResourcesLayout>
       <SEO 
@@ -39,7 +46,15 @@ const Templates = () => {
         canonical="https://utm.one/resources/templates"
         keywords={['UTM templates', 'campaign templates', 'marketing templates', 'naming convention templates', 'tracking templates']}
       />
-
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <ItemListSchema
+        name="Marketing Templates"
+        description="Copy/paste templates for UTM setup, naming conventions, and reporting"
+        items={templates.map(t => ({
+          name: t.title,
+          url: `https://utm.one/resources/templates/${t.slug}`
+        }))}
+      />
       <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[980px] mx-auto px-8">
           <Link

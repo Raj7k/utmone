@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>utm.one Resources</title>
+    <link>https://utm.one/resources</link>
+    <description>Guides, playbooks, and frameworks for UTM tracking, campaign analytics, and revenue attribution</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Dec 2025 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://utm.one/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <!-- Guides -->
+    <item>
+      <title>The UTM Guide (2025 Edition)</title>
+      <link>https://utm.one/resources/guides/utm-guide</link>
+      <description>The definitive guide to UTM tracking, naming conventions, and governance. 11 interactive tools, real-world case studies, and multi-touch attribution strategies.</description>
+      <pubDate>Thu, 23 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/guides/utm-guide</guid>
+      <category>Guide</category>
+    </item>
+    <item>
+      <title>LLM-First SEO Guide</title>
+      <link>https://utm.one/resources/guides/llm-seo</link>
+      <description>Optimize your content for AI discovery. Structured data, content formatting, and technical requirements for ranking in ChatGPT and Claude.</description>
+      <pubDate>Wed, 22 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/guides/llm-seo</guid>
+      <category>Guide</category>
+    </item>
+    <item>
+      <title>Clean-Track Framework Guide</title>
+      <link>https://utm.one/resources/guides/clean-track-framework</link>
+      <description>The 4-layer architecture for tracking at scale: syntax, naming, governance, and reporting.</description>
+      <pubDate>Tue, 21 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/guides/clean-track-framework</guid>
+      <category>Guide</category>
+    </item>
+    
+    <!-- Playbooks -->
+    <item>
+      <title>LLM Ranking Playbook</title>
+      <link>https://utm.one/resources/playbooks/llm-ranking</link>
+      <description>90-day roadmap to rank in ChatGPT, Claude, and Perplexity. Week-by-week implementation guide for AI visibility.</description>
+      <pubDate>Mon, 20 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/playbooks/llm-ranking</guid>
+      <category>Playbook</category>
+    </item>
+    <item>
+      <title>UTM Governance Playbook</title>
+      <link>https://utm.one/resources/playbooks/utm-governance</link>
+      <description>Enterprise-grade UTM governance for marketing teams. Approval workflows, naming standards, and audit processes.</description>
+      <pubDate>Sun, 19 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/playbooks/utm-governance</guid>
+      <category>Playbook</category>
+    </item>
+    <item>
+      <title>Sales & Marketing Alignment Playbook</title>
+      <link>https://utm.one/resources/playbooks/sales-marketing-alignment</link>
+      <description>Bridge the gap between sales and marketing with shared attribution data and unified tracking.</description>
+      <pubDate>Sat, 18 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/playbooks/sales-marketing-alignment</guid>
+      <category>Playbook</category>
+    </item>
+    
+    <!-- Frameworks -->
+    <item>
+      <title>Clean-Track Model</title>
+      <link>https://utm.one/resources/frameworks/clean-track-model</link>
+      <description>The 4-layer framework for reliable campaign tracking: syntax validation, naming rules, governance workflows, and automated reporting.</description>
+      <pubDate>Fri, 17 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/frameworks/clean-track-model</guid>
+      <category>Framework</category>
+    </item>
+    <item>
+      <title>B2B Attribution Framework</title>
+      <link>https://utm.one/resources/frameworks/b2b-attribution</link>
+      <description>Multi-touch attribution designed for long B2B sales cycles. Account-based tracking and revenue mapping.</description>
+      <pubDate>Thu, 16 Jan 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://utm.one/resources/frameworks/b2b-attribution</guid>
+      <category>Framework</category>
+    </item>
+  </channel>
+</rss>

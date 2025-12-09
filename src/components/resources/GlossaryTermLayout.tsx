@@ -4,6 +4,8 @@ import { ArrowLeft, Check, X, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { SEO } from "@/components/seo/SEO";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 interface RelatedTerm {
   slug: string;
@@ -89,8 +91,23 @@ export const GlossaryTermLayout = ({
     toast.success("term copied to clipboard");
   };
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Glossary", url: "https://utm.one/resources/glossary" },
+    { name: term, url: `https://utm.one/resources/glossary/${term.toLowerCase().replace(/\s+/g, '-')}` }
+  ];
+
   return (
     <MainLayout showAnnouncement={false}>
+      <SEO
+        title={`${term} - Marketing Glossary Definition | utm.one`}
+        description={quickDefinition}
+        canonical={`https://utm.one/resources/glossary/${term.toLowerCase().replace(/\s+/g, '-')}`}
+        ogType="article"
+        keywords={[term.toLowerCase(), category.toLowerCase(), "marketing glossary", "utm tracking"]}
+      />
+      <BreadcrumbSchema items={breadcrumbItems} />
       {/* Hero Section */}
       <section className="py-20 border-b border-white/10">
         <div className="max-w-[980px] mx-auto px-8">

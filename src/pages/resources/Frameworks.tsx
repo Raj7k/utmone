@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Frameworks = () => {
@@ -33,6 +34,12 @@ const Frameworks = () => {
     }
   ];
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Frameworks", url: "https://utm.one/resources/frameworks" }
+  ];
+
   return (
     <ResourcesLayout>
       <SEO 
@@ -41,7 +48,15 @@ const Frameworks = () => {
         canonical="https://utm.one/resources/frameworks"
         keywords={['clean track framework', 'analytics framework', 'attribution model', 'marketing ops framework', 'B2B attribution']}
       />
-
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <ItemListSchema
+        name="Marketing Frameworks"
+        description="Proprietary mental models for clean tracking, minimal analytics, and UTM governance"
+        items={frameworks.map(f => ({
+          name: f.title,
+          url: `https://utm.one/resources/frameworks/${f.slug}`
+        }))}
+      />
       <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[980px] mx-auto px-8">
           <Link

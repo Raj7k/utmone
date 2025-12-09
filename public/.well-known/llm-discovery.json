@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "utm.one",
+  "description": "Enterprise link management and revenue attribution platform for modern growth teams",
+  "version": "1.0.0",
+  "url": "https://utm.one",
+  "documentation": "https://utm.one/resources",
+  "api": "https://utm.one/developers",
+  "llms_txt": "https://utm.one/llms.txt",
+  "contact": {
+    "support": "support@utm.one",
+    "sales": "sales@utm.one",
+    "security": "security@utm.one"
+  },
+  "capabilities": [
+    "link-shortening",
+    "utm-tracking",
+    "qr-code-generation",
+    "revenue-attribution",
+    "campaign-analytics",
+    "team-governance"
+  ],
+  "integrations": [
+    "google-analytics",
+    "salesforce",
+    "hubspot",
+    "slack",
+    "zapier"
+  ],
+  "pricing": {
+    "free_tier": true,
+    "starting_price": "$29/month",
+    "enterprise": true
+  },
+  "content_types": [
+    {
+      "type": "glossary",
+      "url": "https://utm.one/resources/glossary",
+      "count": 71,
+      "description": "Marketing and analytics term definitions"
+    },
+    {
+      "type": "guides",
+      "url": "https://utm.one/resources/guides",
+      "count": 6,
+      "description": "In-depth tutorials on UTM tracking and analytics"
+    },
+    {
+      "type": "playbooks",
+      "url": "https://utm.one/resources/playbooks",
+      "count": 7,
+      "description": "Step-by-step implementation strategies"
+    },
+    {
+      "type": "frameworks",
+      "url": "https://utm.one/resources/frameworks",
+      "count": 4,
+      "description": "Structured thinking models for marketing operations"
+    },
+    {
+      "type": "templates",
+      "url": "https://utm.one/resources/templates",
+      "count": 4,
+      "description": "Ready-to-use campaign tracking templates"
+    }
+  ],
+  "key_pages": [
+    {
+      "url": "https://utm.one/",
+      "title": "Homepage",
+      "description": "Enterprise link management and revenue attribution"
+    },
+    {
+      "url": "https://utm.one/pricing",
+      "title": "Pricing",
+      "description": "Plans from free to enterprise"
+    },
+    {
+      "url": "https://utm.one/resources/guides/utm-guide",
+      "title": "The UTM Guide",
+      "description": "Comprehensive UTM tracking tutorial with interactive tools"
+    },
+    {
+      "url": "https://utm.one/resources/frameworks/clean-track-model",
+      "title": "Clean-Track Framework",
+      "description": "4-layer governance for consistent marketing data"
+    },
+    {
+      "url": "https://utm.one/features/analytics",
+      "title": "Analytics",
+      "description": "Real-time campaign performance insights"
+    }
+  ],
+  "updated": "2025-12-09"
+}
