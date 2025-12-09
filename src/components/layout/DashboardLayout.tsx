@@ -1,15 +1,15 @@
 import { ReactNode, useEffect, useState } from "react";
-import { AppHeader } from "./AppHeader";
-import { FoundingMemberBadge } from "@/components/dashboard/FoundingMemberBadge";
+import { SidebarProvider } from "./sidebar/SidebarProvider";
+import { IconRailSidebar } from "./sidebar/IconRailSidebar";
+import { ContextualHeader } from "./ContextualHeader";
+import { CreateLinkModal } from "@/components/CreateLinkModal";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
-import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
+import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
+import { useSearchParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { AlertTriangle } from "lucide-react";
-import { CreateLinkModal } from "@/components/CreateLinkModal";
-import { SidebarProvider, DashboardSidebarV2 } from "./sidebar";
-import { supabase } from "@/integrations/supabase/client";
-import { useSearchParams } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -40,48 +40,43 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div className="dashboard-root min-h-screen bg-grouped-background flex w-full overflow-hidden">
-        {/* Desktop Sidebar */}
+      <div className="dashboard-root min-h-screen bg-background flex w-full overflow-hidden">
+        {/* Icon Rail Sidebar - Desktop only */}
         <div className="hidden lg:block flex-shrink-0">
-          <DashboardSidebarV2 />
+          <IconRailSidebar />
         </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Impersonation Banner (highest priority) */}
-        {impersonatedUser && (
-          <ImpersonationBanner
-            userEmail={impersonatedUser.email}
-            userFullName={impersonatedUser.full_name}
-          />
-        )}
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          {/* Impersonation Banner */}
+          {impersonatedUser && (
+            <ImpersonationBanner
+              userEmail={impersonatedUser.email}
+              userFullName={impersonatedUser.full_name}
+            />
+          )}
 
-        {/* Admin Simulation Warning Banner */}
-        {_source === 'SIMULATION' && (
-          <div className="bg-red-600 text-white px-4 py-2 flex items-center justify-center gap-2 text-sm font-medium">
-            <AlertTriangle className="h-4 w-4" />
-            ⚠️ TEST MODE: Simulating {displayName} Plan
-          </div>
-        )}
-        
-        <AppHeader />
+          {/* Simulation Mode Warning */}
+          {_source === 'SIMULATION' && (
+            <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-center gap-2 text-sm text-amber-600 dark:text-amber-400">
+              <AlertTriangle className="h-4 w-4" />
+              <strong>TEST MODE</strong> — Simulating {displayName} Plan
+            </div>
+          )}
 
-        {/* Main Content Area with max-width constraint */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 w-full">
+          {/* Contextual Header */}
+          <ContextualHeader />
+
+          {/* Page Content */}
+          <main className="flex-1 overflow-y-auto">
             {children}
-          </div>
-        </main>
-      </div>
+          </main>
+        </div>
 
-      {/* Global Create Link Modal */}
-      <CreateLinkModal />
-
-      {/* Admin God Mode Toolbar */}
-      <AdminToolbar />
-
-      {/* Floating Feedback Widget */}
-      <FeedbackWidget />
+        {/* Modals & Widgets */}
+        <CreateLinkModal />
+        <AdminToolbar />
+        <FeedbackWidget />
       </div>
     </SidebarProvider>
   );
