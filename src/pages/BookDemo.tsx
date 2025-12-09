@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, ArrowUpRight, ArrowLeft, Loader2 } from "lucide-react";
+import { Star, ArrowUpRight, ArrowLeft, Loader2, Target, Link2, BarChart3, QrCode, Sparkles, Building2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { Helmet } from "react-helmet";
@@ -17,23 +15,43 @@ const MARQUEE_ITEMS = [
   "marketing teams", "sales ops", "events", "partner programs", "enterprise"
 ];
 
-const INTERESTS = [
-  { value: "utm-governance", label: "UTM Governance" },
-  { value: "branded-qr", label: "Branded QR Codes" },
-  { value: "campaign-analytics", label: "Campaign Analytics" },
-  { value: "link-management", label: "Link Management" },
-  { value: "revenue-attribution", label: "Revenue Attribution" },
-  { value: "ai-intelligence", label: "AI Intelligence" },
-  { value: "identity-graph", label: "Cross-Device Tracking" },
-  { value: "enterprise-governance", label: "Enterprise Control" },
-];
-
-const CHALLENGES = [
-  { value: "inconsistent-utms", label: "Inconsistent UTMs", description: "our dashboards break from messy naming" },
-  { value: "no-visibility", label: "No link visibility", description: "can't track what's working across teams" },
-  { value: "qr-attribution", label: "QR attribution gaps", description: "can't connect offline to online conversions" },
-  { value: "cross-device", label: "Cross-device blindspots", description: "can't connect mobile to desktop journeys" },
-  { value: "manual-work", label: "Too much manual work", description: "spending hours building links and UTMs" },
+const WHAT_BRINGS_YOU = [
+  { 
+    value: "attribution", 
+    icon: Target,
+    label: "Campaign Attribution", 
+    description: "I can't prove which campaigns drive revenue" 
+  },
+  { 
+    value: "governance", 
+    icon: Link2,
+    label: "Link Governance", 
+    description: "Our UTMs are inconsistent across teams" 
+  },
+  { 
+    value: "analytics", 
+    icon: BarChart3,
+    label: "Analytics & Reporting", 
+    description: "We're blind to what's actually working" 
+  },
+  { 
+    value: "qr-offline", 
+    icon: QrCode,
+    label: "QR & Offline Tracking", 
+    description: "Can't connect offline to online conversions" 
+  },
+  { 
+    value: "ai-automation", 
+    icon: Sparkles,
+    label: "AI & Automation", 
+    description: "We spend too much time on manual work" 
+  },
+  { 
+    value: "enterprise", 
+    icon: Building2,
+    label: "Enterprise Control", 
+    description: "Need governance for multiple teams" 
+  },
 ];
 
 const TEAM_SIZES = [
@@ -51,9 +69,7 @@ const formSchema = z.object({
   team_size: z.string().optional(),
   country_code: z.string(),
   phone: z.string().max(20).optional(),
-  interests: z.array(z.string()),
-  challenge: z.string(),
-  message: z.string().max(1000).optional(),
+  challenge: z.string().min(1, "please select what brings you here"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -70,9 +86,7 @@ export default function BookDemo() {
     team_size: "",
     country_code: "US",
     phone: "",
-    interests: [],
     challenge: "",
-    message: ""
   });
 
   // Auto-detect country from IP in background
@@ -132,11 +146,11 @@ export default function BookDemo() {
         .insert([{
           name: formData.name,
           email: formData.email,
+          company: formData.company || null,
+          team_size: formData.team_size || null,
           country_code: formData.country_code,
           phone: formData.phone || null,
-          interests: formData.interests,
           challenge: formData.challenge,
-          message: formData.message || null,
         }]);
 
       if (error) throw error;
@@ -211,10 +225,8 @@ export default function BookDemo() {
 
           {/* Center - Headline */}
           <div className="relative z-10 flex-1 flex flex-col justify-center space-y-4">
-            <h1 className="text-3xl lg:text-5xl xl:text-6xl font-display font-bold leading-tight">
-              <span className="hero-gradient">
-                every link<br />tells a story.<br />let's write yours.
-              </span>
+            <h1 className="text-3xl lg:text-5xl xl:text-6xl font-display font-bold leading-tight text-foreground">
+              every link<br />tells a story.<br />let's write yours.
             </h1>
             <p className="text-muted-foreground text-base lg:text-lg max-w-md">
               schedule a demo to see how utm.one brings clarity to your campaigns
@@ -246,7 +258,7 @@ export default function BookDemo() {
         {/* Right Panel - Interactive Form */}
         <div className="bg-card/50 backdrop-blur-xl h-full overflow-y-auto p-8 lg:p-12 flex flex-col justify-start pt-8 lg:pt-12 border-l border-border">
           <div className="w-full max-w-xl mx-auto">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name & Email */}
               <div className="space-y-3">
                 <div>
@@ -271,7 +283,7 @@ export default function BookDemo() {
                   {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
                 </div>
                 
-                {/* Company & Team Size - NEW */}
+                {/* Company & Team Size */}
                 <div className="grid grid-cols-2 gap-2">
                   <Input
                     placeholder="company name"
@@ -296,6 +308,7 @@ export default function BookDemo() {
                   </Select>
                 </div>
 
+                {/* Phone (optional) */}
                 <div className="grid grid-cols-[120px_1fr] gap-2">
                   <Select
                     value={formData.country_code}
@@ -334,71 +347,47 @@ export default function BookDemo() {
                 </div>
               </div>
 
-              {/* Interest Pills */}
-              <div className="space-y-2">
+              {/* What Brings You Here - Single Question with 6 Cards */}
+              <div className="space-y-3">
                 <label className="text-sm font-medium text-foreground">
-                  what are you looking for?
+                  what brings you here?
                 </label>
-                <ToggleGroup
-                  type="multiple"
-                  value={formData.interests}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, interests: value }))}
-                  className="flex flex-wrap gap-2"
-                >
-                  {INTERESTS.map((interest) => (
-                    <ToggleGroupItem
-                      key={interest.value}
-                      value={interest.value}
-                      className="rounded-full px-3 py-1.5 text-sm border border-border text-muted-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:border-primary"
-                    >
-                      {interest.label}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
-              </div>
-
-              {/* Challenge Cards */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
-                  what's your biggest challenge?
-                </label>
-                <div className="grid gap-2">
-                  {CHALLENGES.map((challenge) => (
-                    <Card
-                      key={challenge.value}
-                      className={`p-3 cursor-pointer transition-all border-2 ${
-                        formData.challenge === challenge.value
-                          ? 'border-primary bg-primary text-primary-foreground'
-                          : 'border-border bg-card hover:border-primary/50 text-foreground'
-                      }`}
-                      onClick={() => setFormData(prev => ({ ...prev, challenge: challenge.value }))}
-                    >
-                      <h4 className="font-medium mb-0.5 text-sm">{challenge.label}</h4>
-                      <p className={`text-xs ${
-                        formData.challenge === challenge.value ? 'text-primary-foreground/70' : 'text-muted-foreground'
-                      }`}>
-                        {challenge.description}
-                      </p>
-                    </Card>
-                  ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {WHAT_BRINGS_YOU.map((item) => {
+                    const Icon = item.icon;
+                    const isSelected = formData.challenge === item.value;
+                    return (
+                      <Card
+                        key={item.value}
+                        className={`p-3 cursor-pointer transition-all border ${
+                          isSelected
+                            ? 'border-primary bg-primary/10 ring-1 ring-primary'
+                            : 'border-border bg-card hover:border-primary/50'
+                        }`}
+                        onClick={() => setFormData(prev => ({ ...prev, challenge: item.value }))}
+                      >
+                        <div className="flex items-start gap-2.5">
+                          <div className={`p-1.5 rounded-md ${isSelected ? 'bg-primary/20' : 'bg-muted'}`}>
+                            <Icon className={`w-4 h-4 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className={`font-medium text-sm ${isSelected ? 'text-foreground' : 'text-foreground'}`}>
+                              {item.label}
+                            </h4>
+                            <p className="text-xs text-muted-foreground line-clamp-1">
+                              {item.description}
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    );
+                  })}
                 </div>
-              </div>
-
-              {/* Message */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
-                  what are you trying to solve? (optional)
-                </label>
-                <Textarea
-                  placeholder="tell us more about your team's needs..."
-                  value={formData.message}
-                  onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                  className="min-h-[60px] bg-muted/50 border-border text-foreground placeholder:text-muted-foreground"
-                />
+                {errors.challenge && <p className="text-xs text-destructive">{errors.challenge}</p>}
               </div>
 
               {/* CTA Button */}
-              <div className="space-y-3">
+              <div className="space-y-3 pt-2">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
@@ -418,55 +407,13 @@ export default function BookDemo() {
                   )}
                 </Button>
                 <p className="text-xs text-muted-foreground text-center">
-                  free 15-minute consultation • no commitment
+                  no credit card required • 30-min personalized walkthrough
                 </p>
               </div>
             </form>
           </div>
         </div>
       </div>
-
-      <style>{`
-        .logo-marquee {
-          position: relative;
-          width: 100%;
-          overflow: hidden;
-          -webkit-mask-image: linear-gradient(
-            to right,
-            transparent,
-            black 10%,
-            black 90%,
-            transparent
-          );
-          mask-image: linear-gradient(
-            to right,
-            transparent,
-            black 10%,
-            black 90%,
-            transparent
-          );
-        }
-
-        .logo-marquee-content {
-          display: flex;
-          animation: scroll 30s linear infinite;
-          width: fit-content;
-        }
-
-        .logo-item {
-          padding: 0 2rem;
-          flex-shrink: 0;
-        }
-
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-      `}</style>
     </>
   );
 }
