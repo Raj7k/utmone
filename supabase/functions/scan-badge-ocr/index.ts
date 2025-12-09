@@ -55,15 +55,18 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are an OCR specialist extracting contact information from event badge images.
-Extract the following fields if visible:
-- Full Name (first and last name)
-- Job Title / Position
-- Company / Organization
-- Email address
-- Phone number
+            content: `You are an expert OCR specialist extracting contact information from event badge images.
 
-Return ONLY a valid JSON object with these exact keys:
+EXTRACT THESE FIELDS:
+- First Name (separate from titles/honorifics)
+- Last Name (family name)
+- Job Title (look for: Manager, VP, Director, Engineer, Head of, Chief, etc.)
+- Company/Organization (NOT the event name)
+- Email address (if visible)
+- Phone number (if visible)
+- Badge Type (Speaker, VIP, Exhibitor, Attendee, Sponsor, Press, Staff)
+
+RETURN ONLY this JSON structure:
 {
   "firstName": "string or null",
   "lastName": "string or null", 
@@ -72,24 +75,32 @@ Return ONLY a valid JSON object with these exact keys:
   "company": "string or null",
   "title": "string or null",
   "phone": "string or null",
-  "confidence": number between 0-100,
+  "badgeType": "string or null",
+  "confidence": number 0-100,
+  "enrichmentNeeded": boolean,
   "fieldConfidence": {
-    "firstName": number between 0-100,
-    "lastName": number between 0-100,
-    "email": number between 0-100,
-    "company": number between 0-100,
-    "title": number between 0-100
+    "firstName": number 0-100,
+    "lastName": number 0-100,
+    "email": number 0-100,
+    "company": number 0-100,
+    "title": number 0-100
   }
 }
 
-If a field is not visible or unclear, set it to null.
-The confidence score should reflect how clearly the text was readable.
-For each field, provide a specific confidence score in fieldConfidence.
-Common OCR errors to watch for:
-- "rn" misread as "m" (e.g., "Barn" -> "Bam")
-- "0" misread as "O" or vice versa
-- "1" misread as "l" or "I"
-If you detect potential OCR artifacts, lower the field confidence accordingly.`
+PARSING RULES:
+1. If you see "Marketing Guru" or similar, that's a Job Title, NOT a name
+2. Company names often appear smaller or at the bottom
+3. Badge Type usually appears as a colored stripe or large text (SPEAKER, VIP, etc.)
+4. If email is missing, set enrichmentNeeded to true
+5. Separate honorifics (Dr., Mr., Ms.) from the first name
+
+OCR ERROR DETECTION:
+- "rn" often misread as "m" (e.g., "Barn" → "Bam")
+- "0" vs "O" confusion
+- "1" vs "l" vs "I" confusion
+- If you detect potential artifacts, lower fieldConfidence accordingly
+
+Set confidence based on text clarity. Be conservative with low-quality images.`
           },
           {
             role: 'user',

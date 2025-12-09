@@ -480,7 +480,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
       { key: 'customSla', label: 'custom sla', free: false, starter: false, growth: false, business: false, enterprise: true },
     ],
   },
-  {
+{
     name: 'qr codes',
     features: [
       { key: 'qrMonthlyLimit', label: 'qr codes/month', free: 5, starter: 25, growth: 100, business: 500, enterprise: 'unlimited' },
@@ -489,6 +489,17 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
       { key: 'canExportSVG', label: 'svg/pdf export', free: false, starter: true, growth: true, business: true, enterprise: true },
       { key: 'canUploadLogo', label: 'logo upload', free: false, starter: true, growth: true, business: true, enterprise: true },
       { key: 'canBulkGenerateQR', label: 'bulk generate', free: false, starter: false, growth: false, business: true, enterprise: true },
+    ],
+  },
+  {
+    name: 'field marketing',
+    features: [
+      { key: 'scannerOS', label: 'ScannerOS universal reader', free: false, starter: 'basic', growth: 'qr + ocr', business: 'full', enterprise: 'unlimited' },
+      { key: 'scannerOCR', label: 'ai badge ocr', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'scannerEnrichment', label: 'lead enrichment', free: false, starter: false, growth: false, business: true, enterprise: true },
+      { key: 'scannerOfflineSync', label: 'offline sync', free: false, starter: false, growth: true, business: true, enterprise: true },
+      { key: 'badgeScans', label: 'monthly badge scans', free: 0, starter: 50, growth: 500, business: 'unlimited', enterprise: 'unlimited' },
+      { key: 'eventHalo', label: 'event halo attribution', free: false, starter: false, growth: false, business: true, enterprise: true },
     ],
   },
 ];
