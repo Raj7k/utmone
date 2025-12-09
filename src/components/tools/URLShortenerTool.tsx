@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Link2, Shuffle, CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
+import { Link2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -18,11 +18,9 @@ import { LinkSuccessCard } from "@/components/shared/LinkSuccessCard";
 import { DestinationRotator } from "@/components/links/DestinationRotator";
 import { Destination } from "@/hooks/useSmartRotator";
 import type { Json } from "@/integrations/supabase/types";
-import { useSlugGenerator } from "@/hooks/useSlugGenerator";
-import { SmartSlugSuggestions } from "./SmartSlugSuggestions";
 import { useAIAnalyzeUrl } from "@/hooks/useAIAnalyzeUrl";
-import { AISlugSuggestions } from "@/components/ai/AISlugSuggestions";
 import { LinkQualityScore } from "@/components/ai/LinkQualityScore";
+import { SlugCycleInput } from "@/components/ai/SlugCycleInput";
 import { motion, AnimatePresence } from "framer-motion";
 
 const shortenerSchema = z.object({
@@ -56,14 +54,8 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
   const [smartRotate, setSmartRotate] = useState<boolean>(false);
   const [contextualRouting, setContextualRouting] = useState<boolean>(false);
   
-  // Feature 1: Smart Slug Generator state
-  const { generateSuggestions } = useSlugGenerator();
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [slugSuggestions, setSlugSuggestions] = useState<any[]>([]);
-  
   // AI Analysis
-  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, regenerateUrl, isAIPowered } = useAIAnalyzeUrl();
-  const [showAISuggestions, setShowAISuggestions] = useState(false);
+  const { isAnalyzing, suggestions: aiSuggestions, analyzeUrl, regenerateUrl } = useAIAnalyzeUrl();
   const [usedAISlug, setUsedAISlug] = useState(false);
   const [currentAnalyzedUrl, setCurrentAnalyzedUrl] = useState<string>("");
 
@@ -102,15 +94,9 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
         const generatedSlug = generateSlugFromTitle(value.title);
         form.setValue("slug", generatedSlug);
       }
-      
-      // Generate smart suggestions when URL changes
-      if (name === "url" && value.url) {
-        const suggestions = generateSuggestions(value.url);
-        setSlugSuggestions(suggestions);
-      }
     });
     return () => subscription.unsubscribe();
-  }, [form, generateSuggestions]);
+  }, [form]);
 
   // Handle URL paste for AI analysis
   const handleUrlPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
@@ -120,7 +106,6 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       new URL(pastedUrl);
       setCurrentAnalyzedUrl(pastedUrl);
       analyzeUrl(pastedUrl);
-      setShowAISuggestions(true);
     } catch {
       // Invalid URL
     }
@@ -131,13 +116,6 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
       regenerateUrl(currentAnalyzedUrl);
     }
   };
-
-  // Show AI suggestions when they arrive
-  useEffect(() => {
-    if (aiSuggestions?.vanity_slugs?.length > 0) {
-      setShowAISuggestions(true);
-    }
-  }, [aiSuggestions]);
 
   // Check slug availability
   useEffect(() => {
@@ -159,11 +137,6 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
     return () => clearTimeout(timeoutId);
   }, [values.slug, selectedDomain]);
 
-  const generateRandomSlug = () => {
-    const randomSlug = Math.random().toString(36).substring(2, 10);
-    form.setValue("slug", randomSlug);
-    setUsedAISlug(false);
-  };
 
   const createLinkMutation = useMutation({
     mutationFn: async (data: ShortenerFormData) => {
@@ -318,52 +291,20 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
 
           <div>
             <Label htmlFor="slug">Custom Slug *</Label>
-            <div className="flex items-center gap-2 mt-1.5">
-              <span className="text-body-apple text-secondary-label whitespace-nowrap">{selectedDomain}/</span>
-              <div className="flex-1 relative">
-                <Input
-                  id="slug"
-                  placeholder="my-link"
-                  {...form.register("slug")}
-                />
-                {values.slug && values.slug.length >= 3 && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    {slugAvailable === true && (
-                      <CheckCircle2 className="h-4 w-4 text-system-green" />
-                    )}
-                    {slugAvailable === false && (
-                      <AlertCircle className="h-4 w-4 text-system-red" />
-                    )}
-                  </div>
-                )}
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={generateRandomSlug}
-                title="generate random slug"
-              >
-                <Shuffle className="h-4 w-4" />
-              </Button>
-              <Button
-                type="button"
-                variant="default"
-                size="icon"
-                onClick={() => {
-                  // Regenerate suggestions if empty or URL changed
-                  if (slugSuggestions.length === 0 && values.url) {
-                    const suggestions = generateSuggestions(values.url);
-                    setSlugSuggestions(suggestions);
-                  }
-                  setShowSuggestions(!showSuggestions);
-                  setShowAISuggestions(false);
+            <div className="mt-1.5">
+              <SlugCycleInput
+                value={values.slug}
+                onChange={(slug) => {
+                  form.setValue("slug", slug);
+                  setUsedAISlug(true);
                 }}
-                title="✨ AI slug suggestions"
-                className="hover:opacity-80 bg-purple-500/90"
-              >
-                <Sparkles className="h-4 w-4" />
-              </Button>
+                suggestions={aiSuggestions?.vanity_slugs || []}
+                isLoading={isAnalyzing}
+                onRegenerate={handleRegenerateSlugSuggestions}
+                slugAvailable={slugAvailable}
+                domain={selectedDomain}
+                placeholder="my-link"
+              />
             </div>
             {form.formState.errors.slug && (
               <p className="text-xs text-system-red mt-1">
@@ -374,37 +315,6 @@ export const URLShortenerTool = ({ workspaceId, initialURL, onGenerateQR }: URLS
               <p className="text-xs text-system-red mt-1">
                 this slug is already taken
               </p>
-            )}
-            
-            {/* AI Slug Suggestions */}
-            <AnimatePresence>
-              {showAISuggestions && aiSuggestions?.vanity_slugs && aiSuggestions.vanity_slugs.length > 0 && (
-                <AISlugSuggestions
-                  slugs={aiSuggestions.vanity_slugs}
-                  onSelect={(slug) => {
-                    form.setValue("slug", slug);
-                    setUsedAISlug(true);
-                    setShowAISuggestions(false);
-                  }}
-                  currentSlug={values.slug}
-                  isLoading={isAnalyzing}
-                  onRefresh={handleRegenerateSlugSuggestions}
-                />
-              )}
-            </AnimatePresence>
-            
-            {/* Smart Slug Suggestions (rule-based) */}
-            {showSuggestions && slugSuggestions.length > 0 && !showAISuggestions && (
-              <div className="mt-3">
-                <SmartSlugSuggestions
-                  suggestions={slugSuggestions}
-                  onSelect={(slug) => {
-                    form.setValue("slug", slug);
-                    setShowSuggestions(false);
-                  }}
-                  currentSlug={values.slug}
-                />
-              </div>
             )}
           </div>
 
