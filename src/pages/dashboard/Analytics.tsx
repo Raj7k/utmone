@@ -4,7 +4,8 @@ import { useActivationTracking } from "@/hooks/useActivationTracking";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock } from "lucide-react";
+import { Activity, Link as LinkIcon, BarChart3, Globe, Users, Clock, DollarSign } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { useRealAnalytics } from "@/hooks/useRealAnalytics";
 import { useExecutiveMetrics } from "@/hooks/useExecutiveMetrics";
 import { LazyPieChart, Pie, Cell, Tooltip as RechartsTooltip, ResponsiveContainer, LazyChartContainer } from "@/components/charts/LazyCharts";
@@ -22,6 +23,7 @@ import { TopCampaignsTable } from "@/components/analytics/TopCampaignsTable";
 import { QuickActionsPanel } from "@/components/analytics/QuickActionsPanel";
 import { AnalyticsShareDialog } from "@/components/analytics/AnalyticsShareDialog";
 import { ScheduleReportDialog } from "@/components/analytics/ScheduleReportDialog";
+import { AttributionTabContent } from "@/components/analytics/AttributionTabContent";
 import { useQueryClient } from "@tanstack/react-query";
 
 const COLORS = {
@@ -37,9 +39,16 @@ export default function Analytics() {
   const { currentWorkspace } = useWorkspace();
   const { trackFirstAnalyticsView } = useActivationTracking();
   const queryClient = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [scheduleDialogOpen, setScheduleDialogOpen] = useState(false);
+  
+  // Get active tab from URL params, default to "overview"
+  const activeTab = searchParams.get("tab") || "overview";
+  const setActiveTab = (tab: string) => {
+    setSearchParams({ tab });
+  };
 
   const { data: analytics, isLoading, error } = useRealAnalytics({ 
     workspaceId: currentWorkspace?.id || '',
@@ -120,9 +129,9 @@ export default function Analytics() {
 
   return (
     <PageContentWrapper
-      title="analytics command center"
-      description="executive insights for CMOs, marketing managers, and sales leaders"
-      breadcrumbs={[{ label: "analytics" }]}
+      title="intelligence hub"
+      description="analytics, attribution, and revenue insights in one place"
+      breadcrumbs={[{ label: "intelligence" }]}
       action={
         <QuickActionsPanel 
           workspaceId={currentWorkspace.id}
@@ -188,16 +197,16 @@ export default function Analytics() {
         <TopCampaignsTable workspaceId={currentWorkspace.id} />
       </div>
 
-      {/* Detailed Tabs Section */}
-      <Tabs defaultValue="timing" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 rounded-2xl h-12">
+      {/* Main Tabs - Now includes Attribution */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-5 rounded-2xl h-12">
+          <TabsTrigger value="overview" className="gap-2">
+            <Activity className="h-4 w-4" />
+            <span className="hidden sm:inline">overview</span>
+          </TabsTrigger>
           <TabsTrigger value="timing" className="gap-2">
             <Clock className="h-4 w-4" />
             <span className="hidden sm:inline">timing</span>
-          </TabsTrigger>
-          <TabsTrigger value="geography" className="gap-2">
-            <Globe className="h-4 w-4" />
-            <span className="hidden sm:inline">geography</span>
           </TabsTrigger>
           <TabsTrigger value="audience" className="gap-2">
             <Users className="h-4 w-4" />
@@ -207,7 +216,53 @@ export default function Analytics() {
             <BarChart3 className="h-4 w-4" />
             <span className="hidden sm:inline">forecast</span>
           </TabsTrigger>
+          <TabsTrigger value="attribution" className="gap-2">
+            <DollarSign className="h-4 w-4" />
+            <span className="hidden sm:inline">attribution</span>
+          </TabsTrigger>
         </TabsList>
+
+        {/* OVERVIEW TAB - Previous main content */}
+        <TabsContent value="overview" className="space-y-6">
+          {/* Executive Metrics Hero Bar */}
+          <ExecutiveMetricsBar
+            totalClicks={executiveMetrics?.totalClicks || analytics.totalClicks}
+            uniqueVisitors={executiveMetrics?.uniqueVisitors || analytics.uniqueVisitors}
+            conversionRate={executiveMetrics?.conversionRate || 0}
+            revenue={executiveMetrics?.revenue || 0}
+            clicksChange={executiveMetrics?.clicksChange || 0}
+            visitorsChange={executiveMetrics?.visitorsChange || 0}
+            conversionChange={executiveMetrics?.conversionChange || 0}
+            revenueChange={executiveMetrics?.revenueChange || 0}
+            clicksTrend={executiveMetrics?.clicksTrend || []}
+            visitorsTrend={executiveMetrics?.visitorsTrend || []}
+            isLoading={metricsLoading}
+          />
+
+          {/* Main Dashboard Grid */}
+          <div className="grid lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <PerformanceTrendChart workspaceId={currentWorkspace.id} />
+            </div>
+            <div className="lg:col-span-1">
+              <AICommandCenter
+                workspaceId={currentWorkspace.id}
+                insights={analytics.insights || []}
+                topChannel={executiveMetrics?.topChannel}
+                topChannelClicks={executiveMetrics?.topChannelClicks}
+                peakDay={executiveMetrics?.peakDay}
+                peakDayClicks={executiveMetrics?.peakDayClicks}
+                avgClicksPerDay={executiveMetrics?.avgClicksPerDay}
+              />
+            </div>
+          </div>
+
+          {/* Channel Performance & Top Campaigns */}
+          <div className="grid lg:grid-cols-2 gap-6">
+            <ChannelPerformanceGrid workspaceId={currentWorkspace.id} />
+            <TopCampaignsTable workspaceId={currentWorkspace.id} />
+          </div>
+        </TabsContent>
 
         <TabsContent value="timing">
           <Card className="rounded-2xl shadow-sm border-border">
@@ -296,11 +351,16 @@ export default function Analytics() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="geography">
+        {/* AUDIENCE TAB - Combined Geography + Devices */}
+        <TabsContent value="audience" className="space-y-6">
+          {/* Geography Section */}
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
-                <CardTitle>top countries</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-4 w-4" />
+                  top countries
+                </CardTitle>
                 <CardDescription>where your audience is located</CardDescription>
               </CardHeader>
               <CardContent>
@@ -354,9 +414,8 @@ export default function Analytics() {
               </CardContent>
             </Card>
           </div>
-        </TabsContent>
 
-        <TabsContent value="audience">
+          {/* Devices & Referrers Section */}
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="rounded-2xl shadow-sm border-border">
               <CardHeader>
@@ -438,6 +497,11 @@ export default function Analytics() {
               <ParetoFrontier links={campaignPerformance} />
             )}
           </div>
+        </TabsContent>
+
+        {/* ATTRIBUTION TAB - New unified tab */}
+        <TabsContent value="attribution">
+          <AttributionTabContent workspaceId={currentWorkspace.id} />
         </TabsContent>
       </Tabs>
     </PageContentWrapper>

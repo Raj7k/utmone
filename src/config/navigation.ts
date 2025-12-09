@@ -47,7 +47,7 @@ export interface NavCategory {
 export const appNavigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
   { name: "Sales", href: "/dashboard/sales", icon: DollarSign },
   { name: "Approvals", href: "/dashboard/approvals", icon: Clock, badge: true },
 ];
@@ -61,9 +61,9 @@ export const toolsNavigation: NavItem[] = [
   { name: "A/B Testing", href: "/dashboard/experiments", icon: Beaker },
 ];
 
-// INTELLIGENCE - Analytics and attribution features
+// INTELLIGENCE - Analytics and attribution features (deep links into unified hub)
 export const intelligenceNavigation: NavItem[] = [
-  { name: "Revenue Intelligence", href: "/dashboard/attribution", icon: Network },
+  { name: "Attribution", href: "/dashboard/analytics?tab=attribution", icon: Network },
   { name: "Performance", href: "/dashboard/cache-monitoring", icon: Zap },
   { name: "Insights", href: "/dashboard/analytics-performance", icon: TrendingUp },
   { name: "Link Health", href: "/dashboard/link-health", icon: Shield },
@@ -155,5 +155,5 @@ export const navigationCategories: NavCategory[] = [
 export const mobileNavigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   { name: "Links", href: "/dashboard/links", icon: Link2 },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { name: "Intelligence", href: "/dashboard/analytics", icon: BarChart3 },
 ];
