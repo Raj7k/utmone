@@ -49,16 +49,16 @@ export const ReferralTile = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden h-full">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden h-full">
         <div className="p-4">
           <div className="flex items-center gap-2">
-            <Gift className="h-5 w-5 text-white/60" />
-            <Skeleton className="h-6 w-32 bg-white/10" />
+            <Gift className="h-5 w-5 text-muted-foreground" />
+            <Skeleton className="h-6 w-32" />
           </div>
         </div>
         <div className="p-4 space-y-3">
-          <Skeleton className="h-10 w-full bg-white/10" />
-          <Skeleton className="h-8 w-full bg-white/10" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-8 w-full" />
         </div>
       </div>
     );
@@ -71,57 +71,55 @@ export const ReferralTile = () => {
         onComplete={() => setShowRipple(false)} 
       />
       
-      <div className="bg-zinc-900/40 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden h-full flex flex-col">
+      <div className="bg-card rounded-2xl border border-border overflow-hidden h-full flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-white/5">
+        <div className="p-4 border-b border-border/50">
           <div className="flex items-center gap-2">
-            <div 
-              className="p-1.5 rounded-full bg-white/10 border border-white/20 shadow-[0_0_8px_hsl(0_0%_100%/0.15)]"
-            >
-              <Gift className="h-4 w-4 text-white" />
+            <div className="p-1.5 rounded-full bg-muted border border-border">
+              <Gift className="h-4 w-4 text-foreground" />
             </div>
-            <h3 className="font-semibold text-white">invite & earn</h3>
+            <h3 className="font-semibold text-foreground">invite & earn</h3>
           </div>
-          <p className="text-xs text-zinc-400 mt-1">
-            earn <span className="font-medium text-zinc-300">1 month of pro</span> per referral
+          <p className="text-xs text-muted-foreground mt-1">
+            earn <span className="font-medium text-foreground">1 month of pro</span> per referral
           </p>
         </div>
         
         <div className="p-4 space-y-4 flex-1 flex flex-col justify-between">
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/5">
+            <div className="p-3 rounded-lg bg-muted border border-border/50">
               <div className="flex items-center gap-2 mb-1">
-                <Users className="h-3.5 w-3.5 text-zinc-500" />
-                <span className="text-xs text-zinc-500">referrals</span>
+                <Users className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">referrals</span>
               </div>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-foreground">
                 {successfulReferrals}
               </p>
             </div>
             
-            <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/5">
+            <div className="p-3 rounded-lg bg-muted border border-border/50">
               <div className="flex items-center gap-2 mb-1">
-                <Award className="h-3.5 w-3.5 text-zinc-500" />
-                <span className="text-xs text-zinc-500">earned</span>
+                <Award className="h-3.5 w-3.5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">earned</span>
               </div>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-foreground">
                 {monthsEarned} mo
               </p>
             </div>
           </div>
 
           {/* Your Code */}
-          <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-900/60 border border-white/5">
-            <span className="text-xs text-zinc-500 font-mono">your code</span>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-muted border border-border/50">
+            <span className="text-xs text-muted-foreground font-mono">your code</span>
             <div className="flex items-center gap-2">
-              <code className="text-sm font-mono font-medium tracking-tight text-zinc-300">
+              <code className="text-sm font-mono font-medium tracking-tight text-foreground">
                 {referralCode}
               </code>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 text-zinc-400 hover:text-white hover:bg-white/10"
+                className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-muted"
                 onClick={copyReferralLink}
               >
                 {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
@@ -131,7 +129,7 @@ export const ReferralTile = () => {
 
           {/* Copy Link Button */}
           <Button
-            className="w-full bg-white text-zinc-900 hover:bg-zinc-200"
+            className="w-full"
             size="sm"
             onClick={copyReferralLink}
           >
