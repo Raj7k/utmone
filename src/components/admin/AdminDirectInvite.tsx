@@ -7,38 +7,67 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, UserPlus, Copy, CheckCircle } from "lucide-react";
+import { Mail, UserPlus, Copy, CheckCircle, Calendar } from "lucide-react";
+import { PlanTier, PLAN_CONFIG } from "@/lib/planConfig";
+import { format, addDays } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+
+const PLAN_DURATION_OPTIONS = [
+  { value: "7", label: "7 days" },
+  { value: "14", label: "14 days" },
+  { value: "30", label: "30 days" },
+  { value: "60", label: "60 days" },
+  { value: "90", label: "90 days" },
+  { value: "365", label: "1 year" },
+  { value: "custom", label: "Custom date" },
+];
 
 export const AdminDirectInvite = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
-  const [accessLevel, setAccessLevel] = useState("2");
+  const [planTier, setPlanTier] = useState<PlanTier>("starter");
+  const [durationOption, setDurationOption] = useState("30");
+  const [customDate, setCustomDate] = useState<Date | undefined>(addDays(new Date(), 30));
   const [lastInviteToken, setLastInviteToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  const getExpiryDate = (): Date => {
+    if (durationOption === "custom" && customDate) {
+      return customDate;
+    }
+    return addDays(new Date(), parseInt(durationOption));
+  };
 
   const sendInviteMutation = useMutation({
     mutationFn: async () => {
       // Generate unique invite token
       const inviteToken = btoa(`${email}-${Date.now()}-${Math.random()}`);
+      const expiryDate = getExpiryDate();
       
-      // Create invite record
+      // Create invite record with plan tier
       const { error: inviteError } = await supabase
         .from("early_access_invites")
         .insert({
           email: email.toLowerCase(),
           invite_token: inviteToken,
-          access_level: parseInt(accessLevel),
-          expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
+          access_level: getPlanAccessLevel(planTier), // For backward compatibility
+          plan_tier: planTier,
+          plan_duration_days: Math.ceil((expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)),
+          expires_at: expiryDate.toISOString(),
         });
 
       if (inviteError) throw inviteError;
 
-      // Send approval email
+      // Send approval email with plan info
       const { error: emailError } = await supabase.functions.invoke("send-approval-email", {
         body: {
           email: email.toLowerCase(),
-          accessLevel: parseInt(accessLevel),
+          accessLevel: getPlanAccessLevel(planTier),
+          planTier,
+          planExpiresAt: expiryDate.toISOString(),
           inviteToken,
         },
       });
@@ -50,7 +79,7 @@ export const AdminDirectInvite = () => {
     onSuccess: (inviteToken) => {
       toast({
         title: "Invite sent successfully",
-        description: `Direct invite sent to ${email}`,
+        description: `Direct invite sent to ${email} with ${planTier} plan`,
       });
       setLastInviteToken(inviteToken);
       setEmail("");
@@ -64,6 +93,18 @@ export const AdminDirectInvite = () => {
       });
     },
   });
+
+  // Map plan tier to legacy access level for backward compatibility
+  const getPlanAccessLevel = (tier: PlanTier): number => {
+    const mapping: Record<PlanTier, number> = {
+      free: 1,
+      starter: 2,
+      growth: 3,
+      business: 4,
+      enterprise: 4,
+    };
+    return mapping[tier];
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +133,7 @@ export const AdminDirectInvite = () => {
           Direct Invite
         </CardTitle>
         <CardDescription>
-          Send a direct invite bypassing the waitlist
+          Send a direct invite with a specific plan tier and expiry date
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -110,19 +151,76 @@ export const AdminDirectInvite = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="access-level">Access level</Label>
-            <Select value={accessLevel} onValueChange={setAccessLevel}>
-              <SelectTrigger id="access-level">
+            <Label htmlFor="plan-tier">Plan tier</Label>
+            <Select value={planTier} onValueChange={(v) => setPlanTier(v as PlanTier)}>
+              <SelectTrigger id="plan-tier">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0">Waitlist (Level 0)</SelectItem>
-                <SelectItem value="1">Read-Only Preview (Level 1)</SelectItem>
-                <SelectItem value="2">Limited Beta (Level 2)</SelectItem>
-                <SelectItem value="3">Full Access (Level 3)</SelectItem>
-                <SelectItem value="4">Power User (Level 4)</SelectItem>
+                {Object.entries(PLAN_CONFIG).map(([key, plan]) => (
+                  <SelectItem key={key} value={key}>
+                    <div className="flex items-center gap-2">
+                      <span className="capitalize">{plan.name}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {plan.price === 'custom' ? '(custom)' : plan.price === 0 ? '(free)' : `($${plan.price}/mo)`}
+                      </span>
+                    </div>
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Access duration</Label>
+            <Select value={durationOption} onValueChange={setDurationOption}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {PLAN_DURATION_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {durationOption === "custom" && (
+            <div className="space-y-2">
+              <Label>Custom expiry date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !customDate && "text-muted-foreground"
+                    )}
+                  >
+                    <Calendar className="mr-2 h-4 w-4" />
+                    {customDate ? format(customDate, "PPP") : "Pick a date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    mode="single"
+                    selected={customDate}
+                    onSelect={setCustomDate}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
+
+          <div className="p-3 bg-muted/50 rounded-lg text-sm">
+            <p className="text-muted-foreground">
+              User will receive <span className="font-medium text-foreground capitalize">{planTier}</span> access
+              until <span className="font-medium text-foreground">{format(getExpiryDate(), "PPP")}</span>
+            </p>
           </div>
 
           <Button 

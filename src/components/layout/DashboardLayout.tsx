@@ -6,6 +6,7 @@ import { CreateLinkModal } from "@/components/CreateLinkModal";
 import { AdminToolbar } from "@/components/admin/AdminToolbar";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
 import { ImpersonationBanner } from "@/components/admin/ImpersonationBanner";
+import { SubscriptionExpiryBanner } from "@/components/subscription/SubscriptionExpiryBanner";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useCurrentPlan } from "@/hooks/useCurrentPlan";
@@ -48,6 +49,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+          {/* Subscription Expiry Banner */}
+          <SubscriptionExpiryBanner />
+
           {/* Impersonation Banner */}
           {impersonatedUser && (
             <ImpersonationBanner

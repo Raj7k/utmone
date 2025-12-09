@@ -249,6 +249,12 @@ verify_jwt = false
 [functions.calculate-event-halo]
 verify_jwt = true
 
+[functions.check-subscription-expiry]
+verify_jwt = false
+
+[functions.send-subscription-expiry-email]
+verify_jwt = false
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
@@ -304,3 +310,8 @@ schedule = "*/5 * * * *"
 [[edge_runtime.scheduler]]
 function = "detect-analytics-anomalies"
 schedule = "0 * * * *"
+
+# Check subscription expiry - runs daily at 1 AM UTC
+[[edge_runtime.scheduler]]
+function = "check-subscription-expiry"
+schedule = "0 1 * * *"
