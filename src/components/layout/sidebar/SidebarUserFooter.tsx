@@ -11,7 +11,7 @@ import {
   DropdownMenuSubContent, 
   DropdownMenuPortal 
 } from "@/components/ui/dropdown-menu";
-import { Bell, User, LogOut, Palette, Sun, Moon, Monitor } from "lucide-react";
+import { Bell, User, LogOut, Palette, Sun, Moon, Monitor, Bug } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -57,6 +57,21 @@ export const SidebarUserFooter = () => {
         <Bell className="h-5 w-5" />
         <span className="text-sm">Notifications</span>
       </Link>
+
+      {/* Report Bug */}
+      <button 
+        onClick={() => {
+          // Find and click the feedback widget trigger button
+          const feedbackTrigger = document.querySelector('.feedback-widget-trigger') as HTMLButtonElement;
+          if (feedbackTrigger) {
+            feedbackTrigger.click();
+          }
+        }}
+        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-label hover:bg-fill-tertiary transition-apple"
+      >
+        <Bug className="h-5 w-5" />
+        <span className="text-sm">Report Bug</span>
+      </button>
 
       {/* User Profile Dropdown */}
       <DropdownMenu>
