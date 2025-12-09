@@ -7,10 +7,15 @@ const corsHeaders = {
 };
 
 interface EnrichmentRequest {
-  firstName: string;
+  firstName?: string;
+  first_name?: string;
   lastName?: string;
-  company: string;
+  last_name?: string;
+  company?: string;
+  email?: string;
   workspaceId?: string;
+  workspace_id?: string;
+  scan_id?: string;
 }
 
 interface EnrichmentResponse {
@@ -19,6 +24,7 @@ interface EnrichmentResponse {
   linkedin?: string;
   title?: string;
   source: string;
+  enriched: boolean;
 }
 
 serve(async (req) => {
@@ -28,16 +34,24 @@ serve(async (req) => {
   }
 
   try {
-    const { firstName, lastName, company, workspaceId } = await req.json() as EnrichmentRequest;
+    const requestBody = await req.json() as EnrichmentRequest;
+    
+    // Support both camelCase and snake_case
+    const firstName = requestBody.firstName || requestBody.first_name;
+    const lastName = requestBody.lastName || requestBody.last_name;
+    const company = requestBody.company;
+    const email = requestBody.email;
+    const workspaceId = requestBody.workspaceId || requestBody.workspace_id;
+    const scanId = requestBody.scan_id;
 
-    if (!firstName || !company) {
+    if (!firstName && !email) {
       return new Response(
-        JSON.stringify({ error: 'firstName and company are required' }),
+        JSON.stringify({ error: 'firstName or email is required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    console.log(`Enriching lead: ${firstName} ${lastName || ''} at ${company}`);
+    console.log(`Enriching lead: ${firstName || email} ${lastName || ''} at ${company || 'unknown'}`);
 
     // Try to get enrichment API keys from workspace settings
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
@@ -119,6 +133,7 @@ serve(async (req) => {
               linkedin: apolloData.person.linkedin_url || undefined,
               title: apolloData.person.title || undefined,
               source: 'apollo',
+              enriched: true,
             };
             console.log('Apollo enrichment successful:', enrichmentResult);
           }
@@ -157,6 +172,7 @@ serve(async (req) => {
               linkedin: clayData.linkedin || undefined,
               title: clayData.title || undefined,
               source: 'clay',
+              enriched: true,
             };
             console.log('Clay enrichment successful:', enrichmentResult);
           }
@@ -215,6 +231,7 @@ serve(async (req) => {
                 linkedin: person.linkedinUrl || undefined,
                 title: person.jobTitle || undefined,
                 source: 'zoominfo',
+                enriched: true,
               };
               console.log('ZoomInfo enrichment successful:', enrichmentResult);
             }
@@ -239,26 +256,54 @@ serve(async (req) => {
       );
     }
 
+    // Update the badge scan record if scan_id provided
+    if (scanId) {
+      if (enrichmentResult) {
+        await supabase
+          .from('event_badge_scans')
+          .update({
+            enriched: true,
+            enrichment_source: enrichmentResult.source,
+            enriched_at: new Date().toISOString(),
+            phone: enrichmentResult.phone || null,
+            linkedin_url: enrichmentResult.linkedin || null,
+            enrichment_error: null,
+          })
+          .eq('id', scanId);
+        console.log(`Updated badge scan ${scanId} with enrichment data`);
+      } else {
+        await supabase
+          .from('event_badge_scans')
+          .update({
+            enriched: false,
+            enrichment_error: 'No data found from enrichment providers',
+          })
+          .eq('id', scanId);
+        console.log(`Marked badge scan ${scanId} as failed enrichment`);
+      }
+    }
+
     // Return result (may be null if no data found)
     if (enrichmentResult) {
       return new Response(
-        JSON.stringify(enrichmentResult),
+        JSON.stringify({ ...enrichmentResult, enriched: true }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } else {
       return new Response(
         JSON.stringify({ 
+          enriched: false,
           error: 'No enrichment data found',
-          searched: { firstName, lastName, company }
+          searched: { firstName, lastName, company, email }
         }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
   } catch (error) {
     console.error('Enrichment function error:', error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Enrichment failed' }),
+      JSON.stringify({ error: error instanceof Error ? error.message : 'Enrichment failed', enriched: false }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
