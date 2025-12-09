@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { 
   Waves, QrCode, Upload, BarChart3, 
   ArrowRight, DollarSign, CheckCircle,
-  Building, Users, Target
+  Building, Users, Target, Scan, Sparkles
 } from "lucide-react";
 import { Navigation } from "@/components/landing/Navigation";
 import { FloatingNavigation } from "@/components/landing/FloatingNavigation";
@@ -12,6 +12,7 @@ import { SEO } from "@/components/seo/SEO";
 import { WebPageSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
 
@@ -36,6 +37,11 @@ const FieldMarketing = () => {
 
   const benefits = [
     {
+      icon: Scan,
+      title: "one-tap badge scanner",
+      description: "$79/month replaces $5,000 hardware rentals. reads any badge format with ai ocr + auto-enriches missing emails."
+    },
+    {
       icon: Waves,
       title: "geo-temporal lift",
       description: "detect traffic spikes from the event city during event dates. prove the 'invisible' impact."
@@ -51,6 +57,11 @@ const FieldMarketing = () => {
       description: "upload CSV from badge scanners. auto-stitch identities for post-event nurturing."
     },
     {
+      icon: Sparkles,
+      title: "ai lead enrichment",
+      description: "badge scans missing emails? one-tap auto-enriches via clay, apollo, or zoominfo integrations."
+    },
+    {
       icon: BarChart3,
       title: "roi visualization",
       description: "see direct scans + halo visitors + estimated pipeline. prove your budget is worth it."
@@ -60,7 +71,7 @@ const FieldMarketing = () => {
   const workflow = [
     { step: 1, title: "plan the event", description: "enter event details, city, dates" },
     { step: 2, title: "generate booth qr", description: "print QR with UTM tracking" },
-    { step: 3, title: "run the event", description: "scan badges, collect leads" },
+    { step: 3, title: "scan with one-tap", description: "use your phone to read any badge—qr, barcode, or printed text" },
     { step: 4, title: "import badge scans", description: "upload CSV post-event" },
     { step: 5, title: "calculate halo", description: "see total geo-temporal lift" },
     { step: 6, title: "report roi", description: "present total impact to leadership" }
@@ -253,7 +264,7 @@ const FieldMarketing = () => {
                 </h2>
               </motion.div>
               
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {benefits.map((benefit, index) => (
                   <motion.div
                     key={benefit.title}
@@ -262,13 +273,90 @@ const FieldMarketing = () => {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Card className="p-6 h-full bg-card border-border">
+                    <Card className="p-6 h-full bg-card border-border relative">
+                      {benefit.title === "one-tap badge scanner" && (
+                        <Badge className="absolute top-4 right-4 bg-primary/20 text-primary border-primary/30">NEW</Badge>
+                      )}
                       <benefit.icon className="w-8 h-8 text-primary mb-4" />
                       <h3 className="font-semibold text-foreground mb-2">{benefit.title}</h3>
                       <p className="text-muted-foreground">{benefit.description}</p>
                     </Card>
                   </motion.div>
                 ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Replace Hardware Scanners Section */}
+          <section className="py-20 px-4">
+            <div className="max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
+                  replace $5,000 hardware scanners
+                </h2>
+                <p className="text-obsidian-text-muted max-w-2xl mx-auto">
+                  one-tap runs on any phone. no rentals. no lost devices. no manual data entry.
+                </p>
+              </motion.div>
+              
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
+                <Card className="p-6 bg-destructive/5 border-destructive/20">
+                  <h3 className="font-semibold text-foreground mb-4">❌ hardware scanner rental</h3>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-start gap-2">
+                      <span>•</span>
+                      <span>$2,500 - $5,000 per event</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span>•</span>
+                      <span>shipping delays & lost devices</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span>•</span>
+                      <span>manual CSV export & cleanup</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span>•</span>
+                      <span>no lead enrichment</span>
+                    </li>
+                  </ul>
+                </Card>
+                
+                <Card className="p-6 bg-primary/5 border-primary/20">
+                  <h3 className="font-semibold text-foreground mb-4">✓ one-tap on your phone</h3>
+                  <ul className="space-y-3 text-muted-foreground">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                      <span>$79/month for unlimited events</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                      <span>works on any iphone or android</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                      <span>real-time sync to dashboard</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                      <span>auto-enrich missing emails via clay/apollo</span>
+                    </li>
+                  </ul>
+                </Card>
+              </div>
+              
+              <div className="text-center">
+                <Button asChild size="lg">
+                  <Link to="/features/one-tap">
+                    explore one-tap
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
               </div>
             </div>
           </section>
