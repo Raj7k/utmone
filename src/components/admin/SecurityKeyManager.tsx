@@ -81,18 +81,31 @@ export const SecurityKeyManager = () => {
 
         return verifyData;
       } catch (error: any) {
+        // InvalidStateError: key is already registered (excludeCredentials match)
+        if (error.name === 'InvalidStateError') {
+          throw new Error('This security key is already registered. Delete the existing key first if you want to re-register it.');
+        }
+        // NotAllowedError can mean multiple things - try to be more helpful
         if (error.name === 'NotAllowedError') {
-          throw new Error('Registration cancelled or timed out. Please try again.');
-        } else if (error.name === 'SecurityError') {
+          // Check if the error message hints at credential exclusion
+          const errorMsg = error.message?.toLowerCase() || '';
+          if (errorMsg.includes('excluded') || errorMsg.includes('already')) {
+            throw new Error('This security key is already registered on this account. Check your existing keys below.');
+          }
+          // Otherwise it's likely user cancellation or timeout
+          throw new Error('Registration cancelled or timed out. Tap your security key when prompted and try again.');
+        }
+        if (error.name === 'SecurityError') {
           throw new Error('Security error: This feature requires HTTPS or localhost.');
-        } else if (error.name === 'InvalidStateError') {
-          throw new Error('This security key is already registered.');
-        } else if (error.message?.includes('publickey-credentials-create')) {
+        }
+        if (error.message?.includes('publickey-credentials-create')) {
           throw new Error('WebAuthn not enabled. Try accessing directly (not in iframe).');
-        } else if (error.message?.includes('relying party')) {
+        }
+        if (error.message?.includes('relying party')) {
           throw new Error('Domain mismatch. Please contact support.');
         }
-        throw error;
+        // Unknown error - include original message for debugging
+        throw new Error(error.message || 'An unexpected error occurred during registration.');
       }
     },
     onSuccess: () => {
