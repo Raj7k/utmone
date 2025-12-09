@@ -76,18 +76,18 @@ export const LinkSuccessCard = ({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`p-6 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-lg ${className}`}
+        className={`p-6 bg-card border border-border rounded-lg ${className}`}
       >
         {/* Success Icon & Title */}
         <div className="flex items-start gap-3 mb-4">
-          <div className="p-2 rounded-full bg-white/10 border border-white/20 shadow-[0_0_12px_hsl(var(--foreground)/0.2)]">
-            <CheckCircle2 className="h-5 w-5 text-white" />
+          <div className="p-2 rounded-full bg-primary/10 border border-primary/20">
+            <CheckCircle2 className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-foreground">
               {title}
             </h3>
-            <p className="text-sm text-zinc-400 mt-0.5">
+            <p className="text-sm text-muted-foreground mt-0.5">
               {subtitle}
             </p>
           </div>
@@ -95,8 +95,8 @@ export const LinkSuccessCard = ({
 
         {/* URL Display */}
         <div className="relative mb-4">
-          <div className="p-4 bg-zinc-900/60 rounded-lg border border-white/5">
-            <p className="text-sm font-mono text-zinc-300 break-all">{url}</p>
+          <div className="p-4 bg-muted rounded-lg border border-border">
+            <p className="text-sm font-mono text-foreground break-all">{url}</p>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export const LinkSuccessCard = ({
             onClick={copyToClipboard}
             variant="default"
             size="sm"
-            className="flex-1 min-w-[140px] bg-white text-zinc-900 hover:bg-zinc-200"
+            className="flex-1 min-w-[140px]"
           >
             {copied ? (
               <>
@@ -126,7 +126,7 @@ export const LinkSuccessCard = ({
               onClick={handleViewDetails}
               variant="outline"
               size="sm"
-              className="flex-1 min-w-[140px] border-white/20 text-zinc-300 hover:bg-white/10"
+              className="flex-1 min-w-[140px]"
             >
               <ExternalLink className="h-4 w-4 mr-2" />
               view details
@@ -138,7 +138,7 @@ export const LinkSuccessCard = ({
               onClick={onShorten}
               variant="outline"
               size="sm"
-              className="flex-1 min-w-[140px] border-white/20 text-zinc-300 hover:bg-white/10"
+              className="flex-1 min-w-[140px]"
             >
               <Link2 className="h-4 w-4 mr-2" />
               shorten this url
@@ -150,7 +150,7 @@ export const LinkSuccessCard = ({
               onClick={onGenerateQR}
               variant="outline"
               size="sm"
-              className="flex-1 min-w-[140px] border-white/20 text-zinc-300 hover:bg-white/10"
+              className="flex-1 min-w-[140px]"
             >
               <QrCode className="h-4 w-4 mr-2" />
               generate qr
