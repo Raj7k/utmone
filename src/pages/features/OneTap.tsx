@@ -24,7 +24,7 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { Footer } from "@/components/landing/Footer";
 import { cn } from "@/lib/utils";
 
-const ScannerOSPage = () => {
+const OneTapPage = () => {
   const reliabilityStack = [
     {
       level: "level 1",
@@ -121,7 +121,7 @@ const ScannerOSPage = () => {
             className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
           >
             every conference has its own scanner. your leads are scattered across apps and emails. 
-            scannerOS reads any badge format and centralizes your pipeline.
+            one-tap reads any badge format and centralizes your pipeline.
           </motion.p>
 
           <motion.div
@@ -269,7 +269,7 @@ const ScannerOSPage = () => {
           <Card className="overflow-hidden">
             <div className="grid grid-cols-3 bg-muted/50 p-4 font-semibold text-sm">
               <div className="text-foreground">feature</div>
-              <div className="text-center text-foreground">scannerOS</div>
+              <div className="text-center text-foreground">one-tap</div>
               <div className="text-center text-foreground">hardware scanner</div>
             </div>
             
@@ -323,7 +323,7 @@ const ScannerOSPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/signup">
               <Button size="lg" variant="secondary" className="gap-2">
-                get scannerOS
+                get one-tap
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -345,4 +345,4 @@ const ScannerOSPage = () => {
   );
 };
 
-export default ScannerOSPage;
+export default OneTapPage;

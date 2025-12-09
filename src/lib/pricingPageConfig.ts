@@ -40,12 +40,12 @@ const baseFAQs: PricingFAQ[] = [
       answer: `we'll notify you when you're approaching your limits. you can upgrade anytime to increase your capacity. existing links continue working—we never break your links.`,
     },
     {
-      question: 'what is scannerOS and how does it work?',
-      answer: `scannerOS is our universal badge scanner that works at any event. it reads qr codes natively, falls back to ai ocr for encrypted badges, and works offline. leads sync automatically when you're back online.`,
+      question: 'what is one-tap and how does it work?',
+      answer: `one-tap is our universal badge scanner that works at any event. it reads qr codes natively, falls back to ai ocr for encrypted badges, and works offline. leads sync automatically when you're back online.`,
     },
     {
-      question: 'can scannerOS replace my hardware scanners?',
-      answer: `yes! scannerOS runs on your phone and can read any badge format. it includes ai enrichment to find missing emails—something hardware scanners can't do. at $79/month, it's a fraction of renting $5,000 hardware scanners.`,
+      question: 'can one-tap replace my hardware scanners?',
+      answer: `yes! one-tap runs on your phone and can read any badge format. it includes ai enrichment to find missing emails—something hardware scanners can't do. at $79/month, it's a fraction of renting $5,000 hardware scanners.`,
     },
     {
       question: 'how many team members can i add?',

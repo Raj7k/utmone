@@ -1,6 +1,6 @@
 {
-  "name": "utm.one ScannerOS",
-  "short_name": "ScannerOS",
+  "name": "utm.one One-Tap",
+  "short_name": "One-Tap",
   "description": "Universal badge scanner with AI OCR and lead enrichment",
   "start_url": "/scan",
   "display": "standalone",
