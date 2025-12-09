@@ -29,7 +29,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { workspaceId, linkId, scope = 'workspace' } = await req.json();
+    const { workspaceId, linkId, scope = 'workspace', timeRange = 'auto' } = await req.json();
 
     if (!workspaceId) {
       return new Response(JSON.stringify({ error: 'workspaceId required' }), {
@@ -40,38 +40,114 @@ serve(async (req) => {
 
     const insights: SmartInsight[] = [];
     const now = new Date();
-    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
-    // Fetch recent clicks
+    // Determine analysis window based on timeRange
+    let analysisDays = 7;
+    if (timeRange === '14d') analysisDays = 14;
+    else if (timeRange === '30d') analysisDays = 30;
+    else if (timeRange === '90d') analysisDays = 90;
+    else if (timeRange === 'all') analysisDays = 365 * 5; // 5 years as "all"
+
+    const analysisStartDate = new Date(now.getTime() - analysisDays * 24 * 60 * 60 * 1000);
+    const comparisonPeriodStart = new Date(analysisStartDate.getTime() - analysisDays * 24 * 60 * 60 * 1000);
+
+    // Fetch clicks for analysis period
     let clicksQuery = supabase
       .from('link_clicks')
       .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
       .eq('links.workspace_id', workspaceId)
-      .gte('clicked_at', sevenDaysAgo.toISOString());
+      .gte('clicked_at', analysisStartDate.toISOString());
 
     if (scope === 'link' && linkId) {
       clicksQuery = clicksQuery.eq('link_id', linkId);
     }
 
-    const { data: recentClicks } = await clicksQuery;
+    let { data: recentClicks } = await clicksQuery;
+    let currentClickCount = recentClicks?.length || 0;
+
+    // Auto-expand to 30 days if not enough data in 7 days
+    if (timeRange === 'auto' && currentClickCount < 10) {
+      console.log(`Only ${currentClickCount} clicks in 7 days, expanding to 30 days`);
+      analysisDays = 30;
+      const expandedStartDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      
+      let expandedQuery = supabase
+        .from('link_clicks')
+        .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
+        .eq('links.workspace_id', workspaceId)
+        .gte('clicked_at', expandedStartDate.toISOString());
+
+      if (scope === 'link' && linkId) {
+        expandedQuery = expandedQuery.eq('link_id', linkId);
+      }
+
+      const expandedResult = await expandedQuery;
+      if ((expandedResult.data?.length || 0) > currentClickCount) {
+        recentClicks = expandedResult.data;
+        currentClickCount = recentClicks?.length || 0;
+        console.log(`Expanded to ${currentClickCount} clicks in 30 days`);
+      }
+
+      // If still not enough, try 90 days
+      if (currentClickCount < 10) {
+        console.log(`Only ${currentClickCount} clicks in 30 days, expanding to 90 days`);
+        analysisDays = 90;
+        const expanded90Date = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        
+        let expanded90Query = supabase
+          .from('link_clicks')
+          .select('*, links!inner(workspace_id, short_code, utm_source, utm_medium, utm_campaign)')
+          .eq('links.workspace_id', workspaceId)
+          .gte('clicked_at', expanded90Date.toISOString());
+
+        if (scope === 'link' && linkId) {
+          expanded90Query = expanded90Query.eq('link_id', linkId);
+        }
+
+        const expanded90Result = await expanded90Query;
+        if ((expanded90Result.data?.length || 0) > currentClickCount) {
+          recentClicks = expanded90Result.data;
+          currentClickCount = recentClicks?.length || 0;
+          console.log(`Expanded to ${currentClickCount} clicks in 90 days`);
+        }
+      }
+    }
+
+    // Fetch total all-time clicks for context
+    let totalClicksQuery = supabase
+      .from('link_clicks')
+      .select('id', { count: 'exact' })
+      .eq('workspace_id', workspaceId);
+
+    if (scope === 'link' && linkId) {
+      totalClicksQuery = totalClicksQuery.eq('link_id', linkId);
+    }
+
+    const { count: totalAllTimeClicks } = await totalClicksQuery;
 
     // Fetch previous period clicks for comparison
+    const prevPeriodEnd = new Date(now.getTime() - analysisDays * 24 * 60 * 60 * 1000);
+    const prevPeriodStart = new Date(prevPeriodEnd.getTime() - analysisDays * 24 * 60 * 60 * 1000);
+
     let prevClicksQuery = supabase
       .from('link_clicks')
       .select('*, links!inner(workspace_id)')
       .eq('links.workspace_id', workspaceId)
-      .gte('clicked_at', fourteenDaysAgo.toISOString())
-      .lt('clicked_at', sevenDaysAgo.toISOString());
+      .gte('clicked_at', prevPeriodStart.toISOString())
+      .lt('clicked_at', prevPeriodEnd.toISOString());
 
     if (scope === 'link' && linkId) {
       prevClicksQuery = prevClicksQuery.eq('link_id', linkId);
     }
 
     const { data: prevClicks } = await prevClicksQuery;
-
-    const currentClickCount = recentClicks?.length || 0;
     const prevClickCount = prevClicks?.length || 0;
+
+    // Create period label for messaging
+    const periodLabel = analysisDays <= 7 ? 'this week' : 
+                        analysisDays <= 14 ? 'last 2 weeks' :
+                        analysisDays <= 30 ? 'last 30 days' :
+                        analysisDays <= 90 ? 'last 90 days' : 'all time';
 
     // 1. Traffic trend analysis
     if (currentClickCount > 0 && prevClickCount > 0) {
@@ -84,11 +160,11 @@ serve(async (req) => {
           category: 'traffic',
           severity: 'high',
           title: 'Traffic surge detected',
-          description: `Your traffic increased by ${changePercent.toFixed(0)}% compared to last week. Consider amplifying what's working.`,
+          description: `Your traffic increased by ${changePercent.toFixed(0)}% in ${periodLabel}. Consider amplifying what's working.`,
           impactScore: Math.min(100, Math.abs(changePercent)),
           actionLabel: 'View traffic sources',
           actionUrl: `/dashboard/analytics?tab=channels`,
-          metadata: { changePercent, currentClickCount, prevClickCount }
+          metadata: { changePercent, currentClickCount, prevClickCount, analysisDays }
         });
       } else if (changePercent < -30) {
         insights.push({
@@ -97,11 +173,11 @@ serve(async (req) => {
           category: 'traffic',
           severity: changePercent < -50 ? 'critical' : 'high',
           title: 'Traffic declining',
-          description: `Traffic dropped by ${Math.abs(changePercent).toFixed(0)}% this week. Review your active campaigns.`,
+          description: `Traffic dropped by ${Math.abs(changePercent).toFixed(0)}% in ${periodLabel}. Review your active campaigns.`,
           impactScore: Math.min(100, Math.abs(changePercent)),
           actionLabel: 'Check campaigns',
           actionUrl: `/dashboard/campaigns`,
-          metadata: { changePercent, currentClickCount, prevClickCount }
+          metadata: { changePercent, currentClickCount, prevClickCount, analysisDays }
         });
       }
     }
@@ -153,7 +229,7 @@ serve(async (req) => {
     }
 
     // 3. Best timing analysis
-    if (recentClicks && recentClicks.length > 10) {
+    if (recentClicks && recentClicks.length >= 10) {
       const hourCounts: Record<number, number> = {};
       const dayCounts: Record<number, number> = {};
 
@@ -184,7 +260,7 @@ serve(async (req) => {
     }
 
     // 4. Geographic opportunity
-    if (recentClicks && recentClicks.length > 20) {
+    if (recentClicks && recentClicks.length >= 20) {
       const countryCounts: Record<string, number> = {};
       recentClicks.forEach(click => {
         if (click.country) {
@@ -214,7 +290,7 @@ serve(async (req) => {
     }
 
     // 5. Device optimization
-    if (recentClicks && recentClicks.length > 20) {
+    if (recentClicks && recentClicks.length >= 20) {
       const deviceCounts: Record<string, number> = {};
       recentClicks.forEach(click => {
         const device = click.device_type || 'Unknown';
@@ -266,7 +342,7 @@ serve(async (req) => {
               category: 'campaign',
               severity: 'high',
               title: `${campaign.name} has no recent activity`,
-              description: 'This active campaign had zero clicks in the last 7 days. Review if it needs promotion or should be paused.',
+              description: `This active campaign had zero clicks in ${periodLabel}. Review if it needs promotion or should be paused.`,
               impactScore: 70,
               actionLabel: 'View campaign',
               actionUrl: `/dashboard/campaigns/${campaign.id}`,
@@ -278,11 +354,12 @@ serve(async (req) => {
     }
 
     // 7. Conversion rate insight
+    const conversionStartDate = new Date(now.getTime() - analysisDays * 24 * 60 * 60 * 1000);
     const { data: conversions } = await supabase
       .from('conversion_events')
       .select('*')
       .eq('workspace_id', workspaceId)
-      .gte('created_at', sevenDaysAgo.toISOString());
+      .gte('created_at', conversionStartDate.toISOString());
 
     if (conversions && conversions.length > 0 && currentClickCount > 0) {
       const conversionRate = (conversions.length / currentClickCount) * 100;
@@ -316,19 +393,53 @@ serve(async (req) => {
       }
     }
 
-    // Add getting-started insight if no insights but some activity
-    if (insights.length === 0 && currentClickCount > 0) {
-      insights.push({
-        id: `getting-started-${Date.now()}`,
-        type: 'optimization',
-        category: 'traffic',
-        severity: 'low',
-        title: 'keep sharing your links',
-        description: `you have ${currentClickCount} click${currentClickCount !== 1 ? 's' : ''} so far. ai insights unlock with 10+ clicks in a week. keep promoting to see actionable recommendations.`,
-        impactScore: 10,
-        actionLabel: 'share your link',
-        actionUrl: `/dashboard/links`,
-      });
+    // 8. Total performance insight (always show if we have any clicks)
+    if (totalAllTimeClicks && totalAllTimeClicks > 0) {
+      const totalClicksFormatted = totalAllTimeClicks.toLocaleString();
+      
+      if (currentClickCount >= 10) {
+        // Good activity - show summary insight
+        insights.push({
+          id: `total-performance-${Date.now()}`,
+          type: 'trend',
+          category: 'traffic',
+          severity: 'low',
+          title: `${totalClicksFormatted} total clicks`,
+          description: `You've generated ${totalClicksFormatted} clicks all-time with ${currentClickCount} in ${periodLabel}. Your links are working!`,
+          impactScore: Math.min(100, Math.round(Math.log10(totalAllTimeClicks) * 25)),
+          actionLabel: 'View all analytics',
+          actionUrl: `/dashboard/analytics`,
+          metadata: { totalClicks: totalAllTimeClicks, recentClicks: currentClickCount, analysisDays }
+        });
+      } else if (currentClickCount > 0 && currentClickCount < 10) {
+        // Some activity but not enough for full insights
+        insights.push({
+          id: `getting-started-${Date.now()}`,
+          type: 'optimization',
+          category: 'traffic',
+          severity: 'low',
+          title: 'Building momentum',
+          description: `You have ${totalClicksFormatted} total clicks with ${currentClickCount} in ${periodLabel}. Keep sharing to unlock more insights.`,
+          impactScore: 20,
+          actionLabel: 'Share your links',
+          actionUrl: `/dashboard/links`,
+          metadata: { totalClicks: totalAllTimeClicks, recentClicks: currentClickCount }
+        });
+      } else {
+        // No recent activity but has historical data
+        insights.push({
+          id: `reactivate-${Date.now()}`,
+          type: 'warning',
+          category: 'traffic',
+          severity: 'medium',
+          title: 'Time to reactivate',
+          description: `You have ${totalClicksFormatted} all-time clicks but no recent activity. Share your links to get traffic flowing again.`,
+          impactScore: 40,
+          actionLabel: 'Share your links',
+          actionUrl: `/dashboard/links`,
+          metadata: { totalClicks: totalAllTimeClicks, recentClicks: 0 }
+        });
+      }
     }
 
     // Sort insights by severity and impact
@@ -339,9 +450,16 @@ serve(async (req) => {
       return b.impactScore - a.impactScore;
     });
 
-    console.log(`Generated ${insights.length} insights for workspace ${workspaceId}`);
+    console.log(`Generated ${insights.length} insights for workspace ${workspaceId} (${periodLabel}, ${currentClickCount} clicks)`);
 
-    return new Response(JSON.stringify({ insights, generatedAt: new Date().toISOString() }), {
+    return new Response(JSON.stringify({ 
+      insights, 
+      generatedAt: new Date().toISOString(),
+      analysisPeriod: periodLabel,
+      analysisDays,
+      clicksAnalyzed: currentClickCount,
+      totalAllTimeClicks: totalAllTimeClicks || 0
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
