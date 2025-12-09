@@ -15,9 +15,10 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Menu, ChevronRight, Link as LinkIcon, Link2, Network, QrCode, Database, Layers,
+  Menu, ChevronRight, ChevronDown, Link as LinkIcon, Link2, Network, QrCode, Database, Layers,
   Tags, BarChart3, TrendingUp, GitBranch, Route, Shield,
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code, 
   DollarSign, Handshake, FileBarChart,
@@ -792,9 +793,6 @@ export const Navigation = () => {
 
           {/* Mobile Header Actions */}
           <div className="flex lg:hidden items-center gap-2">
-            <Link to="/sign-in" className="text-sm font-medium text-white-70 hover:text-white-90 transition-colors px-2">
-              sign in
-            </Link>
             <Link to="/early-access">
               <Button variant="halo" size="sm" className="rounded-full text-xs h-9 px-4 lowercase">
                 get access
@@ -809,40 +807,90 @@ export const Navigation = () => {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] obsidian-glass-80 border-l border-white-08 backdrop-blur-xl">
-              <nav className="flex flex-col gap-4 mt-8">
-                <Link 
-                  to="/product" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
-                >
-                  Product
-                </Link>
-                <Link 
-                  to="/features/short-links" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
-                >
-                  Features
-                </Link>
-                <Link 
-                  to="/solutions/marketers" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
-                >
-                  Solutions
-                </Link>
+            <SheetContent side="right" className="w-[320px] obsidian-glass-80 border-l border-white-08 backdrop-blur-xl overflow-y-auto">
+              <nav className="flex flex-col gap-2 mt-8">
+                {/* Product Section */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors">
+                    Product
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 [&[data-state=open]>svg]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-2 pb-2">
+                    <Link to="/product" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Overview</Link>
+                    <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Link Orchestration</Link>
+                    <Link to="/features/analytics" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Journey Intelligence</Link>
+                    <Link to="/features/qr-generator" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">QR Studio</Link>
+                    <Link to="/features/integrations" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Data Pipeline</Link>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Features Section */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors">
+                    Features
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-3 pb-2">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">Core Features</p>
+                      <div className="space-y-1">
+                        <Link to="/features/short-links" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Short Links</Link>
+                        <Link to="/features/utm-builder" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">UTM Builder</Link>
+                        <Link to="/features/qr-generator" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">QR Generator</Link>
+                        <Link to="/features/analytics" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Analytics</Link>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">AI Intelligence</p>
+                      <div className="space-y-1">
+                        <Link to="/intelligence/predictive-analytics" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Predictive Analytics</Link>
+                        <Link to="/intelligence/attribution-graph" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Attribution Graph</Link>
+                        <Link to="/intelligence/smart-routing" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Smart Routing</Link>
+                        <Link to="/intelligence/link-immunity" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">Link Immunity</Link>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-white-40 mb-2">New Features</p>
+                      <div className="space-y-1">
+                        <Link to="/features/event-halo" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          Event Halo <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
+                        </Link>
+                        <Link to="/features/one-tap-scanner" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm text-white-60 hover:text-white-80 py-1">
+                          One-Tap Scanner <span className="px-1.5 py-0.5 text-[10px] rounded-full bg-white/20 text-white/80">NEW</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Solutions Section */}
+                <Collapsible>
+                  <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors">
+                    Solutions
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-1 pb-2">
+                    <Link to="/solutions/marketers" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For Marketers</Link>
+                    <Link to="/solutions/sales" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For Sales</Link>
+                    <Link to="/solutions/marketing-ops" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For Marketing Ops</Link>
+                    <Link to="/solutions/developers" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For Developers</Link>
+                    <Link to="/solutions/partner-managers" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For Partners</Link>
+                    <Link to="/solutions/revops" onClick={() => setMobileMenuOpen(false)} className="block text-sm text-white-60 hover:text-white-80 py-1">For RevOps</Link>
+                  </CollapsibleContent>
+                </Collapsible>
+
+                {/* Direct Links */}
                 <Link 
                   to="/resources" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
+                  className="py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
                 >
                   Resources
                 </Link>
                 <Link 
                   to="/pricing" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
+                  className="py-2 text-lg font-medium text-white-80 hover:text-white-90 transition-colors"
                 >
                   Pricing
                 </Link>
