@@ -104,8 +104,8 @@ export const EventTimeline = ({
       {Object.entries(groupedEvents).map(([monthYear, monthEvents], groupIndex) => (
         <div key={monthYear} className="relative">
           {/* Month Header */}
-          <div className="flex items-center gap-3 mb-4">
-            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="flex items-center gap-3 mb-3">
+            <h3 className="text-sm font-medium text-muted-foreground">
               {monthYear}
             </h3>
             <div className="flex-1 h-px bg-border" />
@@ -180,7 +180,7 @@ export const EventTimeline = ({
                               {format(new Date(event.start_date), "MMM d")} - {format(new Date(event.end_date), "d")}
                             </span>
                           </div>
-                          <h4 className="font-semibold text-foreground truncate">{event.name}</h4>
+                          <h4 className="font-display font-semibold text-foreground truncate">{event.name}</h4>
                           <div className="flex items-center gap-1 text-sm text-muted-foreground">
                             <MapPin className="w-3 h-3" />
                             <span className="truncate">{event.location_city}, {event.location_country}</span>
