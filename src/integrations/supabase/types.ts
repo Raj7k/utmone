@@ -1810,6 +1810,8 @@ export type Database = {
           expires_at: string
           id: string
           invite_token: string
+          plan_duration_days: number | null
+          plan_tier: string | null
         }
         Insert: {
           access_level?: number
@@ -1820,6 +1822,8 @@ export type Database = {
           expires_at?: string
           id?: string
           invite_token: string
+          plan_duration_days?: number | null
+          plan_tier?: string | null
         }
         Update: {
           access_level?: number
@@ -1830,6 +1834,8 @@ export type Database = {
           expires_at?: string
           id?: string
           invite_token?: string
+          plan_duration_days?: number | null
+          plan_tier?: string | null
         }
         Relationships: []
       }
@@ -6048,9 +6054,11 @@ export type Database = {
           analytics_retention_days: number | null
           created_at: string | null
           custom_domain_limit: number | null
+          data_deletion_scheduled_at: string | null
           default_domain: string | null
           default_path: string | null
           description: string | null
+          downgraded_at: string | null
           ga4_api_secret_encrypted: string | null
           ga4_measurement_id: string | null
           gtm_container_id: string | null
@@ -6066,18 +6074,22 @@ export type Database = {
           plan_expires_at: string | null
           plan_started_at: string | null
           plan_tier: Database["public"]["Enums"]["plan_tier"] | null
+          previous_plan_tier: string | null
           primary_domain: string | null
           require_approval_for_contributors: boolean | null
           slug: string
+          subscription_status: string | null
           updated_at: string | null
         }
         Insert: {
           analytics_retention_days?: number | null
           created_at?: string | null
           custom_domain_limit?: number | null
+          data_deletion_scheduled_at?: string | null
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          downgraded_at?: string | null
           ga4_api_secret_encrypted?: string | null
           ga4_measurement_id?: string | null
           gtm_container_id?: string | null
@@ -6093,18 +6105,22 @@ export type Database = {
           plan_expires_at?: string | null
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
+          previous_plan_tier?: string | null
           primary_domain?: string | null
           require_approval_for_contributors?: boolean | null
           slug: string
+          subscription_status?: string | null
           updated_at?: string | null
         }
         Update: {
           analytics_retention_days?: number | null
           created_at?: string | null
           custom_domain_limit?: number | null
+          data_deletion_scheduled_at?: string | null
           default_domain?: string | null
           default_path?: string | null
           description?: string | null
+          downgraded_at?: string | null
           ga4_api_secret_encrypted?: string | null
           ga4_measurement_id?: string | null
           gtm_container_id?: string | null
@@ -6120,9 +6136,11 @@ export type Database = {
           plan_expires_at?: string | null
           plan_started_at?: string | null
           plan_tier?: Database["public"]["Enums"]["plan_tier"] | null
+          previous_plan_tier?: string | null
           primary_domain?: string | null
           require_approval_for_contributors?: boolean | null
           slug?: string
+          subscription_status?: string | null
           updated_at?: string | null
         }
         Relationships: [
