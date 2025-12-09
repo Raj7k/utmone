@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,11 +32,12 @@ export const SmartUTMCombobox = ({
   fieldType,
   value,
   onChange,
-  placeholder = "Select...",
+  placeholder = "select or type your own...",
   staticSuggestions = [],
 }: SmartUTMComboboxProps) => {
   const [open, setOpen] = React.useState(false);
   const [isHighImpact, setIsHighImpact] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
   const { data: performance = [], isLoading } = usePredictedPerformance(workspaceId, fieldType);
 
   // Create combined suggestions list
@@ -52,17 +53,31 @@ export const SmartUTMCombobox = ({
     }));
   }, [performance, staticSuggestions]);
 
+  // Check if typed value matches any suggestion
+  const typedValueExists = suggestions.some(
+    s => s.tag.toLowerCase() === inputValue.toLowerCase()
+  );
+
   const handleSelect = (selectedValue: string) => {
     const perf = suggestions.find(s => s.tag === selectedValue);
     const badge = getPerformanceBadge(perf?.ctr || null, perf?.totalLinks || 0);
     
     onChange(selectedValue);
     setOpen(false);
+    setInputValue("");
 
     // Trigger gold glow animation for high-impact selections
     if (badge.tier === "high") {
       setIsHighImpact(true);
       setTimeout(() => setIsHighImpact(false), 2000);
+    }
+  };
+
+  const handleCreateCustom = () => {
+    if (inputValue.trim()) {
+      onChange(inputValue.trim().toLowerCase());
+      setOpen(false);
+      setInputValue("");
     }
   };
 
@@ -78,7 +93,7 @@ export const SmartUTMCombobox = ({
             isHighImpact && "ring-2 ring-amber-400 ring-offset-2 shadow-lg shadow-amber-400/50 animate-pulse"
           )}
         >
-          <span className={cn(!value && "text-tertiary-label")}>
+          <span className={cn(!value && "text-muted-foreground")}>
             {value || placeholder}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -86,12 +101,34 @@ export const SmartUTMCombobox = ({
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0 z-[100] bg-card border border-border shadow-lg" align="start">
         <Command className="bg-card">
-          <CommandInput placeholder={`search ${fieldType.replace('utm_', '')}...`} />
+          <CommandInput 
+            placeholder={`type or search ${fieldType.replace('utm_', '')}...`}
+            value={inputValue}
+            onValueChange={setInputValue}
+          />
           <CommandList>
+            {/* Show "Create custom" option when typing something not in the list */}
+            {inputValue.trim() && !typedValueExists && (
+              <CommandGroup heading="create custom">
+                <CommandItem
+                  value={`create-${inputValue}`}
+                  onSelect={handleCreateCustom}
+                  className="flex items-center gap-2 py-3 cursor-pointer"
+                >
+                  <Plus className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">use:</span>
+                  <span className="font-medium">{inputValue.toLowerCase()}</span>
+                </CommandItem>
+              </CommandGroup>
+            )}
+            
             <CommandEmpty>
-              {isLoading ? "loading predictions..." : "no results found"}
+              {isLoading ? "loading predictions..." : (
+                inputValue.trim() ? null : "start typing or select below"
+              )}
             </CommandEmpty>
-            <CommandGroup>
+            
+            <CommandGroup heading="suggestions">
               {suggestions.map((suggestion) => {
                 const badge = getPerformanceBadge(suggestion.ctr, suggestion.totalLinks);
                 
