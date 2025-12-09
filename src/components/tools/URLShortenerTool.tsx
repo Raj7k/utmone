@@ -28,7 +28,7 @@ const shortenerSchema = z.object({
   title: z.string().min(1, "title is required"),
   slug: z.string().min(3, "slug must be at least 3 characters").regex(/^[a-z0-9-]+$/, "only lowercase letters, numbers, and hyphens"),
   expires_at: z.string().optional(),
-  max_clicks: z.number().optional(),
+  max_clicks: z.number().min(1, "must be at least 1").max(10000000, "cannot exceed 10 million").optional().or(z.literal(NaN)),
   fallback_url: z.string().url().optional().or(z.literal("")),
 });
 
