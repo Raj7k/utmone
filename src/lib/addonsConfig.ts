@@ -23,8 +23,8 @@ export const ADDONS_CONFIG: Addon[] = [
     category: 'limits',
   },
   {
-    key: 'scanner_os_pro',
-    name: 'ScannerOS Pro',
+    key: 'one_tap_pro',
+    name: 'One-Tap Pro',
     description: 'universal badge reader with ai ocr, lead enrichment, and offline sync',
     price: 79,
     unit: 'month',

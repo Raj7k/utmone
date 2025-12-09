@@ -41,7 +41,7 @@ const ScanPage = () => {
         
         <div className="flex items-center gap-2">
           <Scan className="h-5 w-5 text-primary" />
-          <span className="font-semibold text-foreground">ScannerOS</span>
+          <span className="font-semibold text-foreground">One-Tap</span>
         </div>
         
         <div className="flex items-center gap-2">

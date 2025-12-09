@@ -494,7 +494,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
   {
     name: 'field marketing',
     features: [
-      { key: 'scannerOS', label: 'ScannerOS universal reader', free: false, starter: 'basic', growth: 'qr + ocr', business: 'full', enterprise: 'unlimited' },
+      { key: 'oneTap', label: 'One-Tap universal reader', free: false, starter: 'basic', growth: 'qr + ocr', business: 'full', enterprise: 'unlimited' },
       { key: 'scannerOCR', label: 'ai badge ocr', free: false, starter: false, growth: true, business: true, enterprise: true },
       { key: 'scannerEnrichment', label: 'lead enrichment', free: false, starter: false, growth: false, business: true, enterprise: true },
       { key: 'scannerOfflineSync', label: 'offline sync', free: false, starter: false, growth: true, business: true, enterprise: true },
