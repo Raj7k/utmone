@@ -27,6 +27,8 @@ import {
   Bell,
   ShieldCheck,
   CalendarDays,
+  Waves,
+  Scan,
   LucideIcon
 } from "lucide-react";
 
@@ -61,6 +63,8 @@ export const toolsNavigation: NavItem[] = [
   { name: "Bulk Create", href: "/dashboard/bulk-create", icon: Layers },
   { name: "Link Validator", href: "/dashboard/onelink-validator", icon: Brain },
   { name: "A/B Testing", href: "/dashboard/experiments", icon: Beaker },
+  { name: "Event Halo", href: "/dashboard/events", icon: Waves, isNew: true },
+  { name: "One-Tap Scanner", href: "/scan", icon: Scan, isNew: true },
 ];
 
 // INTELLIGENCE - Analytics and attribution features (deep links into unified hub)
