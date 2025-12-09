@@ -127,7 +127,7 @@ export default function EarlyAccess() {
                   just a few quick details and you're in.
                 </p>
 
-                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail} />
+                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail || email} />
                 
                 <p className="text-sm text-center mt-4 text-muted-foreground/80">
                   we'll send you your position instantly.
@@ -185,8 +185,11 @@ export default function EarlyAccess() {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
                     const emailValue = formData.get('email') as string;
+                    // Update URL with email param and switch to form mode
+                    window.history.pushState({}, '', `/early-access?email=${encodeURIComponent(emailValue)}`);
                     setEmail(emailValue);
-                    scrollToForm();
+                    setShowFormInHero(true);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   className="bg-card backdrop-blur-xl border border-border shadow-sm rounded-2xl p-4 hover:border-border/50 transition-all duration-300"
                 >
