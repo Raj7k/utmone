@@ -23,6 +23,16 @@ export const ADDONS_CONFIG: Addon[] = [
     category: 'limits',
   },
   {
+    key: 'scanner_os_pro',
+    name: 'ScannerOS Pro',
+    description: 'universal badge reader with ai ocr, lead enrichment, and offline sync',
+    price: 79,
+    unit: 'month',
+    unitAmount: 1,
+    applicableTiers: ['starter', 'growth', 'business'],
+    category: 'features',
+  },
+  {
     key: 'extra_domains',
     name: 'extra domains',
     description: 'add more custom domains',
