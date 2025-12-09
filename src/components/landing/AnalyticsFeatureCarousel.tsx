@@ -405,40 +405,27 @@ export const AnalyticsFeatureCarousel = () => {
           </div>
         </div>
 
-        {/* Progress Dots - Smaller */}
+        {/* Apple HIG Progress Bar */}
         <motion.div 
-          className="flex justify-center gap-1 mt-8"
+          className="flex items-center justify-center gap-3 mt-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
-          {scrollSnaps.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className={`
-                h-1.5 rounded-full transition-all duration-300
-                ${index === selectedIndex 
-                  ? 'bg-white w-4' 
-                  : 'bg-white/20 hover:bg-white/40 w-1.5'
-                }
-              `}
-              aria-label={`Go to slide ${index + 1}`}
+          <div className="relative w-32 h-1 rounded-full bg-white/10 overflow-hidden">
+            <motion.div
+              className="absolute left-0 top-0 h-full rounded-full bg-white/60"
+              animate={{ 
+                width: `${((selectedIndex + 1) / scrollSnaps.length) * 100}%` 
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             />
-          ))}
+          </div>
+          <span className="text-xs text-white/40 tabular-nums font-mono">
+            {selectedIndex + 1}/{scrollSnaps.length}
+          </span>
         </motion.div>
-
-        {/* Swipe Hint */}
-        <motion.p 
-          className="text-center text-xs text-white/30 mt-4"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-        >
-          ← swipe to explore →
-        </motion.p>
       </div>
     </section>
   );
