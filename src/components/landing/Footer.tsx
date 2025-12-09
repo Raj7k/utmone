@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { ArrowRight } from "lucide-react";
+import { FooterRevealText } from "./FooterRevealText";
 
 interface FooterLink {
   label: string;
@@ -174,6 +175,11 @@ export const Footer = () => {
             <span className="text-white/20">·</span>
             <Link to="/solutions/reporting-team" className="hover:text-white/70 transition-colors">reporting</Link>
           </div>
+        </div>
+
+        {/* Massive Brand Reveal */}
+        <div className="mt-16 pt-8">
+          <FooterRevealText text="utm.one" />
         </div>
       </div>
     </footer>
