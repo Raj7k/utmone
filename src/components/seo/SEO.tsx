@@ -34,6 +34,9 @@ export const SEO = ({
       {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
       <meta name="author" content={author} />
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* LLM & Search Optimization */}
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
       {/* Open Graph Tags */}
       <meta property="og:title" content={fullTitle} />
@@ -42,12 +45,14 @@ export const SEO = ({
       <meta property="og:type" content={ogType} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:site_name" content="utm.one" />
+      <meta property="og:locale" content="en_US" />
 
       {/* Twitter Card Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:site" content="@utmone" />
 
       {/* Article Specific Meta Tags */}
       {ogType === 'article' && publishedTime && (
