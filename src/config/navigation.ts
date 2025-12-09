@@ -26,6 +26,7 @@ import {
   Chrome,
   Bell,
   ShieldCheck,
+  CalendarDays,
   LucideIcon
 } from "lucide-react";
 
@@ -72,6 +73,7 @@ export const intelligenceNavigation: NavItem[] = [
 // GROWTH - Campaign and marketing features
 export const growthNavigation: NavItem[] = [
   { name: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
+  { name: "Events", href: "/dashboard/events", icon: CalendarDays, isNew: true },
 ];
 
 // SETTINGS - All settings sub-pages grouped by category
