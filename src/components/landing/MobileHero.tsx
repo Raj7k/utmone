@@ -106,8 +106,9 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
         {/* Primary CTA - Always Visible */}
         <Link to="/early-access" className="block">
           <Button 
+            variant="halo"
             size="lg" 
-            className="w-full h-14 text-base lowercase rounded-full font-semibold bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-glow-sm"
+            className="w-full h-14 text-base lowercase"
           >
             get early access
             <ArrowRight className="ml-2 h-5 w-5" />
