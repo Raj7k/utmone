@@ -1,41 +1,18 @@
 import { QuickCreateTile } from "@/components/dashboard/bento/QuickCreateTile";
-import { YourPlanTile } from "@/components/dashboard/bento/YourPlanTile";
-import { ReferralTile } from "@/components/dashboard/bento/ReferralTile";
-import { BentoRecentLinksTile } from "@/components/dashboard/bento/BentoRecentLinksTile";
-import { AIInsightsTile } from "@/components/dashboard/bento/AIInsightsTile";
-import { QuickActionsTile } from "@/components/dashboard/bento/QuickActionsTile";
-import { PulseWatchdogTile } from "@/components/dashboard/bento/PulseWatchdogTile";
-import { ChromeExtensionPromoTile } from "@/components/dashboard/bento/ChromeExtensionPromoTile";
-import { LinkHealthWidget } from "@/components/analytics/LinkHealthWidget";
+import { QuickStats } from "@/components/dashboard/QuickStats";
+import { ActivityFeed } from "@/components/dashboard/ActivityFeed";
 import { OnboardingChecklist } from "@/components/dashboard/OnboardingChecklist";
-import { WorkspaceHygieneCard } from "@/components/dashboard/WorkspaceHygieneCard";
 import { DemoModeBanner } from "@/components/dashboard/DemoModeBanner";
-import { DemoAttributionTile } from "@/components/dashboard/bento/DemoAttributionTile";
-import { DemoAnalyticsTile } from "@/components/dashboard/bento/DemoAnalyticsTile";
-import { CampaignSimulatorCTA } from "@/components/dashboard/CampaignSimulatorCTA";
-import { useCurrentPlan } from "@/hooks/useCurrentPlan";
 import { useDemoMode } from "@/hooks/useDemoMode";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
-import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
 const DashboardHome = () => {
-  const { id: activePlan, displayName } = useCurrentPlan();
-  const { currentWorkspace } = useWorkspaceContext();
-  const { showDemoMode, hasNoLinks, isCollapsed, activePlan: demoActivePlan } = useDemoMode();
-
-  // Show demo tiles only if demo mode is active and not collapsed
-  const showDemoTiles = showDemoMode && !isCollapsed;
+  const { showDemoMode } = useDemoMode();
 
   return (
     <ErrorBoundary section="dashboard-home">
-      <PageContentWrapper
-        title="dashboard"
-        description="your command center for link management and analytics"
-        breadcrumbs={[]}
-        compact
-      >
-        {/* Demo Mode Banner - Shows for users with 0 links */}
+      <div className="p-6 lg:p-8 space-y-8 max-w-5xl mx-auto">
+        {/* Demo Mode Banner */}
         {showDemoMode && (
           <ErrorBoundary section="demo-mode-banner">
             <DemoModeBanner />
@@ -47,103 +24,27 @@ const DashboardHome = () => {
           <OnboardingChecklist />
         </ErrorBoundary>
 
-        {/* Workspace Hygiene Notifications */}
-        <ErrorBoundary section="workspace-hygiene">
-          <WorkspaceHygieneCard />
+        {/* Hero: Quick Create */}
+        <ErrorBoundary section="quick-create">
+          <div className="animate-fade-in">
+            <QuickCreateTile />
+          </div>
         </ErrorBoundary>
 
-        {/* Chrome Extension Promo - Dismissible */}
-        <ErrorBoundary section="chrome-extension-promo">
-          <ChromeExtensionPromoTile />
+        {/* Stats Row */}
+        <ErrorBoundary section="quick-stats">
+          <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <QuickStats />
+          </div>
         </ErrorBoundary>
 
-        {/* Campaign Simulator CTA - Shows for users with no links */}
-        {hasNoLinks && (
-          <ErrorBoundary section="campaign-simulator-cta">
-            <CampaignSimulatorCTA />
-          </ErrorBoundary>
-        )}
-
-        {/* Responsive Bento Grid with proper mobile ordering */}
-        <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
-          {/* Row 1: Quick Create (mobile: full width, first; tablet: 6 cols; desktop: 8 cols) */}
-          <div className="md:col-span-6 lg:col-span-8 order-1">
-            <ErrorBoundary section="quick-create">
-              <QuickCreateTile />
-            </ErrorBoundary>
+        {/* Activity Feed */}
+        <ErrorBoundary section="activity-feed">
+          <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <ActivityFeed />
           </div>
-          
-          {/* Row 1: Plan Usage (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
-          <div className="md:col-span-6 lg:col-span-4 order-2">
-            <ErrorBoundary section="plan-tile">
-              <YourPlanTile />
-            </ErrorBoundary>
-          </div>
-
-          {/* Row 2: Quick Actions (full width on all breakpoints) */}
-          <div className="md:col-span-6 lg:col-span-12 order-3">
-            <ErrorBoundary section="quick-actions">
-              <QuickActionsTile />
-            </ErrorBoundary>
-          </div>
-
-          {/* Row 3: Demo tiles OR real tiles based on demo mode */}
-          {showDemoTiles ? (
-            <>
-              {/* Demo Attribution Tile - Tier-aware with key for forced re-render */}
-              <div className="md:col-span-6 lg:col-span-6 order-4">
-                <ErrorBoundary section="demo-attribution">
-                  <DemoAttributionTile key={`attr-${demoActivePlan}`} planTier={demoActivePlan} />
-                </ErrorBoundary>
-              </div>
-
-              {/* Demo Analytics Tile - Tier-aware with key for forced re-render */}
-              <div className="md:col-span-6 lg:col-span-6 order-5">
-                <ErrorBoundary section="demo-analytics">
-                  <DemoAnalyticsTile key={`analytics-${demoActivePlan}`} planTier={demoActivePlan} />
-                </ErrorBoundary>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Row 3: AI Insights (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
-              <div className="md:col-span-6 lg:col-span-4 order-4">
-                <ErrorBoundary section="ai-insights">
-                  <AIInsightsTile />
-                </ErrorBoundary>
-              </div>
-
-              {/* Row 3: Pulse Watchdog (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
-              <div className="md:col-span-6 lg:col-span-4 order-5">
-                <ErrorBoundary section="pulse-watchdog">
-                  <PulseWatchdogTile />
-                </ErrorBoundary>
-              </div>
-
-              {/* Row 3: Link Health (mobile: full width; tablet: 6 cols; desktop: 4 cols) */}
-              <div className="md:col-span-6 lg:col-span-4 order-6">
-                <ErrorBoundary section="link-health">
-                  <LinkHealthWidget />
-                </ErrorBoundary>
-              </div>
-            </>
-          )}
-          
-          {/* Row 4: Referral (full width) */}
-          <div className="md:col-span-6 lg:col-span-12 order-7">
-            <ErrorBoundary section="referral-tile">
-              <ReferralTile />
-            </ErrorBoundary>
-          </div>
-
-          {/* Row 5: Recent Links (full width on all breakpoints) */}
-          <div id="recent-links" className="md:col-span-6 lg:col-span-12 order-8 scroll-mt-6">
-            <ErrorBoundary section="recent-links">
-              <BentoRecentLinksTile />
-            </ErrorBoundary>
-          </div>
-        </div>
-      </PageContentWrapper>
+        </ErrorBoundary>
+      </div>
     </ErrorBoundary>
   );
 };
