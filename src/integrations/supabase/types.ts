@@ -1598,6 +1598,7 @@ export type Database = {
       demo_requests: {
         Row: {
           challenge: string | null
+          company: string | null
           country_code: string | null
           created_at: string | null
           email: string
@@ -1607,10 +1608,12 @@ export type Database = {
           name: string
           phone: string | null
           status: string | null
+          team_size: string | null
           updated_at: string | null
         }
         Insert: {
           challenge?: string | null
+          company?: string | null
           country_code?: string | null
           created_at?: string | null
           email: string
@@ -1620,10 +1623,12 @@ export type Database = {
           name: string
           phone?: string | null
           status?: string | null
+          team_size?: string | null
           updated_at?: string | null
         }
         Update: {
           challenge?: string | null
+          company?: string | null
           country_code?: string | null
           created_at?: string | null
           email?: string
@@ -1633,6 +1638,7 @@ export type Database = {
           name?: string
           phone?: string | null
           status?: string | null
+          team_size?: string | null
           updated_at?: string | null
         }
         Relationships: []
