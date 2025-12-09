@@ -194,7 +194,7 @@ const EventHalo = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
                 >
-                  <Card className="p-6 text-left bg-primary/5 border-primary/20 h-full">
+                  <Card className="p-6 text-left bg-white/5 border-white/20 h-full">
                     <h3 className="font-semibold text-foreground mb-3">✓ what you should report</h3>
                     <ul className="space-y-2 text-muted-foreground">
                       <li>"we scanned 120 direct leads"</li>
@@ -202,12 +202,12 @@ const EventHalo = () => {
                       <li>"8 of them converted to customers"</li>
                     </ul>
                     <motion.div 
-                      className="mt-4 p-3 bg-primary/10 rounded-lg"
+                      className="mt-4 p-3 bg-white/10 rounded-lg"
                       initial={{ scale: 0.95 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
                     >
-                      <p className="text-sm text-primary font-medium">
+                      <p className="text-sm text-white font-medium">
                         cfo says: "$50k for $400k pipeline? that's 8x roi. double the budget."
                       </p>
                     </motion.div>
@@ -227,7 +227,7 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm text-white/80 mb-4">
                 <Shield className="w-4 h-4" />
                 scientific methodology
               </div>
@@ -289,12 +289,12 @@ const EventHalo = () => {
                 >
                   <Card className="p-6 h-full bg-card border-border relative overflow-hidden">
                     <motion.div
-                      className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-primary/5"
+                      className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/5"
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
                     />
                     <div className="relative z-10">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold mb-4">
+                      <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white font-bold mb-4">
                         {item.step}
                       </div>
                       <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
@@ -349,8 +349,8 @@ const EventHalo = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="p-6 h-full bg-card border-border group hover:border-primary/30 transition-colors">
-                    <feature.icon className="w-8 h-8 text-primary mb-4 group-hover:scale-110 transition-transform" />
+                  <Card className="p-6 h-full bg-card border-border group hover:border-white/30 transition-colors">
+                    <feature.icon className="w-8 h-8 text-white mb-4 group-hover:scale-110 transition-transform" />
                     <h3 className="font-semibold text-foreground mb-2">{feature.title}</h3>
                     <p className="text-muted-foreground">{feature.description}</p>
                   </Card>
@@ -380,12 +380,11 @@ const EventHalo = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -4 }}
                 >
-                  <Card className="p-4 text-center h-full bg-card border-border hover:border-primary/30 transition-colors">
+                  <Card className="p-4 h-full bg-card border-border text-center group hover:border-white/30 transition-colors">
                     <h3 className="font-semibold text-foreground mb-1">{useCase.title}</h3>
-                    <p className="text-xs text-muted-foreground mb-3">{useCase.example}</p>
-                    <p className="text-lg font-bold text-primary">{useCase.impact}</p>
+                    <p className="text-xs text-muted-foreground mb-2">{useCase.example}</p>
+                    <p className="text-sm font-medium text-white">{useCase.impact}</p>
                   </Card>
                 </motion.div>
               ))}
@@ -402,41 +401,33 @@ const EventHalo = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border text-sm text-muted-foreground mb-4">
-                <Info className="w-4 h-4" />
-                common questions
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text mb-4">
                 frequently asked questions
               </h2>
             </motion.div>
-
-            <Accordion type="single" collapsible className="space-y-4">
+            
+            <Accordion type="single" collapsible className="space-y-3">
               {faqs.map((faq, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
+                <AccordionItem 
+                  key={index} 
+                  value={`item-${index}`}
+                  className="bg-card border border-border rounded-lg px-4"
                 >
-                  <AccordionItem value={`faq-${index}`} className="border border-border rounded-lg px-4 bg-card">
-                    <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline">
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                </motion.div>
+                  <AccordionTrigger className="text-left text-foreground hover:no-underline py-4">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-4">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
             </Accordion>
           </div>
         </section>
 
-        {/* CTA */}
+        {/* CTA Section */}
         <section className="py-20 px-4">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -444,10 +435,10 @@ const EventHalo = () => {
               className="space-y-6"
             >
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight lowercase obsidian-platinum-text">
-                prove your event's real footprint
+                stop leaving 90% of your event roi on the table
               </h2>
-              <p className="text-obsidian-text-muted">
-                stop under-reporting your impact. start measuring the invisible.
+              <p className="text-xl text-obsidian-text-muted max-w-2xl mx-auto">
+                join the field marketing teams who prove their impact with data, not just business cards.
               </p>
               <div className="flex flex-wrap justify-center gap-4 pt-4">
                 <Button asChild size="lg">
@@ -456,8 +447,8 @@ const EventHalo = () => {
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link to="/solutions/field-marketing">explore field marketing</Link>
+                <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
+                  <Link to="/solutions/field-marketing">learn more about field marketing</Link>
                 </Button>
               </div>
             </motion.div>

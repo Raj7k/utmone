@@ -22,7 +22,7 @@ import {
   Building2, Users, Rocket, Megaphone, Settings, Briefcase, Code, 
   DollarSign, Handshake, FileBarChart,
   BookOpen, ClipboardList, FileText, Puzzle, FolderOpen, BookMarked, SearchCheck, Wrench,
-  Sparkles, Bot, Target, Radio, Scan
+  Sparkles, Bot, Target, Radio, Scan, Waves
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatText } from "@/utils/textFormatter";
@@ -237,6 +237,38 @@ export const Navigation = () => {
                         <div className="flex-1 min-w-0">
                           <h3 className="text-xs font-semibold mb-0.5 text-white-90">smart routing</h3>
                           <p className="text-[10px] leading-tight text-white-50">geo-targeting magic</p>
+                        </div>
+                      </Link>
+
+                      <Link 
+                        to="/features/event-halo" 
+                        className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl shadow-sm bg-white-05"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <Waves className="w-4 h-4 text-white-80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-xs font-semibold mb-0.5 text-white-90">event halo</h3>
+                            <span className="px-1.5 py-0.5 text-[8px] rounded bg-white/10 text-white/70">NEW</span>
+                          </div>
+                          <p className="text-[10px] leading-tight text-white-50">offline event attribution</p>
+                        </div>
+                      </Link>
+
+                      <Link 
+                        to="/features/one-tap" 
+                        className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-xl shadow-sm bg-white-05"
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
+                          <Scan className="w-4 h-4 text-white-80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-xs font-semibold mb-0.5 text-white-90">one-tap scanner</h3>
+                            <span className="px-1.5 py-0.5 text-[8px] rounded bg-white/10 text-white/70">NEW</span>
+                          </div>
+                          <p className="text-[10px] leading-tight text-white-50">instant QR creation</p>
                         </div>
                       </Link>
                     </div>

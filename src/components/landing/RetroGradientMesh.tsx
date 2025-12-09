@@ -8,10 +8,10 @@ export const RetroGradientMesh = () => {
         className="absolute inset-0 bg-gradient-to-br from-white/[0.02] via-obsidian to-obsidian"
       />
       
-      {/* Animated gradient orbs */}
-      {/* Top-left: Primary blue orb */}
+      {/* Animated gradient orbs - Platinum monochromatic */}
+      {/* Top-left: Platinum orb */}
       <motion.div
-        className="absolute -top-[20%] -left-[15%] w-[800px] h-[800px] rounded-full blur-[120px] bg-[radial-gradient(circle,hsl(243_70%_24%/0.4)_0%,transparent_70%)]"
+        className="absolute -top-[20%] -left-[15%] w-[800px] h-[800px] rounded-full blur-[120px] bg-[radial-gradient(circle,hsl(0_0%_30%/0.3)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.15, 1],
           x: [0, 50, 0],
@@ -24,9 +24,9 @@ export const RetroGradientMesh = () => {
         }}
       />
       
-      {/* Bottom-right: Deep blue orb */}
+      {/* Bottom-right: Silver orb */}
       <motion.div
-        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(217_91%_50%/0.25)_0%,transparent_70%)]"
+        className="absolute -bottom-[10%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(0_0%_50%/0.15)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.2, 1],
           x: [0, -40, 0],
@@ -55,7 +55,7 @@ export const RetroGradientMesh = () => {
       
       {/* Top-right: Subtle platinum blend */}
       <motion.div
-        className="absolute -top-[5%] right-[20%] w-[600px] h-[600px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(240_10%_70%/0.1)_0%,transparent_70%)]"
+        className="absolute -top-[5%] right-[20%] w-[600px] h-[600px] rounded-full blur-[100px] bg-[radial-gradient(circle,hsl(0_0%_70%/0.08)_0%,transparent_70%)]"
         animate={{
           scale: [1, 1.12, 1],
           x: [0, -30, 0],
@@ -86,10 +86,10 @@ export const RetroGradientMesh = () => {
           </filter>
         </defs>
         
-        {/* Wave path 1 */}
+        {/* Wave path 1 - Platinum */}
         <motion.path
           d="M0,100 Q250,50 500,100 T1000,100 T1500,100 T2000,100"
-          stroke="hsl(243 70% 24% / 0.04)"
+          stroke="hsl(0 0% 40% / 0.04)"
           strokeWidth="2"
           fill="none"
           initial={{ strokeDashoffset: 0 }}
@@ -102,10 +102,10 @@ export const RetroGradientMesh = () => {
           strokeDasharray="10 20"
         />
         
-        {/* Wave path 2 */}
+        {/* Wave path 2 - Silver */}
         <motion.path
           d="M0,300 Q300,250 600,300 T1200,300 T1800,300"
-          stroke="hsl(217 91% 50% / 0.025)"
+          stroke="hsl(0 0% 60% / 0.025)"
           strokeWidth="2"
           fill="none"
           initial={{ strokeDashoffset: 0 }}
@@ -118,7 +118,7 @@ export const RetroGradientMesh = () => {
           strokeDasharray="15 25"
         />
         
-        {/* Wave path 3 */}
+        {/* Wave path 3 - Light platinum */}
         <motion.path
           d="M0,500 Q200,450 400,500 T800,500 T1200,500 T1600,500"
           stroke="hsl(0 0% 80% / 0.02)"
