@@ -1,415 +1,222 @@
+import { FeatureLayout } from "@/components/features/FeatureLayout";
+import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { ScannerPhoneMockup } from "@/components/features/ScannerPhoneMockup";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
-  Scan, 
-  Zap, 
-  Wifi, 
-  WifiOff, 
-  Sparkles, 
-  Shield, 
-  Check, 
-  ArrowRight,
-  Smartphone,
-  QrCode,
-  Camera,
-  Brain,
-  CloudOff,
-  Lock,
-  DollarSign
+  Scan, WifiOff, Sparkles, QrCode, Barcode, Nfc, FileText, Cloud, CloudOff, RefreshCw, 
+  Users, Fingerprint, Building2, Mic, Vibrate, ArrowRight, Check, Smartphone, DollarSign,
+  MapPin, Layers, Eye, Zap, Shield, Globe, Database, GitMerge, Target
 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { AppHeader } from "@/components/layout/AppHeader";
-import { Footer } from "@/components/landing/Footer";
-import { cn } from "@/lib/utils";
 
-const OneTapPage = () => {
-  const reliabilityStack = [
-    {
-      level: "level 1",
-      name: "native decode",
-      description: "instant qr/barcode reading from any badge format",
-      reliability: "high speed",
-      icon: QrCode
-    },
-    {
-      level: "level 2", 
-      name: "ai vision (ocr)",
-      description: "when codes are encrypted, read the printed text with ai",
-      reliability: "very high accuracy",
-      icon: Brain
-    },
-    {
-      level: "level 3",
-      name: "human loop",
-      description: "low-confidence fields highlighted for quick verification",
-      reliability: "100% truth",
-      icon: Check
-    }
-  ];
-
-  const features = [
-    {
-      icon: Zap,
-      title: "battery saver mode",
-      description: "camera only opens when you tap. no constant drain."
-    },
-    {
-      icon: CloudOff,
-      title: "offline-first sync",
-      description: "leads saved locally first, synced when connected."
-    },
-    {
-      icon: Sparkles,
-      title: "ai enrichment",
-      description: "missing email? one-tap to find it via clay/apollo."
-    },
-    {
-      icon: Shield,
-      title: "confidence scoring",
-      description: "low-confidence fields flagged for verification."
-    },
-    {
-      icon: Smartphone,
-      title: "pwa home widget",
-      description: "add to home screen for 1-tap instant access."
-    },
-    {
-      icon: Lock,
-      title: "deduplication",
-      description: "scan same person twice? we merge, not duplicate."
-    }
-  ];
-
-  const comparisonItems = [
-    { feature: "works at any event", scanner: true, hardware: "only partnered events" },
-    { feature: "offline capable", scanner: true, hardware: true },
-    { feature: "ai ocr fallback", scanner: true, hardware: false },
-    { feature: "lead enrichment", scanner: true, hardware: false },
-    { feature: "confidence scoring", scanner: true, hardware: false },
-    { feature: "price", scanner: "$79/month", hardware: "$5,000+" },
-    { feature: "requires rental", scanner: false, hardware: true }
-  ];
-
+const OneTap = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
-      
+    <FeatureLayout
+      title="One-Tap Universal Badge Scanner | utm.one"
+      description="Scan any badge at any event with AI OCR. Replace $5,000 hardware scanners with your phone."
+      canonical="https://utm.one/features/one-tap"
+      keywords={["badge scanner", "event lead capture", "OCR scanner", "field marketing"]}
+      breadcrumbs={[
+        { name: "Home", url: "https://utm.one" },
+        { name: "Features", url: "https://utm.one/features" },
+        { name: "One-Tap", url: "https://utm.one/features/one-tap" }
+      ]}
+    >
       {/* Hero */}
-      <section className="pt-24 pb-16 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <Badge variant="outline" className="mb-4 gap-1">
-            <Scan className="h-3 w-3" />
-            field marketing intelligence
-          </Badge>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="font-display text-4xl md:text-6xl font-bold text-foreground mb-6"
-          >
-            one app. all badges.
-            <br />
-            <span className="text-primary">zero lost leads.</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
-          >
-            every conference has its own scanner. your leads are scattered across apps and emails. 
-            one-tap reads any badge format and centralizes your pipeline.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link to="/signup">
-              <Button size="lg" className="gap-2">
-                start scanning free
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link to="/pricing">
-              <Button size="lg" variant="outline">
-                view pricing
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Problem Statement */}
-      <section className="py-16 px-4 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-12 text-foreground">
-            the problem with event scanners
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 bg-card border-destructive/20">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="font-semibold mb-2 text-foreground">encrypted badges</h3>
-              <p className="text-muted-foreground text-sm">
-                event organizers lock their qr codes to force you to rent their $5k scanners.
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <RetroGradientMesh />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              <Badge className="mb-6 bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
+                <Sparkles className="w-3 h-3 mr-1" />new: ai-powered
+              </Badge>
+              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight mb-6 obsidian-platinum-text">
+                one app.<br />all badges.<br />zero lost leads.
+              </h1>
+              <p className="text-xl text-white/60 mb-8 max-w-lg">
+                the universal badge scanner that reads any format—qr, barcode, nfc, or printed text. 
+                works offline. enriches with ai. replaces $5,000 hardware scanners.
               </p>
-            </Card>
-            
-            <Card className="p-6 bg-card border-destructive/20">
-              <div className="text-4xl mb-4">📱</div>
-              <h3 className="font-semibold mb-2 text-foreground">app overload</h3>
-              <p className="text-muted-foreground text-sm">
-                every event wants you to download their app. leads scattered across 10 different systems.
-              </p>
-            </Card>
-            
-            <Card className="p-6 bg-card border-destructive/20">
-              <div className="text-4xl mb-4">📶</div>
-              <h3 className="font-semibold mb-2 text-foreground">dead wifi</h3>
-              <p className="text-muted-foreground text-sm">
-                convention center wifi crashes during keynote. your last 50 scans? lost.
-              </p>
-            </Card>
+              <div className="flex flex-wrap gap-4">
+                <Button asChild size="lg" className="bg-white text-black hover:bg-white/90">
+                  <Link to="/early-access">get early access<ArrowRight className="w-4 h-4 ml-2" /></Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
+                  <Link to="/solutions/field-marketing">field marketing solution</Link>
+                </Button>
+              </div>
+              <div className="flex gap-8 mt-12 pt-8 border-t border-white/10">
+                <div><p className="text-3xl font-display font-medium text-white">0.3s</p><p className="text-sm text-white/50">avg scan time</p></div>
+                <div><p className="text-3xl font-display font-medium text-white">99.7%</p><p className="text-sm text-white/50">decode accuracy</p></div>
+                <div><p className="text-3xl font-display font-medium text-white">$79</p><p className="text-sm text-white/50">vs $5k hardware</p></div>
+              </div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="flex justify-center">
+              <ScannerPhoneMockup />
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Reliability Stack */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4 text-foreground">
-            the reliability stack
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            three layers of fallback. 99% success rate.
-          </p>
-          
-          <div className="space-y-4">
-            {reliabilityStack.map((layer, i) => (
-              <motion.div
-                key={layer.level}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-6 flex items-center gap-4">
-                  <div className={cn(
-                    "w-12 h-12 rounded-xl flex items-center justify-center",
-                    i === 0 && "bg-green-500/10 text-green-500",
-                    i === 1 && "bg-blue-500/10 text-blue-500",
-                    i === 2 && "bg-purple-500/10 text-purple-500"
-                  )}>
-                    <layer.icon className="h-6 w-6" />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Badge variant="secondary" className="text-xs">
-                        {layer.level}
-                      </Badge>
-                      <span className="font-semibold text-foreground">{layer.name}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{layer.description}</p>
-                  </div>
-                  
-                  <Badge variant="outline" className="shrink-0">
-                    {layer.reliability}
-                  </Badge>
-                </Card>
+      {/* Problem */}
+      <section className="py-24 relative bg-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">the problem with event lead capture</h2>
+            <p className="text-lg text-white/60">you've been to events. you know the chaos.</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: QrCode, title: "encrypted badges", description: "every event uses a different format. your scanner app doesn't work." },
+              { icon: Smartphone, title: "app overload", description: "download the event app. create account. wait for sync. forget password." },
+              { icon: WifiOff, title: "dead wifi", description: "convention center wifi dies. your cloud-only app stops working." },
+              { icon: Database, title: "scattered data", description: "leads in 5 different apps. follow-up falls through cracks." }
+            ].map((p, i) => (
+              <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-6 rounded-2xl bg-card border border-border">
+                <p.icon className="w-10 h-10 text-red-400/80 mb-4" />
+                <h3 className="font-display text-lg font-medium text-white mb-2">{p.title}</h3>
+                <p className="text-sm text-white/50">{p.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-16 px-4 bg-muted/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-12 text-foreground">
-            built for field teams
-          </h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-6 h-full">
-                  <feature.icon className="h-8 w-8 text-primary mb-4" />
-                  <h3 className="font-semibold mb-2 text-foreground">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
-                </Card>
+      {/* 3-Layer Stack */}
+      <section className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-white/10 text-white border-white/20">reliability architecture</Badge>
+            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">three layers. zero failures.</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {[
+              { num: "1", name: "native decode", desc: "instant qr/barcode reading. 0.1s decode.", color: "emerald", badges: ["qr code", "code128"] },
+              { num: "2", name: "ai vision ocr", desc: "reads encrypted badges and printed text.", color: "amber", badges: ["encrypted qr", "printed text"] },
+              { num: "3", name: "manual entry", desc: "autocomplete from attendee list. never lose a lead.", color: "blue", badges: ["autocomplete"] }
+            ].map((layer) => (
+              <div key={layer.num} className={`p-8 rounded-2xl bg-${layer.color}-500/10 border border-${layer.color}-500/20`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`w-10 h-10 rounded-full bg-${layer.color}-500/20 flex items-center justify-center`}>
+                    <span className={`text-${layer.color}-400 font-mono font-bold`}>{layer.num}</span>
+                  </div>
+                  <h3 className="font-display text-xl font-medium text-white">{layer.name}</h3>
+                </div>
+                <p className="text-white/60 mb-4">{layer.desc}</p>
+                <div className="flex flex-wrap gap-2">
+                  {layer.badges.map(b => <Badge key={b} variant="outline" className={`text-${layer.color}-400 border-${layer.color}-400/30`}>{b}</Badge>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI OCR */}
+      <section className="py-24 relative bg-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-amber-500/20 text-amber-400 border-amber-500/30"><Sparkles className="w-3 h-3 mr-1" />powered by gemini vision</Badge>
+            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">ai ocr that reads anything</h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: QrCode, title: "qr codes", speed: "0.1s", accuracy: "99.9%" },
+              { icon: Barcode, title: "barcodes", speed: "0.2s", accuracy: "99.5%" },
+              { icon: Nfc, title: "nfc chips", speed: "0.3s", accuracy: "99.8%" },
+              { icon: FileText, title: "printed text", speed: "0.8s", accuracy: "97.2%" }
+            ].map((f, i) => (
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-6 rounded-2xl bg-card border border-border">
+                <div className="flex items-start justify-between mb-4">
+                  <f.icon className="w-10 h-10 text-white/60" />
+                  <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-400/30">{f.speed}</Badge>
+                </div>
+                <h3 className="font-display text-lg font-medium text-white mb-2">{f.title}</h3>
+                <p className="text-xs text-white/40"><Target className="w-3 h-3 inline mr-1" />{f.accuracy} accuracy</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Comparison Table */}
-      <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4 text-foreground">
-            replace $5,000 hardware scanners
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            your phone is the only scanner you need
-          </p>
-          
-          <Card className="overflow-hidden">
-            <div className="grid grid-cols-3 bg-muted/50 p-4 font-semibold text-sm">
-              <div className="text-foreground">feature</div>
-              <div className="text-center text-foreground">one-tap</div>
-              <div className="text-center text-foreground">hardware scanner</div>
+      {/* Offline + Enrichment + Modes (condensed) */}
+      <section className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-2xl bg-card border border-border">
+              <CloudOff className="w-10 h-10 text-white/60 mb-4" />
+              <h3 className="font-display text-xl font-medium text-white mb-2">offline-first</h3>
+              <p className="text-white/60 text-sm">scans save locally, sync when wifi returns. zero data loss.</p>
             </div>
-            
-            {comparisonItems.map((item, i) => (
-              <div 
-                key={item.feature}
-                className={cn(
-                  "grid grid-cols-3 p-4 text-sm",
-                  i % 2 === 0 ? "bg-background" : "bg-muted/20"
-                )}
-              >
-                <div className="text-foreground">{item.feature}</div>
-                <div className="text-center">
-                  {typeof item.scanner === 'boolean' ? (
-                    item.scanner ? (
-                      <Check className="h-5 w-5 text-green-500 mx-auto" />
-                    ) : (
-                      <span className="text-muted-foreground">—</span>
-                    )
-                  ) : (
-                    <span className="font-semibold text-primary">{item.scanner}</span>
-                  )}
-                </div>
-                <div className="text-center">
-                  {typeof item.hardware === 'boolean' ? (
-                    item.hardware ? (
-                      <Check className="h-5 w-5 text-green-500 mx-auto" />
-                    ) : (
-                      <span className="text-muted-foreground">—</span>
-                    )
-                  ) : (
-                    <span className="text-muted-foreground">{item.hardware}</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </Card>
+            <div className="p-8 rounded-2xl bg-card border border-border">
+              <Sparkles className="w-10 h-10 text-purple-400 mb-4" />
+              <h3 className="font-display text-xl font-medium text-white mb-2">ai enrichment</h3>
+              <p className="text-white/60 text-sm">badge says "sarah, acme"? we find email, phone, linkedin via clay/apollo.</p>
+            </div>
+            <div className="p-8 rounded-2xl bg-card border border-border">
+              <Fingerprint className="w-10 h-10 text-blue-400 mb-4" />
+              <h3 className="font-display text-xl font-medium text-white mb-2">identity dedup</h3>
+              <p className="text-white/60 text-sm">scanned same person twice? we merge, not duplicate.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ROI Calculator */}
-      <section className="py-16 px-4 bg-muted/30">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4 text-foreground">
-            calculate your savings
-          </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            see how much you save switching from hardware scanners
-          </p>
-
-          <Card className="p-8 max-w-2xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Hardware Column */}
-              <div className="space-y-4">
-                <h3 className="font-semibold text-destructive flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
-                  hardware scanners
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">scanner rental (per event)</span>
-                    <span className="text-foreground">$4,000</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">× 3 trade shows/year</span>
-                    <span className="text-foreground">×3</span>
-                  </div>
-                  <div className="border-t pt-2 flex justify-between font-semibold">
-                    <span className="text-foreground">annual cost</span>
-                    <span className="text-destructive">$12,000</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* One-Tap Column */}
-              <div className="space-y-4">
-                <h3 className="font-semibold text-primary flex items-center gap-2">
-                  <Scan className="h-5 w-5" />
-                  one-tap
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">monthly subscription</span>
-                    <span className="text-foreground">$79</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">× 12 months</span>
-                    <span className="text-foreground">×12</span>
-                  </div>
-                  <div className="border-t pt-2 flex justify-between font-semibold">
-                    <span className="text-foreground">annual cost</span>
-                    <span className="text-primary">$948</span>
-                  </div>
-                </div>
-              </div>
+      {/* ROI Comparison */}
+      <section className="py-24 relative bg-white/[0.02]">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-medium mb-4 obsidian-platinum-text">$5,000 hardware vs $79 app</h2>
+          </div>
+          <div className="overflow-hidden rounded-2xl border border-border">
+            <table className="w-full">
+              <thead><tr className="bg-white/5"><th className="px-6 py-4 text-left text-sm font-medium text-white/60">feature</th><th className="px-6 py-4 text-center text-sm text-white/60">hardware</th><th className="px-6 py-4 text-center text-sm text-emerald-400">one-tap</th></tr></thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  { f: "cost per event", h: "$500-1k rental", o: "$79/mo unlimited" },
+                  { f: "works offline", h: "sometimes", o: "always" },
+                  { f: "ai enrichment", h: "extra cost", o: "included" },
+                  { f: "identity dedup", h: "manual", o: "automatic" },
+                  { f: "annual (10 events)", h: "$5,000-10,000", o: "$948" }
+                ].map((r, i) => (
+                  <tr key={r.f} className={i % 2 === 0 ? "" : "bg-white/[0.02]"}>
+                    <td className="px-6 py-4 text-sm text-white">{r.f}</td>
+                    <td className="px-6 py-4 text-center text-sm text-white/50">{r.h}</td>
+                    <td className="px-6 py-4 text-center text-sm text-emerald-400 font-medium">{r.o}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-4 p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
+              <DollarSign className="w-10 h-10 text-emerald-400" />
+              <div className="text-left"><p className="text-3xl font-mono text-emerald-400">$4,052+</p><p className="text-sm text-white/60">saved per year</p></div>
             </div>
-
-            {/* Savings */}
-            <div className="mt-8 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-center">
-              <p className="text-sm text-muted-foreground mb-1">you save</p>
-              <p className="text-3xl font-bold text-green-500">$11,052/year</p>
-              <p className="text-xs text-muted-foreground mt-1">+ ai enrichment included free</p>
-            </div>
-          </Card>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-4 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-            replace 5 apps with 1
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            stop losing leads. start closing deals.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/signup">
-              <Button size="lg" variant="secondary" className="gap-2">
-                get one-tap
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link to="/solutions/field-marketing">
-              <Button size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">
-                see field marketing solution
-              </Button>
-            </Link>
+      <section className="py-24 relative">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="font-display text-4xl md:text-5xl font-medium mb-6 obsidian-platinum-text">replace 5 apps with 1.</h2>
+          <p className="text-lg text-white/60 mb-8">stop juggling event apps, scanner rentals, and spreadsheets.</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="bg-white text-black hover:bg-white/90">
+              <Link to="/early-access">get early access<ArrowRight className="w-4 h-4 ml-2" /></Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
+              <Link to="/solutions/field-marketing">explore field marketing</Link>
+            </Button>
           </div>
-          
-          <p className="mt-6 text-sm opacity-70">
-            $79/month • cancel anytime • includes ai enrichment
-          </p>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </FeatureLayout>
   );
 };
 
-export default OneTapPage;
+export default OneTap;
