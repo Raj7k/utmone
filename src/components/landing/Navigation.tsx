@@ -874,7 +874,7 @@ export const Navigation = () => {
                     </Button>
                   </Link>
                   <Link to="/early-access" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="marketing" className="w-full rounded-full">
+                    <Button variant="marketing" className="w-full rounded-full bg-white text-black hover:bg-white/90">
                       Get Early Access
                     </Button>
                   </Link>
