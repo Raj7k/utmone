@@ -48,6 +48,7 @@ const Experiments = lazy(() => import("./pages/dashboard/Experiments"));
 const Attribution = lazy(() => import("./pages/dashboard/Attribution"));
 const RobustAttribution = lazy(() => import("./pages/RobustAttribution"));
 const DashboardSales = lazy(() => import("./pages/dashboard/Sales"));
+const DashboardEvents = lazy(() => import("./pages/dashboard/Events"));
 // Critical layouts - static imports to prevent module loading failures
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 const Links = lazy(() => import("./pages/Links"));
@@ -132,6 +133,7 @@ const Reporting = lazy(() => import("./pages/features/Reporting"));
 const CustomDomains = lazy(() => import("./pages/features/CustomDomains"));
 const Automation = lazy(() => import("./pages/features/Automation"));
 const AccessibilityFeature = lazy(() => import("./pages/features/Accessibility"));
+const EventHalo = lazy(() => import("./pages/features/EventHalo"));
 
 // Product Pages
 const Products = lazy(() => import("./pages/Products"));
@@ -156,6 +158,7 @@ const Sales = lazy(() => import("./pages/solutions/Sales"));
 const MarketingOps = lazy(() => import("./pages/solutions/MarketingOps"));
 const Developers = lazy(() => import("./pages/solutions/Developers"));
 const PartnerManagers = lazy(() => import("./pages/solutions/PartnerManagers"));
+const FieldMarketing = lazy(() => import("./pages/solutions/FieldMarketing"));
 
 // Comparison Pages
 const CompareHub = lazy(() => import("./pages/Compare"));
@@ -422,6 +425,7 @@ const App = () => (
                <Route path="/dashboard/attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><Attribution /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/robust-attribution" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><RobustAttribution /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/sales" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardSales /></DashboardLayout></Suspense></ProtectedRoute>} />
+               <Route path="/dashboard/events" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
                
               {/* Onboarding Routes */}
               <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
@@ -507,6 +511,7 @@ const App = () => (
               <Route path="/features/reporting" element={<Suspense fallback={<DashboardSkeleton />}><Reporting /></Suspense>} />
               <Route path="/features/custom-domains" element={<Suspense fallback={<DashboardSkeleton />}><CustomDomains /></Suspense>} />
               <Route path="/features/automation" element={<Suspense fallback={<DashboardSkeleton />}><Automation /></Suspense>} />
+              <Route path="/features/event-halo" element={<Suspense fallback={<DashboardSkeleton />}><EventHalo /></Suspense>} />
               
               {/* Product Pages */}
               <Route path="/product" element={<Suspense fallback={<DashboardSkeleton />}><Product /></Suspense>} />
@@ -528,6 +533,7 @@ const App = () => (
               <Route path="/solutions/revops" element={<Suspense fallback={<DashboardSkeleton />}><RevOps /></Suspense>} />
               <Route path="/solutions/reporting-team" element={<Suspense fallback={<DashboardSkeleton />}><ReportingTeam /></Suspense>} />
               <Route path="/solutions/partner-managers" element={<Suspense fallback={<DashboardSkeleton />}><PartnerManagers /></Suspense>} />
+              <Route path="/solutions/field-marketing" element={<Suspense fallback={<DashboardSkeleton />}><FieldMarketing /></Suspense>} />
               
               {/* Comparison Pages */}
               <Route path="/compare" element={<Suspense fallback={<DashboardSkeleton />}><CompareHub /></Suspense>} />
