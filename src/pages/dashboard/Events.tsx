@@ -15,6 +15,7 @@ import { BadgeScanUploader } from "@/components/events/BadgeScanUploader";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { EventValueSettings } from "@/components/events/EventValueSettings";
 import { UniversalScanner } from "@/components/events/scanner/UniversalScanner";
+import { EventLeadsPanel } from "@/components/events/EventLeadsPanel";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
@@ -273,51 +274,14 @@ const Events = () => {
                   }}
                 />
 
-                {/* Badge Scans Table */}
+                {/* Leads Panel with Enrichment Status */}
                 {badgeScans && badgeScans.length > 0 && (
-                  <Card className="p-6">
-                    <h3 className="font-semibold text-foreground mb-4">
-                      badge scans ({badgeScans.length})
-                    </h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="border-b border-border text-left">
-                            <th className="pb-2 text-muted-foreground font-medium">email</th>
-                            <th className="pb-2 text-muted-foreground font-medium">name</th>
-                            <th className="pb-2 text-muted-foreground font-medium">company</th>
-                            <th className="pb-2 text-muted-foreground font-medium">status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {badgeScans.slice(0, 10).map(scan => (
-                            <tr key={scan.id} className="border-b border-border/50">
-                              <td className="py-2 text-foreground">{scan.email}</td>
-                              <td className="py-2 text-foreground">
-                                {[scan.first_name, scan.last_name].filter(Boolean).join(' ') || '—'}
-                              </td>
-                              <td className="py-2 text-muted-foreground">{scan.company || '—'}</td>
-                              <td className="py-2">
-                                <span className={`text-xs px-2 py-0.5 rounded ${
-                                  scan.conversion_status === 'customer' ? 'bg-primary/20 text-primary' :
-                                  scan.conversion_status === 'sql' ? 'bg-primary/10 text-primary' :
-                                  scan.conversion_status === 'mql' ? 'bg-muted text-muted-foreground' :
-                                  'text-muted-foreground'
-                                }`}>
-                                  {scan.conversion_status}
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                      {badgeScans.length > 10 && (
-                        <p className="text-sm text-muted-foreground mt-2">
-                          +{badgeScans.length - 10} more
-                        </p>
-                      )}
-                    </div>
-                  </Card>
+                  <EventLeadsPanel
+                    eventId={selectedEvent.id}
+                    badgeScans={badgeScans}
+                    workspaceId={currentWorkspace?.id}
+                    onRefresh={refetch}
+                  />
                 )}
               </motion.div>
             ) : (

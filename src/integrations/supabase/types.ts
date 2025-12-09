@@ -2036,10 +2036,16 @@ export type Database = {
           conversion_status: string | null
           created_at: string | null
           email: string
+          enriched: boolean | null
+          enriched_at: string | null
+          enrichment_error: string | null
+          enrichment_source: string | null
           event_id: string
           first_name: string | null
           id: string
           last_name: string | null
+          linkedin_url: string | null
+          phone: string | null
           scanned_at: string | null
           title: string | null
           visitor_id: string | null
@@ -2049,10 +2055,16 @@ export type Database = {
           conversion_status?: string | null
           created_at?: string | null
           email: string
+          enriched?: boolean | null
+          enriched_at?: string | null
+          enrichment_error?: string | null
+          enrichment_source?: string | null
           event_id: string
           first_name?: string | null
           id?: string
           last_name?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
           scanned_at?: string | null
           title?: string | null
           visitor_id?: string | null
@@ -2062,10 +2074,16 @@ export type Database = {
           conversion_status?: string | null
           created_at?: string | null
           email?: string
+          enriched?: boolean | null
+          enriched_at?: string | null
+          enrichment_error?: string | null
+          enrichment_source?: string | null
           event_id?: string
           first_name?: string | null
           id?: string
           last_name?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
           scanned_at?: string | null
           title?: string | null
           visitor_id?: string | null

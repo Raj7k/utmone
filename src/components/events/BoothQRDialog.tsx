@@ -107,17 +107,39 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
         errorCorrectionLevel: "H",
       });
 
-      // Create PDF-like page with print dialog
-      const printWindow = window.open("", "_blank");
-      if (printWindow) {
-        const dataUrl = canvas.toDataURL("image/png");
-        printWindow.document.write(`
+      const dataUrl = canvas.toDataURL("image/png");
+      
+      // Create a hidden iframe for printing (avoids popup blockers)
+      const iframe = document.createElement("iframe");
+      iframe.style.position = "fixed";
+      iframe.style.right = "0";
+      iframe.style.bottom = "0";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "0";
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentWindow?.document;
+      if (iframeDoc) {
+        iframeDoc.open();
+        iframeDoc.write(`
           <!DOCTYPE html>
           <html>
             <head>
               <title>Booth QR - ${eventName}</title>
               <style>
                 @page { size: letter; margin: 0.5in; }
+                @media print {
+                  body { 
+                    display: flex; 
+                    flex-direction: column; 
+                    align-items: center; 
+                    justify-content: center; 
+                    min-height: 100vh; 
+                    margin: 0; 
+                    font-family: system-ui, sans-serif;
+                  }
+                }
                 body { 
                   display: flex; 
                   flex-direction: column; 
@@ -141,11 +163,20 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
                 <img src="${dataUrl}" alt="Booth QR Code" />
                 <p class="url">${boothUrl}</p>
               </div>
-              <script>window.onload = () => { window.print(); window.close(); }</script>
             </body>
           </html>
         `);
-        printWindow.document.close();
+        iframeDoc.close();
+
+        // Wait for image to load before printing
+        setTimeout(() => {
+          iframe.contentWindow?.focus();
+          iframe.contentWindow?.print();
+          // Remove iframe after print dialog closes
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+          }, 1000);
+        }, 250);
       }
 
       toast({ title: "pdf print dialog opened" });
@@ -204,16 +235,19 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
             <div className="space-y-2">
               <Label className="text-muted-foreground text-xs">resolution</Label>
               <Select value={resolution} onValueChange={setResolution}>
-                <SelectTrigger>
-                  <SelectValue />
+                <SelectTrigger className="bg-card">
+                  <SelectValue>
+                    {RESOLUTION_PRESETS.find(p => p.value === resolution)?.label}
+                  </SelectValue>
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-popover border-border z-[200]">
                   {RESOLUTION_PRESETS.map((preset) => (
-                    <SelectItem key={preset.value} value={preset.value}>
-                      <div className="flex flex-col">
-                        <span>{preset.label}</span>
-                        <span className="text-xs text-muted-foreground">{preset.description}</span>
-                      </div>
+                    <SelectItem 
+                      key={preset.value} 
+                      value={preset.value}
+                      className="cursor-pointer"
+                    >
+                      {preset.label} — {preset.description}
                     </SelectItem>
                   ))}
                 </SelectContent>
