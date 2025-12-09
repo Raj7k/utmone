@@ -310,6 +310,73 @@ const OneTapPage = () => {
         </div>
       </section>
 
+      {/* ROI Calculator */}
+      <section className="py-16 px-4 bg-muted/30">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-4 text-foreground">
+            calculate your savings
+          </h2>
+          <p className="text-center text-muted-foreground mb-12">
+            see how much you save switching from hardware scanners
+          </p>
+
+          <Card className="p-8 max-w-2xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Hardware Column */}
+              <div className="space-y-4">
+                <h3 className="font-semibold text-destructive flex items-center gap-2">
+                  <DollarSign className="h-5 w-5" />
+                  hardware scanners
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">scanner rental (per event)</span>
+                    <span className="text-foreground">$4,000</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">× 3 trade shows/year</span>
+                    <span className="text-foreground">×3</span>
+                  </div>
+                  <div className="border-t pt-2 flex justify-between font-semibold">
+                    <span className="text-foreground">annual cost</span>
+                    <span className="text-destructive">$12,000</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* One-Tap Column */}
+              <div className="space-y-4">
+                <h3 className="font-semibold text-primary flex items-center gap-2">
+                  <Scan className="h-5 w-5" />
+                  one-tap
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">monthly subscription</span>
+                    <span className="text-foreground">$79</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">× 12 months</span>
+                    <span className="text-foreground">×12</span>
+                  </div>
+                  <div className="border-t pt-2 flex justify-between font-semibold">
+                    <span className="text-foreground">annual cost</span>
+                    <span className="text-primary">$948</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Savings */}
+            <div className="mt-8 p-4 rounded-lg bg-green-500/10 border border-green-500/20 text-center">
+              <p className="text-sm text-muted-foreground mb-1">you save</p>
+              <p className="text-3xl font-bold text-green-500">$11,052/year</p>
+              <p className="text-xs text-muted-foreground mt-1">+ ai enrichment included free</p>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 px-4 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center">
