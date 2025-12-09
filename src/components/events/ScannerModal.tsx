@@ -50,12 +50,9 @@ export const ScannerModal = ({
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Start scanner when modal opens
-  const startScanner = useCallback(async () => {
+  // Initialize scanner (called after container is rendered)
+  const initializeScanner = useCallback(async () => {
     if (!containerRef.current || scannerRef.current) return;
-    
-    setCameraError(null);
-    setStatus('scanning');
     
     try {
       const scanner = new Html5Qrcode("scanner-container");
@@ -107,6 +104,23 @@ export const ScannerModal = ({
       setStatus('idle');
     }
   }, []);
+
+  // Start scanner - just set status, useEffect will initialize
+  const startScanner = useCallback(() => {
+    setCameraError(null);
+    setStatus('scanning');
+  }, []);
+
+  // Initialize scanner when status changes to scanning and container is ready
+  useEffect(() => {
+    if (status === 'scanning' && containerRef.current && !scannerRef.current) {
+      // Small delay to ensure DOM is fully painted
+      const timer = setTimeout(() => {
+        initializeScanner();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [status, initializeScanner]);
 
   // Stop scanner
   const stopScanner = useCallback(async () => {
@@ -260,35 +274,34 @@ export const ScannerModal = ({
             </div>
           )}
           
-          {status === 'scanning' && (
-            <div className="space-y-3">
-              <div 
-                ref={containerRef}
-                id="scanner-container" 
-                className="relative rounded-lg overflow-hidden bg-black aspect-video"
-              />
-              
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  onClick={captureOCR}
-                  className="flex-1 gap-2"
-                >
-                  <ImageIcon className="h-4 w-4" />
-                  capture text (ocr)
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  onClick={() => {
-                    stopScanner();
-                    setStatus('manual');
-                  }}
-                >
-                  manual entry
-                </Button>
-              </div>
+          {/* Scanner container - always in DOM, hidden when not scanning */}
+          <div className={cn("space-y-3", status !== 'scanning' && "hidden")}>
+            <div 
+              ref={containerRef}
+              id="scanner-container" 
+              className="relative rounded-lg overflow-hidden bg-black aspect-video"
+            />
+            
+            <div className="flex gap-2">
+              <Button 
+                variant="outline" 
+                onClick={captureOCR}
+                className="flex-1 gap-2"
+              >
+                <ImageIcon className="h-4 w-4" />
+                capture text (ocr)
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={() => {
+                  stopScanner();
+                  setStatus('manual');
+                }}
+              >
+                manual entry
+              </Button>
             </div>
-          )}
+          </div>
           
           {status === 'processing' && (
             <div className="aspect-video rounded-lg bg-muted flex items-center justify-center">
