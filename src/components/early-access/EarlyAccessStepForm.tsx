@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,6 +18,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useSearchParams } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
+
+const LOADING_STEPS = [
+  "verifying your email...",
+  "reserving your spot...",
+  "calculating your position...",
+  "preparing your golden ticket...",
+  "almost there..."
+];
 
 const earlyAccessSchema = z.object({
   name: z.string().min(1, "name is required").max(100),
@@ -42,8 +50,25 @@ interface EarlyAccessStepFormProps {
 export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStepFormProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingStepIndex, setLoadingStepIndex] = useState(0);
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+
+  // Cycle through loading steps while submitting
+  useEffect(() => {
+    if (!isSubmitting) {
+      setLoadingStepIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setLoadingStepIndex((prev) => 
+        prev < LOADING_STEPS.length - 1 ? prev + 1 : prev
+      );
+    }, 1200);
+
+    return () => clearInterval(interval);
+  }, [isSubmitting]);
 
   const {
     register,
@@ -140,6 +165,62 @@ export const EarlyAccessStepForm = ({ onSuccess, prefillEmail }: EarlyAccessStep
 
   return (
     <div className="relative">
+      {/* Full-screen loading overlay */}
+      <AnimatePresence>
+        {isSubmitting && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center"
+          >
+            {/* Breathing pulse bar */}
+            <motion.div
+              className="w-24 h-1 rounded-full bg-foreground shadow-[0_0_12px_hsl(var(--foreground)/0.4)]"
+              animate={{
+                opacity: [0.3, 1, 0.3],
+                scaleX: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 2,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            />
+            
+            {/* Cycling status text */}
+            <div className="mt-8 h-6">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={loadingStepIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-muted-foreground text-sm font-mono tracking-wide"
+                >
+                  {LOADING_STEPS[loadingStepIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+
+            {/* Progress dots */}
+            <div className="mt-6 flex gap-2">
+              {LOADING_STEPS.map((_, index) => (
+                <motion.div
+                  key={index}
+                  className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+                    index <= loadingStepIndex ? 'bg-foreground' : 'bg-muted'
+                  }`}
+                  animate={index === loadingStepIndex ? { scale: [1, 1.3, 1] } : {}}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Radial glow behind card */}
       <div className="absolute inset-0 opacity-40 blur-3xl pointer-events-none bg-[radial-gradient(circle,hsl(var(--primary)/0.2),transparent)]" />
       

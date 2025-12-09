@@ -84,6 +84,32 @@ export default function EarlyAccess() {
     document.getElementById('early-access-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // When submitted, show only the success screen - clean and focused
+  if (isSubmitted) {
+    return (
+      <ObsidianMarketingLayout>
+        <SEO
+          title="You're In — utm.one"
+          description="You've joined the utm.one early access waitlist. Share your referral link to skip the line."
+          canonical="https://utm.one/early-access"
+        />
+        <section className="relative py-24 md:py-32 px-6 min-h-[80vh] flex items-center">
+          <div className="max-w-4xl mx-auto w-full">
+            <SuccessScreen
+              userName={userName}
+              referralCode={referralCode}
+              queuePosition={queuePosition}
+              email={email}
+            />
+          </div>
+          {/* Decorative gradient orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-muted/5 rounded-full blur-3xl opacity-30" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-muted/5 rounded-full blur-3xl opacity-30" />
+        </section>
+      </ObsidianMarketingLayout>
+    );
+  }
+
   return (
     <ObsidianMarketingLayout>
       <SEO
@@ -97,50 +123,41 @@ export default function EarlyAccess() {
       <section className="relative py-24 md:py-32 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           {showFormInHero ? (
-            /* FORM MODE: Show form or success when email parameter exists */
-            !isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="max-w-2xl mx-auto"
-              >
-                {/* Referrer Landing Mode */}
-                {referrerName && (
-                  <div className="bg-card backdrop-blur-xl border border-border/50 rounded-2xl p-6 mb-8">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <Trophy className="h-6 w-6 text-foreground" />
-                      <p className="text-2xl font-display font-bold text-foreground">
-                        you've been invited by {referrerName}
-                      </p>
-                    </div>
-                    <p className="text-lg text-muted-foreground">
-                      join now and get <span className="font-bold text-foreground">1 month free</span> when early access opens.
+            /* FORM MODE: Show form when email parameter exists */
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl mx-auto"
+            >
+              {/* Referrer Landing Mode */}
+              {referrerName && (
+                <div className="bg-card backdrop-blur-xl border border-border/50 rounded-2xl p-6 mb-8">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <Trophy className="h-6 w-6 text-foreground" />
+                    <p className="text-2xl font-display font-bold text-foreground">
+                      you've been invited by {referrerName}
                     </p>
                   </div>
-                )}
+                  <p className="text-lg text-muted-foreground">
+                    join now and get <span className="font-bold text-foreground">1 month free</span> when early access opens.
+                  </p>
+                </div>
+              )}
 
-                <h1 className="font-display font-bold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
-                  let's get you signed up
-                </h1>
-                <p className="text-xl mb-12 text-muted-foreground">
-                  just a few quick details and you're in.
-                </p>
+              <h1 className="font-display font-bold text-5xl md:text-6xl mb-4 tracking-tighter hero-gradient">
+                let's get you signed up
+              </h1>
+              <p className="text-xl mb-12 text-muted-foreground">
+                just a few quick details and you're in.
+              </p>
 
-                <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail || email} />
-                
-                <p className="text-sm text-center mt-4 text-muted-foreground/80">
-                  we'll send you your position instantly.
-                </p>
-              </motion.div>
-            ) : (
-              <SuccessScreen
-                userName={userName}
-                referralCode={referralCode}
-                queuePosition={queuePosition}
-                email={email}
-              />
-            )
+              <EarlyAccessStepForm onSuccess={handleSuccess} prefillEmail={prefillEmail || email} />
+              
+              <p className="text-sm text-center mt-4 text-muted-foreground/80">
+                we'll send you your position instantly.
+              </p>
+            </motion.div>
           ) : (
             /* NORMAL MODE: Show full hero content */
             <>
