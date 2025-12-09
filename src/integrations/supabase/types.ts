@@ -6558,6 +6558,24 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_city_baseline: {
+        Args: {
+          p_baseline_days?: number
+          p_event_end: string
+          p_event_start: string
+          p_target_city: string
+          p_workspace_id: string
+        }
+        Returns: {
+          baseline_daily_average: number
+          baseline_total_visitors: number
+          event_duration_days: number
+          event_visitors: number
+          halo_visitors: number
+          has_sufficient_data: boolean
+          lift_percentage: number
+        }[]
+      }
       calculate_cross_device_attribution: {
         Args: {
           p_end_date: string
@@ -6721,6 +6739,18 @@ export type Database = {
           treatment_conversions: number
           treatment_rate: number
           treatment_total: number
+        }[]
+      }
+      get_city_visitor_timeseries: {
+        Args: {
+          p_end_date: string
+          p_start_date: string
+          p_target_city: string
+          p_workspace_id: string
+        }
+        Returns: {
+          unique_visitors: number
+          visit_date: string
         }[]
       }
       get_conversion_velocity: {

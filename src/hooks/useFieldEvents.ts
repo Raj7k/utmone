@@ -88,21 +88,42 @@ export const useEventBadgeScans = (eventId: string) => {
   });
 };
 
+export interface EventHaloResult {
+  event_id: string;
+  event_name: string;
+  location_city: string;
+  baseline_daily_average: number;
+  baseline_total_visitors: number;
+  event_visitors: number;
+  halo_visitors: number;
+  lift_percentage: number;
+  event_duration_days: number;
+  has_sufficient_data: boolean;
+  direct_scans: number;
+  total_impact: number;
+  attributed_pipeline: number;
+  timeseries: { visit_date: string; unique_visitors: number }[];
+  event_start: string;
+  event_end: string;
+}
+
 export const useCalculateEventHalo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ eventId, workspaceId }: { eventId: string; workspaceId: string }) => {
+    mutationFn: async ({ eventId, workspaceId }: { eventId: string; workspaceId: string }): Promise<EventHaloResult> => {
       const { data, error } = await supabase.functions.invoke('calculate-event-halo', {
         body: { event_id: eventId, workspace_id: workspaceId },
       });
 
       if (error) throw error;
-      return data;
+      return data as EventHaloResult;
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['field-events', variables.workspaceId] });
       queryClient.invalidateQueries({ queryKey: ['field-event', variables.eventId] });
+      // Cache the halo result with timeseries
+      queryClient.setQueryData(['event-halo-result', variables.eventId], data);
     },
   });
 };

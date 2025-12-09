@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Plus, Calendar, Waves, RefreshCw } from "lucide-react";
+import { Plus, Calendar, Waves, RefreshCw, AlertCircle } from "lucide-react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
-import { useFieldEvents, useFieldEvent, useCalculateEventHalo, useDeleteFieldEvent, useEventBadgeScans } from "@/hooks/useFieldEvents";
+import { useFieldEvents, useFieldEvent, useCalculateEventHalo, useDeleteFieldEvent, useEventBadgeScans, EventHaloResult } from "@/hooks/useFieldEvents";
 import { EventMissionCard } from "@/components/events/EventMissionCard";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { EventImpactFunnel } from "@/components/events/EventImpactFunnel";
+import { EventHaloSpikeChart } from "@/components/events/EventHaloSpikeChart";
 import { BadgeScanUploader } from "@/components/events/BadgeScanUploader";
 import { CreateEventDialog } from "@/components/events/CreateEventDialog";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Events = () => {
   const { currentWorkspace } = useWorkspaceContext();
@@ -25,6 +27,10 @@ const Events = () => {
   const { data: badgeScans } = useEventBadgeScans(selectedEventId || '');
   const calculateHalo = useCalculateEventHalo();
   const deleteEvent = useDeleteFieldEvent();
+  const queryClient = useQueryClient();
+  
+  // Get cached halo result with timeseries data
+  const haloResult = queryClient.getQueryData<EventHaloResult>(['event-halo-result', selectedEventId]);
 
   const handleRecalculate = async (eventId: string) => {
     if (!currentWorkspace?.id) return;
@@ -185,6 +191,16 @@ const Events = () => {
                     </Button>
                   </div>
 
+                  {/* Insufficient Data Warning */}
+                  {haloResult && !haloResult.has_sufficient_data && (
+                    <div className="flex items-center gap-2 p-3 mb-4 rounded-lg bg-muted border border-border">
+                      <AlertCircle className="w-4 h-4 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        insufficient data for reliable analysis. need more pixel events from {selectedEvent.location_city}.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Sonar + Funnel */}
                   <div className="grid md:grid-cols-2 gap-6 items-center">
                     <div className="flex justify-center">
@@ -202,6 +218,16 @@ const Events = () => {
                     />
                   </div>
                 </Card>
+
+                {/* Spike Chart - Baseline vs Event Traffic */}
+                {haloResult?.timeseries && haloResult.timeseries.length > 0 && (
+                  <EventHaloSpikeChart
+                    timeseries={haloResult.timeseries}
+                    eventStart={haloResult.event_start}
+                    eventEnd={haloResult.event_end}
+                    baselineDailyAverage={haloResult.baseline_daily_average}
+                  />
+                )}
 
                 {/* Badge Uploader */}
                 <BadgeScanUploader
