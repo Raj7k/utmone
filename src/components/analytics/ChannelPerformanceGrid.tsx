@@ -41,14 +41,14 @@ const getChannelIcon = (channel: string) => {
 
 const getChannelColor = (channel: string) => {
   const lc = channel.toLowerCase();
-  // Monochrome Obsidian style - all channels use white/silver palette
-  if (lc.includes('linkedin')) return 'bg-white/10 text-white border-white/20';
-  if (lc.includes('twitter') || lc.includes('x.com')) return 'bg-white/10 text-white border-white/20';
-  if (lc.includes('facebook')) return 'bg-white/10 text-white border-white/20';
-  if (lc.includes('instagram')) return 'bg-white/10 text-white border-white/20';
-  if (lc.includes('google')) return 'bg-white/10 text-white border-white/20';
-  if (lc.includes('direct')) return 'bg-white/5 text-white border-white/10';
-  return 'bg-muted text-muted-foreground border-border';
+  // Theme-aware styling using semantic tokens
+  if (lc.includes('linkedin')) return 'bg-primary/5 text-foreground border-primary/20 hover:bg-primary/10';
+  if (lc.includes('twitter') || lc.includes('x.com')) return 'bg-primary/5 text-foreground border-primary/20 hover:bg-primary/10';
+  if (lc.includes('facebook')) return 'bg-primary/5 text-foreground border-primary/20 hover:bg-primary/10';
+  if (lc.includes('instagram')) return 'bg-primary/5 text-foreground border-primary/20 hover:bg-primary/10';
+  if (lc.includes('google')) return 'bg-primary/5 text-foreground border-primary/20 hover:bg-primary/10';
+  if (lc.includes('direct')) return 'bg-muted/50 text-foreground border-border hover:bg-muted';
+  return 'bg-muted text-foreground border-border hover:bg-muted/80';
 };
 
 export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridProps) => {
@@ -159,15 +159,15 @@ export const ChannelPerformanceGrid = ({ workspaceId }: ChannelPerformanceGridPr
               )}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="p-1.5 rounded-lg bg-background/50">
+                <div className="p-1.5 rounded-lg bg-card border border-border">
                   {channel.icon}
                 </div>
-                <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-medium truncate">{channel.name}</p>
-                <p className="text-xl font-bold">{channel.clicks.toLocaleString()}</p>
-                <p className="text-xs opacity-70">{channel.percentage.toFixed(1)}% of traffic</p>
+                <p className="text-sm font-medium truncate text-foreground">{channel.name}</p>
+                <p className="text-xl font-bold text-foreground">{channel.clicks.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">{channel.percentage.toFixed(1)}% of traffic</p>
               </div>
             </div>
           ))}
