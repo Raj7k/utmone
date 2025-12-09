@@ -790,6 +790,18 @@ export const Navigation = () => {
             </Link>
           </div>
 
+          {/* Mobile Header Actions */}
+          <div className="flex lg:hidden items-center gap-2">
+            <Link to="/sign-in" className="text-sm font-medium text-white-70 hover:text-white-90 transition-colors px-2">
+              sign in
+            </Link>
+            <Link to="/early-access">
+              <Button variant="halo" size="sm" className="rounded-full text-xs h-9 px-4 lowercase">
+                get access
+              </Button>
+            </Link>
+          </div>
+
           {/* Mobile Menu */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
