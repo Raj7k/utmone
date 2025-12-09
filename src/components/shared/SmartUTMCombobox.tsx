@@ -84,8 +84,8 @@ export const SmartUTMCombobox = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0" align="start">
-        <Command>
+      <PopoverContent className="w-[300px] p-0 z-[100] bg-card border border-border shadow-lg" align="start">
+        <Command className="bg-card">
           <CommandInput placeholder={`search ${fieldType.replace('utm_', '')}...`} />
           <CommandList>
             <CommandEmpty>
