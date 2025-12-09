@@ -1,7 +1,8 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Sparkles, RefreshCw, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AISuggestions } from "@/hooks/useAIAnalyzeUrl";
+import { SlugCycleInput } from "@/components/ai/SlugCycleInput";
 
 interface AISuggestionsPanelProps {
   suggestions: AISuggestions;
@@ -39,38 +40,21 @@ export const AISuggestionsPanel = ({
             <Sparkles className="h-3 w-3 text-primary" />
             <span>ai suggestions</span>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onRegenerate}
-            disabled={isAnalyzing}
-            className="h-6 px-2 text-xs"
-          >
-            <RefreshCw className={`h-3 w-3 mr-1 ${isAnalyzing ? "animate-spin" : ""}`} />
-            regenerate
-          </Button>
         </div>
 
-        {/* Slug Suggestions */}
+        {/* Slug Input with AI Cycling */}
         {suggestions.vanity_slugs?.length > 0 && (
           <div className="space-y-1.5">
-            <span className="text-xs text-muted-foreground">suggested slugs</span>
-            <div className="flex flex-wrap gap-1.5">
-              {suggestions.vanity_slugs.slice(0, 4).map((slug) => (
-                <button
-                  key={slug}
-                  onClick={() => onSelectSlug(slug)}
-                  className={`px-2.5 py-1 text-xs rounded-full border transition-all ${
-                    selectedSlug === slug
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted/50 text-foreground border-border hover:border-primary/50 hover:bg-muted"
-                  }`}
-                >
-                  {selectedSlug === slug && <Check className="h-3 w-3 inline mr-1" />}
-                  /{slug}
-                </button>
-              ))}
-            </div>
+            <span className="text-xs text-muted-foreground">vanity slug</span>
+            <SlugCycleInput
+              value={selectedSlug || ""}
+              onChange={onSelectSlug}
+              suggestions={suggestions.vanity_slugs}
+              isLoading={isAnalyzing}
+              onRegenerate={onRegenerate}
+              domain="utm.click"
+              placeholder="my-link"
+            />
           </div>
         )}
 
