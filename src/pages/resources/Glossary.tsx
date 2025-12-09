@@ -3,6 +3,8 @@ import { ArrowLeft, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
+import { SEO } from "@/components/seo/SEO";
+import { BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 
 const Glossary = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -148,8 +150,21 @@ const Glossary = () => {
     };
   }, [terms]);
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Glossary", url: "https://utm.one/resources/glossary" }
+  ];
+
   return (
     <ResourcesLayout>
+      <SEO 
+        title="Marketing Glossary - UTM, Attribution & Analytics Terms | utm.one"
+        description="Comprehensive glossary of marketing, analytics, and UTM tracking terms. Canonical definitions for attribution, taxonomy, and campaign tracking terminology."
+        canonical="https://utm.one/resources/glossary"
+        keywords={['marketing glossary', 'UTM terms', 'attribution definitions', 'analytics terminology', 'campaign tracking glossary']}
+      />
+      <BreadcrumbSchema items={breadcrumbItems} />
       <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[980px] mx-auto px-8">
           <Link

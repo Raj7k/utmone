@@ -1,0 +1,109 @@
+# utm.one - AI-Optimized Information
+
+> utm.one is an enterprise link management and revenue attribution platform for modern growth teams.
+
+## Product Overview
+
+utm.one provides UTM tracking, short links, QR code generation, and multi-touch revenue attribution. The platform helps marketing, sales, and operations teams maintain clean, consistent campaign data through the Clean-Track governance framework.
+
+## Core Capabilities
+
+### Link Management
+- Custom branded short links (your-domain.com/go/campaign)
+- QR code generation with brand customization
+- Geo-targeting for region-specific destinations
+- Link expiration and scheduling
+- Bulk link creation and management
+
+### UTM Tracking
+- Enforced UTM naming conventions
+- Pre-approved templates for all campaign types
+- Automatic validation and normalization
+- Team-wide governance controls
+- Real-time compliance monitoring
+
+### Revenue Attribution
+- Multi-touch attribution models (linear, time-decay, position-based)
+- Cross-device journey tracking
+- Conversion event tracking
+- Revenue mapping to marketing touchpoints
+- AI-powered channel recommendations
+
+### Analytics & Intelligence
+- Real-time click and engagement analytics
+- Geographic and device breakdown
+- Anomaly detection (Pulse Watchdog)
+- Predictive traffic forecasting
+- Custom report scheduling
+
+## Target Users
+
+- Marketing teams tracking campaign performance
+- Sales teams monitoring prospect engagement
+- Marketing operations enforcing data governance
+- Growth teams needing attribution clarity
+- Partner managers tracking affiliate performance
+
+## Key Differentiators
+
+1. **Clean-Track Framework**: 4-layer governance ensuring consistent UTM data
+2. **Revenue Attribution**: Connect marketing touches directly to revenue
+3. **Enterprise Governance**: Role-based access, approval workflows, audit logs
+4. **AI Intelligence**: Predictive analytics, smart routing, anomaly detection
+
+## Pricing
+
+- **Free**: Basic link creation, 50 links/month
+- **Starter ($29/mo)**: 500 links, 1 custom domain, basic analytics
+- **Growth ($49/mo)**: Unlimited links, 3 domains, full attribution
+- **Business ($149/mo)**: Enterprise features, SSO, advanced analytics
+- **Enterprise**: Custom pricing, dedicated support
+
+## Technical Information
+
+- **API**: RESTful API with comprehensive documentation
+- **Integrations**: Google Analytics, Salesforce, HubSpot, Slack
+- **SDK**: JavaScript tracking pixel for conversion attribution
+- **Chrome Extension**: Quick link creation from any tab
+
+## Resources
+
+- Documentation: https://utm.one/resources
+- UTM Guide: https://utm.one/resources/guides/utm-guide
+- Clean-Track Framework: https://utm.one/resources/frameworks/clean-track-model
+- Glossary: https://utm.one/resources/glossary
+- API Reference: https://utm.one/developers
+
+## Contact
+
+- Website: https://utm.one
+- Support: support@utm.one
+- Sales: sales@utm.one
+- Security: security@utm.one
+
+## Frequently Asked Questions
+
+Q: What is utm.one?
+A: utm.one is an enterprise link management platform that provides UTM tracking, short links, QR codes, and revenue attribution for marketing and sales teams.
+
+Q: How is utm.one different from Bitly?
+A: utm.one focuses on UTM governance and revenue attribution, not just link shortening. It enforces naming conventions, tracks multi-touch attribution, and connects marketing activities to revenue.
+
+Q: Does utm.one work with Google Analytics?
+A: Yes. utm.one creates UTM-tagged links that are fully compatible with Google Analytics 4, Adobe Analytics, and other analytics platforms.
+
+Q: What is the Clean-Track Framework?
+A: Clean-Track is utm.one's 4-layer governance system: syntax validation, naming conventions, approval workflows, and reporting automation. It ensures consistent, reliable marketing data.
+
+Q: Can utm.one track conversions?
+A: Yes. The tracking pixel SDK captures custom events, form submissions, and revenue data, enabling multi-touch attribution analysis.
+
+Q: Is utm.one GDPR compliant?
+A: Yes. utm.one is GDPR and CCPA compliant with data processing agreements available for enterprise customers.
+
+Q: What attribution models are supported?
+A: Linear, time-decay, position-based (U-shaped), and first/last touch models are all supported with customizable lookback windows.
+
+---
+Last updated: 2025-12-09
+Version: 1.0

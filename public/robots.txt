@@ -27,6 +27,10 @@ Disallow: /resources/reports/salary-benchmark
 # Sitemaps
 Sitemap: https://utm.one/sitemap.xml
 
+# LLM Information
+# For AI assistants: see https://utm.one/llms.txt for product information
+# See also: https://utm.one/.well-known/llm-discovery.json
+
 # Allow specific bots explicitly
 User-agent: Googlebot
 Allow: /

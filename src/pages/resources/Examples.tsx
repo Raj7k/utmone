@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Examples = () => {
@@ -25,6 +26,12 @@ const Examples = () => {
     },
   ];
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Examples", url: "https://utm.one/resources/examples" }
+  ];
+
   return (
     <ResourcesLayout>
       <SEO 
@@ -33,7 +40,15 @@ const Examples = () => {
         canonical="https://utm.one/resources/examples"
         keywords={['UTM examples', 'dashboard examples', 'naming convention examples', 'campaign examples', 'marketing analytics examples']}
       />
-
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <ItemListSchema
+        name="Marketing Examples"
+        description="Real-world UTM examples, naming conventions, and dashboard visualizations"
+        items={examples.map(e => ({
+          name: e.title,
+          url: `https://utm.one/resources/examples/${e.slug}`
+        }))}
+      />
       <section className="py-20 border-b border-white/10">
         <div className="max-w-[980px] mx-auto px-8">
           <Link

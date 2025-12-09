@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
+import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
 import { ResourcesLayout } from "@/components/layout/ResourcesLayout";
 
 const Checklists = () => {
@@ -31,6 +32,12 @@ const Checklists = () => {
     }
   ];
 
+  const breadcrumbItems = [
+    { name: "Home", url: "https://utm.one/" },
+    { name: "Resources", url: "https://utm.one/resources" },
+    { name: "Checklists", url: "https://utm.one/resources/checklists" }
+  ];
+
   return (
     <ResourcesLayout>
       <SEO 
@@ -39,7 +46,15 @@ const Checklists = () => {
         canonical="https://utm.one/resources/checklists"
         keywords={['UTM audit checklist', 'campaign launch checklist', 'analytics health check', 'marketing checklists', 'tracking audit']}
       />
-
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <ItemListSchema
+        name="Marketing Checklists"
+        description="Actionable checklists for UTM audits, campaign launches, and analytics health"
+        items={checklists.map(c => ({
+          name: c.title,
+          url: `https://utm.one/resources/checklists/${c.slug}`
+        }))}
+      />
       <section className="py-20 border-b border-zinc-200">
         <div className="max-w-[980px] mx-auto px-8">
           <Link
