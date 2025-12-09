@@ -10,10 +10,10 @@ import {
   MicOff, 
   Linkedin, 
   RefreshCw,
-  WifiOff,
-  Cloud,
   X,
-  ImageIcon
+  ImageIcon,
+  Shield,
+  ShieldCheck
 } from "lucide-react";
 import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,11 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { parseBadgeData, ParsedBadgeData, splitFullName } from "./parseBadgeData";
 import { useOfflineScans, OfflineScan } from "./useOfflineScans";
+import { ConfidenceIndicator } from "./ConfidenceIndicator";
+import { SyncStatusBar } from "./SyncStatusBar";
+import { TorchToggle } from "./TorchToggle";
+import { LowConfidenceField } from "./LowConfidenceField";
+import { cn } from "@/lib/utils";
 
 interface UniversalScannerProps {
   eventId: string;
@@ -35,6 +40,14 @@ interface UniversalScannerProps {
 }
 
 type ScanStatus = 'idle' | 'scanning' | 'success' | 'encrypted' | 'ocr-needed' | 'processing';
+
+interface FieldConfidence {
+  firstName: number;
+  lastName: number;
+  email: number;
+  company: number;
+  title: number;
+}
 
 export const UniversalScanner = ({ eventId, eventName, onScanComplete }: UniversalScannerProps) => {
   const [status, setStatus] = useState<ScanStatus>('idle');
@@ -47,16 +60,34 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
     title: '',
     notes: ''
   });
+  const [fieldConfidence, setFieldConfidence] = useState<FieldConfidence>({
+    firstName: 100,
+    lastName: 100,
+    email: 100,
+    company: 100,
+    title: 100
+  });
+  const [overallConfidence, setOverallConfidence] = useState(100);
   const [isRecording, setIsRecording] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [isOCRProcessing, setIsOCRProcessing] = useState(false);
   
   const scannerRef = useRef<Html5QrcodeScanner | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   
-  const { scans, pendingCount, isSyncing, isOnline, addScan, syncScans } = useOfflineScans(eventId);
+  const { 
+    scans, 
+    pendingCount, 
+    isSyncing, 
+    isOnline, 
+    addScan, 
+    syncScans,
+    getScansNeedingReview,
+    validateFieldConfidence
+  } = useOfflineScans(eventId);
+
+  const syncedCount = scans.filter(s => s.synced).length;
+  const reviewCount = getScansNeedingReview().length;
 
   // Initialize QR scanner
   useEffect(() => {
@@ -116,7 +147,7 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
     }
   }, []);
 
-  // Populate form with parsed data
+  // Populate form with parsed data and calculate field confidence
   const populateEditedData = (data: ParsedBadgeData) => {
     let firstName = data.firstName || '';
     let lastName = data.lastName || '';
@@ -127,14 +158,33 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
       lastName = split.lastName;
     }
 
-    setEditedData({
+    const newData = {
       firstName,
       lastName,
       email: data.email || '',
       company: data.company || '',
       title: data.title || '',
       notes: ''
+    };
+    
+    setEditedData(newData);
+
+    // Calculate field-level confidence
+    const emailConf = validateFieldConfidence(newData.email, 'email');
+    const nameConf = validateFieldConfidence(newData.firstName, 'name');
+    
+    // Base confidence on OCR confidence + field validation
+    const baseConf = data.confidence || 80;
+    
+    setFieldConfidence({
+      firstName: Math.round((nameConf.confidence + baseConf) / 2),
+      lastName: Math.round((nameConf.confidence + baseConf) / 2),
+      email: Math.round((emailConf.confidence + baseConf) / 2),
+      company: baseConf,
+      title: baseConf
     });
+    
+    setOverallConfidence(data.confidence || 80);
   };
 
   // Capture badge image for OCR
@@ -167,11 +217,13 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
       if (error) throw error;
 
       if (data && (data.email || data.firstName || data.company)) {
+        const ocrConfidence = data.confidence || 70;
+        
         setParsedData({
           ...data,
           rawData: 'OCR Extracted',
           parseMethod: 'plain',
-          confidence: data.confidence || 70
+          confidence: ocrConfidence
         });
         
         setEditedData({
@@ -183,12 +235,22 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
           notes: ''
         });
         
+        // Set field confidence based on OCR result
+        setFieldConfidence({
+          firstName: data.firstName ? ocrConfidence : 100,
+          lastName: data.lastName ? ocrConfidence : 100,
+          email: data.email ? ocrConfidence : 100,
+          company: data.company ? ocrConfidence : 100,
+          title: data.title ? ocrConfidence : 100
+        });
+        
+        setOverallConfidence(ocrConfidence);
         setStatus('success');
         setShowConfirmDialog(true);
         
         toast({
           title: 'badge text extracted',
-          description: `confidence: ${data.confidence}%`
+          description: `confidence: ${ocrConfidence}%`
         });
       } else {
         throw new Error('Could not extract text from badge');
@@ -219,8 +281,6 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
       };
 
       mediaRecorder.onstop = async () => {
-        // In a real implementation, send to speech-to-text API
-        // For now, we'll just show a placeholder
         toast({
           title: 'note recorded',
           description: 'voice note saved (transcription coming soon)'
@@ -264,7 +324,7 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
       return;
     }
 
-    addScan({
+    const result = addScan({
       eventId,
       email: editedData.email,
       firstName: editedData.firstName,
@@ -272,18 +332,27 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
       company: editedData.company,
       title: editedData.title,
       notes: editedData.notes
-    });
+    }, overallConfidence);
 
-    toast({
-      title: 'lead saved',
-      description: isOnline ? 'synced to cloud' : 'saved offline, will sync later'
-    });
+    // Check if it was a duplicate merge
+    const wasMerged = result && scans.some(s => s.id === result.id);
+    
+    if (wasMerged) {
+      // Toast already shown by addScan for merge
+    } else {
+      toast({
+        title: 'lead saved',
+        description: isOnline ? 'synced to cloud' : 'saved offline, will sync later'
+      });
+    }
 
     // Reset state
     setShowConfirmDialog(false);
     setStatus('idle');
     setParsedData(null);
     setEditedData({ firstName: '', lastName: '', email: '', company: '', title: '', notes: '' });
+    setFieldConfidence({ firstName: 100, lastName: 100, email: 100, company: 100, title: 100 });
+    setOverallConfidence(100);
     
     onScanComplete?.();
   };
@@ -296,48 +365,31 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
 
   return (
     <Card className="p-4 space-y-4">
-      {/* Header with sync status */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <QrCode className="h-5 w-5 text-primary" />
-          <h3 className="font-semibold text-foreground">universal scanner</h3>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          {pendingCount > 0 && (
-            <Badge variant="outline" className="gap-1 text-yellow-600 border-yellow-600">
-              <WifiOff className="h-3 w-3" />
-              {pendingCount} pending
-            </Badge>
-          )}
-          
-          {isOnline ? (
-            <Badge variant="outline" className="gap-1 text-green-600 border-green-600">
-              <Cloud className="h-3 w-3" />
-              online
-            </Badge>
-          ) : (
-            <Badge variant="outline" className="gap-1 text-orange-600 border-orange-600">
-              <WifiOff className="h-3 w-3" />
-              offline
-            </Badge>
-          )}
-          
-          {pendingCount > 0 && isOnline && (
-            <Button 
-              size="sm" 
-              variant="ghost" 
-              onClick={syncScans}
-              disabled={isSyncing}
-            >
-              <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            </Button>
-          )}
-        </div>
+      {/* Header with scanner title */}
+      <div className="flex items-center gap-2">
+        <QrCode className="h-5 w-5 text-primary" />
+        <h3 className="font-semibold text-foreground">universal scanner</h3>
+        <Badge variant="outline" className="ml-auto text-xs gap-1">
+          <ShieldCheck className="h-3 w-3" />
+          reliability engine
+        </Badge>
       </div>
+
+      {/* Sync Status Bar */}
+      <SyncStatusBar
+        isOnline={isOnline}
+        pendingCount={pendingCount}
+        syncedCount={syncedCount}
+        isSyncing={isSyncing}
+        reviewCount={reviewCount}
+        onSync={syncScans}
+      />
 
       {/* Scanner viewport */}
       <div className="relative rounded-xl overflow-hidden bg-black">
+        {/* Torch Toggle */}
+        <TorchToggle />
+        
         <div 
           id="qr-reader" 
           className="w-full"
@@ -422,7 +474,7 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
         enter manually
       </Button>
 
-      {/* Recent scans */}
+      {/* Recent scans with sync status */}
       {scans.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs text-muted-foreground">recent scans ({scans.length})</p>
@@ -430,16 +482,20 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
             {scans.slice(-5).reverse().map(scan => (
               <div 
                 key={scan.id} 
-                className="flex items-center justify-between text-sm p-2 rounded bg-muted/50"
+                className={cn(
+                  "flex items-center justify-between text-sm p-2 rounded",
+                  scan.needsReview ? "bg-yellow-500/10 border border-yellow-500/30" : "bg-muted/50"
+                )}
               >
                 <span className="truncate">
                   {scan.firstName} {scan.lastName} {scan.email && `(${scan.email})`}
                 </span>
                 <div className="flex items-center gap-1">
+                  {scan.confidence && <ConfidenceIndicator confidence={scan.confidence} size="sm" />}
                   {scan.synced ? (
-                    <Cloud className="h-3 w-3 text-green-500" />
+                    <Check className="h-3 w-3 text-green-500" />
                   ) : (
-                    <WifiOff className="h-3 w-3 text-yellow-500" />
+                    <AlertTriangle className="h-3 w-3 text-yellow-500" />
                   )}
                 </div>
               </div>
@@ -448,60 +504,71 @@ export const UniversalScanner = ({ eventId, eventName, onScanComplete }: Univers
         </div>
       )}
 
-      {/* Confirm/Edit Dialog */}
+      {/* Confirm/Edit Dialog with Confidence Scoring */}
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <DialogContent className="max-w-md bg-card border-border z-[100]">
           <DialogHeader>
-            <DialogTitle className="font-display">confirm lead</DialogTitle>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="font-display">confirm lead</DialogTitle>
+              <ConfidenceIndicator confidence={overallConfidence} />
+            </div>
           </DialogHeader>
           
           <div className="space-y-4">
+            {/* Low confidence warning */}
+            {overallConfidence < 85 && (
+              <div className="flex items-start gap-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                <AlertTriangle className="h-4 w-4 text-yellow-600 shrink-0 mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium text-yellow-700">low confidence scan</p>
+                  <p className="text-yellow-600/80 text-xs">
+                    please verify the highlighted fields before saving
+                  </p>
+                </div>
+              </div>
+            )}
+            
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <Label className="text-xs text-muted-foreground">first name</Label>
-                <Input 
-                  value={editedData.firstName}
-                  onChange={(e) => setEditedData(prev => ({ ...prev, firstName: e.target.value }))}
-                  placeholder="John"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs text-muted-foreground">last name</Label>
-                <Input 
-                  value={editedData.lastName}
-                  onChange={(e) => setEditedData(prev => ({ ...prev, lastName: e.target.value }))}
-                  placeholder="Doe"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-1">
-              <Label className="text-xs text-muted-foreground">email</Label>
-              <Input 
-                type="email"
-                value={editedData.email}
-                onChange={(e) => setEditedData(prev => ({ ...prev, email: e.target.value }))}
-                placeholder="john@example.com"
+              <LowConfidenceField
+                label="first name"
+                value={editedData.firstName}
+                onChange={(val) => setEditedData(prev => ({ ...prev, firstName: val }))}
+                confidence={fieldConfidence.firstName}
+                placeholder="John"
+              />
+              <LowConfidenceField
+                label="last name"
+                value={editedData.lastName}
+                onChange={(val) => setEditedData(prev => ({ ...prev, lastName: val }))}
+                confidence={fieldConfidence.lastName}
+                placeholder="Doe"
               />
             </div>
             
-            <div className="space-y-1">
-              <Label className="text-xs text-muted-foreground">company</Label>
-              <Input 
-                value={editedData.company}
-                onChange={(e) => setEditedData(prev => ({ ...prev, company: e.target.value }))}
-                placeholder="Acme Corp"
-              />
-            </div>
+            <LowConfidenceField
+              label="email"
+              value={editedData.email}
+              onChange={(val) => setEditedData(prev => ({ ...prev, email: val }))}
+              confidence={fieldConfidence.email}
+              placeholder="john@example.com"
+              type="email"
+            />
             
-            <div className="space-y-1">
-              <Label className="text-xs text-muted-foreground">title</Label>
-              <Input 
-                value={editedData.title}
-                onChange={(e) => setEditedData(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="VP of Marketing"
-              />
-            </div>
+            <LowConfidenceField
+              label="company"
+              value={editedData.company}
+              onChange={(val) => setEditedData(prev => ({ ...prev, company: val }))}
+              confidence={fieldConfidence.company}
+              placeholder="Acme Corp"
+            />
+            
+            <LowConfidenceField
+              label="title"
+              value={editedData.title}
+              onChange={(val) => setEditedData(prev => ({ ...prev, title: val }))}
+              confidence={fieldConfidence.title}
+              placeholder="VP of Marketing"
+            />
             
             {/* Voice note */}
             <div className="space-y-1">

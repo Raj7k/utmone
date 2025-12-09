@@ -72,11 +72,24 @@ Return ONLY a valid JSON object with these exact keys:
   "company": "string or null",
   "title": "string or null",
   "phone": "string or null",
-  "confidence": number between 0-100
+  "confidence": number between 0-100,
+  "fieldConfidence": {
+    "firstName": number between 0-100,
+    "lastName": number between 0-100,
+    "email": number between 0-100,
+    "company": number between 0-100,
+    "title": number between 0-100
+  }
 }
 
 If a field is not visible or unclear, set it to null.
-The confidence score should reflect how clearly the text was readable.`
+The confidence score should reflect how clearly the text was readable.
+For each field, provide a specific confidence score in fieldConfidence.
+Common OCR errors to watch for:
+- "rn" misread as "m" (e.g., "Barn" -> "Bam")
+- "0" misread as "O" or vice versa
+- "1" misread as "l" or "I"
+If you detect potential OCR artifacts, lower the field confidence accordingly.`
           },
           {
             role: 'user',
