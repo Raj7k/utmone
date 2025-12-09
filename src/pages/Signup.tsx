@@ -11,6 +11,7 @@ import { AuthLoadingScreen } from "@/components/loading/AuthLoadingScreen";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { PasswordInput } from "@/components/auth/PasswordInput";
+import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ const Signup = () => {
     inviterName: string;
     role: string;
   } | null>(null);
+  
+  // Check if social login buttons should be shown
+  const { flags: uiFlags } = useUIFeatureFlags(['enable_google_auth', 'enable_microsoft_auth']);
+  const showSocialButtons = uiFlags['enable_google_auth'] || uiFlags['enable_microsoft_auth'];
 
   // Navigation guard to prevent duplicate processing
   const hasNavigated = useRef(false);
@@ -364,14 +369,16 @@ const Signup = () => {
               onMicrosoftClick={handleMicrosoftLogin}
             />
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-white/10" />
+            {showSocialButtons && (
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-white/10" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-zinc-900/40 px-2 text-white/40">or</span>
+                </div>
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-zinc-900/40 px-2 text-white/40">or</span>
-              </div>
-            </div>
+            )}
 
             <form onSubmit={handleSignUp} className="space-y-6">
               <div className="space-y-2">
