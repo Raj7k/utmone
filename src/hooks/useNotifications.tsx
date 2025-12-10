@@ -1,9 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export const useNotifications = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: notifications, isLoading } = useQuery({
@@ -39,11 +38,7 @@ export const useNotifications = () => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
@@ -62,16 +57,10 @@ export const useNotifications = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
-      toast({
-        title: "All notifications marked as read",
-      });
+      notify.success("all notifications marked as read");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 
