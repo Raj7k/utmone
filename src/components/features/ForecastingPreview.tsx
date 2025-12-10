@@ -13,7 +13,7 @@ export const ForecastingPreview = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-display font-bold text-foreground lowercase mb-1">
+          <h3 className="text-xl font-display font-bold text-foreground mb-1">
             summer sale 2024 forecast
           </h3>
           <p className="text-sm text-white/50">7-day prediction with confidence band</p>

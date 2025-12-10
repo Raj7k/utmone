@@ -114,7 +114,6 @@ export const CleanTrackScoreQuiz = () => {
         <div className="mt-8 text-center">
           <Button
             variant="outline"
-            className="lowercase"
             onClick={() => {
               setCurrentQuestion(0);
               setAnswers({});
@@ -134,7 +133,7 @@ export const CleanTrackScoreQuiz = () => {
     <div className="max-w-2xl mx-auto">
       {/* Progress Bar */}
       <div className="mb-8">
-        <div className="flex justify-between text-sm text-white/60 mb-2 lowercase">
+        <div className="flex justify-between text-sm text-white/60 mb-2">
           <span>question {currentQuestion + 1} of {questions.length}</span>
           <span>{Math.round(progress)}%</span>
         </div>
@@ -156,7 +155,7 @@ export const CleanTrackScoreQuiz = () => {
         exit={{ opacity: 0, x: -20 }}
       >
         <Card className="p-8 glass-card">
-          <h3 className="text-2xl font-display font-bold text-white mb-8 lowercase">
+          <h3 className="text-2xl font-display font-bold text-white mb-8">
             {questions[currentQuestion].question}
           </h3>
 
@@ -165,7 +164,7 @@ export const CleanTrackScoreQuiz = () => {
               <Button
                 key={index}
                 variant="outline"
-                className="w-full justify-start text-left h-auto py-4 px-6 transition-all lowercase"
+                className="w-full justify-start text-left h-auto py-4 px-6 transition-all"
                 onClick={() => handleAnswer(option.score)}
               >
                 <span className="text-base">{option.text}</span>
@@ -177,7 +176,7 @@ export const CleanTrackScoreQuiz = () => {
 
       {/* Previously Answered */}
       {currentQuestion > 0 && (
-        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/60 lowercase">
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/60">
           <CheckCircle2 className="w-4 h-4 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           <span>{currentQuestion} {currentQuestion === 1 ? 'answer' : 'answers'} recorded</span>
         </div>

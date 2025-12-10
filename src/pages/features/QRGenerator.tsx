@@ -74,7 +74,7 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Track QR Like It's Digital
           </h2>
           <p className="text-title-2 text-label font-medium max-w-2xl mx-auto">
@@ -85,7 +85,7 @@ const QRGenerator = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
             branded QR customization
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
@@ -100,7 +100,7 @@ const QRGenerator = () => {
                 <Image className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">logo placement</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">logo placement</h3>
                 <p className="text-secondary-label">
                   Add your logo in the center with automatic sizing, padding, and background control
                 </p>
@@ -111,7 +111,7 @@ const QRGenerator = () => {
                 <Palette className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">color matching</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">color matching</h3>
                 <p className="text-secondary-label">
                   Use exact brand colors for modules and background—no approximations
                 </p>
@@ -122,7 +122,7 @@ const QRGenerator = () => {
                 <QrCode className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">corner styles</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">corner styles</h3>
                 <p className="text-secondary-label">
                   Choose square, rounded, or dots for module shapes and corner squares
                 </p>
@@ -137,7 +137,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Everything You Expect, Done Better
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,7 +157,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           QR Codes That Feel Safe To Scan
         </h2>
         <FeatureComparison
@@ -170,7 +170,7 @@ const QRGenerator = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Scan → Understand → Convert
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -199,7 +199,7 @@ const QRGenerator = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
               from scan to sale
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -260,7 +260,7 @@ const QRGenerator = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Generate A QR Code
           </h2>
           <p className="text-body-apple text-secondary-label mb-8">

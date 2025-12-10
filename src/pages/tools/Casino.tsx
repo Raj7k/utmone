@@ -130,7 +130,7 @@ export default function Casino() {
             {/* Budget Slider */}
             <GlassCard className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-foreground font-display font-semibold flex items-center gap-2 brand-lowercase">
+                <h3 className="text-foreground font-display font-semibold flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-system-green" />
                   monthly budget
                 </h3>
@@ -154,7 +154,7 @@ export default function Casino() {
 
             {/* Channel Selection */}
             <GlassCard className="p-6">
-              <h3 className="text-foreground font-display font-semibold mb-4 flex items-center gap-2 brand-lowercase">
+              <h3 className="text-foreground font-display font-semibold mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-primary" />
                 select channels
               </h3>

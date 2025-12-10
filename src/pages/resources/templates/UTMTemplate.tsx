@@ -43,7 +43,7 @@ Twitter Thread,https://example.com,twitter,social,twitter-thread-launch,thread-1
           
           <div className="space-y-6">
             <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 mb-4">
                 utm template
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
@@ -107,7 +107,7 @@ Twitter Thread,https://example.com,twitter,social,twitter-thread-launch,thread-1
       {/* Template Preview */}
       <section className="py-16 bg-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             template structure
           </h2>
 
@@ -119,7 +119,7 @@ Twitter Thread,https://example.com,twitter,social,twitter-thread-launch,thread-1
           />
 
           <div className="mt-12 space-y-6">
-            <h3 className="text-2xl font-display font-semibold text-foreground lowercase">
+            <h3 className="text-2xl font-display font-semibold text-foreground">
               channel-specific templates
             </h3>
 
@@ -157,7 +157,7 @@ Twitter Thread,https://example.com,twitter,social,twitter-thread-launch,thread-1
       {/* Template Fields Explained */}
       <section className="py-16 bg-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             template fields explained
           </h2>
 
@@ -193,7 +193,7 @@ Twitter Thread,https://example.com,twitter,social,twitter-thread-launch,thread-1
       {/* Related Resources */}
       <section className="py-16 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             related resources
           </h2>
 

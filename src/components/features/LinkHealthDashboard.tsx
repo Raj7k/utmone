@@ -41,7 +41,7 @@ export const LinkHealthDashboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-xl font-display font-bold text-white lowercase mb-1">
+          <h3 className="text-xl font-display font-bold text-white mb-1">
             link health monitor
           </h3>
           <p className="text-sm text-white/60 font-sans">Real-time status of your top 100 links</p>

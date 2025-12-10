@@ -133,7 +133,7 @@ export const AIIntelligenceHero = () => {
           <Link to="/early-access">
             <Button 
               size="lg" 
-              className="lowercase rounded-full px-8 bg-white text-zinc-900 shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)] hover:bg-zinc-100"
+              className="rounded-full px-8 bg-white text-zinc-900 shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)] hover:bg-zinc-100"
             >
               get early access
               <ArrowRight className="ml-2 h-4 w-4" />

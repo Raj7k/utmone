@@ -27,7 +27,7 @@ export const GrowthLoopBadge = ({ score, title, subtitle, onShare }: GrowthLoopB
           <div className="text-5xl font-display font-bold text-foreground">
             {score}/100
           </div>
-          <h3 className="text-2xl font-display font-semibold text-foreground lowercase">
+          <h3 className="text-2xl font-display font-semibold text-foreground">
             {title}
           </h3>
           <p className="text-sm text-muted-foreground">
@@ -36,14 +36,13 @@ export const GrowthLoopBadge = ({ score, title, subtitle, onShare }: GrowthLoopB
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-          <Button variant="outline" size="sm" className="gap-2 lowercase">
+          <Button variant="outline" size="sm" className="gap-2">
             <Download className="w-4 h-4" />
             download badge
           </Button>
           <Button 
             size="sm"
             onClick={onShare}
-            className="lowercase"
           >
             share on linkedin
           </Button>

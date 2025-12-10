@@ -99,7 +99,7 @@ export const EventsOverviewGrid = ({
         <div key={monthYear}>
           {/* Month Header */}
           <div className="flex items-center gap-3 mb-4">
-            <h2 className="font-display text-lg font-semibold text-foreground lowercase">
+            <h2 className="font-display text-lg font-semibold text-foreground">
               {monthYear}
             </h2>
             <div className="flex-1 h-px bg-border" />
