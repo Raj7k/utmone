@@ -1,27 +1,53 @@
-import { formatText } from "@/utils/textFormatter";
+import { formatText, preserveAcronyms } from "@/utils/textFormatter";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode, Children, isValidElement, cloneElement } from "react";
 
 interface TextProps {
-  children: string;
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'label';
+  children: ReactNode;
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'label' | 'div';
   className?: string;
   forceMode?: 'minimal' | 'grammar';
+  preserveOnly?: boolean; // Only preserve acronyms without mode formatting
+}
+
+// Recursively process children to preserve acronyms in all text nodes
+function processChildren(children: ReactNode, forceMode?: 'minimal' | 'grammar', preserveOnly?: boolean): ReactNode {
+  return Children.map(children, child => {
+    if (typeof child === 'string') {
+      return preserveOnly ? preserveAcronyms(child) : formatText(child, forceMode);
+    }
+    if (typeof child === 'number') {
+      return child;
+    }
+    if (isValidElement(child) && child.props.children) {
+      return cloneElement(child, {
+        ...child.props,
+        children: processChildren(child.props.children, forceMode, preserveOnly)
+      });
+    }
+    return child;
+  });
 }
 
 export const Text = ({ 
   children, 
   as: Tag = 'span', 
   className,
-  forceMode 
+  forceMode,
+  preserveOnly = false
 }: TextProps) => {
-  const [formattedText, setFormattedText] = useState(formatText(children, forceMode));
+  const [processedChildren, setProcessedChildren] = useState<ReactNode>(() => 
+    processChildren(children, forceMode, preserveOnly)
+  );
   
   // Listen for text mode changes
   useEffect(() => {
     const handleModeChange = () => {
-      setFormattedText(formatText(children, forceMode));
+      setProcessedChildren(processChildren(children, forceMode, preserveOnly));
     };
+    
+    // Initial processing
+    handleModeChange();
     
     window.addEventListener('text-mode-change', handleModeChange);
     window.addEventListener('storage', handleModeChange);
@@ -30,7 +56,10 @@ export const Text = ({
       window.removeEventListener('text-mode-change', handleModeChange);
       window.removeEventListener('storage', handleModeChange);
     };
-  }, [children, forceMode]);
+  }, [children, forceMode, preserveOnly]);
 
-  return <Tag className={cn(className)}>{formattedText}</Tag>;
+  return <Tag className={cn(className)}>{processedChildren}</Tag>;
 };
+
+// Export preserveAcronyms for direct use in components
+export { preserveAcronyms } from "@/utils/textFormatter";

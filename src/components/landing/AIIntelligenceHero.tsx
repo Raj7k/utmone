@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   Sparkles, 
   TrendingUp, 
@@ -13,26 +14,26 @@ import {
 const AI_FEATURES = [
   {
     icon: TrendingUp,
-    title: "predictive analytics",
-    description: "know which campaigns will perform before you launch",
+    title: p("predictive analytics"),
+    description: p("know which campaigns will perform before you launch"),
     href: "/features/predictive-analytics",
   },
   {
     icon: GitBranch,
-    title: "attribution graph",
-    description: "see the true path from click to conversion",
+    title: p("attribution graph"),
+    description: p("see the true path from click to conversion"),
     href: "/features/attribution-graph",
   },
   {
     icon: Navigation,
-    title: "smart routing",
-    description: "send visitors to the right destination automatically",
+    title: p("smart routing"),
+    description: p("send visitors to the right destination automatically"),
     href: "/features/smart-routing",
   },
   {
     icon: Shield,
-    title: "link immunity",
-    description: "auto-detect and fix broken links before they hurt you",
+    title: p("link immunity"),
+    description: p("auto-detect and fix broken links before they hurt you"),
     href: "/features/link-immunity",
   },
 ];
@@ -61,17 +62,17 @@ export const AIIntelligenceHero = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-white/5 border border-white/10 backdrop-blur-xl"
           >
             <Sparkles className="w-4 h-4 text-white-80" />
-            <span className="text-sm font-medium lowercase text-white-80">clean-track intelligence</span>
+            <span className="text-sm font-medium lowercase text-white-80">{p("clean-track intelligence")}</span>
           </div>
           
           <h1 
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-6 hero-gradient"
           >
-            four AI layers built into every link
+            {p("four AI layers built into every link")}
           </h1>
           
           <p className="text-lg max-w-2xl mx-auto text-white-50">
-            mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.
+            {p("mathematical models from MIT and Harvard scientists, working behind the scenes to make your data smarter.")}
           </p>
         </motion.div>
 

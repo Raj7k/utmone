@@ -6,6 +6,7 @@ import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { ForecastingPreview } from "@/components/features/ForecastingPreview";
 import { UseCasesGrid } from "@/components/features/UseCasesGrid";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { LineChart, TrendingUp, Users, Briefcase, GitBranch, Clock, Target, Zap } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
 
@@ -35,36 +36,36 @@ export default function PredictiveAnalytics() {
 
   const faqs = [
     {
-      question: "How accurate are the predictions?",
-      answer: "Our pattern recognition AI learns from your historical data—the more clicks you have, the more accurate predictions become. We show confidence intervals (e.g., ±150 clicks) so you know the range, not fake precision. Typical accuracy: 85-90% confidence within the predicted range."
+      question: p("How accurate are the predictions?"),
+      answer: p("Our pattern recognition AI learns from your historical data—the more clicks you have, the more accurate predictions become. We show confidence intervals (e.g., ±150 clicks) so you know the range, not fake precision. Typical accuracy: 85-90% confidence within the predicted range.")
     },
     {
-      question: "What if I don't have much historical data yet?",
-      answer: "The system starts making predictions after just 7 days of data. Early predictions have wider confidence bands (e.g., ±300 instead of ±150), which narrow as we learn your traffic patterns. After 30 days, predictions stabilize at 85%+ confidence."
+      question: p("What if I don't have much historical data yet?"),
+      answer: p("The system starts making predictions after just 7 days of data. Early predictions have wider confidence bands (e.g., ±300 instead of ±150), which narrow as we learn your traffic patterns. After 30 days, predictions stabilize at 85%+ confidence.")
     },
     {
-      question: "Does this replace Google Analytics?",
-      answer: "No—it complements GA4. utm.one predicts future traffic based on link-level patterns. Use both: GA4 for overall site analytics, utm.one for campaign forecasting. Think of it as 'Google Analytics + Time Machine'."
+      question: p("Does this replace Google Analytics?"),
+      answer: p("No—it complements GA4. utm.one predicts future traffic based on link-level patterns. Use both: GA4 for overall site analytics, utm.one for campaign forecasting. Think of it as 'Google Analytics + Time Machine'.")
     },
     {
-      question: "Can I see 'best times to post' for my audience?",
-      answer: "Yes. The system shows hourly and daily patterns—you'll see exactly when your audience is most active, not just generic advice. For example: 'Your webinar links peak Tuesday 10-11am, Thursday 2-3pm'."
+      question: p("Can I see 'best times to post' for my audience?"),
+      answer: p("Yes. The system shows hourly and daily patterns—you'll see exactly when your audience is most active, not just generic advice. For example: 'Your webinar links peak Tuesday 10-11am, Thursday 2-3pm'.")
     },
     {
-      question: "What happens if my campaign goes viral?",
-      answer: "The model detects anomalies and updates predictions in real-time. If traffic suddenly spikes, the forecast adjusts within 6 hours. You'll see the confidence band widen temporarily, then narrow as the model incorporates the new data."
+      question: p("What happens if my campaign goes viral?"),
+      answer: p("The model detects anomalies and updates predictions in real-time. If traffic suddenly spikes, the forecast adjusts within 6 hours. You'll see the confidence band widen temporarily, then narrow as the model incorporates the new data.")
     },
     {
-      question: "Can I forecast by UTM source, medium, or campaign?",
-      answer: "Yes. Forecasting works at the link level and rolls up to UTM parameters. You can see: 'Your linkedin/paid links will drive ~5,000 clicks next week' or 'Your Q1 campaign will hit 50,000 clicks by end of month'."
+      question: p("Can I forecast by UTM source, medium, or campaign?"),
+      answer: p("Yes. Forecasting works at the link level and rolls up to UTM parameters. You can see: 'Your linkedin/paid links will drive ~5,000 clicks next week' or 'Your Q1 campaign will hit 50,000 clicks by end of month'.")
     },
     {
-      question: "How far into the future can I forecast?",
-      answer: "Standard forecasts show 7 days ahead. Extended forecasts show 14 days (wider confidence bands). Long-range forecasts show 30+ days for strategic planning (widest bands). The further out, the less precise—but still better than guessing."
+      question: p("How far into the future can I forecast?"),
+      answer: p("Standard forecasts show 7 days ahead. Extended forecasts show 14 days (wider confidence bands). Long-range forecasts show 30+ days for strategic planning (widest bands). The further out, the less precise—but still better than guessing.")
     },
     {
-      question: "What if I'm planning a completely new campaign?",
-      answer: "For brand-new campaigns with zero history, the system uses 'similar campaign' patterns. It finds links with similar UTM structures, traffic sources, and audience profiles, then forecasts based on those patterns. Confidence is lower (~70%) but still actionable."
+      question: p("What if I'm planning a completely new campaign?"),
+      answer: p("For brand-new campaigns with zero history, the system uses 'similar campaign' patterns. It finds links with similar UTM structures, traffic sources, and audience profiles, then forecasts based on those patterns. Confidence is lower (~70%) but still actionable.")
     }
   ];
 
@@ -85,10 +86,10 @@ export default function PredictiveAnalytics() {
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
-            stop guessing. start knowing.
+            {p("stop guessing. start knowing.")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            ever been asked "what will traffic look like next week?" and just guessed? utm.one's pattern recognition AI predicts future clicks with confidence intervals, so you can plan campaigns around real data.
+            {p("ever been asked 'what will traffic look like next week?' and just guessed? utm.one's pattern recognition AI predicts future clicks with confidence intervals, so you can plan campaigns around real data.")}
           </p>
           <CTAButton href="/early-access" variant="primary" pulse>get early access</CTAButton>
         </div>
