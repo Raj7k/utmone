@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface FoundingMemberCounterProps {
   total?: number;
@@ -12,6 +13,26 @@ export const FoundingMemberCounter = ({
   const taken = total - remaining;
   const percentageTaken = (taken / total) * 100;
   const isUrgent = remaining < 50;
+  
+  // Animated number
+  const count = useMotionValue(remaining + 10);
+  const rounded = useTransform(count, Math.round);
+  const [displayCount, setDisplayCount] = useState(remaining + 10);
+
+  useEffect(() => {
+    const animation = animate(count, remaining, {
+      duration: 1.5,
+      ease: "easeOut",
+      delay: 0.5
+    });
+    
+    const unsubscribe = rounded.on("change", (v) => setDisplayCount(v));
+    
+    return () => {
+      animation.stop();
+      unsubscribe();
+    };
+  }, [remaining, count, rounded]);
 
   return (
     <motion.div 
@@ -44,13 +65,13 @@ export const FoundingMemberCounter = ({
           {/* Big number display */}
           <div className="flex items-baseline gap-3 mb-4">
             <motion.span 
-              className="text-5xl md:text-6xl font-display font-bold text-white"
+              className="text-5xl md:text-6xl font-display font-bold text-white tabular-nums"
               key={remaining}
               initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              {remaining}
+              {displayCount}
             </motion.span>
             <span className="text-lg text-white/40">
               of {total} left

@@ -189,20 +189,49 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
                 return (
                   <motion.div
                     key={capability.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                    className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-colors group"
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ 
+                      delay: 0.3 + i * 0.15,
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 15
+                    }}
+                    whileHover={{ 
+                      y: -8,
+                      scale: 1.02,
+                      transition: { type: "spring", stiffness: 400, damping: 20 }
+                    }}
+                    className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-primary/30 transition-colors group cursor-pointer overflow-hidden"
                   >
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className="w-6 h-6 text-primary" />
+                    {/* Hover glow effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                    
+                    <div className="relative z-10">
+                      <motion.div 
+                        className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4"
+                        whileHover={{ scale: 1.15, rotate: 5 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <Icon className="w-6 h-6 text-primary" />
+                      </motion.div>
+                      <h3 className="text-lg font-semibold text-white/90 mb-2 group-hover:text-white transition-colors">
+                        {capability.title}
+                      </h3>
+                      <p className="text-sm text-white/50 leading-relaxed group-hover:text-white/60 transition-colors">
+                        {capability.description}
+                      </p>
                     </div>
-                    <h3 className="text-lg font-semibold text-white/90 mb-2">
-                      {capability.title}
-                    </h3>
-                    <p className="text-sm text-white/50 leading-relaxed">
-                      {capability.description}
-                    </p>
+                    
+                    {/* Bottom accent line */}
+                    <motion.div
+                      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-primary/50 to-primary/0"
+                      initial={{ width: 0 }}
+                      whileHover={{ width: "100%" }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </motion.div>
                 );
               })}
