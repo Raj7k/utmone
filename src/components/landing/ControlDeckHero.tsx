@@ -147,13 +147,13 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
 
                         {/* Labels */}
                         <div className="flex-1 min-w-0">
-                          <span
-                            className={`block font-medium text-sm tracking-wide transition-colors duration-300 lowercase ${isActive ? 'text-white/95' : 'text-zinc-500'}`}
+                        <span
+                            className={`block font-medium text-sm tracking-wide transition-colors duration-300 ${isActive ? 'text-white/95' : 'text-zinc-500'}`}
                           >
                             {item.label}
                           </span>
                           <span
-                            className={`block text-xs mt-0.5 transition-colors duration-300 lowercase ${isActive ? 'text-white/50' : 'text-zinc-500/60'}`}
+                            className={`block text-xs mt-0.5 transition-colors duration-300 ${isActive ? 'text-white/50' : 'text-zinc-500/60'}`}
                           >
                             {item.sublabel}
                           </span>
