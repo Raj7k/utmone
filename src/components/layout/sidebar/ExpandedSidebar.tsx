@@ -6,10 +6,11 @@ import {
   Search,
   Plus,
   Building2,
-  ChevronDown
+  ChevronDown,
+  HelpCircle
 } from "lucide-react";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
@@ -25,12 +26,15 @@ import {
   intelligenceNavigation, 
   settingsNavigation 
 } from "@/config/navigation";
+import { featureHelpDescriptions, newFeatures } from "@/config/featureHelp";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface NavItem {
   name: string;
   href: string;
   icon: LucideIcon;
   badge?: boolean | string;
+  isNew?: boolean;
 }
 
 interface NavGroupProps {
@@ -40,9 +44,10 @@ interface NavGroupProps {
   onToggle: () => void;
   isActive: (href: string) => boolean;
   pendingCount?: number;
+  visitedFeatures?: string[];
 }
 
-const NavGroup = ({ name, items, isOpen, onToggle, isActive, pendingCount }: NavGroupProps) => {
+const NavGroup = ({ name, items, isOpen, onToggle, isActive, pendingCount, visitedFeatures = [] }: NavGroupProps) => {
   const hasActiveItem = items.some(item => isActive(item.href));
   const shouldBeOpen = isOpen || hasActiveItem;
 
@@ -82,13 +87,15 @@ const NavGroup = ({ name, items, isOpen, onToggle, isActive, pendingCount }: Nav
                 const active = isActive(item.href);
                 const Icon = item.icon;
                 const showBadge = item.badge && pendingCount && pendingCount > 0;
+                const helpText = featureHelpDescriptions[item.name];
+                const isNewFeature = newFeatures.includes(item.name) && !visitedFeatures.includes(item.name);
 
                 return (
                   <Link
                     key={item.name}
                     to={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
+                      "group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
                       active
                         ? "bg-primary text-primary-foreground font-medium shadow-sm"
                         : "text-foreground/70 hover:text-foreground hover:bg-muted/60"
@@ -99,10 +106,38 @@ const NavGroup = ({ name, items, isOpen, onToggle, isActive, pendingCount }: Nav
                       active ? "opacity-100" : "opacity-70"
                     )} />
                     <span className="flex-1 text-[13px]">{formatText(item.name)}</span>
+                    
+                    {/* NEW Badge */}
+                    {isNewFeature && !active && (
+                      <span className="px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide rounded-full bg-primary/10 text-primary">
+                        new
+                      </span>
+                    )}
+                    
+                    {/* Pending Count Badge */}
                     {showBadge && (
-                      <span className="ml-auto flex h-5 min-w-5 px-1.5 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold">
+                      <span className="flex h-5 min-w-5 px-1.5 items-center justify-center rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold">
                         {pendingCount > 9 ? '9+' : pendingCount}
                       </span>
+                    )}
+                    
+                    {/* Help Tooltip */}
+                    {helpText && !active && (
+                      <TooltipProvider delayDuration={300}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span 
+                              className="p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent side="right" className="max-w-[180px]">
+                            <p className="text-xs">{helpText}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     )}
                   </Link>
                 );
@@ -127,6 +162,27 @@ export const ExpandedSidebar = () => {
     Settings: true,
   });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  
+  // Track visited features for NEW badges
+  const [visitedFeatures, setVisitedFeatures] = useState<string[]>(() => {
+    const stored = localStorage.getItem('visited_features');
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  // Mark feature as visited when navigating to it
+  const allNavItems = [...appNavigation, ...toolsNavigation, ...intelligenceNavigation, ...settingsNavigation];
+  const currentFeature = allNavItems.find(item => {
+    if (item.href === "/dashboard") return location.pathname === item.href;
+    return location.pathname.startsWith(item.href.split('?')[0]);
+  });
+
+  useEffect(() => {
+    if (currentFeature && newFeatures.includes(currentFeature.name) && !visitedFeatures.includes(currentFeature.name)) {
+      const updated = [...visitedFeatures, currentFeature.name];
+      setVisitedFeatures(updated);
+      localStorage.setItem('visited_features', JSON.stringify(updated));
+    }
+  }, [location.pathname]);
 
   const toggleGroup = (groupName: string) => {
     setOpenGroups(prev => ({ ...prev, [groupName]: !prev[groupName] }));
@@ -194,6 +250,7 @@ export const ExpandedSidebar = () => {
           onToggle={() => toggleGroup('Core')}
           isActive={isActive}
           pendingCount={pendingCount}
+          visitedFeatures={visitedFeatures}
         />
 
         <NavGroup
@@ -202,6 +259,7 @@ export const ExpandedSidebar = () => {
           isOpen={openGroups.Create}
           onToggle={() => toggleGroup('Create')}
           isActive={isActive}
+          visitedFeatures={visitedFeatures}
         />
 
         <NavGroup
@@ -210,6 +268,7 @@ export const ExpandedSidebar = () => {
           isOpen={openGroups.Insights}
           onToggle={() => toggleGroup('Insights')}
           isActive={isActive}
+          visitedFeatures={visitedFeatures}
         />
 
         <NavGroup
@@ -218,6 +277,7 @@ export const ExpandedSidebar = () => {
           isOpen={openGroups.Settings}
           onToggle={() => toggleGroup('Settings')}
           isActive={isActive}
+          visitedFeatures={visitedFeatures}
         />
       </nav>
 
