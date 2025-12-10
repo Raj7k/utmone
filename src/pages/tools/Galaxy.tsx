@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Share2, ArrowRight, Plus, Sparkles, Orbit } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AppHeader } from "@/components/layout/AppHeader";
-import { GlassCard } from "@/components/ui/glass-card";
-import { preserveAcronyms as p } from "@/utils/textFormatter";
-import ReactFlow, {
+import { MainLayout } from "@/components/layout/MainLayout";
+import {
+  ReactFlow,
   Node,
   Edge,
   addEdge,
@@ -17,8 +16,8 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
-} from "reactflow";
-import "reactflow/dist/style.css";
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 
 const CHANNEL_NODES = [
   { id: "google", label: "Google Ads", benchmarkFlow: 0.35 },
@@ -134,139 +133,139 @@ export default function Galaxy() {
   };
 
   return (
-    <div className="dark min-h-screen bg-background">
-      <AppHeader />
-      
-      {/* Stars background - subtle */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-foreground rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.2 + 0.05,
-            }}
-            animate={{
-              opacity: [0.05, 0.2, 0.05],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-4">
-              <Orbit className="w-4 h-4 text-primary" />
-              <span className="text-sm font-display font-medium text-muted-foreground uppercase tracking-wider">causal graph builder</span>
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
-              attribution galaxy
-            </h1>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              drag planets to build your marketing constellation. connect them to revenue to see the golden path.
-            </p>
-          </motion.div>
-
-          {/* Channel Palette */}
-          <div className="flex flex-wrap justify-center gap-3 mb-6">
-            {CHANNEL_NODES.map(channel => {
-              const isAdded = nodes.some(n => n.id === channel.id);
-              return (
-                <Button
-                  key={channel.id}
-                  onClick={() => addChannel(channel)}
-                  disabled={isAdded}
-                  variant="outline"
-                  className={`transition-all ${isAdded ? "opacity-50 cursor-not-allowed" : "hover:scale-105 hover:border-primary"}`}
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  {channel.label}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Canvas */}
-        <div className="h-[500px] w-full border-y border-border bg-card/50">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-            className="attribution-galaxy"
-          >
-            <Background color="hsl(var(--border))" gap={32} />
-            <Controls className="[&_button]:bg-card [&_button]:border-border [&_button:hover]:bg-muted" />
-            <MiniMap 
-              style={{ background: "hsl(var(--card))" }}
-              nodeColor={() => "hsl(var(--primary))"}
+    <MainLayout showAnnouncement={false}>
+      <div className="relative min-h-screen">
+        {/* Stars background - subtle */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-foreground rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.2 + 0.05,
+              }}
+              animate={{
+                opacity: [0.05, 0.2, 0.05],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 2 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
             />
-          </ReactFlow>
+          ))}
         </div>
 
-        {/* Actions */}
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
-            <Button
-              onClick={calculateGoldenPath}
-              disabled={edges.length === 0}
-              className="bg-system-yellow text-black font-display font-semibold hover:bg-system-yellow/90"
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="max-w-7xl mx-auto px-4 py-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-8"
             >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Find Golden Path
-            </Button>
-            
-            {goldenPath.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-2"
-              >
-                <Badge className="bg-system-yellow/20 text-system-yellow border-system-yellow/30 px-4 py-2">
-                  ✨ {goldenPath.map(p => {
-                    const channel = CHANNEL_NODES.find(c => c.id === p);
-                    return channel?.label || p;
-                  }).join(" → ")}
-                </Badge>
-              </motion.div>
-            )}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-4">
+                <Orbit className="w-4 h-4 text-primary" />
+                <span className="text-sm font-display font-medium text-muted-foreground uppercase tracking-wider">causal graph builder</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
+                attribution galaxy
+              </h1>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                drag planets to build your marketing constellation. connect them to revenue to see the golden path.
+              </p>
+            </motion.div>
+
+            {/* Channel Palette */}
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              {CHANNEL_NODES.map(channel => {
+                const isAdded = nodes.some(n => n.id === channel.id);
+                return (
+                  <Button
+                    key={channel.id}
+                    onClick={() => addChannel(channel)}
+                    disabled={isAdded}
+                    variant="outline"
+                    className={`transition-all ${isAdded ? "opacity-50 cursor-not-allowed" : "hover:scale-105 hover:border-primary"}`}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    {channel.label}
+                  </Button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              onClick={shareResult}
-              variant="outline"
+          {/* Canvas */}
+          <div className="h-[500px] w-full border-y border-border bg-card/50">
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              fitView
+              className="attribution-galaxy"
             >
-              <Share2 className="w-4 h-4 mr-2" />
-              Share Star Map
-            </Button>
-            <Link to="/early-access">
-              <Button className="bg-primary hover:bg-primary-hover text-primary-foreground">
-                Build This Reality
-                <ArrowRight className="w-4 h-4 ml-2" />
+              <Background color="hsl(var(--border))" gap={32} />
+              <Controls className="[&_button]:bg-card [&_button]:border-border [&_button:hover]:bg-muted" />
+              <MiniMap 
+                style={{ background: "hsl(var(--card))" }}
+                nodeColor={() => "hsl(var(--primary))"}
+              />
+            </ReactFlow>
+          </div>
+
+          {/* Actions */}
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-8">
+              <Button
+                onClick={calculateGoldenPath}
+                disabled={edges.length === 0}
+                className="bg-system-yellow text-black font-display font-semibold hover:bg-system-yellow/90"
+              >
+                <Sparkles className="w-4 h-4 mr-2" />
+                Find Golden Path
               </Button>
-            </Link>
+              
+              {goldenPath.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-2"
+                >
+                  <Badge className="bg-system-yellow/20 text-system-yellow border-system-yellow/30 px-4 py-2">
+                    ✨ {goldenPath.map(p => {
+                      const channel = CHANNEL_NODES.find(c => c.id === p);
+                      return channel?.label || p;
+                    }).join(" → ")}
+                  </Badge>
+                </motion.div>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={shareResult}
+                variant="outline"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share Star Map
+              </Button>
+              <Link to="/early-access">
+                <Button className="bg-primary hover:bg-primary-hover text-primary-foreground">
+                  Build This Reality
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
