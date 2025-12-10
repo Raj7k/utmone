@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Download, FileImage, FileCode, FileText, Copy, Check, Printer } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import QRCodeLib from "qrcode";
 
 interface BoothQRDialogProps {
@@ -25,7 +25,6 @@ const RESOLUTION_PRESETS = [
 ];
 
 export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: BoothQRDialogProps) => {
-  const { toast } = useToast();
   const [resolution, setResolution] = useState("1024");
   const [primaryColor, setPrimaryColor] = useState("#000000");
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
@@ -37,7 +36,7 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
   const handleCopyUrl = async () => {
     await navigator.clipboard.writeText(boothUrl);
     setCopied(true);
-    toast({ title: "url copied to clipboard" });
+    notify.success("url copied to clipboard");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -54,9 +53,9 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
       link.download = `booth-qr-${sanitizedEventName}-${resolution}px.png`;
       link.href = dataUrl;
       link.click();
-      toast({ title: "png downloaded" });
+      notify.success("png downloaded");
     } catch (error) {
-      toast({ title: "download failed", variant: "destructive" });
+      notify.error("download failed");
     } finally {
       setIsDownloading(null);
     }
@@ -79,9 +78,9 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
       link.href = url;
       link.click();
       URL.revokeObjectURL(url);
-      toast({ title: "svg downloaded" });
+      notify.success("svg downloaded");
     } catch (error) {
-      toast({ title: "download failed", variant: "destructive" });
+      notify.error("download failed");
     } finally {
       setIsDownloading(null);
     }
@@ -116,9 +115,9 @@ export const BoothQRDialog = ({ open, onOpenChange, eventId, eventName, city }: 
           setTimeout(() => document.body.removeChild(iframe), 1000);
         }, 250);
       }
-      toast({ title: "pdf print dialog opened" });
+      notify.success("pdf print dialog opened");
     } catch (error) {
-      toast({ title: "pdf generation failed", variant: "destructive" });
+      notify.error("pdf generation failed");
     } finally {
       setIsDownloading(null);
     }

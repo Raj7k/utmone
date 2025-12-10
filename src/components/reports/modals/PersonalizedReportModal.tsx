@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
@@ -23,7 +23,6 @@ export const PersonalizedReportModal = ({ open, onOpenChange }: PersonalizedRepo
     companySize: "",
     linkedinUrl: ""
   });
-  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,10 +40,7 @@ export const PersonalizedReportModal = ({ open, onOpenChange }: PersonalizedRepo
 
       if (error) throw error;
 
-      toast({
-        title: "Report Requested",
-        description: "We'll send your personalized report to your email within 24 hours.",
-      });
+      notify.success("we'll send your personalized report to your email within 24 hours");
       
       onOpenChange(false);
       setFormData({
@@ -56,11 +52,7 @@ export const PersonalizedReportModal = ({ open, onOpenChange }: PersonalizedRepo
         linkedinUrl: ""
       });
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive"
-      });
+      notify.error("something went wrong. please try again.");
     } finally {
       setLoading(false);
     }

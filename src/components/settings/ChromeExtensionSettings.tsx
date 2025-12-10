@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Chrome, Download, Zap, Globe, QrCode, Link2, Copy, ExternalLink, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export const ChromeExtensionSettings = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const features = [
     {
@@ -52,10 +51,7 @@ export const ChromeExtensionSettings = () => {
 
   const handleCopyApiKeyLink = () => {
     navigate("/settings?tab=developers");
-    toast({
-      title: "navigating to api keys",
-      description: "copy your api key from the developer settings"
-    });
+    notify.success("copy your api key from the developer settings");
   };
 
   return (

@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Copy, ExternalLink, Eye } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { TrustBadge } from "./TrustBadge";
 import { SwipeableCard } from "./mobile/SwipeableCard";
@@ -32,13 +32,12 @@ interface EnhancedLinksTableMobileProps {
 }
 
 export const EnhancedLinksTableMobile = ({ links }: EnhancedLinksTableMobileProps) => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({ title: "Copied", description: "URL copied to clipboard" });
+    notify.success("url copied to clipboard");
   };
 
   const getStatusBadge = (status: string) => {
@@ -61,12 +60,7 @@ export const EnhancedLinksTableMobile = ({ links }: EnhancedLinksTableMobileProp
           key={link.id}
           onSwipeRight={() => copyToClipboard(link.short_url || "")}
           onSwipeLeft={() => {
-            // Delete logic would go here
-            toast({ 
-              title: "Delete", 
-              description: "Swipe to delete functionality coming soon",
-              variant: "destructive" 
-            });
+            notify.error("swipe to delete functionality coming soon");
           }}
         >
           <Card className="p-4">

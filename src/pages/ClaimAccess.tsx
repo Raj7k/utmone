@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,7 +25,6 @@ type ClaimAccessForm = z.infer<typeof claimAccessSchema>;
 const ClaimAccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isValidating, setIsValidating] = useState(true);
   const [inviteData, setInviteData] = useState<any>(null);
@@ -40,11 +39,7 @@ const ClaimAccess = () => {
   useEffect(() => {
     const validateToken = async () => {
       if (!token) {
-        toast({
-          title: "Invalid invite",
-          description: "No invite token provided",
-          variant: "destructive",
-        });
+        notify.error("no invite token provided");
         navigate("/");
         return;
       }
@@ -58,21 +53,13 @@ const ClaimAccess = () => {
           .single();
 
         if (error || !data) {
-          toast({
-            title: "Invalid or expired invite",
-            description: "This invite link is no longer valid",
-            variant: "destructive",
-          });
+          notify.error("this invite link is no longer valid");
           navigate("/");
           return;
         }
 
         if (new Date(data.expires_at) < new Date()) {
-          toast({
-            title: "Invite expired",
-            description: "This invite link has expired",
-            variant: "destructive",
-          });
+          notify.error("this invite link has expired");
           navigate("/");
           return;
         }
@@ -88,7 +75,7 @@ const ClaimAccess = () => {
     };
 
     validateToken();
-  }, [token, navigate, toast, setValue]);
+  }, [token, navigate, setValue]);
 
   const onSubmit = async (formData: ClaimAccessForm) => {
     setIsLoading(true);
@@ -126,11 +113,7 @@ const ClaimAccess = () => {
       if (profileError) throw profileError;
 
       setClaimed(true);
-      
-      toast({
-        title: "Access claimed!",
-        description: "Your account has been created successfully",
-      });
+      notify.success("your account has been created successfully");
 
       // Redirect to onboarding after a short delay
       setTimeout(() => {
@@ -138,11 +121,7 @@ const ClaimAccess = () => {
       }, 2000);
     } catch (error: any) {
       console.error("Error claiming access:", error);
-      toast({
-        title: "Error claiming access",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     } finally {
       setIsLoading(false);
     }
