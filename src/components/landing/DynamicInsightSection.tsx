@@ -490,7 +490,7 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
       className="py-24 md:py-32 relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ amount: 0.2, margin: "-50px" }}
       transition={{ duration: 0.6 }}
     >
       {/* Subtle ambient glow */}
@@ -498,7 +498,7 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
         className="absolute inset-0 pointer-events-none"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+        viewport={{ amount: 0.3 }}
         transition={{ duration: 1, delay: 0.3 }}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/[0.02] rounded-full blur-3xl" />
@@ -514,13 +514,14 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
             transition={{ duration: 0.4 }}
             className="grid lg:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center"
           >
-            {/* Left: Text Content */}
+            {/* Left: Text Content with stacking effect */}
             <div className="space-y-6">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                initial={{ opacity: 0, y: 40, rotateX: -10 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+                viewport={{ amount: 0.3, margin: "-50px" }}
+                transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+                style={{ transformStyle: 'preserve-3d' }}
               >
                 <p className="text-xs font-medium uppercase tracking-widest text-white/30 mb-4">
                   the insight
@@ -542,35 +543,41 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
                 className="text-base md:text-lg text-white/40 leading-relaxed"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
+                viewport={{ amount: 0.3, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.15, type: "spring", stiffness: 100 }}
               >
                 {content.explanation}
               </motion.p>
 
-              {/* Inline bullet-separated principles */}
+              {/* Inline bullet-separated principles with stagger */}
               <motion.p
                 className="text-sm text-white/25 font-mono"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                viewport={{ amount: 0.3, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.25, type: "spring", stiffness: 100 }}
               >
                 {content.principles.map((principle, i) => (
-                  <span key={principle}>
+                  <motion.span 
+                    key={principle}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                  >
                     {i > 0 && <span className="mx-2">·</span>}
                     {principle}
-                  </span>
+                  </motion.span>
                 ))}
               </motion.p>
             </div>
 
-            {/* Right: Visual */}
+            {/* Right: Visual with slide-in and 3D effect */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              initial={{ opacity: 0, x: 60, rotateY: -15 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ amount: 0.3, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: 0.2, type: "spring", stiffness: 80 }}
+              style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
             >
               <VisualContainer caption={content.caption}>
                 <VisualComponent />
