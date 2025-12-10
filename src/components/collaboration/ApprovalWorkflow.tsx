@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle, Clock, AlertCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { CheckCircle, XCircle, Clock } from "lucide-react";
+import { notify } from "@/lib/notify";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,6 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
   const [showApprovalDialog, setShowApprovalDialog] = useState(false);
   const [approvalNotes, setApprovalNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   const getStatusBadge = (status: string) => {
     const configs = {
@@ -46,16 +45,9 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
       .eq("id", linkId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to submit for approval",
-        variant: "destructive",
-      });
+      notify.error("failed to submit for approval");
     } else {
-      toast({
-        title: "Submitted",
-        description: "Link has been submitted for approval",
-      });
+      notify.success("link has been submitted for approval");
       onStatusChange?.();
     }
     setIsSubmitting(false);
@@ -72,16 +64,9 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
       .eq("id", linkId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to approve link",
-        variant: "destructive",
-      });
+      notify.error("failed to approve link");
     } else {
-      toast({
-        title: "Approved",
-        description: "Link has been approved",
-      });
+      notify.success("link has been approved");
       setShowApprovalDialog(false);
       setApprovalNotes("");
       onStatusChange?.();
@@ -91,11 +76,7 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
 
   const handleReject = async () => {
     if (!approvalNotes.trim()) {
-      toast({
-        title: "Notes Required",
-        description: "Please provide a reason for rejection",
-        variant: "destructive",
-      });
+      notify.error("please provide a reason for rejection");
       return;
     }
 
@@ -109,16 +90,9 @@ export const ApprovalWorkflow = ({ linkId, currentStatus, onStatusChange }: Appr
       .eq("id", linkId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to reject link",
-        variant: "destructive",
-      });
+      notify.error("failed to reject link");
     } else {
-      toast({
-        title: "Rejected",
-        description: "Link has been rejected",
-      });
+      notify.success("link has been rejected");
       setShowApprovalDialog(false);
       setApprovalNotes("");
       onStatusChange?.();

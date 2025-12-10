@@ -3,14 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, RefreshCw, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface AIInsightCardProps {
   workspaceId: string;
 }
 
 export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: insight, isLoading } = useQuery({
@@ -44,17 +43,10 @@ export const AIInsightCard = ({ workspaceId }: AIInsightCardProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ai-insights', workspaceId] });
-      toast({
-        title: "insights refreshed",
-        description: "your ai-powered insights have been updated.",
-      });
+      notify.success("your ai-powered insights have been updated");
     },
     onError: (error: Error) => {
-      toast({
-        title: "refresh failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message);
     },
   });
 

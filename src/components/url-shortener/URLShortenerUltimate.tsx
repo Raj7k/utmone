@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 import { useWorkspaceContext } from '@/contexts/WorkspaceContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -62,7 +62,6 @@ interface URLVersion {
 }
 
 export const URLShortenerUltimate = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { processURL, generateRandomSlug } = useURLProcessing();
   const { currentWorkspace } = useWorkspaceContext();
@@ -220,18 +219,11 @@ export const URLShortenerUltimate = () => {
     },
     onSuccess: (link) => {
       queryClient.invalidateQueries({ queryKey: ['url-groups'] });
-      toast({
-        title: 'link created',
-        description: `version ${link.version}: https://${link.domain}/${link.slug}`,
-      });
+      notify.success(`version ${link.version}: https://${link.domain}/${link.slug}`);
       form.reset();
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 

@@ -5,7 +5,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Shield, Loader2, CheckCircle2, Copy, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import QRCode from "qrcode";
 
 interface MFAEnrollmentProps {
@@ -20,7 +20,6 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
   const [verificationCode, setVerificationCode] = useState("");
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
 
   const startEnrollment = async () => {
     setIsLoading(true);
@@ -44,11 +43,7 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
         setStep("scan");
       }
     } catch (error: any) {
-      toast({
-        title: "Enrollment failed",
-        description: error.message || "Could not start 2FA enrollment",
-        variant: "destructive",
-      });
+      notify.error(error.message || "could not start 2fa enrollment");
     } finally {
       setIsLoading(false);
     }
@@ -72,11 +67,7 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
       });
 
       if (verifyError) {
-        toast({
-          title: "Invalid code",
-          description: "The verification code is incorrect. Please try again.",
-          variant: "destructive",
-        });
+        notify.error("the verification code is incorrect. please try again.");
         setVerificationCode("");
         return;
       }
@@ -88,16 +79,9 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
       setRecoveryCodes(codes);
       setStep("complete");
 
-      toast({
-        title: "2FA enabled",
-        description: "Your account is now protected with two-factor authentication.",
-      });
+      notify.success("your account is now protected with two-factor authentication");
     } catch (error: any) {
-      toast({
-        title: "Verification failed",
-        description: error.message || "Could not verify code",
-        variant: "destructive",
-      });
+      notify.error(error.message || "could not verify code");
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +89,7 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
 
   const copySecret = () => {
     navigator.clipboard.writeText(secret);
-    toast({ title: "Copied", description: "Secret key copied to clipboard" });
+    notify.success("secret key copied to clipboard");
   };
 
   const downloadRecoveryCodes = () => {
@@ -115,7 +99,7 @@ export function MFAEnrollment({ onComplete }: MFAEnrollmentProps) {
     a.href = url;
     a.download = "utm-one-recovery-codes.txt";
     a.click();
-    toast({ title: "Downloaded", description: "Recovery codes saved" });
+    notify.success("recovery codes saved");
   };
 
   if (step === "start") {

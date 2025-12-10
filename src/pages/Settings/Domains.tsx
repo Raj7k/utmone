@@ -56,7 +56,7 @@ import { DomainUsageStats } from "@/components/settings/DomainUsageStats";
 import { DomainEditDialog } from "@/components/settings/DomainEditDialog";
 import { DomainTestPanel } from "@/components/settings/DomainTestPanel";
 import { Plus, Trash2, FileText, CheckCircle2, Loader2, Star, Settings, Edit, Activity, Zap } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface DomainsProps {
@@ -64,7 +64,6 @@ interface DomainsProps {
 }
 
 export default function Domains({ workspaceId }: DomainsProps) {
-  const { toast } = useToast();
   const { data: domains, isLoading } = useWorkspaceDomains(workspaceId);
   const addDomainMutation = useAddDomain();
   const setPrimaryMutation = useSetPrimaryDomain();
@@ -81,11 +80,7 @@ export default function Domains({ workspaceId }: DomainsProps) {
 
   const handleAddDomain = async () => {
     if (!newDomain.trim()) {
-      toast({
-        title: "Domain required",
-        description: "Please enter a domain name.",
-        variant: "destructive",
-      });
+      notify.error("please enter a domain name");
       return;
     }
 
@@ -127,24 +122,14 @@ export default function Domains({ workspaceId }: DomainsProps) {
       
       // Check if verification succeeded
       if (result && (result as any).is_verified) {
-        toast({
-          title: "Domain verified!",
-          description: "You can now use this domain when creating short links.",
-        });
+        notify.success("you can now use this domain when creating short links");
         // Auto-close DNS dialog after successful verification
         setIsDNSDialogOpen(false);
       } else {
-        toast({
-          title: "Verification pending",
-          description: "DNS records not found yet. It can take up to 72 hours for DNS changes to propagate.",
-        });
+        notify.warning("dns records not found yet. it can take up to 72 hours for dns changes to propagate.");
       }
     } catch (error) {
-      toast({
-        title: "Verification failed",
-        description: "Please check your DNS settings and try again.",
-        variant: "destructive",
-      });
+      notify.error("please check your dns settings and try again");
     }
   };
 
