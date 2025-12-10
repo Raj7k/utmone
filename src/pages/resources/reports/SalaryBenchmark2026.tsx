@@ -195,7 +195,7 @@ const SalaryBenchmark2026Content = () => {
               Reports
             </Link>
             <span>/</span>
-            <span className="text-foreground">2026 Salary Benchmark</span>
+            <span className="text-foreground">State of GTM Insights 2026</span>
           </div>
         </div>
       </div>
@@ -212,8 +212,8 @@ const SalaryBenchmark2026Content = () => {
             <Badge variant="default" className="animate-pulse bg-blazeOrange">FEATURED REPORT • 2026 EDITION</Badge>
             
             <div className="hero-glow">
-              <h1 className="text-zinc-900 text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
-                The World's First Open-Source GTM Salary Report
+            <h1 className="text-zinc-900 text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
+                State of GTM Insights 2026
               </h1>
             </div>
             
