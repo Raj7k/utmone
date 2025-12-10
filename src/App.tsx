@@ -216,6 +216,7 @@ const ToolsHub = lazy(() => import("./pages/tools/ToolsHub"));
 const Scanner = lazy(() => import("./pages/tools/Scanner"));
 const Casino = lazy(() => import("./pages/tools/Casino"));
 const Galaxy = lazy(() => import("./pages/tools/Galaxy"));
+const LoaderDemo = lazy(() => import("./pages/LoaderDemo"));
 const QRTest = lazy(() => import("./pages/tools/QRTest"));
 const SalaryNegotiationCoach = lazy(() => import("./pages/resources/tools/SalaryNegotiationCoach"));
 const MarketValueCalculator = lazy(() => import("./pages/resources/tools/MarketValueCalculator"));
@@ -407,8 +408,9 @@ const App = () => (
                <Route path="/tools" element={<Suspense fallback={<DashboardSkeleton />}><ToolsHub /></Suspense>} />
                <Route path="/tools/scanner" element={<Suspense fallback={<DashboardSkeleton />}><Scanner /></Suspense>} />
                <Route path="/tools/casino" element={<Suspense fallback={<DashboardSkeleton />}><Casino /></Suspense>} />
-               <Route path="/tools/galaxy" element={<Suspense fallback={<DashboardSkeleton />}><Galaxy /></Suspense>} />
-               <Route path="/tools/qr-test" element={<Suspense fallback={<DashboardSkeleton />}><QRTest /></Suspense>} />
+                <Route path="/tools/galaxy" element={<Suspense fallback={<DashboardSkeleton />}><Galaxy /></Suspense>} />
+                <Route path="/tools/qr-test" element={<Suspense fallback={<DashboardSkeleton />}><QRTest /></Suspense>} />
+                <Route path="/loader-demo" element={<Suspense fallback={<DashboardSkeleton />}><LoaderDemo /></Suspense>} />
                
                {/* Trust Cluster */}
                <Route path="/trust" element={<Suspense fallback={<DashboardSkeleton />}><TrustPage /></Suspense>} />
