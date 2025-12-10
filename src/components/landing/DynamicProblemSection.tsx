@@ -187,7 +187,7 @@ export const DynamicProblemSection = ({ selectedUseCase }: DynamicProblemSection
               </div>
 
               <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                   WebkitBackgroundClip: 'text',

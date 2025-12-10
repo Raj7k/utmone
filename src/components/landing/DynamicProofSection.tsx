@@ -149,7 +149,7 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
               </div>
 
               <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                   WebkitBackgroundClip: 'text',
@@ -176,7 +176,7 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white/90 lowercase mb-2">
+                    <h3 className="text-lg font-semibold text-white/90 mb-2">
                       {capability.title}
                     </h3>
                     <p className="text-sm text-white/50 leading-relaxed">
@@ -191,7 +191,7 @@ export const DynamicProofSection = ({ selectedUseCase }: DynamicProofSectionProp
             <div className="text-center">
               <Link
                 to={content.cta.route}
-                className="inline-flex items-center gap-2 text-primary font-medium lowercase hover:opacity-80 transition-opacity"
+                className="inline-flex items-center gap-2 text-primary font-medium hover:opacity-80 transition-opacity"
               >
                 {content.cta.text}
                 <ArrowRight className="w-4 h-4" />

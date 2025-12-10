@@ -58,7 +58,7 @@ export const ContentComparison = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="text-base sm:text-lg md:text-xl lg:text-2xl text-center lowercase tracking-wide px-2 text-white/60"
+        className="text-base sm:text-lg md:text-xl lg:text-2xl text-center tracking-wide px-2 text-white/60"
       >
         {caption}
       </motion.p>

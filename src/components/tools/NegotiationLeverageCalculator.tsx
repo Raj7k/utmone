@@ -31,7 +31,7 @@ export const NegotiationLeverageCalculator = () => {
   return (
     <Card className="glass-card">
       <CardHeader>
-        <CardTitle className="text-2xl font-display flex items-center gap-2 lowercase">
+        <CardTitle className="text-2xl font-display flex items-center gap-2">
           <Target className="w-6 h-6 text-primary" />
           negotiation leverage calculator
         </CardTitle>
@@ -42,7 +42,7 @@ export const NegotiationLeverageCalculator = () => {
       <CardContent className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="offers" className="lowercase">number of other offers</Label>
+            <Label htmlFor="offers">number of other offers</Label>
             <Input
               id="offers"
               type="number"
@@ -55,7 +55,7 @@ export const NegotiationLeverageCalculator = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="experience" className="lowercase">years of experience</Label>
+            <Label htmlFor="experience">years of experience</Label>
             <Input
               id="experience"
               type="number"
@@ -69,7 +69,7 @@ export const NegotiationLeverageCalculator = () => {
         </div>
 
         <div className="space-y-2">
-          <Label className="lowercase">skill level (1-10)</Label>
+          <Label>skill level (1-10)</Label>
           <Slider
             value={[skillLevel]}
             onValueChange={(vals) => setSkillLevel(vals[0])}
@@ -79,14 +79,14 @@ export const NegotiationLeverageCalculator = () => {
             className="w-full"
           />
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span className="lowercase">beginner</span>
+            <span>beginner</span>
             <span className="font-semibold">{skillLevel}/10</span>
-            <span className="lowercase">expert</span>
+            <span>expert</span>
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label className="lowercase">market demand for your role (1-10)</Label>
+          <Label>market demand for your role (1-10)</Label>
           <Slider
             value={[marketDemand]}
             onValueChange={(vals) => setMarketDemand(vals[0])}
@@ -96,16 +96,16 @@ export const NegotiationLeverageCalculator = () => {
             className="w-full"
           />
           <div className="flex justify-between text-xs text-muted-foreground">
-            <span className="lowercase">low demand</span>
+            <span>low demand</span>
             <span className="font-semibold">{marketDemand}/10</span>
-            <span className="lowercase">high demand</span>
+            <span>high demand</span>
           </div>
         </div>
 
         <div className={`p-6 rounded-xl border-2 ${leverageColorClass}`}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-muted-foreground mb-1 lowercase">your negotiation leverage</p>
+              <p className="text-sm text-muted-foreground mb-1">your negotiation leverage</p>
               <p className="text-4xl font-display font-bold">
                 {leverageScore}/100
               </p>

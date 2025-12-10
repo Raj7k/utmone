@@ -31,7 +31,7 @@ export const PartnerROICalculator = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
       {/* Left: Inputs */}
       <div className="p-8 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl">
-        <h3 className="text-2xl font-display font-bold text-white lowercase mb-6">
+        <h3 className="text-2xl font-display font-bold text-white mb-6">
           your partner program
         </h3>
         
@@ -115,7 +115,7 @@ export const PartnerROICalculator = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="p-8 bg-zinc-900/60 backdrop-blur-xl border border-white/15 rounded-2xl h-full">
-          <h3 className="text-2xl font-display font-bold text-white lowercase mb-6">
+          <h3 className="text-2xl font-display font-bold text-white mb-6">
             your potential with utm.one
           </h3>
           

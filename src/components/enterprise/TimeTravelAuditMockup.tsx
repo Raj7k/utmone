@@ -60,7 +60,7 @@ export const TimeTravelAuditMockup = () => {
             <Clock className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
-            <h3 className="text-2xl font-display font-bold text-label lowercase">
+            <h3 className="text-2xl font-display font-bold text-label">
               time-travel audit trail
             </h3>
             <p className="text-sm text-secondary-label">

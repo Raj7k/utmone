@@ -16,7 +16,7 @@ export const AccessibilityShowcase = () => {
     <AnimatedSection className="py-16 md:py-24" style={{ background: 'transparent' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase">
+          <h1 className="hero-gradient text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold">
             links that include everyone
           </h1>
           <p className="text-base sm:text-lg max-w-3xl mx-auto px-2 text-white-50">
@@ -35,7 +35,7 @@ export const AccessibilityShowcase = () => {
           >
             {/* Semantic URL Comparison */}
             <div className="rounded-xl p-5 space-y-3 obsidian-glass-80">
-              <h4 className="font-semibold lowercase flex items-center gap-2 text-sm text-white-90">
+              <h4 className="font-semibold flex items-center gap-2 text-sm text-white-90">
                 <Globe className="w-4 h-4 text-foreground" />
                 semantic slugs
               </h4>
@@ -70,7 +70,7 @@ export const AccessibilityShowcase = () => {
             
             {/* Screen Reader Mockup */}
             <div className="rounded-xl p-5 space-y-3 obsidian-glass-80">
-              <h4 className="font-semibold lowercase flex items-center gap-2 text-sm text-white-90">
+              <h4 className="font-semibold flex items-center gap-2 text-sm text-white-90">
                 <Eye className="w-4 h-4 text-foreground" />
                 screen reader ready
               </h4>
@@ -137,7 +137,7 @@ export const AccessibilityShowcase = () => {
                     <Icon className="w-4 h-4 text-foreground" />
                   </div>
                   <div>
-                    <h3 className="font-semibold lowercase text-sm text-white-90">{feature.title}</h3>
+                    <h3 className="font-semibold text-sm text-white-90">{feature.title}</h3>
                     <p className="text-xs mt-0.5 text-white-50">{feature.description}</p>
                   </div>
                 </motion.div>
@@ -147,7 +147,7 @@ export const AccessibilityShowcase = () => {
             <div className="pt-2">
               <Link 
                 to="/features/accessibility" 
-                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80 text-foreground"
+                className="inline-flex items-center gap-2 font-medium transition-colors text-sm hover:opacity-80 text-foreground"
               >
                 learn more about accessibility
                 <ArrowRight className="h-4 w-4" />

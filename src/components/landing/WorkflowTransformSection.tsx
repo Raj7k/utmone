@@ -26,7 +26,7 @@ const FeatureBlock = ({ step, reversed }: FeatureBlockProps) => (
       <span className="text-sm font-medium tracking-wider uppercase text-white/50">
         {step.number}
       </span>
-      <h3 className="text-3xl md:text-4xl font-display font-semibold brand-lowercase leading-tight text-white/90">
+      <h3 className="text-3xl md:text-4xl font-display font-semibold leading-tight text-white/90">
         {step.title}
       </h3>
       <p className="text-lg leading-relaxed text-white/50">
@@ -85,7 +85,7 @@ export const WorkflowTransformSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-display font-bold brand-lowercase text-white/90"
+          className="text-4xl md:text-5xl font-display font-bold text-white/90"
         >
           how it transforms your workflow
         </motion.h2>

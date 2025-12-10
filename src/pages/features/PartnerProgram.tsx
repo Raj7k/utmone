@@ -83,7 +83,7 @@ const PartnerProgram = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
             partner performance dashboard
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
@@ -98,7 +98,7 @@ const PartnerProgram = () => {
                 <MousePointerClick className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">click attribution</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">click attribution</h3>
                 <p className="text-secondary-label">
                   Every click from partner links is tracked with full UTM parameters and referrer data
                 </p>
@@ -109,7 +109,7 @@ const PartnerProgram = () => {
                 <Activity className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">conversion tracking</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">conversion tracking</h3>
                 <p className="text-secondary-label">
                   See signups, purchases, and other conversions attributed to each partner
                 </p>
@@ -120,7 +120,7 @@ const PartnerProgram = () => {
                 <DollarSign className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">payout calculations</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">payout calculations</h3>
                 <p className="text-secondary-label">
                   Automatic commission calculation based on conversion values and agreed rates
                 </p>

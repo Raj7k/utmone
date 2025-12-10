@@ -13,7 +13,7 @@ const TermsLegal = () => {
         
       <main className="flex-1">
           <div className="max-w-text-content mx-auto px-8 py-24">
-            <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-8 lowercase">
+            <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-8">
               terms of service
             </h1>
             
@@ -27,7 +27,7 @@ const TermsLegal = () => {
             
             <div className="prose prose-lg prose-invert max-w-none space-y-12">
               <section>
-                <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">1. using utm.one</h2>
+                <h2 className="text-3xl font-display font-bold text-white mb-4">1. using utm.one</h2>
                 <p className="text-white/60 leading-relaxed mb-3">
                   you must:
                 </p>
@@ -55,7 +55,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">2. your content</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">2. your content</h2>
                 <p className="text-muted-foreground leading-relaxed mb-3">
                   you own the content you create using utm.one:
                 </p>
@@ -85,7 +85,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">3. subscriptions & billing</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">3. subscriptions & billing</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   paid plans renew automatically unless canceled. refunds may be granted at our discretion.
                 </p>
@@ -95,7 +95,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">4. uptime & service level</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">4. uptime & service level</h2>
                 <p className="text-muted-foreground leading-relaxed mb-3">
                   we aim for high availability but cannot guarantee uninterrupted service.
                 </p>
@@ -111,7 +111,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">5. limitation of liability</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">5. limitation of liability</h2>
                 <p className="text-muted-foreground leading-relaxed mb-3">
                   to the maximum extent allowed by law:
                 </p>
@@ -123,7 +123,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">6. acceptable use</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">6. acceptable use</h2>
                 <p className="text-muted-foreground leading-relaxed mb-3">
                   you may not use utm.one to:
                 </p>
@@ -140,7 +140,7 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">7. termination</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">7. termination</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   you may close your account at any time. we may terminate accounts that violate these terms.
                 </p>
@@ -155,21 +155,21 @@ const TermsLegal = () => {
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">8. governing law</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">8. governing law</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   these terms are governed by the laws of india unless your local laws require otherwise.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">9. changes</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">9. changes</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   we may update these terms as our product evolves. we'll notify you of significant changes.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-3xl font-display font-bold text-foreground mb-4 lowercase">10. contact</h2>
+                <h2 className="text-3xl font-display font-bold text-foreground mb-4">10. contact</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   for terms-related questions:<br />
                   <a href="mailto:legal@utm.one" className="font-medium text-primary hover:underline">legal@utm.one</a>
@@ -181,7 +181,7 @@ const TermsLegal = () => {
               </section>
 
               <div className="pt-8 border-t border-border/50">
-                <p className="text-sm text-muted-foreground lowercase">
+                <p className="text-sm text-muted-foreground">
                   last updated: 25 november 2025
                 </p>
               </div>

@@ -32,8 +32,8 @@ export const AICommandCenterPreview = () => {
           <Sparkles className="w-5 h-5 text-white/80" />
         </div>
         <div>
-          <h3 className="text-lg font-display font-bold text-foreground lowercase">
-            ai command center
+          <h3 className="text-lg font-display font-bold text-foreground">
+            AI command center
           </h3>
           <p className="text-xs text-white/50">ask anything about your data</p>
         </div>
