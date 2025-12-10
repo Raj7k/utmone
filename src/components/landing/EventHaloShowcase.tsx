@@ -1,9 +1,34 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Target, Users, TrendingUp } from "lucide-react";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { Badge } from "@/components/ui/badge";
 import { preserveAcronyms as p } from "@/utils/textFormatter";
+import { useRef, useState, useEffect } from "react";
+
+// Animated counter hook
+const useAnimatedCounter = (end: number, duration: number = 2000, startOnView: boolean = true) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  
+  useEffect(() => {
+    if (!startOnView || isInView) {
+      let startTime: number;
+      const animate = (currentTime: number) => {
+        if (!startTime) startTime = currentTime;
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        setCount(Math.floor(progress * end));
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+      requestAnimationFrame(animate);
+    }
+  }, [end, duration, isInView, startOnView]);
+  
+  return { count, ref };
+};
 
 export const EventHaloShowcase = () => {
   return (
@@ -65,22 +90,26 @@ export const EventHaloShowcase = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="space-y-8"
           >
-            {/* Key Stats */}
+            {/* Key Stats with animated counters */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="obsidian-glass-60 rounded-xl p-5 border border-white/10">
-                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3">
+              <motion.div 
+                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 transition-colors"
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/15 transition-colors">
                   <Users className="w-5 h-5 text-white/80" />
                 </div>
-                <div className="text-2xl font-bold text-white mb-1">847</div>
-                <div className="text-sm text-white/50">halo visitors detected</div>
-              </div>
-              <div className="obsidian-glass-60 rounded-xl p-5 border border-white/10">
-                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3">
+                <AnimatedStat end={847} suffix="" label="halo visitors detected" />
+              </motion.div>
+              <motion.div 
+                className="obsidian-glass-60 rounded-xl p-5 border border-white/10 group hover:border-white/20 transition-colors"
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center mb-3 group-hover:bg-white/15 transition-colors">
                   <TrendingUp className="w-5 h-5 text-white/80" />
                 </div>
-                <div className="text-2xl font-bold text-white mb-1">+340%</div>
-                <div className="text-sm text-white/50">lift vs baseline</div>
-              </div>
+                <AnimatedStat end={340} prefix="+" suffix="%" label="lift vs baseline" />
+              </motion.div>
             </div>
 
             {/* Explanation */}
@@ -117,6 +146,20 @@ export const EventHaloShowcase = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+// Animated stat component
+const AnimatedStat = ({ end, prefix = "", suffix = "", label }: { end: number; prefix?: string; suffix?: string; label: string }) => {
+  const { count, ref } = useAnimatedCounter(end, 1500);
+  
+  return (
+    <div ref={ref}>
+      <div className="text-2xl font-bold text-white mb-1">
+        {prefix}{count}{suffix}
+      </div>
+      <div className="text-sm text-white/50">{label}</div>
+    </div>
   );
 };
 

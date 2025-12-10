@@ -18,6 +18,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHero } from "./MobileHero";
 import { FiberOpticGraph } from "./FiberOpticGraph";
+import { FoundingSpotsCounter } from "./AnimatedCounter";
 
 export type UseCaseType = "attribution" | "journey" | "links" | "intelligence" | "governance";
 
@@ -239,14 +240,9 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                         </Button>
                       </Link>
                       
-                      {/* Founding spots - Apple-style minimal whisper */}
-                      <div className="flex items-center gap-2 mt-4 text-sm text-white/40">
-                        <motion.span 
-                          className="w-1.5 h-1.5 rounded-full bg-orange-500"
-                          animate={{ opacity: [1, 0.4, 1] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        <span>47 founding spots left</span>
+                      {/* Founding spots - Animated urgency counter */}
+                      <div className="mt-4">
+                        <FoundingSpotsCounter spots={47} />
                       </div>
                     </div>
                   </div>
