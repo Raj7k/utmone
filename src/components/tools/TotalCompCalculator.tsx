@@ -16,7 +16,7 @@ export const TotalCompCalculator = () => {
   return (
     <Card className="glass-card">
       <CardHeader>
-        <CardTitle className="text-2xl font-display flex items-center gap-2 lowercase">
+        <CardTitle className="text-2xl font-display flex items-center gap-2">
           <DollarSign className="w-6 h-6 text-primary" />
           total compensation calculator
         </CardTitle>
@@ -27,35 +27,35 @@ export const TotalCompCalculator = () => {
       <CardContent className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label className="lowercase">base salary</Label>
+            <Label>base salary</Label>
             <Input type="number" value={base} onChange={(e) => setBase(parseInt(e.target.value) || 0)} />
           </div>
           <div className="space-y-2">
-            <Label className="lowercase">annual bonus</Label>
+            <Label>annual bonus</Label>
             <Input type="number" value={bonus} onChange={(e) => setBonus(parseInt(e.target.value) || 0)} />
           </div>
           <div className="space-y-2">
-            <Label className="lowercase">signing bonus</Label>
+            <Label>signing bonus</Label>
             <Input type="number" value={signing} onChange={(e) => setSigning(parseInt(e.target.value) || 0)} />
           </div>
           <div className="space-y-2">
-            <Label className="lowercase">equity (annual value)</Label>
+            <Label>equity (annual value)</Label>
             <Input type="number" value={equity} onChange={(e) => setEquity(parseInt(e.target.value) || 0)} />
           </div>
           <div className="space-y-2 md:col-span-2">
-            <Label className="lowercase">benefits & stipends</Label>
+            <Label>benefits & stipends</Label>
             <Input type="number" value={benefits} onChange={(e) => setBenefits(parseInt(e.target.value) || 0)} />
           </div>
         </div>
 
         <div className="p-6 bg-primary/10 rounded-xl border-2 border-primary">
-          <p className="text-sm text-muted-foreground mb-2 lowercase">total compensation (year 1)</p>
+          <p className="text-sm text-muted-foreground mb-2">total compensation (year 1)</p>
           <p className="text-5xl font-display font-bold text-primary">
             ${totalComp.toLocaleString()}
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-            <div><span className="text-muted-foreground lowercase">base:</span> <span className="font-semibold">{((base/totalComp)*100).toFixed(1)}%</span></div>
-            <div><span className="text-muted-foreground lowercase">variable:</span> <span className="font-semibold">{(((bonus+signing+equity)/totalComp)*100).toFixed(1)}%</span></div>
+            <div><span className="text-muted-foreground">base:</span> <span className="font-semibold">{((base/totalComp)*100).toFixed(1)}%</span></div>
+            <div><span className="text-muted-foreground">variable:</span> <span className="font-semibold">{(((bonus+signing+equity)/totalComp)*100).toFixed(1)}%</span></div>
           </div>
         </div>
       </CardContent>

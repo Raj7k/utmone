@@ -11,7 +11,7 @@ export const RoutingMapPreview = () => {
       className="rounded-2xl p-8 shadow-xl bg-zinc-900/40 border-2 border-white/10"
     >
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-display font-bold text-foreground lowercase mb-2">
+        <h3 className="text-2xl font-display font-bold text-foreground mb-2">
           one link, infinite destinations
         </h3>
         <p className="text-white/60">utm.one/launch routes visitors based on location & device</p>

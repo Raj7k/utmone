@@ -135,8 +135,8 @@ export default function QRTest() {
             <span className="text-sm font-display font-bold text-system-yellow uppercase tracking-wider">robustness lab</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient brand-lowercase">
-            qr crash test
+          <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 hero-gradient">
+            QR crash test
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg">
             stress-test your QR codes against real-world conditions
@@ -159,8 +159,8 @@ export default function QRTest() {
               className="hidden"
             />
             <Upload className="w-16 h-16 mx-auto mb-4 text-system-yellow/70" />
-            <p className="text-xl font-display font-semibold text-foreground mb-2 brand-lowercase">
-              upload your qr code
+            <p className="text-xl font-display font-semibold text-foreground mb-2">
+              upload your QR code
             </p>
             <p className="text-muted-foreground">
               PNG, JPG, or SVG • Max 5MB

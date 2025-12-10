@@ -67,11 +67,11 @@ export function NotificationAlert({ notifications }: NotificationAlertProps) {
 
               {/* Content */}
               <div className="text-center">
-                <h3 className="text-lg font-semibold text-foreground lowercase">
+                <h3 className="text-lg font-semibold text-foreground">
                   {current.title}
                 </h3>
                 {current.description && (
-                  <p className="mt-2 text-sm text-muted-foreground lowercase">
+                  <p className="mt-2 text-sm text-muted-foreground">
                     {current.description}
                   </p>
                 )}
@@ -87,7 +87,7 @@ export function NotificationAlert({ notifications }: NotificationAlertProps) {
                         dismiss(current.id);
                       }}
                       variant={current.action.destructive ? 'destructive' : 'default'}
-                      className="w-full lowercase"
+                      className="w-full"
                     >
                       {current.action.label}
                     </Button>
@@ -99,7 +99,7 @@ export function NotificationAlert({ notifications }: NotificationAlertProps) {
                         dismiss(current.id);
                       }}
                       variant="outline"
-                      className="w-full lowercase"
+                      className="w-full"
                     >
                       {current.secondaryAction.label}
                     </Button>
@@ -108,7 +108,7 @@ export function NotificationAlert({ notifications }: NotificationAlertProps) {
                     <Button
                       onClick={() => dismiss(current.id)}
                       variant="outline"
-                      className="w-full lowercase"
+                      className="w-full"
                     >
                       dismiss
                     </Button>

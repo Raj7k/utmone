@@ -125,7 +125,7 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <TrendingUp className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground">
                 find true ROI
               </h3>
               <p className="text-muted-foreground font-sans">
@@ -137,7 +137,7 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <Target className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground">
                 assisted conversions
               </h3>
               <p className="text-muted-foreground font-sans">
@@ -149,7 +149,7 @@ const BayesianAttribution = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <GitBranch className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-foreground lowercase">
+              <h3 className="text-2xl font-display font-bold text-foreground">
                 confidence intervals
               </h3>
               <p className="text-muted-foreground font-sans">

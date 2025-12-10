@@ -47,7 +47,7 @@ const CareerPathOptimizer = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">your current role</CardTitle>
+          <CardTitle>your current role</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
@@ -69,7 +69,7 @@ const CareerPathOptimizer = () => {
       </Card>
 
       <div className="mt-8">
-        <h3 className="text-2xl font-display font-bold mb-6 lowercase">recommended next moves</h3>
+        <h3 className="text-2xl font-display font-bold mb-6">recommended next moves</h3>
         <div className="grid gap-6">
           {nextRoles.map((role, index) => {
             const currentData = salaryBenchmarks.find(r => r.role === currentRole);

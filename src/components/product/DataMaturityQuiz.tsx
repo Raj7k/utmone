@@ -118,7 +118,7 @@ export const DataMaturityQuiz = () => {
             <Award className={`w-20 h-20 mx-auto ${colorClass}`} />
             
             <div>
-              <h3 className={`text-4xl font-display font-bold brand-lowercase mb-2 ${colorClass}`}>
+              <h3 className={`text-4xl font-display font-bold mb-2 ${colorClass}`}>
                 {title}
               </h3>
               <p className="text-xl text-muted-foreground">{subtitle}</p>
@@ -150,7 +150,7 @@ export const DataMaturityQuiz = () => {
     <section className="py-24 md:py-32 bg-muted/20">
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground brand-lowercase mb-4">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-4">
             how data-mature is your stack?
           </h2>
           <p className="text-lg text-muted-foreground">
@@ -182,7 +182,7 @@ export const DataMaturityQuiz = () => {
             transition={{ duration: 0.3 }}
           >
             <Card className="p-8 space-y-6">
-              <h3 className="text-2xl font-display font-semibold text-foreground brand-lowercase">
+              <h3 className="text-2xl font-display font-semibold text-foreground">
                 {question.question}
               </h3>
 

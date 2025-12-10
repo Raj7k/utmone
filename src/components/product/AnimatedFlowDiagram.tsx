@@ -53,7 +53,7 @@ export const AnimatedFlowDiagram = () => {
                 </motion.div>
 
                 {/* Label */}
-                <span className="text-sm md:text-base font-medium text-foreground text-center lowercase whitespace-nowrap">
+                <span className="text-sm md:text-base font-medium text-foreground text-center whitespace-nowrap">
                   {step.label}
                 </span>
               </motion.div>

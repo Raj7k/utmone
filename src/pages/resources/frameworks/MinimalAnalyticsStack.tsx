@@ -191,7 +191,7 @@ const MinimalAnalyticsStack = () => {
               system design framework
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900">
               minimal analytics stack
             </h1>
             

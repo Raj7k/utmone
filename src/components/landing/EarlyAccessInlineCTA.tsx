@@ -43,7 +43,7 @@ export const EarlyAccessInlineCTA = () => {
           type="submit"
           variant="marketing"
           size="sm"
-          className="h-10 px-6 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full lowercase whitespace-nowrap flex-shrink-0"
+          className="h-10 px-6 bg-blazeOrange hover:bg-blazeOrange/90 text-white font-medium rounded-full whitespace-nowrap flex-shrink-0"
         >
           get early access
           <ArrowRight className="ml-2 h-4 w-4" />

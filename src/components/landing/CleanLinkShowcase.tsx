@@ -38,7 +38,7 @@ export const CleanLinkShowcase = ({ linkUrl, caption }: CleanLinkShowcaseProps) 
           <p className="text-3xl md:text-5xl font-bold mb-4 font-mono group-hover:scale-105 transition-transform text-white/90">
             {linkUrl}
           </p>
-          <p className="text-sm lowercase tracking-wide text-white/50">
+          <p className="text-sm tracking-wide text-white/50">
             {caption}
           </p>
         </div>

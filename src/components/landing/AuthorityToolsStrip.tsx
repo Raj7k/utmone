@@ -83,15 +83,15 @@ export const AuthorityToolsStrip = () => {
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-sm font-semibold text-white/90 mb-1 lowercase">
+                  <h3 className="text-sm font-semibold text-white/90 mb-1">
                     {tool.title}
                   </h3>
-                  <p className="text-xs text-white/50 mb-4 lowercase">
+                  <p className="text-xs text-white/50 mb-4">
                     {tool.description}
                   </p>
 
                   {/* CTA */}
-                  <div className="flex items-center gap-2 text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors lowercase">
+                  <div className="flex items-center gap-2 text-xs font-medium text-white/60 group-hover:text-white/80 transition-colors">
                     {tool.cta}
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </div>
