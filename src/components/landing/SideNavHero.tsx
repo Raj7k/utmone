@@ -196,7 +196,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
               {/* Desktop Navigation */}
               <TooltipProvider delayDuration={0}>
                 <nav className="hidden lg:block space-y-2">
-                  {USE_CASES.map((useCase) => {
+                  {USE_CASES.map((useCase, index) => {
                     const Icon = useCase.icon;
                     const isActive = activeUseCase === useCase.id;
                     
@@ -204,8 +204,13 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       return (
                         <Tooltip key={useCase.id}>
                           <TooltipTrigger asChild>
-                            <button
+                            <motion.button
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.05 }}
                               onClick={() => handleUseCaseChange(useCase.id)}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
                               className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 ${
                                 isActive 
                                   ? 'bg-white/15 border border-white/20 shadow-glow-sm' 
@@ -213,7 +218,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                               }`}
                             >
                               <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-50'}`} />
-                            </button>
+                            </motion.button>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="p-3 bg-zinc-900/95 border border-white/10">
                             <div className="flex flex-col gap-2">
@@ -231,21 +236,46 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                     }
                     
                     return (
-                      <div key={useCase.id} className="relative">
-                        <button
+                      <motion.div 
+                        key={useCase.id} 
+                        className="relative"
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ 
+                          delay: index * 0.08,
+                          type: "spring",
+                          stiffness: 100,
+                          damping: 15
+                        }}
+                      >
+                        {/* Active indicator line */}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full"
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          />
+                        )}
+                        
+                        <motion.button
                           onClick={() => handleUseCaseChange(useCase.id)}
+                          whileHover={{ x: 4 }}
+                          whileTap={{ scale: 0.98 }}
                           className={`w-full text-left p-4 rounded-xl transition-all duration-300 group backdrop-blur-[40px] ${
                             isActive 
-                              ? 'bg-gradient-to-br from-white/[0.12] to-white/[0.04] border border-white/15 border-t-white/25 shadow-glass' 
-                              : 'bg-zinc-900/40 border border-white/[0.08]'
+                              ? 'bg-gradient-to-br from-white/[0.12] to-white/[0.04] border border-white/15 border-t-white/25 shadow-glass ml-2' 
+                              : 'bg-zinc-900/40 border border-white/[0.08] hover:bg-zinc-900/60 hover:border-white/15'
                           }`}
                         >
                           <div className="flex items-center gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-                              isActive ? 'bg-white/15' : 'bg-white/[0.08]'
-                            }`}>
+                            <motion.div 
+                              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                                isActive ? 'bg-white/15' : 'bg-white/[0.08]'
+                              }`}
+                              whileHover={{ rotate: isActive ? 0 : 5 }}
+                            >
                               <Icon className={`w-5 h-5 ${isActive ? 'text-white-90' : 'text-white-60'}`} />
-                            </div>
+                            </motion.div>
                             <div className="flex-1 min-w-0">
                               <div className={`font-semibold lowercase text-sm ${isActive ? 'text-white-95' : 'text-white-80'}`}>
                                 {useCase.label}
@@ -254,6 +284,13 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                 {useCase.sublabel}
                               </div>
                             </div>
+                            <motion.div
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -10 }}
+                              className="text-white-70"
+                            >
+                              <ChevronRight className="w-4 h-4" />
+                            </motion.div>
                             <Link 
                               to={useCase.route}
                               onClick={(e) => e.stopPropagation()}
@@ -265,8 +302,8 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                               <ArrowRight className="w-4 h-4" />
                             </Link>
                           </div>
-                        </button>
-                      </div>
+                        </motion.button>
+                      </motion.div>
                     );
                   })}
                 </nav>
