@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AnimatedCard } from "@/components/ui/AnimatedCard";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Copy, Check, Download, Zap, Tag, Target, TrendingUp } from "lucide-react";
+import { Loader2, Zap, Tag, Target, TrendingUp, ArrowRight, Link2, QrCode } from "lucide-react";
+import { Link } from "react-router-dom";
 import QRCode from "qrcode";
 
 type AnimationPhase = 'problem' | 'ai' | 'journey' | 'halo' | 'revenue';
@@ -27,8 +28,6 @@ export const OmniDemo = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [shortLink, setShortLink] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [aiTags, setAiTags] = useState<string[]>([]);
   const [creationTime, setCreationTime] = useState(0);
 
   const fullUrl = "linkedin.com/posts/ciso-trends-2025";
@@ -140,29 +139,6 @@ export const OmniDemo = () => {
   }, []);
 
   // Live demo functions
-  const analyzeUrl = (url: string): string[] => {
-    const domain = url.toLowerCase();
-    const detectedTags: string[] = [];
-
-    if (domain.includes('linkedin')) detectedTags.push('🏷️ Source: LinkedIn');
-    else if (domain.includes('twitter') || domain.includes('x.com')) detectedTags.push('🏷️ Source: Twitter/X');
-    else if (domain.includes('facebook')) detectedTags.push('🏷️ Source: Facebook');
-    else if (domain.includes('youtube')) detectedTags.push('🏷️ Source: YouTube');
-    else if (domain.includes('amazon')) detectedTags.push('🏷️ Context: E-commerce');
-    else detectedTags.push('🏷️ Source: Web');
-
-    if (domain.includes('blog') || domain.includes('article')) {
-      detectedTags.push('🎯 Funnel: Top');
-    } else if (domain.includes('pricing') || domain.includes('demo')) {
-      detectedTags.push('🎯 Funnel: Bottom');
-    } else {
-      detectedTags.push('🎯 Funnel: Middle');
-    }
-
-    detectedTags.push('📊 Tracking: Enabled');
-    return detectedTags;
-  };
-
   const generateBrandedQR = async (url: string) => {
     try {
       const qrDataUrl = await QRCode.toDataURL(url, {
@@ -189,7 +165,7 @@ export const OmniDemo = () => {
       }
 
       const { data, error } = await supabase.functions.invoke('create-public-link', {
-        body: { original_url: urlToShorten }
+        body: { url: urlToShorten }
       });
 
       if (error) throw error;
@@ -197,7 +173,6 @@ export const OmniDemo = () => {
       const endTime = Date.now();
       setCreationTime((endTime - startTime) / 1000);
       setShortLink(data.short_url);
-      setAiTags(analyzeUrl(demoUrl));
 
       const qr = await generateBrandedQR(data.short_url);
       setQrCodeUrl(qr);
@@ -208,17 +183,30 @@ export const OmniDemo = () => {
     }
   };
 
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(shortLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  // Character stagger animation for headlines
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+        delayChildren: 0.1
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      y: -20,
+      transition: { duration: 0.3 }
+    }
   };
 
-  const downloadQR = () => {
-    const link = document.createElement('a');
-    link.download = 'utm-one-qr.png';
-    link.href = qrCodeUrl;
-    link.click();
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { type: "spring" as const, stiffness: 300, damping: 20 }
+    }
   };
 
   return (
@@ -246,18 +234,18 @@ export const OmniDemo = () => {
           <div className="absolute -inset-[2px] bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-[34px] blur-sm" />
           
           {/* Main container */}
-          <div className="relative h-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-[32px] overflow-hidden shadow-[0_0_80px_-20px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
+          <div className="relative h-full bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-[32px] overflow-visible shadow-[0_0_80px_-20px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.05)]">
             {/* Top light reflection */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             
             {/* Noise texture */}
-            <div className="absolute inset-0 opacity-[0.03]" 
+            <div className="absolute inset-0 opacity-[0.03] rounded-[32px]" 
                  style={{ 
                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` 
                  }} />
             
             {/* Scanline effect */}
-            <div className="absolute inset-0 pointer-events-none opacity-5 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)]" />
+            <div className="absolute inset-0 pointer-events-none opacity-5 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] rounded-[32px]" />
 
             {/* Phase indicator dots */}
             <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
@@ -271,29 +259,43 @@ export const OmniDemo = () => {
               ))}
             </div>
 
-            {/* CENTER-STAGE HEADLINE - Large animated text */}
+            {/* CENTER-STAGE HEADLINE - Large animated text with character stagger */}
             <div className="absolute top-6 left-0 right-0 z-10 flex flex-col items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={phase}
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
                   className="text-center px-4"
                 >
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-2">
-                    {phaseHeadlines[phase].main}
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-3 tracking-tight">
+                    {phaseHeadlines[phase].main.split('').map((char, i) => (
+                      <motion.span
+                        key={i}
+                        variants={letterVariants}
+                        className="inline-block"
+                        style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                      >
+                        {char}
+                      </motion.span>
+                    ))}
                   </h2>
-                  <p className="text-sm md:text-base text-zinc-500 font-mono">
+                  <motion.p 
+                    className="text-sm md:text-lg text-zinc-500 font-mono"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.4 }}
+                  >
                     {phaseHeadlines[phase].sub}
-                  </p>
+                  </motion.p>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             {/* Main Animation Area */}
-            <div className="relative h-full flex items-center justify-center p-8 pt-28 md:pt-32">
+            <div className="relative h-full flex items-center justify-center p-8 pt-32 md:pt-36">
               <AnimatePresence mode="wait">
                 {/* Phase 1-2: LinkedIn Post Card */}
                 {(phase === 'problem' || phase === 'ai') && (
@@ -404,7 +406,7 @@ export const OmniDemo = () => {
                     animate={{ opacity: 1 }}
                     className="w-full h-full"
                   >
-                    <svg viewBox="0 0 800 400" className="w-full h-full">
+                    <svg viewBox="0 0 800 400" className="w-full h-full" overflow="visible">
                       <defs>
                         {/* Platinum gradient for paths */}
                         <linearGradient id="platinumPath" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -582,7 +584,7 @@ export const OmniDemo = () => {
                         {showRevenue && (
                           <motion.text
                             x="0"
-                            y="75"
+                            y="72"
                             textAnchor="middle"
                             fontSize="16"
                             fontWeight="bold"
@@ -596,16 +598,15 @@ export const OmniDemo = () => {
                         )}
                       </g>
 
-                      {/* Lift badge */}
+                      {/* Lift badge - positioned below revenue node */}
                       {showLift && (
                         <motion.g
-                          transform="translate(700, 290)"
-                          initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
                           transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         >
-                          <rect x="-70" y="-12" width="140" height="24" rx="12" fill="rgba(255,215,0,0.2)" stroke="#FFD700" strokeWidth="1" />
-                          <text x="0" y="5" textAnchor="middle" fill="#FFD700" fontSize="11" fontWeight="bold">
+                          <rect x="620" y="290" width="160" height="28" rx="14" fill="rgba(255,215,0,0.2)" stroke="#FFD700" strokeWidth="1" />
+                          <text x="700" y="309" textAnchor="middle" fill="#FFD700" fontSize="12" fontWeight="bold">
                             🚀 +42% Incremental Lift
                           </text>
                         </motion.g>
@@ -639,7 +640,7 @@ export const OmniDemo = () => {
           </div>
         </div>
 
-        {/* Live Demo Widget - AnimatedCard with glass depth */}
+        {/* Live Demo Widget - Redesigned to match screenshots */}
         <AnimatedCard className="overflow-hidden">
           <div className="relative p-6 md:p-8">
             {/* Glass light reflection */}
@@ -647,13 +648,27 @@ export const OmniDemo = () => {
             {/* Top light bar */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             
-            <p className="text-base md:text-lg text-zinc-400 mb-6 text-center font-display relative z-10">
-              see it work
-            </p>
+            {/* Heading */}
+            <div className="text-center mb-6 relative z-10">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
+                see utm.one in action
+              </h2>
+              <p className="text-sm md:text-base text-zinc-500">
+                paste any url and watch what happens
+              </p>
+            </div>
+
+            {/* Speed badge */}
+            <div className="flex justify-center mb-4 relative z-10">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-800/60 border border-zinc-700/50 text-sm text-zinc-300">
+                <Zap className="w-4 h-4 text-yellow-400" />
+                10× faster than Bitly's setup
+              </span>
+            </div>
             
             <div className="flex gap-3 max-w-xl mx-auto mb-4 relative z-10">
               <Input 
-                placeholder="paste any url..." 
+                placeholder="paste any url here..." 
                 value={demoUrl}
                 onChange={(e) => setDemoUrl(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleCreateLink()}
@@ -664,7 +679,7 @@ export const OmniDemo = () => {
                 disabled={isCreating || !demoUrl.trim()}
                 className="h-12 px-6 bg-white text-zinc-900 hover:bg-zinc-200 font-medium"
               >
-                {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : 'shorten'}
+                {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : 'generate'}
               </Button>
             </div>
 
@@ -675,73 +690,82 @@ export const OmniDemo = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 relative z-10"
+                  className="relative z-10"
                 >
-                  {/* Short Link */}
-                  <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
-                    <p className="text-xs text-zinc-500 mb-2 font-mono">short link</p>
-                    <div className="flex items-center gap-2">
-                      <code className="text-sm text-zinc-200 font-mono truncate flex-1">
-                        {shortLink.replace('https://', '')}
-                      </code>
-                      <button 
-                        onClick={copyToClipboard}
-                        className="p-1.5 rounded-lg bg-zinc-700/50 hover:bg-zinc-600/50 transition-colors"
-                      >
-                        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-zinc-400" />}
-                      </button>
+                  {/* Timing comparison */}
+                  <div className="bg-zinc-800/40 rounded-xl p-4 mb-4 border border-zinc-700/30">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-green-400 font-mono text-sm">⏱ generated in {creationTime.toFixed(1)}s</span>
+                        <span className="text-zinc-600 text-xs">•</span>
+                        <span className="text-zinc-500 text-xs">bitly takes ~25 seconds for the same setup</span>
+                      </div>
+                      <div className="text-zinc-400 text-xs font-mono">
+                        ✓ paste  ✓ click  ✓ done — 3 steps, that's it
+                      </div>
                     </div>
                   </div>
 
-                  {/* QR Code */}
-                  <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
-                    <p className="text-xs text-zinc-500 mb-2 font-mono">branded qr</p>
-                    <div className="flex items-center gap-3">
+                  {/* Three cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    {/* Short Link */}
+                    <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Link2 className="w-4 h-4 text-zinc-400" />
+                        <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">short link</p>
+                      </div>
+                      <code className="text-sm text-zinc-200 font-mono block truncate">
+                        {shortLink.replace('https://', '')}
+                      </code>
+                    </div>
+
+                    {/* QR Code */}
+                    <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
+                      <div className="flex items-center gap-2 mb-3">
+                        <QrCode className="w-4 h-4 text-zinc-400" />
+                        <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">qr code</p>
+                      </div>
                       {qrCodeUrl && (
-                        <div className="relative">
-                          <img src={qrCodeUrl} alt="QR Code" className="w-12 h-12 rounded" />
+                        <div className="relative w-16 h-16">
+                          <img src={qrCodeUrl} alt="QR Code" className="w-full h-full rounded" />
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-3 h-3 bg-zinc-900 rounded-sm flex items-center justify-center">
-                              <span className="text-[6px] font-bold text-white">U</span>
+                            <div className="w-4 h-4 bg-zinc-900 rounded-sm flex items-center justify-center">
+                              <span className="text-[8px] font-bold text-white">U</span>
                             </div>
                           </div>
                         </div>
                       )}
-                      <button 
-                        onClick={downloadQR}
-                        className="p-1.5 rounded-lg bg-zinc-700/50 hover:bg-zinc-600/50 transition-colors"
-                      >
-                        <Download className="w-4 h-4 text-zinc-400" />
-                      </button>
+                    </div>
+
+                    {/* UTM Ready */}
+                    <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Tag className="w-4 h-4 text-zinc-400" />
+                        <p className="text-xs text-zinc-400 font-mono uppercase tracking-wider">utm ready</p>
+                      </div>
+                      <div className="space-y-1 text-xs font-mono text-zinc-500">
+                        <div>utm_source=•••</div>
+                        <div>utm_medium=•••</div>
+                        <div>utm_campaign=•••</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* AI Tags */}
-                  <div className="bg-zinc-800/60 rounded-xl p-4 border border-zinc-700/50">
-                    <p className="text-xs text-zinc-500 mb-2 font-mono">ai detected</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {aiTags.map((tag, i) => (
-                        <span key={i} className="text-xs px-2 py-0.5 bg-zinc-700/50 rounded-full text-zinc-300 font-mono">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                  {/* CTA to signup */}
+                  <div className="text-center">
+                    <Link to="/signup">
+                      <Button 
+                        variant="outline" 
+                        className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                      >
+                        create this link for real — free
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Creation time */}
-            {shortLink && (
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center text-xs text-zinc-600 mt-4 font-mono relative z-10"
-              >
-                <Zap className="w-3 h-3 inline mr-1" />
-                created in {creationTime.toFixed(1)}s • link is live and trackable
-              </motion.p>
-            )}
           </div>
         </AnimatedCard>
       </div>
