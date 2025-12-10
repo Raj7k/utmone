@@ -15,6 +15,13 @@ import { PasswordInput } from "@/components/auth/PasswordInput";
 import { useUIFeatureFlags } from "@/hooks/useUIFeatureFlag";
 import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
+const AUTH_PROGRESS_STEPS = [
+  "verifying credentials...",
+  "checking workspace access...",
+  "preparing your dashboard...",
+  "almost ready..."
+];
+
 const Auth = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -23,6 +30,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [authProgressStep, setAuthProgressStep] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showMFAChallenge, setShowMFAChallenge] = useState(false);
@@ -40,6 +48,22 @@ const Auth = () => {
 
   // Navigation guard to prevent duplicate processing
   const hasNavigated = useRef(false);
+
+  // Cycle through progress steps when authenticating
+  useEffect(() => {
+    if (!isAuthenticating) {
+      setAuthProgressStep(0);
+      return;
+    }
+    
+    const interval = setInterval(() => {
+      setAuthProgressStep(prev => 
+        prev < AUTH_PROGRESS_STEPS.length - 1 ? prev + 1 : prev
+      );
+    }, 1500);
+    
+    return () => clearInterval(interval);
+  }, [isAuthenticating]);
 
   useEffect(() => {
     let isMounted = true;
@@ -350,9 +374,9 @@ const Auth = () => {
     return <AuthLoadingScreen />;
   }
 
-  // Show loading screen while authenticating
+  // Show loading screen while authenticating with progress messages
   if (isAuthenticating) {
-    return <AuthLoadingScreen />;
+    return <AuthLoadingScreen message={AUTH_PROGRESS_STEPS[authProgressStep]} />;
   }
 
   // Show MFA challenge if required
