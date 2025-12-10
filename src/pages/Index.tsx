@@ -32,6 +32,7 @@ const DynamicCTA = lazy(() => import("@/components/landing/DynamicCTA").then(m =
 const AIIntelligenceHero = lazy(() => import("@/components/landing/AIIntelligenceHero").then(m => ({ default: m.AIIntelligenceHero })));
 const UnifiedToolsShowcase = lazy(() => import("@/components/landing/UnifiedToolsShowcase").then(m => ({ default: m.UnifiedToolsShowcase })));
 const EventHaloShowcase = lazy(() => import("@/components/landing/EventHaloShowcase").then(m => ({ default: m.EventHaloShowcase })));
+const AIStampStudioShowcase = lazy(() => import("@/components/landing/AIStampStudioShowcase").then(m => ({ default: m.AIStampStudioShowcase })));
 const TrustSection = lazy(() => import("@/components/landing/TrustSection").then(m => ({ default: m.TrustSection })));
 const AnalyticsFeatureCarousel = lazy(() => import("@/components/landing/AnalyticsFeatureCarousel").then(m => ({ default: m.AnalyticsFeatureCarousel })));
 // Simple loading placeholder
@@ -165,6 +166,11 @@ const Index = () => {
       {/* Event Halo Showcase - New Feature Highlight */}
       <Suspense fallback={<SectionSkeleton />}>
         <EventHaloShowcase />
+      </Suspense>
+
+      {/* AI Stamp Studio Showcase - AI-Generated QR Codes */}
+      <Suspense fallback={<SectionSkeleton />}>
+        <AIStampStudioShowcase />
       </Suspense>
 
       {/* Analytics Feature Carousel - 12 features with Instagram-style swipe */}
