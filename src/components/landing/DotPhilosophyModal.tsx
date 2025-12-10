@@ -11,10 +11,10 @@ interface DotPhilosophyModalProps {
 }
 
 const philosophyLines = [
-  "the world is made of dots.",
-  "pixels on your screen. stars in the sky. data points in your analytics. connections between people.",
-  "every conversion started as a dot. every customer journey, a line of dots. every revenue milestone, dots connected.",
-  "utm.one connects all your dots.",
+  { text: "the world is made of dots.", isHeadline: true },
+  { text: "pixels on your screen. stars in the sky. data points in your analytics. connections between people.", isHeadline: false },
+  { text: "every conversion started as a dot. every customer journey, a line of dots. every revenue milestone, dots connected.", isHeadline: false },
+  { text: "utm.one connects all your dots.", isHeadline: true },
 ];
 
 interface Dot {
@@ -26,6 +26,62 @@ interface Dot {
   size: number;
   opacity: number;
 }
+
+// Word-by-word illumination component
+const WordByWordText = ({ 
+  text, 
+  startDelay, 
+  isHeadline,
+  isVisible 
+}: { 
+  text: string; 
+  startDelay: number; 
+  isHeadline: boolean;
+  isVisible: boolean;
+}) => {
+  const words = text.split(' ');
+  const wordDelay = 0.12; // 120ms per word
+  
+  return (
+    <span className="inline">
+      {words.map((word, index) => (
+        <motion.span
+          key={index}
+          className="inline-block mr-[0.3em]"
+          initial={{ 
+            opacity: 0.15, 
+            color: isHeadline ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.1)",
+            filter: "blur(1px)",
+            scale: 1,
+          }}
+          animate={isVisible ? { 
+            opacity: 1, 
+            color: isHeadline ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.75)",
+            filter: "blur(0px)",
+            scale: 1.0,
+          } : {
+            opacity: 0.15, 
+            color: isHeadline ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.1)",
+            filter: "blur(1px)",
+            scale: 1,
+          }}
+          transition={{ 
+            duration: 0.4, 
+            delay: startDelay + (index * wordDelay),
+            ease: [0.25, 0.1, 0.25, 1],
+          }}
+          style={{
+            textShadow: isVisible && isHeadline 
+              ? "0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.1)" 
+              : "none",
+          }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
 
 const ConstellationCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -143,24 +199,24 @@ export const DotPhilosophyModal = ({
   dotPosition,
 }: DotPhilosophyModalProps) => {
   const navigate = useNavigate();
-  const [visibleLines, setVisibleLines] = useState<number[]>([]);
+  const [startReading, setStartReading] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setVisibleLines([]);
+      setStartReading(false);
       setShowCTA(false);
 
-      // Line-by-line reveal
-      const delays = [500, 1300, 2100, 2900];
-      delays.forEach((delay, index) => {
-        setTimeout(() => {
-          setVisibleLines((prev) => [...prev, index]);
-        }, delay);
-      });
+      // Start reading animation after bloom completes
+      setTimeout(() => setStartReading(true), 800);
 
-      // Show CTA after all lines
-      setTimeout(() => setShowCTA(true), 3500);
+      // Calculate total reading time: 4 lines with varying word counts
+      // Line 1: 6 words × 0.12s = 0.72s
+      // Line 2: 14 words × 0.12s = 1.68s  
+      // Line 3: 16 words × 0.12s = 1.92s
+      // Line 4: 5 words × 0.12s = 0.6s
+      // Total with delays: ~6s
+      setTimeout(() => setShowCTA(true), 6500);
     }
   }, [isOpen]);
 
@@ -175,6 +231,19 @@ export const DotPhilosophyModal = ({
   const handleCTAClick = () => {
     onClose();
     navigate("/early-access");
+  };
+
+  // Calculate cumulative delays for each line
+  const getLineDelay = (lineIndex: number): number => {
+    const wordCounts = [6, 14, 16, 5];
+    const wordDelay = 0.12;
+    const linePause = 0.3; // Pause between lines
+    
+    let delay = 0;
+    for (let i = 0; i < lineIndex; i++) {
+      delay += (wordCounts[i] * wordDelay) + linePause;
+    }
+    return delay;
   };
 
   if (typeof window === "undefined") return null;
@@ -285,42 +354,44 @@ export const DotPhilosophyModal = ({
                 }}
               />
 
-              {/* Philosophy text */}
+              {/* Philosophy text with word-by-word illumination */}
               <div className="relative space-y-8">
                 {philosophyLines.map((line, index) => (
-                  <motion.p
-                    key={index}
-                    className={`${
-                      index === 0
-                        ? "font-serif text-3xl md:text-5xl lg:text-6xl tracking-tight"
-                        : index === philosophyLines.length - 1
-                        ? "font-serif text-2xl md:text-4xl lg:text-5xl tracking-tight mt-12"
-                        : "font-sans text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto"
-                    }`}
-                    style={{
-                      color: index === 0 || index === philosophyLines.length - 1 
-                        ? "transparent" 
-                        : "rgba(255,255,255,0.7)",
-                      backgroundImage: index === 0 || index === philosophyLines.length - 1
-                        ? "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.7) 100%)"
-                        : undefined,
-                      backgroundClip: index === 0 || index === philosophyLines.length - 1 ? "text" : undefined,
-                      WebkitBackgroundClip: index === 0 || index === philosophyLines.length - 1 ? "text" : undefined,
-                      textShadow: index === 0 || index === philosophyLines.length - 1
-                        ? "0 4px 30px rgba(255,255,255,0.2)"
-                        : "0 2px 10px rgba(0,0,0,0.3)",
-                      letterSpacing: index === 0 || index === philosophyLines.length - 1 ? "-0.02em" : "0.01em",
-                    }}
-                    initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                    animate={
-                      visibleLines.includes(index)
-                        ? { opacity: 1, y: 0, filter: "blur(0px)" }
-                        : { opacity: 0, y: 30, filter: "blur(10px)" }
-                    }
-                    transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-                  >
-                    {line}
-                  </motion.p>
+                  <div key={index}>
+                    {line.isHeadline ? (
+                      <h1
+                        className={`font-serif tracking-tight ${
+                          index === 0 
+                            ? "text-3xl md:text-5xl lg:text-6xl" 
+                            : "text-2xl md:text-4xl lg:text-5xl mt-12"
+                        }`}
+                        style={{
+                          letterSpacing: "-0.02em",
+                        }}
+                      >
+                        <WordByWordText 
+                          text={line.text} 
+                          startDelay={getLineDelay(index)} 
+                          isHeadline={true}
+                          isVisible={startReading}
+                        />
+                      </h1>
+                    ) : (
+                      <p
+                        className="font-sans text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto"
+                        style={{
+                          letterSpacing: "0.01em",
+                        }}
+                      >
+                        <WordByWordText 
+                          text={line.text} 
+                          startDelay={getLineDelay(index)} 
+                          isHeadline={false}
+                          isVisible={startReading}
+                        />
+                      </p>
+                    )}
+                  </div>
                 ))}
               </div>
 
