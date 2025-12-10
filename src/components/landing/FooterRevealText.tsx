@@ -2,267 +2,137 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { DotPhilosophyModal } from "./DotPhilosophyModal";
 
-interface FooterRevealTextProps {
-  text?: string;
-  className?: string;
-}
-
-export const FooterRevealText = ({ text = "utm.one", className = "" }: FooterRevealTextProps) => {
+export const FooterRevealText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const dotRef = useRef<SVGTextElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const isInView = useInView(containerRef, { once: true, amount: 0.3 });
   const [isDotHovered, setIsDotHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dotPosition, setDotPosition] = useState({ x: 0, y: 0 });
   const [showHint, setShowHint] = useState(false);
 
-  // Split text into parts: "utm", ".", "one"
-  const parts = [
-    { text: "utm", isInteractive: false },
-    { text: ".", isInteractive: true },
-    { text: "one", isInteractive: false },
-  ];
-
   const handleDotClick = (e: React.MouseEvent) => {
     const rect = (e.target as Element).getBoundingClientRect();
-    setDotPosition({ 
-      x: rect.left + rect.width / 2, 
-      y: rect.top + rect.height / 2 
-    });
+    setDotPosition({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
     setIsModalOpen(true);
   };
 
-  // Show hint after animation completes
   useEffect(() => {
     if (isInView) {
-      const timer = setTimeout(() => setShowHint(true), 2500);
+      const timer = setTimeout(() => setShowHint(true), 2000);
       return () => clearTimeout(timer);
     }
   }, [isInView]);
 
-  // Character positions for layout
-  const getCharX = (partIndex: number) => {
-    const baseX = 600; // Center of 1200 viewBox
-    const totalWidth = 720; // Approximate total text width
-    const startX = baseX - totalWidth / 2;
-    
-    if (partIndex === 0) return startX + 180; // "utm" center
-    if (partIndex === 1) return startX + 380; // "." center
-    return startX + 540; // "one" center
-  };
+  const getDelay = (i: number) => i * 0.12;
 
   return (
     <>
       <div
         ref={containerRef}
-        className={`relative w-full cursor-default select-none py-16 ${className}`}
+        className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-background"
       >
-        <svg
-          viewBox="0 0 1200 400"
-          className="w-full h-auto"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <defs>
-            {/* Glass gradient with platinum shimmer */}
-            <linearGradient id="footerGlassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgb(228, 228, 231)" /> {/* zinc-200 */}
-              <stop offset="25%" stopColor="rgb(244, 244, 245)" /> {/* zinc-100 */}
-              <stop offset="50%" stopColor="rgb(255, 255, 255)" /> {/* white */}
-              <stop offset="75%" stopColor="rgb(244, 244, 245)" /> {/* zinc-100 */}
-              <stop offset="100%" stopColor="rgb(212, 212, 216)" /> {/* zinc-300 */}
-            </linearGradient>
+        {/* Ambient glow */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[900px] h-[500px] bg-white/[0.03] rounded-full blur-[150px]" />
+        </div>
 
-            {/* Animated shimmer gradient */}
-            <linearGradient id="footerShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255,255,255,0)">
-                <animate attributeName="offset" values="-1;2" dur="3s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="50%" stopColor="rgba(255,255,255,0.5)">
-                <animate attributeName="offset" values="-0.5;2.5" dur="3s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="100%" stopColor="rgba(255,255,255,0)">
-                <animate attributeName="offset" values="0;3" dur="3s" repeatCount="indefinite" />
-              </stop>
-            </linearGradient>
+        <div className="relative w-full max-w-[1400px] mx-auto px-4">
+          <svg viewBox="0 0 1000 350" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="hsl(0,0%,100%)" />
+                <stop offset="50%" stopColor="hsl(0,0%,88%)" />
+                <stop offset="100%" stopColor="hsl(0,0%,95%)" />
+              </linearGradient>
+              <linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="hsl(0,0%,100%)" stopOpacity="0">
+                  <animate attributeName="offset" values="-1;2" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="50%" stopColor="hsl(0,0%,100%)" stopOpacity="0.6">
+                  <animate attributeName="offset" values="-0.5;2.5" dur="3s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="100%" stopColor="hsl(0,0%,100%)" stopOpacity="0">
+                  <animate attributeName="offset" values="0;3" dur="3s" repeatCount="indefinite" />
+                </stop>
+              </linearGradient>
+              <linearGradient id="reflectGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="hsl(0,0%,70%)" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="hsl(0,0%,70%)" stopOpacity="0" />
+              </linearGradient>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
 
-            {/* Reflection gradient (fades out) */}
-            <linearGradient id="footerReflectionFade" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="rgb(161, 161, 170)" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="rgb(161, 161, 170)" stopOpacity="0" />
-            </linearGradient>
+            {/* Main text */}
+            <g filter="url(#glow)">
+              {["u", "t", "m"].map((c, i) => (
+                <motion.text key={c} x={150 + i * 115} y="160" textAnchor="middle" fill="url(#glassGrad)" fontSize="180" fontFamily="serif" initial={{ opacity: 0, y: 60 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: getDelay(i), duration: 0.8, ease: "easeOut" }}>{c}</motion.text>
+              ))}
+              {["u", "t", "m"].map((c, i) => (
+                <motion.text key={`s${c}`} x={150 + i * 115} y="160" textAnchor="middle" fill="url(#shimmer)" fontSize="180" fontFamily="serif" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: getDelay(i) + 0.3, duration: 0.5 }}>{c}</motion.text>
+              ))}
 
-            {/* Glow filter for dot */}
-            <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
+              {/* Interactive DOT */}
+              <motion.circle
+                cx="495"
+                cy="145"
+                r="20"
+                fill="url(#glassGrad)"
+                filter={isDotHovered ? "url(#dotGlow)" : "none"}
+                className="cursor-pointer"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ delay: getDelay(3), duration: 0.5, ease: "easeOut" }}
+                whileHover={{ scale: 1.4 }}
+                onMouseEnter={() => setIsDotHovered(true)}
+                onMouseLeave={() => setIsDotHovered(false)}
+                onClick={handleDotClick}
+              />
 
-            {/* Glass blur filter */}
-            <filter id="glassBlur" x="-10%" y="-10%" width="120%" height="120%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-            </filter>
-          </defs>
+              {["o", "n", "e"].map((c, i) => (
+                <motion.text key={`o${c}`} x={590 + i * 115} y="160" textAnchor="middle" fill="url(#glassGrad)" fontSize="180" fontFamily="serif" initial={{ opacity: 0, y: 60 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: getDelay(i + 4), duration: 0.8, ease: "easeOut" }}>{c}</motion.text>
+              ))}
+              {["o", "n", "e"].map((c, i) => (
+                <motion.text key={`so${c}`} x={590 + i * 115} y="160" textAnchor="middle" fill="url(#shimmer)" fontSize="180" fontFamily="serif" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: getDelay(i + 4) + 0.3, duration: 0.5 }}>{c}</motion.text>
+              ))}
+            </g>
 
-          {/* Main text group */}
-          <g>
-            {/* Background glow layer */}
-            <text
-              x="600"
-              y="200"
-              textAnchor="middle"
-              className="font-display font-bold"
-              style={{
-                fontSize: "240px",
-                fill: "rgba(255,255,255,0.1)",
-                filter: "blur(30px)",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {text}
-            </text>
+            {/* Reflection */}
+            <g transform="translate(0, 200) scale(1, -0.35)" opacity="0.2">
+              {["u", "t", "m"].map((c, i) => (
+                <motion.text key={`r${c}`} x={150 + i * 115} y="160" textAnchor="middle" fill="url(#reflectGrad)" fontSize="180" fontFamily="serif" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: getDelay(i) + 0.5, duration: 0.8 }}>{c}</motion.text>
+              ))}
+              <motion.circle cx="495" cy="145" r="20" fill="url(#reflectGrad)" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: getDelay(3) + 0.5, duration: 0.5 }} />
+              {["o", "n", "e"].map((c, i) => (
+                <motion.text key={`ro${c}`} x={590 + i * 115} y="160" textAnchor="middle" fill="url(#reflectGrad)" fontSize="180" fontFamily="serif" initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: getDelay(i + 4) + 0.5, duration: 0.8 }}>{c}</motion.text>
+              ))}
+            </g>
+          </svg>
 
-            {/* Character-by-character animation */}
-            {parts.map((part, partIndex) => (
-              <motion.text
-                key={partIndex}
-                ref={part.isInteractive ? dotRef : undefined}
-                x={getCharX(partIndex)}
-                y="200"
-                textAnchor="middle"
-                className={`font-display font-bold ${part.isInteractive ? 'cursor-pointer' : ''}`}
-                style={{
-                  fontSize: "240px",
-                  fill: "url(#footerGlassGradient)",
-                  letterSpacing: "-0.02em",
-                  filter: part.isInteractive && isDotHovered ? "url(#dotGlow)" : undefined,
-                }}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { 
-                  opacity: 1, 
-                  y: 0,
-                  scale: part.isInteractive && isDotHovered ? 1.2 : 1,
-                } : {}}
-                transition={{ 
-                  duration: 0.8,
-                  delay: partIndex * 0.2,
-                  ease: [0.16, 1, 0.3, 1],
-                  scale: { duration: 0.2 }
-                }}
-                onMouseEnter={() => part.isInteractive && setIsDotHovered(true)}
-                onMouseLeave={() => part.isInteractive && setIsDotHovered(false)}
-                onClick={part.isInteractive ? handleDotClick : undefined}
-              >
-                {part.text}
-              </motion.text>
-            ))}
-
-            {/* Shimmer overlay */}
-            <motion.text
-              x="600"
-              y="200"
-              textAnchor="middle"
-              className="font-display font-bold pointer-events-none"
-              style={{
-                fontSize: "240px",
-                fill: "url(#footerShimmer)",
-                letterSpacing: "-0.02em",
-                mixBlendMode: "overlay",
-              }}
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 0.5 } : {}}
-              transition={{ duration: 1, delay: 0.8 }}
-            >
-              {text}
-            </motion.text>
-
-            {/* Reflection (flipped, below) */}
-            <motion.g
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              <text
-                x="600"
-                y="200"
-                textAnchor="middle"
-                className="font-display font-bold"
-                style={{
-                  fontSize: "240px",
-                  fill: "url(#footerReflectionFade)",
-                  letterSpacing: "-0.02em",
-                  transform: "scaleY(-1) translateY(-400px)",
-                  transformOrigin: "center 200px",
-                }}
-              >
-                {text}
-              </text>
-            </motion.g>
-          </g>
-
-          {/* Interactive dot hint */}
+          {/* Hint */}
           <AnimatePresence>
             {showHint && !isModalOpen && (
-              <motion.g
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
+              <motion.p
+                className="text-center text-muted-foreground/50 text-sm mt-8 font-mono tracking-widest"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.4, 0.8, 0.4] }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
-                <motion.text
-                  x={getCharX(1)}
-                  y="280"
-                  textAnchor="middle"
-                  className="font-sans"
-                  style={{
-                    fontSize: "14px",
-                    fill: "rgb(161, 161, 170)",
-                  }}
-                  animate={{ 
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  click the dot
-                </motion.text>
-              </motion.g>
+                click the dot
+              </motion.p>
             )}
           </AnimatePresence>
-        </svg>
-
-        {/* Pulsing dot indicator */}
-        <AnimatePresence>
-          {isDotHovered && (
-            <motion.div
-              className="absolute pointer-events-none"
-              style={{
-                left: '50%',
-                top: '45%',
-                transform: 'translate(-50%, -50%)',
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              <div className="w-16 h-16 rounded-full border-2 border-white/30" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </div>
       </div>
 
-      {/* Philosophy Modal */}
-      <DotPhilosophyModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        originPosition={dotPosition}
-      />
+      <DotPhilosophyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} originPosition={dotPosition} />
     </>
   );
 };
