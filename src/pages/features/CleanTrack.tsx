@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ProductMockup } from "@/components/product/ProductMockup";
 import { Target, FileText, CheckCircle2, Tag, Clock, Link2, AlertCircle } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const CleanTrack = () => {
   const capabilities = [

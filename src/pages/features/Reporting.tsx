@@ -5,7 +5,7 @@ import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { Button } from "@/components/ui/button";
 import { FileDown, FileSpreadsheet, Mail, Calendar, BarChart2, FileText } from "lucide-react";
-import { formatText } from "@/utils/textFormatter";
+import { formatText, preserveAcronyms as p } from "@/utils/textFormatter";
 import { motion } from "framer-motion";
 
 const Reporting = () => {

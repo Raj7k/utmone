@@ -11,6 +11,7 @@ import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { Database, FileSpreadsheet, GitBranch, CheckCircle2, Filter, Clock } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const ReportingTeam = () => {
   const faqs = [

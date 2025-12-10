@@ -16,6 +16,7 @@ import { WorkflowBackground } from "@/components/solutions/WorkflowBackground";
 import { AnimatedConnectingLine } from "@/components/solutions/AnimatedConnectingLine";
 import { Link as LinkIcon, QrCode, BarChart3, CheckCircle2, Layers, Users, DollarSign, UserPlus, TrendingUp } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const PartnerManagers = () => {
   const faqs = [

@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SonarVisualization } from "@/components/events/SonarVisualization";
 import { RetroGradientMesh } from "@/components/landing/RetroGradientMesh";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const FieldMarketing = () => {
   const painPoints = [

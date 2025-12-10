@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   Scan, WifiOff, Sparkles, QrCode, Barcode, Nfc, FileText, Cloud, CloudOff, RefreshCw, 
   Users, Fingerprint, Building2, Mic, Vibrate, ArrowRight, Check, Smartphone, DollarSign,

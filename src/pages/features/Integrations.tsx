@@ -4,6 +4,7 @@ import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Zap, Webhook, Code, MessageSquare, Mail, BarChart3, Users, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Integrations = () => {
   const integrations = [

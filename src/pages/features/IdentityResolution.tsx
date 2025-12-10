@@ -11,6 +11,7 @@ import { ProductMockup } from "@/components/product/ProductMockup";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, Users, Clock, Zap } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const IdentityResolution = () => {
   const faqs = [

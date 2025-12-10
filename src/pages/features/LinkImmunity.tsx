@@ -7,6 +7,7 @@ import { LinkHealthDashboard } from "@/components/features/LinkHealthDashboard";
 import { UseCasesGrid } from "@/components/features/UseCasesGrid";
 import { ShieldCheck, Users, Briefcase, Code, Activity, Bell, Clock, Zap } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export default function LinkImmunity() {
   const useCases = [

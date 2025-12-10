@@ -11,6 +11,7 @@ import { RoleSpecificFAQ } from "@/components/solutions/RoleSpecificFAQ";
 import { PremiumCTASection } from "@/components/solutions/PremiumCTASection";
 import { BarChart3, TrendingUp, Zap, CheckCircle2, DollarSign, Target } from "lucide-react";
 import { CTAButton } from "@/components/ui/CTAButton";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Startups = () => {
   const faqs = [

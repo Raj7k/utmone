@@ -13,6 +13,7 @@ import { JustInTimeProvisioningVisual } from "@/components/enterprise/JustInTime
 import { BayesianAttributionPreview } from "@/components/enterprise/BayesianAttributionPreview";
 import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Enterprise = () => {
   const pillars = [

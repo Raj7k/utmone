@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 import { ItemListSchema, BreadcrumbSchema } from "@/components/seo/SchemaMarkup";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const Guides = () => {
   const guides = [
