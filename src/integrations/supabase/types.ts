@@ -2299,6 +2299,7 @@ export type Database = {
       }
       feedback: {
         Row: {
+          admin_response: string | null
           browser_info: Json | null
           category: string | null
           created_at: string | null
@@ -2306,12 +2307,15 @@ export type Database = {
           message: string
           page_url: string
           priority: string | null
+          responded_at: string | null
+          responded_by: string | null
           screenshot_url: string | null
           status: string
           type: string
           user_id: string | null
         }
         Insert: {
+          admin_response?: string | null
           browser_info?: Json | null
           category?: string | null
           created_at?: string | null
@@ -2319,12 +2323,15 @@ export type Database = {
           message: string
           page_url: string
           priority?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
           screenshot_url?: string | null
           status?: string
           type?: string
           user_id?: string | null
         }
         Update: {
+          admin_response?: string | null
           browser_info?: Json | null
           category?: string | null
           created_at?: string | null
@@ -2332,6 +2339,8 @@ export type Database = {
           message?: string
           page_url?: string
           priority?: string | null
+          responded_at?: string | null
+          responded_by?: string | null
           screenshot_url?: string | null
           status?: string
           type?: string
