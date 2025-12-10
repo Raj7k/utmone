@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   TrendingUp, 
   Route, 
@@ -21,53 +22,53 @@ const USE_CASES = [
   {
     id: "attribution" as UseCaseType,
     icon: TrendingUp,
-    label: "revenue",
-    fullLabel: "attribution & revenue",
-    sublabel: "know where money comes from",
+    label: p("revenue"),
+    fullLabel: p("attribution & revenue"),
+    sublabel: p("know where money comes from"),
   },
   {
     id: "journey" as UseCaseType,
     icon: Route,
-    label: "journey",
-    fullLabel: "journey analytics",
-    sublabel: "see every touchpoint",
+    label: p("journey"),
+    fullLabel: p("journey analytics"),
+    sublabel: p("see every touchpoint"),
   },
   {
     id: "links" as UseCaseType,
     icon: LinkIcon,
-    label: "links",
-    fullLabel: "utm & links",
-    sublabel: "clean data, every time",
+    label: p("links"),
+    fullLabel: p("UTM & links"),
+    sublabel: p("clean data, every time"),
   },
   {
     id: "intelligence" as UseCaseType,
     icon: Sparkles,
-    label: "AI",
-    fullLabel: "AI intelligence",
-    sublabel: "clean-track insights",
+    label: p("AI"),
+    fullLabel: p("AI intelligence"),
+    sublabel: p("clean-track insights"),
   },
 ];
 
 const HERO_CONTENT: Record<UseCaseType, { headline: string; subheadline: string }> = {
   attribution: {
-    headline: "finally know where revenue comes from",
-    subheadline: "multi-touch attribution reveals the true path from first click to closed deal.",
+    headline: p("finally know where revenue comes from"),
+    subheadline: p("multi-touch attribution reveals the true path from first click to closed deal."),
   },
   journey: {
-    headline: "see the complete customer path",
-    subheadline: "from anonymous visit to signed contract — map every touchpoint across every device.",
+    headline: p("see the complete customer path"),
+    subheadline: p("from anonymous visit to signed contract — map every touchpoint across every device."),
   },
   links: {
-    headline: "clean links. clean data. clear decisions.",
-    subheadline: "short links, UTM builder, QR codes, and validation rules that ensure your data never breaks.",
+    headline: p("clean links. clean data. clear decisions."),
+    subheadline: p("short links, UTM builder, QR codes, and validation rules that ensure your data never breaks."),
   },
   intelligence: {
-    headline: "four AI layers built into every link",
-    subheadline: "predictive analytics, attribution graphs, smart routing, and link immunity.",
+    headline: p("four AI layers built into every link"),
+    subheadline: p("predictive analytics, attribution graphs, smart routing, and link immunity."),
   },
   governance: {
-    headline: "your links, under total control",
-    subheadline: "naming conventions, approval workflows, audit trails. scale without chaos.",
+    headline: p("your links, under total control"),
+    subheadline: p("naming conventions, approval workflows, audit trails. scale without chaos."),
   },
 };
 

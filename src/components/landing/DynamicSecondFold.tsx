@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { UseCaseType } from "./SideNavHero";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   TrendingUp, 
   BarChart3, 

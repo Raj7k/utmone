@@ -83,6 +83,16 @@ All colors MUST be HSL.
   text-transform: lowercase;
 }
 
+/* Acronym preservation utility */
+.acronym {
+  text-transform: uppercase !important;
+}
+
+/* Container that preserves acronyms via JS processing */
+.preserve-acronyms {
+  /* Marker class for components using preserveAcronyms() */
+}
+
 /* Hide scrollbar but keep functionality */
 .scrollbar-hide {
   -ms-overflow-style: none;

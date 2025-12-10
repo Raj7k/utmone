@@ -6,6 +6,7 @@ import { ProductMockup } from "@/components/product/ProductMockup";
 import { CapabilityCard } from "@/components/features/CapabilityCard";
 import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { QrCode, Palette, Repeat, Download, Image, BarChart3, CheckCircle2 } from "lucide-react";
@@ -14,33 +15,33 @@ const QRGenerator = () => {
   const capabilities = [
     {
       icon: Palette,
-      title: "Branded QR Styles",
-      description: "Customize colors, corners, and logos to match your brand.",
+      title: p("Branded QR Styles"),
+      description: p("Customize colors, corners, and logos to match your brand."),
     },
     {
       icon: Repeat,
-      title: "Dynamic Redirection",
-      description: "Change destination URLs without reprinting QR codes.",
+      title: p("Dynamic Redirection"),
+      description: p("Change destination URLs without reprinting QR codes."),
     },
     {
       icon: BarChart3,
-      title: "Auto-UTM Population",
-      description: "QR codes automatically include proper UTM parameters.",
+      title: p("Auto-UTM Population"),
+      description: p("QR codes automatically include proper UTM parameters."),
     },
     {
       icon: Download,
-      title: "Multi-Size Export",
-      description: "Download in multiple formats and resolutions.",
+      title: p("Multi-Size Export"),
+      description: p("Download in multiple formats and resolutions."),
     },
     {
       icon: Image,
-      title: "High-Res Print Files",
-      description: "Production-ready files for professional printing.",
+      title: p("High-Res Print Files"),
+      description: p("Production-ready files for professional printing."),
     },
     {
       icon: QrCode,
-      title: "Campaign Mapping",
-      description: "Connect QR codes directly to campaigns and channels.",
+      title: p("Campaign Mapping"),
+      description: p("Connect QR codes directly to campaigns and channels."),
     },
   ];
 
@@ -65,9 +66,9 @@ const QRGenerator = () => {
       ]}
     >
       <FeatureHeroWithTool
-        headlineLine1="qr codes with real"
-        headlineLine2="attribution."
-        subheadline="utm.one connects every QR code to its link, metadata, analytics, and UTM parameters automatically."
+        headlineLine1={p("QR codes with real")}
+        headlineLine2={p("attribution.")}
+        subheadline={p("utm.one connects every QR code to its link, metadata, analytics, and UTM parameters automatically.")}
         toolComponent={<QRGeneratorBasic />}
       />
 
