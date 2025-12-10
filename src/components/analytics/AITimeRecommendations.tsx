@@ -85,7 +85,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
             <Sparkles className="h-5 w-5 text-foreground" />
             <CardTitle className="text-title-3">best times to share</CardTitle>
           </div>
-          <Badge variant={data.confidence === 'high' ? 'default' : 'secondary'} className="brand-lowercase">
+          <Badge variant={data.confidence === 'high' ? 'default' : 'secondary'}>
             {data.confidence} confidence
           </Badge>
         </div>
@@ -99,7 +99,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="h-4 w-4 text-foreground" />
-                <span className="text-sm font-medium brand-lowercase text-foreground">recommended time</span>
+                <span className="text-sm font-medium text-foreground">recommended time</span>
               </div>
               <h3 className="text-2xl font-display font-bold text-foreground">
                 {bestTime.dayName} {bestTime.timeLabel}
@@ -128,7 +128,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
         {/* Top Alternative Times */}
         {data.topPredictions.length > 1 && (
           <div className="space-y-2">
-            <h4 className="text-sm font-medium brand-lowercase text-muted-foreground">alternative high-performing times</h4>
+            <h4 className="text-sm font-medium text-muted-foreground">alternative high-performing times</h4>
             {data.topPredictions.slice(1, 4).map((slot, idx) => (
               <div
                 key={`${slot.dayOfWeek}-${slot.hourOfDay}`}
@@ -163,7 +163,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-2">
               <Lightbulb className="h-4 w-4 text-warning" />
-              <h4 className="text-sm font-medium brand-lowercase text-muted-foreground">worth trying</h4>
+              <h4 className="text-sm font-medium text-muted-foreground">worth trying</h4>
             </div>
             {data.explorationSuggestions.slice(0, 2).map((slot) => (
               <div
@@ -194,7 +194,7 @@ export const AITimeRecommendations = ({ workspaceId, days = 30 }: AITimeRecommen
         {/* Insights */}
         {data.insights.length > 0 && (
           <div className="space-y-2 pt-4 border-t border-border">
-            <h4 className="text-sm font-medium brand-lowercase text-muted-foreground">insights</h4>
+            <h4 className="text-sm font-medium text-muted-foreground">insights</h4>
             <ul className="space-y-1.5">
               {data.insights.map((insight, idx) => (
                 <li key={idx} className="text-sm flex items-start gap-2 text-muted-foreground/50">

@@ -134,7 +134,7 @@ export default function Scanner() {
             <span className="text-sm font-display uppercase tracking-widest text-muted-foreground">security clearance scanner</span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient brand-lowercase">
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
             link hygiene v2.0
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
@@ -266,7 +266,7 @@ export default function Scanner() {
               {/* Issues */}
               {result.issues.length > 0 && (
                 <GlassCard className="p-6 border-system-red/20">
-                  <h3 className="text-system-red font-display font-bold mb-4 flex items-center gap-2 brand-lowercase">
+                  <h3 className="text-system-red font-display font-bold mb-4 flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5" />
                     detected vulnerabilities
                   </h3>

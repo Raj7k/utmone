@@ -81,7 +81,7 @@ const TeamBudgetOptimizer = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">budget & goals</CardTitle>
+          <CardTitle>budget & goals</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -128,7 +128,7 @@ const TeamBudgetOptimizer = () => {
         <div className="mt-8 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">recommended team composition</CardTitle>
+              <CardTitle>recommended team composition</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -159,7 +159,7 @@ const TeamBudgetOptimizer = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">alternative scenarios</CardTitle>
+              <CardTitle>alternative scenarios</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">

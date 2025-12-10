@@ -72,7 +72,7 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Consistency Is The Foundation Of Clean Data
           </h2>
           <div className="max-w-2xl mx-auto space-y-4 text-body-apple text-secondary-label">
@@ -89,7 +89,7 @@ const UTMBuilder = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
             smart autocomplete
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
@@ -104,7 +104,7 @@ const UTMBuilder = () => {
                 <CheckSquare className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">historical CTR predictions</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("historical CTR predictions")}</h3>
                 <p className="text-secondary-label">
                   See predicted click-through rates based on past campaign performance as you type
                 </p>
@@ -115,7 +115,7 @@ const UTMBuilder = () => {
                 <Type className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">impact badges</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">impact badges</h3>
                 <p className="text-secondary-label">
                   High-performing sources show 🔥 badges, new options show ⚡, helping you make data-informed choices
                 </p>
@@ -126,7 +126,7 @@ const UTMBuilder = () => {
                 <FileText className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">smart suggestions</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">smart suggestions</h3>
                 <p className="text-secondary-label">
                   Auto-complete learns from your workspace's naming patterns and top-performing campaigns
                 </p>
@@ -135,21 +135,21 @@ const UTMBuilder = () => {
           </div>
 
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">utm autocomplete dropdown</h4>
+            <h4 className="text-lg font-semibold mb-4 text-label">{p("UTM autocomplete dropdown")}</h4>
             <div className="space-y-3">
               <div className="bg-card border-2 rounded-lg p-4 border-primary">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-semibold text-label">google</p>
                   <span className="text-xs">🔥 High impact</span>
                 </div>
-                <p className="text-xs text-secondary-label">3.2% CTR • Used 24 times</p>
+                <p className="text-xs text-secondary-label">{p("3.2% CTR • Used 24 times")}</p>
               </div>
               <div className="bg-card border border-border rounded-lg p-4 opacity-70">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-semibold text-label">facebook</p>
                   <span className="text-xs text-secondary-label">Average</span>
                 </div>
-                <p className="text-xs text-secondary-label">1.8% CTR • Used 12 times</p>
+                <p className="text-xs text-secondary-label">{p("1.8% CTR • Used 12 times")}</p>
               </div>
               <div className="bg-card border border-border rounded-lg p-4 opacity-70">
                 <div className="flex items-center justify-between mb-1">
@@ -164,7 +164,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built With Clean-Track
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -184,7 +184,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           The Only UTM Builder That Prevents Errors
         </h2>
         <FeatureComparison
@@ -199,7 +199,7 @@ const UTMBuilder = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           UTMs In One Motion
         </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -233,7 +233,7 @@ const UTMBuilder = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
               autocomplete that learns
             </h2>
             <p className="text-lg text-muted-foreground">
@@ -244,14 +244,14 @@ const UTMBuilder = () => {
                 <div className="text-2xl">🔥</div>
                 <div className="flex-1">
                   <div className="font-medium text-foreground">google</div>
-                  <div className="text-xs text-primary">3.2% avg CTR — High impact</div>
+                  <div className="text-xs text-primary">{p("3.2% avg CTR — High impact")}</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                 <div className="text-2xl">📊</div>
                 <div className="flex-1">
                   <div className="font-medium text-foreground">linkedin</div>
-                  <div className="text-xs text-muted-foreground">2.1% avg CTR</div>
+                  <div className="text-xs text-muted-foreground">{p("2.1% avg CTR")}</div>
                 </div>
               </div>
             </div>
@@ -259,14 +259,14 @@ const UTMBuilder = () => {
 
           {/* Right: Visual */}
           <div className="bg-card border border-border rounded-xl p-6">
-            <div className="text-sm font-semibold mb-4 text-label">UTM Source Selection</div>
+            <div className="text-sm font-semibold mb-4 text-label">{p("UTM Source Selection")}</div>
             <div className="space-y-2">
               <div className="p-3 rounded-lg border-2 bg-primary/20 border-primary">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-foreground">google</span>
                   <span className="text-xs px-2 py-1 rounded-full font-semibold text-white bg-primary">RECOMMENDED</span>
                 </div>
-                <div className="text-xs text-muted-foreground">Based on 847 historical links • Avg 3.2% CTR</div>
+                <div className="text-xs text-muted-foreground">{p("Based on 847 historical links • Avg 3.2% CTR")}</div>
                 <div className="mt-2 h-2 rounded-full overflow-hidden bg-primary/20">
                   <div className="h-full w-[85%] rounded-full bg-primary" />
                 </div>
@@ -275,7 +275,7 @@ const UTMBuilder = () => {
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-foreground">facebook</span>
                 </div>
-                <div className="text-xs text-muted-foreground">Avg 1.8% CTR</div>
+                <div className="text-xs text-muted-foreground">{p("Avg 1.8% CTR")}</div>
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ const UTMBuilder = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Build A Clean UTM Now
           </h2>
           <p className="text-body-apple text-secondary-label mb-8">

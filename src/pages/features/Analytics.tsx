@@ -40,7 +40,7 @@ const FeatureItem = ({ icon: Icon, title, description }: { icon: any; title: str
         <Icon className="w-5 h-5 text-primary" />
       </div>
       <div>
-        <h3 className="font-display font-semibold text-label lowercase mb-1">{title}</h3>
+        <h3 className="font-display font-semibold text-label mb-1">{p(title)}</h3>
         <p className="text-sm text-secondary-label leading-relaxed">{description}</p>
       </div>
     </div>
@@ -110,7 +110,7 @@ const Analytics = () => {
               <Zap className="w-4 h-4" />
               revenue intelligence platform
             </span>
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-label mb-6 lowercase">
+            <h1 className="text-5xl md:text-7xl font-display font-bold text-label mb-6">
               from clicks to revenue.
             </h1>
             <p className="text-xl md:text-2xl text-secondary-label mb-8 max-w-2xl mx-auto leading-relaxed">
@@ -142,13 +142,11 @@ const Analytics = () => {
                 <AlertTriangle className="w-3 h-3" />
                 the problem
               </span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-4">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
                 the attribution black hole.
               </h2>
               <p className="text-lg text-secondary-label leading-relaxed">
-                Your LinkedIn campaign drove 10,000 clicks. Paid search drove 5,000. The CFO asks: "Which one made us money?" 
-                GA4 shows last-click. But the customer saw LinkedIn first, got an email, attended a webinar, 
-                then searched your brand. <strong className="text-label">Who gets credit?</strong>
+                {p("Your LinkedIn campaign drove 10,000 clicks. Paid search drove 5,000. The CFO asks: \"Which one made us money?\" GA4 shows last-click. But the customer saw LinkedIn first, got an email, attended a webinar, then searched your brand.")} <strong className="text-label">Who gets credit?</strong>
               </p>
             </motion.div>
 
@@ -162,7 +160,7 @@ const Analytics = () => {
                 className="p-4 rounded-xl bg-card border border-border text-center"
               >
                 <div className="text-3xl font-display font-bold text-label mb-1">72%</div>
-                <div className="text-xs text-muted-foreground">can't prove ROI</div>
+                <div className="text-xs text-muted-foreground">{p("can't prove ROI")}</div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -212,7 +210,7 @@ const Analytics = () => {
               className="mb-8"
             >
               <span className="text-sm text-secondary-label uppercase tracking-wider">attribution</span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mt-2">
                 see what actually works.
               </h2>
             </motion.div>
@@ -247,7 +245,7 @@ const Analytics = () => {
               className="mb-8"
             >
               <span className="text-sm text-secondary-label uppercase tracking-wider">journey</span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mt-2">
                 visualize the path to purchase.
               </h2>
             </motion.div>
@@ -301,7 +299,7 @@ const Analytics = () => {
               className="mb-8"
             >
               <span className="text-sm text-secondary-label uppercase tracking-wider">predictions</span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mt-2">
                 know what's coming.
               </h2>
             </motion.div>
@@ -335,15 +333,15 @@ const Analytics = () => {
               viewport={{ once: true }}
               className="mb-8"
             >
-              <span className="text-sm text-secondary-label uppercase tracking-wider">ai intelligence</span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mt-2">
+              <span className="text-sm text-secondary-label uppercase tracking-wider">{p("AI intelligence")}</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-label mt-2">
                 ask, don't dig.
               </h2>
             </motion.div>
             
             <FeatureItem
               icon={MessageSquare}
-              title="ai command center"
+              title="AI command center"
               description="Ask questions in plain English. 'Which campaign had the best ROI?' Get instant, data-backed answers."
             />
             <FeatureItem
@@ -379,7 +377,7 @@ const Analytics = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label mb-4">
               revenue intelligence comparison.
             </h2>
             <p className="text-lg text-secondary-label">
