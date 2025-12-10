@@ -2,7 +2,7 @@ import { AlertTriangle, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 interface ImpersonationBannerProps {
   userEmail: string;
@@ -11,23 +11,15 @@ interface ImpersonationBannerProps {
 
 export const ImpersonationBanner = ({ userEmail, userFullName }: ImpersonationBannerProps) => {
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleExitImpersonation = async () => {
     try {
       await supabase.auth.signOut();
       navigate('/auth');
-      toast({
-        title: "Exited impersonation",
-        description: "You have been logged out. Please sign in with your admin account.",
-      });
+      notify.success("exited impersonation");
     } catch (error) {
       console.error('Exit impersonation error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to exit impersonation",
-        variant: "destructive",
-      });
+      notify.error("failed to exit impersonation");
     }
   };
 

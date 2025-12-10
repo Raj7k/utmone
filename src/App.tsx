@@ -432,8 +432,8 @@ const App = () => (
                <Route path="/dashboard/sales" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardSales /></DashboardLayout></Suspense></ProtectedRoute>} />
                <Route path="/dashboard/events" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><DashboardLayout><DashboardEvents /></DashboardLayout></Suspense></ProtectedRoute>} />
                
-              {/* Onboarding Routes */}
-              <Route path="/onboarding" element={<ProtectedRoute><Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense></ProtectedRoute>} />
+              {/* Onboarding Routes - No ProtectedRoute to prevent redirect loops after signup */}
+              <Route path="/onboarding" element={<Suspense fallback={<DashboardSkeleton />}><OnboardingWizard /></Suspense>} />
               
               <Route path="/links" element={<Navigate to="/dashboard/links" replace />} />
               <Route path="/links/:linkId" element={<LinkIdRedirect />} />

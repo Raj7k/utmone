@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 export interface TargetingRule {
   id: string;
@@ -18,7 +18,6 @@ export interface TargetingRule {
 
 export function useTargetingRules(linkId: string) {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   // Fetch targeting rules for a link
   const { data: rules, isLoading, error } = useQuery({
@@ -51,17 +50,10 @@ export function useTargetingRules(linkId: string) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['targeting-rules', linkId] });
-      toast({
-        title: "Rule created",
-        description: "Targeting rule has been created successfully.",
-      });
+      notify.success("rule created");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Failed to create rule",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "failed to create rule");
     },
   });
 
@@ -80,17 +72,10 @@ export function useTargetingRules(linkId: string) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['targeting-rules', linkId] });
-      toast({
-        title: "Rule updated",
-        description: "Targeting rule has been updated successfully.",
-      });
+      notify.success("rule updated");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Failed to update rule",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "failed to update rule");
     },
   });
 
@@ -106,17 +91,10 @@ export function useTargetingRules(linkId: string) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['targeting-rules', linkId] });
-      toast({
-        title: "Rule deleted",
-        description: "Targeting rule has been deleted successfully.",
-      });
+      notify.success("rule deleted");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Failed to delete rule",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error(error.message || "failed to delete rule");
     },
   });
 

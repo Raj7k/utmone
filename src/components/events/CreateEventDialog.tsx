@@ -22,7 +22,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { EnrichmentSetupDialog } from "./EnrichmentSetupDialog";
 
 const eventSchema = z.object({
@@ -63,20 +63,12 @@ export const CreateEventDialog = ({
 
   const handleCreate = async (data: EventFormData) => {
     if (!startDate || !endDate) {
-      toast({
-        title: "dates required",
-        description: "please select start and end dates",
-        variant: "destructive",
-      });
+      notify.error("please select start and end dates");
       return;
     }
 
     if (endDate < startDate) {
-      toast({
-        title: "invalid dates",
-        description: "end date must be after start date",
-        variant: "destructive",
-      });
+      notify.error("end date must be after start date");
       return;
     }
 
@@ -100,10 +92,7 @@ export const CreateEventDialog = ({
 
       if (error) throw error;
 
-      toast({
-        title: "event created",
-        description: `${data.name} has been added`,
-      });
+      notify.success(`${data.name} has been added`);
 
       form.reset();
       setStartDate(undefined);
@@ -113,11 +102,7 @@ export const CreateEventDialog = ({
 
     } catch (error) {
       console.error('Error creating event:', error);
-      toast({
-        title: "failed to create event",
-        description: "please try again",
-        variant: "destructive",
-      });
+      notify.error("failed to create event");
     } finally {
       setIsCreating(false);
     }

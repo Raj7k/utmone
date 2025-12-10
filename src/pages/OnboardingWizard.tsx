@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useQueryClient } from "@tanstack/react-query";
 import { 
   CheckCircle2, 
@@ -87,9 +87,9 @@ const goals = [
 
 export default function OnboardingWizard() {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [fullName, setFullName] = useState("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
@@ -99,6 +99,48 @@ export default function OnboardingWizard() {
   const [completionPhase, setCompletionPhase] = useState<"creating" | "configuring" | "ready" | null>(null);
   const [placeholderKey, setPlaceholderKey] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Internal auth check - redirect to auth if not logged in
+  useEffect(() => {
+    let isMounted = true;
+    
+    const checkAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!isMounted) return;
+        
+        if (!session) {
+          // Not authenticated, redirect to signup
+          navigate("/signup?redirect_to=/onboarding", { replace: true });
+          return;
+        }
+        
+        setIsCheckingAuth(false);
+      } catch (error) {
+        console.error("[Onboarding] Auth check failed:", error);
+        if (isMounted) {
+          navigate("/signup?redirect_to=/onboarding", { replace: true });
+        }
+      }
+    };
+
+    // Small delay to allow session to establish after signup
+    const timer = setTimeout(checkAuth, 100);
+    
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session && isMounted) {
+        navigate("/signup?redirect_to=/onboarding", { replace: true });
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   // Animated placeholder update when role changes
   useEffect(() => {
@@ -141,19 +183,11 @@ export default function OnboardingWizard() {
 
   const handleNext = () => {
     if (step === 1 && !fullName.trim()) {
-      toast({
-        title: "Name required",
-        description: "Please tell us your name",
-        variant: "destructive",
-      });
+      notify.error("please tell us your name");
       return;
     }
     if (step === 2 && !selectedRole) {
-      toast({
-        title: "Role required",
-        description: "Please select your role",
-        variant: "destructive",
-      });
+      notify.error("please select your role");
       return;
     }
     if (step < 3) setStep((prev) => (prev + 1) as 1 | 2 | 3);
@@ -165,11 +199,7 @@ export default function OnboardingWizard() {
 
   const handleFinish = async () => {
     if (!workspaceName.trim()) {
-      toast({
-        title: "Workspace name required",
-        description: "Please name your workspace",
-        variant: "destructive",
-      });
+      notify.error("please name your workspace");
       return;
     }
 
@@ -223,11 +253,7 @@ export default function OnboardingWizard() {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Onboarding error:", error);
-      toast({
-        title: "Setup failed",
-        description: error.message || "Please try again",
-        variant: "destructive",
-      });
+      notify.error(error.message || "setup failed, please try again");
       setIsCreating(false);
       setCompletionPhase(null);
     }
@@ -240,6 +266,18 @@ export default function OnboardingWizard() {
         : [...prev, goalId]
     );
   };
+
+  // Show loading while checking auth
+  if (isCheckingAuth) {
+    return (
+      <div className="dark min-h-screen flex items-center justify-center p-4" style={{ background: '#050505' }}>
+        <div className="text-center space-y-4">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-white/60" />
+          <p className="text-sm text-white/50">loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Show completion animation
   if (completionPhase) {

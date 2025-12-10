@@ -4,14 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Copy, Check, Code, Zap, User } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 interface PixelInstallGuideProps {
   pixelId: string;
 }
 
 export const PixelInstallGuide: React.FC<PixelInstallGuideProps> = ({ pixelId }) => {
-  const { toast } = useToast();
   const [copiedSnippet, setCopiedSnippet] = useState<string | null>(null);
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -79,17 +78,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     try {
       await navigator.clipboard.writeText(text);
       setCopiedSnippet(snippetName);
-      toast({
-        title: "copied to clipboard",
-        description: `${snippetName} snippet copied successfully`,
-      });
+      notify.success(`${snippetName} snippet copied`);
       setTimeout(() => setCopiedSnippet(null), 2000);
     } catch {
-      toast({
-        title: "copy failed",
-        description: "please select and copy manually",
-        variant: "destructive",
-      });
+      notify.error("copy failed, please select and copy manually");
     }
   };
 
