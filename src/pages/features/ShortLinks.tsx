@@ -7,7 +7,7 @@ import { FeatureComparison } from "@/components/features/FeatureComparison";
 import { WorkflowStep } from "@/components/landing/WorkflowStep";
 import { CTAButton } from "@/components/ui/CTAButton";
 import { Link2, Shield, Eye, Clock, Edit3, User, CheckCircle2, Lock } from "lucide-react";
-import { formatText } from "@/utils/textFormatter";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const ShortLinks = () => {
   const capabilities = [
@@ -72,8 +72,8 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
-            {formatText("Clarity Builds Trust")}
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
+            {p("Clarity Builds Trust")}
           </h2>
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mt-12">
             {/* Before: Messy Link */}
@@ -112,8 +112,8 @@ const ShortLinks = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            link preview intelligence
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
+            {p("link preview intelligence")}
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
             Show users where they're going before they click
@@ -127,7 +127,7 @@ const ShortLinks = () => {
                 <Eye className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">destination preview</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("destination preview")}</h3>
                 <p className="text-secondary-label">
                   Hover over any short link to see the full destination URL, page title, and favicon before clicking
                 </p>
@@ -138,7 +138,7 @@ const ShortLinks = () => {
                 <Shield className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">security scan badge</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("security scan badge")}</h3>
                 <p className="text-secondary-label">
                   Every link shows security status—scanned & safe, SSL secured, or not yet scanned
                 </p>
@@ -149,7 +149,7 @@ const ShortLinks = () => {
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">verified owner</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("verified owner")}</h3>
                 <p className="text-secondary-label">
                   See who created the link and when—full transparency builds trust with your audience
                 </p>
@@ -158,7 +158,7 @@ const ShortLinks = () => {
           </div>
 
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-label">link preview card</h4>
+            <h4 className="text-lg font-semibold mb-4 text-label">{p("link preview card")}</h4>
             <div className="space-y-4 bg-card border border-border rounded-lg p-6">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded flex items-center justify-center shrink-0 bg-primary/10">
@@ -183,8 +183,8 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
-          {formatText("The Basics, Done Beautifully")}
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
+          {p("The Basics, Done Beautifully")}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => (
@@ -203,7 +203,7 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           More Trustworthy Than Any Shortener
         </h2>
         <FeatureComparison
@@ -216,7 +216,7 @@ const ShortLinks = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-label">
           Built For Speed
         </h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -250,8 +250,8 @@ const ShortLinks = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-label lowercase">
-              trust at first glance
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-label">
+              {p("trust at first glance")}
             </h2>
             <p className="text-lg text-muted-foreground">
               Random shortened URLs create hesitation. Branded links with preview cards build instant trust.
@@ -300,7 +300,7 @@ const ShortLinks = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-label">
             Create Your First Link
           </h2>
           <p className="text-body-apple text-secondary-label mb-8">

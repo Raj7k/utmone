@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
         keywords={["privacy policy", "data protection", "GDPR", "user privacy", "utm.one"]}
       />
       <div className="max-w-text-content mx-auto px-8 py-24">
-        <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-8 lowercase">
+        <h1 className="text-5xl md:text-6xl font-display font-bold hero-gradient mb-8">
           privacy policy
         </h1>
         
@@ -22,9 +22,9 @@ export default function PrivacyPolicy() {
         
         <div className="prose prose-lg max-w-none space-y-12">
           <section>
-            <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">1. what we collect</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">1. what we collect</h2>
             <p className="text-white/60 leading-relaxed mb-4">we collect only what's needed to run the product.</p>
-            <h3 className="text-xl font-display font-semibold text-white mb-3 mt-6 lowercase">1.1 account information</h3>
+            <h3 className="text-xl font-display font-semibold text-white mb-3 mt-6">1.1 account information</h3>
             <ul className="list-disc pl-6 space-y-2 text-white/60">
               <li>name</li>
               <li>email address</li>
@@ -34,7 +34,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">2. how we use your data</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">2. how we use your data</h2>
             <ul className="list-disc pl-6 space-y-2 text-white/60">
               <li>operate and improve the product</li>
               <li>generate analytics for your workspace</li>
@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">3. your rights</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">3. your rights</h2>
             <ul className="list-disc pl-6 space-y-2 text-white/60">
               <li>access your data</li>
               <li>correct your data</li>
@@ -60,14 +60,14 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-3xl font-display font-bold text-white mb-4 lowercase">4. contact</h2>
+            <h2 className="text-3xl font-display font-bold text-white mb-4">4. contact</h2>
             <p className="text-white/60 leading-relaxed">
               for privacy questions: <a href="mailto:privacy@utm.one" className="hover:opacity-80 font-medium text-white/80">privacy@utm.one</a>
             </p>
           </section>
 
           <div className="pt-8 border-t border-white/10">
-            <p className="text-sm text-white/40 lowercase">last updated: 25 november 2025</p>
+            <p className="text-sm text-white/40">last updated: 25 november 2025</p>
           </div>
         </div>
       </div>

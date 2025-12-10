@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ProductMockup } from "@/components/product/ProductMockup";
 import { Shield, Users, GitBranch, UserCheck, Clock, FileText } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const EnterpriseControl = () => {
   const capabilities = [
@@ -83,8 +84,8 @@ const EnterpriseControl = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label lowercase">
-            approval workflow
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label">
+            {p("approval workflow")}
           </h2>
           <p className="text-xl text-secondary-label max-w-3xl mx-auto">
             Review and approve changes before they go live
@@ -98,7 +99,7 @@ const EnterpriseControl = () => {
                 <GitBranch className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">multi-level approvals</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("multi-level approvals")}</h3>
                 <p className="text-secondary-label">
                   Set up approval chains—editors create, reviewers approve, admins deploy
                 </p>
@@ -109,7 +110,7 @@ const EnterpriseControl = () => {
                 <Users className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">slack notifications</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("slack notifications")}</h3>
                 <p className="text-secondary-label">
                   Approval requests sent instantly to Slack—no email overload, no missed reviews
                 </p>
@@ -120,7 +121,7 @@ const EnterpriseControl = () => {
                 <FileText className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">audit trail</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">{p("audit trail")}</h3>
                 <p className="text-secondary-label">
                   Every approval, rejection, and modification is logged with who/what/when/why
                 </p>

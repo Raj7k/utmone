@@ -116,7 +116,7 @@ const Pricing = () => {
           {/* Visual: What Growth Plan Gets You vs Competitors - Dynamic */}
           <AnimatedSection delay={0.15}>
             <div className="mt-16 bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 max-w-4xl mx-auto">
-              <h3 className="text-2xl font-display font-bold text-white mb-6 text-center lowercase">
+              <h3 className="text-2xl font-display font-bold text-white mb-6 text-center">
                 what {formatPlanPrice('starter')}/mo gets you vs competitors
               </h3>
               <div className="grid md:grid-cols-3 gap-6">

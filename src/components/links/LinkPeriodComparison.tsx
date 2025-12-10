@@ -17,7 +17,7 @@ export function LinkPeriodComparison({ workspaceId, linkId }: LinkPeriodComparis
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm lowercase">loading period comparison…</CardTitle>
+          <CardTitle className="text-sm">loading period comparison…</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-24 animate-pulse bg-muted rounded" />
@@ -56,7 +56,7 @@ export function LinkPeriodComparison({ workspaceId, linkId }: LinkPeriodComparis
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-display font-semibold lowercase">period comparison</h3>
+        <h3 className="text-lg font-display font-semibold">period comparison</h3>
         <Select value={period} onValueChange={(value: any) => setPeriod(value)}>
           <SelectTrigger className="w-[140px]">
             <SelectValue />
@@ -73,7 +73,7 @@ export function LinkPeriodComparison({ workspaceId, linkId }: LinkPeriodComparis
         {/* Clicks */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">clicks</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">clicks</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-baseline justify-between">
@@ -90,7 +90,7 @@ export function LinkPeriodComparison({ workspaceId, linkId }: LinkPeriodComparis
         {/* Unique Clicks */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">unique visitors</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">unique visitors</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-baseline justify-between">
@@ -107,7 +107,7 @@ export function LinkPeriodComparison({ workspaceId, linkId }: LinkPeriodComparis
         {/* Click Rate */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">click rate</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">click rate</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-baseline justify-between">

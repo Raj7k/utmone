@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const AttributionComparisonChart = () => {
   return (
@@ -14,8 +15,8 @@ export const AttributionComparisonChart = () => {
       >
         <div className="flex items-center gap-2 mb-4">
           <AlertCircle className="w-5 h-5 text-destructive/90" />
-          <h3 className="text-lg font-display font-bold text-foreground lowercase">
-            ga4 last-click attribution
+          <h3 className="text-lg font-display font-bold text-foreground">
+            {p("GA4 last-click attribution")}
           </h3>
         </div>
         
@@ -71,8 +72,8 @@ export const AttributionComparisonChart = () => {
       >
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle2 className="w-5 h-5 text-success/90" />
-          <h3 className="text-lg font-display font-bold text-foreground lowercase">
-            utm.one true attribution
+          <h3 className="text-lg font-display font-bold text-foreground">
+            {p("utm.one true attribution")}
           </h3>
         </div>
         

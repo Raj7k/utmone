@@ -31,7 +31,7 @@ export const TheMomentStoryCard = ({
           <div className="text-xs uppercase font-semibold text-red-400 tracking-wide mb-2">
             {timestamp}
           </div>
-          <h3 className="text-2xl md:text-3xl font-display font-bold text-white lowercase mb-3">
+          <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-3">
             {title}
           </h3>
           <p className="text-lg text-white/60 leading-relaxed">

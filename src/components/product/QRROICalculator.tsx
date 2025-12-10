@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Printer, DollarSign, Percent } from "lucide-react";
 import { shareOnLinkedIn } from "@/lib/utils/linkedinShare";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const QRROICalculator = () => {
   const [printVolume, setPrintVolume] = useState(5000);
@@ -31,8 +32,8 @@ export const QRROICalculator = () => {
     <section className="py-24 md:py-32">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground brand-lowercase mb-4">
-            how much are broken qr codes costing you?
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+            {p("how much are broken QR codes costing you?")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             calculate your annual waste from qr codes that don't scan
@@ -111,8 +112,8 @@ export const QRROICalculator = () => {
             <Card className="p-8 h-full flex flex-col border-white/10 bg-gradient-to-br from-primary/5 via-transparent to-primary/5">
               <div className="flex-1 space-y-6">
                 <div className="text-center">
-                  <h4 className="text-lg font-display font-semibold text-label mb-2 brand-lowercase">
-                    your annual qr waste
+                  <h4 className="text-lg font-display font-semibold text-label mb-2">
+                    {p("your annual QR waste")}
                   </h4>
                 </div>
 

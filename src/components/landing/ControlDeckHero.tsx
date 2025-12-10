@@ -232,7 +232,7 @@ export const ControlDeckHero = ({ onUseCaseChange }: ControlDeckHeroProps) => {
                       <Link to="/early-access">
                         <Button 
                           size="lg"
-                          className="rounded-full px-8 lowercase font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                          className="rounded-full px-8 font-medium font-sans bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
                         >
                           get early access
                           <ArrowRight className="w-4 h-4 ml-2" />

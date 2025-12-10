@@ -91,7 +91,7 @@ const SalaryNegotiationCoach = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">your information</CardTitle>
+          <CardTitle>your information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
@@ -152,7 +152,7 @@ const SalaryNegotiationCoach = () => {
         <div className="space-y-6 mt-8">
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">opening statement</CardTitle>
+              <CardTitle>opening statement</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea value={scripts.opening || "Script will appear here..."} rows={4} readOnly className="font-mono text-sm" />
@@ -161,7 +161,7 @@ const SalaryNegotiationCoach = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">counter-offer phrasing</CardTitle>
+              <CardTitle>counter-offer phrasing</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea value={scripts.counteroffer || "Script will appear here..."} rows={4} readOnly className="font-mono text-sm" />
@@ -170,7 +170,7 @@ const SalaryNegotiationCoach = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">response to pushback</CardTitle>
+              <CardTitle>response to pushback</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea value={scripts.pushback || "Script will appear here..."} rows={4} readOnly className="font-mono text-sm" />
@@ -179,7 +179,7 @@ const SalaryNegotiationCoach = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle className="lowercase">closing statement</CardTitle>
+              <CardTitle>closing statement</CardTitle>
             </CardHeader>
             <CardContent>
               <Textarea value={scripts.closing || "Script will appear here..."} rows={3} readOnly className="font-mono text-sm" />
