@@ -7,6 +7,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { ProductMockup } from "@/components/product/ProductMockup";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 const About = () => {
   return (
@@ -51,7 +52,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient">
                   what is utm.one
                 </h2>
                 <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -65,8 +66,7 @@ const About = () => {
                   </p>
                   <ProgressiveReveal>
                     <p>
-                      it's built for a world where humans still click links, but machines decide what gets recommended, ranked, or ignored.
-                      so we designed utm.one from scratch with one goal — make your link the strongest signal in an LLM-first world.
+                      {p("it's built for a world where humans still click links, but machines decide what gets recommended, ranked, or ignored. so we designed utm.one from scratch with one goal — make your link the strongest signal in an LLM-first world.")}
                     </p>
                   </ProgressiveReveal>
                 </div>
@@ -88,7 +88,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient">
                   the idea behind it
                 </h2>
                 <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -99,17 +99,17 @@ const About = () => {
                   </ProgressiveReveal>
                   <ProgressiveReveal>
                     <p>
-                      one is the old internet: SEO, social feeds, ads, UTMs.
+                      {p("one is the old internet: SEO, social feeds, ads, UTMs.")}
                     </p>
                   </ProgressiveReveal>
                   <ProgressiveReveal>
                     <p>
-                      the new one is the LLM layer: people ask, AI answers.
+                      {p("the new one is the LLM layer: people ask, AI answers.")}
                     </p>
                   </ProgressiveReveal>
                   <ProgressiveReveal>
                     <p>
-                      if your brand, campaign, or message isn't structured in a way LLMs can understand instantly, you don't exist.
+                      {p("if your brand, campaign, or message isn't structured in a way LLMs can understand instantly, you don't exist.")}
                     </p>
                   </ProgressiveReveal>
                   <p className="text-xl text-white/90 font-medium">
@@ -124,12 +124,12 @@ const About = () => {
                   <div className="space-y-6">
                     <div className="bg-white/5 rounded-lg p-6 border-l-4 border-white/30">
                       <div className="text-sm font-semibold text-white mb-2">Old Internet</div>
-                      <div className="text-xs text-white/60">SEO • Social • Ads • UTMs</div>
+                      <div className="text-xs text-white/60">{p("SEO • Social • Ads • UTMs")}</div>
                     </div>
                     <div className="text-center text-2xl text-white/60">+</div>
                     <div className="bg-white/5 rounded-lg p-6 border-l-4 border-white/20">
-                      <div className="text-sm font-semibold text-white mb-2">LLM Layer</div>
-                      <div className="text-xs text-white/60">AI Answers • Context • Recommendations</div>
+                      <div className="text-sm font-semibold text-white mb-2">{p("LLM Layer")}</div>
+                      <div className="text-xs text-white/60">{p("AI Answers • Context • Recommendations")}</div>
                     </div>
                     <div className="text-center">
                       <div className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold text-sm">
@@ -151,7 +151,7 @@ const About = () => {
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
               {/* Left: Content */}
               <div className="flex-1 space-y-6">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient">
                   what makes utm.one different
                 </h2>
                 <ProgressiveReveal>
@@ -163,7 +163,7 @@ const About = () => {
                   <ul className="space-y-3 text-lg text-white/60 leading-[1.75]">
                     <li className="flex items-start gap-3">
                       <span className="font-bold mt-1 text-white/80">•</span>
-                      <span>ultra-clean URLs</span>
+                      <span>{p("ultra-clean URLs")}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="font-bold mt-1 text-white/80">•</span>
@@ -171,7 +171,7 @@ const About = () => {
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="font-bold mt-1 text-white/80">•</span>
-                      <span>ai-readable metadata</span>
+                      <span>{p("AI-readable metadata")}</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="font-bold mt-1 text-white/80">•</span>
@@ -195,7 +195,7 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient">
                 who is it for
               </h2>
               <div className="space-y-6 text-lg text-white/60 leading-[1.75]">
@@ -208,7 +208,7 @@ const About = () => {
                   <ul className="space-y-3 pl-8">
                     <li>consistent campaign naming</li>
                     <li>beautifully short links</li>
-                    <li>metadata that LLMs understand</li>
+                    <li>{p("metadata that LLMs understand")}</li>
                     <li>context that improves conversions</li>
                     <li>clarity that scales across teams</li>
                   </ul>
@@ -216,15 +216,15 @@ const About = () => {
                 
                 <div className="grid md:grid-cols-3 gap-4 pt-6">
                   <Link to="/solutions/marketers" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
-                    <div className="text-sm font-semibold text-white mb-1 lowercase">marketers</div>
+                    <div className="text-sm font-semibold text-white mb-1">marketers</div>
                     <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link to="/solutions/sales" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
-                    <div className="text-sm font-semibold text-white mb-1 lowercase">sales</div>
+                    <div className="text-sm font-semibold text-white mb-1">sales</div>
                     <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link to="/solutions/developers" className="p-4 bg-zinc-900/40 backdrop-blur-xl rounded-lg border border-white/10 hover:border-white/20 transition-colors group">
-                    <div className="text-sm font-semibold text-white mb-1 lowercase">developers</div>
+                    <div className="text-sm font-semibold text-white mb-1">developers</div>
                     <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
@@ -239,7 +239,7 @@ const About = () => {
         <div className="max-w-[800px] mx-auto px-8">
           <AnimatedSection>
             <div className="space-y-6 text-center">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient lowercase">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tight hero-gradient">
                 the promise
               </h2>
               <div className="space-y-6 text-lg text-white/60 leading-[1.75]">

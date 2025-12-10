@@ -109,7 +109,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
           <Button 
             variant="halo"
             size="lg" 
-            className="w-full h-14 text-base lowercase"
+            className="w-full h-14 text-base"
           >
             get early access
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -118,7 +118,7 @@ export const MobileHero = ({ onUseCaseChange }: MobileHeroProps) => {
 
         <Link 
           to="/how-it-works" 
-          className="flex items-center justify-center gap-2 text-sm font-medium lowercase text-white-70"
+          className="flex items-center justify-center gap-2 text-sm font-medium text-white-70"
         >
           see how it works
           <ArrowRight className="h-4 w-4" />

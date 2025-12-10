@@ -5,6 +5,7 @@ import { CleanTrackScoreQuiz } from "@/components/growth/CleanTrackScoreQuiz";
 import { ROICalculator } from "@/components/growth/ROICalculator";
 import { AnimatedSection } from "./AnimatedSection";
 import { Calculator, ClipboardCheck } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 export const GrowthLoopSection = () => {
   const [activeTab, setActiveTab] = useState("quiz");
@@ -15,7 +16,7 @@ export const GrowthLoopSection = () => {
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
           <motion.h1
-            className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase"
+            className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -43,13 +44,13 @@ export const GrowthLoopSection = () => {
         >
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-              <TabsTrigger value="quiz" className="flex items-center gap-2 lowercase">
+              <TabsTrigger value="quiz" className="flex items-center gap-2">
                 <ClipboardCheck className="w-4 h-4" />
                 data quality quiz
               </TabsTrigger>
-              <TabsTrigger value="roi" className="flex items-center gap-2 lowercase">
+              <TabsTrigger value="roi" className="flex items-center gap-2">
                 <Calculator className="w-4 h-4" />
-                roi calculator
+                {p("ROI calculator")}
               </TabsTrigger>
             </TabsList>
             
