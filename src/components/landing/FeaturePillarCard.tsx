@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { LucideIcon, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { formatText } from "@/utils/textFormatter";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 interface FeaturePillarCardProps {
   icon: LucideIcon;
@@ -40,18 +40,18 @@ export const FeaturePillarCard = ({
         <div className="p-3 rounded-xl transition-colors bg-white/10 text-white">
           <Icon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-display font-semibold lowercase transition-colors relative text-white">
-          {formatText(title)}
+        <h3 className="text-xl font-display font-semibold transition-colors relative text-white">
+          {p(title)}
           {href && (
             <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300 bg-white" />
           )}
         </h3>
         <p className="text-sm leading-relaxed text-white/60">
-          {description}
+          {p(description)}
         </p>
         {href && (
           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity text-white">
-            <span className="text-sm font-medium lowercase">learn more</span>
+            <span className="text-sm font-medium">learn more</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </div>
         )}

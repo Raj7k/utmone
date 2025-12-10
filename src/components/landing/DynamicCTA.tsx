@@ -3,6 +3,7 @@ import { UseCaseType } from "./SideNavHero";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 interface DynamicCTAProps {
   selectedUseCase: UseCaseType;
@@ -28,15 +29,15 @@ const CTA_CONTENT: Record<UseCaseType, {
   },
   links: {
     headline: "create your first smart link in 5 seconds.",
-    subheadline: "short URL + UTM + branded QR — validated and consistent, every time.",
+    subheadline: p("short URL + UTM + branded QR — validated and consistent, every time."),
     primaryCta: "start creating links",
     secondaryCta: { text: "see link builder demo", route: "/features/utm-builder" },
   },
   intelligence: {
-    headline: "get AI insights delivered to you.",
+    headline: p("get AI insights delivered to you."),
     subheadline: "anomalies detected. forecasts generated. recommendations sent — before you log in.",
-    primaryCta: "activate AI intelligence",
-    secondaryCta: { text: "see AI demo", route: "/features/predictive-analytics" },
+    primaryCta: p("activate AI intelligence"),
+    secondaryCta: { text: p("see AI demo"), route: "/features/predictive-analytics" },
   },
   governance: {
     headline: "governance that doesn't slow you down.",
@@ -64,7 +65,7 @@ export const DynamicCTA = ({ selectedUseCase }: DynamicCTAProps) => {
             {/* Content */}
             <div className="space-y-4">
               <h2 
-                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase"
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold"
                 style={{
                   background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                   WebkitBackgroundClip: 'text',
@@ -84,14 +85,14 @@ export const DynamicCTA = ({ selectedUseCase }: DynamicCTAProps) => {
               <Link to="/early-access">
                 <Button 
                   size="lg"
-                  className="rounded-full px-8 lowercase font-medium bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
+                  className="rounded-full px-8 font-medium bg-primary text-primary-foreground shadow-[0_0_30px_hsl(0_0%_100%/0.3),0_4px_15px_hsl(0_0%_0%/0.2)]"
                 >
                   {content.primaryCta}
                 </Button>
               </Link>
               <Link
                 to={content.secondaryCta.route}
-                className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors lowercase"
+                className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
               >
                 {content.secondaryCta.text}
                 <ArrowRight className="w-4 h-4" />

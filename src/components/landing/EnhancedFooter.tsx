@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { UtmOneLogo } from "@/components/brand/UtmOneLogo";
 import { motion } from "framer-motion";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import { 
   CheckCircle2,
   Twitter,
@@ -22,10 +23,10 @@ const footerSections = [
     title: "product",
     links: [
       { label: "short links", href: "/features/short-links" },
-      { label: "utm builder", href: "/features/utm-builder" },
-      { label: "qr codes", href: "/features/qr-generator" },
+      { label: p("UTM builder"), href: "/features/utm-builder" },
+      { label: p("QR codes"), href: "/features/qr-generator" },
       { label: "analytics", href: "/features/analytics" },
-      { label: "clean-track AI", href: "/features/predictive-analytics" },
+      { label: p("clean-track AI"), href: "/features/predictive-analytics" },
       { label: "pricing", href: "/pricing" },
     ],
   },
@@ -35,7 +36,7 @@ const footerSections = [
       { label: "documentation", href: "/docs" },
       { label: "blog", href: "/blog" },
       { label: "changelog", href: "/changelog" },
-      { label: "api reference", href: "/docs/api" },
+      { label: p("API reference"), href: "/docs/api" },
       { label: "decision tools", href: "/tools/decision-frameworks" },
     ],
   },
@@ -54,22 +55,22 @@ const footerSections = [
       { label: "privacy", href: "/legal/privacy" },
       { label: "terms", href: "/legal/terms" },
       { label: "security", href: "/legal/security" },
-      { label: "dpa", href: "/legal/dpa" },
+      { label: p("DPA"), href: "/legal/dpa" },
     ],
   },
 ];
 
 const trustBadges = [
-  { label: "GDPR", icon: Shield },
-  { label: "SOC 2", icon: Shield },
-  { label: "WCAG AAA", icon: CheckCircle2 },
-  { label: "99.9% SLA", icon: Zap },
+  { label: p("GDPR"), icon: Shield },
+  { label: p("SOC 2"), icon: Shield },
+  { label: p("WCAG AAA"), icon: CheckCircle2 },
+  { label: p("99.9% SLA"), icon: Zap },
 ];
 
 const quickTools = [
   { icon: LinkIcon, label: "shorten", href: "/tools/url-shortener" },
-  { icon: BarChart3, label: "utm builder", href: "/tools/utm-builder" },
-  { icon: QrCode, label: "qr code", href: "/tools/qr-generator" },
+  { icon: BarChart3, label: p("UTM builder"), href: "/tools/utm-builder" },
+  { icon: QrCode, label: p("QR code"), href: "/tools/qr-generator" },
 ];
 
 export const EnhancedFooter = () => {
@@ -161,7 +162,7 @@ export const EnhancedFooter = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: sectionIndex * 0.1 }}
             >
-              <h3 className="font-semibold mb-4 lowercase text-sm flex items-center gap-2 text-white/90">
+              <h3 className="font-semibold mb-4 text-sm flex items-center gap-2 text-white/90">
                 <div className="w-1 h-4 rounded-full bg-gradient-to-b from-primary to-blazeOrange" />
                 {section.title}
               </h3>
@@ -170,7 +171,7 @@ export const EnhancedFooter = () => {
                   <li key={link.href}>
                     <Link
                       to={link.href}
-                      className="text-sm lowercase inline-flex items-center gap-1 group transition-colors hover:opacity-80 text-white-50"
+                      className="text-sm inline-flex items-center gap-1 group transition-colors hover:opacity-80 text-white-50"
                     >
                       {link.label}
                       <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
@@ -192,7 +193,7 @@ export const EnhancedFooter = () => {
         >
           {/* Newsletter */}
           <div className="flex-1 max-w-md">
-            <h4 className="font-semibold mb-2 lowercase text-sm flex items-center gap-2 text-white/90">
+            <h4 className="font-semibold mb-2 text-sm flex items-center gap-2 text-white/90">
               <Sparkles className="w-4 h-4 text-primary" />
               stay updated
             </h4>
@@ -205,7 +206,7 @@ export const EnhancedFooter = () => {
                 placeholder="your@email.com"
                 className="flex-1 px-4 py-2.5 rounded-lg text-sm focus:outline-none transition-all bg-white/5 border border-white/10 text-white-90"
               />
-              <Button size="sm" className="lowercase bg-primary hover:bg-primary/90">
+              <Button size="sm" className="bg-primary hover:bg-primary/90">
                 subscribe
                 <ArrowRight className="w-3 h-3 ml-1" />
               </Button>

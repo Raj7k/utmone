@@ -6,6 +6,7 @@ import { Share2, ArrowRight, Plus, Sparkles, Orbit } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { GlassCard } from "@/components/ui/glass-card";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 import ReactFlow, {
   Node,
   Edge,
@@ -173,7 +174,7 @@ export default function Galaxy() {
               <span className="text-sm font-display font-medium text-muted-foreground uppercase tracking-wider">causal graph builder</span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient brand-lowercase">
+            <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 hero-gradient">
               attribution galaxy
             </h1>
             <p className="text-muted-foreground max-w-xl mx-auto">

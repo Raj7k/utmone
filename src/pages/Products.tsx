@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Layers, Activity, Compass, Sparkles } from "lucide-react";
 import { ProductControlDeck } from "@/components/product/ProductControlDeck";
+import { preserveAcronyms as p } from "@/utils/textFormatter";
 
 // Jony Ive "Apple" ease curve
 const appleEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -32,15 +33,15 @@ const products = [
     id: "data-pipeline",
     title: "Data Pipeline",
     subtitle: "Clean-Track intelligence",
-    description: "UTM governance that scales. Enforce naming, validate structure, eliminate chaos.",
+    description: p("UTM governance that scales. Enforce naming, validate structure, eliminate chaos."),
     icon: <Activity className="w-8 h-8" />,
     href: "/products/data-pipeline",
   },
   {
     id: "qr-studio",
-    title: "QR Studio",
+    title: p("QR Studio"),
     subtitle: "Branded code generation",
-    description: "Beautiful QR codes that match your brand. Track scans with full attribution.",
+    description: p("Beautiful QR codes that match your brand. Track scans with full attribution."),
     icon: <Sparkles className="w-8 h-8" />,
     href: "/products/qr-studio",
   }
@@ -138,7 +139,7 @@ export default function Products() {
                         <p className="text-sm font-medium uppercase text-white/40 tracking-[0.15em]">
                           {product.subtitle}
                         </p>
-                        <h2 className="text-2xl md:text-3xl font-display font-medium brand-lowercase hero-gradient tracking-[-0.03em]">
+                        <h2 className="text-2xl md:text-3xl font-display font-medium hero-gradient tracking-[-0.03em]">
                           {product.title}
                         </h2>
                         <p className="text-lg leading-relaxed text-white/50">
@@ -175,7 +176,7 @@ export default function Products() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: appleEase }}
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-8 brand-lowercase hero-gradient tracking-[-0.04em]">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-8 hero-gradient tracking-[-0.04em]">
                 one platform.<br />infinite clarity.
               </h2>
               <p className="text-xl md:text-2xl font-light max-w-2xl mx-auto text-white/50 tracking-[-0.02em]">
@@ -233,7 +234,7 @@ export default function Products() {
                 className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_center,_hsl(0_0%_100%_/_0.04)_0%,_transparent_60%)]"
               />
               
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 brand-lowercase relative z-10 hero-gradient tracking-[-0.04em]">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-medium mb-6 relative z-10 hero-gradient tracking-[-0.04em]">
                 ready to take control?
               </h2>
               <p className="text-xl font-light mb-10 relative z-10 text-white/50">
