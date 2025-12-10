@@ -160,8 +160,8 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
 
           {/* Clean Track Intelligence */}
           <div className="space-y-2 mb-6">
-            <h3 className="text-lg font-display font-semibold lowercase">clean track intelligence</h3>
-            <p className="text-sm text-muted-foreground">ai-powered insights to keep your data quality high</p>
+            <h3 className="text-lg font-display font-semibold">clean track intelligence</h3>
+            <p className="text-sm text-muted-foreground">AI-powered insights to keep your data quality high</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -176,7 +176,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
 
           {/* Stats Overview */}
           <div className="space-y-2 mt-8">
-            <h3 className="text-lg font-display font-semibold lowercase">quick stats</h3>
+            <h3 className="text-lg font-display font-semibold">quick stats</h3>
             <p className="text-sm text-muted-foreground">overview of your link performance</p>
           </div>
 
@@ -216,7 +216,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">total clicks</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">total clicks</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalClicks}</div>
@@ -224,7 +224,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground lowercase">unique visitors</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">unique visitors</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{uniqueClicks}</div>
@@ -241,14 +241,14 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         {/* Audience Tab */}
         <TabsContent value="audience" className="space-y-6">
           <div className="space-y-2">
-            <h3 className="text-lg font-display font-semibold lowercase">audience insights</h3>
+            <h3 className="text-lg font-display font-semibold">audience insights</h3>
             <p className="text-sm text-muted-foreground">understand who's clicking your links</p>
           </div>
 
       {/* Device Breakdown */}
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">devices & browsers</CardTitle>
+          <CardTitle>devices & browsers</CardTitle>
         </CardHeader>
         <CardContent>
           <LazyChartContainer height={300}>
@@ -270,7 +270,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Browser Breakdown */}
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">top browsers</CardTitle>
+          <CardTitle>top browsers</CardTitle>
         </CardHeader>
         <CardContent>
           <LazyChartContainer height={300}>
@@ -290,7 +290,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Top Referrers */}
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">top referrers</CardTitle>
+          <CardTitle>top referrers</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
@@ -307,7 +307,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
       {/* Top Countries */}
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">top countries</CardTitle>
+          <CardTitle>top countries</CardTitle>
         </CardHeader>
         <CardContent>
           <LazyChartContainer height={300}>
@@ -328,7 +328,7 @@ export const LinkDetailAnalytics = ({ linkId }: LinkDetailAnalyticsProps) => {
         {/* Conversions Tab */}
         <TabsContent value="conversions" className="space-y-6">
           <div className="space-y-2">
-            <h3 className="text-lg font-display font-semibold lowercase">conversion tracking</h3>
+            <h3 className="text-lg font-display font-semibold">conversion tracking</h3>
             <p className="text-sm text-muted-foreground">track your funnel and estimate conversion probability</p>
           </div>
 

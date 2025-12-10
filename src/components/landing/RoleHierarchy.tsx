@@ -77,7 +77,7 @@ export const RoleHierarchy = ({ roles }: RoleHierarchyProps) => {
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold lowercase">
+                    <h4 className="text-lg font-semibold">
                       {role.name}
                     </h4>
                   </div>

@@ -98,7 +98,7 @@ const JobOfferAnalyzer = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">offer details</CardTitle>
+          <CardTitle>offer details</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
@@ -163,7 +163,7 @@ const JobOfferAnalyzer = () => {
       {analysis && (
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle className="lowercase">ai analysis</CardTitle>
+            <CardTitle>AI analysis</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm max-w-none">

@@ -76,7 +76,7 @@ export const ResourcesFooter = () => {
             transition={{ duration: 0.8, delay: 0.1, ease: appleEase }}
             className="md:col-span-2"
           >
-            <h3 className="text-sm font-semibold text-zinc-900 mb-4 lowercase">resources</h3>
+            <h3 className="text-sm font-semibold text-zinc-900 mb-4">resources</h3>
             <div className="space-y-2">
               {resourceLinks.map((link) => (
                 <Link 
@@ -98,7 +98,7 @@ export const ResourcesFooter = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: appleEase }}
             className="md:col-span-2"
           >
-            <h3 className="text-sm font-semibold text-zinc-900 mb-4 lowercase">product</h3>
+            <h3 className="text-sm font-semibold text-zinc-900 mb-4">product</h3>
             <div className="space-y-2">
               {productLinks.map((link) => (
                 <Link 
@@ -120,7 +120,7 @@ export const ResourcesFooter = () => {
             transition={{ duration: 0.8, delay: 0.3, ease: appleEase }}
             className="md:col-span-2"
           >
-            <h3 className="text-sm font-semibold text-zinc-900 mb-4 lowercase">company</h3>
+            <h3 className="text-sm font-semibold text-zinc-900 mb-4">company</h3>
             <div className="space-y-2">
               {companyLinks.map((link) => (
                 <Link 
@@ -142,7 +142,7 @@ export const ResourcesFooter = () => {
             transition={{ duration: 0.8, delay: 0.4, ease: appleEase }}
             className="md:col-span-2"
           >
-            <h3 className="text-sm font-semibold text-zinc-900 mb-4 lowercase">legal</h3>
+            <h3 className="text-sm font-semibold text-zinc-900 mb-4">legal</h3>
             <div className="space-y-2">
               {legalLinks.map((link) => (
                 <Link 

@@ -33,7 +33,7 @@ export const BenefitCardsGrid = ({ benefits }: BenefitCardsGridProps) => {
                 <Icon className="w-6 h-6 text-white/80" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white lowercase mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   {benefit.title}
                 </h3>
                 <p className="text-sm text-white/60 leading-relaxed">

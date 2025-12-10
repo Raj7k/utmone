@@ -137,7 +137,7 @@ const faqs: FAQItem[] = [
             <span><strong className="text-white-90">Partner managers</strong> — clear attribution for every affiliate and partner</span>
           </li>
         </ul>
-        <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-sm lowercase text-white-70">
+        <a href="/solutions/marketers" className="inline-flex items-center mt-4 text-sm text-white-70">
           learn more about your role →
         </a>
       </>
@@ -167,7 +167,7 @@ const faqs: FAQItem[] = [
           </li>
         </ul>
         <p className="mt-3">All plans include UTM builder, QR generator, and Clean-Track governance.</p>
-        <a href="/pricing" className="inline-flex items-center mt-4 text-sm lowercase text-white-70">
+        <a href="/pricing" className="inline-flex items-center mt-4 text-sm text-white-70">
           see full pricing →
         </a>
       </>
@@ -238,7 +238,7 @@ const ScrollRevealFAQItem = ({ faq, index, isLast }: { faq: FAQItem; index: numb
         className="pb-8 flex-1"
         style={{ opacity, y }}
       >
-        <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 lowercase text-white-90">
+        <h2 className="text-xl md:text-2xl font-display font-semibold mb-4 text-white-90">
           {formatText(faq.question)}
         </h2>
         <div className="space-y-3 leading-relaxed text-white-50">

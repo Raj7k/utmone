@@ -32,7 +32,7 @@ export const JustInTimeProvisioningVisual = () => {
             <Shield className="w-8 h-8 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
           </div>
           <div>
-            <h3 className="text-2xl font-display font-bold text-label lowercase">
+            <h3 className="text-2xl font-display font-bold text-label">
               just-in-time provisioning
             </h3>
             <p className="text-sm text-secondary-label">
@@ -54,7 +54,7 @@ export const JustInTimeProvisioningVisual = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-muted/50 border-2 border-border mb-4">
                   <step.icon className={`w-8 h-8 ${step.color}`} />
                 </div>
-                <h4 className="font-display font-bold text-label lowercase mb-2">
+                <h4 className="font-display font-bold text-label mb-2">
                   {step.title}
                 </h4>
                 <p className="text-sm text-secondary-label">{step.description}</p>
@@ -72,7 +72,7 @@ export const JustInTimeProvisioningVisual = () => {
           <div className="flex items-start gap-4">
             <Shield className="w-6 h-6 flex-shrink-0 mt-1 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
             <div>
-              <h4 className="font-semibold text-label mb-2 lowercase">prevents shadow it</h4>
+              <h4 className="font-semibold text-label mb-2">prevents shadow IT</h4>
               <p className="text-sm text-secondary-label">
                 No more rogue accounts. When employees sign up with company emails, they're 
                 automatically captured into the right workspace with secure default permissions. 

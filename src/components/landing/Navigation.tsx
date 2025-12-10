@@ -794,7 +794,7 @@ export const Navigation = () => {
           {/* Mobile Header Actions */}
           <div className="flex lg:hidden items-center gap-2">
             <Link to="/early-access">
-              <Button variant="halo" size="sm" className="rounded-full text-xs h-9 px-4 lowercase">
+              <Button variant="halo" size="sm" className="rounded-full text-xs h-9 px-4">
                 get access
               </Button>
             </Link>

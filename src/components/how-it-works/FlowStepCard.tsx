@@ -32,7 +32,7 @@ export const FlowStepCard = ({ number, title, description, icon: Icon, delay = 0
 
         {/* Content */}
         <div className="relative z-10 space-y-2">
-          <h3 className="text-xl font-display font-semibold text-white lowercase">
+          <h3 className="text-xl font-display font-semibold text-white">
             {title}
           </h3>
           <p className="text-sm text-white/60 leading-relaxed">

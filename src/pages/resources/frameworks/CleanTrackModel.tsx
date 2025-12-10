@@ -136,7 +136,7 @@ const CleanTrackModel = () => {
               mental model framework
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900">
               clean-track model
             </h1>
             

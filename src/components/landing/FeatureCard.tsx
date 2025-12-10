@@ -49,10 +49,10 @@ export const FeatureCard = ({ number, title, description, delay = 0 }: FeatureCa
         <div className="text-xs md:text-sm font-medium mb-2 md:mb-3 text-muted-foreground">
           {number}
         </div>
-        <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-semibold mb-3 md:mb-4 lowercase text-foreground">
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-semibold mb-3 md:mb-4 text-foreground">
           {title}
         </h3>
-        <div className="text-sm sm:text-base md:text-lg leading-relaxed lowercase text-muted-foreground">
+        <div className="text-sm sm:text-base md:text-lg leading-relaxed text-muted-foreground">
           {description}
         </div>
       </div>

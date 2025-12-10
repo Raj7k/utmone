@@ -128,7 +128,7 @@ export default function ToolsHub() {
                       </div>
                       
                       {/* Content */}
-                      <h2 className="text-2xl font-bold text-foreground mb-2 lowercase">
+                      <h2 className="text-2xl font-bold text-foreground mb-2">
                         {tool.title}
                       </h2>
                       <p className={`
