@@ -590,7 +590,7 @@ export const Navigation = () => {
                       </Link>
 
                       <Link 
-                        to="/resources/reports/salary-benchmark-2026" 
+                        to="/resources/reports/gtm-insights-2026" 
                         className="group rounded-xl p-3 flex items-center gap-3 border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.02] bg-white-05"
                       >
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white-10">
