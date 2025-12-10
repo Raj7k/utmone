@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Palette, Upload, Save } from "lucide-react";
 
 interface BrandingSettings {
@@ -36,7 +36,6 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
   });
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchBranding();
@@ -70,10 +69,8 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
       .upload(fileName, file, { upsert: true });
 
     if (uploadError) {
-      toast({
-        title: "Upload Failed",
+      notify.error("Upload Failed", {
         description: uploadError.message,
-        variant: "destructive",
       });
       setIsUploading(false);
       return;
@@ -86,10 +83,7 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
     setSettings({ ...settings, logo_url: publicUrl });
     setIsUploading(false);
     
-    toast({
-      title: "Logo Uploaded",
-      description: "Logo has been uploaded successfully",
-    });
+    notify.success("Logo has been uploaded successfully");
   };
 
   const handleSave = async () => {
@@ -103,16 +97,9 @@ export const WorkspaceBranding = ({ workspaceId }: WorkspaceBrandingProps) => {
       });
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save branding settings",
-        variant: "destructive",
-      });
+      notify.error("Failed to save branding settings");
     } else {
-      toast({
-        title: "Saved",
-        description: "Branding settings have been updated",
-      });
+      notify.success("Branding settings have been updated");
     }
     setIsSaving(false);
   };

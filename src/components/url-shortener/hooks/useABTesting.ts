@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 interface ABTestVariant {
   linkId: string;
@@ -8,7 +8,6 @@ interface ABTestVariant {
 }
 
 export const useABTesting = (workspaceId: string) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const startABTest = useMutation({
@@ -47,17 +46,12 @@ export const useABTesting = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'a/b test started',
+      notify.success('a/b test started', {
         description: 'traffic is being split between variants',
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 
@@ -73,17 +67,12 @@ export const useABTesting = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'a/b test paused',
+      notify.success('a/b test paused', {
         description: 'traffic split has been paused',
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 
@@ -99,17 +88,12 @@ export const useABTesting = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'a/b test resumed',
+      notify.success('a/b test resumed', {
         description: 'traffic split is active again',
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 
@@ -140,17 +124,12 @@ export const useABTesting = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'winner declared',
+      notify.success('winner declared', {
         description: 'test completed, losing variants archived',
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 
@@ -167,17 +146,12 @@ export const useABTesting = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'traffic split updated',
+      notify.success('traffic split updated', {
         description: 'new percentages are now active',
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error(error.message);
     },
   });
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lock } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { ObsidianMarketingLayout } from "@/components/layout/ObsidianMarketingLayout";
 
@@ -12,7 +12,6 @@ export default function PasswordProtected() {
   const [password, setPassword] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [searchParams] = useSearchParams();
-  const { toast } = useToast();
 
   const linkId = searchParams.get('link');
   const hint = searchParams.get('hint');
@@ -28,21 +27,13 @@ export default function PasswordProtected() {
       });
 
       if (error || !data?.valid) {
-        toast({
-          title: "Incorrect password",
-          description: "Please try again",
-          variant: "destructive"
-        });
+        notify.error("Incorrect password. Please try again.");
       } else {
         // Redirect to final URL
         window.location.href = data.finalUrl;
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to verify password",
-        variant: "destructive"
-      });
+      notify.error("Failed to verify password");
     } finally {
       setIsVerifying(false);
     }

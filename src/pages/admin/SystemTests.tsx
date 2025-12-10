@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { runAllTests, TestResult } from "@/lib/testUtils";
 import { TestResultCard } from "@/components/testing/TestResultCard";
 import { TestDashboard } from "@/components/testing/TestDashboard";
@@ -25,7 +25,6 @@ export default function SystemTests() {
   const [testShortUrl, setTestShortUrl] = useState("");
   const [activeCategory, setActiveCategory] = useState<TestCategory | 'all'>('all');
   const [showHistory, setShowHistory] = useState(false);
-  const { toast } = useToast();
 
   const testHistory = getTestHistory();
 
@@ -69,11 +68,7 @@ export default function SystemTests() {
 
   const runTests = async (category: TestCategory | 'all' = 'all') => {
     if (!workspace?.id) {
-      toast({
-        title: "Error",
-        description: "No workspace found. Please create a workspace first.",
-        variant: "destructive"
-      });
+      notify.error("No workspace found. Please create a workspace first.");
       return;
     }
 
@@ -81,11 +76,7 @@ export default function SystemTests() {
     const shortUrl = testShortUrl || sampleLink?.short_url;
 
     if (!linkId || !shortUrl) {
-      toast({
-        title: "Missing Test Data",
-        description: "Please provide a link ID and short URL, or create a link first.",
-        variant: "destructive"
-      });
+      notify.error("Please provide a link ID and short URL, or create a link first.");
       return;
     }
 
@@ -130,17 +121,13 @@ export default function SystemTests() {
       const passedCount = testResults.filter(r => r.passed).length;
       const totalCount = testResults.length;
 
-      toast({
-        title: "Tests Complete",
-        description: `${passedCount}/${totalCount} tests passed`,
-        variant: passedCount === totalCount ? "default" : "destructive"
-      });
+      if (passedCount === totalCount) {
+        notify.success(`${passedCount}/${totalCount} tests passed`);
+      } else {
+        notify.error(`${passedCount}/${totalCount} tests passed`);
+      }
     } catch (error) {
-      toast({
-        title: "Test Suite Failed",
-        description: error instanceof Error ? error.message : "Unknown error",
-        variant: "destructive"
-      });
+      notify.error(error instanceof Error ? error.message : "Unknown error");
     } finally {
       setIsRunning(false);
     }
@@ -148,18 +135,11 @@ export default function SystemTests() {
 
   const handleExport = () => {
     if (results.length === 0) {
-      toast({
-        title: "No Results",
-        description: "Run tests first before exporting results.",
-        variant: "destructive"
-      });
+      notify.error("Run tests first before exporting results.");
       return;
     }
     exportTestResults(results);
-    toast({
-      title: "Exported",
-      description: "Test results exported successfully"
-    });
+    notify.success("Test results exported successfully");
   };
 
   return (
