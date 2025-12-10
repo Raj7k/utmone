@@ -74,7 +74,7 @@ const AttributionContent = () => (
         {/* Dashboard Content */}
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold lowercase text-foreground">clean-track attribution</h4>
+            <h4 className="font-semibold text-foreground">clean-track attribution</h4>
             <span className="text-xs text-muted-foreground">last 30 days</span>
           </div>
           
@@ -130,7 +130,7 @@ const AttributionContent = () => (
     <div className="space-y-6">
       <div className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wider text-destructive/80">the problem</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold">
           last-click attribution lies to you
         </h2>
         <p className="text-lg leading-relaxed text-muted-foreground">
@@ -180,7 +180,7 @@ const JourneyContent = () => (
     <div className="space-y-6 lg:order-2">
       <div className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wider text-primary">complete visibility</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold">
           see every touchpoint, across every device
         </h2>
         <p className="text-lg leading-relaxed text-muted-foreground">
@@ -205,7 +205,7 @@ const JourneyContent = () => (
           >
             <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
             <div>
-              <h4 className="font-semibold lowercase text-sm text-foreground">{feature.title}</h4>
+              <h4 className="font-semibold text-sm text-foreground">{feature.title}</h4>
               <p className="text-xs text-muted-foreground">{feature.desc}</p>
             </div>
           </motion.div>
@@ -214,7 +214,7 @@ const JourneyContent = () => (
       
         <Link 
           to="/features/predictive-analytics"
-          className="inline-flex items-center gap-2 font-medium transition-colors lowercase hover:opacity-80 text-primary"
+          className="inline-flex items-center gap-2 font-medium transition-colors hover:opacity-80 text-primary"
         >
           explore clean-track journey analytics
           <ArrowRight className="h-4 w-4" />
@@ -245,7 +245,7 @@ const JourneyContent = () => (
         
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h4 className="font-semibold lowercase text-foreground">customer journey</h4>
+            <h4 className="font-semibold text-foreground">customer journey</h4>
             <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
               Nike enterprise deal
             </span>
@@ -336,7 +336,7 @@ const LinksContent = () => (
         </div>
         
         <div className="p-6 space-y-4">
-          <h4 className="font-semibold lowercase text-foreground">create smart link</h4>
+          <h4 className="font-semibold text-foreground">create smart link</h4>
           
           {/* URL Input */}
           <div className="space-y-2">
@@ -368,7 +368,7 @@ const LinksContent = () => (
                     <Icon className="w-4 h-4 text-primary" style={{ opacity: layer.opacity }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium lowercase text-muted-foreground">{layer.label}</p>
+                    <p className="text-xs font-medium text-muted-foreground">{layer.label}</p>
                     <p className="text-xs truncate text-foreground/70 font-mono">{layer.value}</p>
                   </div>
                 </motion.div>
@@ -394,7 +394,7 @@ const LinksContent = () => (
     <div className="space-y-6">
       <div className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wider text-primary">unified link layer</p>
-        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold lowercase">
+        <h2 className="hero-gradient text-2xl md:text-3xl lg:text-4xl font-display font-bold">
           one link. five layers. infinite intelligence.
         </h2>
         <p className="text-lg leading-relaxed text-muted-foreground">

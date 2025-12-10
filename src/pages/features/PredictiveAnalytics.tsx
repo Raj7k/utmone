@@ -85,7 +85,7 @@ export default function PredictiveAnalytics() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
             {p("stop guessing. start knowing.")}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -114,7 +114,7 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">see the future</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">see the future</h2>
             <p className="text-xl text-muted-foreground">real prediction with confidence intervals</p>
           </div>
           <ForecastingPreview />
@@ -125,7 +125,7 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how prediction works</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how prediction works</h2>
             <p className="text-xl text-muted-foreground">no magic. just math.</p>
           </div>
           
@@ -133,7 +133,7 @@ export default function PredictiveAnalytics() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <LineChart className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">pattern recognition</h3>
+                <h3 className="text-2xl font-display font-semibold">pattern recognition</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 The AI learns your weekly patterns, seasonal trends, and campaign cycles automatically. No setup required.
@@ -146,7 +146,7 @@ export default function PredictiveAnalytics() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <TrendingUp className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">confidence intervals</h3>
+                <h3 className="text-2xl font-display font-semibold">confidence intervals</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Every prediction includes a confidence range. Not fake precision—honest uncertainty.
@@ -161,7 +161,7 @@ export default function PredictiveAnalytics() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Clock className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">real-time learning</h3>
+                <h3 className="text-2xl font-display font-semibold">real-time learning</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 The model retrains every 6 hours with new click data. As campaigns evolve, predictions get smarter.
@@ -178,7 +178,7 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real use cases</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
             <p className="text-xl text-muted-foreground">problems we actually solve</p>
           </div>
           <UseCasesGrid useCases={useCases} />
@@ -189,14 +189,14 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">know when your audience is active</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">know when your audience is active</h2>
             <p className="text-xl text-muted-foreground">stop posting at random times</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <Target className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">hourly heatmap</h3>
+                <h3 className="text-xl font-display font-bold">hourly heatmap</h3>
               </div>
               <p className="text-muted-foreground mb-4">See exactly which hours drive the most engagement for your links.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -212,7 +212,7 @@ export default function PredictiveAnalytics() {
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">day-of-week patterns</h3>
+                <h3 className="text-xl font-display font-bold">day-of-week patterns</h3>
               </div>
               <p className="text-muted-foreground mb-4">Understand which days perform best for different campaign types.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -232,7 +232,7 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
           </div>
           <PersonaCalloutCards callouts={[
             { icon: Users, title: "for marketers", benefit: "Plan campaign launches around predicted traffic peaks—no more 'hope it works' launch days." },
@@ -246,7 +246,7 @@ export default function PredictiveAnalytics() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">calculate your savings</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">calculate your savings</h2>
             <p className="text-xl text-muted-foreground">see how much time utm.one saves your team</p>
           </div>
           <ROICalculator />

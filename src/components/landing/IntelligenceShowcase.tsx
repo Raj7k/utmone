@@ -17,7 +17,7 @@ export const IntelligenceShowcase = () => {
     <AnimatedSection className="py-16 md:py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center mb-8 md:mb-12 space-y-3">
-          <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase px-2">
+          <h1 className="hero-gradient text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold px-2">
             clean-track intelligence
           </h1>
           <p className="text-base sm:text-lg px-2 text-white-60">
@@ -40,7 +40,7 @@ export const IntelligenceShowcase = () => {
                 <Sparkles className="w-3.5 h-3.5 text-obsidian" />
               </div>
               <div>
-                <div className="font-semibold text-xs lowercase text-white-90">clean-track AI</div>
+                <div className="font-semibold text-xs text-white-90">clean-track AI</div>
                 <div className="text-[10px] text-white-50">MIT & Harvard algorithms</div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export const IntelligenceShowcase = () => {
                       <Icon className="w-5 h-5 text-white-80" />
                     </div>
                     <div>
-                      <h2 className="text-sm font-semibold mb-1 lowercase text-white-90">{feature.title}</h2>
+                      <h2 className="text-sm font-semibold mb-1 text-white-90">{feature.title}</h2>
                       <p className="text-xs text-white-50">{feature.description}</p>
                     </div>
                   </div>
@@ -165,7 +165,7 @@ export const IntelligenceShowcase = () => {
             <div className="pt-2">
               <Link 
                 to="/features/predictive-analytics"
-                className="inline-flex items-center gap-2 font-medium transition-colors lowercase text-sm hover:opacity-80 text-white-80"
+                className="inline-flex items-center gap-2 font-medium transition-colors text-sm hover:opacity-80 text-white-80"
               >
                 explore clean-track intelligence
                 <ArrowRight className="h-4 w-4" />

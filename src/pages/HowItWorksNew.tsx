@@ -49,7 +49,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             className="space-y-8 text-center"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient">
               How utm.one works
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed max-w-[800px] mx-auto text-white/60">
@@ -80,7 +80,7 @@ const HowItWorks = () => {
               transition={{ duration: 0.7 }}
               className="space-y-6"
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight lowercase">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight">
                 <span className="text-white">Everything starts with </span>
                 <span className="hero-gradient">one clean link</span>
               </h2>
@@ -169,7 +169,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="text-center mb-20"
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-4 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-4">
               The utm.one flow
             </h2>
             <p className="text-lg text-white/60">
@@ -190,7 +190,7 @@ const HowItWorks = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">01</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   You create a link
                 </h2>
                 <p className="text-lg leading-relaxed text-white/60">
@@ -218,7 +218,7 @@ const HowItWorks = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">02</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   Clean-track applies your rules
                 </h2>
                 <p className="text-lg leading-relaxed text-white/60">
@@ -246,7 +246,7 @@ const HowItWorks = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">03</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   Security scanning happens automatically
                 </h2>
                 <p className="text-lg leading-relaxed text-white/60">
@@ -270,7 +270,7 @@ const HowItWorks = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">04</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   Analytics start working immediately
                 </h2>
                 <p className="text-lg leading-relaxed text-white/60">
@@ -294,7 +294,7 @@ const HowItWorks = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-white/5 border-white/10">
                   <span className="text-lg font-display font-bold text-white">05</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-white lowercase">
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
                   Your team stays in sync
                 </h2>
                 <p className="text-lg leading-relaxed text-white/60">
@@ -319,7 +319,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.7 }}
             className="space-y-6"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white lowercase">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white">
               Ready to see it in action?
             </h2>
             <p className="text-xl text-white/60">

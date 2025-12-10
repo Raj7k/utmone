@@ -46,7 +46,7 @@ export const EnginesStackingSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 lowercase text-white"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 text-white"
           >
             the three engines
           </motion.h2>
@@ -112,11 +112,11 @@ export const EnginesStackingSection = () => {
                       </span>
                     </div>
                     
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase text-white">
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white">
                       {engine.headline}
                     </h3>
 
-                    <p className="text-xl md:text-2xl font-semibold lowercase text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+                    <p className="text-xl md:text-2xl font-semibold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
                       {engine.subheadline}
                     </p>
                     
@@ -143,7 +143,7 @@ export const EnginesStackingSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mt-16"
         >
-          <p className="text-2xl font-display font-semibold lowercase text-white">
+          <p className="text-2xl font-display font-semibold text-white">
             every journey tells the full story.
           </p>
         </motion.div>

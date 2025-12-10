@@ -23,7 +23,7 @@ export const EventHaloShowcase = () => {
             New Feature
           </Badge>
           <h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold lowercase mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4"
             style={{
               background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
               WebkitBackgroundClip: 'text',
@@ -84,7 +84,7 @@ export const EventHaloShowcase = () => {
 
             {/* Explanation */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white/90 lowercase">event halo effect</h3>
+              <h3 className="text-xl font-semibold text-white/90">event halo effect</h3>
               <p className="text-white/50 leading-relaxed">
                 Most event ROI is invisible. Event Halo detects the "booth walk-by" effect—people who saw your booth, 
                 picked up collateral, or heard your name, then visited your website days later without scanning a badge.
@@ -108,7 +108,7 @@ export const EventHaloShowcase = () => {
             {/* CTA */}
             <Link 
               to="/features/event-halo"
-              className="inline-flex items-center gap-2 text-white font-medium hover:opacity-80 transition-opacity lowercase"
+              className="inline-flex items-center gap-2 text-white font-medium hover:opacity-80 transition-opacity"
             >
               explore event halo
               <ArrowRight className="w-4 h-4" />

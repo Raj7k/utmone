@@ -83,7 +83,7 @@ export const EnterpriseGradeSection = () => {
           </motion.div>
           
           <motion.h1
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold lowercase obsidian-platinum-text"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold obsidian-platinum-text"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -122,7 +122,7 @@ export const EnterpriseGradeSection = () => {
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 bg-white/10">
                   <Icon className="w-4 h-4 text-white-80" />
                 </div>
-                <h3 className="font-semibold mb-1 lowercase text-sm text-white-90">{feature.title}</h3>
+                <h3 className="font-semibold mb-1 text-sm text-white-90">{feature.title}</h3>
                 <p className="text-xs text-white-50">{feature.description}</p>
               </motion.div>
             );
@@ -166,7 +166,7 @@ export const EnterpriseGradeSection = () => {
               <div className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-white-90">
                 {item.stat}
               </div>
-              <div className="text-xs mt-0.5 lowercase text-white-50">{item.label}</div>
+              <div className="text-xs mt-0.5 text-white-50">{item.label}</div>
             </div>
           ))}
         </motion.div>
@@ -181,7 +181,7 @@ export const EnterpriseGradeSection = () => {
         >
           <Link 
             to="/solutions/enterprise"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all lowercase text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_hsl(var(--white-10))]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all text-sm bg-gradient-to-r from-white to-zinc-200 text-obsidian shadow-[0_0_30px_hsl(var(--white-10))]"
           >
             explore enterprise features
             <ArrowRight className="w-4 h-4" />

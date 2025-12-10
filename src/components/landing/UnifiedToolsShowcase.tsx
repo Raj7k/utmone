@@ -76,7 +76,7 @@ const CoreToolsContent = () => {
               <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 bg-foreground/[0.08] group-hover:bg-foreground/[0.15] transition-colors">
                 <Icon className="w-5 h-5 text-foreground/80 group-hover:text-foreground transition-colors" />
               </div>
-              <h3 className="text-sm font-display font-semibold lowercase mb-1 text-foreground/90 group-hover:text-foreground transition-colors">
+              <h3 className="text-sm font-display font-semibold mb-1 text-foreground/90 group-hover:text-foreground transition-colors">
                 {tool.label}
               </h3>
               <p className="text-xs text-muted-foreground font-sans mb-3">
@@ -354,7 +354,7 @@ const PowerToolsContent = () => {
                 <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-white-95' : 'text-white-50 group-hover:text-white-70'}`} />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className={`text-sm font-semibold lowercase transition-colors ${isActive ? 'text-white-95' : 'text-white-70 group-hover:text-white-90'}`}>
+                <h3 className={`text-sm font-semibold transition-colors ${isActive ? 'text-white-95' : 'text-white-70 group-hover:text-white-90'}`}>
                   {tool.label}
                 </h3>
                 <p className="text-xs mt-0.5 line-clamp-2 text-white-40">

@@ -526,7 +526,7 @@ export const DynamicInsightSection = ({ selectedUseCase }: DynamicInsightSection
                   the insight
                 </p>
                 <h2 
-                  className="text-3xl md:text-4xl lg:text-[2.75rem] font-display font-bold lowercase leading-[1.15] tracking-tight"
+                  className="text-3xl md:text-4xl lg:text-[2.75rem] font-display font-bold leading-[1.15] tracking-tight"
                   style={{
                     background: 'linear-gradient(180deg, #FFFFFF 0%, #A1A1AA 100%)',
                     WebkitBackgroundClip: 'text',

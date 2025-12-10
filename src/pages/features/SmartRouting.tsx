@@ -84,7 +84,7 @@ export default function SmartRouting() {
       <section className="relative py-32 overflow-hidden">
         <RetroGradientMesh />
         <div className="relative max-w-[980px] mx-auto px-8 z-10 text-center">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient lowercase mb-6">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold hero-gradient mb-6">
             one link. infinite destinations.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
@@ -120,7 +120,7 @@ export default function SmartRouting() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold lowercase mb-4">how smart routing works</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">how smart routing works</h2>
             <p className="text-xl text-muted-foreground">one link adapts to every visitor</p>
           </div>
           
@@ -144,7 +144,7 @@ export default function SmartRouting() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Globe className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">geo routing</h3>
+                <h3 className="text-2xl font-display font-semibold">geo routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Route by country, region, or city to show localized content.
@@ -157,7 +157,7 @@ export default function SmartRouting() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <Smartphone className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">device routing</h3>
+                <h3 className="text-2xl font-display font-semibold">device routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Route by device type, OS, or browser for optimal experience.
@@ -170,7 +170,7 @@ export default function SmartRouting() {
             <div className="bg-card border border-border rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
                 <GitBranch className="w-8 h-8 text-primary" />
-                <h3 className="text-2xl font-display font-semibold lowercase">conditional routing</h3>
+                <h3 className="text-2xl font-display font-semibold">conditional routing</h3>
               </div>
               <p className="text-muted-foreground mb-4">
                 Combine multiple conditions for precise targeting.
@@ -187,7 +187,7 @@ export default function SmartRouting() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">real use cases</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">real use cases</h2>
             <p className="text-xl text-muted-foreground">problems we actually solve</p>
           </div>
           <UseCasesGrid useCases={useCases} />
@@ -198,14 +198,14 @@ export default function SmartRouting() {
       <section className="py-24 bg-background">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">advanced routing features</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">advanced routing features</h2>
             <p className="text-xl text-muted-foreground">go beyond simple geo-targeting</p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <Target className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">traffic splitting</h3>
+                <h3 className="text-xl font-display font-bold">traffic splitting</h3>
               </div>
               <p className="text-muted-foreground mb-4">Route 50% of US traffic to Page A, 50% to Page B for clean A/B testing.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -221,7 +221,7 @@ export default function SmartRouting() {
             <div className="bg-card border-2 border-border rounded-xl p-8">
               <div className="flex items-center gap-2 mb-4">
                 <GitBranch className="w-6 h-6 text-primary" />
-                <h3 className="text-xl font-display font-bold lowercase">cascade fallbacks</h3>
+                <h3 className="text-xl font-display font-bold">cascade fallbacks</h3>
               </div>
               <p className="text-muted-foreground mb-4">If primary destination fails, automatically route to backup destination.</p>
               <div className="bg-muted/30 rounded-lg p-4 text-sm">
@@ -241,7 +241,7 @@ export default function SmartRouting() {
       <section className="py-24 bg-muted/20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold lowercase mb-4">for your role</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">for your role</h2>
           </div>
           <PersonaCalloutCards callouts={[
             { icon: Users, title: "for marketers", benefit: "Route by country for localized pricing—US visitors see USD, EU visitors see EUR, no manual links." },

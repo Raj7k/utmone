@@ -60,7 +60,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-display font-semibold text-center lowercase text-white-90">
+              <h3 className="text-lg font-display font-semibold text-center text-white-90">
                 {card.title}
               </h3>
             </div>
@@ -89,7 +89,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-lg font-display font-semibold text-center lowercase text-white-90">
+              <h3 className="text-lg font-display font-semibold text-center text-white-90">
                 {card.title}
               </h3>
             </div>
@@ -99,7 +99,7 @@ export const FloatingCards = ({ cards, caption }: FloatingCardsProps) => {
 
       {/* Caption */}
       <p
-        className={`text-xl md:text-2xl text-center lowercase tracking-wide transition-all duration-700 delay-500 text-white-50 ${
+        className={`text-xl md:text-2xl text-center tracking-wide transition-all duration-700 delay-500 text-white-50 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
         }`}
       >
