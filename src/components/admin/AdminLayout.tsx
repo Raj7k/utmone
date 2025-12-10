@@ -14,7 +14,10 @@ import {
   Activity,
   Flag,
   TestTube,
-  Shield
+  Shield,
+  MessageSquare,
+  CreditCard,
+  Handshake
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -24,12 +27,16 @@ interface AdminLayoutProps {
 const navItems = [
   { path: "/admin", label: "dashboard", icon: LayoutDashboard },
   { path: "/admin/waitlist", label: "waitlist", icon: Users },
+  { path: "/admin/users", label: "users", icon: Users },
+  { path: "/admin/feedback", label: "feedback", icon: MessageSquare },
   { path: "/admin/landing", label: "landing page", icon: Megaphone },
   { path: "/admin/product", label: "product analytics", icon: BarChart3 },
   { path: "/admin/system", label: "system monitoring", icon: Activity },
   { path: "/admin/feature-flags", label: "feature flags", icon: Flag },
+  { path: "/admin/subscriptions", label: "subscriptions", icon: CreditCard },
   { path: "/admin/security", label: "security", icon: Shield },
   { path: "/admin/tests", label: "system tests", icon: TestTube },
+  { path: "/admin/partners", label: "partners", icon: Handshake },
 ];
 
 export function AdminLayout({ children }: AdminLayoutProps) {
