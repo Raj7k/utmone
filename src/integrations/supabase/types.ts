@@ -2050,11 +2050,15 @@ export type Database = {
           first_name: string | null
           id: string
           last_name: string | null
+          lead_temperature: string | null
           linkedin_url: string | null
           phone: string | null
+          quick_notes: string | null
           scanned_at: string | null
           title: string | null
           visitor_id: string | null
+          voice_note_transcript: string | null
+          voice_note_url: string | null
         }
         Insert: {
           company?: string | null
@@ -2069,11 +2073,15 @@ export type Database = {
           first_name?: string | null
           id?: string
           last_name?: string | null
+          lead_temperature?: string | null
           linkedin_url?: string | null
           phone?: string | null
+          quick_notes?: string | null
           scanned_at?: string | null
           title?: string | null
           visitor_id?: string | null
+          voice_note_transcript?: string | null
+          voice_note_url?: string | null
         }
         Update: {
           company?: string | null
@@ -2088,11 +2096,15 @@ export type Database = {
           first_name?: string | null
           id?: string
           last_name?: string | null
+          lead_temperature?: string | null
           linkedin_url?: string | null
           phone?: string | null
+          quick_notes?: string | null
           scanned_at?: string | null
           title?: string | null
           visitor_id?: string | null
+          voice_note_transcript?: string | null
+          voice_note_url?: string | null
         }
         Relationships: [
           {
