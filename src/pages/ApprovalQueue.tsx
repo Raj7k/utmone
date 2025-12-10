@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, XCircle, ExternalLink } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -28,7 +28,6 @@ export default function ApprovalQueue() {
   const [showRejectDialog, setShowRejectDialog] = useState(false);
   const [selectedLinkId, setSelectedLinkId] = useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = useState("");
-  const { toast } = useToast();
   const { currentWorkspace } = useWorkspaceContext();
 
   useEffect(() => {
@@ -83,16 +82,9 @@ export default function ApprovalQueue() {
       .eq("id", linkId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to approve link",
-        variant: "destructive",
-      });
+      notify.error("Error", { description: "Failed to approve link" });
     } else {
-      toast({
-        title: "Approved",
-        description: "Link has been approved and is now live",
-      });
+      notify.success("Approved", { description: "Link has been approved and is now live" });
       
       // Trigger email notification
       await supabase.functions.invoke("send-approval-notification", {
@@ -110,11 +102,7 @@ export default function ApprovalQueue() {
 
   const handleReject = async () => {
     if (!rejectionReason.trim()) {
-      toast({
-        title: "Reason Required",
-        description: "Please provide a reason for rejection",
-        variant: "destructive",
-      });
+      notify.error("Reason Required", { description: "Please provide a reason for rejection" });
       return;
     }
 
@@ -130,16 +118,9 @@ export default function ApprovalQueue() {
       .eq("id", selectedLinkId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to reject link",
-        variant: "destructive",
-      });
+      notify.error("Error", { description: "Failed to reject link" });
     } else {
-      toast({
-        title: "Rejected",
-        description: "Link has been rejected with feedback",
-      });
+      notify.success("Rejected", { description: "Link has been rejected with feedback" });
       
       // Trigger email notification
       await supabase.functions.invoke("send-approval-notification", {

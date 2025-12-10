@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Copy, TrendingUp, Shield } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { LinkPreviewCard } from "../LinkPreviewCard";
 import { TrustBadge } from "../TrustBadge";
 import { formatDistanceToNow } from "date-fns";
@@ -15,7 +15,6 @@ interface RecentLinksWidgetProps {
 }
 
 export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { data: recentLinks, isLoading } = useQuery({
@@ -36,10 +35,7 @@ export const RecentLinksWidget = ({ workspaceId }: RecentLinksWidgetProps) => {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied",
-      description: "URL copied to clipboard",
-    });
+    notify.success("Copied", { description: "URL copied to clipboard" });
   };
 
   if (isLoading) {

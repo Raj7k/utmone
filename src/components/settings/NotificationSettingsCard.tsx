@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useWorkspace } from "@/hooks/useWorkspace";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -31,7 +31,6 @@ interface NotificationSettings {
 
 export function NotificationSettingsCard() {
   const { currentWorkspace } = useWorkspace();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   
   const [settings, setSettings] = useState<NotificationSettings | null>(null);
@@ -115,10 +114,10 @@ export function NotificationSettingsCard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notification-settings"] });
-      toast({ title: "settings saved", description: "your notification preferences have been updated." });
+      notify.success("settings saved", { description: "your notification preferences have been updated." });
     },
     onError: (error: Error) => {
-      toast({ title: "failed to save", description: error.message, variant: "destructive" });
+      notify.error("failed to save", { description: error.message });
     },
   });
 
@@ -157,9 +156,9 @@ export function NotificationSettingsCard() {
       });
 
       if (error) throw error;
-      toast({ title: "test sent", description: "check your configured channels for the test notification." });
+      notify.success("test sent", { description: "check your configured channels for the test notification." });
     } catch (error) {
-      toast({ title: "test failed", description: error instanceof Error ? error.message : "Unknown error", variant: "destructive" });
+      notify.error("test failed", { description: error instanceof Error ? error.message : "Unknown error" });
     } finally {
       setIsTesting(false);
     }
@@ -168,11 +167,11 @@ export function NotificationSettingsCard() {
   const addEmail = () => {
     if (!newEmail || !settings) return;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
-      toast({ title: "invalid email", variant: "destructive" });
+      notify.error("invalid email");
       return;
     }
     if (settings.email_recipients.includes(newEmail)) {
-      toast({ title: "email already added", variant: "destructive" });
+      notify.error("email already added");
       return;
     }
     setSettings({ ...settings, email_recipients: [...settings.email_recipients, newEmail] });

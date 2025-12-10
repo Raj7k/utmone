@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, CheckCircle2, ExternalLink, QrCode, Link2 } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NetworkRipple } from "@/components/growth/NetworkRipple";
@@ -24,7 +24,6 @@ export const LinkSuccessCard = ({
   onGenerateQR,
   className = "",
 }: LinkSuccessCardProps) => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
@@ -46,10 +45,7 @@ export const LinkSuccessCard = ({
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setShowRipple(true);
-    toast({
-      title: "copied",
-      description: "url copied to clipboard",
-    });
+    notify.success("copied", { description: "url copied to clipboard" });
     setTimeout(() => setCopied(false), 2000);
   };
 

@@ -8,12 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SalaryComparisonCard } from "@/components/tools/SalaryComparisonCard";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { salaryBenchmarks, getSalaryForRole, getAdjustedSalary } from "@/lib/salaryData";
 
 const JobOfferAnalyzer = () => {
-  const { toast } = useToast();
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [formData, setFormData] = useState({
     role: "",
@@ -27,11 +26,7 @@ const JobOfferAnalyzer = () => {
 
   const handleAnalyze = async () => {
     if (!formData.role || !formData.baseSalary) {
-      toast({
-        title: "missing information",
-        description: "please fill in role and base salary",
-        variant: "destructive"
-      });
+      notify.error("missing information", { description: "please fill in role and base salary" });
       return;
     }
 
@@ -58,16 +53,9 @@ const JobOfferAnalyzer = () => {
       if (error) throw error;
       setAnalysis(data);
       
-      toast({
-        title: "analysis complete",
-        description: "your personalized offer analysis is ready"
-      });
+      notify.success("analysis complete", { description: "your personalized offer analysis is ready" });
     } catch (error: any) {
-      toast({
-        title: "analysis failed",
-        description: error.message,
-        variant: "destructive"
-      });
+      notify.error("analysis failed", { description: error.message });
     } finally {
       setIsAnalyzing(false);
     }

@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { GitBranch, CheckCircle, AlertCircle, Clock, ExternalLink } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function GitHubBackupSettings() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [repoOwner, setRepoOwner] = useState("");
   const [repoName, setRepoName] = useState("");
@@ -109,17 +108,10 @@ export function GitHubBackupSettings() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["github-integration"] });
       queryClient.invalidateQueries({ queryKey: ["backup-schedule"] });
-      toast({
-        title: "GitHub Backup Configured",
-        description: "Your backups are now set up and will run daily at 2AM UTC.",
-      });
+      notify.success("GitHub Backup Configured", { description: "Your backups are now set up and will run daily at 2AM UTC." });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Configuration Failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("Configuration Failed", { description: error.message });
     },
   });
 
@@ -139,17 +131,10 @@ export function GitHubBackupSettings() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["backup-logs"] });
-      toast({
-        title: "Backup Started",
-        description: "Your manual backup is running. Check back in a few minutes.",
-      });
+      notify.success("Backup Started", { description: "Your manual backup is running. Check back in a few minutes." });
     },
     onError: (error: Error) => {
-      toast({
-        title: "Backup Failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("Backup Failed", { description: error.message });
     },
   });
 
