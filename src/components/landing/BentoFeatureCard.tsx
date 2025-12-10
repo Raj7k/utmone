@@ -53,7 +53,7 @@ export const BentoFeatureCard = ({
               <Icon className="h-6 w-6 md:h-8 md:w-8 text-foreground" />
             </div>
             
-            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold lowercase transition-colors text-white/90">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-bold transition-colors text-white/90">
               {title}
             </h3>
             

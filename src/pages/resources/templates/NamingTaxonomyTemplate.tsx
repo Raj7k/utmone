@@ -59,7 +59,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
           
           <div className="space-y-6">
             <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 lowercase mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-zinc-900 mb-4">
                 naming taxonomy template
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-[720px]">
@@ -117,7 +117,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
       {/* Taxonomy Tables */}
       <section className="py-16 bg-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             taxonomy structure
           </h2>
 
@@ -163,7 +163,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
       {/* Customization Guidelines */}
       <section className="py-16 bg-muted/20">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             customization guidelines
           </h2>
 
@@ -204,7 +204,7 @@ email-global-launch-feb,Global email campaign for product launch, February`;
       {/* Related Resources */}
       <section className="py-16 bg-background">
         <div className="max-w-[980px] mx-auto px-8">
-          <h2 className="text-3xl font-display font-bold text-foreground mb-8 lowercase">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-8">
             related resources
           </h2>
 

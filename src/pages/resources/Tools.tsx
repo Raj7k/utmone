@@ -137,7 +137,7 @@ const Tools = () => {
       <section className="py-16 bg-white/[0.02] border-y border-white/10">
         <div className="max-w-[1100px] mx-auto px-8">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-display font-bold mb-2 lowercase text-white">
+            <h2 className="text-2xl font-display font-bold mb-2 text-white">
               backed by real data
             </h2>
             <p className="text-white/60">

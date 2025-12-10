@@ -69,7 +69,7 @@ const MarketValueCalculator = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="lowercase">calculate your market value</CardTitle>
+          <CardTitle>calculate your market value</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <SalaryFilters onFilterChange={setFilters} />
@@ -91,7 +91,7 @@ const MarketValueCalculator = () => {
         <div className="grid md:grid-cols-2 gap-6 mt-8">
           <Card className="flex items-center justify-center p-8">
             <div className="text-center space-y-4">
-              <h3 className="text-lg font-medium text-muted-foreground lowercase">your percentile</h3>
+              <h3 className="text-lg font-medium text-muted-foreground">your percentile</h3>
               <PercentileGauge percentile={percentile} size="lg" />
             </div>
           </Card>
@@ -105,7 +105,7 @@ const MarketValueCalculator = () => {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-muted-foreground lowercase">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
                   market insights
                 </CardTitle>
               </CardHeader>

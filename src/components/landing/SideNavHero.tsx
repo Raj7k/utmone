@@ -217,10 +217,10 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                           </TooltipTrigger>
                           <TooltipContent side="right" className="p-3 bg-zinc-900/95 border border-white/10">
                             <div className="flex flex-col gap-2">
-                              <span className="font-medium lowercase text-white-90">{useCase.label}</span>
+                              <span className="font-medium text-white-90">{useCase.label}</span>
                               <Link 
                                 to={useCase.route} 
-                                className="text-xs hover:underline inline-flex items-center gap-1 lowercase text-white-60"
+                                className="text-xs hover:underline inline-flex items-center gap-1 text-white-60"
                               >
                                 learn more <ArrowRight className="w-3 h-3" />
                               </Link>
@@ -345,7 +345,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                                   <Button 
                                     size="sm" 
                                     variant="secondary" 
-                                    className="w-full lowercase bg-white/95 text-obsidian-bg"
+                                    className="w-full bg-white/95 text-obsidian-bg"
                                   >
                                     {content.cta}
                                     <ArrowRight className="ml-2 h-3 w-3" />
@@ -387,7 +387,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                   <div className="space-y-6">
                     {/* Headline */}
                     <div className="space-y-4">
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold lowercase leading-[1.1] obsidian-platinum-text">
+                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-bold leading-[1.1] obsidian-platinum-text">
                         {content.headline}
                       </h1>
                       <p className="text-base md:text-lg max-w-xl leading-relaxed text-muted-foreground">
@@ -401,7 +401,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                         {content.features.map((feature) => (
                           <span
                             key={feature.name}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm lowercase bg-white/[0.06] border border-white/10 text-white-70"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-white/[0.06] border border-white/10 text-white-70"
                           >
                             <ChevronRight className="w-3 h-3 text-white-50" />
                             {feature.name}
@@ -415,7 +415,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       <Link to="/early-access">
                         <Button 
                           size="lg" 
-                          className="h-12 px-6 text-sm lowercase rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm"
+                          className="h-12 px-6 text-sm rounded-full font-semibold transition-all duration-300 bg-gradient-to-br from-white to-zinc-200 text-obsidian-bg shadow-glow-sm"
                         >
                           {content.cta}
                           <ArrowRight className="ml-2 h-4 w-4" />
@@ -423,7 +423,7 @@ export const SideNavHero = ({ onUseCaseChange }: SideNavHeroProps) => {
                       </Link>
                       <Link 
                         to="/how-it-works" 
-                        className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium lowercase transition-all bg-white/5 border border-white/10 text-white-80"
+                        className="flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium transition-all bg-white/5 border border-white/10 text-white-80"
                       >
                         learn more
                         <ArrowRight className="h-4 w-4" />

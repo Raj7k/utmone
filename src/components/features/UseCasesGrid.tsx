@@ -22,7 +22,7 @@ export const UseCasesGrid = ({ useCases }: UseCasesGridProps) => {
           transition={{ duration: 0.5, delay: index * 0.1 }}
           className="obsidian-glass rounded-xl p-6 transition-all"
         >
-          <h3 className="text-lg font-display font-bold lowercase mb-3 text-white">
+          <h3 className="text-lg font-display font-bold mb-3 text-white">
             {useCase.title}
           </h3>
           <div className="space-y-3">

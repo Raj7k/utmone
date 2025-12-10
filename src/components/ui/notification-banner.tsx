@@ -55,11 +55,11 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
             <BannerIcon type={notification.type} />
             
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground lowercase truncate">
+              <p className="text-sm font-medium text-foreground truncate">
                 {notification.title}
               </p>
               {notification.description && (
-                <p className="text-xs text-muted-foreground lowercase truncate">
+                <p className="text-xs text-muted-foreground truncate">
                   {notification.description}
                 </p>
               )}
@@ -73,7 +73,7 @@ export function NotificationBanner({ notifications }: NotificationBannerProps) {
                   notification.action?.onClick();
                   dismiss(notification.id);
                 }}
-                className="shrink-0 h-7 text-xs lowercase"
+                className="shrink-0 h-7 text-xs"
               >
                 {notification.action.label}
               </Button>

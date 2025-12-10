@@ -70,7 +70,7 @@ const JourneyValuation = () => {
         
         <div className="relative max-w-[980px] mx-auto px-8 z-10">
           <div className="text-center space-y-8">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05] lowercase">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter hero-gradient leading-[1.05]">
               know the dollar value of every page.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] mx-auto">
@@ -103,7 +103,7 @@ const JourneyValuation = () => {
       <section className="py-24 md:py-32 bg-muted/20">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-6 lowercase">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-label mb-6">
               page value heatmap
             </h2>
             <p className="text-xl text-secondary-label max-w-2xl mx-auto">
@@ -125,7 +125,7 @@ const JourneyValuation = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <DollarSign className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-label">
                 $V$ per URL
               </h3>
               <p className="text-secondary-label">
@@ -137,7 +137,7 @@ const JourneyValuation = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <Layers className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-label">
                 golden path
               </h3>
               <p className="text-secondary-label">
@@ -149,7 +149,7 @@ const JourneyValuation = () => {
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
                 <MapPin className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-2xl font-display font-bold text-label lowercase">
+              <h3 className="text-2xl font-display font-bold text-label">
                 route traffic correctly
               </h3>
               <p className="text-secondary-label">

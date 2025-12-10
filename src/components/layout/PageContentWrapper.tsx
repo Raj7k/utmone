@@ -53,12 +53,12 @@ export const PageContentWrapper = ({
               {crumb.href ? (
                 <Link
                   to={crumb.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors lowercase"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {crumb.label}
                 </Link>
               ) : (
-                <span className="text-foreground lowercase">{crumb.label}</span>
+                <span className="text-foreground">{crumb.label}</span>
               )}
             </div>
           ))}
@@ -68,11 +68,11 @@ export const PageContentWrapper = ({
         {!compact && (
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="space-y-1">
-              <h1 className="text-2xl font-display font-semibold text-foreground lowercase">
+              <h1 className="text-2xl font-display font-semibold text-foreground">
                 {title}
               </h1>
               {description && (
-                <p className="text-sm text-muted-foreground lowercase">
+                <p className="text-sm text-muted-foreground">
                   {description}
                 </p>
               )}

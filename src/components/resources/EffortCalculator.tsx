@@ -93,16 +93,16 @@ export const EffortCalculator = () => {
     <Card className="glass-card p-8 space-y-8">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h3 className="text-2xl font-display font-bold text-foreground lowercase">ai vs human effort calculator</h3>
-        <p className="text-muted-foreground lowercase">
-          calculate time savings with ai-assisted content creation
+        <h3 className="text-2xl font-display font-bold text-foreground">AI vs human effort calculator</h3>
+        <p className="text-muted-foreground">
+          calculate time savings with AI-assisted content creation
         </p>
       </div>
 
       {/* Input Section */}
       <div className="space-y-6">
         <div className="space-y-2">
-          <Label className="lowercase">content type</Label>
+          <Label>content type</Label>
           <Select value={selectedType} onValueChange={setSelectedType}>
             <SelectTrigger>
               <SelectValue />
@@ -118,7 +118,7 @@ export const EffortCalculator = () => {
         </div>
 
         <div className="space-y-2">
-          <Label className="lowercase">pieces per month</Label>
+          <Label>pieces per month</Label>
           <div className="flex gap-2">
             {[1, 2, 4, 8, 12, 20].map((num) => (
               <Button
@@ -138,21 +138,21 @@ export const EffortCalculator = () => {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Time Breakdown */}
         <div className="space-y-6">
-          <h4 className="font-display font-semibold text-lg text-foreground lowercase">time breakdown</h4>
+          <h4 className="font-display font-semibold text-lg text-foreground">time breakdown</h4>
           
           <div className="space-y-4">
             <div className="p-4 bg-muted/30 rounded-lg">
-              <p className="text-sm text-muted-foreground lowercase">traditional approach (per piece)</p>
+              <p className="text-sm text-muted-foreground">traditional approach (per piece)</p>
               <p className="text-2xl font-display font-bold text-foreground">{contentType.traditionalHours} hours</p>
             </div>
 
             <div className="p-4 rounded-lg border-2 bg-primary/10 border-primary/30">
-              <p className="text-sm text-muted-foreground lowercase">with ai assistance (per piece)</p>
+              <p className="text-sm text-muted-foreground">with AI assistance (per piece)</p>
               <p className="text-2xl font-display font-bold text-primary">{contentType.aiHours} hours</p>
             </div>
 
             <div className="p-4 bg-system-green/10 rounded-lg border-2 border-system-green/30">
-              <p className="text-sm text-muted-foreground lowercase">time saved (per piece)</p>
+              <p className="text-sm text-muted-foreground">time saved (per piece)</p>
               <p className="text-2xl font-display font-bold text-system-green">
                 {hoursSavedPerPiece} hours
                 <span className="text-sm ml-2">({efficiencyGain}% faster)</span>
@@ -163,7 +163,7 @@ export const EffortCalculator = () => {
 
         {/* Effort Distribution */}
         <div className="space-y-6">
-          <h4 className="font-display font-semibold text-lg text-foreground lowercase">effort distribution</h4>
+          <h4 className="font-display font-semibold text-lg text-foreground">effort distribution</h4>
           
           <LazyChartContainer height={200}>
             <ResponsiveContainer width="100%" height={200}>
@@ -186,8 +186,8 @@ export const EffortCalculator = () => {
             </ResponsiveContainer>
           </LazyChartContainer>
 
-          <div className="text-center text-sm text-muted-foreground space-y-1 lowercase">
-            <p>ai handles repetitive tasks: research, drafting, optimization</p>
+          <div className="text-center text-sm text-muted-foreground space-y-1">
+            <p>AI handles repetitive tasks: research, drafting, optimization</p>
             <p>human adds: strategy, creativity, brand voice, fact-checking</p>
           </div>
         </div>
@@ -195,33 +195,33 @@ export const EffortCalculator = () => {
 
       {/* Monthly ROI */}
       <div className="border-t border-border pt-6 space-y-4">
-        <h4 className="font-display font-semibold text-lg text-foreground lowercase">monthly roi</h4>
+        <h4 className="font-display font-semibold text-lg text-foreground">monthly ROI</h4>
         
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center p-4 bg-muted/20 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-1 lowercase">traditional</p>
+            <p className="text-sm text-muted-foreground mb-1">traditional</p>
             <p className="text-2xl font-display font-bold text-foreground">{totalTraditionalHours}h</p>
           </div>
           
           <div className="text-center p-4 rounded-lg bg-primary/10">
-            <p className="text-sm text-muted-foreground mb-1 lowercase">with ai</p>
+            <p className="text-sm text-muted-foreground mb-1">with AI</p>
             <p className="text-2xl font-display font-bold text-primary">{totalAIHours}h</p>
           </div>
           
           <div className="text-center p-4 bg-system-green/10 rounded-lg">
-            <p className="text-sm text-muted-foreground mb-1 lowercase">saved</p>
+            <p className="text-sm text-muted-foreground mb-1">saved</p>
             <p className="text-2xl font-display font-bold text-system-green">{totalHoursSaved}h</p>
           </div>
         </div>
 
         <div className="text-center p-6 rounded-lg bg-gradient-to-r from-primary/10 to-primary/5">
-          <p className="text-sm text-muted-foreground mb-2 lowercase">
+          <p className="text-sm text-muted-foreground mb-2">
             that's equivalent to
           </p>
           <p className="text-3xl font-display font-bold text-primary">
             {(totalHoursSaved / 40).toFixed(1)} weeks
           </p>
-          <p className="text-sm text-muted-foreground mt-2 lowercase">
+          <p className="text-sm text-muted-foreground mt-2">
             of productivity gained per month
           </p>
         </div>

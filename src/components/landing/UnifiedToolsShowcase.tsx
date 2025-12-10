@@ -499,7 +499,7 @@ const FirstPrinciplesContent = () => {
               onChange={(e) => setProblem(e.target.value)}
               className="min-h-[100px] text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30"
             />
-            <Button onClick={nextStep} className="w-full lowercase bg-white text-black hover:bg-white/90">
+            <Button onClick={nextStep} className="w-full bg-white text-black hover:bg-white/90">
               start breakdown <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </motion.div>
@@ -517,7 +517,7 @@ const FirstPrinciplesContent = () => {
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 bg-white/10">
                 <Lightbulb className="w-7 h-7 text-white-90" />
               </div>
-              <h3 className="text-lg font-semibold lowercase text-white-90">ask "why" 5 times</h3>
+              <h3 className="text-lg font-semibold text-white-90">ask "why" 5 times</h3>
             </div>
             <div className="p-3 rounded-lg mb-3 bg-white/5">
               <p className="text-xs text-white-50">your problem:</p>
@@ -541,10 +541,10 @@ const FirstPrinciplesContent = () => {
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <Button onClick={() => setStep(0)} variant="outline" className="lowercase border-white/10 bg-white/5 hover:bg-white/10 text-white">
+              <Button onClick={() => setStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
                 <ArrowLeft className="w-4 h-4 mr-1" /> back
               </Button>
-              <Button onClick={nextStep} className="flex-1 lowercase bg-white text-black hover:bg-white/90">
+              <Button onClick={nextStep} className="flex-1 bg-white text-black hover:bg-white/90">
                 <Sparkles className="w-4 h-4 mr-1" /> reveal insights
               </Button>
             </div>
@@ -567,7 +567,7 @@ const FirstPrinciplesContent = () => {
               >
                 <PartyPopper className="w-7 h-7 text-status-success" />
               </motion.div>
-              <h3 className="text-lg font-semibold lowercase text-white-90">insights revealed</h3>
+              <h3 className="text-lg font-semibold text-white-90">insights revealed</h3>
             </div>
             <div className="space-y-2">
               {fundamentals.map((f, i) => (
@@ -584,11 +584,11 @@ const FirstPrinciplesContent = () => {
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <Button onClick={() => setStep(0)} variant="outline" className="lowercase border-white/10 bg-white/5 hover:bg-white/10 text-white">
+              <Button onClick={() => setStep(0)} variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 text-white">
                 start over
               </Button>
-              <Button onClick={handleShare} className="flex-1 lowercase bg-white text-black hover:bg-white/90">
-                <Share2 className="w-4 h-4 mr-1" /> share on linkedin
+              <Button onClick={handleShare} className="flex-1 bg-white text-black hover:bg-white/90">
+                <Share2 className="w-4 h-4 mr-1" /> share on LinkedIn
               </Button>
             </div>
           </motion.div>
@@ -646,7 +646,7 @@ const DecisionMatrixContent = () => {
     <div className="min-h-[420px]">
       <div className="flex items-center gap-2 mb-4">
         <Scale className="w-5 h-5 text-white-70" />
-        <h3 className="text-lg font-semibold lowercase text-white-90">weighted decision matrix</h3>
+        <h3 className="text-lg font-semibold text-white-90">weighted decision matrix</h3>
       </div>
       <p className="text-sm mb-4 text-white-50">Rate each option 1-5 for each criterion</p>
       
@@ -708,7 +708,7 @@ const DecisionMatrixContent = () => {
             <CheckCircle2 className="w-4 h-4" />
             Recommended: {getWinner()}
           </div>
-          <Button size="sm" variant="outline" className="lowercase text-xs h-7 border-white/10 bg-white/5 hover:bg-white/10 text-white" onClick={handleShare}>
+          <Button size="sm" variant="outline" className="text-xs h-7 border-white/10 bg-white/5 hover:bg-white/10 text-white" onClick={handleShare}>
             <Share2 className="w-3 h-3 mr-1" /> share
           </Button>
         </motion.div>
@@ -737,7 +737,7 @@ const ROIForecasterContent = () => {
     <div className="min-h-[420px]">
       <div className="flex items-center gap-2 mb-4">
         <TrendingUp className="w-5 h-5 text-status-success" />
-        <h3 className="text-lg font-semibold lowercase text-white-90">ROI forecaster</h3>
+        <h3 className="text-lg font-semibold text-white-90">ROI forecaster</h3>
       </div>
       <p className="text-sm mb-4 text-white-50">Project your campaign returns</p>
       
@@ -778,8 +778,8 @@ const ROIForecasterContent = () => {
           ))}
         </div>
 
-        <Button className="w-full lowercase bg-white text-black hover:bg-white/90" onClick={handleShare}>
-          <Share2 className="w-4 h-4 mr-2" /> share forecast on linkedin
+        <Button className="w-full bg-white text-black hover:bg-white/90" onClick={handleShare}>
+          <Share2 className="w-4 h-4 mr-2" /> share forecast on LinkedIn
         </Button>
       </div>
     </div>
@@ -814,7 +814,7 @@ const StrategicToolsContent = () => {
               }`}
             >
               <Icon className="w-4 h-4" />
-              <span className="lowercase">{tool.label}</span>
+              <span>{tool.label}</span>
             </button>
           );
         })}
@@ -856,7 +856,7 @@ const QuizContent = () => {
           }`}
         >
           <ClipboardCheck className="w-4 h-4" />
-          <span className="lowercase">data quality quiz</span>
+          <span>data quality quiz</span>
         </button>
         <button
           onClick={() => setActiveTab("roi")}
@@ -867,7 +867,7 @@ const QuizContent = () => {
           }`}
         >
           <Calculator className="w-4 h-4" />
-          <span className="lowercase">ROI calculator</span>
+          <span>ROI calculator</span>
         </button>
       </div>
 
@@ -930,7 +930,7 @@ export const UnifiedToolsShowcase = () => {
                 }`}
               >
                 <Icon className="w-4 h-4" />
-                <span className="lowercase">{tab.label}</span>
+                <span>{tab.label}</span>
               </button>
             );
           })}
@@ -962,7 +962,7 @@ export const UnifiedToolsShowcase = () => {
         >
           <Link 
             to="/features"
-            className="inline-flex items-center gap-2 font-medium font-sans transition-colors lowercase text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 font-medium font-sans transition-colors text-muted-foreground hover:text-foreground"
           >
             explore all features
             <ArrowRight className="h-4 w-4" />

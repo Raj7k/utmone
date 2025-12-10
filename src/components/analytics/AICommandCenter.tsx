@@ -79,7 +79,7 @@ export const AICommandCenter = ({
     return (
       <Card className="rounded-2xl border-border bg-gradient-to-br from-muted/30 via-transparent to-muted/30">
         <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 lowercase">
+          <CardTitle className="flex items-center gap-2">
             <Brain className="h-5 w-5 text-foreground drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] animate-pulse" />
             generating insights…
           </CardTitle>
@@ -98,9 +98,9 @@ export const AICommandCenter = ({
       <Card className="rounded-2xl border-border bg-gradient-to-br from-muted/30 to-muted/30">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 lowercase">
+            <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-foreground drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-              ai command center
+              AI command center
             </CardTitle>
             <div className="flex items-center gap-2">
               <Select value={timeRange} onValueChange={handleTimeRangeChange}>
@@ -157,9 +157,9 @@ export const AICommandCenter = ({
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2 lowercase">
+            <CardTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-foreground drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-              ai command center
+              AI command center
             </CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
               {visibleInsights.length} actionable insight{visibleInsights.length !== 1 ? 's' : ''} 

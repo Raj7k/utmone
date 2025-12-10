@@ -96,7 +96,7 @@ const Accessibility = () => {
 
       <FeatureSection background="muted">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
             {formatText("Built For Everyone")}
           </h2>
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 mt-12">
@@ -136,8 +136,8 @@ const Accessibility = () => {
 
       <FeatureSection background="default" maxWidth="wide">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground lowercase">
-            wcag aaa compliance
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground">
+            WCAG AAA compliance
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-sans">
             The highest standard for web accessibility
@@ -151,7 +151,7 @@ const Accessibility = () => {
                 <Eye className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">7:1 color contrast</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">7:1 color contrast</h3>
                 <p className="text-muted-foreground font-sans">
                   All text meets WCAG AAA contrast ratios for maximum readability
                 </p>
@@ -162,7 +162,7 @@ const Accessibility = () => {
                 <Keyboard className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">focus indicators</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">focus indicators</h3>
                 <p className="text-muted-foreground font-sans">
                   Clear, visible focus states for keyboard navigation throughout
                 </p>
@@ -173,7 +173,7 @@ const Accessibility = () => {
                 <Monitor className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-display font-semibold mb-2 lowercase">reduced motion</h3>
+                <h3 className="text-xl font-display font-semibold mb-2">reduced motion</h3>
                 <p className="text-muted-foreground font-sans">
                   Respects prefers-reduced-motion for users with vestibular disorders
                 </p>
@@ -182,7 +182,7 @@ const Accessibility = () => {
           </div>
 
           <div className="bg-muted/20 rounded-2xl p-8 border border-border">
-            <h4 className="text-lg font-semibold mb-4 lowercase text-foreground font-sans">compliance standards</h4>
+            <h4 className="text-lg font-semibold mb-4 text-foreground font-sans">compliance standards</h4>
             <div className="space-y-4">
               <div className="flex items-center gap-3 p-4 bg-card border border-border rounded-lg">
                 <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0" />
@@ -211,14 +211,14 @@ const Accessibility = () => {
       </FeatureSection>
 
       <FeatureSection>
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           {formatText("Semantic Slugs, Not Random Strings")}
         </h2>
         
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="text-2xl font-display font-semibold lowercase text-foreground">before</h3>
+              <h3 className="text-2xl font-display font-semibold text-foreground">before</h3>
               <div className="space-y-3">
                 <div className="p-4 bg-destructive/5 border border-destructive/20 rounded-lg">
                   <div className="font-mono text-sm text-destructive mb-2">utm.one/3x7Kz9</div>
@@ -236,7 +236,7 @@ const Accessibility = () => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-2xl font-display font-semibold lowercase text-foreground">after</h3>
+              <h3 className="text-2xl font-display font-semibold text-foreground">after</h3>
               <div className="space-y-3">
                 <div className="p-4 border rounded-lg bg-primary/5 border-primary/20">
                   <div className="font-mono text-sm mb-2 text-primary">utm.one/summer-webinar</div>
@@ -261,7 +261,7 @@ const Accessibility = () => {
       </FeatureSection>
 
       <FeatureSection background="muted">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           {formatText("Universal Design Principles")}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -281,7 +281,7 @@ const Accessibility = () => {
       </FeatureSection>
 
       <FeatureSection background="default">
-        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground lowercase">
+        <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-12 text-center text-foreground">
           More Accessible Than Any Shortener
         </h2>
         <FeatureComparison
@@ -295,7 +295,7 @@ const Accessibility = () => {
 
       <FeatureSection background="muted">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground lowercase">
+          <h2 className="text-3xl md:text-4xl font-display font-bold tracking-tight mb-6 text-foreground">
             Experience Universal Design
           </h2>
           <p className="text-lg text-muted-foreground mb-8 font-sans">
