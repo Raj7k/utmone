@@ -210,22 +210,65 @@ export const OmniDemo = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="py-24 md:py-32 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
-        {/* H1 Header */}
-        <div className="text-center mb-8 md:mb-12 space-y-4">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight"
-              style={{
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #71717A 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
+        {/* H1 Header with Apple-style animation */}
+        <div className="text-center mb-12 md:mb-16 space-y-6">
+          <motion.h1 
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight"
+            initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #71717A 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
             the hidden revenue
-          </h1>
-          <p className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto">
-            a linkedin post that looks dead in google analytics—but drove $54k in enterprise revenue
-          </p>
+          </motion.h1>
+          
+          {/* Description */}
+          <motion.div 
+            className="space-y-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <p className="text-lg md:text-xl text-zinc-400 font-medium">see utm.one in action</p>
+            <p className="text-base text-zinc-500">paste any url and watch what happens</p>
+          </motion.div>
+
+          {/* URL Input Widget - Removed after animation starts */}
+          <AnimatePresence>
+            {phase === 'problem' && !showUtmOne && (
+              <motion.div 
+                className="max-w-md mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ duration: 0.6, delay: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                <div className="flex gap-2">
+                  <Input
+                    type="url"
+                    placeholder="https://example.com/your-page"
+                    value={demoUrl}
+                    onChange={(e) => setDemoUrl(e.target.value)}
+                    className="flex-1 bg-zinc-900/60 border-zinc-700/50 text-zinc-200 placeholder:text-zinc-600 rounded-full px-5 h-12"
+                    onKeyDown={(e) => e.key === 'Enter' && handleCreateLink()}
+                  />
+                  <Button
+                    onClick={handleCreateLink}
+                    disabled={isCreating || !demoUrl.trim()}
+                    className="rounded-full px-6 h-12 bg-white text-zinc-900 hover:bg-zinc-200 font-medium"
+                  >
+                    {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Animation Container - Enhanced Glass */}
@@ -247,46 +290,25 @@ export const OmniDemo = () => {
             {/* Scanline effect */}
             <div className="absolute inset-0 pointer-events-none opacity-5 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,255,255,0.02)_2px,rgba(255,255,255,0.02)_4px)] rounded-[32px]" />
 
-            {/* Phase indicator dots */}
-            <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
-              {(['problem', 'ai', 'journey', 'halo', 'revenue'] as AnimationPhase[]).map((p) => (
-                <div 
-                  key={p}
-                  className={`w-2 h-2 rounded-full transition-all duration-500 ${
-                    phase === p ? 'bg-white scale-125' : 'bg-zinc-700'
-                  }`}
-                />
-              ))}
-            </div>
-
-            {/* CENTER-STAGE HEADLINE - Large animated text with character stagger */}
-            <div className="absolute top-6 left-0 right-0 z-10 flex flex-col items-center justify-center">
+            {/* CENTER-STAGE HEADLINE - Apple-style smooth fade animation */}
+            <div className="absolute top-8 left-0 right-0 z-10 flex flex-col items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={phase}
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
+                  initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -15, filter: 'blur(4px)' }}
+                  transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="text-center px-4"
                 >
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-3 tracking-tight">
-                    {phaseHeadlines[phase].main.split('').map((char, i) => (
-                      <motion.span
-                        key={i}
-                        variants={letterVariants}
-                        className="inline-block"
-                        style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
+                    {phaseHeadlines[phase].main}
                   </h2>
                   <motion.p 
                     className="text-sm md:text-lg text-zinc-500 font-mono"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5, duration: 0.4 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
                   >
                     {phaseHeadlines[phase].sub}
                   </motion.p>
@@ -356,7 +378,7 @@ export const OmniDemo = () => {
                       </AnimatePresence>
                     </div>
 
-                    {/* AI Scanner */}
+                    {/* AI Scanner - Darker zinc with reflection */}
                     <AnimatePresence>
                       {showScanner && (
                         <motion.div
@@ -366,7 +388,8 @@ export const OmniDemo = () => {
                           transition={{ duration: 1.2, ease: "linear" }}
                           className="absolute left-0 right-0 h-1 rounded-full"
                           style={{
-                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)'
+                            background: 'linear-gradient(90deg, transparent, rgba(113,113,122,0.5), transparent)',
+                            boxShadow: '0 0 12px rgba(113,113,122,0.4), 0 0 24px rgba(113,113,122,0.2)'
                           }}
                         />
                       )}
