@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { notify } from '@/lib/notify';
 
 export const useVersionManagement = (workspaceId: string) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const archiveVersion = useMutation({
@@ -18,17 +17,10 @@ export const useVersionManagement = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'version archived',
-        description: 'link moved to archived status',
-      });
+      notify.success('version archived', { description: 'link moved to archived status' });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 
@@ -44,17 +36,10 @@ export const useVersionManagement = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'version paused',
-        description: 'link traffic has been paused',
-      });
+      notify.success('version paused', { description: 'link traffic has been paused' });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 
@@ -70,17 +55,10 @@ export const useVersionManagement = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'version activated',
-        description: 'link is now active',
-      });
+      notify.success('version activated', { description: 'link is now active' });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 
@@ -96,17 +74,10 @@ export const useVersionManagement = (workspaceId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'version deleted',
-        description: 'link permanently removed',
-      });
+      notify.success('version deleted', { description: 'link permanently removed' });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 
@@ -162,17 +133,10 @@ export const useVersionManagement = (workspaceId: string) => {
     },
     onSuccess: (newLink) => {
       queryClient.invalidateQueries({ queryKey: ['url-groups', workspaceId] });
-      toast({
-        title: 'branch created',
-        description: `new version v${newLink.version} created successfully`,
-      });
+      notify.success('branch created', { description: `new version v${newLink.version} created successfully` });
     },
     onError: (error: Error) => {
-      toast({
-        title: 'error',
-        description: error.message,
-        variant: 'destructive',
-      });
+      notify.error('error', { description: error.message });
     },
   });
 

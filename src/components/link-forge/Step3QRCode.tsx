@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { QrCode, ArrowLeft, Download } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useActivationTracking } from "@/hooks/useActivationTracking";
@@ -16,7 +16,6 @@ interface Step3QRCodeProps {
 }
 
 export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { trackFirstQR } = useActivationTracking();
   const [qrSize, setQrSize] = useState("256");
@@ -63,17 +62,10 @@ export const Step3QRCode = ({ linkId, shortUrl, onBack }: Step3QRCodeProps) => {
       await queryClient.invalidateQueries({ queryKey: ["onboarding-progress"] });
       await queryClient.refetchQueries({ queryKey: ["onboarding-progress"] });
       
-      toast({
-        title: "qr code generated",
-        description: "your qr code is ready to download",
-      });
+      notify.success("qr code generated", { description: "your qr code is ready to download" });
     },
     onError: (error: Error) => {
-      toast({
-        title: "error",
-        description: error.message,
-        variant: "destructive",
-      });
+      notify.error("error", { description: error.message });
     },
   });
 

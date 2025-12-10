@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { 
@@ -27,7 +27,6 @@ export const SecurityKeyManager = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [deleteKeyId, setDeleteKeyId] = useState<string | null>(null);
   const [reregisterKeyName, setReregisterKeyName] = useState<string | null>(null);
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   
   const currentDomain = window.location.hostname;
@@ -113,17 +112,10 @@ export const SecurityKeyManager = () => {
       setDeviceName("");
       setIsRegistering(false);
       setReregisterKeyName(null);
-      toast({
-        title: "security key registered",
-        description: `key registered for domain: ${currentDomain}`,
-      });
+      notify.success("security key registered", { description: `key registered for domain: ${currentDomain}` });
     },
     onError: (error: any) => {
-      toast({
-        title: "registration failed",
-        description: error.message || "could not register security key",
-        variant: "destructive",
-      });
+      notify.error("registration failed", { description: error.message || "could not register security key" });
     },
   });
 
@@ -139,10 +131,7 @@ export const SecurityKeyManager = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-authenticators'] });
       setDeleteKeyId(null);
-      toast({
-        title: "security key removed",
-        description: "the hardware key has been deleted",
-      });
+      notify.success("security key removed", { description: "the hardware key has been deleted" });
       
       if (reregisterKeyName) {
         setDeviceName(reregisterKeyName);
@@ -154,21 +143,13 @@ export const SecurityKeyManager = () => {
     },
     onError: (error: any) => {
       setReregisterKeyName(null);
-      toast({
-        title: "deletion failed",
-        description: error.message || "could not remove security key",
-        variant: "destructive",
-      });
+      notify.error("deletion failed", { description: error.message || "could not remove security key" });
     },
   });
 
   const handleRegister = () => {
     if (!deviceName.trim()) {
-      toast({
-        title: "device name required",
-        description: "please enter a name for your security key",
-        variant: "destructive",
-      });
+      notify.error("device name required", { description: "please enter a name for your security key" });
       return;
     }
 

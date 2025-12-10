@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Check, Zap, Eye, Code2, AlertTriangle, Sparkles, FlaskConical } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { FormTrackingTester } from "./FormTrackingTester";
 
 interface FormTrackingWizardProps {
@@ -13,16 +13,12 @@ interface FormTrackingWizardProps {
 
 export function FormTrackingWizard({ pixelId }: FormTrackingWizardProps) {
   const [copiedSnippet, setCopiedSnippet] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const copyToClipboard = (code: string, name: string) => {
     navigator.clipboard.writeText(code);
     setCopiedSnippet(name);
     setTimeout(() => setCopiedSnippet(null), 2000);
-    toast({
-      title: "Copied!",
-      description: `${name} copied to clipboard.`,
-    });
+    notify.success("copied!", { description: `${name} copied to clipboard.` });
   };
 
   const manualTrackingCode = `// After form submission success

@@ -3,7 +3,7 @@ import { LogOut, Menu, Plus, Chrome } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatText } from "@/utils/textFormatter";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useNavigate, useLocation } from "react-router-dom";
 import { WorkspaceSwitcher } from "@/components/navigation/WorkspaceSwitcher";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -50,7 +50,6 @@ const getBreadcrumbs = (pathname: string) => {
 };
 
 export const AppHeader = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
@@ -72,10 +71,7 @@ export const AppHeader = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    toast({
-      title: "signed out",
-      description: "you have been signed out successfully",
-    });
+    notify.success("signed out", { description: "you have been signed out successfully" });
   };
 
   const isActive = (path: string) => {

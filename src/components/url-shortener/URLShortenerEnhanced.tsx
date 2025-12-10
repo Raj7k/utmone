@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Link2, Copy, Sparkles, CheckCircle2, AlertCircle, Zap, RefreshCw } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { useDuplicateDetection } from "./hooks/useDuplicateDetection";
 import { DuplicatePanel } from "./components/DuplicatePanel";
@@ -18,7 +18,6 @@ interface URLShortenerEnhancedProps {
 }
 
 export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps) => {
-  const { toast } = useToast();
   const [url, setUrl] = useState("");
   const [customSlug, setCustomSlug] = useState("");
   const [shortURL, setShortURL] = useState("");
@@ -98,20 +97,13 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
       const bestPerformer = analysis?.bestPerforming;
       if (bestPerformer) {
         setShortURL(bestPerformer.short_url);
-        toast({
-          title: "using existing link",
-          description: `using best performing version with ${bestPerformer.total_clicks || 0} clicks`,
-        });
+        notify.success("using existing link", { description: `using best performing version with ${bestPerformer.total_clicks || 0} clicks` });
         return;
       }
     }
 
     if (duplicates.length > 0 && strategy === 'ASK') {
-      toast({
-        title: "duplicates found",
-        description: "review existing versions before creating new link",
-        variant: "destructive",
-      });
+      notify.error("duplicates found", { description: "review existing versions before creating new link" });
       return;
     }
 
@@ -122,10 +114,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
       // For SMART mode, check if we should use existing
       if (strategy === 'SMART' && analysis?.avgCTR > 3 && analysis?.bestPerforming) {
         setShortURL(analysis.bestPerforming.short_url);
-        toast({
-          title: "using best performer",
-          description: `smart mode selected existing link (${analysis.avgCTR.toFixed(1)}% CTR)`,
-        });
+        notify.success("using best performer", { description: `smart mode selected existing link (${analysis.avgCTR.toFixed(1)}% CTR)` });
         setIsLoading(false);
         return;
       }
@@ -142,21 +131,14 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
 
       if (data?.short_url) {
         setShortURL(data.short_url);
-        toast({
-          title: "link created",
-          description: duplicates.length > 0 ? `created version ${duplicates.length + 1}` : "your short link is ready",
-        });
+        notify.success("link created", { description: duplicates.length > 0 ? `created version ${duplicates.length + 1}` : "your short link is ready" });
       } else {
         throw new Error("failed to create link");
       }
     } catch (err: any) {
       console.error('Error creating link:', err);
       setError(err.message || "couldn't create link. try again.");
-      toast({
-        title: "link creation failed",
-        description: err.message || "please try again",
-        variant: "destructive",
-      });
+      notify.error("link creation failed", { description: err.message || "please try again" });
     } finally {
       setIsLoading(false);
     }
@@ -166,10 +148,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
     if (!shortURL) return;
     
     await navigator.clipboard.writeText(shortURL);
-    toast({
-      title: "copied",
-      description: "link copied to clipboard",
-    });
+    notify.success("copied", { description: "link copied to clipboard" });
   };
 
   const handleReset = () => {
@@ -359,10 +338,7 @@ export const URLShortenerEnhanced = ({ workspaceId }: URLShortenerEnhancedProps)
                 strategy={strategy}
                 onSelectExisting={(link) => {
                   setShortURL(link.short_url);
-                  toast({
-                    title: "using existing link",
-                    description: `selected version with ${link.total_clicks || 0} clicks`,
-                  });
+                  notify.success("using existing link", { description: `selected version with ${link.total_clicks || 0} clicks` });
                 }}
               />
             ) : (

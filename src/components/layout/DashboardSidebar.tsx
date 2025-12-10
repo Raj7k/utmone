@@ -26,7 +26,7 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { useWorkspaceContext } from "@/contexts/WorkspaceContext";
@@ -47,7 +47,6 @@ interface DashboardSidebarProps {
 export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { setTheme } = useTheme();
   const { currentWorkspace } = useWorkspaceContext();
   
@@ -110,7 +109,7 @@ export const DashboardSidebar = ({ onNavigate }: DashboardSidebarProps) => {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate('/auth');
-    toast({ title: "Signed out successfully" });
+    notify.success("signed out successfully");
   };
 
   const isActive = (href: string) => {

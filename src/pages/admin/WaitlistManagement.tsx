@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { useAuditLog } from "@/hooks/useAuditLog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,7 +46,6 @@ type EarlyAccessRequest = {
 };
 
 export default function WaitlistManagement() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { logAction } = useAuditLog();
   const [searchQuery, setSearchQuery] = useState("");
@@ -65,7 +64,7 @@ export default function WaitlistManagement() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast({ title: "scores updated" });
+      notify.success("scores updated");
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
       queryClient.invalidateQueries({ queryKey: ["waitlist-stats"] });
     },
@@ -130,7 +129,7 @@ export default function WaitlistManagement() {
       queryClient.invalidateQueries({ queryKey: ["waitlist-stats"] });
       setApproveDialogOpen(false);
       setDetailDialogOpen(false);
-      toast({ title: "user approved", description: "invite email sent" });
+      notify.success("user approved", { description: "invite email sent" });
     },
   });
 
@@ -150,17 +149,13 @@ export default function WaitlistManagement() {
         setSelectedUserIds([]);
       }
       if (data.success_count > 0 && data.failed_count === 0) {
-        toast({ title: "invitations sent", description: `${data.success_count} users invited` });
+        notify.success("invitations sent", { description: `${data.success_count} users invited` });
       } else if (data.success_count > 0 && data.failed_count > 0) {
-        toast({
-          title: "partially completed",
-          description: `${data.success_count} sent, ${data.failed_count} failed`,
-          variant: "destructive",
-        });
+        notify.warning("partially completed", { description: `${data.success_count} sent, ${data.failed_count} failed` });
       }
     },
     onError: (error) => {
-      toast({ title: "error sending invitations", description: error.message, variant: "destructive" });
+      notify.error("error sending invitations", { description: error.message });
     },
   });
 
@@ -208,10 +203,10 @@ export default function WaitlistManagement() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["early-access-requests"] });
       queryClient.invalidateQueries({ queryKey: ["waitlist-stats"] });
-      toast({ title: "batch approval complete", description: `${data.approved_count} users approved` });
+      notify.success("batch approval complete", { description: `${data.approved_count} users approved` });
     },
     onError: (error) => {
-      toast({ title: "error during batch approval", description: error.message, variant: "destructive" });
+      notify.error("error during batch approval", { description: error.message });
     },
   });
 
