@@ -15,9 +15,11 @@ import {
   RefreshCw, 
   Loader2,
   ImageIcon,
-  Wand2
+  Wand2,
+  Save
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AIStampStudioProps {
   shortUrl: string;
@@ -43,6 +45,7 @@ const phaseMessages: Record<GenerationPhase, string> = {
 
 export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
   const { toast } = useToast();
+  const { user } = useAuth();
   const stampPreviewRef = useRef<StampPreviewRef>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -53,18 +56,10 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
   const [generatedStampUrl, setGeneratedStampUrl] = useState<string | null>(null);
   const [phase, setPhase] = useState<GenerationPhase>("idle");
   const [qrColor, setQrColor] = useState("#000000");
+  const [isSaving, setIsSaving] = useState(false);
+  const [savedToGallery, setSavedToGallery] = useState(false);
 
   const isGenerating = phase !== "idle" && phase !== "complete";
-
-  // Normalize URL to Supabase edge function format
-  const normalizedUrl = (() => {
-    const match = shortUrl.match(/\/([^\/]+)\/([^\/]+)$/);
-    if (match) {
-      const [, path, slug] = match;
-      return `https://whgnsmjdubnvbmarnjfx.supabase.co/functions/v1/redirect/${path}/${slug}`;
-    }
-    return shortUrl;
-  })();
 
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -141,7 +136,7 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
         body: {
           brandColors,
           concept: concept || undefined,
-          shortUrl: normalizedUrl,
+          shortUrl,
         },
       });
 
@@ -195,9 +190,70 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
     }
   };
 
+  const saveToGallery = async () => {
+    if (!stampPreviewRef.current || !user) return;
+
+    setIsSaving(true);
+    try {
+      // Export stamp as PNG
+      const dataUrl = await stampPreviewRef.current.exportAsPng();
+      
+      // Convert data URL to blob
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      
+      // Upload to Supabase storage
+      const fileName = `ai-stamp-${linkId}-${Date.now()}.png`;
+      const filePath = `${linkId}/${fileName}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from("qr-codes")
+        .upload(filePath, blob, {
+          contentType: "image/png",
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from("qr-codes")
+        .getPublicUrl(filePath);
+
+      // Insert into qr_codes table
+      const { error: insertError } = await supabase
+        .from("qr_codes")
+        .insert({
+          link_id: linkId,
+          name: concept ? `AI Stamp - ${concept}` : "AI Stamp QR",
+          variant_name: concept || "AI Generated",
+          png_url: publicUrl,
+          created_by: user.id,
+        });
+
+      if (insertError) throw insertError;
+
+      setSavedToGallery(true);
+      toast({
+        title: "Saved to gallery",
+        description: "AI Stamp QR added to your gallery",
+      });
+    } catch (error) {
+      console.error("Save to gallery error:", error);
+      toast({
+        title: "Save failed",
+        description: error instanceof Error ? error.message : "Could not save to gallery",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const regenerate = () => {
     setGeneratedStampUrl(null);
     setPhase("idle");
+    setSavedToGallery(false);
     generateStampArt();
   };
 
@@ -342,20 +398,31 @@ export function AIStampStudio({ shortUrl, linkId }: AIStampStudioProps) {
             <StampPreview
               ref={stampPreviewRef}
               stampArtUrl={generatedStampUrl}
-              qrValue={normalizedUrl}
+              qrValue={shortUrl}
               qrColor={qrColor}
               size={320}
             />
           </div>
 
           <div className="flex gap-3">
-            <Button onClick={downloadStamp} className="flex-1 gap-2">
+            <Button 
+              onClick={saveToGallery} 
+              disabled={isSaving || savedToGallery}
+              className="flex-1 gap-2"
+            >
+              {isSaving ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              {savedToGallery ? "Saved to Gallery" : "Save to Gallery"}
+            </Button>
+            <Button variant="outline" onClick={downloadStamp} className="gap-2">
               <Download className="h-4 w-4" />
-              Download PNG
+              Download
             </Button>
             <Button variant="outline" onClick={regenerate} className="gap-2">
               <RefreshCw className="h-4 w-4" />
-              Regenerate
             </Button>
           </div>
         </Card>
