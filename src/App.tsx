@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
@@ -8,6 +7,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { WorkspaceProvider } from "./contexts/WorkspaceContext";
 import { AdminSimulationProvider } from "./contexts/AdminSimulationContext";
 import { ModalProvider } from "./contexts/ModalContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardSkeleton } from "./components/SkeletonLoader";
 import { SkipToContent } from "./components/SkipToContent";
@@ -368,14 +368,14 @@ const App = () => (
     <ThemeProvider>
       <PerformanceProvider>
         <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-            <WorkspaceProvider>
-              <AdminSimulationProvider>
-                <ModalProvider>
-                  <SkipToContent />
+          <NotificationProvider>
+            <TooltipProvider>
+              <Toaster />
+              <BrowserRouter>
+              <WorkspaceProvider>
+                <AdminSimulationProvider>
+                  <ModalProvider>
+                    <SkipToContent />
                   <ScrollToTop />
                   <NetworkStatus />
                   <AppWithHelp>
@@ -752,6 +752,7 @@ const App = () => (
           </WorkspaceProvider>
         </BrowserRouter>
       </TooltipProvider>
+    </NotificationProvider>
     </QueryClientProvider>
     </PerformanceProvider>
     </ThemeProvider>

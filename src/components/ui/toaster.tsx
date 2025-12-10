@@ -1,24 +1,23 @@
-import { useToast } from "@/hooks/use-toast";
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
+import { useEffect } from 'react';
+import { useNotificationContext } from '@/contexts/NotificationContext';
+import { registerNotificationContext } from '@/lib/notify';
+import { NotificationHUD } from './notification-hud';
+import { NotificationBanner } from './notification-banner';
+import { NotificationAlert } from './notification-alert';
 
 export function Toaster() {
-  const { toasts } = useToast();
+  const { notifications, show, dismiss, update } = useNotificationContext();
+
+  // Register context functions for global notify API
+  useEffect(() => {
+    registerNotificationContext(show, dismiss, update);
+  }, [show, dismiss, update]);
 
   return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && <ToastDescription>{description}</ToastDescription>}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        );
-      })}
-      <ToastViewport />
-    </ToastProvider>
+    <>
+      <NotificationHUD notifications={notifications} />
+      <NotificationBanner notifications={notifications} />
+      <NotificationAlert notifications={notifications} />
+    </>
   );
 }

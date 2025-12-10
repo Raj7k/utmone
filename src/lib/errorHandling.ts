@@ -1,4 +1,4 @@
-import { toast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { PostgrestError } from "@supabase/supabase-js";
 
 export interface AppError {
@@ -46,18 +46,11 @@ export const showErrorToast = (error: AppError | Error | string) => {
     ? error
     : handleSupabaseError(error as Error);
 
-  toast({
-    title: "Error",
-    description: appError.message,
-    variant: "destructive",
-  });
+  notify.error(appError.message);
 };
 
 export const showSuccessToast = (message: string, description?: string) => {
-  toast({
-    title: message,
-    description,
-  });
+  notify.success(message, { description });
 };
 
 // Network error detection
