@@ -258,6 +258,9 @@ verify_jwt = false
 [functions.regenerate-recovery-codes]
 verify_jwt = true
 
+[functions.generate-stamp-art]
+verify_jwt = true
+
 # Cron schedules for automated tasks
 # Generate recommendations every 6 hours
 [[edge_runtime.scheduler]]
