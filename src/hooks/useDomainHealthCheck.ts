@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 
 export const useDomainHealthCheck = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const checkAllDomains = useMutation({
@@ -19,16 +18,13 @@ export const useDomainHealthCheck = () => {
       queryClient.invalidateQueries({ queryKey: ['workspace-domains'] });
       queryClient.invalidateQueries({ queryKey: ['domain-health-logs'] });
       
-      toast({
-        title: "health check complete",
+      notify.success("health check complete", {
         description: `checked ${data.checked || 0} domains`,
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "health check failed",
+      notify.error("health check failed", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -46,16 +42,13 @@ export const useDomainHealthCheck = () => {
       queryClient.invalidateQueries({ queryKey: ['workspace-domains'] });
       queryClient.invalidateQueries({ queryKey: ['domain-health-logs'] });
       
-      toast({
-        title: "domain checked",
+      notify.success("domain checked", {
         description: "health status updated",
       });
     },
     onError: (error: Error) => {
-      toast({
-        title: "check failed",
+      notify.error("check failed", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });

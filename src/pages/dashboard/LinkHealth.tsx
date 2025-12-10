@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Shield, RefreshCw, AlertTriangle, CheckCircle, HelpCircle, ExternalLink, Clock } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 import { PageContentWrapper } from "@/components/layout/PageContentWrapper";
 
@@ -23,7 +23,6 @@ interface Link {
 }
 
 export default function LinkHealth() {
-  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<"all" | "healthy" | "unhealthy" | "unknown">("all");
@@ -49,25 +48,21 @@ export default function LinkHealth() {
 
       if (error) throw error;
 
-      toast({
-        title: "health check started",
+      notify.success("health check started", {
         description: "checking your links... this may take a minute.",
       });
 
       setTimeout(() => {
         refetch();
         setIsChecking(false);
-        toast({
-          title: "health check complete",
+        notify.success("health check complete", {
           description: "link status updated.",
         });
       }, 30000);
     } catch (error) {
       console.error("Health check error:", error);
-      toast({
-        title: "check failed",
+      notify.error("check failed", {
         description: "please try again later.",
-        variant: "destructive",
       });
       setIsChecking(false);
     }

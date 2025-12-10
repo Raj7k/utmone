@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import QRCode from "qrcode";
 import {
   Dialog,
@@ -29,7 +29,6 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
   const [verificationCode, setVerificationCode] = useState('');
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const setupMutation = useMutation({
@@ -45,10 +44,8 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
       setStep('verify');
     },
     onError: (error: any) => {
-      toast({
-        title: "setup failed",
+      notify.error("setup failed", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -65,16 +62,13 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
       setRecoveryCodes(data.recoveryCodes);
       setStep('backup');
       queryClient.invalidateQueries({ queryKey: ['mfa-status'] });
-      toast({
-        title: "2fa enabled",
+      notify.success("2fa enabled", {
         description: "save your recovery codes now",
       });
     },
     onError: (error: any) => {
-      toast({
-        title: "invalid code",
+      notify.error("invalid code", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -97,7 +91,7 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
     navigator.clipboard.writeText(secret);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast({ title: "copied", description: "secret copied to clipboard" });
+    notify.success("copied", { description: "secret copied to clipboard" });
   };
 
   const handleDownloadCodes = () => {
@@ -108,7 +102,7 @@ export function TotpSetupModal({ open, onOpenChange }: TotpSetupModalProps) {
     a.href = url;
     a.download = 'utm-one-recovery-codes.txt';
     a.click();
-    toast({ title: "downloaded", description: "recovery codes saved" });
+    notify.success("downloaded", { description: "recovery codes saved" });
   };
 
   const handleComplete = () => {

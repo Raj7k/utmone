@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,6 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<"performance" | "security" | "maintenance">("performance");
   const [impact, setImpact] = useState<"low" | "medium" | "high" | "critical">("medium");
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const createMutation = useMutation({
@@ -54,8 +53,7 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['feature-flags'] });
-      toast({
-        title: "flag created",
+      notify.success("flag created", {
         description: `${flagKey} has been added successfully`,
       });
       onOpenChange(false);
@@ -65,10 +63,8 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
       setImpact("medium");
     },
     onError: (error: any) => {
-      toast({
-        title: "failed to create flag",
+      notify.error("failed to create flag", {
         description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -77,10 +73,8 @@ export function CreateFlagModal({ open, onOpenChange }: CreateFlagModalProps) {
     e.preventDefault();
     
     if (!flagKey.trim() || !description.trim()) {
-      toast({
-        title: "missing required fields",
+      notify.error("missing required fields", {
         description: "flag key and description are required",
-        variant: "destructive",
       });
       return;
     }

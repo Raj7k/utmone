@@ -3,12 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
 export const IntegrationsManager = () => {
-  const { toast } = useToast();
   const [loading, setLoading] = useState<string | null>(null);
   const [segmentWriteKey, setSegmentWriteKey] = useState("");
 
@@ -29,18 +28,15 @@ export const IntegrationsManager = () => {
       window.addEventListener('message', (event) => {
         if (event.data.type === 'hubspot-connected') {
           popup?.close();
-          toast({
-            title: "HubSpot Connected",
+          notify.success("HubSpot Connected", {
             description: "Your HubSpot account has been connected successfully.",
           });
           setLoading(null);
         }
       });
     } catch (error: any) {
-      toast({
-        title: "Connection Failed",
+      notify.error("Connection Failed", {
         description: error.message,
-        variant: "destructive",
       });
       setLoading(null);
     }
@@ -63,18 +59,15 @@ export const IntegrationsManager = () => {
       window.addEventListener('message', (event) => {
         if (event.data.type === 'salesforce-connected') {
           popup?.close();
-          toast({
-            title: "Salesforce Connected",
+          notify.success("Salesforce Connected", {
             description: "Your Salesforce account has been connected successfully.",
           });
           setLoading(null);
         }
       });
     } catch (error: any) {
-      toast({
-        title: "Connection Failed",
+      notify.error("Connection Failed", {
         description: error.message,
-        variant: "destructive",
       });
       setLoading(null);
     }
@@ -82,10 +75,8 @@ export const IntegrationsManager = () => {
 
   const configureSegment = async () => {
     if (!segmentWriteKey.trim()) {
-      toast({
-        title: "Write Key Required",
+      notify.error("Write Key Required", {
         description: "Please enter your Segment write key.",
-        variant: "destructive",
       });
       return;
     }
@@ -98,16 +89,13 @@ export const IntegrationsManager = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Segment Configured",
+      notify.success("Segment Configured", {
         description: "Your Segment write key has been saved successfully.",
       });
       setSegmentWriteKey("");
     } catch (error: any) {
-      toast({
-        title: "Configuration Failed",
+      notify.error("Configuration Failed", {
         description: error.message,
-        variant: "destructive",
       });
     } finally {
       setLoading(null);

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Star } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { notify } from "@/lib/notify";
 import { formatDistanceToNow } from "date-fns";
 
 interface VersionCardProps {
@@ -10,13 +10,10 @@ interface VersionCardProps {
 }
 
 export const VersionCard = ({ link, isBestPerformer, onSelect }: VersionCardProps) => {
-  const { toast } = useToast();
-
   const handleCopy = async (e: React.MouseEvent) => {
     e.stopPropagation();
     await navigator.clipboard.writeText(link.short_url);
-    toast({
-      title: "copied",
+    notify.success("copied", {
       description: "link copied to clipboard",
     });
   };
